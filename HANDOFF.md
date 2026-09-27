@@ -5,7 +5,8 @@ Stand: 27.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 ## 1. Frontier
 
 - **Fertig:** M1 Grundgerüst; M2 im Fake-Modus (Provider-Ports mit simulierten Anbietern, LiteAPI-Client, ORS-Client mit Fahrzeit-Cache, Budget- und Rate-Limit-RPCs); M3 (Ortsdatenbank aus dem GeoNames-Entwicklungsauszug, Skill-Infrastruktur mit vier Bundles, Katalog-Pipeline, Katalog-Entwurf mit 49 Regionen und 307 Orten, Import). Belege unter `docs/demos/S1.*` bis `S3.*`.
-- **Als Nächstes:** M4 Suchrahmen, Vorschläge und Wünsche; danach M5–M9 im Fake-Modus.
+- **Fertig (M4):** Assistent Schritt 1–3 auf `/suche` mit Autovervollständigung, Terminanzahl, KI-Wunschübersetzung, Regions- und Ortsvorschlägen (Walkthrough `docs/demos/S4.4/`).
+- **Als Nächstes:** M5 Kombinationssuche, dann M6–M9 im Fake-Modus.
 - **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2); dazu S2.4, S2.5 (Sandbox), O3.1 (GeoNames-Download), echte Eval- und Katalogläufe (BG-07).
 
 ## 2. BEN-GATEs in dieser autonomen Sitzung
@@ -42,6 +43,7 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 11. **Katalog-Entwurf:** Der Katalog in `data/catalog/` wurde in dieser Sitzung als KI-Entwurf geschrieben (nicht über die Batch-Pipeline, die BG-07 braucht). Koordinaten kommen ausschließlich aus dem Abgleich mit `geo_localities`; alles `verified: false` (BG-11).
 12. **Sonnet 5 und `temperature`:** `claude-sonnet-5` lehnt Sampling-Parameter ab. Die Preistabelle `ai.models` in `product.config.yaml` markiert das (`sampling_params: false`), Katalog-Bundles setzen `temperature: null`, der Runner lässt den Parameter weg, der Fake-Transport antwortet wie die API mit 400, falls doch einer gesendet wird. Erzwungener Tool-Aufruf läuft mit `thinking: disabled`.
 13. **Runner und Eval-Engine nachgebaut:** Frontlift-Runner und `frontlift/core/eval` waren nicht erreichbar; Nachbau nach `architektur.md` 9.1 (JSONPath-Teilmenge `$ . [n] [*] ..`, Operatoren siehe `packages/skills/src/eval/assertions.ts`). Die Judge-Rubrik läuft nur mit echtem Modell; das Judge-Modell steht in `ai.eval_judge_model`.
+15. **Lokale Datenbank seriell:** PGlite hat eine einzige Sitzung; parallele Verbindungen über `pglite-socket` vermischen ihre Protokollnachrichten. Ein serieller TCP-Proxy (`packages/db/src/serial-proxy.ts`) bedient lokal und in Tests eine Verbindung nach der anderen. Produktion nutzt echtes Postgres über Hyperdrive.
 14. **S2.4 und S2.5 zurückgestellt:** Beide brauchen Sandbox-Konten. BG-10 (Go/No-Go) ist offen; M3 ff. sind im Fake-Modus gebaut und bei No-Go verwerfbar.
 
 ## 4. Stolperfallen
@@ -49,7 +51,7 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 - `npm run dev` startet Datenbank **und** App. Läuft bereits `npm run db:local` auf Port 54329, wird diese Datenbank genutzt.
 - `packages/worker/.dev.vars` wird beim ersten `npm run dev` mit Zufallswerten erzeugt (gitignored). Für den Sandbox-Modus dort die Sandbox-Schlüssel eintragen.
 - Lokale Daten liegen in `.data/pglite`. Zurücksetzen: Dev-Server stoppen, `rm -rf .data`.
-- PGlite ist eine Einzelprozess-Datenbank: nie zwei Prozesse auf dasselbe Datenverzeichnis.
+- PGlite ist eine Einzelprozess-Datenbank: nie zwei Prozesse auf dasselbe Datenverzeichnis. Über den Port 54329 werden Verbindungen nacheinander bedient; eine offen gelassene Sitzung (z. B. `psql`) blockiert alle anderen.
 - Nach Änderungen an `product.config.yaml` `npm run gen` ausführen (CI prüft, dass der Baum danach unverändert ist).
 - Der Worker-Name wird aus `product.config.yaml` abgeleitet (`<slug>-app`), `wrangler.jsonc` enthält nur Platzhalter.
 - Skills: Nach Änderungen an `packages/skills/bundles/**` `npm run skills:build` (läuft auch in `npm run gen`); die erzeugten Dateien in `packages/skills/src/generated/` werden committet. Prompt-Änderungen sind neue Versionen (`v1.0.1/`).

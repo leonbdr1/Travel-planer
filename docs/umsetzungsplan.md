@@ -295,25 +295,29 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Voraussetzungen:** Katalog importiert (M3); ⛔ BG-19 (Eval-Zielwert).
 
 **S4.1 Fachlogik Suchrahmen** (Fleet-Lane)
-- [ ] `packages/domain`: `dates.ts`, `geo.ts` (Startzelle, Haversine), `themes.ts`, `chips.ts` (Zuordnung zu Ausstattungs-IDs aus der Facilities-Fixture), `suggestions.ts`; Unit-Tests für alle Regeln aus `architektur.md` 6.1 bis 6.3, darunter: Zeitfenster 01.10. bis 30.11.2026, 2 Nächte, Anreise Freitag → genau 9 Termine; 13 Termine → `too_many_dates`.
+- [x] `packages/domain`: `dates.ts`, `geo.ts` (Startzelle, Haversine), `themes.ts`, `chips.ts` (Zuordnung zu Ausstattungs-IDs aus der Facilities-Fixture), `suggestions.ts`; Unit-Tests für alle Regeln aus `architektur.md` 6.1 bis 6.3, darunter: Zeitfenster 01.10. bis 30.11.2026, 2 Nächte, Anreise Freitag → genau 9 Termine; 13 Termine → `too_many_dates`. (2c806ae, 2026-09-27)
+  - ⟂ drift (2026-09-27): Die Ausstattungs-IDs in `chips.ts` stammen aus der simulierten Welt, weil die Facilities-Fixture fehlt (O2.2); Neuzuordnung mit Sandbox-Zugang.
   - Wiring: Konsumenten sind die API (S4.2) und die Suche (S5.2).
   - Demo: `npm run demo -- s4.1` → druckt die 9 Termine des Beispiels und die Chip-Zuordnung.
   - STATUS: „Fachlogik Suchrahmen“ → `demonstrated`.
 
 **S4.2 API für Startort, Vorschläge und Orte** (Fleet-Lane)
-- [ ] Migration `20261004a_rate_limits.sql` (Tabelle und `increment_rate_limit` wörtlich aus Frontlift, pgTAP); Rate-Limit-Middleware (Binding grob, RPC verbindlich, fail-closed); Endpunkte `/geo/localities`, `/suggestions/regions`, `/suggestions/places`, `/places/search`, `/meta/config` (Chips, Themen, Limits, Kennzeichnungstexte); zod-Contracts in `packages/contracts`.
+- [x] Migration `20261004a_rate_limits.sql` (Tabelle und `increment_rate_limit` wörtlich aus Frontlift, pgTAP); Rate-Limit-Middleware (Binding grob, RPC verbindlich, fail-closed); Endpunkte `/geo/localities`, `/suggestions/regions`, `/suggestions/places`, `/places/search`, `/meta/config` (Chips, Themen, Limits, Kennzeichnungstexte); zod-Contracts in `packages/contracts`. (25d51e5, 2026-09-27)
+  - ⟂ drift (2026-09-27): `rate_limits`/`increment_rate_limit` lagen schon in `20261002a`; `20261004a` enthält stattdessen die Ranking-Korrektur der Ortssuche (Einwohnerzahl wiegt stärker, „Münch“ → München). Nur RPC-Limit, kein CF-Rate-Limit-Binding. `GET /places/search?q=` legt keine Orte an; das geschieht erst mit `?geonameid=` beim Hinzufügen (Autovervollständigung soll keine Zeilen erzeugen).
   - Wiring: SPA-Assistent (S4.4) → Endpunkte → Fachlogik (S4.1), ORS-Client (S2.3), Katalog (S3.5), Ortsdatenbank (S3.1).
   - Demo: `npm run dev`, dann `npm run demo -- s4.2` → Autovervollständigung „Stutt“ liefert Stuttgart; Regionsvorschläge für Stuttgart, 180 min, `wandern` mit Begründungstext; das 121. Autovervollständigen innerhalb einer Stunde → 429.
   - STATUS: „API Vorschläge“ → `demonstrated`.
 
 **S4.3 Skill `reiseplaner.wish-parse`** (Fleet-Lane)
-- [ ] Bundle v1.0.0 mit mindestens 30 Eval-Fällen (Treffer, Mehrfachwünsche, Unpassendes nach `unmatched`, Tippfehler, Englisch); Worker-Einbindung über den Runner (S3.2) mit Budget-Reservierung und Fallback; Endpunkt `POST /wishes/parse`.
+- [x] Bundle v1.0.0 mit mindestens 30 Eval-Fällen (Treffer, Mehrfachwünsche, Unpassendes nach `unmatched`, Tippfehler, Englisch); Worker-Einbindung über den Runner (S3.2) mit Budget-Reservierung und Fallback; Endpunkt `POST /wishes/parse`. (b466784, 2026-09-27)
+  - ⟂ drift (2026-09-27): 34 Eval-Fälle, im Fake-Modus 34/34; der Lauf mit echtem Modell (BG-07, Zielwert BG-19) steht aus. Typfix für Node-Importe der App in a1cdc68.
   - Wiring: SPA-Freitextfeld → `/wishes/parse` → Runner → Skill → `skill_runs`.
   - Demo: `npm run demo -- s4.3` (Fake-LLM) → `{"chips":["sauber","ruhig"],"unmatched":["Blick auf den See"]}`; mit `LLM_ENABLED=false` → Fallback-Antwort und Hinweistext; Eval-Lauf (Operator, echtes Modell) ≥ Zielwert BG-19.
   - STATUS: „Wunsch-Übersetzung“ → `demonstrated`.
 
 **S4.4 Assistent Schritt 1 bis 3** (Fleet-Lane)
-- [ ] SPA: Suchrahmen mit Startort-Autovervollständigung, Live-Anzeige der Terminanzahl, Validierungsfehlern und KI-Hinweis am Freitextfeld (`AiLabel`); Regionsauswahl mit Begründungen; Ortsauswahl mit Beschreibung (gekennzeichnet), Fahrzeit, eigenen Orten und Zähler „x von 10“; Quellenangabe GeoNames in der Fußzeile.
+- [x] SPA: Suchrahmen mit Startort-Autovervollständigung, Live-Anzeige der Terminanzahl, Validierungsfehlern und KI-Hinweis am Freitextfeld (`AiLabel`); Regionsauswahl mit Begründungen; Ortsauswahl mit Beschreibung (gekennzeichnet), Fahrzeit, eigenen Orten und Zähler „x von 10“; Quellenangabe GeoNames in der Fußzeile. (1be3d56, 2026-09-27)
+  - ⟂ drift (2026-09-27): Der Walkthrough deckte auf, dass parallele Anfragen an die lokale PGlite-Datenbank scheitern (eine Sitzung für alle Verbindungen). Ein serieller TCP-Proxy vor PGlite bedient Verbindungen nacheinander (nur lokal und in Tests). „Suche starten“ endet bis S5.4 in der Bestätigung der Ortsliste.
   - Wiring: Router → Assistent → Endpunkte aus S4.2 und S4.3 → Übergabe an „Suche starten“ (S5.4).
   - Demo: `npm run dogfood -- --mode P --flow suchrahmen` → Report zeigt: 9 Termine angezeigt, 5 Regionen mit Begründung, Ortsliste mit Fahrzeiten, KI-Hinweis sichtbar.
   - STATUS: „Assistent Suchrahmen bis Ortsliste“ → `live-verified` nach gelesenem Report.

@@ -46,10 +46,10 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 
 | ID | Zeile | Reifegrad | Beleg | Anmerkung |
 |---|---|---|---|---|
-| S4.1 | Fachlogik Suchrahmen | `spec'd` | – | |
-| S4.2 | API Vorschläge | `spec'd` | – | |
-| S4.3 | Wunsch-Übersetzung | `spec'd` | – | |
-| S4.4 | Assistent Suchrahmen bis Ortsliste | `spec'd` | – | |
+| S4.1 | Fachlogik Suchrahmen | `demonstrated` | `docs/demos/S4.1/` | 9 Termine im Planbeispiel, 13 → `too_many_dates`. |
+| S4.2 | API Vorschläge | `demonstrated` | `docs/demos/S4.2/` | „Stutt“ → Stuttgart, 5 Regionen mit Begründung, 121. Abfrage → 429. |
+| S4.3 | Wunsch-Übersetzung | `demonstrated` | `docs/demos/S4.3/` | Fake-Modell; echter Eval-Lauf braucht BG-07. |
+| S4.4 | Assistent Suchrahmen bis Ortsliste | `live-verified` | `docs/demos/S4.4/` | Walkthrough 32/32, Report und Screenshots gelesen. |
 
 ## M5 Kombinationssuche
 
