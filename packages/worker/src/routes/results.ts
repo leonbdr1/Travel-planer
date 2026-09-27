@@ -115,6 +115,7 @@ export const resultRoutes = new Hono<AppEnv>()
       score: hotelDetailResponseSchema.shape.score.parse(first?.breakdown),
       offers: offers.sort((a, b) => a.checkin.localeCompare(b.checkin) || a.totalCents - b.totalCents).map(offerDto),
       review_check: reviews.checks?.get(hotelId) ?? null,
+      occupancy: { rooms: request.occupancy.rooms, adults: request.occupancy.adults, children: request.occupancy.children_ages.length },
     };
     return c.json(body);
   })

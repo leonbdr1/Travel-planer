@@ -162,6 +162,8 @@ export const hotelDetailResponseSchema = z.object({
   score: scoreBreakdownSchema,
   offers: z.array(offerDtoSchema),
   review_check: reviewCheckSchema.nullable(),
+  /** Occupancy of the search (the booking form asks one guest name per room). */
+  occupancy: z.object({ rooms: z.number().int(), adults: z.number().int(), children: z.number().int() }),
 });
 export type HotelDetailResponse = z.infer<typeof hotelDetailResponseSchema>;
 

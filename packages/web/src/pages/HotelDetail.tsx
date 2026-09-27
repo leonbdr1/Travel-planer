@@ -67,6 +67,7 @@ export function HotelDetail() {
   if (error) return <div className="mx-auto max-w-4xl px-4 py-12"><Alert tone="error">{error}</Alert></div>;
   if (!data) return <div className="mx-auto max-w-4xl px-4 py-12"><Spinner label={de.common.loading} /></div>;
   const h = data.hotel;
+  const bookingEnabled = meta.status !== 'ready' || meta.meta.booking_enabled;
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-10 sm:px-6">
       <Link to={back} className="text-sm font-medium text-brand-700 hover:underline">
@@ -137,13 +138,17 @@ export function HotelDetail() {
                     </div>
                   </td>
                   <td className="py-2 text-right">
-                    <Link
-                      to={`/buchen/${id}/${encodeURIComponent(o.id)}#t=${token}`}
-                      className={buttonClasses('primary', 'sm')}
-                      data-testid="book-offer"
-                    >
-                      {t.book}
-                    </Link>
+                    {bookingEnabled ? (
+                      <Link
+                        to={`/buchen/${id}/${encodeURIComponent(hotelId)}/${encodeURIComponent(o.id)}#t=${token}`}
+                        className={buttonClasses('primary', 'sm')}
+                        data-testid="book-offer"
+                      >
+                        {t.book}
+                      </Link>
+                    ) : (
+                      <span className="text-xs text-zinc-500">{de.booking.disabled}</span>
+                    )}
                   </td>
                 </tr>
               ))}
