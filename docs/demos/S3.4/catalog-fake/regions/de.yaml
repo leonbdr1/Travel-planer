@@ -1,0 +1,47 @@
+- slug: allgaeu
+  name: Allgäu
+  country: DE
+  description_de: Voralpenland im Süden Bayerns mit Bergen, Seen und Almen, erschlossen durch Wander- und Radwege.
+  themes:
+    - wandern
+    - bergpanorama
+    - seen
+    - wintersport
+    - radfahren
+  source: ai
+  ai_assisted: true
+  verified: false
+- slug: schwarzwald
+  name: Schwarzwald
+  country: DE
+  description_de: Mittelgebirge im Südwesten mit dichten Wäldern, Wasserfällen, Thermen und traditionellen Höfen.
+  themes:
+    - wandern
+    - natur_ruhe
+    - wellness
+    - wein_kulinarik
+  source: ai
+  ai_assisted: true
+  verified: false
+- slug: ruegen
+  name: Rügen
+  country: DE
+  description_de: Ostseeinsel mit Kreidefelsen, Seebädern und Buchenwäldern im Nationalpark Jasmund.
+  themes:
+    - natur_ruhe
+    - radfahren
+    - familie
+  source: ai
+  ai_assisted: true
+  verified: false
+- slug: saechsische-schweiz
+  name: Sächsische Schweiz
+  country: DE
+  description_de: Elbsandsteingebirge südöstlich von Dresden mit Felsformationen, Schluchten und Aussichtspunkten.
+  themes:
+    - wandern
+    - natur_ruhe
+    - bergpanorama
+  source: ai
+  ai_assisted: true
+  verified: false

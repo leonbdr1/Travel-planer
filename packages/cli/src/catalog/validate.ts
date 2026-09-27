@@ -2,17 +2,17 @@
 // matching status, coordinates inside the country and duplicates.
 import { productConfig } from '@reiseplaner/config';
 import type { Queryable } from '@reiseplaner/db';
-import { findClaimViolations, haversineKm, normalizeGermanTypography, slugify, stripDiacritics } from '@reiseplaner/domain';
+import { constants, findClaimViolations, haversineKm, normalizeGermanTypography, slugify, stripDiacritics } from '@reiseplaner/domain';
 import type { LoadedCatalog } from './load';
 import type { CatalogCountry } from './schema';
 
-const BOUNDS: Record<CatalogCountry, { lat: [number, number]; lng: [number, number] }> = {
+export const BOUNDS: Record<CatalogCountry, { lat: [number, number]; lng: [number, number] }> = {
   DE: { lat: [47.2, 55.1], lng: [5.8, 15.1] },
   AT: { lat: [46.3, 49.1], lng: [9.5, 17.2] },
   CH: { lat: [45.8, 47.9], lng: [5.9, 10.6] },
   'IT-BZ': { lat: [46.2, 47.1], lng: [10.3, 12.5] },
 };
-const DUPLICATE_KM = 3;
+const DUPLICATE_KM = constants.CATALOG_DUPLICATE_KM;
 
 export interface ValidationResult {
   errors: string[];

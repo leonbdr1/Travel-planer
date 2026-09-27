@@ -1,0 +1,39 @@
+# KI-Entwurf aus `catalog generate` (2026-09-27), redaktionelle Prüfung ausstehend (BG-11).
+
+region: ruegen
+places:
+  - name: Binz
+    match_name: Ostseebad Binz
+    admin1: "12"
+    themes:
+      familie: 3
+      radfahren: 2
+      natur_ruhe: 1
+    description_de: Ostseebad mit Bäderarchitektur, Seebrücke und langem Sandstrand.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2856198
+  - name: Putbus
+    admin1: "12"
+    themes:
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Klassizistische Residenzstadt mit Circus, Schlosspark und Anschluss an den Rasenden Roland.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2851615
+  - name: Bergen auf Rügen
+    admin1: "12"
+    themes:
+      staedte_kultur: 1
+      radfahren: 1
+    description_de: Inselhauptort mit Marienkirche und Aussichtsturm auf dem Rugard.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2950620
+
+# Nicht übernommen, bitte prüfen:
+# - Sellin: Sellin liegt außerhalb der Region

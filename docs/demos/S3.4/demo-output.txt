@@ -1,0 +1,29 @@
+$ npm run demo -- s3.4
+# recorded 2026-09-27T15:00:09.931Z
+
+$ npm run cli -- geonames import data/geonames/dev-extract
+Importiert: DE 7244, AT 2244, CH 1415, IT-BZ 153 (1092 ms, Datenbank temporary PGlite)
+Postleitzahlen: 0 zugeordnet, 0 ohne passenden Ort
+Bestand: {"AT":2244,"CH":1415,"DE":7244,"IT-BZ":153}
+$ npm run cli -- catalog generate --country DE --fake --out docs/demos/S3.4/catalog-fake
+Regionen: Batch mit 1 Anfrage(n) …
+  Batch-Status: in_progress
+  Batch-Status: ended
+Orte: Batch mit 4 Anfrage(n) …
+  Batch-Status: in_progress
+  Batch-Status: ended
+Katalogentwurf (Fake-Modell, Datenbank temporary PGlite) → docs/demos/S3.4/catalog-fake
+  Regionen: 4 neu (Allgäu, Schwarzwald, Rügen, Sächsische Schweiz), 0 schon vorhanden, 0 verworfen
+  Orte: 17 geschrieben (16 exakt, 1 unscharf zugeordnet), 1 nicht zugeordnet, 1 außerhalb der Region, 1 Dubletten, 0 abgelehnt
+  unscharf: Rügen/Binz → Ostseebad Binz – bitte prüfen
+  nicht zugeordnet: Allgäu/Alpseewinkel
+  außerhalb der Region: Rügen/Sellin → Sellin
+  Dublette: Allgäu/Markt Oberstdorf = Allgäu/Oberstdorf
+  Kosten laut skill_runs: 0.0000 $ (Schätzung vorab 0.1463 $, Budget 5 $/Tag)
+    reiseplaner.catalog-places: 4 Aufrufe, 4 ok, 0.0000 $
+    reiseplaner.catalog-regions: 1 Aufrufe, 1 ok, 0.0000 $
+  Dateien: themes.yaml, places/allgaeu.yaml, places/schwarzwald.yaml, places/ruegen.yaml, places/saechsische-schweiz.yaml, regions/de.yaml
+  Alle Einträge verified: false, ai_assisted: true → Freigabe durch die Redaktion (BG-11), dann catalog validate und import.
+$ npm run cli -- catalog validate --dir docs/demos/S3.4/catalog-fake
+4 Regionen, 17 Orte (17 zugeordnet, 0 freigegeben): 0 Fehler, 0 Hinweise
+→ YAML-Entwürfe für die Fake-Regionen unter docs/demos/S3.4/catalog-fake, Validator 0 Fehler, Kosten 0 $

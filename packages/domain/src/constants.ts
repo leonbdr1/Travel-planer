@@ -92,3 +92,9 @@ export const SKILL_EVAL_REGRESSION_TOLERANCE = 0.02;
 export const SKILL_EVAL_BUDGET_USD = 0.5;
 export const SKILL_EVAL_TARGET_SCORE = 0.9;
 export const LLM_BATCH_POLL_INTERVAL_MS = 30_000;
+
+// Catalog pipeline (S3.4): duplicates closer than this are dropped; matched
+// places farther than the spread limit from the region's median lie outside it.
+export const CATALOG_DUPLICATE_KM = 3;
+export const CATALOG_REGION_MAX_SPREAD_KM = 100;
+export const CATALOG_FAKE_POLL_INTERVAL_MS = 10;

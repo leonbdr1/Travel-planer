@@ -1,0 +1,45 @@
+# KI-Entwurf aus `catalog generate` (2026-09-27), redaktionelle Prüfung ausstehend (BG-11).
+
+region: saechsische-schweiz
+places:
+  - name: Bad Schandau
+    admin1: "13"
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+      wellness: 2
+    description_de: Kurort an der Elbe mit Toskana-Therme und Wegen zu den Schrammsteinen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953352
+  - name: Königstein
+    admin1: "13"
+    themes:
+      wandern: 2
+      staedte_kultur: 2
+    description_de: Kleinstadt unterhalb der Festung Königstein an der Elbe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2885764
+  - name: Pirna
+    admin1: "13"
+    themes:
+      staedte_kultur: 3
+      radfahren: 2
+    description_de: Altstadt an der Elbe mit Marktplatz und Elberadweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2853572
+  - name: Hohnstein
+    admin1: "13"
+    themes:
+      wandern: 3
+      natur_ruhe: 3
+    description_de: Burgstadt über dem Polenztal mit Zugang zum Malerweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2900844

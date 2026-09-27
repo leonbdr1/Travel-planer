@@ -1,0 +1,63 @@
+# KI-Entwurf aus `catalog generate` (2026-09-27), redaktionelle Prüfung ausstehend (BG-11).
+
+region: allgaeu
+places:
+  - name: Oberstdorf
+    admin1: "02"
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 3
+    description_de: Markt am Fuß von Nebelhorn und Fellhorn mit Breitachklamm und Loipen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2858964
+  - name: Füssen
+    admin1: "02"
+    themes:
+      staedte_kultur: 3
+      seen: 3
+      radfahren: 2
+    description_de: Stadt am Forggensee mit Altstadt, nahe den Königsschlössern.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2923507
+  - name: Pfronten
+    admin1: "02"
+    themes:
+      wandern: 2
+      bergpanorama: 2
+      familie: 2
+    description_de: Streusiedlung im Vilstal mit Burgruine Falkenstein und Bergbahn auf den Breitenberg.
+    search_radius_km: 12
+    ai_assisted: true
+    verified: false
+    geonameid: 2853949
+  - name: Immenstadt im Allgäu
+    admin1: "02"
+    themes:
+      seen: 3
+      wandern: 2
+      radfahren: 2
+    description_de: Kleinstadt am Großen Alpsee mit Zugang zur Nagelfluhkette.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2896261
+  - name: Sonthofen
+    admin1: "02"
+    themes:
+      wandern: 2
+      radfahren: 2
+      familie: 1
+    description_de: Stadt im Illertal mit Ausgangspunkten ins Oberallgäu und zum Grünten.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2831088
+
+# Nicht übernommen, bitte prüfen:
+# - Alpseewinkel: nicht zugeordnet
+# - Markt Oberstdorf: Dublette von Allgäu/Oberstdorf

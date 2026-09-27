@@ -1,0 +1,59 @@
+# KI-Entwurf aus `catalog generate` (2026-09-27), redaktionelle Prüfung ausstehend (BG-11).
+
+region: schwarzwald
+places:
+  - name: Titisee-Neustadt
+    admin1: "01"
+    themes:
+      seen: 3
+      wandern: 2
+      familie: 2
+    description_de: Stadt am Titisee mit Uferpromenade und Wegen zum Feldberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2822083
+  - name: Baiersbronn
+    admin1: "01"
+    themes:
+      wein_kulinarik: 3
+      wandern: 3
+      natur_ruhe: 2
+    description_de: Gemeinde im Nordschwarzwald mit Sterneküche und Wegen zu Karseen.
+    search_radius_km: 15
+    ai_assisted: true
+    verified: false
+    geonameid: 2953197
+  - name: Hinterzarten
+    admin1: "01"
+    themes:
+      wandern: 3
+      wintersport: 2
+      wellness: 2
+    description_de: Höhenluftkurort mit Loipen, Moorlandschaft und Ravennaschlucht.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2903889
+  - name: Triberg
+    admin1: "01"
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+      staedte_kultur: 1
+    description_de: Stadt an den Triberger Wasserfällen mit Schwarzwaldmuseum.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2821216
+  - name: Todtnau
+    admin1: "01"
+    themes:
+      wintersport: 2
+      wandern: 2
+      familie: 2
+    description_de: Stadt im Wiesental mit Wasserfall, Sommerrodelbahn und Skilift.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2821975

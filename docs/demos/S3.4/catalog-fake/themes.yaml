@@ -1,0 +1,32 @@
+# Themenvokabular (architektur.md 6.3). Themen beschreiben Zielorte, nicht
+# Unterkünfte. Erweiterbar (z. B. strand, schwarzer_sandstrand).
+- code: wandern
+  label_de: Wandern
+  category: aktivitaet
+- code: bergpanorama
+  label_de: Bergpanorama
+  category: landschaft
+- code: seen
+  label_de: Seen
+  category: landschaft
+- code: natur_ruhe
+  label_de: Natur und Ruhe
+  category: erholung
+- code: radfahren
+  label_de: Radfahren
+  category: aktivitaet
+- code: wellness
+  label_de: Wellness
+  category: erholung
+- code: wintersport
+  label_de: Wintersport
+  category: aktivitaet
+- code: staedte_kultur
+  label_de: Städte und Kultur
+  category: kultur
+- code: wein_kulinarik
+  label_de: Wein und Kulinarik
+  category: kultur
+- code: familie
+  label_de: Familie
+  category: erholung
