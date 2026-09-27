@@ -21,5 +21,8 @@ export default defineProject({
     include: ['test/**/*.test.ts'],
     globalSetup: ['./test/global-setup.ts'],
     testTimeout: 30_000,
+    // One PGlite instance serves every test file; files run one after another
+    // so concurrent connections never exceed what the socket server handles.
+    fileParallelism: false,
   },
 });

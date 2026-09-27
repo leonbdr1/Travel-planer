@@ -1,0 +1,10 @@
+$ npm run demo -- s4.3
+# recorded 2026-09-27T15:14:13.507Z
+
+starting local stack (Fake-LLM) …
+POST /wishes/parse {"text":"sauber, ruhig und Blick auf den See"} → HTTP 200
+{"chips":["sauber","ruhig"],"unmatched":["Blick auf den See"]}
+skill_runs: {"skill":"reiseplaner.wish-parse","outcome":"ok","cost":0} (nur Hashes, kein Freitext)
+LLM_ENABLED=false → HTTP 200: translated=false, chips=[]
+Hinweis: Die automatische Übersetzung deiner Wünsche ist gerade nicht verfügbar. Bitte wähle die passenden Chips direkt aus.
+→ Zuordnung wie im Plan; ohne KI Fallback mit Hinweistext

@@ -25,3 +25,7 @@ export function regionReason(args: { places: number; themeLabels: readonly strin
       : `${formatDuration(args.minMinutes)}–${formatDuration(args.maxMinutes)}`;
   return `${count}${themes}, ${args.estimated ? 'geschätzt ' : ''}${span} Fahrt`;
 }
+
+/** Shown when the wish translation is unavailable (LLM off, budget used up, error). */
+export const WISH_FALLBACK_NOTICE =
+  'Die automatische Übersetzung deiner Wünsche ist gerade nicht verfügbar. Bitte wähle die passenden Chips direkt aus.';

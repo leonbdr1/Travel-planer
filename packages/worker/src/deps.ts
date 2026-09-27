@@ -5,6 +5,7 @@
 // app.provider_usage at the end of the request.
 import { createPostgresDb, UsageRecorder, type Db } from '@reiseplaner/db';
 import { createProviders, type Providers } from '@reiseplaner/providers';
+import { fakeResponders } from '@reiseplaner/skills';
 import type { Env, RuntimeConfig } from './env';
 
 export interface RequestDeps {
@@ -36,7 +37,7 @@ export const envProviders: ProvidersFactory = (config, env, usage, now) =>
     {
       onCall: (provider, endpoint) => usage.record(provider, endpoint),
       now,
-      fake: { latencyMs: config.FAKE_LATENCY_MS, failEvery: config.FAKE_FAIL_EVERY },
+      fake: { latencyMs: config.FAKE_LATENCY_MS, failEvery: config.FAKE_FAIL_EVERY, llmResponders: fakeResponders },
     },
   );
 
