@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Platzhalterbild (Entwicklungsmodus)">
+  <rect width="400" height="300" fill="#fde68a"/>
+  <circle cx="130" cy="70" r="28" fill="#fef3c7"/>
+  <path d="M0 220 L90 118 L170 200 L250 100 L330 190 L400 150 L400 300 L0 300 Z" fill="#f59e0b"/>
+  <path d="M0 260 L60 225 L120 250 L200 215 L280 255 L350 230 L400 250 L400 300 L0 300 Z" fill="#3f6212"/>
+  <rect x="170" y="215" width="60" height="45" fill="#fafaf9"/>
+  <path d="M165 218 L200 190 L235 218 Z" fill="#7c2d12"/>
+</svg>

@@ -1,19 +1,19 @@
 import type { Page } from '@playwright/test';
 import type { Flow } from '../types';
 
-/** Wizard steps 1–3 for 5 places × 12 Fridays (60 combinations). */
-export async function prepareSixtyCombinations(page: Page, baseUrl: string) {
+/** Wizard steps 1–3 for 5 places × n Fridays (12 by default: 60 combinations). */
+export async function prepareSixtyCombinations(page: Page, baseUrl: string, windowEnd = '2026-12-20', dates = 12) {
   await page.goto(`${baseUrl}/suche`);
   await page.evaluate(() => sessionStorage.clear());
   await page.goto(`${baseUrl}/suche`);
   await page.getByTestId('origin-input').fill('Stutt');
   await page.getByRole('option', { name: /^Stuttgart, Baden-Württemberg, DE/ }).click();
   await page.locator('#window-start').fill('2026-10-01');
-  await page.locator('#window-end').fill('2026-12-20');
+  await page.locator('#window-end').fill(windowEnd);
   await page.locator('#nights').selectOption('2');
   await page.locator('#max-drive').selectOption('180');
   await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();
-  await page.getByTestId('date-count').filter({ hasText: '12 Termine' }).waitFor();
+  await page.getByTestId('date-count').filter({ hasText: `${dates} Termine` }).waitFor();
   await page.getByTestId('frame-next').click();
   await page.getByTestId('region-card').first().waitFor({ timeout: 30_000 });
   await page.getByTestId('regions-next').click();
@@ -24,7 +24,7 @@ export async function prepareSixtyCombinations(page: Page, baseUrl: string) {
     const box = rows.nth(i).locator('input[type="checkbox"]');
     if (await box.isChecked()) await box.uncheck();
   }
-  await page.getByTestId('combination-count').filter({ hasText: '5 Orte × 12 Termine = 60 Kombinationen' }).waitFor();
+  await page.getByTestId('combination-count').filter({ hasText: `5 Orte × ${dates} Termine = ${5 * dates} Kombinationen` }).waitFor();
   await page.getByTestId('places-confirm').click();
   await page.getByTestId('start-search').waitFor();
 }

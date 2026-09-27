@@ -8,6 +8,7 @@ import { constants } from '@reiseplaner/domain';
 import { Alert, buttonClasses, Card, Heading, ProgressBar, Spinner, Text } from '@reiseplaner/ui';
 import { ApiRequestError } from '../api/client';
 import { Matrix } from '../features/search/Matrix';
+import { ResultsView } from '../features/results/ResultsView';
 import { fetchProgress } from '../features/search/run-api';
 import { de } from '../i18n/de';
 
@@ -82,10 +83,14 @@ export function SearchRun() {
         {s.status === 'partial' ? <Alert tone="warning">{t.partial}</Alert> : null}
         {s.status === 'failed' ? <Alert tone="error">{t.failed}</Alert> : null}
       </div>
-      <section className="space-y-3">
-        <Heading level={2}>{t.matrixTitle}</Heading>
-        <Matrix places={progress.places} dates={progress.dates} cells={progress.cells} />
-      </section>
+      {final && s.status !== 'failed' ? (
+        <ResultsView searchId={s.id} token={token} />
+      ) : (
+        <section className="space-y-3">
+          <Heading level={2}>{t.matrixTitle}</Heading>
+          <Matrix places={progress.places} dates={progress.dates} cells={progress.cells} />
+        </section>
+      )}
       <Link to="/suche" className={buttonClasses('secondary')}>
         {t.newSearch}
       </Link>

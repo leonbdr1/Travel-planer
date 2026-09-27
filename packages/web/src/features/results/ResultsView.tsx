@@ -1,0 +1,218 @@
+// Results (F5, F7, F9, F10): filters prefilled from the search and
+// changeable without a new search, sort switch, matrix and list.
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router';
+import type { EffectiveFilters, MatrixCellDto, SearchResultsResponse } from '@reiseplaner/contracts';
+import { Alert, Button, Card, Checkbox, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
+import { de } from '../../i18n/de';
+import { formatDay, formatTime } from '../../lib/format';
+import { useMeta } from '../../lib/meta';
+import { fetchResults } from './api';
+import { PriceMatrix } from './PriceMatrix';
+import { ResultList } from './ResultList';
+
+const t = de.results;
+type Sort = 'best' | 'price' | 'quality';
+
+interface FilterForm {
+  budget: string;
+  minStars: string;
+  minRating: string;
+  minReviews: string;
+  refundable: boolean;
+  board: string;
+}
+
+function formFrom(f: EffectiveFilters): FilterForm {
+  return {
+    budget: f.budget_total_eur === null ? '' : String(f.budget_total_eur),
+    minStars: f.min_stars === null ? '' : String(f.min_stars),
+    minRating: f.min_rating === null ? '' : String(f.min_rating),
+    minReviews: f.min_reviews === null ? '' : String(f.min_reviews),
+    refundable: f.refundable_only,
+    board: f.board ?? '',
+  };
+}
+
+function paramsFrom(form: FilterForm | null, sort: Sort, cell: { place_id: string; checkin: string } | null): Record<string, string> {
+  const p: Record<string, string> = { sort };
+  if (form) {
+    p.budget = form.budget;
+    p.min_stars = form.minStars;
+    p.min_rating = form.minRating;
+    p.min_reviews = form.minReviews;
+    p.refundable = String(form.refundable);
+    p.board = form.board;
+  }
+  if (cell) {
+    p.place_id = cell.place_id;
+    p.checkin = cell.checkin;
+  }
+  return p;
+}
+
+export function ResultsView({ searchId, token }: { searchId: string; token: string }) {
+  const meta = useMeta();
+  const [sort, setSort] = useState<Sort>('best');
+  const [form, setForm] = useState<FilterForm | null>(null);
+  const [applied, setApplied] = useState<FilterForm | null>(null);
+  const [cell, setCell] = useState<{ place_id: string; checkin: string } | null>(null);
+  const [data, setData] = useState<SearchResultsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchDefaults, setSearchDefaults] = useState<FilterForm | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    fetchResults(searchId, token, paramsFrom(applied, sort, cell), controller.signal)
+      .then((r) => {
+        setData(r);
+        setError(null);
+        // Prefill once from the search's own filters; later answers never
+        // overwrite what the user is typing.
+        setForm((current) => current ?? formFrom(r.filters));
+        setSearchDefaults((current) => current ?? formFrom(r.filters));
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setError(de.status.apiUnreachable);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [searchId, token, sort, applied, cell]);
+
+  const placeName = useMemo(() => new Map(data?.matrix.places.map((p) => [p.id, p.name]) ?? []), [data]);
+  const aiLabel = meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : '';
+  const detailHref = (hotelId: string) => `/suche/${searchId}/unterkunft/${encodeURIComponent(hotelId)}#t=${token}`;
+
+  if (!data) return loading ? <Spinner label={de.common.loading} /> : <Alert tone="error">{error ?? de.status.apiUnreachable}</Alert>;
+
+  const update = (patch: Partial<FilterForm>) => setForm((f) => (f ? { ...f, ...patch } : f));
+  const selectCell = (c: MatrixCellDto | null) => setCell(c ? { place_id: c.place_id, checkin: c.checkin } : null);
+
+  return (
+    <section className="space-y-6" data-testid="results">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div className="space-y-1">
+          <Heading level={2}>{t.title}</Heading>
+          <Text className="text-sm" data-testid="results-counts">
+            {t.counts(data.counts.hotels, data.counts.passing)}
+          </Text>
+          {data.meta.prices_fetched_at ? (
+            <p className="text-xs text-zinc-500" data-testid="fetched-at">
+              {t.fetchedAt(formatTime(data.meta.prices_fetched_at))}
+            </p>
+          ) : null}
+        </div>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="sort" className="sr-only">
+            {t.sortLabel}
+          </Label>
+          <div role="radiogroup" aria-label={t.sortLabel} className="inline-flex rounded-lg bg-white p-1 shadow-sm ring-1 ring-zinc-200" data-testid="sort">
+            {(['best', 'price', 'quality'] as const).map((key) => (
+              <button
+                key={key}
+                type="button"
+                role="radio"
+                aria-checked={sort === key}
+                onClick={() => setSort(key)}
+                className={`rounded-md px-3 py-1.5 text-sm font-medium ${sort === key ? 'bg-brand-600 text-brand-contrast' : 'text-zinc-700 hover:bg-zinc-50'}`}
+              >
+                {t.sort[key]}
+              </button>
+            ))}
+          </div>
+          <Link to="/ranking" className="text-sm font-medium text-brand-700 hover:underline">
+            {t.rankingLink}
+          </Link>
+        </div>
+      </div>
+
+      {form ? (
+        <Card className="space-y-4" data-testid="result-filters">
+          <Heading level={3}>{t.filters}</Heading>
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            <div>
+              <Label htmlFor="f-budget">{t.budget}</Label>
+              <Input id="f-budget" inputMode="numeric" className="mt-1" value={form.budget} onChange={(e) => update({ budget: e.target.value })} />
+            </div>
+            <div>
+              <Label htmlFor="f-stars">{t.minStars}</Label>
+              <Select id="f-stars" className="mt-1" value={form.minStars} onChange={(e) => update({ minStars: e.target.value })}>
+                <option value="">{de.wizard.frame.any}</option>
+                {[2, 3, 4, 5].map((n) => (
+                  <option key={n} value={n}>{`${n}+`}</option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="f-rating">{t.minRating}</Label>
+              <Select id="f-rating" className="mt-1" value={form.minRating} onChange={(e) => update({ minRating: e.target.value })}>
+                <option value="">{de.wizard.frame.any}</option>
+                {[7, 7.5, 8, 8.5, 9].map((n) => (
+                  <option key={n} value={n}>{`${n.toLocaleString('de-DE')}+`}</option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="f-reviews">{t.minReviews}</Label>
+              <Select id="f-reviews" className="mt-1" value={form.minReviews} onChange={(e) => update({ minReviews: e.target.value })}>
+                <option value="">{de.wizard.frame.any}</option>
+                {[10, 20, 50, 100].map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="f-board">{t.board}</Label>
+              <Select id="f-board" className="mt-1" value={form.board} onChange={(e) => update({ board: e.target.value })}>
+                {Object.entries(t.boards).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-end">
+              <Checkbox label={t.refundable} checked={form.refundable} onChange={(e) => update({ refundable: e.target.checked })} />
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={() => setApplied(form)} data-testid="apply-filters">
+              {t.apply}
+            </Button>
+            {searchDefaults ? (
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setForm(searchDefaults);
+                  setApplied(searchDefaults);
+                }}
+              >
+                {t.reset}
+              </Button>
+            ) : null}
+          </div>
+        </Card>
+      ) : null}
+
+      <PriceMatrix places={data.matrix.places} dates={data.matrix.dates} cells={data.matrix.cells} selected={cell} onSelect={selectCell} />
+
+      {cell ? (
+        <div className="flex flex-wrap items-center gap-3" data-testid="cell-filter">
+          <span className="rounded-full bg-brand-50 px-3 py-1 text-sm font-medium text-brand-800">
+            {t.cellFilter(placeName.get(cell.place_id) ?? '', formatDay(cell.checkin))}
+          </span>
+          <Button variant="ghost" size="sm" onClick={() => setCell(null)}>
+            {t.clearCell}
+          </Button>
+        </div>
+      ) : null}
+
+      {loading ? <Spinner label={de.common.loading} /> : null}
+      {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} />}
+    </section>
+  );
+}
