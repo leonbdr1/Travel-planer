@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+@import '@reiseplaner/config/brand.css';
+@source '../../ui/src';
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+}

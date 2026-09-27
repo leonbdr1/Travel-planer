@@ -1,0 +1,33 @@
+{
+  "name": "@reiseplaner/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/react": "2.2.10",
+    "@heroicons/react": "2.2.0",
+    "@reiseplaner/config": "0.0.0",
+    "@reiseplaner/contracts": "0.0.0",
+    "@reiseplaner/ui": "0.0.0",
+    "altcha": "3.2.3",
+    "clsx": "2.1.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router": "7.18.4",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.60.2",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "tailwindcss": "4.3.3",
+    "vite": "7.3.6"
+  }
+}
