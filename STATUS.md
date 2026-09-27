@@ -68,7 +68,7 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | S6.2 | Ergebnis-Endpunkte | `demonstrated` | `docs/demos/S6.2/` | Matrix 5 × 9, jede Unterkunft einmal; Referenzpreis-Endpunkt nur mit Fake-Adapter (Contract ungeprüft, BG-05). |
 | S6.3 | Ergebnisansicht | `live-verified` | `docs/demos/S6.3/` | Walkthrough 31/31, Report und Screenshots gelesen. |
 | S6.4 | Kalibrierung Stufe 1 | `demonstrated` | `docs/demos/S6.4/` | Simulierte Welt: value 18,3 %, date 5,4 %, place 12,6 %; echte Daten offen (BG-05). |
-| K | Kernfunktion (Kombinationssuche mit Matrix) | `demonstrated-not-maximized` | `docs/demos/S5.4/`, `docs/demos/S6.3/`, `docs/demos/S6.1/`, `docs/demos/S7.4/` | Beispiele 1–4 aus `konzept.md` 5.1 belegt; 5 (Buchung, M8) fehlt. Revisit: M8. |
+| K | Kernfunktion (Kombinationssuche mit Matrix) | `maximized` | `docs/demos/S5.4/`, `docs/demos/S6.3/`, `docs/demos/S6.1/`, `docs/demos/S7.4/`, `docs/demos/S8.4/` | Alle fünf Akzeptanzbeispiele aus `konzept.md` 5.1 belegt, mit simulierten Anbietern. Nachweis mit echten Anbietern offen (O8.1, BG-05/07/08); Competitor-Baseline unbestätigt (BG-18). |
 
 ## M7 Rezensionscheck
 
@@ -83,10 +83,10 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 
 | ID | Zeile | Reifegrad | Beleg | Anmerkung |
 |---|---|---|---|---|
-| S8.1 | Buchungs-Zustandsautomat | `spec'd` | – | |
-| S8.2 | Buchungs-Endpunkte | `spec'd` | – | |
-| S8.3 | E-Mail-Versand | `spec'd` | – | |
-| S8.4 | Buchungsablauf | `spec'd` | – | |
+| S8.1 | Buchungs-Zustandsautomat | `demonstrated` | `docs/demos/S8.1/` | 7 erlaubte, 35 verbotene Übergänge; parallele Zahlungsrückkehr bucht genau einmal (PGlite). |
+| S8.2 | Buchungs-Endpunkte | `demonstrated` | `docs/demos/S8.2/` | Ablauf bis `cancelled`; doppeltes `complete` gleicher Stand; fremdes Token → 403. |
+| S8.3 | E-Mail-Versand | `demonstrated` | `docs/demos/S8.3/` | Bestätigung gerendert; Fehlversand, zweiter Versuch per Cron. |
+| S8.4 | Buchungsablauf | `live-verified` | `docs/demos/S8.4/` | Walkthrough 36/36, Akzeptanzbeispiel 5 im Screenshot gelesen; Zahlung simuliert. |
 | O8.1 | Buchung Sandbox Ende zu Ende | `blocked` | – | BG-05, BG-08 |
 
 ## M9 Vertrauen, Recht und Schutz

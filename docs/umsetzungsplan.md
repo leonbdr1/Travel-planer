@@ -446,25 +446,29 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Voraussetzungen:** ⛔ BG-08 (Resend); für Live-Buchungen zusätzlich ⛔ BG-12 (Marge).
 
 **S8.1 Datenmodell und Zustandsautomat** (Fleet-Lane)
-- [ ] Migration `20261008a_bookings.sql` (`bookings`, `email_outbox`, `_VERIFY`); `booking-state.ts` mit allen Übergängen aus `architektur.md` 6.11; Tests für jeden erlaubten und jeden verbotenen Übergang; Nebenläufigkeitstest „zwei gleichzeitige `complete`“ in der Postgres-Spur der CI.
+- [x] Migration `20261008a_bookings.sql` (`bookings`, `email_outbox`, `_VERIFY`); `booking-state.ts` mit allen Übergängen aus `architektur.md` 6.11; Tests für jeden erlaubten und jeden verbotenen Übergang; Nebenläufigkeitstest „zwei gleichzeitige `complete`“ in der Postgres-Spur der CI. (d3a0c33, 2026-09-27)
+  - ⟂ drift (2026-09-27): Der Nebenläufigkeitstest läuft gegen PGlite (Zeilensperre im Repository und zwei parallele `complete` im Service); eine Postgres-Spur der CI gibt es noch nicht (Operator-Lane). `look_to_book_ratio` liegt ebenfalls in `20261008a`. Zusätzliche Spalten: `price_changed`, `price_confirmed_at`, `cancellation_fee_cents`, `refund_cents`, `guests`, `email_outbox.next_attempt_at`.
   - Wiring: Repository `bookings` → Endpunkte (S8.2).
   - Demo: `npm run demo -- s8.1` → Tabelle aller Übergänge mit erlaubt/verboten.
   - STATUS: „Buchungs-Zustandsautomat“ → `demonstrated`.
 
 **S8.2 Buchungs-Endpunkte und Tokens** (Fleet-Lane)
-- [ ] `POST /bookings` (Prebook mit `usePaymentSdk`, Preisänderung erkennen), `POST /bookings/{ref}/confirm-price`, `POST /bookings/{ref}/complete` (idempotent, `SELECT … FOR UPDATE`), `GET /bookings/{ref}`, `POST /bookings/{ref}/cancel` (mit `dry_run`), `POST /bookings/access-link` (immer 202); HMAC-Tokens mit Web Crypto; Buchungsnummern in Crockford-Base32.
+- [x] `POST /bookings` (Prebook mit `usePaymentSdk`, Preisänderung erkennen), `POST /bookings/{ref}/confirm-price`, `POST /bookings/{ref}/complete` (idempotent, `SELECT … FOR UPDATE`), `GET /bookings/{ref}`, `POST /bookings/{ref}/cancel` (mit `dry_run`), `POST /bookings/access-link` (immer 202); HMAC-Tokens mit Web Crypto; Buchungsnummern in Crockford-Base32. (078aed9, 2026-09-27)
+  - ⟂ drift (2026-09-27): Tokens kommen im Header `X-Booking-Token`. Die Antwort von `POST /bookings` enthält zusätzlich `previous_price` und `payment.simulated` (Fake-Modus). Die Kostenvorschau (`dry_run`) nutzt die Stornobedingung des Tarifs; nach Ablauf der kostenlosen Frist nennt sie keinen Betrag, weil die Stufen der Stornogebühr nicht gespeichert werden.
   - Wiring: SPA-Buchungsablauf (S8.4) → Endpunkte → LiteAPI-Client (S2.2) → `bookings` → Outbox (S8.3).
   - Demo: `npm run demo -- s8.2` (Fakes) → Ablauf `draft → prebooked → booking → confirmed → cancelled`; doppelter `complete` liefert denselben Stand; `complete` mit fremdem Token → 403.
   - STATUS: „Buchungs-Endpunkte“ → `demonstrated`.
 
 **S8.3 E-Mail** (Fleet-Lane)
-- [ ] `MailPort` mit Resend-Adapter und Fake (schreibt nur in die Outbox); Vorlagen als typisierte TypeScript-Funktionen mit HTML- und Textfassung (Bestätigung mit Hotel-Bestätigungsnummer und Vertragspartner, Stornierung, Zugangslink, Bewertungseinladung); Cron `outbox-retry` (höchstens 5 Versuche); Claims-Prüfung erfasst die Vorlagen.
+- [x] `MailPort` mit Resend-Adapter und Fake (schreibt nur in die Outbox); Vorlagen als typisierte TypeScript-Funktionen mit HTML- und Textfassung (Bestätigung mit Hotel-Bestätigungsnummer und Vertragspartner, Stornierung, Zugangslink, Bewertungseinladung); Cron `outbox-retry` (höchstens 5 Versuche); Claims-Prüfung erfasst die Vorlagen. (ee2422d, 2026-09-27)
+  - ⟂ drift (2026-09-27): Der Fake-Adapter simuliert Resend auf HTTP-Ebene; die Outbox in der Datenbank bleibt der Nachweis. Absender in `product.config.yaml` (`mail`), Antworten an `support.email`. Die Bewertungseinladung wird im täglichen Job (M9) versendet.
   - Wiring: Endpunkte (S8.2) → Outbox → sofortiger Versand, sonst Cron → Resend.
   - Demo: `npm run demo -- s8.3` → gerenderte Bestätigungs-E-Mail als Text; Fake-Versandfehler → Versuch 2 durch den Cron (per `createScheduledController` im Test ausgelöst).
   - STATUS: „E-Mail-Versand“ → `demonstrated`.
 
 **S8.4 Buchungsablauf in der Oberfläche** (Fleet-Lane)
-- [ ] SPA: Gastformular, Pflicht-Checkboxen (AGB und Vermittlerrolle; kein Widerrufsrecht bei Beherbergung zu festem Termin), Hinweis auf vor Ort zu zahlende Beträge, Preisänderungsdialog, Zahlungsseite mit SDK, Rückkehrseite mit `complete`, Bestätigungsseite mit Hotel-Bestätigungsnummer, Buchungsansicht mit Stornierung (Kostenvorschau per `dry_run`); CSP-Domains des SDK ermitteln und in die Security-Header aufnehmen.
+- [x] SPA: Gastformular, Pflicht-Checkboxen (AGB und Vermittlerrolle; kein Widerrufsrecht bei Beherbergung zu festem Termin), Hinweis auf vor Ort zu zahlende Beträge, Preisänderungsdialog, Zahlungsseite mit SDK, Rückkehrseite mit `complete`, Bestätigungsseite mit Hotel-Bestätigungsnummer, Buchungsansicht mit Stornierung (Kostenvorschau per `dry_run`); CSP-Domains des SDK ermitteln und in die Security-Header aufnehmen. (03765f4, 2026-09-27)
+  - ⟂ drift (2026-09-27): Zahlungsseite nur als Simulation (Fake-Modus). Die Einbindung des LiteAPI-Zahlungs-SDK und seine CSP-Domains ließen sich ohne Doku und Sandbox-Zugang nicht ermitteln (BG-05); in `sandbox`/`live` zeigt die Seite einen Hinweis. Offen bis zur Contract-Prüfung.
   - Wiring: Detailansicht (S6.3) → Buchungsablauf → Endpunkte (S8.2).
   - Demo: `npm run dogfood -- --mode P --flow buchung` (Fakes, SDK-Stub) → Report zeigt Bestätigung mit Buchungsnummer und Hotel-Bestätigungsnummer.
   - STATUS: „Buchungsablauf“ → `live-verified` nach gelesenem Report.
