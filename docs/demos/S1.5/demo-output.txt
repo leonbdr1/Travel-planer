@@ -1,0 +1,4 @@
+$ npm run demo -- s1.5
+# recorded 2026-09-27T04:22:06.604Z
+
+check-status-rows: alle 51 Slice-IDs aus umsetzungsplan.md haben genau eine STATUS-Zeile
