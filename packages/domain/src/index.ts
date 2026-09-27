@@ -20,3 +20,4 @@ export * from './bargains';
 export * from './ranking';
 export * from './pii';
 export * from './review-keywords';
+export * from './booking-state';

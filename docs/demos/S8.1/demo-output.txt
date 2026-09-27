@@ -1,0 +1,21 @@
+$ npm run demo -- s8.1
+# recorded 2026-09-27T20:57:19.903Z
+
+Zustand    prebook_ok       prebook_failed   payment_returned payment_failed   book_ok          book_failed      cancel_ok        
+draft      → prebooked      → failed         verboten         verboten         verboten         verboten         verboten         
+prebooked  verboten         verboten         → booking        → failed         verboten         verboten         verboten         
+booking    verboten         verboten         verboten         verboten         → confirmed      → failed         verboten         
+confirmed  verboten         verboten         verboten         verboten         verboten         verboten         → cancelled      
+failed     verboten         verboten         verboten         verboten         verboten         verboten         verboten         
+cancelled  verboten         verboten         verboten         verboten         verboten         verboten         verboten         
+
+7 erlaubte Übergänge, 35 verbotene.
+
+complete (idempotent):
+  draft      reject
+  prebooked  book (Preis geändert, unbestätigt: confirm_price_first)
+  booking    retry_later
+  confirmed  return_confirmed
+  failed     reject
+  cancelled  reject
+→ Zustandsautomat wie architektur.md 6.11

@@ -1,0 +1,8 @@
+-- Verification for 20261008a_bookings: two rows with rowsecurity = true and
+-- the look-to-book function executable by app_rw only.
+SELECT tablename, rowsecurity FROM pg_tables
+ WHERE schemaname = 'app' AND tablename IN ('bookings', 'email_outbox')
+ ORDER BY tablename;
+SELECT has_function_privilege('app_rw', 'app.look_to_book_ratio(int)', 'EXECUTE') AS app_rw_can_execute,
+       has_function_privilege('anon', 'app.look_to_book_ratio(int)', 'EXECUTE') AS anon_can_execute;
+SELECT app.look_to_book_ratio(7);
