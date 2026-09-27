@@ -14,6 +14,11 @@ export interface Env {
   LITEAPI_BOOK_BASE_URL: string;
   LITEAPI_PAYMENT_MODE: string;
   ORS_BASE_URL: string;
+  /** Fake mode only: simulated latency and failure rate of the providers. */
+  FAKE_LATENCY_MS?: string;
+  FAKE_FAIL_EVERY?: string;
+  /** Dev only: include catalog entries still awaiting editorial approval (BG-11). */
+  CATALOG_ALLOW_DRAFTS?: string;
   // Secrets (wrangler secret put / .dev.vars)
   LITEAPI_API_KEY?: string;
   ANTHROPIC_API_KEY?: string;
@@ -35,6 +40,9 @@ export const runtimeConfigSchema = z.object({
   LITEAPI_BOOK_BASE_URL: z.url(),
   LITEAPI_PAYMENT_MODE: z.enum(['sandbox', 'live']),
   ORS_BASE_URL: z.url(),
+  FAKE_LATENCY_MS: z.coerce.number().int().min(0).max(5000).default(0),
+  FAKE_FAIL_EVERY: z.coerce.number().int().min(0).max(10_000).default(0),
+  CATALOG_ALLOW_DRAFTS: boolString.default(false),
 });
 
 export type RuntimeConfig = z.infer<typeof runtimeConfigSchema> & { version: string };
@@ -53,6 +61,12 @@ export function parseRuntimeConfig(env: Env, version: string): RuntimeConfig {
   }
   if (result.data.PROVIDERS_MODE === 'live' && result.data.APP_ENV !== 'production') {
     throw new ConfigurationError(['PROVIDERS_MODE=live requires APP_ENV=production']);
+  }
+  if (result.data.APP_ENV === 'production' && result.data.PROVIDERS_MODE !== 'live') {
+    throw new ConfigurationError(['APP_ENV=production requires PROVIDERS_MODE=live']);
+  }
+  if (result.data.CATALOG_ALLOW_DRAFTS && result.data.APP_ENV !== 'dev' && result.data.APP_ENV !== 'test') {
+    throw new ConfigurationError(['CATALOG_ALLOW_DRAFTS is only allowed in dev']);
   }
   return { ...result.data, version };
 }

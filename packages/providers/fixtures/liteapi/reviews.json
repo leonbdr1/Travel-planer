@@ -1,0 +1,12 @@
+{
+  "data": [
+    { "averageScore": 9, "country": "de", "type": "couple", "name": "REDACTED", "date": "2026-08-14 10:00:00", "headline": "Sehr schön", "language": "de", "pros": "Ruhig und sauber.", "cons": "Parkplätze knapp." },
+    { "averageScore": 5, "country": "nl", "type": "family", "name": "REDACTED", "date": "2026-06-02 10:00:00", "headline": "Matig", "language": "nl", "pros": "Goede ligging.", "cons": "Schimmel in de badkamer." }
+  ],
+  "sentimentAnalysis": {
+    "categories": [
+      { "name": "Cleanliness", "rating": 7.9 },
+      { "name": "Location", "rating": 9.1 }
+    ]
+  }
+}

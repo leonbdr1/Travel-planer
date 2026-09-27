@@ -1,0 +1,11 @@
+$ npm run demo -- s2.1
+# recorded 2026-09-27T04:39:27.042Z
+
+PROVIDERS_MODE=fake
+Oberstdorf 02.–04.10.2026: 6 hotels with offers (fixture world), 21 offers
+HTTP attempts: 1 (liteapi:hotels/rates)
+
+$ npm run demo -- s2.1 --inject 429
+PROVIDERS_MODE=fake with injected HTTP 429 (2x)
+Oberstdorf 02.–04.10.2026: 6 hotels with offers (fixture world), 21 offers
+HTTP attempts: 3 (liteapi:hotels/rates, liteapi:hotels/rates, liteapi:hotels/rates)

@@ -3,7 +3,7 @@
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import { constants } from '@reiseplaner/domain';
-import { createRequestDeps, type DbFactory, type RequestDeps } from './deps';
+import { createRequestDeps, type DbFactory, type ProvidersFactory, type RequestDeps } from './deps';
 import { parseRuntimeConfig, ConfigurationError, type Env } from './env';
 import { ApiError, errorBody, sendError } from './http/errors';
 import { securityHeaders } from './http/security-headers';
@@ -14,6 +14,7 @@ export type AppEnv = { Bindings: Env; Variables: { deps: RequestDeps } };
 
 export interface AppOptions {
   dbFactory?: DbFactory;
+  providersFactory?: ProvidersFactory;
   now?: () => Date;
   version?: string;
 }
@@ -36,6 +37,7 @@ export function createApp(options: AppOptions = {}) {
     const config = parseRuntimeConfig(c.env, options.version ?? buildVersion);
     const deps = createRequestDeps(c.env, config, {
       ...(options.dbFactory ? { dbFactory: options.dbFactory } : {}),
+      ...(options.providersFactory ? { providersFactory: options.providersFactory } : {}),
       ...(options.now ? { now: options.now } : {}),
     });
     c.set('deps', deps);

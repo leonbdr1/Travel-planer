@@ -1,0 +1,12 @@
+{
+  "data": {
+    "bookingId": "bk-777",
+    "status": "CONFIRMED",
+    "hotelConfirmationCode": "HC-4711",
+    "checkin": "2026-10-02",
+    "checkout": "2026-10-04",
+    "price": 222.6,
+    "currency": "EUR",
+    "hotel": { "hotelId": "lp1a2b3c", "name": "Beispielhotel" }
+  }
+}

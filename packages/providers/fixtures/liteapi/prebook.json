@@ -1,0 +1,14 @@
+{
+  "data": {
+    "prebookId": "pb-123",
+    "offerId": "offer-flex-1",
+    "hotelId": "lp1a2b3c",
+    "currency": "EUR",
+    "price": 222.6,
+    "priceDifferencePercent": 5,
+    "cancellationChanged": false,
+    "boardChanged": false,
+    "transactionId": "tx-abc",
+    "secretKey": "sk-sample-not-secret"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "data": [
+    {
+      "hotelId": "lp1a2b3c",
+      "roomTypes": [
+        {
+          "roomTypeId": "DZS",
+          "offerId": "offer-flex-1",
+          "rates": [
+            {
+              "rateId": "r1",
+              "occupancyNumber": 1,
+              "name": "Doppelzimmer Standard",
+              "maxOccupancy": 2,
+              "boardType": "BB",
+              "boardName": "Frühstück inklusive",
+              "retailRate": {
+                "total": [{ "amount": 212.0, "currency": "EUR" }],
+                "suggestedSellingPrice": [{ "amount": 220.5, "currency": "EUR", "source": "providerDirect" }],
+                "taxesAndFees": [
+                  { "included": true, "description": "VAT", "amount": 13.87, "currency": "EUR" },
+                  { "included": false, "description": "City tax", "amount": 6.4, "currency": "EUR" }
+                ]
+              },
+              "cancellationPolicies": {
+                "cancelPolicyInfos": [{ "cancelTime": "2026-09-30 16:00:00", "amount": 106.0, "currency": "EUR", "type": "amount", "timezone": "GMT" }],
+                "refundableTag": "RFN"
+              }
+            }
+          ],
+          "offerRetailRate": { "amount": 212.0, "currency": "EUR" },
+          "suggestedSellingPrice": { "amount": 220.5, "currency": "EUR", "source": "providerDirect" }
+        },
+        {
+          "roomTypeId": "DZS",
+          "offerId": "offer-nonref-1",
+          "rates": [
+            {
+              "rateId": "r2",
+              "occupancyNumber": 1,
+              "name": "Doppelzimmer Standard",
+              "maxOccupancy": 2,
+              "boardType": "RO",
+              "boardName": "Room only",
+              "retailRate": { "total": [{ "amount": 188.0, "currency": "EUR" }] },
+              "cancellationPolicies": {
+                "cancelPolicyInfos": [{ "cancelTime": "2025-08-28 00:00:00", "amount": 188.0, "currency": "EUR", "type": "amount", "timezone": "GMT" }],
+                "refundableTag": "NRFN"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hotels": [
+    {
+      "id": "lp1a2b3c",
+      "name": "Beispielhotel",
+      "main_photo": "https://static.example/hotel.jpg",
+      "address": "Musterweg 1",
+      "city": "Oberstdorf",
+      "country": "de",
+      "latitude": 47.41,
+      "longitude": 10.28,
+      "stars": 3,
+      "rating": 8.6,
+      "reviewCount": 412
+    }
+  ]
+}
