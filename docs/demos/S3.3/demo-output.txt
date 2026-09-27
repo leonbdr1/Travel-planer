@@ -1,0 +1,18 @@
+$ npm run demo -- s3.3
+# recorded 2026-09-27T15:00:00.019Z
+
+$ npm run skills:eval -- reiseplaner.catalog-regions --fake
+reiseplaner.catalog-regions v1.0.0 (Fake-Modell, Judge-Rubriken übersprungen)
+  Fälle: 10 bestanden, 0 nicht bestanden, 0 Fehler, 0 übersprungen
+  Score: 1.000 (Zielwert 0.9)
+  Kosten: 0 $ (Deckel 0.5 $ je Skill)
+  Baseline: nicht verglichen (Fake-Modus)
+  Bericht: eval-results/skill-eval-report-reiseplaner.catalog-regions.json
+$ npm run skills:eval -- reiseplaner.catalog-places --fake
+reiseplaner.catalog-places v1.0.0 (Fake-Modell, Judge-Rubriken übersprungen)
+  Fälle: 10 bestanden, 0 nicht bestanden, 0 Fehler, 0 übersprungen
+  Score: 1.000 (Zielwert 0.9)
+  Kosten: 0 $ (Deckel 0.5 $ je Skill)
+  Baseline: nicht verglichen (Fake-Modus)
+  Bericht: eval-results/skill-eval-report-reiseplaner.catalog-places.json
+→ alle deterministischen Assertions grün (Vokabular, keine Koordinaten, ≤ 160 Zeichen, keine Claims)
