@@ -55,10 +55,10 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 
 | ID | Zeile | Reifegrad | Beleg | Anmerkung |
 |---|---|---|---|---|
-| S5.1 | Datenmodell Suche | `spec'd` | – | |
-| S5.2 | Suche anlegen | `spec'd` | – | |
-| S5.3 | Kombinationssuche (Workflow) | `spec'd` | – | |
-| S5.4 | Fortschrittsansicht | `spec'd` | – | |
+| S5.1 | Datenmodell Suche | `demonstrated` | `docs/demos/S5.1/` | pgTAP 51 Zusicherungen, Offers idempotent. |
+| S5.2 | Suche anlegen | `demonstrated` | `docs/demos/S5.2/` | 202, 400 ohne ALTCHA, 429 mit Retry-After, 402 Kontingent. |
+| S5.3 | Kombinationssuche (Workflow) | `demonstrated` | `docs/demos/S5.3/` | 60 von 60, zweite Suche aus dem Cache. |
+| S5.4 | Fortschrittsansicht | `live-verified` | `docs/demos/S5.4/` | Walkthrough 13/13, Screenshots gelesen. |
 
 ## M6 Bewertung und Ergebnisse
 

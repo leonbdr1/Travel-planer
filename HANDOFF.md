@@ -6,7 +6,8 @@ Stand: 27.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 
 - **Fertig:** M1 Grundgerüst; M2 im Fake-Modus (Provider-Ports mit simulierten Anbietern, LiteAPI-Client, ORS-Client mit Fahrzeit-Cache, Budget- und Rate-Limit-RPCs); M3 (Ortsdatenbank aus dem GeoNames-Entwicklungsauszug, Skill-Infrastruktur mit vier Bundles, Katalog-Pipeline, Katalog-Entwurf mit 49 Regionen und 307 Orten, Import). Belege unter `docs/demos/S1.*` bis `S3.*`.
 - **Fertig (M4):** Assistent Schritt 1–3 auf `/suche` mit Autovervollständigung, Terminanzahl, KI-Wunschübersetzung, Regions- und Ortsvorschlägen (Walkthrough `docs/demos/S4.4/`).
-- **Als Nächstes:** M5 Kombinationssuche, dann M6–M9 im Fake-Modus.
+- **Fertig (M5):** Kombinationssuche als Workflow mit ALTCHA, Rate Limits, Kontingenten, Preis-Cache und Live-Matrix (`docs/demos/S5.*`).
+- **Als Nächstes:** M6 Bewertung und Ergebnisse, dann M7–M9.
 - **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2); dazu S2.4, S2.5 (Sandbox), O3.1 (GeoNames-Download), echte Eval- und Katalogläufe (BG-07).
 
 ## 2. BEN-GATEs in dieser autonomen Sitzung
@@ -43,6 +44,8 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 11. **Katalog-Entwurf:** Der Katalog in `data/catalog/` wurde in dieser Sitzung als KI-Entwurf geschrieben (nicht über die Batch-Pipeline, die BG-07 braucht). Koordinaten kommen ausschließlich aus dem Abgleich mit `geo_localities`; alles `verified: false` (BG-11).
 12. **Sonnet 5 und `temperature`:** `claude-sonnet-5` lehnt Sampling-Parameter ab. Die Preistabelle `ai.models` in `product.config.yaml` markiert das (`sampling_params: false`), Katalog-Bundles setzen `temperature: null`, der Runner lässt den Parameter weg, der Fake-Transport antwortet wie die API mit 400, falls doch einer gesendet wird. Erzwungener Tool-Aufruf läuft mit `thinking: disabled`.
 13. **Runner und Eval-Engine nachgebaut:** Frontlift-Runner und `frontlift/core/eval` waren nicht erreichbar; Nachbau nach `architektur.md` 9.1 (JSONPath-Teilmenge `$ . [n] [*] ..`, Operatoren siehe `packages/skills/src/eval/assertions.ts`). Die Judge-Rubrik läuft nur mit echtem Modell; das Judge-Modell steht in `ai.eval_judge_model`.
+16. **Workflows und postgres.js:** In Workflow-Schritten wird `end()` von postgres.js nie fertig. Schritte schließen die Verbindung ohne zu warten (`dispose({ awaitClose: false })`); workerd meldet lokal je Lauf „hung“-Meldungen, die harmlos sind. In Produktion prüfen (Staging).
+17. **ALTCHA ohne Widget:** Der Browser löst die Aufgabe mit `altcha-lib`; das Paket `altcha` (Widget) ist noch Abhängigkeit, wird aber nicht genutzt.
 15. **Lokale Datenbank seriell:** PGlite hat eine einzige Sitzung; parallele Verbindungen über `pglite-socket` vermischen ihre Protokollnachrichten. Ein serieller TCP-Proxy (`packages/db/src/serial-proxy.ts`) bedient lokal und in Tests eine Verbindung nach der anderen. Produktion nutzt echtes Postgres über Hyperdrive.
 14. **S2.4 und S2.5 zurückgestellt:** Beide brauchen Sandbox-Konten. BG-10 (Go/No-Go) ist offen; M3 ff. sind im Fake-Modus gebaut und bei No-Go verwerfbar.
 

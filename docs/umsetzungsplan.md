@@ -333,26 +333,30 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Voraussetzungen:** ⛔ BG-18 (Competitor-Baseline verifiziert, One-Pager per Codex geprüft).
 
 **S5.1 Datenmodell der Suche** (Fleet-Lane)
-- [ ] Migration `20261005a_search.sql`: `searches`, `search_places`, `search_combinations`, `hotels`, `offers` (Unique-Schlüssel für idempotente Schreibzugriffe), `cache_entries`; `_VERIFY`-Datei; pgTAP für RLS und Unique-Schlüssel.
+- [x] Migration `20261005a_search.sql`: `searches`, `search_places`, `search_combinations`, `hotels`, `offers` (Unique-Schlüssel für idempotente Schreibzugriffe), `cache_entries`; `_VERIFY`-Datei; pgTAP für RLS und Unique-Schlüssel. (d156992, 2026-09-27)
   - Wiring: Repository-Module in `packages/db` → Konsumenten S5.2 und S5.3.
   - Demo: `npm run db:test` → neue Zusicherungen `ok`.
   - STATUS: „Datenmodell Suche“ → `demonstrated`.
 
 **S5.2 Suche anlegen und abfragen** (Fleet-Lane)
-- [ ] `GET /meta/altcha-challenge`; `POST /searches` (ALTCHA-Prüfung, Rate Limit, Tageskontingent `searches`, Validierung, Anlage, `SearchWorkflow.create({id})`, 202 mit Token); `GET /searches/{id}` mit Fortschritt; Token-Hashing.
+- [x] `GET /meta/altcha-challenge`; `POST /searches` (ALTCHA-Prüfung, Rate Limit, Tageskontingent `searches`, Validierung, Anlage, `SearchWorkflow.create({id})`, 202 mit Token); `GET /searches/{id}` mit Fortschritt; Token-Hashing. (ac8ee78, 2026-09-27)
+  - ⟂ drift (2026-09-27): ALTCHA v2 (altcha-lib 2.5) im deterministischen Modus mit SHA-256, Zähler unter `ALTCHA_COST`; jede Lösung ist einmal gültig (Signatur über `increment_rate_limit` verbraucht). Das Tageskontingent wird in der Demo über das Ledger ausgeschöpft statt über einen Konfigurationswert 2. Die Stundengrenze gilt pro Client-Hash (`searches_per_hour`), zusätzlich `searches_per_day`.
   - Wiring: SPA (S5.4) → Endpunkte → Workflow-Binding (S5.3).
   - Demo: `npm run demo -- s5.2` → 202 mit `search_id`; Aufruf ohne gültiges ALTCHA → 400; 11. Suche derselben IP innerhalb einer Stunde → 429 mit `Retry-After`; bei erschöpftem Tageskontingent (im Demo auf 2 gesetzt) → 402 `{reason:"quota",cta:true}`.
   - STATUS: „Suche anlegen“ → `demonstrated`.
 
 **S5.3 `SearchWorkflow`** (Fleet-Lane)
-- [ ] Schritte `load`, `rates-<n>` (Blöcke von 12, höchstens 6 gleichzeitig), `finalize` (vorläufig ohne Bewertung); `pricing.ts` (Normalisierung); Preis-Cache 30 Minuten; Frist 180 s; `provider_usage` und Tageskontingent `liteapi_calls`.
-- [ ] Tests mit `introspectWorkflowInstance`: vollständiger Lauf mit Fakes; Wiederholung eines Schritts erzeugt keine doppelten Angebote; injizierte 5xx-Fehler führen zu `partial`; Frist überschritten führt zu `partial`; alle fehlgeschlagen führt zu `failed`; zweite identische Suche innerhalb von 30 Minuten verursacht 0 LiteAPI-Anfragen.
+- [x] Schritte `load`, `rates-<n>` (Blöcke von 12, höchstens 6 gleichzeitig), `finalize` (vorläufig ohne Bewertung); `pricing.ts` (Normalisierung); Preis-Cache 30 Minuten; Frist 180 s; `provider_usage` und Tageskontingent `liteapi_calls`. (ac8ee78, 2026-09-27)
+  - ⟂ drift (2026-09-27): postgres.js `end()` wird in Workflow-Schritten nie fertig (workerd meldet den Schritt dann als hängend); Schritte schließen die Verbindung deshalb ohne darauf zu warten. Lokal erscheinen dabei „hung“-Meldungen von workerd, die Läufe sind korrekt. „60 von 60“ endet mit den simulierten Anbieterfehlern (`FAKE_FAIL_EVERY`) teils als `partial`.
+- [x] Tests mit `introspectWorkflowInstance`: vollständiger Lauf mit Fakes; Wiederholung eines Schritts erzeugt keine doppelten Angebote; injizierte 5xx-Fehler führen zu `partial`; Frist überschritten führt zu `partial`; alle fehlgeschlagen führt zu `failed`; zweite identische Suche innerhalb von 30 Minuten verursacht 0 LiteAPI-Anfragen. (ac8ee78, 2026-09-27)
+  - ⟂ drift (2026-09-27): Der vollständige Lauf ist im workerd-Pool mit `introspectWorkflow` getestet; Wiederholung, 5xx, Frist, Totalausfall und Cache sind als Schritt-Tests gegen PGlite in `test-node/search-run.test.ts` belegt (schneller und deterministisch).
   - Wiring: `POST /searches` → Workflow-Binding → Schritte → Tabellen → `GET /searches/{id}`.
   - Demo: `npm run demo -- s5.3` (Fakes) → Ausgabe der Statusfolge `queued → running → done`, 60 von 60 Kombinationen, Anzahl Angebote.
   - STATUS: „Kombinationssuche (Workflow)“ → `demonstrated`.
 
 **S5.4 Fortschrittsansicht** (Fleet-Lane)
-- [ ] SPA: Schaltfläche „Suche starten“ mit ALTCHA-Widget, Fortschritt „x von y Kombinationen“, Matrix-Gerüst mit Platzhaltern, die sich live füllen, Hinweis bei `partial`.
+- [x] SPA: Schaltfläche „Suche starten“ mit ALTCHA-Widget, Fortschritt „x von y Kombinationen“, Matrix-Gerüst mit Platzhaltern, die sich live füllen, Hinweis bei `partial`. (189bc68, 2026-09-27)
+  - ⟂ drift (2026-09-27): Kein ALTCHA-Widget: Der Browser löst die Aufgabe mit altcha-lib (gleiches Protokoll, keine Cookies, kein Worker-Laden); Hinweistext statt Checkbox. Das Such-Token steht im URL-Fragment (`#t=`) und geht als Header `X-Search-Token` an die API.
   - Wiring: Assistent (S4.4) → `POST /searches` → Polling `GET /searches/{id}` → Ergebnisansicht (S6.3).
   - Demo: `npm run dogfood -- --mode P --flow suche` → Report zeigt den Fortschritt bis „60 von 60“ und die gefüllte Matrix.
   - STATUS: „Fortschrittsansicht“ → `live-verified` nach gelesenem Report.
