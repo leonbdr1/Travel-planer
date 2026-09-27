@@ -1,6 +1,10 @@
 // Search wizard (F1–F3): frame → regions → places → confirmation.
 import { useEffect, useState } from 'react';
-import { Alert, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
+import { useNavigate } from 'react-router';
+import { Alert, Button, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
+import { ApiRequestError } from '../api/client';
+import { toSearchRequest } from '../features/search/request';
+import { startSearch } from '../features/search/run-api';
 import { StepFrame } from '../features/search/StepFrame';
 import { StepPlaces } from '../features/search/StepPlaces';
 import { StepRegions } from '../features/search/StepRegions';
@@ -33,6 +37,52 @@ function StepIndicator({ step }: { step: number }) {
         );
       })}
     </ol>
+  );
+}
+
+function StartSearch({ state, onBack }: { state: WizardState; onBack: () => void }) {
+  const navigate = useNavigate();
+  const r = de.searchRun;
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  async function start() {
+    const request = toSearchRequest(state);
+    if (!request) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const created = await startSearch(request);
+      navigate(`/suche/${created.search_id}#t=${created.token}`);
+    } catch (err) {
+      setBusy(false);
+      if (err instanceof ApiRequestError && err.status === 429) setError(r.errors.rate_limited);
+      else if (err instanceof ApiRequestError && err.status === 402) setError(r.errors.quota);
+      else if (err instanceof ApiRequestError && err.code !== 'http_error') setError(err.message);
+      else setError(r.errors.generic);
+    }
+  }
+  return (
+    <Card className="space-y-4" data-testid="places-confirmed">
+      <Heading level={2}>{r.startTitle}</Heading>
+      <Text>{r.startLead}</Text>
+      <ul className="list-inside list-disc text-sm text-zinc-700">
+        {state.places
+          .filter((p) => state.selectedPlaceIds.includes(p.id))
+          .map((p) => (
+            <li key={p.id}>{p.name}</li>
+          ))}
+      </ul>
+      {error ? <Alert tone="error">{error}</Alert> : null}
+      <div className="flex flex-wrap items-center gap-3">
+        <Button variant="secondary" onClick={onBack}>
+          {de.common.back}
+        </Button>
+        <Button size="lg" disabled={busy} onClick={() => void start()} data-testid="start-search">
+          {busy ? r.starting : r.start}
+        </Button>
+      </div>
+      <p className="text-xs text-zinc-500">{r.altchaNote}</p>
+    </Card>
   );
 }
 
@@ -100,23 +150,15 @@ export function Search() {
         />
       ) : null}
       {state.step === 4 ? (
-        <Card className="space-y-3" data-testid="places-confirmed">
-          <Heading level={2}>{t.places.confirmedTitle}</Heading>
-          <Text>{t.places.confirmedText}</Text>
-          <Text className="font-medium">
-            {t.places.combinations(state.selectedPlaceIds.length, dates.ok ? dates.dates.length : 0)}
-          </Text>
-          <ul className="list-inside list-disc text-sm text-zinc-700">
-            {state.places
-              .filter((p) => state.selectedPlaceIds.includes(p.id))
-              .map((p) => (
-                <li key={p.id}>{p.name}</li>
-              ))}
-          </ul>
-          <button type="button" className="text-sm font-medium text-brand-700 hover:underline" onClick={() => update({ step: 3 })}>
-            {de.common.back}
-          </button>
-        </Card>
+        <>
+          <Card className="space-y-1">
+            <Heading level={2}>{t.places.confirmedTitle}</Heading>
+            <Text className="font-medium" data-testid="combination-summary">
+              {t.places.combinations(state.selectedPlaceIds.length, dates.ok ? dates.dates.length : 0)}
+            </Text>
+          </Card>
+          <StartSearch state={state} onBack={() => update({ step: 3 })} />
+        </>
       ) : null}
     </div>
   );
