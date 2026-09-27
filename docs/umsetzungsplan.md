@@ -114,47 +114,51 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 
 **O1.2 Ausführungssteuernde Dateien** (Operator-Lane, weil Fleet-Worker diese Dateien nicht ändern dürfen)
 - [ ] `package.json` (Workspaces, alle Skripte aus `CLAUDE.md`), vollständige Abhängigkeiten nach `architektur.md` 14.3, `package-lock.json`; `tsconfig.base.json` aus fi-deck; `supply-chain-policy.json` und `scripts/supply-chain-check.mjs` (aus fi-deck portiert, Rebuild-Allowlist `esbuild`, `workerd`); `.githooks/pre-commit` und `.gitleaks.toml` (aus Frontlift); `.github/workflows/ci.yml` (Actions per SHA gepinnt, `persist-credentials: false`, Supply-Chain-Prüfung, `npm ci --ignore-scripts`, Rebuild, Typecheck, Tests, Build, Claims-Prüfung, „Baum unverändert“, gitleaks; zusätzlicher Job mit Postgres-17-Dienstcontainer); `.gitignore` (`.dev.vars`, `.data/`, `dogfood-results/`); `.dev.vars.example`.
+  - ⟂ drift (2026-09-27): In der autonomen Sitzung selbst angelegt (ohne Operator). `.npmrc` mit `legacy-peer-deps=true` wegen npm-10.9-Absturz; `overrides` für genau eine `vite`/`zod`-Version; Werkzeugversionen siehe `HANDOFF.md` §3. Postgres-17-Dienstcontainer-Job noch nicht angelegt.
   - Wiring: `ci.yml` → PR-Gate aus O1.1.
   - Demo: `npm ci --ignore-scripts && node scripts/supply-chain-check.mjs --rebuild && npm run typecheck` → Exit 0.
   - STATUS: „CI-Grundgate“ → `demonstrated` nach dem ersten grünen CI-Lauf auf einem PR.
 
 **O1.3 Toolchain-Image** (Operator-Lane)
 - [ ] `toolchain/Dockerfile` und `toolchain/versions.lock`: Node 22 mit gepinntem Digest, `npm ci --ignore-scripts`, Rebuild der Allowlist, Playwright-Chromium; lokal bauen und in fi-deck als erlaubtes Projekt-Image hinterlegen.
+  - ⟂ drift (2026-09-27): Dockerfile geschrieben, aber nicht gebaut (kein Docker-Daemon, Docker Hub gesperrt); Digest pinnt der Operator.
   - Wiring: fi-deck-Fleet → Job-Container → `npm test`.
   - Demo: `docker run --rm --network none <image> npm test` → Exit 0. Das beweist, dass die Tests ohne Netzwerk laufen.
   - STATUS: „Toolchain-Image (Fleet)“ → `demonstrated`.
 
 **S1.1 Produktkonfiguration** (Fleet-Lane)
-- [ ] `product.config.yaml` mit Arbeitswerten; `packages/config` mit zod-Schema, Loader zur Build-Zeit und generiertem Modul für Worker und SPA.
+- [x] `product.config.yaml` mit Arbeitswerten; `packages/config` mit zod-Schema, Loader zur Build-Zeit und generiertem Modul für Worker und SPA. (1bd5bdd, 2026-09-27)
   - Wiring: Build → `@reiseplaner/config` → Health-Endpunkt (`product`) und Seitentitel der SPA.
   - Demo: `npm run demo -- s1.1` → druckt die geprüfte Konfiguration (`"slug":"reiseplaner"`, `"currency":"EUR"` …); mit `--config test/fixtures/broken.yaml` → Exit 1 mit zod-Fehlerpfad.
   - STATUS: „Produktkonfiguration“ → `demonstrated`.
 
 **S1.2 Datenbank-Harness und RLS-Grundlinie** (Fleet-Lane)
-- [ ] `packages/db`: postgres.js-Client (Pool-Größe 1 in Tests), Migrations-Runner für `supabase/migrations/*.sql`, lokaler Server `npm run db:local` (`pglite-socket` auf `127.0.0.1:54329`, Daten in `.data/pglite`), Global-Setup für Tests (frische In-Memory-Instanz, Migrationen, pgTAP).
-- [ ] Migration `20261001a_init.sql` mit `_VERIFY.sql.notrun`: Schema `app`, Rollen `app_rw` und `app_import`, Rollen `anon` und `authenticated` (in Tests angelegt, falls nicht vorhanden), Tabelle `app.meta_kv` für den Health-Check, RLS aktiv, Policies nur für `app_rw`.
-- [ ] pgTAP-Test `supabase/tests/rls_baseline.sql`: `anon` und `authenticated` lesen und schreiben nichts; `app_rw` darf beides.
+- [x] `packages/db`: postgres.js-Client (Pool-Größe 1 in Tests), Migrations-Runner für `supabase/migrations/*.sql`, lokaler Server `npm run db:local` (`pglite-socket` auf `127.0.0.1:54329`, Daten in `.data/pglite`), Global-Setup für Tests (frische In-Memory-Instanz, Migrationen, pgTAP). (110dc55, 2026-09-27)
+- [x] Migration `20261001a_init.sql` mit `_VERIFY.sql.notrun`: Schema `app`, Rollen `app_rw` und `app_import`, Rollen `anon` und `authenticated` (in Tests angelegt, falls nicht vorhanden), Tabelle `app.meta_kv` für den Health-Check, RLS aktiv, Policies nur für `app_rw`. (110dc55, 2026-09-27)
+- [x] pgTAP-Test `supabase/tests/rls_baseline.sql`: `anon` und `authenticated` lesen und schreiben nichts; `app_rw` darf beides. (110dc55, 2026-09-27)
   - Wiring: `npm test` → Global-Setup → Migrations-Runner → pgTAP; `npm run db:local` → Hyperdrive `localConnectionString` → Worker (S1.3).
   - Demo: `npm run db:test` → TAP-Ausgabe, alle Zusicherungen `ok`, Exit 0.
   - STATUS: „DB-Harness und RLS-Grundlinie“ → `demonstrated`.
 
 **S1.3 Worker-Skelett** (Fleet-Lane)
-- [ ] `packages/worker`: Hono-App mit Middleware (Security-Header, Body-Limit 16 KB), `GET /api/v1/health` (DB-Ping über Hyperdrive, Git-SHA, Produkt-Slug), `GET /api/v1/meta/config` (`app_env`, `providers_mode`); `wrangler.jsonc` mit Platzhaltern, Assets-Binding, Hyperdrive-Binding (lokal auf PGlite); Provider-Ports in `packages/providers` mit leeren Fakes und Auswahl über `PROVIDERS_MODE`.
-- [ ] Tests in `@cloudflare/vitest-pool-workers`: Health mit PGlite (Global-Setup liefert den Port), Datenbank weg → 503.
+- [x] `packages/worker`: Hono-App mit Middleware (Security-Header, Body-Limit 16 KB), `GET /api/v1/health` (DB-Ping über Hyperdrive, Git-SHA, Produkt-Slug), `GET /api/v1/meta/config` (`app_env`, `providers_mode`); `wrangler.jsonc` mit Platzhaltern, Assets-Binding, Hyperdrive-Binding (lokal auf PGlite); Provider-Ports in `packages/providers` mit leeren Fakes und Auswahl über `PROVIDERS_MODE`. (8b65237, 2026-09-27)
+  - ⟂ drift (2026-09-27): `compatibility_date` genau `2026-08-04`, weil der workerd des Vitest-Pools höchstens `2026-08-22` kennt.
+- [x] Tests in `@cloudflare/vitest-pool-workers`: Health mit PGlite (Global-Setup liefert den Port), Datenbank weg → 503. (8b65237, 2026-09-27)
   - Wiring: `wrangler.jsonc` `main` → `index.ts` → Health-Route → Konsumenten: SPA (S1.4), Ops-Worker (S9.4), Deploy-Smoke (S10.1).
   - Demo: `npm run dev` im Hintergrund, dann `npm run demo -- s1.3` → `{"status":"ok","db":"ok","version":"<sha>","product":"reiseplaner"}`; bei gestopptem `db:local` → HTTP 503 mit `{"status":"degraded","db":"down"}`.
   - STATUS: „Health-Endpunkt“ → `demonstrated`.
 
 **S1.4 SPA-Skelett und erster Walkthrough** (Fleet-Lane)
-- [ ] `packages/ui` (Catalyst aus `frontlift/ui-kit/catalyst`), `packages/web` (React 19, Router, Tailwind 4, `src/i18n/de.ts`); Startseite mit Statuszeile „API: ok · Datenbank: ok“ bzw. verständlicher Fehlermeldung; Fußzeile mit Platzhalter-Links zu den Pflichtseiten.
-- [ ] Walkthrough-Harness `e2e/dogfood/`: Playwright gegen `npm run dev`, ohne Test-Overrides, mit Wegwerf-Datenverzeichnis; liest das gerenderte DOM und schreibt `dogfood-results/<run>/report.md` mit Screenshots. Modus R „erster Besuch“.
-- [ ] `npm run check:claims` mit der Verbotsliste aus `product.config.yaml`.
+- [x] `packages/ui` (Catalyst aus `frontlift/ui-kit/catalyst`), `packages/web` (React 19, Router, Tailwind 4, `src/i18n/de.ts`); Startseite mit Statuszeile „API: ok · Datenbank: ok“ bzw. verständlicher Fehlermeldung; Fußzeile mit Platzhalter-Links zu den Pflichtseiten. (c39c027, 2026-09-27)
+  - ⟂ drift (2026-09-27): `frontlift/ui-kit/catalyst` nicht erreichbar; eigene Komponenten im Catalyst-Stil in `packages/ui`, austauschbar ohne Seitenänderung.
+- [x] Walkthrough-Harness `e2e/dogfood/`: Playwright gegen `npm run dev`, ohne Test-Overrides, mit Wegwerf-Datenverzeichnis; liest das gerenderte DOM und schreibt `dogfood-results/<run>/report.md` mit Screenshots. Modus R „erster Besuch“. (c39c027, 2026-09-27)
+- [x] `npm run check:claims` mit der Verbotsliste aus `product.config.yaml`. (c39c027, 2026-09-27)
   - Wiring: Browser → Assets-Binding → SPA → `GET /api/v1/health`.
   - Demo: `npm run dogfood -- --mode R` → Report enthält im Body-Text „API: ok · Datenbank: ok“, Screenshot `01-start.png`.
   - STATUS: „Startseite (Skelett)“ → `live-verified` nach gelesenem Report; Kopie nach `docs/demos/S1.4/`.
 
 **S1.5 Protokoll-Artefakte** (Fleet-Lane)
-- [ ] `STATUS.md` mit einer Zeile je Slice dieses Plans (`spec'd`); `HANDOFF.md` mit Frontier; Runbooks `docs/runbooks/lokale-entwicklung.md`, `secrets.md`, `walkthrough.md`; Prüfskript `scripts/check-status-rows.mjs`.
+- [x] `STATUS.md` mit einer Zeile je Slice dieses Plans (`spec'd`); `HANDOFF.md` mit Frontier; Runbooks `docs/runbooks/lokale-entwicklung.md`, `secrets.md`, `walkthrough.md`; Prüfskript `scripts/check-status-rows.mjs`. (a7b9428, 2026-09-27)
   - Wiring: Verify-Slice Check 3 → `STATUS.md`; CI → `check-status-rows`.
   - Demo: `node scripts/check-status-rows.mjs` → „alle Slice-IDs aus umsetzungsplan.md haben genau eine STATUS-Zeile“, Exit 0.
   - STATUS: „Protokoll-Artefakte“ → `demonstrated`.
