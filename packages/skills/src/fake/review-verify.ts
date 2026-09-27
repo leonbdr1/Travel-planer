@@ -16,8 +16,8 @@ const complaintWords: Record<string, string[]> = {
   ungeziefer: ['bettwanzen', 'wanzen', 'kakerlaken', 'schaben', 'mause', 'flohe', 'ungeziefer', 'bed bugs', 'bedbugs', 'cockroach', 'cockroaches', 'mice', 'fleas', 'punaises', 'cafards', 'souris', 'cimici', 'scarafaggi', 'topi', 'bedwantsen', 'kakkerlakken', 'muizen'],
   laerm: ['larm', 'laut', 'strassenlarm', 'hellhorig', 'noise', 'noisy', 'loud', 'thin walls', 'bruit', 'bruyant', 'rumore', 'rumoroso', 'rumorosa', 'rumorosi', 'lawaai', 'luidruchtig', 'gehorig'],
   geruch: ['geruch', 'gestank', 'stinkt', 'muffig', 'riecht', 'roch', 'smell', 'smelly', 'smelled', 'stink', 'odeur', 'puait', 'odore', 'puzza', 'stank', 'geur'],
-  zustand: ['kaputt', 'defekt', 'abgewohnt', 'renovierungsbedurftig', 'heruntergekommen', 'broken', 'run-down', 'worn', 'casse', 'vetuste', 'usee', 'rotto', 'fatiscente', 'kapot', 'versleten'],
-  abweichung_beschreibung: ['anders als auf den fotos', 'anders aus als auf den fotos', 'nicht wie beschrieben', 'not as described', 'not like the pictures', 'pas comme sur les photos', 'diverso dalle foto', 'niet zoals beschreven'],
+  zustand: ['kaputt', 'defekt', 'abgewohnt', 'abgenutzt', 'durchgelaufen', 'renovierungsbedurftig', 'heruntergekommen', 'broken', 'run-down', 'worn', 'casse', 'vetuste', 'usee', 'rotto', 'fatiscente', 'kapot', 'versleten'],
+  abweichung_beschreibung: ['anders als auf den fotos', 'anders aus als auf den fotos', 'bilder im internet', 'nicht wie beschrieben', 'not as described', 'not like the pictures', 'pas comme sur les photos', 'diverso dalle foto', 'niet zoals beschreven'],
 };
 const negations = new Set(['kein', 'keine', 'keinen', 'keiner', 'nicht', 'nichts', 'ohne', 'nie', 'no', 'not', 'nothing', 'never', 'without', 'pas', 'aucun', 'aucune', 'sans', 'jamais', 'rien', 'non', 'nessun', 'nessuna', 'senza', 'niente', 'geen', 'niet', 'niets', 'zonder', 'nooit']);
 const comparisonWords = new Set(['weniger', 'less', 'moins', 'meno', 'minder']);

@@ -96,6 +96,8 @@ export const resultItemSchema = z.object({
   quality: qualityDtoSchema,
   warnings: z.array(warningSchema),
   review_status: z.enum(['none', 'ok', 'unverified']),
+  /** Reviews analysed by the review check, null without a check. */
+  reviews_checked: z.number().int().nullable(),
 });
 export type ResultItem = z.infer<typeof resultItemSchema>;
 

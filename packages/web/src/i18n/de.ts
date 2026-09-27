@@ -139,7 +139,8 @@ export const de = {
       ownPlacePlaceholder: 'Ortsname, z. B. Tübingen',
       ownPlaceHint: 'Eigene Orte werden ohne Fahrzeitfilter übernommen.',
       userPlace: 'Eigener Ort',
-      combinations: (places: number, dates: number) => `${places} Orte × ${dates} Termine = ${places * dates} Kombinationen`,
+      combinations: (places: number, dates: number) =>
+        `${places} ${places === 1 ? 'Ort' : 'Orte'} × ${dates} ${dates === 1 ? 'Termin' : 'Termine'} = ${places * dates} ${places * dates === 1 ? 'Kombination' : 'Kombinationen'}`,
       tooMany: (count: number, max: number) => `Das sind ${count} Kombinationen, möglich sind höchstens ${max}. Bitte streiche Orte oder Termine.`,
       confirm: 'Ortsliste bestätigen und Suche starten',
       noneSelected: 'Bitte wähle mindestens einen Ort.',
@@ -159,6 +160,7 @@ export const de = {
       generic: 'Die Suche konnte nicht gestartet werden. Bitte versuche es erneut.',
     },
     progressTitle: 'Deine Suche läuft',
+    reviewing: 'Alle Kombinationen sind abgefragt. Wir prüfen jetzt die Rezensionen der besten Unterkünfte …',
     doneTitle: 'Suche abgeschlossen',
     failedTitle: 'Suche fehlgeschlagen',
     progress: (done: number, total: number) => `${done} von ${total} Kombinationen`,
@@ -269,12 +271,19 @@ export const de = {
   },
   reviewCheck: {
     title: 'Rezensionscheck',
-    notChecked: 'Für diese Unterkunft liegt noch kein Rezensionscheck vor. Er läuft automatisch für die Top 10 der Rangliste.',
+    notChecked: (topN: number) => `Für diese Unterkunft liegt noch kein Rezensionscheck vor. Er läuft automatisch für die Top ${topN} der Rangliste.`,
     noIssues: (n: number) => `Keine Auffälligkeiten in den geprüften Rezensionen (${n} geprüft).`,
-    mentions: (count: number, recent: number) =>
-      `${count} ${count === 1 ? 'Erwähnung' : 'Erwähnungen'}, davon ${recent} in den letzten 6 Monaten`,
-    unverified: 'Hinweis, ungeprüft',
+    noReviews: 'Es gibt keine aktuellen Bewertungen, die wir prüfen könnten.',
+    failed: 'Die Rezensionen konnten nicht abgerufen werden.',
+    mentions: (count: number, recent: number, months: number) =>
+      `${count} ${count === 1 ? 'Erwähnung' : 'Erwähnungen'}, davon ${recent} in den letzten ${months} Monaten`,
+    mentionsShort: (count: number, recent: number, months: number) => `${count} (${recent} in ${months} Mon.)`,
+    latest: (date: string) => `zuletzt am ${date}`,
+    severity: { low: 'geringfügig', medium: 'deutlich', high: 'erheblich' },
+    unverified: 'Hinweis (ungeprüft)',
     skipped: 'Die KI-Prüfung war nicht verfügbar; Treffer sind als ungeprüfte Hinweise markiert und mindern den Score nicht.',
+    checkedCount: (n: number, date: string) => `${n} Bewertungen geprüft am ${date}.`,
+    listNoIssues: 'Rezensionen geprüft: keine Auffälligkeiten',
   },
   notFound: {
     title: 'Seite nicht gefunden',

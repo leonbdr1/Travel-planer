@@ -33,3 +33,8 @@ export function formatDateTime(iso: string): string {
     timeZone: 'Europe/Berlin',
   }).format(new Date(iso));
 }
+
+/** "19.09.2026" for an ISO date (YYYY-MM-DD). */
+export function formatDate(iso: string): string {
+  return `${iso.slice(8, 10)}.${iso.slice(5, 7)}.${iso.slice(0, 4)}`;
+}

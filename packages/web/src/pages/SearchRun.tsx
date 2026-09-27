@@ -80,6 +80,11 @@ export function SearchRun() {
           </div>
           <ProgressBar value={handled} max={s.combos_total} label={t.progress(handled, s.combos_total)} />
         </Card>
+        {s.status === 'reviewing' ? (
+          <div data-testid="reviewing">
+            <Alert tone="info">{t.reviewing}</Alert>
+          </div>
+        ) : null}
         {s.status === 'partial' ? <Alert tone="warning">{t.partial}</Alert> : null}
         {s.status === 'failed' ? <Alert tone="error">{t.failed}</Alert> : null}
       </div>

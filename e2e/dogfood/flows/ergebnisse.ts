@@ -87,7 +87,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('detail-offers').waitFor({ timeout: 15_000 });
       },
       {
-        expectText: ['Alle Termine und Tarife', 'So setzt sich der Qualitätswert zusammen', 'Aktualität nicht geprüft', 'Rezensionscheck', 'Buchen'],
+        expectText: ['Alle Termine und Tarife', 'So setzt sich der Qualitätswert zusammen', 'Aktualität', 'Rezensionscheck', 'Bewertungen geprüft am', 'Buchen'],
         expectSelector: ['[data-testid="score-breakdown"]', '[data-testid="book-offer"]'],
         fullPage: true,
       },

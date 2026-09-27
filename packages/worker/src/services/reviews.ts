@@ -209,7 +209,7 @@ export interface ReviewDataWithChecks extends ReviewData {
   checks?: ReadonlyMap<string, ReviewCheckDto>;
 }
 
-export const NO_REVIEW_DATA: ReviewDataWithChecks = { signals: new Map(), warnings: new Map(), status: new Map(), checks: new Map() };
+export const NO_REVIEW_DATA: ReviewDataWithChecks = { signals: new Map(), warnings: new Map(), status: new Map(), checks: new Map(), checked: new Map() };
 
 /** Cleanliness (1–10) from the provider's category ratings, if fetched. */
 function cleanlinessOf(check: ReviewCheck): number | null {
@@ -239,8 +239,10 @@ export async function loadReviewData(db: Queryable, searchId: string, _chips: re
   const warnings = new Map<string, WarningDto[]>();
   const status = new Map<string, 'ok' | 'unverified'>();
   const checks = new Map<string, ReviewCheckDto>();
+  const checked = new Map<string, number>();
   for (const check of await reviewChecksForSearch(db, searchId)) {
     if (check.status === 'failed') continue;
+    if (check.status === 'ok' || check.status === 'skipped_budget') checked.set(check.hotelId, check.reviewsAnalyzed);
     const w = warningsOf(check);
     signals.set(check.hotelId, {
       recentRating: check.recentRating,
@@ -262,5 +264,5 @@ export async function loadReviewData(db: Queryable, searchId: string, _chips: re
       checked_at: check.checkedAt,
     });
   }
-  return { signals, warnings, status, checks };
+  return { signals, warnings, status, checks, checked };
 }

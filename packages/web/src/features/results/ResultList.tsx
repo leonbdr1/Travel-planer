@@ -2,11 +2,13 @@
 // total price, quality, bargain reason, warnings, cancellation.
 import { Link } from 'react-router';
 import type { ResultItem } from '@reiseplaner/contracts';
+import { constants } from '@reiseplaner/domain';
 import { AiLabel, Badge, Card, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDateTime, formatEuro, formatEuroCents, formatScore, formatStay } from '../../lib/format';
 
 const t = de.results;
+const rc = de.reviewCheck;
 
 export function cancellationText(refundable: boolean, until: string | null): string {
   if (!refundable) return t.nonRefundable;
@@ -63,11 +65,16 @@ export function ResultList({
                   <div className="flex flex-wrap items-center gap-1.5" data-testid="result-warnings">
                     {item.warnings.map((w) => (
                       <Badge key={w.topic} tone={w.verified ? 'warning' : 'neutral'}>
-                        {w.label}: {w.count}
+                        {w.label}: {rc.mentionsShort(w.count, w.recent_count, constants.REVIEW_RECENT_MONTHS_LABEL)}
+                        {w.verified ? '' : ` · ${rc.unverified}`}
                       </Badge>
                     ))}
-                    <AiLabel text={aiLabel} />
+                    {item.warnings.some((w) => w.ai_provenance === 'ai_assisted') ? <AiLabel text={aiLabel} /> : null}
                   </div>
+                ) : item.review_status === 'ok' && item.reviews_checked !== null ? (
+                  <p className="text-xs text-zinc-500" data-testid="result-review-ok">
+                    {rc.listNoIssues}
+                  </p>
                 ) : null}
               </div>
               <div className="flex shrink-0 flex-col items-start gap-1 sm:items-end sm:text-right">

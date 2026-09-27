@@ -70,6 +70,8 @@ export interface ReviewData {
   signals: ReadonlyMap<string, ReviewSignals | null>;
   warnings: ReadonlyMap<string, WarningDto[]>;
   status: ReadonlyMap<string, 'ok' | 'unverified'>;
+  /** Number of reviews the check analysed, per hotel. */
+  checked?: ReadonlyMap<string, number>;
 }
 
 export const NO_REVIEWS: ReviewData = { signals: new Map(), warnings: new Map(), status: new Map() };
@@ -146,6 +148,7 @@ export function resultItems(
       quality: { score: offer.quality, checked: offer.breakdown.recency.checked, no_reviews: offer.quality === null },
       warnings: reviews.warnings.get(offer.hotelId) ?? [],
       review_status: reviews.status.get(offer.hotelId) ?? 'none',
+      reviews_checked: reviews.checked?.get(offer.hotelId) ?? null,
     };
   });
 }

@@ -3,5 +3,6 @@ import { startFlow } from './start';
 import { ergebnisseFlow } from './ergebnisse';
 import { sucheFlow } from './suche';
 import { suchrahmenFlow } from './suchrahmen';
+import { warnungenFlow } from './warnungen';
 
-export const flows: Flow[] = [startFlow, suchrahmenFlow, sucheFlow, ergebnisseFlow];
+export const flows: Flow[] = [startFlow, suchrahmenFlow, sucheFlow, ergebnisseFlow, warnungenFlow];
