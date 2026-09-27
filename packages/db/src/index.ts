@@ -9,3 +9,4 @@ export * from './repos/travel-times';
 export * from './repos/geo';
 export * from './repos/skill-runs';
 export * from './repos/catalog';
+export * from './repos/searches';

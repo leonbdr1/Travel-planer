@@ -1,0 +1,4 @@
+-- Verification for 20261005a_search: six rows with rowsecurity = true.
+SELECT tablename, rowsecurity FROM pg_tables
+ WHERE schemaname = 'app' AND tablename IN ('searches', 'search_places', 'search_combinations', 'hotels', 'offers', 'cache_entries')
+ ORDER BY tablename;

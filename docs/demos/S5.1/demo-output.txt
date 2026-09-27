@@ -1,0 +1,63 @@
+# migrations applied: 20261001a_init, 20261002a_usage_budgets, 20261002b_travel_time_cache, 20261003a_geo_localities, 20261003b_catalog, 20261003c_skill_runs, 20261004a_search_localities_ranking, 20261005a_search
+# budgets_rate_limits.sql
+1..16
+ok 1 - first call allowed
+ok 2 - second call allowed
+ok 3 - third call over the limit
+ok 4 - other key unaffected
+ok 5 - invalid window raises (caller fails closed)
+ok 6 - expired window starts over
+ok 7 - reserve within cap
+ok 8 - reserve up to the cap
+ok 9 - reserve beyond the cap is refused
+ok 10 - single reservation larger than the cap is refused
+ok 11 - negative amounts are refused
+ok 12 - llm reservation
+ok 13 - settle with actual cost
+ok 14 - settle moves the reservation onto the actual cost
+ok 15 - unknown budget scopes are rejected
+ok 16 - anon cannot call budget_reserve
+# catalog.sql
+1..8
+ok 1 - app_import writes catalog places
+ok 2 - app_import writes place themes
+ok 3 - app_rw reads places
+ok 4 - app_rw cannot write regions
+ok 5 - app_rw cannot create catalog places
+ok 6 - app_rw creates an unverified user place
+ok 7 - app_rw cannot verify a user place
+ok 8 - catalog place unchanged
+# rls_baseline.sql
+1..12
+ok 1 - RLS is enabled on every table in schema app
+ok 2 - no table in schema app is granted to anon, authenticated or PUBLIC
+ok 3 - anon has no USAGE on schema app
+ok 4 - authenticated has no USAGE on schema app
+ok 5 - no function in schema app is executable by anon or authenticated
+ok 6 - anon cannot read app.meta_kv
+ok 7 - anon cannot write app.meta_kv
+ok 8 - authenticated cannot read app.meta_kv
+ok 9 - authenticated cannot update app.meta_kv
+ok 10 - app_rw can write app.meta_kv
+ok 11 - app_rw can read app.meta_kv
+ok 12 - app_rw can delete from app.meta_kv
+# search.sql
+1..8
+ok 1 - app_rw creates a search
+ok 2 - app_rw creates combinations
+ok 3 - app_rw upserts hotels
+ok 4 - app_rw writes an offer
+ok 5 - the same combination, hotel and kind cannot be written twice
+ok 6 - search status is constrained
+ok 7 - progress cannot exceed the number of combinations
+ok 8 - deleting a search removes its offers
+# skill_runs.sql
+1..7
+ok 1 - app_rw records a skill run
+ok 2 - app_rw reads skill runs
+ok 3 - app_rw sets the downstream signal
+ok 4 - app_rw cannot rewrite costs
+ok 5 - app_rw cannot delete telemetry
+ok 6 - input_hash must be a SHA-256 hex digest
+ok 7 - outcome is constrained
+# 51 assertions, all files passed
