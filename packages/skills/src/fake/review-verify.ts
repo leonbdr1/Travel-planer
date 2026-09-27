@@ -1,20 +1,31 @@
-// Fake model for reiseplaner.review-verify: finds the complaint keyword of
-// the snippet's topic (DE, EN, FR, IT, NL) and treats it as a complaint
-// unless a negation stands within the three words before it.
+// Fake model for reiseplaner.review-verify: a deterministic rule set that
+// works sentence by sentence (DE, EN, FR, IT, NL). A complaint keyword of the
+// topic counts unless the sentence is a question, a comparison ("sauberer als
+// erwartet"), about another accommodation, or the keyword is negated in the
+// three words before it or followed by praise ("smelled fresh"). Minor
+// wording lowers the severity. If the hinted topic has no complaint, other
+// topics are tried (the model may reassign the topic).
 import type { FakeLlmResponder } from '@reiseplaner/providers';
 import { extractTag, fold } from './text';
 
+type Severity = 'low' | 'medium' | 'high';
+
 const complaintWords: Record<string, string[]> = {
-  sauberkeit: ['schmutzig', 'dreckig', 'unsauber', 'verdreckt', 'flecken', 'haare', 'nicht sauber', 'dirty', 'filthy', 'stains', 'not clean', 'sale', 'sales', 'taches', 'pas propre', 'sporco', 'sporca', 'sporchi', 'macchie', 'non pulito', 'vies', 'smerig', 'vlekken', 'niet schoon'],
+  sauberkeit: ['schmutzig', 'dreckig', 'unsauber', 'verdreckt', 'flecken', 'fleckig', 'haare', 'nicht sauber', 'dirty', 'filthy', 'stains', 'not clean', 'sale', 'sales', 'taches', 'tache', 'pas propre', 'sporco', 'sporca', 'sporchi', 'macchie', 'non pulito', 'vies', 'smerig', 'vlekken', 'haren', 'niet schoon'],
   schimmel: ['schimmel', 'schimmelig', 'stockflecken', 'mold', 'mould', 'moldy', 'mouldy', 'moisissure', 'moisi', 'muffa'],
   ungeziefer: ['bettwanzen', 'wanzen', 'kakerlaken', 'schaben', 'mause', 'flohe', 'ungeziefer', 'bed bugs', 'bedbugs', 'cockroach', 'cockroaches', 'mice', 'fleas', 'punaises', 'cafards', 'souris', 'cimici', 'scarafaggi', 'topi', 'bedwantsen', 'kakkerlakken', 'muizen'],
-  laerm: ['larm', 'laut', 'strassenlarm', 'hellhorig', 'noise', 'noisy', 'loud', 'thin walls', 'bruit', 'bruyant', 'rumore', 'rumoroso', 'lawaai', 'luidruchtig', 'gehorig'],
-  geruch: ['geruch', 'gestank', 'stinkt', 'muffig', 'riecht', 'smell', 'smelly', 'stink', 'odeur', 'puait', 'odore', 'puzza', 'stank', 'geur'],
-  zustand: ['kaputt', 'defekt', 'abgewohnt', 'renovierungsbedurftig', 'heruntergekommen', 'broken', 'run-down', 'worn', 'casse', 'vetuste', 'rotto', 'fatiscente', 'kapot', 'versleten'],
-  abweichung_beschreibung: ['anders als auf den fotos', 'nicht wie beschrieben', 'not as described', 'not like the pictures', 'pas comme sur les photos', 'diverso dalle foto', 'niet zoals beschreven'],
+  laerm: ['larm', 'laut', 'strassenlarm', 'hellhorig', 'noise', 'noisy', 'loud', 'thin walls', 'bruit', 'bruyant', 'rumore', 'rumoroso', 'rumorosa', 'rumorosi', 'lawaai', 'luidruchtig', 'gehorig'],
+  geruch: ['geruch', 'gestank', 'stinkt', 'muffig', 'riecht', 'roch', 'smell', 'smelly', 'smelled', 'stink', 'odeur', 'puait', 'odore', 'puzza', 'stank', 'geur'],
+  zustand: ['kaputt', 'defekt', 'abgewohnt', 'renovierungsbedurftig', 'heruntergekommen', 'broken', 'run-down', 'worn', 'casse', 'vetuste', 'usee', 'rotto', 'fatiscente', 'kapot', 'versleten'],
+  abweichung_beschreibung: ['anders als auf den fotos', 'anders aus als auf den fotos', 'nicht wie beschrieben', 'not as described', 'not like the pictures', 'pas comme sur les photos', 'diverso dalle foto', 'niet zoals beschreven'],
 };
-const negations = new Set(['kein', 'keine', 'keinen', 'keiner', 'nicht', 'ohne', 'nie', 'no', 'not', 'never', 'without', 'pas', 'aucun', 'aucune', 'sans', 'jamais', 'non', 'nessun', 'nessuna', 'senza', 'niente', 'geen', 'niet', 'zonder', 'nooit']);
-const severeWords = ['ekelhaft', 'verdreckt', 'filthy', 'disgusting', 'degoutant', 'schifo', 'smerig'];
+const negations = new Set(['kein', 'keine', 'keinen', 'keiner', 'nicht', 'nichts', 'ohne', 'nie', 'no', 'not', 'nothing', 'never', 'without', 'pas', 'aucun', 'aucune', 'sans', 'jamais', 'rien', 'non', 'nessun', 'nessuna', 'senza', 'niente', 'geen', 'niet', 'niets', 'zonder', 'nooit']);
+const comparisonWords = new Set(['weniger', 'less', 'moins', 'meno', 'minder']);
+const comparisonPhrases = ['als erwartet', 'als befurchtet', 'than expected', 'than we feared', 'than feared', 'que prevu', 'del previsto', 'dan verwacht'];
+const otherPlacePhrases = ['letzten hotel', 'anderen hotel', 'vorherigen hotel', 'previous hotel', 'other hotel', 'last hotel', 'autre hotel', 'altro hotel', 'vorige hotel', 'ander hotel'];
+const praiseAfter = new Set(['frisch', 'fresh', 'angenehm', 'pleasant', 'lovely', 'nice', 'good', 'gut', 'bon', 'buono', 'fris', 'lekker', 'clean']);
+const minorWords = new Set(['leicht', 'etwas', 'klein', 'kleine', 'kleiner', 'slightly', 'bit', 'small', 'minor', 'peu', 'petit', 'petite', 'po', 'piccolo', 'piccola', 'beetje']);
+const severeWords = ['ekelhaft', 'verdreckt', 'filthy', 'disgusting', 'urine', 'degoutant', 'schifo', 'smerig'];
 
 interface Snippet {
   id: string;
@@ -22,28 +33,49 @@ interface Snippet {
   text: string;
 }
 
-function judge(snippet: Snippet): { isComplaint: boolean; severity: 'low' | 'medium' | 'high' } {
-  const text = fold(snippet.text);
-  const words = complaintWords[snippet.topicHint] ?? [];
-  let complaint = false;
-  for (const word of words) {
-    let from = 0;
-    for (;;) {
-      const i = text.indexOf(word, from);
-      if (i < 0) break;
-      from = i + 1;
-      if (i > 0 && /\p{L}/u.test(text[i - 1] ?? '')) continue;
-      const before = text.slice(0, i).split(/[^\p{L}]+/u).filter(Boolean).slice(-3);
-      const negated = !word.split(' ').some((w) => negations.has(w)) && before.some((w) => negations.has(w));
-      if (!negated) complaint = true;
+const words = (s: string) => s.split(/[^\p{L}'-]+/u).filter(Boolean);
+
+/** Complaint in one sentence for one topic: severity, or null. */
+function sentenceComplaint(sentence: string, topic: string): Severity | null {
+  if (sentence.trim().endsWith('?')) return null;
+  if (comparisonPhrases.some((p) => sentence.includes(p))) return null;
+  if (otherPlacePhrases.some((p) => sentence.includes(p))) return null;
+  let found: Severity | null = null;
+  for (const word of complaintWords[topic] ?? []) {
+    for (let i = sentence.indexOf(word); i >= 0; i = sentence.indexOf(word, i + 1)) {
+      if (i > 0 && /\p{L}/u.test(sentence[i - 1] ?? '')) continue;
+      const before = words(sentence.slice(0, i)).slice(-3);
+      const after = words(sentence.slice(i + word.length)).slice(0, 2);
+      const ownNegation = word.split(' ').some((w) => negations.has(w));
+      if (!ownNegation && before.some((w) => negations.has(w))) continue;
+      if (before.some((w) => comparisonWords.has(w))) continue;
+      if (after.some((w) => praiseAfter.has(w))) continue;
+      const minor = before.some((w) => minorWords.has(w));
+      const high = topic === 'schimmel' || topic === 'ungeziefer' || (topic === 'sauberkeit' && severeWords.some((w) => sentence.includes(w)));
+      const severity: Severity = minor ? 'low' : high ? 'high' : 'medium';
+      if (found === null || rank(severity) > rank(found)) found = severity;
     }
   }
-  if (!complaint) return { isComplaint: false, severity: 'low' };
-  const high =
-    snippet.topicHint === 'schimmel' ||
-    snippet.topicHint === 'ungeziefer' ||
-    (snippet.topicHint === 'sauberkeit' && severeWords.some((w) => text.includes(w)));
-  return { isComplaint: true, severity: high ? 'high' : 'medium' };
+  return found;
+}
+
+const rank = (s: Severity) => (s === 'high' ? 2 : s === 'medium' ? 1 : 0);
+
+function judge(snippet: Snippet): { topic: string; isComplaint: boolean; severity: Severity } {
+  const sentences = fold(snippet.text).match(/[^.!?;]+[.!?;]?/g) ?? [];
+  const inTopic = (topic: string) =>
+    sentences.reduce<Severity | null>((best, s) => {
+      const sev = sentenceComplaint(s, topic);
+      return sev !== null && (best === null || rank(sev) > rank(best)) ? sev : best;
+    }, null);
+  const own = inTopic(snippet.topicHint);
+  if (own) return { topic: snippet.topicHint, isComplaint: true, severity: own };
+  for (const topic of Object.keys(complaintWords)) {
+    if (topic === snippet.topicHint) continue;
+    const other = inTopic(topic);
+    if (other) return { topic, isComplaint: true, severity: other };
+  }
+  return { topic: snippet.topicHint, isComplaint: false, severity: 'low' };
 }
 
 export const fakeReviewVerify: FakeLlmResponder = ({ user }) => {
@@ -54,6 +86,6 @@ export const fakeReviewVerify: FakeLlmResponder = ({ user }) => {
     snippets = [];
   }
   return {
-    findings: snippets.map((s) => ({ snippetId: s.id, topic: s.topicHint, ...judge(s) })),
+    findings: snippets.map((s) => ({ snippetId: s.id, ...judge(s) })),
   };
 };

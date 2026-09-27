@@ -1,0 +1,6 @@
+reiseplaner.review-verify v1.0.0 (Fake-Modell, Judge-Rubriken übersprungen)
+  Fälle: 44 bestanden, 0 nicht bestanden, 0 Fehler, 0 übersprungen
+  Score: 1.000 (Zielwert 0.9)
+  Kosten: 0 $ (Deckel 0.5 $ je Skill)
+  Baseline: nicht verglichen (Fake-Modus)
+  Bericht: /home/user/Travel-planer/eval-results/skill-eval-report-reiseplaner.review-verify.json
