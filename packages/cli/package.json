@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "dependencies": {
     "@reiseplaner/config": "0.0.0",
     "@reiseplaner/contracts": "0.0.0",
@@ -11,6 +13,7 @@
     "@reiseplaner/domain": "0.0.0",
     "@reiseplaner/providers": "0.0.0",
     "@reiseplaner/skills": "0.0.0",
+    "@reiseplaner/worker": "0.0.0",
     "yaml": "2.9.1",
     "zod": "4.6.5"
   }

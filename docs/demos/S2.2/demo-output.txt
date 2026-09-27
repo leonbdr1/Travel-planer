@@ -1,0 +1,62 @@
+$ npm run demo -- s2.2
+# recorded 2026-09-27T04:39:07.115Z
+
+normalised hotel:
+{
+  "id": "lpf-4741-1028-0",
+  "name": "Hotel Kastanienhof",
+  "address": "Marktplatz 23",
+  "city": null,
+  "countryCode": null,
+  "lat": 47.42698,
+  "lng": 10.26681,
+  "stars": 3,
+  "rating": 6.9,
+  "ratingScale": 10,
+  "reviewCount": 162,
+  "hotelType": "Hotel",
+  "mainPhotoUrl": "/fake/hotel-5.svg",
+  "facilityIds": [
+    1,
+    2,
+    5,
+    6,
+    8,
+    10,
+    16,
+    17
+  ]
+}
+normalised offer (offerId shortened):
+{
+  "offerId": "eyJoIjoibHBmLTQ3NDEtMTAy…",
+  "roomName": "Doppelzimmer Standard",
+  "boardType": "BB",
+  "boardName": "Frühstück inklusive",
+  "totalCents": 23826,
+  "currency": "EUR",
+  "suggestedSellingCents": 24779,
+  "taxes": [
+    {
+      "amountCents": 1559,
+      "currency": "EUR",
+      "included": true,
+      "description": "MwSt. 7 %"
+    },
+    {
+      "amountCents": 800,
+      "currency": "EUR",
+      "included": false,
+      "description": "Kurtaxe (vor Ort zu zahlen)"
+    }
+  ],
+  "refundable": false,
+  "cancelPolicy": [
+    {
+      "from": "2025-08-28T00:00:00Z",
+      "penaltyCents": 23826,
+      "currency": "EUR"
+    }
+  ],
+  "maxOccupancy": 2
+}

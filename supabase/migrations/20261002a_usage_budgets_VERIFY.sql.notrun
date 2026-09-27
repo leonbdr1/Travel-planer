@@ -1,0 +1,16 @@
+-- Verification for 20261002a_usage_budgets.
+
+-- 1. Tables exist with RLS: expect 3 rows, all true.
+SELECT tablename, rowsecurity FROM pg_tables
+ WHERE schemaname = 'app' AND tablename IN ('provider_usage', 'budget_ledger', 'rate_limits');
+
+-- 2. RPCs executable by app_rw only: expect app_rw true, anon false.
+SELECT p.proname,
+       has_function_privilege('app_rw', p.oid, 'EXECUTE') AS app_rw,
+       has_function_privilege('anon', p.oid, 'EXECUTE') AS anon
+  FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
+ WHERE n.nspname = 'app' AND p.proname IN ('increment_rate_limit', 'budget_reserve', 'budget_settle');
+
+-- 3. Reserve respects the cap (run in a transaction, then ROLLBACK):
+-- BEGIN; SELECT app.budget_reserve('searches', 1, 1), app.budget_reserve('searches', 1, 1); ROLLBACK;
+-- expect: true, false
