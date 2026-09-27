@@ -6,10 +6,11 @@ import { loadProductConfig } from '@reiseplaner/config/node';
 import { findClaimViolations } from '../packages/domain/src/claims';
 
 const root = resolve(import.meta.dirname, '..');
-const targets = ['packages/web/src/i18n', 'packages/worker/src/mail/templates'];
+const targets = ['packages/web/src/i18n', 'packages/worker/src/mail/templates', 'packages/domain/src/texts.ts'];
 
 function walk(dir: string): string[] {
   try {
+    if (statSync(dir).isFile()) return [dir];
     return readdirSync(dir).flatMap((entry) => {
       const path = join(dir, entry);
       return statSync(path).isDirectory() ? walk(path) : /\.(ts|tsx)$/.test(entry) ? [path] : [];

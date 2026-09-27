@@ -1,0 +1,29 @@
+$ npm run demo -- s4.1
+# recorded 2026-09-27T15:04:46.145Z
+
+Zeitfenster 01.10.–30.11.2026, 2 Nächte, Anreise Freitag (heute 27.09.2026):
+   1. Fr 02.10. – So 04.10.
+   2. Fr 09.10. – So 11.10.
+   3. Fr 16.10. – So 18.10.
+   4. Fr 23.10. – So 25.10.
+   5. Fr 30.10. – So 01.11.
+   6. Fr 06.11. – So 08.11.
+   7. Fr 13.11. – So 15.11.
+   8. Fr 20.11. – So 22.11.
+   9. Fr 27.11. – So 29.11.
+→ 9 Termine
+Freitag und Samstag bis 15.11. → too_many_dates (13 Termine, erlaubt 12)
+
+Chips und ihre Wirkung:
+  sauber                 Besonders sauber       Sauberkeitsgewicht 0,2 → 0,35
+  ruhig                  Ruhig                  Lärm-Warnungen zählen doppelt
+  fruehstueck            Mit Frühstück          Filter Verpflegung ∈ {BB, HB, FB, AI}
+  kostenlos_stornierbar  Kostenlos stornierbar  Filter kostenlos stornierbar
+  parkplatz              Parkplatz              Filter Ausstattungs-ID 1
+  hund_erlaubt           Hund erlaubt           Filter Ausstattungs-ID 3
+  sauna_wellness         Sauna oder Wellness    Filter Ausstattungs-ID 4 oder 5
+  wlan                   WLAN                   Filter Ausstattungs-ID 2
+  kueche                 Küche                  Filter Ausstattungs-ID 6 oder Unterkunftstyp Apartments/Ferienwohnung/Apartment
+  barrierefrei           Barrierefrei           Filter Ausstattungs-ID 7
+  familienzimmer         Familienzimmer         Filter Ausstattungs-ID 8
+→ 9 Termine wie im Plan, 13 Termine → too_many_dates

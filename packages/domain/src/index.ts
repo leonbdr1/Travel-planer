@@ -8,3 +8,7 @@ export * from './admin-areas';
 export * from './typography';
 export * from './vocabulary';
 export * from './chips';
+export * from './dates';
+export * from './texts';
+export * from './themes';
+export * from './suggestions';
