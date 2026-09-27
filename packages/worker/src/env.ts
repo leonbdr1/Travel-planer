@@ -12,9 +12,15 @@ export interface AssetsBinding {
   fetch(input: Request | string, init?: RequestInit): Promise<Response>;
 }
 
+/** Structural subset of the Workflows binding (create and look up instances). */
+export interface WorkflowBinding<P> {
+  create(options?: { id?: string; params?: P }): Promise<{ id: string }>;
+}
+
 export interface Env {
   HYPERDRIVE: HyperdriveBinding;
   ASSETS?: AssetsBinding;
+  SEARCH_WORKFLOW?: WorkflowBinding<{ searchId: string }>;
   APP_ENV: string;
   PROVIDERS_MODE: string;
   LLM_ENABLED: string;

@@ -15,8 +15,13 @@ export interface RequestDeps {
   providers(): Providers;
   usage: UsageRecorder;
   now(): Date;
-  /** Flushes usage counters and closes resources opened during the request. */
-  dispose(): Promise<void>;
+  /**
+   * Flushes usage counters and closes resources opened during the request.
+   * `awaitClose: false` starts closing the connection without waiting for it:
+   * in Workflow steps postgres.js `end()` never settles (workerd then reports
+   * the step as hung), but the socket must still be closed.
+   */
+  dispose(options?: { awaitClose?: boolean }): Promise<void>;
 }
 
 export type DbFactory = (env: Env) => Db;
@@ -61,14 +66,17 @@ export function createRequestDeps(env: Env, config: RuntimeConfig, options: Deps
     now,
     db: () => (db ??= dbFactory(env)),
     providers: () => (providers ??= providersFactory(config, env, usage, now)),
-    async dispose() {
+    async dispose(options = {}) {
       if (usage.total() > 0) {
         db ??= dbFactory(env);
         await usage.flush(db, now().toISOString().slice(0, 10)).catch((err: unknown) => {
           console.error(JSON.stringify({ level: 'warn', msg: 'usage flush failed', name: (err as Error).name }));
         });
       }
-      if (db) await db.close().catch(() => {});
+      if (db) {
+        const closing = db.close().catch(() => {});
+        if (options.awaitClose !== false) await closing;
+      }
       db = undefined;
     },
   };

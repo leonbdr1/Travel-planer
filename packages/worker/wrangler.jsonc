@@ -22,6 +22,8 @@
       "localConnectionString": "postgres://postgres:postgres@127.0.0.1:54329/postgres"
     }
   ],
+  // Combination search (architektur.md 6.4).
+  "workflows": [{ "name": "app-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
   "vars": {
     "APP_ENV": "dev",
     "PROVIDERS_MODE": "fake",
@@ -41,6 +43,7 @@
     "staging": {
       "name": "__REISEPLANER_WORKER_NAME__-staging",
       "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "__REISEPLANER_HYPERDRIVE_ID_STAGING__" }],
+      "workflows": [{ "name": "__REISEPLANER_WORKER_NAME__-staging-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
       "vars": {
         "APP_ENV": "staging",
         "PROVIDERS_MODE": "sandbox",
@@ -54,6 +57,7 @@
     "production": {
       "name": "__REISEPLANER_WORKER_NAME__",
       "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "__REISEPLANER_HYPERDRIVE_ID_PRODUCTION__" }],
+      "workflows": [{ "name": "__REISEPLANER_WORKER_NAME__-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
       "vars": {
         "APP_ENV": "production",
         "PROVIDERS_MODE": "live",

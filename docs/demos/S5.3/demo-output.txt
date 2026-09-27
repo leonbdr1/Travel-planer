@@ -1,0 +1,13 @@
+$ npm run demo -- s5.3
+# recorded 2026-09-27T15:53:30.932Z
+
+starting local stack …
+Suche 1: POST /searches → HTTP 202
+  Statusfolge: running → partial (3.7 s)
+  Kombinationen: 60 von 60 bearbeitet (59 mit Antwort, 1 ohne Daten), Angebote: 912
+  LiteAPI-Tarifanfragen laut provider_usage: 62
+Suche 2 (identisch, innerhalb von 30 Minuten): POST /searches → HTTP 202
+  Statusfolge: running → partial (2.0 s)
+  Kombinationen: 60 von 60 bearbeitet (59 mit Antwort, 1 ohne Daten), Angebote: 912
+  neue LiteAPI-Tarifanfragen: 3 (Preis-Cache)
+→ 60 von 60 Kombinationen bearbeitet; zweite Suche aus dem Cache (nur zuvor fehlgeschlagene Kombinationen neu)

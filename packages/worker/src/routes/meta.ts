@@ -6,8 +6,17 @@ import { productConfig } from '@reiseplaner/config';
 import type { MetaConfigResponse } from '@reiseplaner/contracts';
 import { CHIPS, THEME_CODES, THEME_LABELS, constants } from '@reiseplaner/domain';
 import type { AppEnv } from '../app';
+import { ConfigurationError } from '../env';
+import { newChallenge } from '../services/altcha';
 
-export const metaRoutes = new Hono<AppEnv>().get('/config', (c) => {
+export const metaRoutes = new Hono<AppEnv>()
+  .get('/altcha-challenge', async (c) => {
+    const secret = c.get('deps').env.ALTCHA_HMAC_KEY;
+    if (!secret) throw new ConfigurationError(['ALTCHA_HMAC_KEY']);
+    c.header('Cache-Control', 'no-store');
+    return c.json(await newChallenge(secret, c.get('deps').now()));
+  })
+  .get('/config', (c) => {
   const { config } = c.get('deps');
   const s = productConfig.limits.search;
   const body: MetaConfigResponse = {

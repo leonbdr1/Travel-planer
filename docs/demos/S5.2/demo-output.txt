@@ -1,0 +1,10 @@
+$ npm run demo -- s5.2
+# recorded 2026-09-27T15:53:54.280Z
+
+starting local stack …
+POST /searches (gültiges ALTCHA) → HTTP 202: search_id 5bab567e-deb5-4798-9a2c-fa75db4b977c, token 43 Zeichen
+POST /searches ohne gültiges ALTCHA → HTTP 400: {"error":{"code":"altcha_invalid","message":"Die Sicherheitsprüfung ist fehlgeschlagen. Bitte versuche es erneut.","details":{"reason":"malformed"}}}
+11. Suche derselben IP innerhalb einer Stunde → HTTP 429, Retry-After 3600
+Tageskontingent „searches“ im Ledger auf 500 von 500 gesetzt
+POST /searches bei erschöpftem Kontingent → HTTP 402: {"reason":"quota","cta":true,"message":"Heute sind keine weiteren Suchen möglich. Bitte versuche es morgen erneut."}
+→ 202, 400 ohne ALTCHA, 429 mit Retry-After, 402 bei erschöpftem Kontingent

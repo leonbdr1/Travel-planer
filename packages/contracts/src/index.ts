@@ -7,3 +7,4 @@ export * from './geo';
 export * from './suggestions';
 export * from './places';
 export * from './wishes';
+export * from './searches';

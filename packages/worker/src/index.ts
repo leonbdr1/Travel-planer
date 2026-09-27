@@ -3,6 +3,8 @@
 import { createApp } from './app';
 import type { Env } from './env';
 
+export { SearchWorkflow } from './workflows/search';
+
 const app = createApp();
 
 export default {

@@ -2,6 +2,7 @@
 // security headers → body limit → per-request dependencies → routes.
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
+import type { CreateSearchRequest } from '@reiseplaner/contracts';
 import { constants } from '@reiseplaner/domain';
 import { createRequestDeps, type DbFactory, type ProvidersFactory, type RequestDeps } from './deps';
 import { parseRuntimeConfig, ConfigurationError, type Env } from './env';
@@ -11,10 +12,11 @@ import { geoRoutes } from './routes/geo';
 import { healthRoutes } from './routes/health';
 import { metaRoutes } from './routes/meta';
 import { placeRoutes } from './routes/places';
+import { searchRoutes } from './routes/searches';
 import { suggestionRoutes } from './routes/suggestions';
 import { wishRoutes } from './routes/wishes';
 
-export type AppEnv = { Bindings: Env; Variables: { deps: RequestDeps } };
+export type AppEnv = { Bindings: Env; Variables: { deps: RequestDeps; searchRequest: CreateSearchRequest } };
 
 export interface AppOptions {
   dbFactory?: DbFactory;
@@ -58,6 +60,7 @@ export function createApp(options: AppOptions = {}) {
   app.route('/suggestions', suggestionRoutes);
   app.route('/places', placeRoutes);
   app.route('/wishes', wishRoutes);
+  app.route('/searches', searchRoutes);
 
   app.notFound((c) => c.json(errorBody('not_found', 'Diese Adresse gibt es nicht.'), 404));
   app.onError((err, c) => {
