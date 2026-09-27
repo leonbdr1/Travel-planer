@@ -9,3 +9,4 @@ export * from './places';
 export * from './wishes';
 export * from './searches';
 export * from './results';
+export * from './bookings';

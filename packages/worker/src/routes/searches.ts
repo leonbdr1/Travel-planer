@@ -28,6 +28,7 @@ import { rateLimit } from '../http/rate-limit';
 import { parseJsonBody } from '../http/validate';
 import { verifyAltcha } from '../services/altcha';
 import { sha256Hex } from '../services/search-run';
+import { constantTimeEqual } from '../services/tokens';
 import { getTravelTimes } from '../services/travel-times';
 
 const HOUR_S = 3600;
@@ -48,13 +49,6 @@ const DATE_MESSAGES: Record<string, string> = {
 function randomToken(): string {
   const bytes = crypto.getRandomValues(new Uint8Array(constants.SEARCH_TOKEN_BYTES));
   return btoa(String.fromCharCode(...bytes)).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
-}
-
-function constantTimeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
 }
 
 /** Search token from `?token=` or `X-Search-Token`; unknown or wrong → 404 (no existence oracle). */

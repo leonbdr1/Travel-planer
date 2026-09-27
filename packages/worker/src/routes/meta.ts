@@ -24,6 +24,7 @@ export const metaRoutes = new Hono<AppEnv>()
     providers_mode: config.PROVIDERS_MODE,
     llm_enabled: config.LLM_ENABLED,
     payment_mode: config.LITEAPI_PAYMENT_MODE,
+    booking_enabled: config.BOOKING_ENABLED,
     catalog_drafts: config.CATALOG_ALLOW_DRAFTS,
     chips: CHIPS.map((chip) => ({ code: chip.code, label: chip.label })),
     themes: THEME_CODES.map((code) => ({ code, label: THEME_LABELS[code] })),

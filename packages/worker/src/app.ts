@@ -3,12 +3,15 @@
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import type { CreateSearchRequest } from '@reiseplaner/contracts';
+import type { z } from 'zod';
+import type { accessLinkRequestSchema } from '@reiseplaner/contracts';
 import type { SearchRow } from '@reiseplaner/db';
 import { constants } from '@reiseplaner/domain';
 import { createRequestDeps, type DbFactory, type ProvidersFactory, type RequestDeps } from './deps';
 import { parseRuntimeConfig, ConfigurationError, type Env } from './env';
 import { ApiError, errorBody, sendError } from './http/errors';
 import { securityHeaders } from './http/security-headers';
+import { bookingRoutes } from './routes/bookings';
 import { geoRoutes } from './routes/geo';
 import { healthRoutes } from './routes/health';
 import { metaRoutes } from './routes/meta';
@@ -18,7 +21,10 @@ import { searchRoutes } from './routes/searches';
 import { suggestionRoutes } from './routes/suggestions';
 import { wishRoutes } from './routes/wishes';
 
-export type AppEnv = { Bindings: Env; Variables: { deps: RequestDeps; searchRequest: CreateSearchRequest; search: SearchRow } };
+export type AppEnv = {
+  Bindings: Env;
+  Variables: { deps: RequestDeps; searchRequest: CreateSearchRequest; search: SearchRow; accessLinkRequest: z.infer<typeof accessLinkRequestSchema> };
+};
 
 export interface AppOptions {
   dbFactory?: DbFactory;
@@ -64,6 +70,7 @@ export function createApp(options: AppOptions = {}) {
   app.route('/wishes', wishRoutes);
   app.route('/searches', searchRoutes);
   app.route('/searches', resultRoutes);
+  app.route('/bookings', bookingRoutes);
 
   app.notFound((c) => c.json(errorBody('not_found', 'Diese Adresse gibt es nicht.'), 404));
   app.onError((err, c) => {

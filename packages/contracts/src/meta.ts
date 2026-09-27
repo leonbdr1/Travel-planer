@@ -5,6 +5,7 @@ export const metaConfigResponseSchema = z.object({
   providers_mode: z.enum(['fake', 'sandbox', 'live']),
   llm_enabled: z.boolean(),
   payment_mode: z.enum(['sandbox', 'live']),
+  booking_enabled: z.boolean(),
   catalog_drafts: z.boolean(),
   chips: z.array(z.object({ code: z.string(), label: z.string() })),
   themes: z.array(z.object({ code: z.string(), label: z.string() })),

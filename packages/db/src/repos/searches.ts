@@ -431,6 +431,79 @@ export interface SearchOfferRef {
   currency: string;
 }
 
+export interface BookableOffer {
+  id: string;
+  hotelId: string;
+  hotelName: string;
+  placeName: string;
+  liteapiOfferId: string;
+  roomName: string;
+  boardType: string;
+  refundable: boolean;
+  freeCancelUntil: string | null;
+  totalCents: number;
+  payAtPropertyCents: number;
+  payAtPropertyKnown: boolean;
+  currency: string;
+  nights: number;
+  checkin: string;
+  checkout: string;
+}
+
+/** Everything a booking needs from one offer of a search. */
+export async function getBookableOffer(db: Queryable, searchId: string, offerId: string): Promise<BookableOffer | null> {
+  if (!/^\d{1,18}$/.test(offerId)) return null;
+  const rows = await db.query<{
+    id: number;
+    hotel_id: string;
+    hotel_name: string;
+    place_name: string;
+    liteapi_offer_id: string;
+    room_name: string;
+    board_type: string;
+    refundable: boolean;
+    free_cancel_until: string | null;
+    total_price_cents: number;
+    pay_at_property_cents: number;
+    pay_at_property_known: boolean;
+    currency: string;
+    nights: number;
+    checkin: string;
+    checkout: string;
+  }>(
+    `SELECT o.id, o.hotel_id, h.name AS hotel_name, p.name AS place_name, o.liteapi_offer_id, o.room_name, o.board_type, o.refundable,
+            to_char(o.free_cancel_until AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS free_cancel_until,
+            o.total_price_cents, o.pay_at_property_cents, o.pay_at_property_known, o.currency, o.nights,
+            c.checkin::text AS checkin, c.checkout::text AS checkout
+       FROM app.offers o
+       JOIN app.search_combinations c ON c.id = o.combination_id
+       JOIN app.places p ON p.id = c.place_id
+       JOIN app.hotels h ON h.id = o.hotel_id
+      WHERE o.search_id = $1::uuid AND o.id = $2::bigint`,
+    [searchId, offerId],
+  );
+  const r = rows[0];
+  if (!r) return null;
+  return {
+    id: String(r.id),
+    hotelId: r.hotel_id,
+    hotelName: r.hotel_name,
+    placeName: r.place_name,
+    liteapiOfferId: r.liteapi_offer_id,
+    roomName: r.room_name,
+    boardType: r.board_type,
+    refundable: r.refundable,
+    freeCancelUntil: r.free_cancel_until,
+    totalCents: Number(r.total_price_cents),
+    payAtPropertyCents: Number(r.pay_at_property_cents),
+    payAtPropertyKnown: r.pay_at_property_known,
+    currency: r.currency.trim(),
+    nights: Number(r.nights),
+    checkin: r.checkin,
+    checkout: r.checkout,
+  };
+}
+
 /** One offer of a search by its row id; null when it does not belong to the search. */
 export async function getSearchOffer(db: Queryable, searchId: string, offerId: string): Promise<SearchOfferRef | null> {
   if (!/^\d{1,18}$/.test(offerId)) return null;

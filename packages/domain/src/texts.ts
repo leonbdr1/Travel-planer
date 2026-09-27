@@ -40,3 +40,28 @@ export function bargainReasonDate(percent: number): string {
 export function bargainReasonPlace(percent: number, place: string): string {
   return `${percent} % günstiger als vergleichbare Unterkünfte in ${place}`;
 }
+
+/** Board labels for e-mails and server texts (the SPA has the same in i18n/de.ts). */
+export const BOARD_LABELS: Record<string, string> = {
+  RO: 'ohne Verpflegung',
+  BB: 'mit Frühstück',
+  HB: 'Halbpension',
+  FB: 'Vollpension',
+  AI: 'All inclusive',
+  OTHER: 'Verpflegung siehe Tarif',
+};
+
+/** Server texts of the booking flow (error answers of the API). */
+export const BOOKING_TEXTS = {
+  disabled: 'Buchungen sind vorübergehend nicht möglich. Bitte versuche es später erneut.',
+  offerNotFound: 'Dieses Angebot gehört nicht zu dieser Suche.',
+  guestsInvalid: 'Bitte gib für jedes Zimmer einen Gast an.',
+  offerUnavailable: 'Dieses Angebot ist leider nicht mehr verfügbar. Bitte wähle ein anderes Angebot oder starte eine neue Suche.',
+  tokenInvalid: 'Der Link ist ungültig oder abgelaufen.',
+  priceConfirmationRequired: 'Der Preis hat sich geändert. Bitte bestätige den neuen Preis, bevor du bezahlst.',
+  inProgress: 'Die Buchung wird gerade abgeschlossen. Bitte versuche es in einigen Sekunden erneut.',
+  invalidState: 'Diese Buchung kann in ihrem aktuellen Zustand nicht abgeschlossen werden.',
+  bookFailed: 'Die Unterkunft konnte die Buchung nicht bestätigen. Die Reservierung auf deinem Zahlungsmittel wird wieder freigegeben, meist innerhalb von 1 bis 2 Werktagen.',
+  notCancellable: 'Diese Buchung kann nicht storniert werden.',
+  cancelFailed: 'Die Stornierung ist fehlgeschlagen. Bitte versuche es später erneut oder schreib uns.',
+} as const;

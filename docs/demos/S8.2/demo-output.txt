@@ -1,0 +1,16 @@
+$ npm run demo -- s8.2
+# recorded 2026-09-27T21:11:43.769Z
+
+starting local stack …
+Angebot: Ferienwohnung Sonnenhof, 2026-10-02 – 2026-10-04, 118.35 €
+POST /bookings → 201: Buchungsnummer BR0N54S5, Status prebooked, Preis 124.27 € (geändert: true), Zahlung sandbox (simuliert)
+POST confirm-price → 200
+POST complete mit fremdem Sitzungstoken → 403 forbidden
+POST complete → 200: Status confirmed, Hotel-Bestätigungsnummer HCN-679285
+POST complete (Wiederholung) → gleicher Stand: true
+GET /bookings/BR0N54S5 → confirmed, Ferienwohnung Sonnenhof, e***@example.org, stornierbar: true
+POST cancel (dry_run) → {"kind":"free","fee_eur":0,"refund_eur":124.27}
+POST cancel → cancelled
+E-Mail-Postausgang: booking_confirmation (sent), booking_cancelled (sent)
+Ablauf: draft → prebooked → booking → confirmed → cancelled
+→ Buchung, Idempotenz, Token-Prüfung und Stornierung wie geplant
