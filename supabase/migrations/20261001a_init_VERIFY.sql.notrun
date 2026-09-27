@@ -1,0 +1,20 @@
+-- Verification queries for 20261001a_init (run manually after `supabase db push`;
+-- every query must return the documented result).
+
+-- 1. Schema exists and is invisible to anon/authenticated: expect false, false.
+SELECT has_schema_privilege('anon', 'app', 'USAGE') AS anon_usage,
+       has_schema_privilege('authenticated', 'app', 'USAGE') AS authenticated_usage;
+
+-- 2. Application roles exist: expect 2 rows.
+SELECT rolname, rolcanlogin FROM pg_roles WHERE rolname IN ('app_rw', 'app_import') ORDER BY rolname;
+
+-- 3. RLS enabled on every table in schema app: expect 0.
+SELECT count(*) AS tables_without_rls FROM pg_tables WHERE schemaname = 'app' AND NOT rowsecurity;
+
+-- 4. No table grants to anon, authenticated or PUBLIC in schema app: expect 0.
+SELECT count(*) AS forbidden_grants
+FROM information_schema.role_table_grants
+WHERE table_schema = 'app' AND grantee IN ('anon', 'authenticated', 'PUBLIC');
+
+-- 5. Health row present: expect {"initialized": true}.
+SELECT value FROM app.meta_kv WHERE key = 'schema';

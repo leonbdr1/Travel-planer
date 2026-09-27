@@ -1,0 +1,19 @@
+$ npm run demo -- s1.2
+# recorded 2026-09-27T04:22:05.655Z
+
+# migrations applied: 20261001a_init
+# rls_baseline.sql
+1..12
+ok 1 - RLS is enabled on every table in schema app
+ok 2 - no table in schema app is granted to anon, authenticated or PUBLIC
+ok 3 - anon has no USAGE on schema app
+ok 4 - authenticated has no USAGE on schema app
+ok 5 - no function in schema app is executable by anon or authenticated
+ok 6 - anon cannot read app.meta_kv
+ok 7 - anon cannot write app.meta_kv
+ok 8 - authenticated cannot read app.meta_kv
+ok 9 - authenticated cannot update app.meta_kv
+ok 10 - app_rw can write app.meta_kv
+ok 11 - app_rw can read app.meta_kv
+ok 12 - app_rw can delete from app.meta_kv
+# 12 assertions, all files passed
