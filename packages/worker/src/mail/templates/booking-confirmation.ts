@@ -50,7 +50,7 @@ export function renderBookingConfirmation(p: BookingConfirmationPayload): Render
         : 'mögliche Gebühren vor Ort (z. B. Kurtaxe) sind nicht bekannt',
     },
   ];
-  const contract = `Vertragspartner für den Aufenthalt ist ${p.hotelName}. Bitte zeige bei der Anreise die Bestätigungsnummer der Unterkunft vor.`;
+  const contract = `Vertragspartner für den Aufenthalt ist ${p.hotelName}. Mit der Bestätigungsnummer der Unterkunft kannst du die Buchung auch direkt dort prüfen; zeige sie bei der Anreise vor.`;
   const cancel = cancellationLine(p);
   const html = `<p>Deine Buchung ist bestätigt. Hier sind alle Angaben:</p>${rowsHtml(rows)}<p>${escapeHtml(cancel)}</p><p>${escapeHtml(contract)}</p>${buttonHtml(p.accessUrl, 'Buchung ansehen oder stornieren')}<p style="font-size:13px;color:#52525b">Der Link ist persönlich und 30 Tage gültig. Bitte leite ihn nicht weiter.</p>`;
   const text = `Deine Buchung ist bestätigt. Hier sind alle Angaben:\n\n${rowsText(rows)}\n\n${cancel}\n${contract}\n\nBuchung ansehen oder stornieren:\n${p.accessUrl}\n(Der Link ist persönlich und 30 Tage gültig. Bitte leite ihn nicht weiter.)`;
