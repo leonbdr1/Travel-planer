@@ -6,6 +6,7 @@ import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep, type Workflo
 import { productConfig } from '@reiseplaner/config';
 import { createRequestDeps } from '../deps';
 import { parseRuntimeConfig, type Env } from '../env';
+import { sendHeartbeat } from '../services/heartbeat';
 import { runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../services/reviews';
 import { runFinalize, runLoad, runRatesBlock, runScoreStep } from '../services/search-run';
 
@@ -53,7 +54,13 @@ export class SearchWorkflow extends WorkflowEntrypoint<Env, SearchParams> {
     // Separate steps: a failing AI call is retried without fetching reviews again.
     await step.do('reviews-fetch', STEP, () => withSearchDeps(this.env, (d) => runReviewsFetch(d, searchId)));
     await step.do('reviews-verify', STEP, () => withSearchDeps(this.env, (d) => runReviewsVerify(d, searchId)));
-    const final = await step.do('finalize', STEP, () => withSearchDeps(this.env, (d) => runFinalize(d, searchId)));
+    const final = await step.do('finalize', STEP, () =>
+      withSearchDeps(this.env, async (d) => {
+        const result = await runFinalize(d, searchId);
+        await sendHeartbeat({ url: this.env.OPS_HEARTBEAT_URL, token: this.env.OPS_HB_TOKEN }, 'search-workflow', { status: result.status });
+        return result;
+      }),
+    );
     return { status: final.status };
   }
 }

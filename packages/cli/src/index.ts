@@ -1,6 +1,7 @@
 // `npm run cli -- <command>`: operations CLI (catalog, geonames, validation,
 // fixtures, cost report …). Commands never print secret values.
 import { calibrateCommand } from './commands/calibrate';
+import { costReportCommand } from './commands/cost-report';
 import { catalogCommand } from './commands/catalog';
 import { fixturesCommand } from './commands/fixtures';
 import { geonamesCommand } from './commands/geonames';
@@ -12,6 +13,7 @@ type Command = (args: string[], log: (line: string) => void) => Promise<number>;
 
 const commands: Record<string, Command> = {
   calibrate: calibrateCommand,
+  'cost-report': costReportCommand,
   ors: orsCommand,
   liteapi: liteapiCommand,
   catalog: catalogCommand,

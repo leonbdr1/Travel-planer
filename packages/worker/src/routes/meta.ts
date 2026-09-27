@@ -8,6 +8,7 @@ import { CHIPS, THEME_CODES, THEME_LABELS, constants } from '@reiseplaner/domain
 import type { AppEnv } from '../app';
 import { ConfigurationError } from '../env';
 import { newChallenge } from '../services/altcha';
+import { effectiveMaxCombinations } from '../services/maintenance';
 
 export const metaRoutes = new Hono<AppEnv>()
   .get('/altcha-challenge', async (c) => {
@@ -16,9 +17,16 @@ export const metaRoutes = new Hono<AppEnv>()
     c.header('Cache-Control', 'no-store');
     return c.json(await newChallenge(secret, c.get('deps').now()));
   })
-  .get('/config', (c) => {
-  const { config } = c.get('deps');
+  .get('/config', async (c) => {
+  const { config, db } = c.get('deps');
   const s = productConfig.limits.search;
+  // Lowered while the look-to-book watch throttles; without a database the configured value.
+  let maxCombinations = s.max_combinations;
+  try {
+    maxCombinations = await effectiveMaxCombinations(db());
+  } catch {
+    // keep the configured maximum
+  }
   const body: MetaConfigResponse = {
     app_env: config.APP_ENV,
     providers_mode: config.PROVIDERS_MODE,
@@ -31,7 +39,7 @@ export const metaRoutes = new Hono<AppEnv>()
     limits: {
       max_places: s.max_places,
       max_dates: s.max_dates,
-      max_combinations: s.max_combinations,
+      max_combinations: maxCombinations,
       max_nights: s.max_nights,
       max_rooms: s.max_rooms,
       max_adults_per_room: s.max_adults_per_room,

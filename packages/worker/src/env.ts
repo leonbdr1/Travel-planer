@@ -35,6 +35,8 @@ export interface Env {
   CATALOG_ALLOW_DRAFTS?: string;
   /** Emergency brake for the booking flow. */
   BOOKING_ENABLED?: string;
+  /** Ops worker base URL for heartbeats (unset locally: no heartbeats). */
+  OPS_HEARTBEAT_URL?: string;
   // Secrets (wrangler secret put / .dev.vars)
   LITEAPI_API_KEY?: string;
   ANTHROPIC_API_KEY?: string;

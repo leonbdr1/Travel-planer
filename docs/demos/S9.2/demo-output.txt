@@ -1,0 +1,40 @@
+$ npm run demo -- s9.2
+# recorded 2026-09-27T21:35:09.888Z
+
+Simulierter Tag: 40.000 Tarifanfragen, 8 bestätigte Buchungen
+Cron 30 3 * * * (daily): {"retention.searchesDeleted":0,"retention.ipHashesCleared":0,"retention.guestDataErased":0,"retention.outboxDeleted":0,"invitesSent":0,"lookToBook.ratio":5000,"lookToBook.state":"throttled","lookToBook.maxCombinations":40}
+Outbox ops_alert an betrieb@reiseplaner.example (sent): [Kritisch] Such-zu-Buchungs-Verhältnis über der Drosselschwelle
+  Such-zu-Buchungs-Verhältnis über der Drosselschwelle
+  
+  - Verhältnis 5000 : 1 über 7 Tage (Drosselung ab 4500 : 1, Alarm ab 3000 : 1).
+  - Neue Suchen sind auf höchstens 40 Kombinationen begrenzt (sonst 120).
+  - Die Drosselung endet automatisch, sobald das Verhältnis unter die Alarmschwelle fällt.
+  
+GET /meta/config → max_combinations 40 (konfiguriert 120)
+
+# Kostenbericht: letzte 7 Tage (ab 2026-09-20)
+
+## Anbieteraufrufe
+
+| Anbieter | Endpunkt | Aufrufe |
+|---|---|---|
+| liteapi | hotels/rates | 40000 |
+| resend | emails | 1 |
+
+## KI-Kosten (skill_runs)
+
+| Skill | Läufe | davon ok | Kosten USD |
+|---|---|---|---|
+| – | 0 | 0 | 0.0000 |
+
+## Tagesbudgets
+
+| Tag | Bereich | verbraucht | Deckel | Anteil |
+|---|---|---|---|---|
+| – | – | 0 | – | – |
+
+## Such-zu-Buchungs-Verhältnis
+
+5000 : 1 (Tarifanfragen je bestätigter Buchung; 8 Buchungen im Zeitraum).
+
+→ Alarm in der Outbox, neue Suchen auf 40 Kombinationen gedrosselt

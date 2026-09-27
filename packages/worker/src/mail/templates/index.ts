@@ -5,6 +5,7 @@ import { accessLinkPayload, renderAccessLink } from './access-link';
 import { bookingCancelledPayload, renderBookingCancelled } from './booking-cancelled';
 import { bookingConfirmationPayload, renderBookingConfirmation } from './booking-confirmation';
 import type { RenderedEmail } from './layout';
+import { opsAlertPayload, renderOpsAlert } from './ops-alert';
 import { renderReviewInvite, reviewInvitePayload } from './review-invite';
 
 export type { RenderedEmail };
@@ -12,6 +13,7 @@ export { type AccessLinkPayload } from './access-link';
 export { type BookingCancelledPayload } from './booking-cancelled';
 export { type BookingConfirmationPayload } from './booking-confirmation';
 export { type ReviewInvitePayload } from './review-invite';
+export { type OpsAlertPayload } from './ops-alert';
 
 export function renderEmail(type: EmailType, payload: unknown): RenderedEmail {
   switch (type) {
@@ -24,6 +26,6 @@ export function renderEmail(type: EmailType, payload: unknown): RenderedEmail {
     case 'review_invite':
       return renderReviewInvite(reviewInvitePayload.parse(payload));
     case 'ops_alert':
-      throw new Error('ops alerts are sent by the ops worker');
+      return renderOpsAlert(opsAlertPayload.parse(payload));
   }
 }

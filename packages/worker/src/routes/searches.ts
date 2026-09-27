@@ -29,6 +29,7 @@ import { parseJsonBody } from '../http/validate';
 import { verifyAltcha } from '../services/altcha';
 import { sha256Hex } from '../services/search-run';
 import { constantTimeEqual } from '../services/tokens';
+import { effectiveMaxCombinations } from '../services/maintenance';
 import { getTravelTimes } from '../services/travel-times';
 
 const HOUR_S = 3600;
@@ -97,9 +98,11 @@ export const searchRoutes = new Hono<AppEnv>()
       if (placeIds.length > limits.max_places) {
         throw new ApiError(400, 'too_many_places', `Höchstens ${limits.max_places} Orte pro Suche.`);
       }
-      const combos = checkCombinations(placeIds.length, dates.dates.length, limits.max_combinations);
+      // The look-to-book watch may lower the maximum for new searches.
+      const maxCombinations = await effectiveMaxCombinations(db);
+      const combos = checkCombinations(placeIds.length, dates.dates.length, maxCombinations);
       if (!combos.ok) {
-        throw new ApiError(400, 'too_many_combinations', `Zu viele Kombinationen (${combos.count}); möglich sind höchstens ${limits.max_combinations}.`, {
+        throw new ApiError(400, 'too_many_combinations', `Zu viele Kombinationen (${combos.count}); möglich sind höchstens ${maxCombinations}.`, {
           count: combos.count,
         });
       }

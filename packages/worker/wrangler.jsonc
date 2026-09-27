@@ -25,7 +25,7 @@
   // Combination search (architektur.md 6.4).
   "workflows": [{ "name": "app-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
   // Maintenance jobs (architektur.md 6.12); the schedules are mirrored in src/cron.ts.
-  "triggers": { "crons": ["*/10 * * * *"] },
+  "triggers": { "crons": ["*/10 * * * *", "0 * * * *", "30 3 * * *"] },
   "vars": {
     "APP_ENV": "dev",
     "PROVIDERS_MODE": "fake",

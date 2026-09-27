@@ -46,6 +46,10 @@ export const productConfigSchema = z.strictObject({
     email: z.email(),
     response_time_hours: positiveInt,
   }),
+  /** Recipient of operational alerts (look-to-book watch, budgets, watchdog). */
+  ops: z.strictObject({
+    alert_email: z.email(),
+  }),
   /** Sender of transactional e-mails (Resend, architektur.md E10); replies go to support. */
   mail: z.strictObject({
     from_name: z.string().min(1),

@@ -13,3 +13,5 @@ export * from './repos/searches';
 export * from './repos/reviews';
 export * from './repos/bookings';
 export * from './repos/outbox';
+export * from './repos/settings';
+export * from './repos/maintenance';
