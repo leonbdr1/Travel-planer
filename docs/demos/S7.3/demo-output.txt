@@ -1,0 +1,17 @@
+$ npm run demo -- s7.3
+# recorded 2026-09-27T20:40:10.100Z
+
+starting local stack …
+1) Suche Füssen × 2 Freitage, KI aktiv (Fake-Modell), Top 10 werden geprüft:
+  Suche: done; Liste: review_status ok, 1 Warnhinweis(e)
+  Rezensionscheck: status ok, KI-gestützt true, 100 Bewertungen geprüft
+    Schimmel: 3 Erwähnungen, davon 3 in den letzten 6 Monaten, zuletzt 2026-09-19, bestätigt (high, ai_assisted)
+  Score: Stufe 1 S0 = 8.892, Aktualität Δ -0.25 → 8.785, Abzug 1, Qualität 7.8
+  review_checks.topics: [{"topic":"schimmel","confirmed_count":3,"unverified_count":0,"recent_count":3,"latest_date":"2026-09-19","severity":"high"}]
+
+2) Gleiche Suche mit aufgebrauchtem KI-Tagesbudget (Check gelöscht, llm_usd voll reserviert):
+  Suche: done; Liste: review_status unverified, 1 Warnhinweis(e)
+  Rezensionscheck: status skipped_budget, KI-gestützt false, 100 Bewertungen geprüft
+    Schimmel: 3 Erwähnungen, davon 3 in den letzten 6 Monaten, zuletzt 2026-09-19, ungeprüft
+  Score: Stufe 1 S0 = 8.892, Aktualität Δ -0.25 → 8.785, Abzug 0, Qualität 8.8
+→ Schimmel 3 von 3 bestätigt, Score gemindert; ohne Budget ungeprüft und ohne Abzug

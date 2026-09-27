@@ -36,12 +36,15 @@ export const warningSchema = z.object({
   latest_date: z.string().nullable(),
   verified: z.boolean(),
   severity: z.enum(['low', 'medium', 'high']).nullable(),
-  ai_provenance: z.literal('ai_assisted'),
+  /** `ai_assisted` for warnings the skill confirmed; null for unverified keyword hints. */
+  ai_provenance: z.literal('ai_assisted').nullable(),
 });
 export type WarningDto = z.infer<typeof warningSchema>;
 
 export const reviewCheckSchema = z.object({
-  status: z.enum(['ok', 'skipped_budget', 'error']),
+  status: z.enum(['ok', 'no_reviews', 'skipped_budget', 'failed']),
+  /** The skill checked keyword hits (label as AI-assisted analysis). */
+  ai_assisted: z.boolean(),
   reviews_checked: z.number().int(),
   recent_rating: z.number().nullable(),
   recent_count: z.number().int(),

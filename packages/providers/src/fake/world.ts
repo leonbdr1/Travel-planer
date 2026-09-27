@@ -389,13 +389,13 @@ const PROS_DE = [
   'Tolle Lage, ideal als Ausgangspunkt für Wanderungen.',
   'Das Zimmer war gemütlich und ruhig.',
   'Super Aussicht vom Balkon, wir kommen wieder.',
-  'Absolut sauber, kein Schimmel, alles top gepflegt.',
+  'Absolut sauber und alles top gepflegt.',
   'Gute Betten, sehr ruhige Nächte.',
   'Preis-Leistung stimmt.',
   'Kostenlose Parkplätze direkt am Haus.',
 ];
 const PROS_EN = ['Great location and very friendly staff.', 'Clean room and a lovely breakfast.', 'Quiet at night, comfortable beds.'];
-const CONS_DE = ['Das WLAN war etwas langsam.', 'Parkplätze waren knapp.', 'Frühstück hätte etwas mehr Auswahl haben können.', 'Nichts zu bemängeln.', 'Etwas hellhörig, aber nicht laut.'];
+const CONS_DE = ['Das WLAN war etwas langsam.', 'Parkplätze waren knapp.', 'Frühstück hätte etwas mehr Auswahl haben können.', 'Nichts zu bemängeln.', 'Die Anfahrt über die Bergstraße ist etwas kurvig.'];
 const CONS_EN = ['Wifi was a bit slow.', 'Nothing to complain about.'];
 
 const ISSUE_CONS: Record<Exclude<IssueProfile, 'none'>, string[]> = {
@@ -412,14 +412,15 @@ const FIRST_NAMES = ['Anna', 'Jonas', 'Mia', 'Lukas', 'Lea', 'Paul', 'Sophie', '
 
 /**
  * Reviews for a hotel, newest first, relative to `today`. Hotels with an
- * issue profile get recurring complaints, three of them within the last six
- * months (review check, konzept.md 5.1 example 4).
+ * issue profile get recurring complaints in the first slots when those fall
+ * within the last six months; mould houses get exactly these three
+ * (konzept.md 5.1 example 4), other issues one more in slot 9.
  */
 export function reviewsFor(hotel: FakeHotel, today: string, limit: number): FakeReview[] {
   const count = Math.min(hotel.reviewCount, limit);
   const r = seeded('reviews', hotel.id);
   const reviews: FakeReview[] = [];
-  const issueSlots = hotel.issue === 'none' ? new Set<number>() : new Set([0, 2, 4, 9]);
+  const issueSlots = hotel.issue === 'none' ? new Set<number>() : hotel.issue === 'mold' ? new Set([0, 2, 4]) : new Set([0, 2, 4, 9]);
   for (let i = 0; i < count; i += 1) {
     // Newest first: spread over roughly 24 months, denser in recent months.
     const ageDays = Math.round(Math.pow(i / Math.max(count, 1), 1.3) * 700 + between(r, 1, 12));

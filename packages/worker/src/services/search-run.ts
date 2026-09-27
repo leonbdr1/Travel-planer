@@ -32,6 +32,7 @@ import {
 import { ProviderError, type LiteApiPort } from '@reiseplaner/providers';
 import { searchRequestSchema, type SearchRequest } from '@reiseplaner/contracts';
 import { runScore } from './results';
+import { loadReviewData } from './reviews';
 
 export interface SearchRunDeps {
   db: Queryable;
@@ -197,7 +198,13 @@ export async function runScoreStep(deps: SearchRunDeps, searchId: string) {
   return runScore(deps.db, searchId, request);
 }
 
+/**
+ * Step `finalize`: quality score stage 2 with the review checks, bargains and
+ * rank recomputed and stored; then status done, partial or failed.
+ */
 export async function runFinalize(deps: SearchRunDeps, searchId: string): Promise<{ status: 'done' | 'partial' | 'failed'; done: number; failed: number }> {
+  const { request } = await loadRequest(deps.db, searchId);
+  await runScore(deps.db, searchId, request, await loadReviewData(deps.db, searchId, request.chips), null);
   await failPendingCombinations(deps.db, searchId, 'timeout');
   const { done, failed, total } = await recountSearch(deps.db, searchId);
   const status = failed === 0 ? 'done' : failed >= total ? 'failed' : 'partial';

@@ -71,6 +71,12 @@ export const REVIEW_SNIPPET_RADIUS = 120;
 export const REVIEW_MAX_SNIPPETS_PER_TOPIC = 5;
 export const REVIEW_MAX_SNIPPETS_TOTAL = 25;
 export const REVIEW_RECENT_MONTHS_LABEL = 6;
+/** Unverified results (AI off, budget spent, skill error) are retried sooner. */
+export const REVIEW_UNVERIFIED_CACHE_HOURS = 24;
+/** Snippets wait at most this long between reviews-fetch and reviews-verify. */
+export const REVIEW_PENDING_TTL_HOURS = 24;
+/** Provider category ratings (cleanliness) only after validation V7 (architektur.md 6.10). */
+export const LITEAPI_USE_SENTIMENT = false;
 
 export const REQUEST_BODY_LIMIT_BYTES = 16 * 1024;
 export const SEARCH_TOKEN_BYTES = 32;

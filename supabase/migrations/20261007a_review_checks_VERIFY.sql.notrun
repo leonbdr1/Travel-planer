@@ -1,0 +1,8 @@
+-- Verification for 20261007a_review_checks: two rows with rowsecurity = true,
+-- and no review text column anywhere in review_checks.
+SELECT tablename, rowsecurity FROM pg_tables
+ WHERE schemaname = 'app' AND tablename IN ('review_checks', 'review_check_pending')
+ ORDER BY tablename;
+SELECT column_name FROM information_schema.columns
+ WHERE table_schema = 'app' AND table_name = 'review_checks'
+ ORDER BY ordinal_position;

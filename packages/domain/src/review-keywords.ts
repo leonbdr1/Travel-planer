@@ -3,7 +3,8 @@
 // topic (whole words, case-insensitive, five languages), cut snippets of
 // ±REVIEW_SNIPPET_RADIUS characters, cap them per topic and in total, and
 // aggregate the skill's findings (or, without AI, the unverified hits).
-// Author names never reach this module: the provider adapter drops them.
+// Author names never reach this module: the provider adapter drops them;
+// e-mail addresses and phone numbers are masked before snippets are cut.
 import {
   RECENT_REVIEW_MONTHS,
   REVIEW_MAX_AGE_MONTHS,
@@ -14,6 +15,7 @@ import {
   SEVERITY_WEIGHTS,
 } from './constants';
 import { addMonths } from './dates';
+import { redactContactData } from './pii';
 import { REVIEW_LEXICON, REVIEW_LEXICON_LANGUAGES, type LexiconLanguage, type ReviewLexicon } from './generated/review-lexicon';
 import type { Severity } from './scoring';
 import type { GuestReview, IsoDate } from './types';
@@ -131,7 +133,7 @@ function snippetAround(text: string, start: number, end: number): string {
   return `${from > 0 ? '…' : ''}${text.slice(from, to).trim()}${to < text.length ? '…' : ''}`;
 }
 
-const normalize = (s: string) => s.replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
+const normalize = (s: string) => redactContactData(s.replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim());
 
 interface Candidate extends Omit<ReviewSnippet, 'id'> {
   reviewIndex: number;
