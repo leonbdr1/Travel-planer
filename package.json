@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Flexible Unterkunftssuche über Orte und Termine (Arbeits-Slug reiseplaner)",
+  "description": "Flexible Unterkunftssuche \u00fcber Orte und Termine (Arbeits-Slug reiseplaner)",
   "engines": {
     "node": ">=22"
   },
@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "tsx scripts/dev.ts",
-    "db:local": "tsx packages/db/src/bin/local-server.ts",
+    "db:local": "tsx packages/cli/src/bin/db-local.ts",
     "db:test": "tsx packages/db/src/bin/pgtap.ts",
     "test": "npm run gen && vitest run",
     "test:watch": "vitest",

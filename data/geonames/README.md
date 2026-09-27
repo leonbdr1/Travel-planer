@@ -1,0 +1,26 @@
+# GeoNames – Ortsdatenbank
+
+Quelle der Tabelle `app.geo_localities` (Startort-Autovervollständigung, Abgleich des Ortskatalogs). Lizenz: **CC BY 4.0**, Quellenangabe „Ortsdaten: GeoNames“ ist Pflicht (steht in `product.config.yaml` → `attribution` und in der Fußzeile jeder Seite).
+
+## Produktivdaten (O3.1, Operator-Lane)
+
+Die Rohdaten kommen **nicht** ins Repository.
+
+1. Laden: `https://download.geonames.org/export/dump/{DE,AT,CH,IT}.zip` und `https://download.geonames.org/export/zip/{DE,AT,CH,IT}.zip`, entpacken nach `<dir>/{DE,AT,CH,IT}.txt` und `<dir>/zip/{DE,AT,CH,IT}.txt`.
+2. Prüfsummen und Abrufdatum hier in `SHA256SUMS` bzw. unten eintragen.
+3. Import: `npm run cli -- geonames import <dir>` (nur Feature-Klasse `P`, Italien nur Provinz Bozen, deutsche Alternativnamen, Postleitzahlen zugeordnet; idempotent).
+
+| Datei | Abrufdatum | SHA-256 |
+|---|---|---|
+| (noch kein Produktivimport) | | |
+
+## Entwicklungs-Auszug (`dev-extract/`)
+
+In der Bau-Sitzung war `download.geonames.org` über den Netzwerk-Proxy gesperrt. Für die lokale Entwicklung liegt deshalb ein **Auszug der GeoNames-Datei `cities1000`** (Orte ab 1.000 Einwohnern) im Repository:
+
+- `dev-extract/DACH-cities1000.tsv`: 11.056 Siedlungen in DE, AT, CH und Südtirol im Original-Dump-Format (19 Spalten). Herkunft: npm-Paket `all-the-cities@3.1.0` (abgeleitet aus GeoNames `cities1000`, CC BY 4.0), erzeugt mit `dev-extract/build.mjs`. Geonameids und Koordinaten stammen aus GeoNames, nicht aus einer KI.
+- **Einschränkungen:** keine Orte unter 1.000 Einwohnern, keine Postleitzahlen (die Postleitzahlen-Suche funktioniert erst nach dem Produktivimport), Datenstand des npm-Pakets.
+- **Südtirol:** GeoNames führt die Orte mit italienischem Hauptnamen. Die deutschen Namen (amtliche zweisprachige Gemeindenamen) sind in `dev-extract/alt-names-bz.json` ergänzt; beim Produktivimport kommen sie aus den GeoNames-Alternativnamen.
+- Prüfsumme: `SHA256SUMS` (`sha256sum -c data/geonames/SHA256SUMS` im Ordner `data/geonames`).
+
+Lokale Datenbank befüllen: geschieht automatisch beim ersten `npm run dev`; manuell mit `npm run cli -- geonames import data/geonames/dev-extract`.

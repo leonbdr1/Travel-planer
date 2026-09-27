@@ -1,0 +1,13 @@
+-- Verification for 20261003a_geo_localities.
+-- 1. pg_trgm available: expect one row.
+SELECT extname, extnamespace::regnamespace FROM pg_extension WHERE extname = 'pg_trgm';
+-- 2. RLS on and app_rw read-only: expect rowsecurity = true, insert = false, select = true.
+SELECT rowsecurity,
+       has_table_privilege('app_rw', 'app.geo_localities', 'INSERT') AS app_rw_insert,
+       has_table_privilege('app_rw', 'app.geo_localities', 'SELECT') AS app_rw_select
+  FROM pg_tables WHERE schemaname = 'app' AND tablename = 'geo_localities';
+-- 3. After the import: counts per country, South Tyrol only.
+SELECT country_code, count(*) FROM app.geo_localities GROUP BY 1 ORDER BY 1;
+SELECT count(*) AS non_bz_italian FROM app.geo_localities WHERE country_code = 'IT' AND admin2 <> 'BZ';
+-- 4. Autocomplete smoke test: expect Stuttgart first.
+SELECT name, country_code, admin1 FROM app.search_localities('stutt', 5);

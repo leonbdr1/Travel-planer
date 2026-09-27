@@ -1,0 +1,2 @@
+2771725	Mayrhofen	Mayrhofen		47.16667	11.86667	P	PPLA3	AT		07		70920		3720			Europe/Vienna	
+2775220	Innsbruck	Innsbruck		47.26266	11.39454	P	PPLA	AT		07		70101		132493			Europe/Vienna	

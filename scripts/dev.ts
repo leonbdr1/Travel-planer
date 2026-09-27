@@ -9,6 +9,7 @@ import { existsSync, writeFileSync } from 'node:fs';
 import { createConnection } from 'node:net';
 import { resolve } from 'node:path';
 import { DEFAULT_LOCAL_DB_PORT, repoRoot, startLocalDb } from '@reiseplaner/db/node';
+import { seedDevData } from '../packages/cli/src/seed';
 
 const devVarsPath = resolve(repoRoot, 'packages/worker/.dev.vars');
 if (!existsSync(devVarsPath)) {
@@ -44,7 +45,11 @@ if (await portInUse(dbPort)) {
   console.log(`dev: using the database already listening on 127.0.0.1:${dbPort}`);
 } else {
   const dataDir = process.env.REISEPLANER_DATA_DIR;
-  const local = await startLocalDb({ port: dbPort, ...(dataDir ? { dataDir } : {}) });
+  const local = await startLocalDb({
+    port: dbPort,
+    ...(dataDir ? { dataDir } : {}),
+    onReady: (db) => seedDevData(db, (line) => console.log(line)),
+  });
   stopDb = local.stop;
 }
 

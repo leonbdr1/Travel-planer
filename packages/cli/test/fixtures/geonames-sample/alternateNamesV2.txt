@@ -1,0 +1,4 @@
+100001	3181913	de	Bozen	1					
+100002	3181913	en	Bolzano						
+100003	3173577	de	Meran	1					
+100004	3173577	de	Mairania				1		

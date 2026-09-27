@@ -6,3 +6,4 @@ export { pingDb } from './repos/meta';
 export * from './repos/usage';
 export * from './repos/budgets';
 export * from './repos/travel-times';
+export * from './repos/geo';

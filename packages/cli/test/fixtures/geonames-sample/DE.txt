@@ -1,0 +1,4 @@
+2825297	Stuttgart	Stuttgart		48.78232	9.17702	P	PPLA	DE		01		08111	08111000	589793			Europe/Berlin	
+2858964	Oberstdorf	Oberstdorf		47.40724	10.27939	P	PPL	DE		02		09780	09780133	9788			Europe/Berlin	
+2923507	Füssen	Fussen		47.57143	10.70171	P	PPL	DE		02		09777	09777129	13893			Europe/Berlin	
+2958683	Zugspitze	Zugspitze		47.42118	10.98635	T	MT	DE		02				0	2962	2946	Europe/Berlin	2021-01-01

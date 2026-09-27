@@ -1,0 +1,1 @@
+Test-Auszug im GeoNames-Format für `geonames import`: Zeilen aus `data/geonames/dev-extract` (GeoNames, CC BY 4.0), dazu eine Zeile außerhalb des Markts (Zugspitze, Klasse T), Trento (Italien, nicht Südtirol), Beispiel-Alternativnamen und Postleitzahlen (inklusive einer, die keinem Ort zugeordnet werden kann).

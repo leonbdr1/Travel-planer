@@ -1,6 +1,7 @@
 // `npm run cli -- <command>`: operations CLI (catalog, geonames, validation,
 // fixtures, cost report …). Commands never print secret values.
 import { fixturesCommand } from './commands/fixtures';
+import { geonamesCommand } from './commands/geonames';
 import { liteapiCommand } from './commands/liteapi';
 import { orsCommand } from './commands/ors';
 import { secretsCommand } from './commands/secrets';
@@ -11,6 +12,7 @@ const commands: Record<string, Command> = {
   ors: orsCommand,
   liteapi: liteapiCommand,
   fixtures: fixturesCommand,
+  geonames: geonamesCommand,
   secrets: secretsCommand,
 };
 

@@ -1,0 +1,22 @@
+$ npm run demo -- s3.1
+# recorded 2026-09-27T04:50:38.836Z
+
+$ npm run cli -- geonames import packages/cli/test/fixtures/geonames-sample
+Importiert: DE 3, AT 2, CH 1, IT-BZ 2 (9 ms, Datenbank temporary PGlite)
+Postleitzahlen: 3 zugeordnet, 1 ohne passenden Ort
+Bestand: {"AT":2,"CH":1,"DE":3,"IT-BZ":2}
+$ npm run cli -- geonames lookup Oberstd
+Oberstdorf, Bayern, DE  (geonameid 2858964, 9788 Einw., PLZ 87561)
+
+$ npm run cli -- geonames import data/geonames/dev-extract
+Importiert: DE 7244, AT 2244, CH 1415, IT-BZ 153 (1253 ms, Datenbank temporary PGlite)
+Postleitzahlen: 0 zugeordnet, 0 ohne passenden Ort
+Bestand: {"AT":2244,"CH":1415,"DE":7244,"IT-BZ":153}
+$ npm run cli -- geonames lookup Oberstd
+Oberstdorf, Bayern, DE  (geonameid 2858964, 9788 Einw.)
+Idar-Oberstein, Rheinland-Pfalz, DE  (geonameid 2896753, 31610 Einw.)
+Zürich (Kreis 6) / Oberstrass, Zürich, CH  (geonameid 6295505, 9906 Einw.)
+Oberstenfeld, Baden-Württemberg, DE  (geonameid 2858906, 8046 Einw.)
+Oberstaufen, Bayern, DE  (geonameid 2858966, 7190 Einw.)
+$ npm run cli -- geonames lookup Meran
+Meran, Südtirol, IT  (geonameid 3173577, 33453 Einw.)

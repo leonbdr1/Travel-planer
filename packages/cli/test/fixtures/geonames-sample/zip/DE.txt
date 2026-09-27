@@ -1,0 +1,4 @@
+DE	70173	Stuttgart	Baden-Württemberg	BW	Regierungsbezirk Stuttgart	081	Stuttgart	08111	48.7823	9.177	4
+DE	87561	Oberstdorf	Bayern	BY	Schwaben	097	Landkreis Oberallgäu	09780	47.4072	10.2794	4
+DE	87629	Füssen	Bayern	BY	Schwaben	097	Landkreis Ostallgäu	09777	47.5714	10.7017	4
+DE	99999	Nirgendwo	Bayern	BY					51.0	7.0	1

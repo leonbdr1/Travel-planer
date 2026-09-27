@@ -3,3 +3,5 @@ export * as constants from './constants';
 export * from './types';
 export * from './geo';
 export * from './claims';
+export * from './text';
+export * from './admin-areas';
