@@ -3,6 +3,7 @@ import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import { NotFound } from './pages/NotFound';
 import { Placeholder } from './pages/Placeholder';
+import { Search } from './pages/Search';
 import { de } from './i18n/de';
 
 export const router = createBrowserRouter([
@@ -10,7 +11,7 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'suche', element: <Placeholder title={de.nav.search} /> },
+      { path: 'suche', element: <Search /> },
       { path: 'buchung', element: <Placeholder title={de.nav.booking} /> },
       { path: 'so-funktionierts', element: <Placeholder title={de.footer.howItWorks} /> },
       { path: 'ranking', element: <Placeholder title={de.footer.ranking} /> },

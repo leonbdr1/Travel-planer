@@ -1,0 +1,107 @@
+// Wizard state (steps 1–3). Kept in sessionStorage so a reload keeps the
+// progress; nothing leaves the browser except the API calls.
+import { addDays, formatIsoDate, generateStayDates, type DatesResult } from '@reiseplaner/domain';
+import type { LocalityDto, MetaConfigResponse, PlaceDto, RegionSuggestionDto } from '@reiseplaner/contracts';
+
+export interface WizardState {
+  step: 1 | 2 | 3 | 4;
+  origin: LocalityDto | null;
+  maxDriveMinutes: number | null;
+  themes: string[];
+  windowStart: string;
+  windowEnd: string;
+  nights: number;
+  weekdays: number[];
+  adults: number;
+  childrenAges: number[];
+  rooms: number;
+  budgetEur: number | null;
+  minStars: number | null;
+  minRating: number | null;
+  chips: string[];
+  wishText: string;
+  unmatched: string[];
+  regions: RegionSuggestionDto[] | null;
+  selectedRegionIds: string[];
+  places: PlaceDto[];
+  selectedPlaceIds: string[];
+  /** true when the user skipped the region step (places entered directly). */
+  direct: boolean;
+}
+
+const KEY = 'wizard-state-v1';
+
+export function todayIso(now: Date = new Date()): string {
+  return formatIsoDate(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+}
+
+export function initialState(now: Date = new Date()): WizardState {
+  const today = todayIso(now);
+  const start = addDays(today, 7);
+  return {
+    step: 1,
+    origin: null,
+    maxDriveMinutes: 180,
+    themes: [],
+    windowStart: start,
+    windowEnd: addDays(start, 42),
+    nights: 2,
+    weekdays: [5],
+    adults: 2,
+    childrenAges: [],
+    rooms: 1,
+    budgetEur: null,
+    minStars: null,
+    minRating: null,
+    chips: [],
+    wishText: '',
+    unmatched: [],
+    regions: null,
+    selectedRegionIds: [],
+    places: [],
+    selectedPlaceIds: [],
+    direct: false,
+  };
+}
+
+export function loadState(): WizardState {
+  try {
+    const raw = sessionStorage.getItem(KEY);
+    if (raw) return { ...initialState(), ...(JSON.parse(raw) as Partial<WizardState>) };
+  } catch {
+    // storage unavailable (private mode): start fresh
+  }
+  return initialState();
+}
+
+export function saveState(state: WizardState): void {
+  try {
+    sessionStorage.setItem(KEY, JSON.stringify(state));
+  } catch {
+    // ignore
+  }
+}
+
+export function clearState(): void {
+  try {
+    sessionStorage.removeItem(KEY);
+  } catch {
+    // ignore
+  }
+}
+
+export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Date = new Date()): DatesResult {
+  return generateStayDates(
+    {
+      window: { start: state.windowStart, end: state.windowEnd },
+      nights: state.nights,
+      arrivalWeekdays: state.weekdays,
+      today: todayIso(now),
+    },
+    { maxDates: meta.limits.max_dates, maxNights: meta.limits.max_nights, maxWindowDays: meta.limits.max_window_days },
+  );
+}
+
+export function toggle<T>(list: readonly T[], value: T): T[] {
+  return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+}

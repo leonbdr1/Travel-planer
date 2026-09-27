@@ -66,7 +66,11 @@ export function createApp(options: AppOptions = {}) {
       console.error(JSON.stringify({ level: 'error', msg: 'configuration', paths: err.paths }));
       return c.json(errorBody('misconfigured', 'Der Dienst ist falsch konfiguriert.'), 500);
     }
-    console.error(JSON.stringify({ level: 'error', msg: 'unhandled', name: (err as Error).name }));
+    const dev = c.env.APP_ENV === 'dev' || c.env.APP_ENV === 'test';
+    // Messages may carry data values; only local environments log them.
+    console.error(
+      JSON.stringify({ level: 'error', msg: 'unhandled', name: (err as Error).name, ...(dev ? { detail: String((err as Error).message).slice(0, 300) } : {}) }),
+    );
     return c.json(errorBody('internal', 'Interner Fehler. Bitte versuche es später erneut.'), 500);
   });
 

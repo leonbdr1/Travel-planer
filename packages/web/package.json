@@ -13,6 +13,7 @@
     "@heroicons/react": "2.2.0",
     "@reiseplaner/config": "0.0.0",
     "@reiseplaner/contracts": "0.0.0",
+    "@reiseplaner/domain": "0.0.0",
     "@reiseplaner/ui": "0.0.0",
     "altcha": "3.2.3",
     "clsx": "2.1.1",

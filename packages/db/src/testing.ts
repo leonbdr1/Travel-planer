@@ -9,6 +9,7 @@ import { PGLiteSocketServer } from '@electric-sql/pglite-socket';
 import type { Db } from './db';
 import { migrate } from './migrate';
 import { pgliteDb } from './pglite';
+import { startSerialProxy } from './serial-proxy';
 
 let snapshot: Promise<Blob> | undefined;
 
@@ -44,12 +45,16 @@ export async function startTestDbServer(): Promise<TestDbServer> {
   const test = await createTestDb();
   const server = new PGLiteSocketServer({ db: test.pg, port: 0, host: '127.0.0.1', maxConnections: 16 });
   await server.start();
-  const port = Number(server.getServerConn().split(':').pop());
+  const internalPort = Number(server.getServerConn().split(':').pop());
+  const proxy = await startSerialProxy({ host: '127.0.0.1', port: 0, targetPort: internalPort });
   return {
     ...test,
-    port,
-    connectionString: `postgres://postgres:postgres@127.0.0.1:${port}/postgres`,
+    port: proxy.port,
+    connectionString: `postgres://postgres:postgres@127.0.0.1:${proxy.port}/postgres`,
     async close() {
+      await proxy.close();
+      // Let the socket server finish its close handlers before PGlite shuts down.
+      await new Promise((r) => setTimeout(r, 100));
       await server.stop();
       await test.pg.close();
     },

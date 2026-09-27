@@ -144,12 +144,13 @@ try {
     console.log(`dogfood: stack ready at ${stack.baseUrl}`);
   }
   const baseUrl = externalBase ?? stack!.baseUrl;
-  const browser = await chromium.launch({ headless: !process.argv.includes('--headed') });
+  // German UI locale for the whole browser process (date inputs follow it, not the context locale).
+  const browser = await chromium.launch({ headless: !process.argv.includes('--headed'), args: ['--lang=de-DE'], env: { ...process.env, LANG: 'de_DE.UTF-8' } });
   const summary: RunSummary = { runId, mode, flows: [], baseUrl, gitSha, startedAt };
   const counter = { n: 0 };
   try {
     for (const flow of selected) {
-      const context = await browser.newContext({ locale: 'de-DE', viewport: { width: 1280, height: 900 } });
+      const context = await browser.newContext({ locale: 'de-DE', timezoneId: 'Europe/Berlin', viewport: { width: 1280, height: 900 } });
       const page = await context.newPage();
       summary.flows.push(await runFlow(flow, page, baseUrl, counter));
       await context.close();
