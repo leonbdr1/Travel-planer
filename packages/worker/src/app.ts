@@ -12,6 +12,7 @@ import { geoRoutes } from './routes/geo';
 import { healthRoutes } from './routes/health';
 import { metaRoutes } from './routes/meta';
 import { placeRoutes } from './routes/places';
+import { resultRoutes } from './routes/results';
 import { searchRoutes } from './routes/searches';
 import { suggestionRoutes } from './routes/suggestions';
 import { wishRoutes } from './routes/wishes';
@@ -61,6 +62,7 @@ export function createApp(options: AppOptions = {}) {
   app.route('/places', placeRoutes);
   app.route('/wishes', wishRoutes);
   app.route('/searches', searchRoutes);
+  app.route('/searches', resultRoutes);
 
   app.notFound((c) => c.json(errorBody('not_found', 'Diese Adresse gibt es nicht.'), 404));
   app.onError((err, c) => {

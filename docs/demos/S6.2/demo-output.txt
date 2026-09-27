@@ -1,0 +1,19 @@
+$ npm run demo -- s6.2
+# recorded 2026-09-27T16:06:37.753Z
+
+starting local stack …
+Suche partial: Matrix 5 × 9 = 45 Zellen
+Ort                  02.10.   09.10.   16.10.   23.10.   30.10.   06.11.   13.11.   20.11.   27.11.
+Oberstdorf           162 €*   169 €*   190 €*   159 €*   162 €*   141 €*   138 €* k. Daten   130 €*
+Füssen               157 €*   159 €*   157 €*   202 €*   211 €*   126 €*   130 €*   131 €*   130 €*
+Baiersbronn          174 €*   149 €*   176 €*   183 €*   219 €*   133 €*   139 €*    98 €*   149 €*
+Titisee-Neustadt     187 €*   131 €*   137 €*   162 €*   164 €*   127 €*   148 €*    86 €*   151 €*
+Bad Wildbad          166 €*   127 €*   113 €*   178 €*   180 €*   140 €*   136 €*   204 €*   143 €*
+(* = Schnäppchen)
+Liste: 56 Unterkünfte, jede genau einmal (56 eindeutig); 674 von 674 Angeboten erfüllen die Filter; 172 Schnäppchen
+  Gasthof Rose – Baiersbronn, 2026-11-20, 98 €, Score 9, +6 weitere Termine – Preis-Leistung 185 % besser als der Durchschnitt deiner Suche · 34 % günstiger als dieselbe Unterkunft an deinen anderen Terminen
+  Apartments Bachhaus – Bad Wildbad, 2026-10-16, 113 €, Score 8.8, +5 weitere Termine – Preis-Leistung 140 % besser als der Durchschnitt deiner Suche · 57 % günstiger als vergleichbare Unterkünfte in Bad Wildbad
+  Pension Fischerhaus – Oberstdorf, 2026-11-27, 130 €, Score 8.9, +6 weitere Termine – Preis-Leistung 113 % besser als der Durchschnitt deiner Suche
+  Pension Waldesruh – Füssen, 2026-11-06, 126 €, Score 8.8, +6 weitere Termine – Preis-Leistung 117 % besser als der Durchschnitt deiner Suche · 38 % günstiger als vergleichbare Unterkünfte in Füssen
+  Pension Waldesruh – Bad Wildbad, 2026-11-27, 158 €, Score 8.9, +6 weitere Termine – Preis-Leistung 75 % besser als der Durchschnitt deiner Suche · 35 % günstiger als dieselbe Unterkunft an deinen anderen Terminen
+→ Akzeptanzbeispiel 1: Matrix 5 × 9, jede Zelle mit Preis, „kein Angebot“ oder „keine Daten“, jede Unterkunft einmal

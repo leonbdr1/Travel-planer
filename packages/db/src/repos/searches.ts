@@ -386,3 +386,176 @@ export async function countOffers(db: Queryable, searchId: string): Promise<numb
   const rows = await db.query<{ n: number }>('SELECT count(*)::int AS n FROM app.offers WHERE search_id = $1::uuid', [searchId]);
   return Number(rows[0]?.n ?? 0);
 }
+
+export interface EvaluationOfferRow {
+  id: string;
+  hotelId: string;
+  placeId: string;
+  placeName: string;
+  checkin: string;
+  checkout: string;
+  kind: 'cheapest' | 'cheapest_refundable';
+  offerId: string;
+  roomName: string;
+  boardType: 'RO' | 'BB' | 'HB' | 'FB' | 'AI' | 'OTHER';
+  refundable: boolean;
+  freeCancelUntil: string | null;
+  totalCents: number;
+  pricePerNightCents: number;
+  payAtPropertyCents: number;
+  payAtPropertyKnown: boolean;
+  currency: string;
+  nights: number;
+}
+
+export interface EvaluationHotelRow {
+  id: string;
+  name: string;
+  address: string | null;
+  city: string | null;
+  stars: number | null;
+  rating: number | null;
+  reviewCount: number | null;
+  hotelType: string | null;
+  mainPhotoUrl: string | null;
+  facilityIds: number[];
+}
+
+/** Everything the evaluation needs: offers with place and dates, hotels, combination states. */
+export async function loadEvaluationData(db: Queryable, searchId: string) {
+  const offers = await db.query<{
+    id: number;
+    hotel_id: string;
+    place_id: string;
+    place_name: string;
+    checkin: string;
+    checkout: string;
+    offer_kind: 'cheapest' | 'cheapest_refundable';
+    liteapi_offer_id: string;
+    room_name: string;
+    board_type: EvaluationOfferRow['boardType'];
+    refundable: boolean;
+    free_cancel_until: string | null;
+    total_price_cents: number;
+    price_per_night_cents: number;
+    pay_at_property_cents: number;
+    pay_at_property_known: boolean;
+    currency: string;
+    nights: number;
+  }>(
+    `SELECT o.id, o.hotel_id, c.place_id::text AS place_id, p.name AS place_name, c.checkin::text AS checkin, c.checkout::text AS checkout,
+            o.offer_kind, o.liteapi_offer_id, o.room_name, o.board_type, o.refundable,
+            to_char(o.free_cancel_until AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS free_cancel_until,
+            o.total_price_cents, o.price_per_night_cents, o.pay_at_property_cents, o.pay_at_property_known, o.currency, o.nights
+       FROM app.offers o
+       JOIN app.search_combinations c ON c.id = o.combination_id
+       JOIN app.places p ON p.id = c.place_id
+      WHERE o.search_id = $1::uuid
+      ORDER BY o.id`,
+    [searchId],
+  );
+  const hotels = await db.query<{
+    id: string;
+    name: string;
+    address: string | null;
+    city: string | null;
+    stars: number | null;
+    rating: number | null;
+    review_count: number | null;
+    hotel_type: string | null;
+    main_photo_url: string | null;
+    facility_ids: number[];
+  }>(
+    `SELECT h.id, h.name, h.address, h.city, h.stars::float8 AS stars, h.rating::float8 AS rating, h.review_count, h.hotel_type,
+            h.main_photo_url, h.facility_ids
+       FROM app.hotels h WHERE h.id IN (SELECT DISTINCT hotel_id FROM app.offers WHERE search_id = $1::uuid)`,
+    [searchId],
+  );
+  const combinations = await db.query<{ place_id: string; checkin: string; checkout: string; status: CombinationStatus; updated_at: string }>(
+    `SELECT place_id::text AS place_id, checkin::text AS checkin, checkout::text AS checkout, status,
+            to_char(updated_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS updated_at
+       FROM app.search_combinations WHERE search_id = $1::uuid ORDER BY id`,
+    [searchId],
+  );
+  return {
+    offers: offers.map(
+      (o): EvaluationOfferRow => ({
+        id: String(o.id),
+        hotelId: o.hotel_id,
+        placeId: o.place_id,
+        placeName: o.place_name,
+        checkin: o.checkin,
+        checkout: o.checkout,
+        kind: o.offer_kind,
+        offerId: o.liteapi_offer_id,
+        roomName: o.room_name,
+        boardType: o.board_type,
+        refundable: o.refundable,
+        freeCancelUntil: o.free_cancel_until,
+        totalCents: Number(o.total_price_cents),
+        pricePerNightCents: Number(o.price_per_night_cents),
+        payAtPropertyCents: Number(o.pay_at_property_cents),
+        payAtPropertyKnown: o.pay_at_property_known,
+        currency: o.currency,
+        nights: Number(o.nights),
+      }),
+    ),
+    hotels: hotels.map(
+      (h): EvaluationHotelRow => ({
+        id: h.id,
+        name: h.name,
+        address: h.address,
+        city: h.city,
+        stars: h.stars === null ? null : Number(h.stars),
+        rating: h.rating === null ? null : Number(h.rating),
+        reviewCount: h.review_count === null ? null : Number(h.review_count),
+        hotelType: h.hotel_type,
+        mainPhotoUrl: h.main_photo_url,
+        facilityIds: h.facility_ids.map(Number),
+      }),
+    ),
+    combinations: combinations.map((c) => ({
+      placeId: c.place_id,
+      checkin: c.checkin,
+      checkout: c.checkout,
+      state: c.status,
+      updatedAt: c.updated_at,
+    })),
+  };
+}
+
+export interface OfferEvaluation {
+  id: string;
+  passes: boolean;
+  quality: number | null;
+  breakdown: unknown;
+  bargainTypes: string[];
+  bargainReason: string | null;
+  rankScore: number;
+}
+
+/** Persists the evaluation for the search's own filters (step score-1, idempotent). */
+export async function saveEvaluation(db: Queryable, searchId: string, rows: readonly OfferEvaluation[]): Promise<void> {
+  if (rows.length === 0) return;
+  await db.query(
+    `UPDATE app.offers o
+        SET passes_filters = e.passes, quality_score = e.quality, score_breakdown = e.breakdown,
+            bargain_types = coalesce(ARRAY(SELECT jsonb_array_elements_text(e.types)), '{}'), bargain_reason = e.reason, rank_score = e.rank
+       FROM jsonb_to_recordset($2::text::jsonb) AS e(id bigint, passes boolean, quality numeric, breakdown jsonb, types jsonb, reason text, rank numeric)
+      WHERE o.id = e.id AND o.search_id = $1::uuid`,
+    [
+      searchId,
+      json(
+        rows.map((r) => ({
+          id: Number(r.id),
+          passes: r.passes,
+          quality: r.quality,
+          breakdown: r.breakdown,
+          types: r.bargainTypes,
+          reason: r.bargainReason,
+          rank: r.rankScore,
+        })),
+      ),
+    ],
+  );
+}

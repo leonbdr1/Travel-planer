@@ -1,12 +1,12 @@
-// SearchWorkflow (architektur.md 6.4): `load` → `rates-<n>` → `finalize`.
-// Scoring and the review check join between rates and finalize in M6/M7.
+// SearchWorkflow (architektur.md 6.4): `load` → `rates-<n>` → `score-1` →
+// `finalize`. The review check joins before finalize in M7.
 // Steps return only ids and counters (1 MiB limit); every write is idempotent,
 // so a retried step never duplicates offers.
 import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep, type WorkflowStepConfig } from 'cloudflare:workers';
 import { productConfig } from '@reiseplaner/config';
 import { createRequestDeps } from '../deps';
 import { parseRuntimeConfig, type Env } from '../env';
-import { runFinalize, runLoad, runRatesBlock, type SearchRunDeps } from '../services/search-run';
+import { runFinalize, runLoad, runRatesBlock, runScoreStep, type SearchRunDeps } from '../services/search-run';
 
 export interface SearchParams {
   searchId: string;
@@ -45,6 +45,7 @@ export class SearchWorkflow extends WorkflowEntrypoint<Env, SearchParams> {
       const block = await step.do(`rates-${i}`, STEP, () => withSearchDeps(this.env, (d) => runRatesBlock(d, searchId, i)));
       if (block.timedOut) break;
     }
+    await step.do('score-1', STEP, () => withSearchDeps(this.env, (d) => runScoreStep(d, searchId)));
     const final = await step.do('finalize', STEP, () => withSearchDeps(this.env, (d) => runFinalize(d, searchId)));
     return { status: final.status };
   }

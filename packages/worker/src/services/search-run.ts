@@ -31,6 +31,7 @@ import {
 } from '@reiseplaner/domain';
 import { ProviderError, type LiteApiPort } from '@reiseplaner/providers';
 import { searchRequestSchema, type SearchRequest } from '@reiseplaner/contracts';
+import { runScore } from './results';
 
 export interface SearchRunDeps {
   db: Queryable;
@@ -188,6 +189,12 @@ export async function runRatesBlock(deps: SearchRunDeps, searchId: string, index
   }
   await recountSearch(deps.db, searchId);
   return result;
+}
+
+/** Step `score-1`: filters, quality stage 1, bargains and rank for the search's own filters. */
+export async function runScoreStep(deps: SearchRunDeps, searchId: string) {
+  const { request } = await loadRequest(deps.db, searchId);
+  return runScore(deps.db, searchId, request);
 }
 
 export async function runFinalize(deps: SearchRunDeps, searchId: string): Promise<{ status: 'done' | 'partial' | 'failed'; done: number; failed: number }> {

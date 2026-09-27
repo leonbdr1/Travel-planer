@@ -3,7 +3,7 @@ import { introspectWorkflow } from 'cloudflare:test';
 import { describe, expect, it } from 'vitest';
 import { solveChallenge, type Challenge } from 'altcha-lib';
 import { deriveKey } from 'altcha-lib/algorithms/web/sha';
-import { createSearchResponseSchema, searchProgressResponseSchema } from '@reiseplaner/contracts';
+import { createSearchResponseSchema, hotelDetailResponseSchema, searchProgressResponseSchema, searchResultsResponseSchema } from '@reiseplaner/contracts';
 import { createPostgresDb } from '@reiseplaner/db';
 
 let n = 0;
@@ -85,6 +85,44 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
 
     const wrongToken = await api(`/searches/${created.search_id}?token=${'x'.repeat(43)}`);
     expect(wrongToken.status).toBe(404);
+
+    // Results: matrix 2 × 5, every hotel exactly once, filters without a new search.
+    const results = searchResultsResponseSchema.parse(
+      await (await api(`/searches/${created.search_id}/results?token=${created.token}`)).json(),
+    );
+    expect(results.matrix.cells).toHaveLength(10);
+    expect(results.matrix.cells.every((c) => ['offer', 'empty', 'failed'].includes(c.state))).toBe(true);
+    const hotelIds = results.items.map((i) => i.hotel.id);
+    expect(new Set(hotelIds).size).toBe(hotelIds.length);
+    expect(results.items.length).toBe(results.counts.hotels);
+    const ranks = results.items.map((i) => i.best_offer.rank_score);
+    expect([...ranks].sort((a, b) => b - a)).toEqual(ranks);
+    const byPrice = searchResultsResponseSchema.parse(
+      await (await api(`/searches/${created.search_id}/results?token=${created.token}&sort=price`)).json(),
+    );
+    const prices = byPrice.items.map((i) => i.best_offer.total_price_eur);
+    expect([...prices].sort((a, b) => a - b)).toEqual(prices);
+    const tooCheap = searchResultsResponseSchema.parse(
+      await (await api(`/searches/${created.search_id}/results?token=${created.token}&budget=1`)).json(),
+    );
+    expect(tooCheap.items).toEqual([]);
+    expect(tooCheap.filters.budget_total_eur).toBe(1);
+    expect(tooCheap.matrix.cells.every((c) => c.state !== 'offer')).toBe(true);
+    const cell = results.matrix.cells.find((c) => c.state === 'offer');
+    const scoped = searchResultsResponseSchema.parse(
+      await (await api(`/searches/${created.search_id}/results?token=${created.token}&place_id=${cell?.place_id}&checkin=${cell?.checkin}`)).json(),
+    );
+    expect(scoped.items.every((i) => i.best_offer.place_id === cell?.place_id && i.best_offer.checkin === cell?.checkin)).toBe(true);
+
+    // Detail: all dates of one hotel with the score breakdown.
+    const top = results.items[0];
+    const detail = hotelDetailResponseSchema.parse(
+      await (await api(`/searches/${created.search_id}/hotels/${top?.hotel.id}?token=${created.token}`)).json(),
+    );
+    expect(detail.offers.length).toBeGreaterThanOrEqual(1);
+    expect(detail.offers.every((o) => o.hotel_id === top?.hotel.id)).toBe(true);
+    expect(detail.score.priorWeight).toBe(50);
+    expect(detail.hotel.description).toBeTruthy();
   });
 
   it('rejects missing, forged and reused ALTCHA solutions', async () => {
