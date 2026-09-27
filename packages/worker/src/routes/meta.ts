@@ -1,16 +1,36 @@
-// GET /api/v1/meta/config: runtime facts the SPA needs (environment, provider
-// mode, payment mode). Product values come from @reiseplaner/config directly.
+// GET /api/v1/meta/config: everything the SPA needs to render the wizard
+// (architektur.md 7.2): runtime facts, chips, themes, limits, AI labels and
+// attribution. Values come from product.config.yaml and packages/domain.
 import { Hono } from 'hono';
+import { productConfig } from '@reiseplaner/config';
 import type { MetaConfigResponse } from '@reiseplaner/contracts';
+import { CHIPS, THEME_CODES, THEME_LABELS, constants } from '@reiseplaner/domain';
 import type { AppEnv } from '../app';
 
 export const metaRoutes = new Hono<AppEnv>().get('/config', (c) => {
   const { config } = c.get('deps');
+  const s = productConfig.limits.search;
   const body: MetaConfigResponse = {
     app_env: config.APP_ENV,
     providers_mode: config.PROVIDERS_MODE,
     llm_enabled: config.LLM_ENABLED,
     payment_mode: config.LITEAPI_PAYMENT_MODE,
+    catalog_drafts: config.CATALOG_ALLOW_DRAFTS,
+    chips: CHIPS.map((chip) => ({ code: chip.code, label: chip.label })),
+    themes: THEME_CODES.map((code) => ({ code, label: THEME_LABELS[code] })),
+    limits: {
+      max_places: s.max_places,
+      max_dates: s.max_dates,
+      max_combinations: s.max_combinations,
+      max_nights: s.max_nights,
+      max_rooms: s.max_rooms,
+      max_adults_per_room: s.max_adults_per_room,
+      max_children_per_room: s.max_children_per_room,
+      max_window_days: s.max_window_days,
+      wish_text_max_chars: constants.WISH_TEXT_MAX_CHARS,
+    },
+    ai_labels: { ...productConfig.compliance.ai_labels },
+    attribution: productConfig.attribution.map((a) => ({ id: a.id, text: a.text, license: a.license, source_url: a.source_url })),
   };
   return c.json(body);
 });

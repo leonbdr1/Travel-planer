@@ -36,6 +36,8 @@ export async function budgetStatus(db: Queryable, day: string): Promise<BudgetSt
 export interface RateLimitResult {
   count: number;
   allowed: boolean;
+  /** true when the RPC failed; the call is then refused (fail-closed). */
+  failed?: true;
 }
 
 /** Atomic counter; errors mean "not allowed" (fail-closed). */
@@ -46,9 +48,9 @@ export async function incrementRateLimit(db: Queryable, key: string, max: number
       [key, max, windowS],
     );
     const row = rows[0];
-    return row ? { count: Number(row.count), allowed: row.allowed === true } : { count: 0, allowed: false };
+    return row ? { count: Number(row.count), allowed: row.allowed === true } : { count: 0, allowed: false, failed: true };
   } catch {
-    return { count: 0, allowed: false };
+    return { count: 0, allowed: false, failed: true };
   }
 }
 

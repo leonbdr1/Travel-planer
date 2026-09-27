@@ -3,12 +3,16 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { CHIPS } from '../src/chips';
-import { CHIP_CODES, REVIEW_TOPICS, REVIEW_TOPIC_LABELS, THEME_CODES } from '../src/vocabulary';
+import { CHIP_CODES, REVIEW_TOPICS, REVIEW_TOPIC_LABELS, THEME_CODES, THEME_LABELS } from '../src/vocabulary';
 
 describe('vocabularies', () => {
-  it('theme codes match data/catalog/themes.yaml', () => {
-    const yaml = parse(readFileSync(resolve(import.meta.dirname, '../../../data/catalog/themes.yaml'), 'utf8')) as Array<{ code: string }>;
+  it('theme codes and labels match data/catalog/themes.yaml', () => {
+    const yaml = parse(readFileSync(resolve(import.meta.dirname, '../../../data/catalog/themes.yaml'), 'utf8')) as Array<{
+      code: string;
+      label_de: string;
+    }>;
     expect(yaml.map((t) => t.code)).toEqual([...THEME_CODES]);
+    expect(Object.fromEntries(yaml.map((t) => [t.code, t.label_de]))).toEqual(THEME_LABELS);
   });
 
   it('every chip code has exactly one definition', () => {

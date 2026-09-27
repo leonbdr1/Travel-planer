@@ -15,6 +15,24 @@ export const THEME_CODES = [
 ] as const;
 export type ThemeCode = (typeof THEME_CODES)[number];
 
+/** German labels, identical to data/catalog/themes.yaml (drift test). */
+export const THEME_LABELS: Record<ThemeCode, string> = {
+  wandern: 'Wandern',
+  bergpanorama: 'Bergpanorama',
+  seen: 'Seen',
+  natur_ruhe: 'Natur und Ruhe',
+  radfahren: 'Radfahren',
+  wellness: 'Wellness',
+  wintersport: 'Wintersport',
+  staedte_kultur: 'Städte und Kultur',
+  wein_kulinarik: 'Wein und Kulinarik',
+  familie: 'Familie',
+};
+
+export function themeLabel(code: string): string {
+  return isThemeCode(code) ? THEME_LABELS[code] : code;
+}
+
 export const CHIP_CODES = [
   'sauber',
   'ruhig',

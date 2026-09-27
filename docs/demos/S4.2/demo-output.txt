@@ -1,0 +1,20 @@
+$ npm run demo -- s4.2
+# recorded 2026-09-27T15:11:28.277Z
+
+starting local stack (PGlite mit Entwicklungsdaten + Vite + workerd) …
+GET /geo/localities?q=Stutt → HTTP 200: Stuttgart, Baden-Württemberg, DE | Stuttgart-Ost, Baden-Württemberg, DE | Stuttgart Feuerbach, Baden-Württemberg, DE
+POST /suggestions/regions {Stuttgart, 180 min, wandern} → HTTP 200
+  Schwarzwald: 9 passende Orte für Wandern, 50 min–2 h 11 min Fahrt
+  Allgäu: 8 passende Orte für Wandern, 2 h 4 min–2 h 37 min Fahrt
+  Pfälzerwald und Deutsche Weinstraße: 6 passende Orte für Wandern, 1 h 22 min–1 h 45 min Fahrt
+  Schwäbische Alb: 6 passende Orte für Wandern, 44 min–1 h 14 min Fahrt
+  Bregenzerwald und Montafon: 6 passende Orte für Wandern, 2 h 17 min–2 h 46 min Fahrt
+  Fahrzeiten: {"cached":0,"routed":64,"estimated":0}
+POST /suggestions/places {Schwarzwald} → HTTP 200
+  Baiersbronn (80 min): Weitläufige Gemeinde im Nordschwarzwald nahe dem Nationalpark, bekannt für ihre Gastronomie.
+  Hinterzarten (109 min): Kurort im Hochschwarzwald mit Moor, Ravennaschlucht und Skisprungschanze.
+  Titisee-Neustadt (112 min): Ferienort am Titisee, nah an Feldberg und Wutachschlucht.
+  Todtnau (117 min): Ort am Feldberg mit Wasserfall, Rodelbahn und Skigebieten.
+  Bad Wildbad (50 min): Thermalkurort im Enztal mit Baumwipfelpfad auf dem Sommerberg.
+Anfrage Nr. 121 derselben Adresse innerhalb einer Stunde → HTTP 429 (Limit 120/h)
+→ Stuttgart gefunden, Regionen mit Begründung, 121. Abfrage → 429

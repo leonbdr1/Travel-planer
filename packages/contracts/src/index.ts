@@ -3,3 +3,7 @@
 export * from './errors';
 export * from './health';
 export * from './meta';
+export * from './geo';
+export * from './suggestions';
+export * from './places';
+export * from './wishes';

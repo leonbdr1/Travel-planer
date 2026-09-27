@@ -7,8 +7,11 @@ import { createRequestDeps, type DbFactory, type ProvidersFactory, type RequestD
 import { parseRuntimeConfig, ConfigurationError, type Env } from './env';
 import { ApiError, errorBody, sendError } from './http/errors';
 import { securityHeaders } from './http/security-headers';
+import { geoRoutes } from './routes/geo';
 import { healthRoutes } from './routes/health';
 import { metaRoutes } from './routes/meta';
+import { placeRoutes } from './routes/places';
+import { suggestionRoutes } from './routes/suggestions';
 
 export type AppEnv = { Bindings: Env; Variables: { deps: RequestDeps } };
 
@@ -50,6 +53,9 @@ export function createApp(options: AppOptions = {}) {
 
   app.route('/', healthRoutes);
   app.route('/meta', metaRoutes);
+  app.route('/geo', geoRoutes);
+  app.route('/suggestions', suggestionRoutes);
+  app.route('/places', placeRoutes);
 
   app.notFound((c) => c.json(errorBody('not_found', 'Diese Adresse gibt es nicht.'), 404));
   app.onError((err, c) => {

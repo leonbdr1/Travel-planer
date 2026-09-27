@@ -1,0 +1,2 @@
+-- Verification for 20261004a_search_localities_ranking: the first row must be München (geonameid 2867714).
+SELECT geonameid, name, score FROM app.search_localities('munch', 3);
