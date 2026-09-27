@@ -159,3 +159,25 @@ export const hotelDetailResponseSchema = z.object({
   review_check: reviewCheckSchema.nullable(),
 });
 export type HotelDetailResponse = z.infer<typeof hotelDetailResponseSchema>;
+
+/** GET /searches/{id}/hotels/{hotel_id}/reference-price?offer_id= (architektur.md 7.2). */
+export const referencePriceQuerySchema = z.object({
+  offer_id: z.string().regex(/^\d{1,18}$/),
+});
+
+export const referencePriceResponseSchema = z.discriminatedUnion('status', [
+  z.object({
+    status: z.literal('ok'),
+    offer_id: z.string(),
+    total_price_eur: z.number(),
+    currency: z.string(),
+    source: z.string(),
+    fetched_at: z.string(),
+  }),
+  z.object({
+    status: z.literal('unavailable'),
+    offer_id: z.string(),
+    reason: z.enum(['no_public_price', 'contract_unverified', 'quota', 'provider_error']),
+  }),
+]);
+export type ReferencePriceResponse = z.infer<typeof referencePriceResponseSchema>;

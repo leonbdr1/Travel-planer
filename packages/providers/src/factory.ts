@@ -10,7 +10,9 @@ import { createOrsClient, type RoutingPort } from './routing/client';
 import { createFakeAnthropicFetch, type FakeLlmResponder } from './fake/anthropic-fetch';
 import { createFakeLiteApiFetch, type FakeFault } from './fake/liteapi-fetch';
 import { createFakeOrsFetch } from './fake/ors-fetch';
+import { createFakeReferencePrice } from './fake/reference-price';
 import { createFakeResendFetch } from './fake/resend-fetch';
+import { createUnverifiedReferencePrice, type ReferencePricePort } from './reference-price/port';
 import type { ProvidersMode } from './mode';
 
 export interface ProvidersConfig {
@@ -45,6 +47,8 @@ export interface ProviderHooks {
 export interface Providers {
   mode: ProvidersMode;
   liteapi: LiteApiPort;
+  /** Public reference price (beta); live adapter pending the contract check. */
+  referencePrice: ReferencePricePort;
   routing: RoutingPort;
   mail: MailPort;
   llm: LlmPort;
@@ -75,6 +79,12 @@ export function createProviders(config: ProvidersConfig, hooks: ProviderHooks = 
       onCall: count('liteapi'),
       ...(hooks.sleep ? { sleep: hooks.sleep } : {}),
     }),
+    referencePrice: fake
+      ? createFakeReferencePrice({
+          onCall: count('liteapi'),
+          ...(tuning.latencyMs !== undefined ? { latencyMs: tuning.latencyMs } : {}),
+        })
+      : createUnverifiedReferencePrice(),
     routing: createOrsClient({
       apiKey: fake ? 'fake-key' : config.ors.apiKey,
       baseUrl: config.ors.baseUrl,

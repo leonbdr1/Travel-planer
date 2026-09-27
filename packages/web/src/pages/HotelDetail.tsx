@@ -1,10 +1,12 @@
 // Hotel detail (F10): description, facilities, all dates and rates of this
-// search, cancellation terms, score breakdown and (M7) review check.
+// search, cancellation terms, public reference price on demand, score
+// breakdown and (M7) review check.
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
 import type { HotelDetailResponse } from '@reiseplaner/contracts';
 import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { fetchHotelDetail } from '../features/results/api';
+import { ReferencePrice } from '../features/results/ReferencePrice';
 import { cancellationText, QualityBadge } from '../features/results/ResultList';
 import { ReviewCheckPanel } from '../features/results/ReviewCheckPanel';
 import { de } from '../i18n/de';
@@ -129,6 +131,9 @@ export function HotelDetail() {
                           ? r.payAtProperty(formatEuroCents(o.pay_at_property_eur))
                           : ''
                         : r.payAtPropertyUnknown}
+                    </div>
+                    <div className="mt-1 ml-auto max-w-56 whitespace-normal">
+                      <ReferencePrice searchId={id} token={token} hotelId={hotelId} offerId={o.id} />
                     </div>
                   </td>
                   <td className="py-2 text-right">

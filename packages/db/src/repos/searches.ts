@@ -422,6 +422,37 @@ export interface EvaluationHotelRow {
 }
 
 /** Everything the evaluation needs: offers with place and dates, hotels, combination states. */
+export interface SearchOfferRef {
+  id: string;
+  hotelId: string;
+  checkin: string;
+  checkout: string;
+  totalCents: number;
+  currency: string;
+}
+
+/** One offer of a search by its row id; null when it does not belong to the search. */
+export async function getSearchOffer(db: Queryable, searchId: string, offerId: string): Promise<SearchOfferRef | null> {
+  if (!/^\d{1,18}$/.test(offerId)) return null;
+  const rows = await db.query<{ id: number; hotel_id: string; checkin: string; checkout: string; total_price_cents: number; currency: string }>(
+    `SELECT o.id, o.hotel_id, c.checkin::text AS checkin, c.checkout::text AS checkout, o.total_price_cents, o.currency
+       FROM app.offers o
+       JOIN app.search_combinations c ON c.id = o.combination_id
+      WHERE o.search_id = $1::uuid AND o.id = $2::bigint`,
+    [searchId, offerId],
+  );
+  const row = rows[0];
+  if (!row) return null;
+  return {
+    id: String(row.id),
+    hotelId: row.hotel_id,
+    checkin: row.checkin,
+    checkout: row.checkout,
+    totalCents: Number(row.total_price_cents),
+    currency: row.currency,
+  };
+}
+
 export async function loadEvaluationData(db: Queryable, searchId: string) {
   const offers = await db.query<{
     id: number;

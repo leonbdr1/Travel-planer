@@ -238,6 +238,15 @@ export const de = {
     scoreFinal: 'Qualitätswert',
     noScore: 'Diese Unterkunft hat noch keine Bewertungen und daher keinen Qualitätswert.',
     importantInfo: 'Wichtige Hinweise der Unterkunft',
+    referenceShow: 'Vergleichspreis anzeigen',
+    referenceLoading: 'Vergleichspreis wird geladen …',
+    referencePrice: (source: string, price: string) => `Öffentlicher Preis bei ${source}: ${price}`,
+    referenceNote: (time: string) =>
+      `Zwischengespeicherter Preis für denselben Aufenthalt, Stand ${time} Uhr. Zimmer und Bedingungen können abweichen.`,
+    referenceNone: 'Für diesen Termin liegt kein öffentlicher Vergleichspreis vor.',
+    referenceNotYet: 'Vergleichspreise sind noch nicht freigeschaltet.',
+    referenceBusy: 'Vergleichspreis gerade nicht verfügbar. Bitte versuche es später erneut.',
+    referenceRateLimited: 'Zu viele Anfragen. Bitte warte eine Minute.',
   },
   ranking: {
     title: 'So berechnen wir die Rangliste',

@@ -94,6 +94,20 @@ export const ergebnisseFlow: Flow = {
     );
 
     await step(
+      'Vergleichspreis auf Abruf',
+      async () => {
+        const buttons = page.getByTestId('reference-show');
+        const count = Math.min(await buttons.count(), 3);
+        for (let i = 0; i < count; i += 1) await buttons.first().click();
+        await page.getByTestId('reference-price').first().waitFor({ timeout: 15_000 });
+        await page.waitForTimeout(500);
+        const texts = await page.getByTestId('reference-price').allInnerTexts();
+        note(`Vergleichspreise für ${texts.length} Termine: ${texts.map((x) => x.split('\n')[0]).join(' | ')}`);
+      },
+      { expectSelector: ['[data-testid="reference-price"]'], rejectText: ['Bestpreis', 'spare', 'günstiger als bei'] },
+    );
+
+    await step(
       'Seite „So berechnen wir die Rangliste“',
       async () => {
         await page.goto(`${baseUrl}/ranking`);

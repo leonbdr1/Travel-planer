@@ -21,6 +21,13 @@ export { fakeMailbox } from './fake/resend-fetch';
 export { FAKE_FACILITIES } from './fake/world';
 export { createFakeAnthropicFetch, type FakeLlmRequest, type FakeLlmResponder } from './fake/anthropic-fetch';
 export { createAnthropicClient } from './llm/anthropic';
+export { createFakeReferencePrice } from './fake/reference-price';
+export {
+  createUnverifiedReferencePrice,
+  type ReferencePricePort,
+  type ReferencePriceRequest,
+  type ReferencePriceResult,
+} from './reference-price/port';
 export type {
   LlmBatchItem,
   LlmBatchOptions,

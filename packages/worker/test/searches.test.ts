@@ -3,7 +3,13 @@ import { introspectWorkflow } from 'cloudflare:test';
 import { describe, expect, it } from 'vitest';
 import { solveChallenge, type Challenge } from 'altcha-lib';
 import { deriveKey } from 'altcha-lib/algorithms/web/sha';
-import { createSearchResponseSchema, hotelDetailResponseSchema, searchProgressResponseSchema, searchResultsResponseSchema } from '@reiseplaner/contracts';
+import {
+  createSearchResponseSchema,
+  hotelDetailResponseSchema,
+  referencePriceResponseSchema,
+  searchProgressResponseSchema,
+  searchResultsResponseSchema,
+} from '@reiseplaner/contracts';
 import { createPostgresDb } from '@reiseplaner/db';
 
 let n = 0;
@@ -123,6 +129,34 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
     expect(detail.offers.every((o) => o.hotel_id === top?.hotel.id)).toBe(true);
     expect(detail.score.priorWeight).toBe(50);
     expect(detail.hotel.description).toBeTruthy();
+
+    // Reference price per offer: token required, offer must belong to the
+    // hotel, repeated questions come from the cache, 10 per minute.
+    const offerId = detail.offers[0]?.id ?? '';
+    const refPath = `/searches/${created.search_id}/hotels/${top?.hotel.id}/reference-price?offer_id=${offerId}`;
+    expect((await api(refPath)).status).toBe(404);
+    expect((await api(`/searches/${created.search_id}/hotels/other-hotel/reference-price?offer_id=${offerId}&token=${created.token}`)).status).toBe(404);
+    expect((await api(`${refPath}&token=${created.token}`.replace(`offer_id=${offerId}`, 'offer_id=abc'))).status).toBe(400);
+    const client = ip();
+    const first = referencePriceResponseSchema.parse(await (await api(`${refPath}&token=${created.token}`, {}, client)).json());
+    expect(first.offer_id).toBe(offerId);
+    if (first.status === 'ok') {
+      expect(first.total_price_eur).toBeGreaterThan(0);
+      expect(['Booking.com', 'Expedia']).toContain(first.source);
+    } else {
+      expect(first.reason).toBe('no_public_price');
+    }
+    const again = referencePriceResponseSchema.parse(await (await api(`${refPath}&token=${created.token}`, {}, client)).json());
+    expect(again).toEqual(first);
+    let limited: Response | undefined;
+    for (let i = 0; i < 10; i += 1) {
+      const res = await api(`${refPath}&token=${created.token}`, {}, client);
+      if (res.status === 429) {
+        limited = res;
+        break;
+      }
+    }
+    expect(limited?.status).toBe(429);
   });
 
   it('rejects missing, forged and reused ALTCHA solutions', async () => {

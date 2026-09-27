@@ -1,4 +1,4 @@
-import { hotelDetailResponseSchema, searchResultsResponseSchema } from '@reiseplaner/contracts';
+import { hotelDetailResponseSchema, referencePriceResponseSchema, searchResultsResponseSchema } from '@reiseplaner/contracts';
 import { apiRequest } from '../../api/client';
 
 export type ResultsParams = Record<string, string>;
@@ -16,4 +16,12 @@ export function fetchHotelDetail(id: string, token: string, hotelId: string, sig
     headers: { 'X-Search-Token': token },
     ...(signal ? { signal } : {}),
   });
+}
+
+export function fetchReferencePrice(id: string, token: string, hotelId: string, offerId: string, signal?: AbortSignal) {
+  return apiRequest(
+    `/searches/${encodeURIComponent(id)}/hotels/${encodeURIComponent(hotelId)}/reference-price?offer_id=${encodeURIComponent(offerId)}`,
+    referencePriceResponseSchema,
+    { headers: { 'X-Search-Token': token }, ...(signal ? { signal } : {}) },
+  );
 }

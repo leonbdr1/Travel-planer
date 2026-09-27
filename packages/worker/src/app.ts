@@ -3,6 +3,7 @@
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import type { CreateSearchRequest } from '@reiseplaner/contracts';
+import type { SearchRow } from '@reiseplaner/db';
 import { constants } from '@reiseplaner/domain';
 import { createRequestDeps, type DbFactory, type ProvidersFactory, type RequestDeps } from './deps';
 import { parseRuntimeConfig, ConfigurationError, type Env } from './env';
@@ -17,7 +18,7 @@ import { searchRoutes } from './routes/searches';
 import { suggestionRoutes } from './routes/suggestions';
 import { wishRoutes } from './routes/wishes';
 
-export type AppEnv = { Bindings: Env; Variables: { deps: RequestDeps; searchRequest: CreateSearchRequest } };
+export type AppEnv = { Bindings: Env; Variables: { deps: RequestDeps; searchRequest: CreateSearchRequest; search: SearchRow } };
 
 export interface AppOptions {
   dbFactory?: DbFactory;

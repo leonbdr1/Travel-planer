@@ -1,10 +1,10 @@
-# Dogfood-Walkthrough 2026-09-27T16-25-53-P-ergebnisse
+# Dogfood-Walkthrough 2026-09-27T20-07-45-P-ergebnisse
 
 - Modus: P – Pfad (Nutzerablauf mit Eingaben)
 - Flows: ergebnisse
-- Basis-URL: http://localhost:34559 (echter lokaler Stack, Anbieter im Fake-Modus)
-- Stand: 8e22d9d, gestartet 2026-09-27T16:25:53.267Z
-- Ergebnis: ✅ bestanden (27/27 Prüfungen erfüllt)
+- Basis-URL: http://localhost:35797 (echter lokaler Stack, Anbieter im Fake-Modus)
+- Stand: a209195, gestartet 2026-09-27T20:07:45.183Z
+- Ergebnis: ✅ bestanden (31/31 Prüfungen erfüllt)
 
 ## Flow „ergebnisse“
 
@@ -12,7 +12,7 @@ Ergebnisse (F5, F7, F9, F10, Akzeptanzbeispiel 1): Suche Stuttgart, 5 Orte × 9 
 
 ### 01 Suche 5 Orte × 9 Termine gestartet und abgeschlossen
 
-- URL: `/suche/33bdc66c-8747-4cf0-86ae-a596d9e168fa#t=WYq3QfyHp9hnq1I1x08jbTAvixY8E8jsxEQI1mwVmtI`
+- URL: `/suche/9c08356d-7985-4ce1-ac1d-8e65da9a6972#t=uDSB7RP3BPU8ErATE5TRP8BXfiI0GLz1IA0aIRfkCDA`
 - Screenshot: ![Suche 5 Orte × 9 Termine gestartet und abgeschlossen](01-suche-5-orte-9-termine-gestartet-und-abg.png)
 - Prüfungen:
   - [x] enthält „45 von 45 Kombinationen“
@@ -49,7 +49,7 @@ Ergebnisse
 
 45 Unterkünfte, 587 passende Angebote
 
-Preise abgerufen um 18:26 Uhr. Preise können sich bis zur Buchung ändern.
+Preise abgerufen um 22:08 Uhr. Preise können sich bis zur Buchung ändern.
 
 Sortierung
 Bestes Angebot
@@ -118,7 +118,7 @@ zzgl. 12,00 € vor Ort (z. B.
 
 ### 02 Sortierung nach Preis
 
-- URL: `/suche/33bdc66c-8747-4cf0-86ae-a596d9e168fa#t=WYq3QfyHp9hnq1I1x08jbTAvixY8E8jsxEQI1mwVmtI`
+- URL: `/suche/9c08356d-7985-4ce1-ac1d-8e65da9a6972#t=uDSB7RP3BPU8ErATE5TRP8BXfiI0GLz1IA0aIRfkCDA`
 - Screenshot: ![Sortierung nach Preis](02-sortierung-nach-preis.png)
 - Notiz: Matrix mit 45 Zellen; Liste mit 45 Einträgen, jede Unterkunft genau einmal (45 verschiedene Unterkünfte).
 - Prüfungen:
@@ -147,7 +147,7 @@ Ergebnisse
 
 45 Unterkünfte, 587 passende Angebote
 
-Preise abgerufen um 18:26 Uhr. Preise können sich bis zur Buchung ändern.
+Preise abgerufen um 22:08 Uhr. Preise können sich bis zur Buchung ändern.
 
 Sortierung
 Bestes Angebot
@@ -211,7 +211,7 @@ Schnäppchen Preis-Leistung 178 % besser als der Durchschnitt deiner Suche · 47
 
 ### 03 Klick auf eine Matrix-Zelle filtert die Liste
 
-- URL: `/suche/33bdc66c-8747-4cf0-86ae-a596d9e168fa#t=WYq3QfyHp9hnq1I1x08jbTAvixY8E8jsxEQI1mwVmtI`
+- URL: `/suche/9c08356d-7985-4ce1-ac1d-8e65da9a6972#t=uDSB7RP3BPU8ErATE5TRP8BXfiI0GLz1IA0aIRfkCDA`
 - Screenshot: ![Klick auf eine Matrix-Zelle filtert die Liste](03-klick-auf-eine-matrix-zelle-filtert-die-.png)
 - Prüfungen:
   - [x] enthält „Nur “
@@ -241,7 +241,7 @@ Ergebnisse
 
 45 Unterkünfte, 587 passende Angebote
 
-Preise abgerufen um 18:26 Uhr. Preise können sich bis zur Buchung ändern.
+Preise abgerufen um 22:08 Uhr. Preise können sich bis zur Buchung ändern.
 
 Sortierung
 Bestes Angebot
@@ -318,7 +318,7 @@ Doppelzimmer Standard · mit Frühstück · kostenlos stor
 
 ### 04 Filter ohne neue Suche: Budget 200 € lässt einen Teil übrig
 
-- URL: `/suche/33bdc66c-8747-4cf0-86ae-a596d9e168fa#t=WYq3QfyHp9hnq1I1x08jbTAvixY8E8jsxEQI1mwVmtI`
+- URL: `/suche/9c08356d-7985-4ce1-ac1d-8e65da9a6972#t=uDSB7RP3BPU8ErATE5TRP8BXfiI0GLz1IA0aIRfkCDA`
 - Screenshot: ![Filter ohne neue Suche: Budget 200 € lässt einen Teil übrig](04-filter-ohne-neue-suche-budget-200-la-sst.png)
 - Notiz: Budget 200 €: 31 Unterkünfte, 182 passende Angebote (vorher: 45 Unterkünfte, 587 passende Angebote); alle 31 angezeigten Gesamtpreise ≤ 200 €.
 - Prüfungen:
@@ -347,7 +347,7 @@ Ergebnisse
 
 31 Unterkünfte, 182 passende Angebote
 
-Preise abgerufen um 18:26 Uhr. Preise können sich bis zur Buchung ändern.
+Preise abgerufen um 22:08 Uhr. Preise können sich bis zur Buchung ändern.
 
 Sortierung
 Bestes Angebot
@@ -416,7 +416,7 @@ zzgl. 8,40 € vor Ort (z. B.
 
 ### 05 Filter ohne neue Suche: Budget 50 €
 
-- URL: `/suche/33bdc66c-8747-4cf0-86ae-a596d9e168fa#t=WYq3QfyHp9hnq1I1x08jbTAvixY8E8jsxEQI1mwVmtI`
+- URL: `/suche/9c08356d-7985-4ce1-ac1d-8e65da9a6972#t=uDSB7RP3BPU8ErATE5TRP8BXfiI0GLz1IA0aIRfkCDA`
 - Screenshot: ![Filter ohne neue Suche: Budget 50 €](05-filter-ohne-neue-suche-budget-50.png)
 - Prüfungen:
   - [x] enthält „Keine Unterkunft erfüllt diese Filter“
@@ -444,7 +444,7 @@ Ergebnisse
 
 0 Unterkünfte, 0 passende Angebote
 
-Preise abgerufen um 18:26 Uhr. Preise können sich bis zur Buchung ändern.
+Preise abgerufen um 22:08 Uhr. Preise können sich bis zur Buchung ändern.
 
 Sortierung
 Bestes Angebot
@@ -517,7 +517,7 @@ Fahrzeiten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende (ODbL)
 
 ### 06 Detailansicht mit allen Terminen und Score-Aufschlüsselung
 
-- URL: `/suche/33bdc66c-8747-4cf0-86ae-a596d9e168fa/unterkunft/lpf-4792-819-0#t=WYq3QfyHp9hnq1I1x08jbTAvixY8E8jsxEQI1mwVmtI`
+- URL: `/suche/9c08356d-7985-4ce1-ac1d-8e65da9a6972/unterkunft/lpf-4792-819-0#t=uDSB7RP3BPU8ErATE5TRP8BXfiI0GLz1IA0aIRfkCDA`
 - Screenshot: ![Detailansicht mit allen Terminen und Score-Aufschlüsselung](06-detailansicht-mit-allen-terminen-und-sco.png)
 - Prüfungen:
   - [x] enthält „Alle Termine und Tarife“
@@ -561,6 +561,7 @@ Schnäppchen Preis-Leistung 48 % besser als der Durchschnitt deiner Suche
 158 €
 79,25 € pro Nacht
 zzgl. 8,40 € vor Ort (z. B. Kurtaxe)
+Vergleichspreis anzeigen
 	Buchen
 
 Fr 23.10. – So 25.10.
@@ -573,6 +574,7 @@ Schnäppchen Preis-Leistung 47 % besser als der Durchschnitt deiner Suche
 159 €
 79,56 € pro Nacht
 zzgl. 8,40 € vor Ort (z. B. Kurtaxe)
+Vergleichspreis anzeigen
 	Buchen
 
 Fr 30.10. – So 01.11.
@@ -585,6 +587,7 @@ Schnäppchen Preis-Leistung 45 % besser als der Durchschnitt deiner Suche
 161 €
 80,59 € pro Nacht
 zzgl. 8,40 € vor Ort (z. B. Kurtaxe)
+Vergleichspreis anzeigen
 	Buchen
 
 Fr 06.11. – So 08.11.
@@ -597,6 +600,7 @@ Schnäppchen Preis-Leistung 88 % besser als der Durchschnitt deiner Suche · 22 
 124 €
 62,20 € pro Nacht
 zzgl. 8,40 € vor Ort (z. B. Kurtaxe)
+Vergleichspreis anzeigen
 	Buchen
 
 Fr 20.11. – So 22.11.
@@ -604,17 +608,113 @@ Titisee-Neustadt
 	
 Doppelzimmer Standard
 mit Frühstück
-Schnäppchen Preis-Leistung 178 % besser als der Durchschnitt deiner Suche · 47 % günstiger als dieselbe Unterkunft an deinen anderen Terminen · 42 % günstiger als vergleichbare Unterkünfte in Titisee-Neustadt
-	kostenlos stornierbar bis 18
-… (1151 weitere Zeichen)
+Schnäppchen Preis-Leistung 178 % besser als der Durchschnitt deiner Suche · 47 % günstiger als dieselbe Unterkunft an deinen anderen Termi
+… (1276 weitere Zeichen)
 ```
 
 </details>
 
-### 07 Seite „So berechnen wir die Rangliste“
+### 07 Vergleichspreis auf Abruf
+
+- URL: `/suche/9c08356d-7985-4ce1-ac1d-8e65da9a6972/unterkunft/lpf-4792-819-0#t=uDSB7RP3BPU8ErATE5TRP8BXfiI0GLz1IA0aIRfkCDA`
+- Screenshot: ![Vergleichspreis auf Abruf](07-vergleichspreis-auf-abruf.png)
+- Notiz: Vergleichspreise für 3 Termine: Für diesen Termin liegt kein öffentlicher Vergleichspreis vor. | Öffentlicher Preis bei Expedia: 155 € | Öffentlicher Preis bei Expedia: 170 €
+- Prüfungen:
+  - [x] enthält nicht „Bestpreis“
+  - [x] enthält nicht „spare“
+  - [x] enthält nicht „günstiger als bei“
+  - [x] Element `[data-testid="reference-price"]` vorhanden (3)
+- Überschriften: „Hotel Almrausch“, „Alle Termine und Tarife“, „So setzt sich der Qualitätswert zusammen“, „Rezensionscheck“, „Beschreibung“, „Ausstattung“
+- KI-Kennzeichnungen (`data-ai-provenance`): keine
+- Konsolenfehler: keine
+- Fehlgeschlagene Anfragen: keine
+
+<details><summary>Sichtbarer Text</summary>
+
+```text
+Entwicklungsmodus: Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail) sind simuliert. Es werden keine echten Buchungen ausgelöst.
+Reiseplaner
+ARBEITSTITEL
+Suche
+So funktioniert's
+Meine Buchung
+← Zurück zu den Ergebnissen
+Hotel Almrausch
+
+★★ · Hotel · Bergstraße 7
+
+7,8
+49 Bewertungen
+Alle Termine und Tarife
+Termin	Zimmer und Tarif	Stornierung	Preis	
+
+Fr 09.10. – So 11.10.
+Titisee-Neustadt
+	
+Doppelzimmer Standard
+mit Frühstück
+Schnäppchen Preis-Leistung 48 % besser als der Durchschnitt deiner Suche
+	kostenlos stornierbar bis 07.10.2026, 18:00	
+158 €
+79,25 € pro Nacht
+zzgl. 8,40 € vor Ort (z. B. Kurtaxe)
+
+Für diesen Termin liegt kein öffentlicher Vergleichspreis vor.
+
+	Buchen
+
+Fr 23.10. – So 25.10.
+Titisee-Neustadt
+	
+Doppelzimmer Standard
+mit Frühstück
+Schnäppchen Preis-Leistung 47 % besser als der Durchschnitt deiner Suche
+	kostenlos stornierbar bis 21.10.2026, 18:00	
+159 €
+79,56 € pro Nacht
+zzgl. 8,40 € vor Ort (z. B. Kurtaxe)
+
+Öffentlicher Preis bei Expedia: 155 €
+
+Zwischengespeicherter Preis für denselben Aufenthalt, Stand 22:08 Uhr. Zimmer und Bedingungen können abweichen.
+
+	Buchen
+
+Fr 30.10. – So 01.11.
+Titisee-Neustadt
+	
+Doppelzimmer Standard
+mit Frühstück
+Schnäppchen Preis-Leistung 45 % besser als der Durchschnitt deiner Suche
+	kostenlos stornierbar bis 28.10.2026, 17:00	
+161 €
+80,59 € pro Nacht
+zzgl. 8,40 € vor Ort (z. B. Kurtaxe)
+
+Öffentlicher Preis bei Expedia: 170 €
+
+Zwischengespeicherter Preis für denselben Aufenthalt, Stand 22:08 Uhr. Zimmer und Bedingungen können abweichen.
+
+	Buchen
+
+Fr 06.11. – So 08.11.
+Titisee-Neustadt
+	
+Doppelzimmer Standard
+mit Frühstück
+Schnäppchen Preis-Leistung 88 % besser als der Durchschnitt deiner Suche · 22 % günstiger als dieselbe Unterkunft an deinen anderen Terminen
+	kostenlos stornierbar bis 04.11.2026, 17:00	
+124 €
+62,20 € 
+… (1572 weitere Zeichen)
+```
+
+</details>
+
+### 08 Seite „So berechnen wir die Rangliste“
 
 - URL: `/ranking`
-- Screenshot: ![Seite „So berechnen wir die Rangliste“](07-seite-so-berechnen-wir-die-rangliste.png)
+- Screenshot: ![Seite „So berechnen wir die Rangliste“](08-seite-so-berechnen-wir-die-rangliste.png)
 - Prüfungen:
   - [x] enthält „Qualitätswert“
   - [x] enthält „Preis“
