@@ -1,0 +1,49 @@
+{
+  "name": "reiseplaner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Flexible Unterkunftssuche über Orte und Termine (Arbeits-Slug reiseplaner)",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "tsx scripts/dev.ts",
+    "db:local": "tsx packages/db/src/bin/local-server.ts",
+    "db:test": "tsx packages/db/src/bin/pgtap.ts",
+    "test": "npm run gen && vitest run",
+    "test:watch": "vitest",
+    "typecheck": "npm run gen && node scripts/typecheck.mjs",
+    "build": "npm run gen && npm run build -w @reiseplaner/web",
+    "gen": "tsx packages/config/src/bin/generate.ts && tsx packages/domain/src/bin/generate.ts && tsx packages/skills/src/bin/build.ts --quiet",
+    "check:claims": "tsx scripts/check-claims.ts",
+    "check:status": "node scripts/check-status-rows.mjs",
+    "skills:build": "tsx packages/skills/src/bin/build.ts",
+    "skills:eval": "tsx packages/skills/src/bin/eval.ts",
+    "demo": "tsx packages/cli/src/demo.ts",
+    "dogfood": "tsx e2e/dogfood/run.ts",
+    "cli": "tsx packages/cli/src/index.ts",
+    "smoke": "tsx packages/cli/src/smoke.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.22.0",
+    "@cloudflare/workers-types": "5.20260927.1",
+    "@playwright/test": "1.56.1",
+    "@types/node": "22.20.4",
+    "@vitest/runner": "4.1.11",
+    "@vitest/snapshot": "4.1.11",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "vitest": "4.1.11",
+    "wrangler": "4.141.0",
+    "yaml": "2.9.1"
+  },
+  "overrides": {
+    "vite": "7.3.6",
+    "zod": "4.6.5"
+  }
+}

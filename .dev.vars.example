@@ -1,0 +1,20 @@
+# Local secrets for `npm run dev` (copy to packages/worker/.dev.vars).
+# `npm run dev` creates packages/worker/.dev.vars with random local values
+# on first start. Never commit real values; production values live in
+# Bitwarden (folder "reiseplaner") and are set with `wrangler secret put`.
+#
+# Only needed with PROVIDERS_MODE=sandbox (sandbox keys only):
+LITEAPI_API_KEY=
+ANTHROPIC_API_KEY=
+ORS_API_KEY=
+RESEND_API_KEY=
+#
+# Always needed (random per environment):
+SIGNING_KEY=
+IP_HASH_SALT=
+ALTCHA_HMAC_KEY=
+OPS_HB_TOKEN=
+#
+# Optional overrides of wrangler.jsonc vars for local runs:
+# PROVIDERS_MODE=sandbox
+# LLM_ENABLED=false

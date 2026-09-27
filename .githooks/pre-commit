@@ -1,0 +1,10 @@
+#!/bin/sh
+# Secret scan before every commit (activate once: git config core.hooksPath .githooks).
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks git --staged --redact --config .gitleaks.toml --no-banner || {
+    echo "pre-commit: gitleaks found a potential secret. Commit aborted." >&2
+    exit 1
+  }
+else
+  echo "pre-commit: gitleaks not installed – secret scan skipped (CI still runs it)." >&2
+fi

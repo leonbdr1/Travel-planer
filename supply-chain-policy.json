@@ -1,0 +1,10 @@
+{
+  "$comment": "Supply-chain policy (fi-deck pattern, architektur.md 11.1). Checked by scripts/supply-chain-check.mjs in CI before any code runs.",
+  "allowedRegistries": ["https://registry.npmjs.org/"],
+  "requireIntegrity": true,
+  "requireExactVersions": true,
+  "rebuildAllowlist": ["esbuild", "workerd"],
+  "installScriptsWithoutRebuild": {
+    "fsevents": "macOS-only optional dependency; ships prebuilt binaries, no rebuild needed"
+  }
+}

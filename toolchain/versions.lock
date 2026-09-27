@@ -1,0 +1,9 @@
+# Toolchain versions (O1.3). Update together with package-lock.json.
+node=22.22.2
+npm=10.9.7
+base_image=node:22.22.2-bookworm-slim   # digest: to be pinned by the operator (see Dockerfile)
+playwright=1.56.1                        # chromium revision 1194
+typescript=5.9.3
+vitest=4.1.11
+vite=7.3.6
+wrangler=4.141.0

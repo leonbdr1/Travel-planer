@@ -1,0 +1,16 @@
+# gitleaks configuration (pre-commit hook and CI). Extends the default rules.
+title = "reiseplaner secret scan"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Documented non-secrets"
+paths = [
+  '''package-lock\.json''',
+  '''\.dev\.vars\.example''',
+  '''packages/worker/test/bindings\.ts''',
+]
+regexes = [
+  '''test-[a-z-]*-not-secret''',
+]
