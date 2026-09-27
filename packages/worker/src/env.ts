@@ -4,9 +4,17 @@
 import { z } from 'zod';
 import { providersModes } from '@reiseplaner/providers';
 
+/** Structural subsets of the Workers binding types, so Node code (demos, CLI) can import the app. */
+export interface HyperdriveBinding {
+  connectionString: string;
+}
+export interface AssetsBinding {
+  fetch(input: Request | string, init?: RequestInit): Promise<Response>;
+}
+
 export interface Env {
-  HYPERDRIVE: Hyperdrive;
-  ASSETS?: Fetcher;
+  HYPERDRIVE: HyperdriveBinding;
+  ASSETS?: AssetsBinding;
   APP_ENV: string;
   PROVIDERS_MODE: string;
   LLM_ENABLED: string;
