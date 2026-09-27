@@ -1,0 +1,5 @@
+-- Verification for 20261003c_skill_runs: expect one row with rowsecurity = true
+-- and no privileges for anon/authenticated in the second query.
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'skill_runs';
+SELECT grantee, privilege_type FROM information_schema.role_table_grants
+ WHERE table_schema = 'app' AND table_name = 'skill_runs' AND grantee IN ('anon', 'authenticated');

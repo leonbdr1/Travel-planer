@@ -1,0 +1,22 @@
+$ npm run skills:build
+4 Bundles, 8 Validatoren kompiliert (unverändert)
+  reiseplaner.catalog-places v1.0.0  claude-sonnet-5  Deckel 0.08 $
+  reiseplaner.catalog-regions v1.0.0  claude-sonnet-5  Deckel 0.06 $
+  reiseplaner.review-verify v1.0.0  claude-haiku-4-5-20251001  Deckel 0.01 $
+  reiseplaner.wish-parse v1.0.0  claude-haiku-4-5-20251001  Deckel 0.004 $
+
+$ npm run skills:eval -- reiseplaner.catalog-places --fake
+reiseplaner.catalog-places v1.0.0 (Fake-Modell, Judge-Rubriken übersprungen)
+  Fälle: 10 bestanden, 0 nicht bestanden, 0 Fehler, 0 übersprungen
+  Score: 1.000 (Zielwert 0.9)
+  Kosten: 0 $ (Deckel 0.5 $ je Skill)
+  Baseline: nicht verglichen (Fake-Modus)
+  Bericht: eval-results/skill-eval-report-reiseplaner.catalog-places.json
+
+$ npm run skills:eval -- reiseplaner.wish-parse --fake
+reiseplaner.wish-parse v1.0.0 (Fake-Modell, Judge-Rubriken übersprungen)
+  Fälle: 34 bestanden, 0 nicht bestanden, 0 Fehler, 0 übersprungen
+  Score: 1.000 (Zielwert 0.9)
+  Kosten: 0 $ (Deckel 0.5 $ je Skill)
+  Baseline: nicht verglichen (Fake-Modus)
+  Bericht: eval-results/skill-eval-report-reiseplaner.wish-parse.json

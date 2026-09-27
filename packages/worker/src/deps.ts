@@ -31,6 +31,7 @@ export const envProviders: ProvidersFactory = (config, env, usage, now) =>
       liteapi: { apiKey: env.LITEAPI_API_KEY, baseUrl: config.LITEAPI_BASE_URL, bookBaseUrl: config.LITEAPI_BOOK_BASE_URL },
       ors: { apiKey: env.ORS_API_KEY, baseUrl: config.ORS_BASE_URL },
       resend: { apiKey: env.RESEND_API_KEY },
+      anthropic: { apiKey: env.ANTHROPIC_API_KEY },
     },
     {
       onCall: (provider, endpoint) => usage.record(provider, endpoint),

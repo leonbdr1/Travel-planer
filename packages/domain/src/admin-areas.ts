@@ -36,3 +36,13 @@ export function catalogCountry(countryCode: string, admin2 = ''): 'DE' | 'AT' | 
 export function displayName(name: string, altNamesDe: readonly string[], _countryCode?: string): string {
   return altNamesDe[0] ?? name;
 }
+
+/** Reverse lookup: German state/canton name → GeoNames admin1 code (null if unknown or South Tyrol). */
+export function admin1ForName(countryCode: string, name: string): string | null {
+  const table = countryCode === 'DE' ? DE : countryCode === 'AT' ? AT : countryCode === 'CH' ? CH : null;
+  if (!table) return null;
+  const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
+  const wanted = fold(name);
+  const hit = Object.entries(table).find(([, n]) => fold(n) === wanted);
+  return hit ? hit[0] : null;
+}

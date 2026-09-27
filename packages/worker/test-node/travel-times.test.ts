@@ -9,6 +9,7 @@ const config: ProvidersConfig = {
   liteapi: { baseUrl: 'https://api.liteapi.travel/v3.0', bookBaseUrl: 'https://book.liteapi.travel/v3.0' },
   ors: { baseUrl: 'https://api.heigit.org/openrouteservice' },
   resend: {},
+  anthropic: {},
 };
 const stuttgart = { lat: 48.7823, lng: 9.177 };
 const places: PlacePoint[] = [

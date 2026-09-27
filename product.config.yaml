@@ -113,3 +113,21 @@ limits:
     liteapi_calls: 60000
     ors_calls: 450
   llm_daily_budget_usd: 5
+
+# Official list prices in USD per million tokens (architektur.md 9.1,
+# "Preistabelle"). The skill runner estimates, caps and settles every call
+# with this table. `sampling_params: false` marks models that reject
+# temperature/top_p; the runner then omits them.
+ai:
+  batch_discount: 0.5
+  # LLM judge for eval rubrics (npm run skills:eval without --fake).
+  eval_judge_model: claude-sonnet-5
+  models:
+    claude-haiku-4-5-20251001:
+      input_usd_per_mtok: 1
+      output_usd_per_mtok: 5
+      sampling_params: true
+    claude-sonnet-5:
+      input_usd_per_mtok: 2
+      output_usd_per_mtok: 10
+      sampling_params: false

@@ -8,6 +8,8 @@
     "./node": "./src/node.ts"
   },
   "dependencies": {
+    "@reiseplaner/config": "0.0.0",
+    "@reiseplaner/db": "0.0.0",
     "@reiseplaner/domain": "0.0.0",
     "@reiseplaner/providers": "0.0.0",
     "ajv": "8.20.0",

@@ -1,9 +1,13 @@
 // Provider selection by PROVIDERS_MODE (architektur.md 3.5): `fake` wires every
 // adapter to its simulated transport, `sandbox`/`live` to the real services.
+import { productConfig } from '@reiseplaner/config';
 import type { FetchLike } from './http/request';
+import { createAnthropicClient } from './llm/anthropic';
+import type { LlmPort } from './llm/port';
 import { createLiteApiClient, type LiteApiPort } from './liteapi/client';
 import { createResendClient, type MailPort } from './mail/client';
 import { createOrsClient, type RoutingPort } from './routing/client';
+import { createFakeAnthropicFetch, type FakeLlmResponder } from './fake/anthropic-fetch';
 import { createFakeLiteApiFetch, type FakeFault } from './fake/liteapi-fetch';
 import { createFakeOrsFetch } from './fake/ors-fetch';
 import { createFakeResendFetch } from './fake/resend-fetch';
@@ -14,6 +18,7 @@ export interface ProvidersConfig {
   liteapi: { apiKey?: string | undefined; baseUrl: string; bookBaseUrl: string };
   ors: { apiKey?: string | undefined; baseUrl: string };
   resend: { apiKey?: string | undefined };
+  anthropic: { apiKey?: string | undefined };
 }
 
 export interface FakeTuning {
@@ -22,6 +27,10 @@ export interface FakeTuning {
   faults?: FakeFault[];
   orsQuotaExhausted?: boolean;
   mailFailNext?: { remaining: number };
+  /** Deterministic fake models per tool name (packages/skills/src/fake). */
+  llmResponders?: Readonly<Record<string, FakeLlmResponder>>;
+  llmInvalidNext?: { remaining: number };
+  llmFailNext?: { remaining: number; status: number };
 }
 
 export interface ProviderHooks {
@@ -38,6 +47,7 @@ export interface Providers {
   liteapi: LiteApiPort;
   routing: RoutingPort;
   mail: MailPort;
+  llm: LlmPort;
 }
 
 export function createProviders(config: ProvidersConfig, hooks: ProviderHooks = {}): Providers {
@@ -76,5 +86,26 @@ export function createProviders(config: ProvidersConfig, hooks: ProviderHooks = 
       fetch: fake ? createFakeResendFetch(tuning.mailFailNext ? { failNext: tuning.mailFailNext } : {}) : realFetch,
       onCall: count('resend'),
     }),
+    llm: createAnthropicClient({
+      apiKey: fake ? 'fake-key' : config.anthropic.apiKey,
+      fetch: fake
+        ? createFakeAnthropicFetch({
+            responders: tuning.llmResponders ?? {},
+            noSamplingModels: noSamplingModels(),
+            ...(tuning.llmInvalidNext ? { invalidNext: tuning.llmInvalidNext } : {}),
+            ...(tuning.llmFailNext ? { failNext: tuning.llmFailNext } : {}),
+          })
+        : realFetch,
+      onCall: count('anthropic'),
+      billed: !fake,
+      ...(fake ? { maxRetries: 0 } : {}),
+      ...(hooks.sleep ? { sleep: hooks.sleep } : {}),
+    }),
   };
+}
+
+function noSamplingModels(): string[] {
+  return Object.entries(productConfig.ai.models)
+    .filter(([, m]) => !m.sampling_params)
+    .map(([id]) => id);
 }

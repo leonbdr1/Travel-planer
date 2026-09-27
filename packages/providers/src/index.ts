@@ -19,3 +19,15 @@ export { createProviders, type FakeTuning, type ProviderHooks, type Providers, t
 export { createFakeLiteApiFetch, type FakeFault } from './fake/liteapi-fetch';
 export { fakeMailbox } from './fake/resend-fetch';
 export { FAKE_FACILITIES } from './fake/world';
+export { createFakeAnthropicFetch, type FakeLlmRequest, type FakeLlmResponder } from './fake/anthropic-fetch';
+export { createAnthropicClient } from './llm/anthropic';
+export type {
+  LlmBatchItem,
+  LlmBatchOptions,
+  LlmBatchRequest,
+  LlmPort,
+  LlmTool,
+  LlmToolCall,
+  LlmToolResult,
+  LlmUsage,
+} from './llm/port';

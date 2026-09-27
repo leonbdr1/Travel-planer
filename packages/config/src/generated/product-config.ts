@@ -124,5 +124,21 @@ export const productConfig: ProductConfig = {
       "ors_calls": 450
     },
     "llm_daily_budget_usd": 5
+  },
+  "ai": {
+    "batch_discount": 0.5,
+    "eval_judge_model": "claude-sonnet-5",
+    "models": {
+      "claude-haiku-4-5-20251001": {
+        "input_usd_per_mtok": 1,
+        "output_usd_per_mtok": 5,
+        "sampling_params": true
+      },
+      "claude-sonnet-5": {
+        "input_usd_per_mtok": 2,
+        "output_usd_per_mtok": 10,
+        "sampling_params": false
+      }
+    }
   }
 };

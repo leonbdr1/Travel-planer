@@ -41,5 +41,6 @@ export function cliProvidersConfig(mode: ProvidersMode): ProvidersConfig {
     },
     ors: { apiKey: env.ORS_API_KEY, baseUrl: env.ORS_BASE_URL ?? 'https://api.heigit.org/openrouteservice' },
     resend: { apiKey: env.RESEND_API_KEY },
+    anthropic: { apiKey: env.ANTHROPIC_API_KEY },
   };
 }

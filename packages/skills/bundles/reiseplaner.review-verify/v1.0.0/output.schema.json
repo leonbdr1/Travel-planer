@@ -1,0 +1,54 @@
+{
+  "$id": "reiseplaner.review-verify/1.0.0/output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "findings"
+  ],
+  "properties": {
+    "findings": {
+      "type": "array",
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "snippetId",
+          "topic",
+          "isComplaint",
+          "severity"
+        ],
+        "properties": {
+          "snippetId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "topic": {
+            "type": "string",
+            "enum": [
+              "sauberkeit",
+              "schimmel",
+              "ungeziefer",
+              "laerm",
+              "geruch",
+              "zustand",
+              "abweichung_beschreibung"
+            ]
+          },
+          "isComplaint": {
+            "type": "boolean"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

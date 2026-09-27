@@ -1,0 +1,20 @@
+id: reiseplaner.catalog-places
+version: 1.0.0
+description: Schlägt für eine Region Orte vor, die sich als Unterkunftsbasis eignen, mit Themenstärke und Kurzbeschreibung (Katalogentwurf, CLI).
+model: claude-sonnet-5
+# Sonnet 5 rejects sampling parameters (product.config.yaml ai.models); the
+# runner omits temperature for this model.
+temperature: null
+maxTokens: 6000
+costCapUsdPerCall: 0.08
+systemRef: system.md
+userTemplateRef: user.template.md
+inputSchemaRef: input.schema.json
+outputSchemaRef: output.schema.json
+tool:
+  name: submit_places
+  description: Gibt die vorgeschlagenen Orte der Region zurück.
+owners:
+  - reiseplaner
+triggers:
+  - npm run cli -- catalog generate

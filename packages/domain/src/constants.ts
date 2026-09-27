@@ -82,3 +82,13 @@ export const ALTCHA_EXPIRES_S = 10 * 60;
 export const STATUS_POLL_INTERVAL_MS = 2_000;
 export const HEALTH_DB_TIMEOUT_MS = 3_000;
 export const BUDGET_WARN_RATIO = 0.8;
+
+// Skill runner and evals (architektur.md 9.1). Token estimates are deliberately
+// pessimistic so the reservation covers the real call.
+export const LLM_CHARS_PER_TOKEN_ESTIMATE = 3;
+export const LLM_TOOL_OVERHEAD_TOKENS = 350;
+export const SKILL_OUTPUT_RETRIES = 1;
+export const SKILL_EVAL_REGRESSION_TOLERANCE = 0.02;
+export const SKILL_EVAL_BUDGET_USD = 0.5;
+export const SKILL_EVAL_TARGET_SCORE = 0.9;
+export const LLM_BATCH_POLL_INTERVAL_MS = 30_000;

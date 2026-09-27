@@ -1,0 +1,18 @@
+id: reiseplaner.wish-parse
+version: 1.0.0
+description: Übersetzt einen Freitext-Wunsch in Chips, Themen und Rezensionsthemen aus festen Vokabularen.
+model: claude-haiku-4-5-20251001
+temperature: 0
+maxTokens: 300
+costCapUsdPerCall: 0.004
+systemRef: system.md
+userTemplateRef: user.template.md
+inputSchemaRef: input.schema.json
+outputSchemaRef: output.schema.json
+tool:
+  name: submit_wish_mapping
+  description: Gibt die Zuordnung des Wunschtexts zu den erlaubten Codes zurück. Nur Codes aus den Aufzählungen verwenden.
+owners:
+  - reiseplaner
+triggers:
+  - POST /api/v1/wishes/parse

@@ -8,6 +8,7 @@ const config: ProvidersConfig = {
   liteapi: { baseUrl: 'https://api.liteapi.travel/v3.0', bookBaseUrl: 'https://book.liteapi.travel/v3.0' },
   ors: { baseUrl: 'https://api.heigit.org/openrouteservice' },
   resend: {},
+  anthropic: {},
 };
 const oberstdorf = { lat: 47.4099, lng: 10.2797 };
 const request = {

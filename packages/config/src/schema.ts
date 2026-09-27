@@ -97,6 +97,18 @@ export const productConfigSchema = z.strictObject({
     }),
     llm_daily_budget_usd: z.number().positive(),
   }),
+  ai: z.strictObject({
+    batch_discount: z.number().gt(0).lte(1),
+    eval_judge_model: z.string().min(1),
+    models: z.record(
+      z.string().min(1),
+      z.strictObject({
+        input_usd_per_mtok: z.number().positive(),
+        output_usd_per_mtok: z.number().positive(),
+        sampling_params: z.boolean(),
+      }),
+    ),
+  }),
 });
 
 export type ProductConfig = z.infer<typeof productConfigSchema>;
