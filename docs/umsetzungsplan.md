@@ -371,25 +371,28 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Ziel:** Filter, Qualitätsscore Stufe 1, Schnäppchen, Rangliste, Preis-Matrix, Liste und Detailansicht (F5, F6, F7, F9, F10).
 
 **S6.1 Bewertungslogik** (Fleet-Lane)
-- [ ] `filters.ts`, `scoring.ts` (Stufe 1 und 2, Stufe 2 zunächst ohne Rezensionsdaten), `bargains.ts`, `ranking.ts` inklusive Matrix-Aufbau; Fixture `scoring_case_1.json` mit erwarteten Scores, Schnäppchentypen und Rangfolge; Tests für die Akzeptanzbeispiele 2 und 3 aus `konzept.md` 5.1.
+- [x] `filters.ts`, `scoring.ts` (Stufe 1 und 2, Stufe 2 zunächst ohne Rezensionsdaten), `bargains.ts`, `ranking.ts` inklusive Matrix-Aufbau; Fixture `scoring_case_1.json` mit erwarteten Scores, Schnäppchentypen und Rangfolge; Tests für die Akzeptanzbeispiele 2 und 3 aus `konzept.md` 5.1. (a9db4cd, 2026-09-27)
   - Wiring: Workflow-Schritt `score-1` (S6.2) und Ergebnis-Endpunkt (S6.2).
   - Demo: `npm run demo -- s6.1` → Tabelle der Fixture mit Score, Schnäppchen-Begründung und Rang.
   - STATUS: „Bewertungslogik“ → `demonstrated`.
 
 **S6.2 Ergebnis-Endpunkte** (Fleet-Lane)
-- [ ] Workflow-Schritt `score-1`; `GET /searches/{id}/results` (Filter und Sortierung ohne neue Suche), `GET /searches/{id}/hotels/{hotel_id}` (alle Termine, Score-Aufschlüsselung), `GET …/reference-price` (Cache 6 h, höchstens 10 pro Minute).
+- [x] Workflow-Schritt `score-1`; `GET /searches/{id}/results` (Filter und Sortierung ohne neue Suche), `GET /searches/{id}/hotels/{hotel_id}` (alle Termine, Score-Aufschlüsselung), `GET …/reference-price` (Cache 6 h, höchstens 10 pro Minute). (8e22d9d, 675c6c5, 2026-09-27)
+  - ⟂ drift (2026-09-27): Der LiteAPI-Contract „Get cached public price“ ist nicht geprüft (Doku gesperrt, kein Sandbox-Schlüssel, BG-05). Der Endpunkt, Cache, Limit und Budget stehen; der Live-Adapter ruft nichts auf und antwortet `contract_unverified`, bis die Contract-Prüfung aus S2.2 ihn ergänzt. Im Fake-Modus liefert die simulierte Welt Vergleichspreise.
   - Wiring: Workflow → Tabellen → Endpunkte → SPA (S6.3).
   - Demo: `npm run demo -- s6.2` → Matrix mit 5 × 9 Zellen, Liste mit jeder Unterkunft genau einmal (Akzeptanzbeispiel 1).
   - STATUS: „Ergebnis-Endpunkte“ → `demonstrated`.
 
 **S6.3 Ergebnisansicht** (Fleet-Lane)
-- [ ] SPA: Preis-Matrix (Farbstufen, leere und fehlgeschlagene Zellen erkennbar, Klick filtert die Liste), Liste mit Sortierung und Filtern, Schnäppchen-Begründungen, Detailansicht mit allen Terminen, Score-Aufschlüsselung, Referenzpreis und Stornobedingungen; Seite „So berechnen wir die Rangliste“; Zeitstempel „Preise abgerufen um …“.
+- [x] SPA: Preis-Matrix (Farbstufen, leere und fehlgeschlagene Zellen erkennbar, Klick filtert die Liste), Liste mit Sortierung und Filtern, Schnäppchen-Begründungen, Detailansicht mit allen Terminen, Score-Aufschlüsselung, Referenzpreis und Stornobedingungen; Seite „So berechnen wir die Rangliste“; Zeitstempel „Preise abgerufen um …“. (a209195, 675c6c5, 2026-09-27)
+  - ⟂ drift (2026-09-27): Der Referenzpreis wird je Termin auf Abruf geladen („Vergleichspreis anzeigen“) statt automatisch, weil jede Abfrage ein möglicherweise kostenpflichtiger Anbieteraufruf ist und das Limit bei 10 pro Minute liegt.
   - Wiring: Fortschrittsansicht (S5.4) → Ergebnisansicht → Detailansicht → Buchung (S8.4).
   - Demo: `npm run dogfood -- --mode P --flow ergebnisse` → Report zeigt Matrix, Liste, eine Schnäppchen-Begründung und die Detailansicht.
   - STATUS: „Ergebnisansicht“ → `live-verified` nach gelesenem Report.
 
 **S6.4 Kalibrierung** (Fleet-Lane, mit Sandbox-Daten aus M2)
-- [ ] `npm run cli -- calibrate --from docs/demos/S2.5/` → Bericht `docs/demos/S6.4/kalibrierung.md` mit Verteilung der Scores und Schnäppchenquote je Typ sowie Vorschlägen für die Konstanten. Geänderte Konstanten werden erst nach Rückmeldung übernommen (Eskalation, weil `architektur.md` betroffen ist).
+- [x] `npm run cli -- calibrate --from docs/demos/S2.5/` → Bericht `docs/demos/S6.4/kalibrierung.md` mit Verteilung der Scores und Schnäppchenquote je Typ sowie Vorschlägen für die Konstanten. Geänderte Konstanten werden erst nach Rückmeldung übernommen (Eskalation, weil `architektur.md` betroffen ist). (17473b9, 2026-09-27)
+  - ⟂ drift (2026-09-27): Ohne Sandbox-Aufnahmen aus S2.5 (BG-05) misst `calibrate --search <id> | --latest` eine abgeschlossene Suche aus der Datenbank, hier in der simulierten Welt. Ergebnis: value 18,3 %, date 5,4 %, place 12,6 %, alle im Korridor; die Konstanten bleiben unverändert. Zuvor lag value bei 21,2 %, weil Preis und Bewertung in der Simulation unabhängig waren; korrigiert wurde die Simulation. Die Kalibrierung mit echten Daten bleibt offen.
   - Demo: Bericht liegt vor; Schnäppchenquote je Typ zwischen 5 und 20 % der Angebote oder begründete Abweichung.
   - STATUS: „Kalibrierung Stufe 1“ → `demonstrated`.
 

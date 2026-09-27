@@ -7,7 +7,8 @@ Stand: 27.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 - **Fertig:** M1 Grundgerüst; M2 im Fake-Modus (Provider-Ports mit simulierten Anbietern, LiteAPI-Client, ORS-Client mit Fahrzeit-Cache, Budget- und Rate-Limit-RPCs); M3 (Ortsdatenbank aus dem GeoNames-Entwicklungsauszug, Skill-Infrastruktur mit vier Bundles, Katalog-Pipeline, Katalog-Entwurf mit 49 Regionen und 307 Orten, Import). Belege unter `docs/demos/S1.*` bis `S3.*`.
 - **Fertig (M4):** Assistent Schritt 1–3 auf `/suche` mit Autovervollständigung, Terminanzahl, KI-Wunschübersetzung, Regions- und Ortsvorschlägen (Walkthrough `docs/demos/S4.4/`).
 - **Fertig (M5):** Kombinationssuche als Workflow mit ALTCHA, Rate Limits, Kontingenten, Preis-Cache und Live-Matrix (`docs/demos/S5.*`).
-- **Als Nächstes:** M6 Bewertung und Ergebnisse, dann M7–M9.
+- **Fertig (M6):** Filter, Qualitätsscore Stufe 1, Schnäppchen mit Begründung, Rangliste, Preis-Matrix, Liste, Detailansicht mit Vergleichspreis auf Abruf, Seite zur Rangliste, Kalibrierungswerkzeug (`docs/demos/S6.*`). Kernfunktion `demonstrated-not-maximized` bis M8.
+- **Als Nächstes:** M7 Rezensionscheck, dann M8 Buchung und M9.
 - **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2); dazu S2.4, S2.5 (Sandbox), O3.1 (GeoNames-Download), echte Eval- und Katalogläufe (BG-07).
 
 ## 2. BEN-GATEs in dieser autonomen Sitzung
@@ -47,6 +48,8 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 16. **Workflows und postgres.js:** In Workflow-Schritten wird `end()` von postgres.js nie fertig. Schritte schließen die Verbindung ohne zu warten (`dispose({ awaitClose: false })`); workerd meldet lokal je Lauf „hung“-Meldungen, die harmlos sind. In Produktion prüfen (Staging).
 17. **ALTCHA ohne Widget:** Der Browser löst die Aufgabe mit `altcha-lib`; das Paket `altcha` (Widget) ist noch Abhängigkeit, wird aber nicht genutzt.
 15. **Lokale Datenbank seriell:** PGlite hat eine einzige Sitzung; parallele Verbindungen über `pglite-socket` vermischen ihre Protokollnachrichten. Ein serieller TCP-Proxy (`packages/db/src/serial-proxy.ts`) bedient lokal und in Tests eine Verbindung nach der anderen. Produktion nutzt echtes Postgres über Hyperdrive.
+18. **Referenzpreis ohne Live-Adapter:** Der LiteAPI-Endpunkt „Get cached public price“ ist in `architektur.md` 8.1 nur mit Namen genannt und die Doku war gesperrt. Endpunkt, Cache (6 h), Limit (10/min) und Budget stehen; `ReferencePricePort` hat einen Fake und einen Live-Adapter, der nichts aufruft und `contract_unverified` meldet. Beim ersten Sandbox-Zugang Pfad und Antwort prüfen und den Adapter ergänzen. Die SPA lädt den Vergleichspreis je Termin auf Abruf.
+19. **Kalibrierung nur simuliert:** `npm run cli -- calibrate --latest` misst eine abgeschlossene Suche. In der simulierten Welt liegen alle Schnäppchentypen im Korridor 5–20 %, nachdem der Fake-Preis an die Bewertung gekoppelt wurde (vorher value 21,2 %). Die Konstanten sind unverändert; mit Sandbox-Daten neu messen.
 14. **S2.4 und S2.5 zurückgestellt:** Beide brauchen Sandbox-Konten. BG-10 (Go/No-Go) ist offen; M3 ff. sind im Fake-Modus gebaut und bei No-Go verwerfbar.
 
 ## 4. Stolperfallen
