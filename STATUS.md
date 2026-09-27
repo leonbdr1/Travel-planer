@@ -68,16 +68,16 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | S6.2 | Ergebnis-Endpunkte | `demonstrated` | `docs/demos/S6.2/` | Matrix 5 × 9, jede Unterkunft einmal; Referenzpreis-Endpunkt nur mit Fake-Adapter (Contract ungeprüft, BG-05). |
 | S6.3 | Ergebnisansicht | `live-verified` | `docs/demos/S6.3/` | Walkthrough 31/31, Report und Screenshots gelesen. |
 | S6.4 | Kalibrierung Stufe 1 | `demonstrated` | `docs/demos/S6.4/` | Simulierte Welt: value 18,3 %, date 5,4 %, place 12,6 %; echte Daten offen (BG-05). |
-| K | Kernfunktion (Kombinationssuche mit Matrix) | `demonstrated-not-maximized` | `docs/demos/S5.4/`, `docs/demos/S6.3/`, `docs/demos/S6.1/` | Beispiele 1–3 aus `konzept.md` 5.1 belegt; 4 (M7) und 5 (M8) fehlen. Revisit: M8. |
+| K | Kernfunktion (Kombinationssuche mit Matrix) | `demonstrated-not-maximized` | `docs/demos/S5.4/`, `docs/demos/S6.3/`, `docs/demos/S6.1/`, `docs/demos/S7.4/` | Beispiele 1–4 aus `konzept.md` 5.1 belegt; 5 (Buchung, M8) fehlt. Revisit: M8. |
 
 ## M7 Rezensionscheck
 
 | ID | Zeile | Reifegrad | Beleg | Anmerkung |
 |---|---|---|---|---|
-| S7.1 | Stichwortsuche Rezensionen | `spec'd` | – | |
-| S7.2 | Skill Rezensionsprüfung | `spec'd` | – | |
-| S7.3 | Rezensionscheck im Workflow | `spec'd` | – | |
-| S7.4 | Warnhinweise | `spec'd` | – | |
+| S7.1 | Stichwortsuche Rezensionen | `demonstrated` | `docs/demos/S7.1/` | Fixture: drei Schimmel-Treffer, Verneinungen in fünf Sprachen erkannt. |
+| S7.2 | Skill Rezensionsprüfung | `demonstrated` | `docs/demos/S7.2/` | 44 Eval-Fälle, Fake-Lauf 44/44; echter Lauf gegen BG-19 steht aus (BG-07). |
+| S7.3 | Rezensionscheck im Workflow | `demonstrated` | `docs/demos/S7.3/` | Schimmel 3/3 bestätigt, Qualität 8,8 → 7,8; ohne KI-Budget `skipped_budget`, kein Abzug. |
+| S7.4 | Warnhinweise | `live-verified` | `docs/demos/S7.4/` | Walkthrough 21/21, Akzeptanzbeispiel 4 im Screenshot gelesen. |
 
 ## M8 Buchung
 

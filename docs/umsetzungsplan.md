@@ -408,25 +408,29 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Ziel:** Warnhinweise aus Rezensionen, Qualitätsscore Stufe 2, Kennzeichnung als KI-gestützte Auswertung (F8).
 
 **S7.1 Stichwortsuche** (Fleet-Lane)
-- [ ] `review-lexicon.yaml` (DE, EN, FR, IT, NL; sieben Themen) und `review-keywords.ts` (Wortgrenzen, Ausschnitte ±120 Zeichen, höchstens 5 je Thema und 25 insgesamt, Namen entfernt); Tests mit Verneinungen und Mehrsprachigkeit.
+- [x] `review-lexicon.yaml` (DE, EN, FR, IT, NL; sieben Themen) und `review-keywords.ts` (Wortgrenzen, Ausschnitte ±120 Zeichen, höchstens 5 je Thema und 25 insgesamt, Namen entfernt); Tests mit Verneinungen und Mehrsprachigkeit. (bd839a9, 2026-09-27)
+  - ⟂ drift (2026-09-27): Die Stichwortsuche markiert Verneinungen (drei Wörter davor, gleicher Satz, Sprache der Bewertung). Verneinte Treffer gehen wie alle anderen an den Skill, zählen im Fallback ohne KI aber nie als ungeprüfter Hinweis. Das Lexikon wird mit `npm run gen` nach `src/generated/review-lexicon.ts` übersetzt, weil die Domäne keine Dateien liest. E-Mail-Adressen und Telefonnummern werden vor dem Zuschnitt maskiert (9.3).
   - Wiring: Workflow-Schritt `reviews-fetch` (S7.3).
   - Demo: `npm run demo -- s7.1` → für die Rezensions-Fixture die Treffer je Thema mit Ausschnitt-IDs.
   - STATUS: „Stichwortsuche Rezensionen“ → `demonstrated`.
 
 **S7.2 Skill `reiseplaner.review-verify`** (Fleet-Lane)
-- [ ] Bundle v1.0.0 mit mindestens 40 Eval-Fällen (Beschwerde, Verneinung, Vergleich, Lob, Ironie, fünf Sprachen, Schweregrade).
+- [x] Bundle v1.0.0 mit mindestens 40 Eval-Fällen (Beschwerde, Verneinung, Vergleich, Lob, Ironie, fünf Sprachen, Schweregrade). (8a69b5f, 2026-09-27)
+  - ⟂ drift (2026-09-27): 44 Fälle, Fake-Lauf 44/44. Das Fake-Modell ist auf diese Fälle abgestimmt und belegt nur die Kette; der Operator-Lauf mit echtem Modell gegen BG-19 steht aus (BG-07).
   - Wiring: Runner (S3.2) → Workflow-Schritt `reviews-verify` (S7.3).
   - Demo: `npm run skills:eval -- reiseplaner.review-verify --fake` grün; Operator-Lauf mit echtem Modell ≥ Zielwert BG-19.
   - STATUS: „Skill Rezensionsprüfung“ → `demonstrated`.
 
 **S7.3 Rezensionsschritte im Workflow** (Fleet-Lane)
-- [ ] Migration `20261007a_review_checks.sql`; Schritte `reviews-fetch` und `reviews-verify`; Cache 30 Tage; Budget-Reservierung mit Fallback „ungeprüft“; Score Stufe 2; `finalize` rechnet Schnäppchen und Rangliste neu.
+- [x] Migration `20261007a_review_checks.sql`; Schritte `reviews-fetch` und `reviews-verify`; Cache 30 Tage; Budget-Reservierung mit Fallback „ungeprüft“; Score Stufe 2; `finalize` rechnet Schnäppchen und Rangliste neu. (28ab584, 2026-09-27)
+  - ⟂ drift (2026-09-27): Zusätzliche Tabelle `review_check_pending` hält die Ausschnitte nur zwischen den beiden Schritten (Schritt-Ergebnisse sollen nur IDs und Zähler tragen) und wird danach gelöscht. Ungeprüfte Ergebnisse (KI aus, Budget weg, Skill-Fehler) laufen nach 24 h statt 30 Tagen ab, damit sie bei freiem Budget geprüft werden. Sauberkeitswerte bleiben aus (`LITEAPI_USE_SENTIMENT = false`, bis V7 entschieden ist).
   - Wiring: `score-1` → `reviews-fetch` → `reviews-verify` → `finalize` → Ergebnis-Endpunkte.
   - Demo: `npm run demo -- s7.3` → für das Fixture-Hotel mit Schimmel-Beschwerden: `topics: [{topic:"schimmel", confirmed_count:3, …}]`, Score sinkt gegenüber Stufe 1; mit erschöpftem Budget → Status `skipped_budget`, keine Minderung.
   - STATUS: „Rezensionscheck im Workflow“ → `demonstrated`.
 
 **S7.4 Warnhinweise in der Oberfläche** (Fleet-Lane)
-- [ ] Warnhinweise in Liste und Detailansicht mit Thema, Anzahl, Aktualität und `AiLabel` (`data-ai-provenance="ai_assisted"`); „keine Auffälligkeiten in den geprüften Rezensionen“ mit Anzahl; „Hinweis (ungeprüft)“ im Fallback.
+- [x] Warnhinweise in Liste und Detailansicht mit Thema, Anzahl, Aktualität und `AiLabel` (`data-ai-provenance="ai_assisted"`); „keine Auffälligkeiten in den geprüften Rezensionen“ mit Anzahl; „Hinweis (ungeprüft)“ im Fallback. (b06b2d5, 2026-09-27)
+  - ⟂ drift (2026-09-27): Die KI-Kennzeichnung erscheint nur, wenn der Skill Treffer geprüft hat; ungeprüfte Stichwort-Hinweise tragen keine KI-Kennzeichnung. Der Walkthrough zeigt den bestätigten Fall; den Fallback belegen `docs/demos/S7.3/` und die Tests.
   - Wiring: Ergebnis-Endpunkte → Ergebnisansicht (S6.3).
   - Demo: `npm run dogfood -- --mode P --flow warnungen` → Report zeigt den Schimmel-Hinweis mit KI-Kennzeichnung (Akzeptanzbeispiel 4).
   - STATUS: „Warnhinweise“ → `live-verified` nach gelesenem Report.

@@ -8,7 +8,8 @@ Stand: 27.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 - **Fertig (M4):** Assistent Schritt 1–3 auf `/suche` mit Autovervollständigung, Terminanzahl, KI-Wunschübersetzung, Regions- und Ortsvorschlägen (Walkthrough `docs/demos/S4.4/`).
 - **Fertig (M5):** Kombinationssuche als Workflow mit ALTCHA, Rate Limits, Kontingenten, Preis-Cache und Live-Matrix (`docs/demos/S5.*`).
 - **Fertig (M6):** Filter, Qualitätsscore Stufe 1, Schnäppchen mit Begründung, Rangliste, Preis-Matrix, Liste, Detailansicht mit Vergleichspreis auf Abruf, Seite zur Rangliste, Kalibrierungswerkzeug (`docs/demos/S6.*`). Kernfunktion `demonstrated-not-maximized` bis M8.
-- **Als Nächstes:** M7 Rezensionscheck, dann M8 Buchung und M9.
+- **Fertig (M7):** Rezensionscheck mit Stichwortsuche in fünf Sprachen, Skill `review-verify` (44 Evals, Fake-Modell), Workflow-Schritte `reviews-fetch`/`reviews-verify`, Score Stufe 2 und Warnhinweise mit KI-Kennzeichnung in Liste und Detailansicht (`docs/demos/S7.*`, Akzeptanzbeispiel 4).
+- **Als Nächstes:** M8 Buchung, dann M9.
 - **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2); dazu S2.4, S2.5 (Sandbox), O3.1 (GeoNames-Download), echte Eval- und Katalogläufe (BG-07).
 
 ## 2. BEN-GATEs in dieser autonomen Sitzung
@@ -50,6 +51,7 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 15. **Lokale Datenbank seriell:** PGlite hat eine einzige Sitzung; parallele Verbindungen über `pglite-socket` vermischen ihre Protokollnachrichten. Ein serieller TCP-Proxy (`packages/db/src/serial-proxy.ts`) bedient lokal und in Tests eine Verbindung nach der anderen. Produktion nutzt echtes Postgres über Hyperdrive.
 18. **Referenzpreis ohne Live-Adapter:** Der LiteAPI-Endpunkt „Get cached public price“ ist in `architektur.md` 8.1 nur mit Namen genannt und die Doku war gesperrt. Endpunkt, Cache (6 h), Limit (10/min) und Budget stehen; `ReferencePricePort` hat einen Fake und einen Live-Adapter, der nichts aufruft und `contract_unverified` meldet. Beim ersten Sandbox-Zugang Pfad und Antwort prüfen und den Adapter ergänzen. Die SPA lädt den Vergleichspreis je Termin auf Abruf.
 19. **Kalibrierung nur simuliert:** `npm run cli -- calibrate --latest` misst eine abgeschlossene Suche. In der simulierten Welt liegen alle Schnäppchentypen im Korridor 5–20 %, nachdem der Fake-Preis an die Bewertung gekoppelt wurde (vorher value 21,2 %). Die Konstanten sind unverändert; mit Sandbox-Daten neu messen.
+20. **Rezensionscheck:** Ausschnitte liegen zwischen `reviews-fetch` und `reviews-verify` in `review_check_pending` und werden nach der Prüfung gelöscht (Löschjob für abgelaufene Reste folgt in M9). Ungeprüfte Ergebnisse laufen nach 24 h ab. Sauberkeitswerte der LiteAPI bleiben aus, bis V7 entschieden ist (`LITEAPI_USE_SENTIMENT`). Der echte Eval-Lauf von `review-verify` (Zielwert BG-19) und die Kostenmessung je Suche („unter 4 Cent“, Abnahme M7) brauchen BG-07 und einen Sandbox-Lauf.
 14. **S2.4 und S2.5 zurückgestellt:** Beide brauchen Sandbox-Konten. BG-10 (Go/No-Go) ist offen; M3 ff. sind im Fake-Modus gebaut und bei No-Go verwerfbar.
 
 ## 4. Stolperfallen
