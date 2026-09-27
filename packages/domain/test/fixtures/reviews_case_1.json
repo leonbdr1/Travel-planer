@@ -1,0 +1,145 @@
+{
+ "description": "Rezensions-Fixture für S7.1/S7.3: drei Schimmel-Beschwerden in den letzten sechs Monaten (r1–r3), eine Verneinung (r4), Verneinungen in FR/IT/NL (r5–r7), älterer Lärm (r8), zu alte (r10) und undatierte (r15) Bewertungen, Wortgrenzen (salle/sale, chair/hair).",
+ "today": "2026-09-27",
+ "hotel": {
+  "id": "fixture-schimmel",
+  "name": "Gasthof Fixture"
+ },
+ "reviews": [
+  {
+   "id": "r1",
+   "score": 6.0,
+   "date": "2026-09-10",
+   "language": "de",
+   "headline": "Enttäuschend",
+   "pros": "Nettes Personal.",
+   "cons": "Leider Schimmel an der Duschfuge, das Bad roch muffig."
+  },
+  {
+   "id": "r2",
+   "score": 6.5,
+   "date": "2026-08-02",
+   "language": "de",
+   "headline": "Gut",
+   "pros": "Tolle Lage.",
+   "cons": "Im Bad war Schimmel an der Decke, das war unschön."
+  },
+  {
+   "id": "r3",
+   "score": 5.8,
+   "date": "2026-06-15",
+   "language": "en",
+   "headline": "Disappointing",
+   "pros": "Great location.",
+   "cons": "Black mould behind the shower curtain."
+  },
+  {
+   "id": "r4",
+   "score": 9.2,
+   "date": "2026-05-20",
+   "language": "de",
+   "headline": "Wunderbarer Aufenthalt",
+   "pros": "Absolut sauber, kein Schimmel, alles top gepflegt.",
+   "cons": "Nichts zu bemängeln."
+  },
+  {
+   "id": "r5",
+   "score": 7.4,
+   "date": "2026-04-01",
+   "language": "fr",
+   "headline": "Bien",
+   "pros": "Pas de bruit la nuit.",
+   "cons": "La salle de bain était sale."
+  },
+  {
+   "id": "r6",
+   "score": 7.9,
+   "date": "2026-03-12",
+   "language": "it",
+   "headline": "Buono",
+   "pros": "Nessun rumore, colazione ottima.",
+   "cons": "C'erano macchie sul tappeto."
+  },
+  {
+   "id": "r7",
+   "score": 7.0,
+   "date": "2026-02-01",
+   "language": "nl",
+   "headline": "Goed",
+   "pros": "Geen lawaai van de straat.",
+   "cons": "De kamer was wel erg gehorig."
+  },
+  {
+   "id": "r8",
+   "score": 6.9,
+   "date": "2025-12-20",
+   "language": "de",
+   "headline": "Gut",
+   "pros": "Gutes Frühstück.",
+   "cons": "Zimmer zur Straße, Straßenlärm die ganze Nacht."
+  },
+  {
+   "id": "r9",
+   "score": 8.8,
+   "date": "2026-09-01",
+   "language": "de",
+   "headline": "Wunderbar",
+   "pros": "Sehr freundliches Personal.",
+   "cons": "Nichts zu bemängeln."
+  },
+  {
+   "id": "r10",
+   "score": 4.0,
+   "date": "2024-01-10",
+   "language": "de",
+   "headline": "Schlecht",
+   "pros": null,
+   "cons": "Schimmel überall."
+  },
+  {
+   "id": "r11",
+   "score": 7.1,
+   "date": "2026-07-07",
+   "language": "en",
+   "headline": "Good",
+   "pros": "Comfortable chair in the room.",
+   "cons": "The kettle was broken and the hair dryer didn't work."
+  },
+  {
+   "id": "r12",
+   "score": 6.0,
+   "date": "2026-01-15",
+   "language": "en",
+   "headline": "Disappointing",
+   "pros": null,
+   "cons": "Room looked nothing like the photos, not as described."
+  },
+  {
+   "id": "r13",
+   "score": 5.5,
+   "date": "2026-08-20",
+   "language": "de",
+   "headline": "Enttäuschend",
+   "pros": null,
+   "cons": "Wir hatten Bettwanzen im Zimmer!"
+  },
+  {
+   "id": "r14",
+   "score": 7.3,
+   "date": "2025-11-11",
+   "language": "fr",
+   "headline": "Bien",
+   "pros": "Personnel sympathique.",
+   "cons": "Odeur de tabac dans la chambre."
+  },
+  {
+   "id": "r15",
+   "score": 8.0,
+   "date": null,
+   "language": "de",
+   "headline": "Gut",
+   "pros": null,
+   "cons": "Schimmel im Keller."
+  }
+ ]
+}

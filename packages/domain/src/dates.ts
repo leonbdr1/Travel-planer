@@ -54,6 +54,18 @@ export function addDays(date: IsoDate, days: number): IsoDate {
   return formatIsoDate(ms + days * DAY_MS);
 }
 
+/** Calendar months later (negative: earlier); the day is clamped to the month's end. */
+export function addMonths(date: IsoDate, months: number): IsoDate {
+  const ms = parseIsoDate(date);
+  if (ms === null) throw new Error(`invalid ISO date ${date}`);
+  const d = new Date(ms);
+  const total = d.getUTCFullYear() * 12 + d.getUTCMonth() + months;
+  const year = Math.floor(total / 12);
+  const month = total - year * 12;
+  const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+  return formatIsoDate(Date.UTC(year, month, Math.min(d.getUTCDate(), lastDay)));
+}
+
 /** ISO weekday of a date: 1 = Monday … 7 = Sunday. */
 export function isoWeekday(date: IsoDate): number {
   const ms = parseIsoDate(date);

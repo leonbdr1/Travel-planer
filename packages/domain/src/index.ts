@@ -18,3 +18,4 @@ export * from './filters';
 export * from './scoring';
 export * from './bargains';
 export * from './ranking';
+export * from './review-keywords';

@@ -1,0 +1,38 @@
+$ npm run demo -- s7.1
+# recorded 2026-09-27T20:25:05.321Z
+
+Stichtag 2026-09-27: 15 Bewertungen, 13 ausgewertet (höchstens 24 Monate alt, mit Datum)
+Letzte 12 Monate: 13 Bewertungen, Durchschnitt 7.03
+
+Sauberkeit (sauberkeit):
+  s7   2026-04-01 fr „La salle de bain était sale.“ (Stichwort sale, Bewertung r5)
+  s8   2026-03-12 it „C'erano macchie sul tappeto.“ (Stichwort macchie, Bewertung r6)
+Schimmel (schimmel):
+  s1   2026-09-10 de „Leider Schimmel an der Duschfuge, das Bad roch muffig.“ (Stichwort schimmel*, Bewertung r1)
+  s4   2026-08-02 de „Im Bad war Schimmel an der Decke, das war unschön.“ (Stichwort schimmel*, Bewertung r2)
+  s6   2026-06-15 en „Black mould behind the shower curtain.“ (Stichwort mould, Bewertung r3)
+  s13  2026-05-20 de [verneint] „Absolut sauber, kein Schimmel, alles top gepflegt.“ (Stichwort schimmel*, Bewertung r4)
+Ungeziefer (ungeziefer):
+  s3   2026-08-20 de „Wir hatten Bettwanzen im Zimmer!“ (Stichwort bettwanze*, Bewertung r13)
+Lärm (laerm):
+  s9   2026-02-01 nl „De kamer was wel erg gehorig.“ (Stichwort gehorig*, Bewertung r7)
+  s11  2025-12-20 de „Zimmer zur Straße, Straßenlärm die ganze Nacht.“ (Stichwort *lärm, Bewertung r8)
+  s14  2026-04-01 fr [verneint] „Pas de bruit la nuit.“ (Stichwort bruit, Bewertung r5)
+  s15  2026-03-12 it [verneint] „Nessun rumore, colazione ottima.“ (Stichwort rumore, Bewertung r6)
+Geruch (geruch):
+  s2   2026-09-10 de „Leider Schimmel an der Duschfuge, das Bad roch muffig.“ (Stichwort muffig*, Bewertung r1)
+  s12  2025-11-11 fr „Odeur de tabac dans la chambre.“ (Stichwort odeur, Bewertung r14)
+Baulicher Zustand (zustand):
+  s5   2026-07-07 en „The kettle was broken and the hair dryer didn't work.“ (Stichwort broken, Bewertung r11)
+Abweichung von Fotos oder Beschreibung (abweichung_beschreibung):
+  s10  2026-01-15 en „Room looked nothing like the photos, not as described.“ (Stichwort not as described, Bewertung r12)
+
+Ohne KI (Fallback, „Hinweis (ungeprüft)“):
+  Sauberkeit: 2 Erwähnungen, davon 1 in den letzten 6 Monaten, zuletzt 2026-04-01
+  Schimmel: 3 Erwähnungen, davon 3 in den letzten 6 Monaten, zuletzt 2026-09-10
+  Ungeziefer: 1 Erwähnung, davon 1 in den letzten 6 Monaten, zuletzt 2026-08-20
+  Lärm: 2 Erwähnungen, davon 0 in den letzten 6 Monaten, zuletzt 2026-02-01
+  Geruch: 2 Erwähnungen, davon 1 in den letzten 6 Monaten, zuletzt 2026-09-10
+  Baulicher Zustand: 1 Erwähnung, davon 1 in den letzten 6 Monaten, zuletzt 2026-07-07
+  Abweichung von Fotos oder Beschreibung: 1 Erwähnung, davon 0 in den letzten 6 Monaten, zuletzt 2026-01-15
+→ drei Schimmel-Treffer, eine Verneinung erkannt
