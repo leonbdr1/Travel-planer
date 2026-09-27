@@ -1,0 +1,21 @@
+$ npm run demo -- s6.1
+# recorded 2026-09-27T16:03:14.983Z
+
+Rangliste (sort=best), jede Unterkunft einmal:
+Rang  Unterkunft            Ort          Termin      €/Nacht  Score  Rangwert  Schnäppchen
+   1  Haus am See           Oberstdorf   2026-10-23       70    8.8     0.978  Preis-Leistung 61 % besser als der Durchschnitt deiner Suche · 30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen
+   2  Pension Alpenblick    Oberstdorf   2026-10-02       90    7.6     0.723  –
+   3  Gasthof Neu           Füssen       2026-10-02       80  n. v.     0.633  –
+   4  Hotel Post            Füssen       2026-10-09      110    7.9     0.607  –
+   5  Berghof               Füssen       2026-10-16      120    8.4     0.571  –
+
+Matrix (Zelle: bestes Angebot, Preisstufe 1–5):
+  P1 2026-10-02: offer 200 € (Stufe 2)
+  P1 2026-10-09: offer 200 € (Stufe 2)
+  P1 2026-10-16: offer 200 € (Stufe 2)
+  P1 2026-10-23: offer 140 € (Stufe 1)
+  P2 2026-10-02: offer 160 € (Stufe 1)
+  P2 2026-10-09: offer 220 € (Stufe 4)
+  P2 2026-10-16: offer 240 € (Stufe 5)
+  P2 2026-10-23: empty
+→ Scores, Schnäppchen-Begründung und Rangfolge wie in der Fixture

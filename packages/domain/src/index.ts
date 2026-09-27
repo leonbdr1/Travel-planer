@@ -14,3 +14,7 @@ export * from './themes';
 export * from './suggestions';
 export * from './pricing';
 export * from './occupancy';
+export * from './filters';
+export * from './scoring';
+export * from './bargains';
+export * from './ranking';

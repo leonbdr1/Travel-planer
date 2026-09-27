@@ -29,3 +29,14 @@ export function regionReason(args: { places: number; themeLabels: readonly strin
 /** Shown when the wish translation is unavailable (LLM off, budget used up, error). */
 export const WISH_FALLBACK_NOTICE =
   'Die automatische Übersetzung deiner Wünsche ist gerade nicht verfügbar. Bitte wähle die passenden Chips direkt aus.';
+
+/** Bargain reasons (architektur.md 6.8): the only allowed savings statements. */
+export function bargainReasonValue(percent: number): string {
+  return `Preis-Leistung ${percent} % besser als der Durchschnitt deiner Suche`;
+}
+export function bargainReasonDate(percent: number): string {
+  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen`;
+}
+export function bargainReasonPlace(percent: number, place: string): string {
+  return `${percent} % günstiger als vergleichbare Unterkünfte in ${place}`;
+}

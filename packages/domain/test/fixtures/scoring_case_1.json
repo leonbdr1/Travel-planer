@@ -1,0 +1,437 @@
+{
+  "description": "Suche mit 2 Orten × 4 Terminen; erwartete Scores (Stufe 1), Schnäppchen, Rangfolge und Matrix (architektur.md 6.6–6.9).",
+  "hotels": [
+    {
+      "id": "H1",
+      "name": "Haus am See",
+      "stars": 4,
+      "rating": 9.0,
+      "reviewCount": 400,
+      "hotelType": "Hotel",
+      "facilityIds": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Pension Alpenblick",
+      "stars": 3,
+      "rating": 9.0,
+      "reviewCount": 3,
+      "hotelType": "Pension",
+      "facilityIds": [
+        2
+      ],
+      "note": "4,5 von 5 → 9,0"
+    },
+    {
+      "id": "H3",
+      "name": "Hotel Post",
+      "stars": 3,
+      "rating": 8.0,
+      "reviewCount": 120,
+      "hotelType": "Hotel",
+      "facilityIds": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Gasthof Neu",
+      "stars": null,
+      "rating": null,
+      "reviewCount": 0,
+      "hotelType": "Gasthof",
+      "facilityIds": []
+    },
+    {
+      "id": "H5",
+      "name": "Berghof",
+      "stars": 4,
+      "rating": 8.6,
+      "reviewCount": 250,
+      "hotelType": "Hotel",
+      "facilityIds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "offers": [
+    {
+      "id": "o1",
+      "hotelId": "H1",
+      "placeId": "P1",
+      "placeName": "Oberstdorf",
+      "checkin": "2026-10-02",
+      "checkout": "2026-10-04",
+      "kind": "cheapest",
+      "offerId": "lp-H1-0",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 20000,
+      "pricePerNightCents": 10000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o2",
+      "hotelId": "H1",
+      "placeId": "P1",
+      "placeName": "Oberstdorf",
+      "checkin": "2026-10-09",
+      "checkout": "2026-10-11",
+      "kind": "cheapest",
+      "offerId": "lp-H1-1",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 20000,
+      "pricePerNightCents": 10000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o3",
+      "hotelId": "H1",
+      "placeId": "P1",
+      "placeName": "Oberstdorf",
+      "checkin": "2026-10-16",
+      "checkout": "2026-10-18",
+      "kind": "cheapest",
+      "offerId": "lp-H1-2",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 20000,
+      "pricePerNightCents": 10000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o4",
+      "hotelId": "H1",
+      "placeId": "P1",
+      "placeName": "Oberstdorf",
+      "checkin": "2026-10-23",
+      "checkout": "2026-10-25",
+      "kind": "cheapest",
+      "offerId": "lp-H1-3",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 14000,
+      "pricePerNightCents": 7000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o5",
+      "hotelId": "H2",
+      "placeId": "P1",
+      "placeName": "Oberstdorf",
+      "checkin": "2026-10-02",
+      "checkout": "2026-10-04",
+      "kind": "cheapest",
+      "offerId": "lp-H2-0",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 18000,
+      "pricePerNightCents": 9000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o6",
+      "hotelId": "H3",
+      "placeId": "P2",
+      "placeName": "Füssen",
+      "checkin": "2026-10-02",
+      "checkout": "2026-10-04",
+      "kind": "cheapest",
+      "offerId": "lp-H3-0",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 24000,
+      "pricePerNightCents": 12000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o7",
+      "hotelId": "H3",
+      "placeId": "P2",
+      "placeName": "Füssen",
+      "checkin": "2026-10-09",
+      "checkout": "2026-10-11",
+      "kind": "cheapest",
+      "offerId": "lp-H3-1",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 22000,
+      "pricePerNightCents": 11000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o8",
+      "hotelId": "H4",
+      "placeId": "P2",
+      "placeName": "Füssen",
+      "checkin": "2026-10-02",
+      "checkout": "2026-10-04",
+      "kind": "cheapest",
+      "offerId": "lp-H4-0",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 16000,
+      "pricePerNightCents": 8000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o9",
+      "hotelId": "H5",
+      "placeId": "P2",
+      "placeName": "Füssen",
+      "checkin": "2026-10-02",
+      "checkout": "2026-10-04",
+      "kind": "cheapest",
+      "offerId": "lp-H5-0",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 26000,
+      "pricePerNightCents": 13000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o10",
+      "hotelId": "H5",
+      "placeId": "P2",
+      "placeName": "Füssen",
+      "checkin": "2026-10-09",
+      "checkout": "2026-10-11",
+      "kind": "cheapest",
+      "offerId": "lp-H5-1",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 25000,
+      "pricePerNightCents": 12500,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    },
+    {
+      "id": "o11",
+      "hotelId": "H5",
+      "placeId": "P2",
+      "placeName": "Füssen",
+      "checkin": "2026-10-16",
+      "checkout": "2026-10-18",
+      "kind": "cheapest",
+      "offerId": "lp-H5-2",
+      "roomName": "Doppelzimmer",
+      "boardType": "BB",
+      "refundable": true,
+      "freeCancelUntil": null,
+      "totalCents": 24000,
+      "pricePerNightCents": 12000,
+      "payAtPropertyCents": 0,
+      "payAtPropertyKnown": true,
+      "currency": "EUR"
+    }
+  ],
+  "combinations": [
+    {
+      "placeId": "P1",
+      "checkin": "2026-10-02",
+      "checkout": "2026-10-04",
+      "state": "done"
+    },
+    {
+      "placeId": "P1",
+      "checkin": "2026-10-09",
+      "checkout": "2026-10-11",
+      "state": "done"
+    },
+    {
+      "placeId": "P1",
+      "checkin": "2026-10-16",
+      "checkout": "2026-10-18",
+      "state": "done"
+    },
+    {
+      "placeId": "P1",
+      "checkin": "2026-10-23",
+      "checkout": "2026-10-25",
+      "state": "done"
+    },
+    {
+      "placeId": "P2",
+      "checkin": "2026-10-02",
+      "checkout": "2026-10-04",
+      "state": "done"
+    },
+    {
+      "placeId": "P2",
+      "checkin": "2026-10-09",
+      "checkout": "2026-10-11",
+      "state": "done"
+    },
+    {
+      "placeId": "P2",
+      "checkin": "2026-10-16",
+      "checkout": "2026-10-18",
+      "state": "done"
+    },
+    {
+      "placeId": "P2",
+      "checkin": "2026-10-23",
+      "checkout": "2026-10-25",
+      "state": "done"
+    }
+  ],
+  "expected": {
+    "quality": {
+      "H1": 8.8,
+      "H2": 7.6,
+      "H3": 7.9,
+      "H4": null,
+      "H5": 8.4
+    },
+    "bargains": {
+      "o4": {
+        "types": [
+          "value",
+          "date"
+        ],
+        "reason": "Preis-Leistung 61 % besser als der Durchschnitt deiner Suche · 30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen"
+      }
+    },
+    "list_best": [
+      [
+        "H1",
+        "o4",
+        3
+      ],
+      [
+        "H2",
+        "o5",
+        0
+      ],
+      [
+        "H4",
+        "o8",
+        0
+      ],
+      [
+        "H3",
+        "o7",
+        1
+      ],
+      [
+        "H5",
+        "o11",
+        2
+      ]
+    ],
+    "list_price": [
+      "H1",
+      "H4",
+      "H2",
+      "H3",
+      "H5"
+    ],
+    "matrix": [
+      [
+        "P1",
+        "2026-10-02",
+        "offer",
+        "o1",
+        2
+      ],
+      [
+        "P1",
+        "2026-10-09",
+        "offer",
+        "o2",
+        2
+      ],
+      [
+        "P1",
+        "2026-10-16",
+        "offer",
+        "o3",
+        2
+      ],
+      [
+        "P1",
+        "2026-10-23",
+        "offer",
+        "o4",
+        1
+      ],
+      [
+        "P2",
+        "2026-10-02",
+        "offer",
+        "o8",
+        1
+      ],
+      [
+        "P2",
+        "2026-10-09",
+        "offer",
+        "o7",
+        4
+      ],
+      [
+        "P2",
+        "2026-10-16",
+        "offer",
+        "o11",
+        5
+      ],
+      [
+        "P2",
+        "2026-10-23",
+        "empty",
+        null,
+        null
+      ]
+    ]
+  }
+}
