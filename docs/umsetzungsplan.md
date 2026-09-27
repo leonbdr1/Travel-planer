@@ -189,32 +189,37 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
   - STATUS: „Anbieter-Fixtures“ → `demonstrated`.
 
 **S2.1 Provider-Ports und Fakes** (Fleet-Lane)
-- [ ] Typisierte Ports `LiteApiPort`, `RoutingPort`, `LlmPort`, `MailPort`; Fakes lesen die Fixtures und erlauben Fehlerinjektion (429, 5xx, Timeout, fehlerhafte Antwort).
+- [x] Typisierte Ports `LiteApiPort`, `RoutingPort`, `LlmPort`, `MailPort`; Fakes lesen die Fixtures und erlauben Fehlerinjektion (429, 5xx, Timeout, fehlerhafte Antwort). (c0c6d78, 2026-09-27)
+  - ⟂ drift (2026-09-27): Ohne Sandbox gibt es keine aufgezeichneten Fixtures (O2.2 blockiert). Die Fakes simulieren die Anbieter auf HTTP-Ebene mit einer deterministischen synthetischen Welt; `packages/providers/fixtures/` enthält synthetische Beispiele, die gegen die zod-Schemas geprüft werden. `LlmPort` kam mit S3.2 (169e31b).
   - Wiring: `PROVIDERS_MODE` → Factory in `packages/providers` → Worker-Kontext → Konsumenten ab S2.2.
   - Demo: `npm run demo -- s2.1` → Fake-Tarife für Oberstdorf liefern die Anzahl Hotels aus der Fixture; mit `--inject 429` → zwei Wiederholungen, dann Erfolg.
   - STATUS: „Provider-Ports und Fakes“ → `demonstrated`.
 
 **S2.2 LiteAPI-Client** (Fleet-Lane; Live-Aufrufe nur durch den Operator)
-- [ ] Client für alle Endpunkte aus `architektur.md` 8.1 mit zod-geprüften Antworten, Wiederholungen und Zählung in `provider_usage`; Migration `20261002a_usage_budgets.sql` mit `provider_usage`, `budget_ledger`, `budget_reserve`, `budget_settle`, `look_to_book_ratio` und pgTAP-Tests für die RPCs (atomar, fail-closed).
+- [x] Client für alle Endpunkte aus `architektur.md` 8.1 mit zod-geprüften Antworten, Wiederholungen und Zählung in `provider_usage`; Migration `20261002a_usage_budgets.sql` mit `provider_usage`, `budget_ledger`, `budget_reserve`, `budget_settle`, `look_to_book_ratio` und pgTAP-Tests für die RPCs (atomar, fail-closed). (bd6d854, 2026-09-27)
+  - ⟂ drift (2026-09-27): `look_to_book_ratio` braucht `app.bookings` und folgt mit `20261008a_bookings`; `rate_limits` und `increment_rate_limit` liegen schon in `20261002a` (statt `20261004a`), weil das ORS-Minutenkontingent in S2.3 sie braucht.
 - [ ] Contract-Abgleich mit der aktuellen Doku (Felder für Rating, Bewertungsanzahl, Steuern, Stornobedingungen; Form der Marge; Regeln zum Suggested Selling Price; Abgleich unterbrochener Zahlungen). Abweichungen als `⟂ drift` annotieren.
+  - ⟂ drift (2026-09-27): offen. Die LiteAPI-Dokumentation war aus der Sitzung nicht erreichbar; Schemas in `packages/providers/src/liteapi/schemas.ts` folgen `architektur.md` 8.1 und sind als ungeprüft markiert. Abgleich mit Sandbox-Schlüssel (BG-05).
   - Wiring: Port-Factory → `LiteApiClient` → Konsumenten: Validierungs-CLI (S2.5), SearchWorkflow (S5.3), Buchung (S8.2).
   - Demo (Fake): `npm run demo -- s2.2` → normalisiertes Beispielangebot; Demo (Sandbox, Operator): `npm run cli -- liteapi smoke --place oberstdorf --checkin 2026-10-02 --nights 2` → Anzahl Hotels und ein Beispielangebot.
   - STATUS: „LiteAPI-Client“ → `demonstrated`.
 
 **S2.3 openrouteservice-Client und Fahrzeit-Cache** (Fleet-Lane)
-- [ ] Client für die Matrix auf `api.heigit.org` mit Blockbildung, Minuten- und Tageskontingent über `budget_ledger` (`ors_calls`), Luftlinien-Fallback; Migration `20261002b_travel_time_cache.sql`.
+- [x] Client für die Matrix auf `api.heigit.org` mit Blockbildung, Minuten- und Tageskontingent über `budget_ledger` (`ors_calls`), Luftlinien-Fallback; Migration `20261002b_travel_time_cache.sql`. (d09dba9, 2026-09-27)
   - Wiring: Port-Factory → `OrsClient` → Konsument: Vorschläge (S4.2).
   - Demo: `npm run cli -- ors matrix --from 48.78,9.18 --to 47.41,10.28 47.57,10.70` → zwei Fahrzeiten in Minuten; zweiter identischer Aufruf → 0 neue ORS-Anfragen laut `provider_usage`.
   - STATUS: „ORS-Client und Cache“ → `demonstrated`.
 
 **S2.4 Zahlungs-Testseite** (Fleet-Lane baut, Operator führt aus)
 - [ ] Seite `/dev/payment-test` (nur bei `APP_ENV=dev`): Prebook mit `usePaymentSdk`, SDK im Sandbox-Modus, Rückkehrseite, Book, Stornierung.
+  - ⟂ drift (2026-09-27): zurückgestellt: Das Zahlungs-SDK braucht ein Sandbox-Konto (BG-05). Die Buchungsstrecke in M8 nutzt bis dahin eine simulierte Zahlung im Fake-Modus.
   - Wiring: Browser → Testseite → LiteAPI-Client (S2.2).
   - Demo (Operator, Testkarte): einmal vollständig durchlaufen; Protokoll mit IDs (ohne Kartendaten) in `docs/demos/S2.4/`. Beantwortet V1 (Vorkasse ja oder nein).
   - STATUS: „Sandbox-Buchung (Testseite)“ → `demonstrated`.
 
 **S2.5 Validierungsbericht** (Fleet-Lane baut, Operator führt aus)
 - [ ] `npm run cli -- validate --scenario allgaeu-5x4`: Trefferzahlen je Kombination, Antwortzeiten (Median, P95), Anteil mit Rating, Rezensionen und Sentiment, Preisvergleich über den Referenzpreis, Vergleich mit den Booking-Zahlen aus `validation/booking_counts.csv` (von Hand gepflegt), Anfragen je Nutzersuche nach Cache; Checkliste für V1, V4, V6 und V7 mit Antwortfeldern; ORS-Bedingungen.
+  - ⟂ drift (2026-09-27): zurückgestellt: Messwerte gibt es nur mit Sandbox-Zugang (BG-05, BG-06). BG-10 ist damit offen; M3 ff. wurden im Fake-Modus trotzdem gebaut (siehe `HANDOFF.md` §2).
   - Wiring: CLI → Clients aus S2.2 und S2.3 → `docs/validierung.md`.
   - Demo: Lauf im Sandbox-Modus → `docs/validierung.md` enthält alle Abschnitte V1 bis V7 mit Messwerten oder ausgefüllter Checkliste.
   - STATUS: „Validierungsbericht“ → `demonstrated`.
@@ -233,40 +238,46 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 
 **O3.1 GeoNames-Rohdaten** (Operator-Lane)
 - [ ] Länder-Exporte `DE`, `AT`, `CH`, `IT` und Postleitzahlen-Exporte laden; Prüfsummen, Abrufdatum und Lizenz in `data/geonames/README.md`. Die Rohdaten kommen nicht ins Repo.
+  - ⟂ drift (2026-09-27): `download.geonames.org` war aus der Sitzung nicht erreichbar. Stattdessen liegt ein Entwicklungsauszug (Orte ab 1.000 Einwohnern aus dem npm-Paket `all-the-cities`, GeoNames-Daten unter CC BY 4.0, echte geonameids und Koordinaten) mit Prüfsumme in `data/geonames/dev-extract/`; ohne Postleitzahlen. Die Rohdaten-Exporte lädt der Operator.
   - Demo: `sha256sum -c data/geonames/SHA256SUMS` → alle `OK`.
   - STATUS: „GeoNames-Rohdaten“ → `demonstrated`.
 
 **S3.1 Ortsdatenbank** (Fleet-Lane)
-- [ ] Migration `20261003a_geo_localities.sql` (Trigramm-Indizes); `npm run cli -- geonames import <dir>`: TSV-Parser, nur Feature-Klasse `P`, Italien gefiltert auf die Provinz Bozen, deutsche Alternativnamen, Postleitzahlen zugeordnet; Quellenangabe in `product.config.yaml` (`attribution`).
+- [x] Migration `20261003a_geo_localities.sql` (Trigramm-Indizes); `npm run cli -- geonames import <dir>`: TSV-Parser, nur Feature-Klasse `P`, Italien gefiltert auf die Provinz Bozen, deutsche Alternativnamen, Postleitzahlen zugeordnet; Quellenangabe in `product.config.yaml` (`attribution`). (46ecb31, 2026-09-27)
+  - ⟂ drift (2026-09-27): Suche über ein Array `search_names` (Name, ASCII-Name, deutsche Alternativnamen) mit gestaffelter Bewertung, damit „Wien“ Wien vor Wiener Neustadt liefert; Postleitzahlen-Zuordnung ist gebaut, der Entwicklungsauszug enthält aber keine.
   - Wiring: CLI → `geo_localities` → Konsumenten: `/geo/localities` (S4.2), Katalog-Abgleich (S3.4).
   - Demo (mit Test-Auszug im Repo): `npm run cli -- geonames import test/fixtures/geonames-sample` → „Importiert: DE n, AT n, CH n, IT-BZ n“; `npm run cli -- geonames lookup "Oberstd"` → erster Treffer „Oberstdorf, Bayern, DE“.
   - STATUS: „Ortsdatenbank“ → `demonstrated`.
 
 **O3.2 Skill-Eval-Workflow** (Operator-Lane, CI-Datei)
 - [ ] `.github/workflows/skill-eval.yml` nach Frontlift-Vorbild: läuft bei PRs mit Änderungen unter `packages/skills/bundles/**`, Toleranz 0,02, Deckel 0,50 $ je Skill, Secret `ANTHROPIC_API_KEY_EVAL`.
+  - ⟂ drift (2026-09-27): Datei angelegt (Frontlift-Vorlage nicht erreichbar); läuft immer mit dem Fake-Modell und zusätzlich echt, sobald das Secret gesetzt ist (BG-07). Ein erster PR-Lauf steht aus.
   - Demo: PR mit einer Änderung am Eval-Datensatz → Job läuft und schreibt `skill-eval-report-<id>.json`.
   - STATUS: „Skill-Eval-Gate“ → `demonstrated`.
 
 **S3.2 Skill-Infrastruktur** (Fleet-Lane)
-- [ ] `packages/skills`: Bundle-Loader für Node, Build-Manifest für den Worker, Ajv-Standalone-Kompilierung, Runner nach `architektur.md` 9.1 (Kostendeckel, Budget-Hooks, erzwungener Tool-Aufruf, Ausgabeprüfung, Fallback), Telemetrie-Senke `skill_runs` (Migration `20261003b_skill_runs.sql`), Anbindung der Firmen-Eval-Engine (Port aus `frontlift/core/eval` oder Übernahme als Workspace-Paket; Entscheidung im Design-Preflight).
+- [x] `packages/skills`: Bundle-Loader für Node, Build-Manifest für den Worker, Ajv-Standalone-Kompilierung, Runner nach `architektur.md` 9.1 (Kostendeckel, Budget-Hooks, erzwungener Tool-Aufruf, Ausgabeprüfung, Fallback), Telemetrie-Senke `skill_runs` (Migration `20261003b_skill_runs.sql`), Anbindung der Firmen-Eval-Engine (Port aus `frontlift/core/eval` oder Übernahme als Workspace-Paket; Entscheidung im Design-Preflight). (169e31b, 2026-09-27)
+  - ⟂ drift (2026-09-27): Migration heißt `20261003c_skill_runs.sql`, weil `03b` schon den Katalog enthält (S3.5 kam zuerst). Runner und Eval-Engine sind nach dem Contract in `architektur.md` 9.1 nachgebaut (Frontlift nicht erreichbar). `claude-sonnet-5` lehnt `temperature` ab: Bundles für Sonnet 5 setzen `temperature: null`, die Preistabelle in `product.config.yaml` (`ai.models`) markiert das, der Build prüft es. Alle vier Bundles entstanden hier, weil die Demo „4 Bundles, 8 Validatoren“ verlangt; `review-verify` hat 12 von 40 Eval-Fällen (Rest in M7).
   - Wiring: `npm run skills:build` → Manifest und Validatoren → Worker-Bundle (S4.3) und CLI (S3.4); `npm run skills:eval` → Eval-Engine → `baseline.json`.
   - Demo: `npm run skills:build` → „4 Bundles, 8 Validatoren kompiliert“; `npm run skills:eval -- reiseplaner.catalog-places --fake` → Bericht mit Score und Kosten 0 $.
   - STATUS: „Skill-Infrastruktur“ → `demonstrated`.
 
 **S3.3 Katalog-Skills** (Fleet-Lane)
-- [ ] Bundles `reiseplaner.catalog-regions` und `reiseplaner.catalog-places` (v1.0.0) mit je 10 Eval-Fällen (Judge-Rubrik plus deterministische Assertions: nur Themen aus dem Vokabular, keine Koordinaten, Beschreibung höchstens 160 Zeichen).
+- [x] Bundles `reiseplaner.catalog-regions` und `reiseplaner.catalog-places` (v1.0.0) mit je 10 Eval-Fällen (Judge-Rubrik plus deterministische Assertions: nur Themen aus dem Vokabular, keine Koordinaten, Beschreibung höchstens 160 Zeichen). (633829e, 2026-09-27)
   - Wiring: Build-Manifest → CLI-Pipeline (S3.4).
   - Demo: `npm run skills:eval -- reiseplaner.catalog-places --fake` → alle deterministischen Assertions grün.
   - STATUS: „Katalog-Skills“ → `demonstrated`.
 
 **S3.4 Katalog-Pipeline** (Fleet-Lane baut, Operator führt die Batch-Läufe aus)
-- [ ] `npm run cli -- catalog generate` (Batch API) → Abgleich jedes Orts mit `geo_localities` (exakter oder Trigramm-Treffer innerhalb der Region, sonst „nicht zugeordnet“) → Validierung → Dublettenprüfung (Namensähnlichkeit und Abstand unter 3 km) → Typografie-Scrubber → YAML unter `data/catalog/` mit `verified: false` und `ai_assisted: true`.
+- [x] `npm run cli -- catalog generate` (Batch API) → Abgleich jedes Orts mit `geo_localities` (exakter oder Trigramm-Treffer innerhalb der Region, sonst „nicht zugeordnet“) → Validierung → Dublettenprüfung (Namensähnlichkeit und Abstand unter 3 km) → Typografie-Scrubber → YAML unter `data/catalog/` mit `verified: false` und `ai_assisted: true`. (2d3088c, 2026-09-27)
+  - ⟂ drift (2026-09-27): „innerhalb der Region“ ist umgesetzt als Bundesland/Kanton aus der Modellausgabe plus Abstand höchstens `CATALOG_REGION_MAX_SPREAD_KM` (100 km) vom Median der exakten Treffer. Der echte Batch-Lauf (Operator, BG-07) steht aus; der Katalog in `data/catalog/` ist ein KI-Entwurf dieser Sitzung (49 Regionen, 307 Orte, alle zugeordnet, `verified: false`).
   - Wiring: CLI → Skills (S3.3) → Ortsdatenbank (S3.1) → YAML → Import (S3.5).
   - Demo (Fake): `npm run cli -- catalog generate --country DE --fake` → YAML für die Fake-Regionen; (Operator, echt) Lauf für alle Länder, Kosten laut `skill_runs` unter 5 $.
   - STATUS: „Katalog-Pipeline“ → `demonstrated`.
 
 **S3.5 Katalog-Import** (Fleet-Lane)
-- [ ] Migration `20261003c_catalog.sql` (`themes`, `regions`, `places`, `place_themes`); `npm run cli -- catalog validate` und `catalog import` (nur `verified: true`, idempotent über `slug`); Anleitung `docs/runbooks/katalogpruefung.md`.
+- [x] Migration `20261003c_catalog.sql` (`themes`, `regions`, `places`, `place_themes`); `npm run cli -- catalog validate` und `catalog import` (nur `verified: true`, idempotent über `slug`); Anleitung `docs/runbooks/katalogpruefung.md`. (6feacf1, 2026-09-27)
+  - ⟂ drift (2026-09-27): Migration heißt `20261003b_catalog.sql`. Lokal zeigt `CATALOG_ALLOW_DRAFTS=true` (nur `dev`/`test`) die Entwürfe; `catalog import --include-drafts` ist gegen `DATABASE_URL` gesperrt.
   - Wiring: YAML → Import → Tabellen → Konsumenten: Vorschläge (S4.2).
   - Demo: `npm run cli -- catalog import` zweimal hintereinander → gleiche Zeilenzahlen; Validator meldet 0 Fehler (Koordinaten im Landesgebiet, Themen im Vokabular, Beschreibungen höchstens 160 Zeichen, keine Dubletten).
   - STATUS: „Katalog-Import“ → `demonstrated`.

@@ -24,23 +24,23 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 |---|---|---|---|---|
 | O2.1 | Sandbox-Zugänge | `blocked` | – | BG-05, BG-06 |
 | O2.2 | Anbieter-Fixtures | `blocked` | – | Aufzeichnung braucht Sandbox-Schlüssel. |
-| S2.1 | Provider-Ports und Fakes | `spec'd` | – | |
-| S2.2 | LiteAPI-Client | `spec'd` | – | |
-| S2.3 | ORS-Client und Cache | `spec'd` | – | |
-| S2.4 | Sandbox-Buchung (Testseite) | `spec'd` | – | |
-| S2.5 | Validierungsbericht | `spec'd` | – | |
+| S2.1 | Provider-Ports und Fakes | `demonstrated` | `docs/demos/S2.1/` | Fakes auf HTTP-Ebene mit synthetischer Welt; Fehlerinjektion 429/5xx/Timeout. |
+| S2.2 | LiteAPI-Client | `demonstrated` | `docs/demos/S2.2/` | Nur Fake-Modus; Contract gegen die Live-Doku ungeprüft (BG-05). |
+| S2.3 | ORS-Client und Cache | `demonstrated` | `docs/demos/S2.3/` | Zweiter Aufruf: 0 neue ORS-Anfragen. |
+| S2.4 | Sandbox-Buchung (Testseite) | `blocked` | – | Braucht Sandbox-Konto und Zahlungs-SDK (BG-05). |
+| S2.5 | Validierungsbericht | `blocked` | – | Messwerte nur mit Sandbox (BG-05, BG-06); BG-10 offen. |
 
 ## M3 Ortsdaten und Katalog
 
 | ID | Zeile | Reifegrad | Beleg | Anmerkung |
 |---|---|---|---|---|
-| O3.1 | GeoNames-Rohdaten | `spec'd` | – | |
-| S3.1 | Ortsdatenbank | `spec'd` | – | |
-| O3.2 | Skill-Eval-Gate | `spec'd` | – | |
-| S3.2 | Skill-Infrastruktur | `spec'd` | – | |
-| S3.3 | Katalog-Skills | `spec'd` | – | |
-| S3.4 | Katalog-Pipeline | `spec'd` | – | |
-| S3.5 | Katalog-Import | `spec'd` | – | |
+| O3.1 | GeoNames-Rohdaten | `blocked` | `data/geonames/dev-extract/` | Download nicht erreichbar; Entwicklungsauszug mit Prüfsumme statt Rohdaten. |
+| S3.1 | Ortsdatenbank | `demonstrated` | `docs/demos/S3.1/` | „Oberstd“ → Oberstdorf, Bayern, DE. |
+| O3.2 | Skill-Eval-Gate | `built` | `.github/workflows/skill-eval.yml` | Erster PR-Lauf steht aus; echter Lauf braucht BG-07. |
+| S3.2 | Skill-Infrastruktur | `demonstrated` | `docs/demos/S3.2/` | 4 Bundles, 8 Validatoren; Eval im Fake-Modus 0 $. |
+| S3.3 | Katalog-Skills | `demonstrated` | `docs/demos/S3.3/` | Deterministische Assertions grün; Judge-Rubriken brauchen BG-07. |
+| S3.4 | Katalog-Pipeline | `demonstrated` | `docs/demos/S3.4/` | Fake-Lauf DE; echter Batch-Lauf durch den Operator (BG-07). |
+| S3.5 | Katalog-Import | `demonstrated` | `docs/demos/S3.5/` | 49 Regionen, 307 Orte als Entwurf; Freigabe BG-11. |
 
 ## M4 Suchrahmen, Vorschläge und Wünsche
 

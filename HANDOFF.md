@@ -4,9 +4,9 @@ Stand: 27.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 
 ## 1. Frontier
 
-- **Fertig:** M1 Grundgerüst lokal (Konfiguration, DB-Harness mit pgTAP, Worker mit Health, SPA-Startseite, Walkthrough-Harness, Protokoll-Dateien). Belege unter `docs/demos/S1.*`.
-- **Als Nächstes:** M2 Anbieter-Ports und Fakes (ohne Konten), dann M3–M9 im Fake-Modus. Siehe Abschnitt 2 zur Gate-Handhabung.
-- **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2).
+- **Fertig:** M1 Grundgerüst; M2 im Fake-Modus (Provider-Ports mit simulierten Anbietern, LiteAPI-Client, ORS-Client mit Fahrzeit-Cache, Budget- und Rate-Limit-RPCs); M3 (Ortsdatenbank aus dem GeoNames-Entwicklungsauszug, Skill-Infrastruktur mit vier Bundles, Katalog-Pipeline, Katalog-Entwurf mit 49 Regionen und 307 Orten, Import). Belege unter `docs/demos/S1.*` bis `S3.*`.
+- **Als Nächstes:** M4 Suchrahmen, Vorschläge und Wünsche; danach M5–M9 im Fake-Modus.
+- **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2); dazu S2.4, S2.5 (Sandbox), O3.1 (GeoNames-Download), echte Eval- und Katalogläufe (BG-07).
 
 ## 2. BEN-GATEs in dieser autonomen Sitzung
 
@@ -24,7 +24,8 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 | BG-15 fi-deck-Repo-Parameter | Preflight und Verify-Slice manuell, im Commit dokumentiert | – |
 | BG-16 Operator-Sitzung | Ausführungssteuernde Dateien (package.json, CI, Hooks, Toolchain) in dieser Sitzung selbst angelegt, weil ohne sie nichts läuft | Review der Operator-Dateien |
 | BG-18 Competitor-Baseline | offen | Recherche vor öffentlicher Bewerbung |
-| BG-19 Eval-Zielwert | 90 % als Arbeitswert | bestätigen |
+| BG-19 Eval-Zielwert | 90 % als Arbeitswert (`SKILL_EVAL_TARGET_SCORE`) | bestätigen; echte Eval-Läufe brauchen BG-07 |
+| BG-07 Anthropic | kein Schlüssel; alle Skills laufen gegen deterministische Fake-Modelle (`packages/skills/src/fake`), Kosten 0 $ | Workspace und `ANTHROPIC_API_KEY`/`ANTHROPIC_API_KEY_EVAL`; dann `npm run skills:eval` und `catalog generate` echt |
 
 ## 3. Abweichungen vom Plan (⟂ drift)
 
@@ -35,6 +36,13 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 5. **postgres.js im Worker:** Mit `fetch_types: false` (Hyperdrive-Empfehlung) kennt postgres.js keine Array-Typen. Der DB-Adapter kodiert Array-Parameter selbst und registriert Parser für `text[]`, `int[]`, `float8[]` (Paritätstest gegen PGlite in `packages/db/test/drivers.test.ts`). Das Cloudflare-Socket-Polyfill von postgres.js erzeugt nach dem Schließen zwei harmlose „unhandled rejections“; die Root-Vitest-Konfiguration ignoriert genau diese zwei Meldungen.
 6. **Repository:** Code liegt in `leonbdr1/Travel-planer` (Branch `claude/software-entwicklung-konzept-gv58jh`), nicht in `fischermann-intelligence/reiseplaner` (O1.1).
 7. **Toolchain-Image:** Kein Docker-Daemon und kein Zugriff auf Docker Hub in der Sitzung; `toolchain/Dockerfile` ist geschrieben, aber nicht gebaut. Basis-Image ohne Digest (Operator pinnt).
+8. **LiteAPI-Contract ungeprüft:** Die LiteAPI-Dokumentation war nicht erreichbar. Client und zod-Schemas folgen `architektur.md` 8.1; Felder, Marge und Zahlungsablauf sind beim ersten Sandbox-Zugang abzugleichen (S2.2, zweite Checkbox). Die Ausstattungs-IDs der Chips (`packages/domain/src/chips.ts`) stammen aus der simulierten Welt und müssen gegen `/data/facilities` neu zugeordnet werden.
+9. **Migrationsnamen:** `rate_limits` und `increment_rate_limit` liegen in `20261002a` (Plan: `20261004a`), `look_to_book_ratio` folgt mit `20261008a_bookings`, Katalog in `20261003b` und `skill_runs` in `20261003c` (Plan: umgekehrt).
+10. **GeoNames:** Rohdaten-Download nicht erreichbar; Entwicklungsauszug aus dem npm-Paket `all-the-cities` (CC BY 4.0, Orte ab 1.000 Einwohnern, echte geonameids) in `data/geonames/dev-extract/`, ohne Postleitzahlen. Deutsche Namen für Südtirol und wichtige Städte in `alt-names-*.json`.
+11. **Katalog-Entwurf:** Der Katalog in `data/catalog/` wurde in dieser Sitzung als KI-Entwurf geschrieben (nicht über die Batch-Pipeline, die BG-07 braucht). Koordinaten kommen ausschließlich aus dem Abgleich mit `geo_localities`; alles `verified: false` (BG-11).
+12. **Sonnet 5 und `temperature`:** `claude-sonnet-5` lehnt Sampling-Parameter ab. Die Preistabelle `ai.models` in `product.config.yaml` markiert das (`sampling_params: false`), Katalog-Bundles setzen `temperature: null`, der Runner lässt den Parameter weg, der Fake-Transport antwortet wie die API mit 400, falls doch einer gesendet wird. Erzwungener Tool-Aufruf läuft mit `thinking: disabled`.
+13. **Runner und Eval-Engine nachgebaut:** Frontlift-Runner und `frontlift/core/eval` waren nicht erreichbar; Nachbau nach `architektur.md` 9.1 (JSONPath-Teilmenge `$ . [n] [*] ..`, Operatoren siehe `packages/skills/src/eval/assertions.ts`). Die Judge-Rubrik läuft nur mit echtem Modell; das Judge-Modell steht in `ai.eval_judge_model`.
+14. **S2.4 und S2.5 zurückgestellt:** Beide brauchen Sandbox-Konten. BG-10 (Go/No-Go) ist offen; M3 ff. sind im Fake-Modus gebaut und bei No-Go verwerfbar.
 
 ## 4. Stolperfallen
 
@@ -44,3 +52,6 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 - PGlite ist eine Einzelprozess-Datenbank: nie zwei Prozesse auf dasselbe Datenverzeichnis.
 - Nach Änderungen an `product.config.yaml` `npm run gen` ausführen (CI prüft, dass der Baum danach unverändert ist).
 - Der Worker-Name wird aus `product.config.yaml` abgeleitet (`<slug>-app`), `wrangler.jsonc` enthält nur Platzhalter.
+- Skills: Nach Änderungen an `packages/skills/bundles/**` `npm run skills:build` (läuft auch in `npm run gen`); die erzeugten Dateien in `packages/skills/src/generated/` werden committet. Prompt-Änderungen sind neue Versionen (`v1.0.1/`).
+- `npm run skills:eval -- <id> --fake` prüft Bundle, Runner und Assertions ohne Kosten; der Bericht liegt in `eval-results/` (gitignored).
+- `catalog generate --fake` schreibt standardmäßig nach `data/catalog/` und überspringt vorhandene Regionen; für Probeläufe `--out <verzeichnis>` angeben.

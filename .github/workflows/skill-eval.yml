@@ -1,0 +1,62 @@
+# Skill eval gate (architektur.md 9.1, O3.2): runs on PRs that touch skill
+# bundles. The fake run checks bundle, runner and assertions; the real run
+# (secret ANTHROPIC_API_KEY_EVAL, ⛔ BG-07) compares against baseline.json with
+# tolerance 0.02 and a cap of 0.50 $ per skill. Reports go to the job summary.
+# Event-driven only (no schedules, company directive).
+name: skill-eval
+
+on:
+  pull_request:
+    paths:
+      - packages/skills/bundles/**
+      - packages/skills/src/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skill-eval-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eval:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install (no lifecycle scripts)
+        run: npm ci --ignore-scripts
+
+      - name: Supply-chain check and allowlisted rebuild
+        run: node scripts/supply-chain-check.mjs --rebuild
+
+      - name: Build bundles and validators
+        run: npm run gen && npm run skills:build
+
+      - name: Eval with the simulated model (all skills)
+        run: npm run skills:eval -- --fake
+
+      - name: Eval with the real model (regression gate)
+        env:
+          ANTHROPIC_API_KEY_EVAL: ${{ secrets.ANTHROPIC_API_KEY_EVAL }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY_EVAL" ]; then
+            echo "ANTHROPIC_API_KEY_EVAL fehlt (BG-07): echter Eval-Lauf übersprungen." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          npm run skills:eval
+
+      - name: Reports to job summary
+        if: always()
+        run: |
+          for f in eval-results/skill-eval-report-*.json; do
+            [ -f "$f" ] || continue
+            node -e 'const r=require(process.argv[1]);console.log(`### ${r.skill} v${r.version} (${r.mode})\n\nScore ${r.score} · bestanden ${r.passed}/${r.counted} · Kosten ${r.costUsd} $ · Regression ${r.regression}\n`)' "$PWD/$f" >> "$GITHUB_STEP_SUMMARY"
+          done
