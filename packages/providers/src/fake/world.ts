@@ -115,6 +115,13 @@ function basePriceEur(kind: HotelKind, stars: number | null, r: () => number): n
   return between(r, min, max) * (kind === 'Boutique-Hotel' ? 1.12 : 1);
 }
 
+// Better-rated houses cost more, as in real markets; without this link every
+// well-rated cheap house would look like a bargain (S6.4 calibration).
+function qualityPriceFactor(rating: number | null): number {
+  if (rating === null) return 1;
+  return 0.8 + 0.1 * (Math.min(rating, 9.5) - 6.3);
+}
+
 function roomsFor(kind: HotelKind, r: () => number): FakeRoom[] {
   if (kind === 'Apartments' || kind === 'Ferienwohnung') {
     return [
@@ -219,7 +226,7 @@ export function generateHotel(latE2: number, lngE2: number, index: number): Fake
     lat: Math.round(lat * 1e5) / 1e5,
     lng: Math.round(lng * 1e5) / 1e5,
     address: `${pick(r, STREETS)} ${intBetween(r, 1, 48)}`,
-    basePerNightCents: Math.round(basePriceEur(kind, stars, r) * 100),
+    basePerNightCents: Math.round(basePriceEur(kind, stars, r) * qualityPriceFactor(rating) * 100),
     cityTaxCentsPerPersonNight: r() < 0.6 ? intBetween(r, 15, 35) * 10 : 0,
     taxesKnown: r() >= 0.15,
     facilityIds,

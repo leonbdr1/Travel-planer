@@ -54,6 +54,9 @@ export const BARGAIN_DATE_MIN_DATES = 3;
 export const BARGAIN_PLACE_FACTOR = 0.75;
 export const BARGAIN_PLACE_MIN_OFFERS = 5;
 export const BARGAIN_PLACE_MAX_QUALITY_GAP = 1.0;
+/** Calibration target (umsetzungsplan S6.4): bargain share per type of F. */
+export const CALIBRATION_BARGAIN_RATE_MIN = 0.05;
+export const CALIBRATION_BARGAIN_RATE_MAX = 0.2;
 
 export const RANK_W_QUALITY = 0.6;
 export const RANK_W_PRICE = 0.4;
