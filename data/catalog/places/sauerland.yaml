@@ -1,0 +1,79 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: sauerland
+places:
+  - name: Winterberg
+    admin1: '07'
+    themes:
+      wintersport: 3
+      wandern: 3
+      familie: 2
+    description_de: Ferienort am Kahlen Asten mit Bobbahn, Skiliften und dem Rothaarsteig.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2807788
+  - name: Schmallenberg
+    admin1: '07'
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+      wellness: 2
+    description_de: Flächenstadt mit vielen Dörfern, Wellnesshotels und Wanderwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2838053
+  - name: Willingen (Upland)
+    match_name: Willingen
+    admin1: '05'
+    themes:
+      wintersport: 3
+      wandern: 2
+      familie: 2
+    description_de: Upländer Ferienort mit Skisprungschanze, Hängebrücke und Almwiesen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2808544
+  - name: Brilon
+    admin1: '07'
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Waldstadt mit historischem Marktplatz am Rand des Hochsauerlands.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2944079
+  - name: Bad Berleburg
+    admin1: '07'
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Kurstadt im Wittgensteiner Land mit Wisent-Wildnis und Rothaarsteig.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953545
+  - name: Olsberg
+    admin1: '07'
+    themes:
+      familie: 2
+      wandern: 2
+      wellness: 2
+    description_de: Kneippkurort mit den Bruchhauser Steinen und Wanderwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2857291
+  - name: Medebach
+    admin1: '07'
+    themes:
+      natur_ruhe: 2
+      familie: 2
+      wandern: 2
+    description_de: Ruhige Kleinstadt im Hochsauerland mit Wegen durch Wälder und Täler.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2872557

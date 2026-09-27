@@ -1,0 +1,67 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: wallis
+places:
+  - name: Zermatt
+    admin1: VS
+    themes:
+      bergpanorama: 3
+      wandern: 3
+      wintersport: 3
+    description_de: Autofreier Ort unter dem Matterhorn mit der Gornergrat-Bahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2657928
+  - name: Saas-Fee
+    admin1: VS
+    themes:
+      bergpanorama: 3
+      wintersport: 3
+      wandern: 2
+    description_de: Autofreies Bergdorf, umgeben von Viertausendern.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658898
+  - name: Leukerbad
+    admin1: VS
+    themes:
+      wellness: 3
+      wandern: 2
+    description_de: Thermalbadeort am Gemmipass.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659907
+  - name: Crans-Montana
+    match_name: Montana
+    admin1: VS
+    themes:
+      wintersport: 2
+      wandern: 2
+      bergpanorama: 2
+    description_de: Sonnenplateau über dem Rhonetal mit Golfplätzen und kleinen Seen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659623
+  - name: Brig
+    admin1: VS
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Stadt mit Stockalperschloss am Simplon.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661394
+  - name: Fiesch
+    admin1: VS
+    themes:
+      wandern: 3
+      bergpanorama: 3
+    description_de: Ausgangspunkt zum Eggishorn und zum Großen Aletschgletscher.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660781

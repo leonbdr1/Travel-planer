@@ -1,0 +1,71 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: pustertal
+places:
+  - name: Bruneck
+    themes:
+      staedte_kultur: 2
+      wintersport: 3
+      wandern: 2
+    description_de: Stadt am Kronplatz mit Schloss und Messner Mountain Museum.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3181480
+  - name: Innichen
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+      radfahren: 2
+    description_de: Ort mit romanischer Stiftskirche am Drauradweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3168508
+  - name: Sexten
+    themes:
+      bergpanorama: 3
+      wandern: 3
+      wintersport: 2
+    description_de: Dorf in den Sextner Dolomiten mit Zugang zu den Drei Zinnen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3166606
+  - name: Toblach
+    themes:
+      natur_ruhe: 2
+      seen: 2
+      wandern: 2
+    description_de: Ort am Toblacher See und Eingang ins Höhlensteintal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3177571
+  - name: Niederdorf
+    themes:
+      seen: 3
+      wandern: 2
+    description_de: Ausgangspunkt für Touren zum Pragser Wildsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3164301
+  - name: Sand in Taufers
+    themes:
+      wandern: 2
+      familie: 2
+    description_de: Ort mit Burg Taufers und den Reinbachfällen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3180908
+  - name: Olang
+    match_name: Mitterolang
+    themes:
+      wintersport: 2
+      wandern: 2
+    description_de: Ort am Fuß des Kronplatzes.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3164949

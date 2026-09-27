@@ -1,0 +1,90 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: graubuenden
+places:
+  - name: Davos
+    admin1: GR
+    themes:
+      wintersport: 3
+      wandern: 2
+      wellness: 2
+    description_de: Alpenstadt mit den Skigebieten Parsenn und Jakobshorn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661039
+  - name: St. Moritz
+    admin1: GR
+    themes:
+      wintersport: 3
+      seen: 2
+      wellness: 2
+    description_de: Kurort am St. Moritzersee im Oberengadin.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658813
+  - name: Pontresina
+    admin1: GR
+    themes:
+      wandern: 3
+      bergpanorama: 3
+    description_de: Bergdorf am Berninapass mit dem Morteratschgletscher.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659172
+  - name: Arosa
+    admin1: GR
+    themes:
+      wintersport: 3
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Ferienort in einem Hochtal am Ende der Chur-Arosa-Bahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661712
+  - name: Flims
+    admin1: GR
+    themes:
+      seen: 3
+      wandern: 2
+      wintersport: 2
+    description_de: Ort mit Caumasee, die Rheinschlucht Ruinaulta liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660757
+  - name: Scuol
+    admin1: GR
+    themes:
+      wellness: 3
+      wandern: 2
+    description_de: Badeort im Unterengadin mit Mineralquellen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658660
+  - name: Klosters
+    match_name: Klosters Serneus
+    admin1: GR
+    themes:
+      wintersport: 2
+      wandern: 2
+    description_de: Dorf im Prättigau mit Anschluss an das Skigebiet Parsenn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660128
+  - name: Lenzerheide
+    admin1: GR
+    themes:
+      seen: 2
+      wintersport: 2
+      wandern: 2
+      familie: 2
+    description_de: Ferienort am Heidsee zwischen Chur und Albulatal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659950

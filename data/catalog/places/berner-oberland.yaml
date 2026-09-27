@@ -1,0 +1,108 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: berner-oberland
+places:
+  - name: Grindelwald
+    admin1: BE
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 3
+    description_de: Gletscherdorf unter dem Eiger mit First und Wegen zum Bachalpsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660498
+  - name: Lauterbrunnen
+    admin1: BE
+    themes:
+      bergpanorama: 3
+      wandern: 3
+      natur_ruhe: 2
+    description_de: Tal der Wasserfälle mit Staubbachfall und Bahnen nach Wengen und Mürren.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659992
+  - name: Interlaken
+    admin1: BE
+    themes:
+      seen: 3
+      staedte_kultur: 2
+    description_de: Ferienort zwischen Thunersee und Brienzersee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660253
+  - name: Kandersteg
+    admin1: BE
+    themes:
+      wandern: 3
+      seen: 3
+      natur_ruhe: 2
+    description_de: Bergdorf mit dem Oeschinensee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660191
+  - name: Adelboden
+    admin1: BE
+    themes:
+      wintersport: 3
+      wandern: 2
+      familie: 2
+    description_de: Ferienort mit den Engstligenfällen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661863
+  - name: Gstaad
+    admin1: BE
+    themes:
+      wellness: 2
+      wintersport: 2
+      wandern: 2
+    description_de: Ferienort im Saanenland mit Chalets und Bergbahnen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660461
+  - name: Meiringen
+    admin1: BE
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Ort mit Aareschlucht und Reichenbachfall.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659700
+  - name: Spiez
+    admin1: BE
+    themes:
+      seen: 3
+      wein_kulinarik: 2
+    description_de: Ort mit Schloss an einer Bucht des Thunersees und Rebbergen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658536
+  - name: Brienz
+    admin1: BE
+    themes:
+      seen: 3
+      wandern: 2
+    description_de: Holzschnitzerdorf am Brienzersee mit der Brienz-Rothorn-Bahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661398
+  - name: Thun
+    admin1: BE
+    themes:
+      staedte_kultur: 3
+      seen: 3
+    description_de: Altstadt mit Schloss am Ausfluss der Aare aus dem Thunersee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658377

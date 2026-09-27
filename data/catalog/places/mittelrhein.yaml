@@ -1,0 +1,67 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: mittelrhein
+places:
+  - name: Rüdesheim am Rhein
+    admin1: '05'
+    themes:
+      wein_kulinarik: 3
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Weinstadt im Rheingau mit Drosselgasse und Seilbahn zum Niederwalddenkmal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2843395
+  - name: Boppard
+    admin1: '08'
+    themes:
+      wandern: 3
+      wein_kulinarik: 2
+      staedte_kultur: 2
+    description_de: Stadt an der Rheinschleife mit Sesselbahn zum Gedeonseck und dem Rheinsteig.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2946366
+  - name: Bacharach
+    admin1: '08'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+    description_de: Mittelalterliches Weinstädtchen mit Burg Stahleck.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953702
+  - name: St. Goar
+    match_name: Sankt Goar
+    admin1: '08'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Ort unterhalb der Burg Rheinfels, gegenüber der Loreley.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2841611
+  - name: Oberwesel
+    admin1: '08'
+    themes:
+      staedte_kultur: 2
+      wein_kulinarik: 2
+    description_de: Stadt der Türme mit gut erhaltener Stadtmauer und Schönburg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2858562
+  - name: Eltville am Rhein
+    match_name: Eltville
+    admin1: '05'
+    themes:
+      wein_kulinarik: 3
+      radfahren: 2
+    description_de: Rosen- und Sektstadt im Rheingau mit Kurfürstlicher Burg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2930646

@@ -1,0 +1,72 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: werdenfelser-land
+places:
+  - name: Garmisch-Partenkirchen
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 3
+      staedte_kultur: 1
+    description_de: Olympiaort unter der Zugspitze mit Partnachklamm und Wegen ins Wettersteingebirge.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2922530
+  - name: Mittenwald
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      staedte_kultur: 2
+    description_de: Geigenbauort mit bemalten Häusern, Karwendelbahn und Leutaschklamm.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2870482
+  - name: Oberammergau
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+      familie: 2
+    description_de: Passionsspieldorf mit Lüftlmalerei, nahe Schloss Linderhof und Kloster Ettal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2861422
+  - name: Murnau am Staffelsee
+    admin1: '02'
+    themes:
+      seen: 3
+      natur_ruhe: 2
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Marktort am Staffelsee und Murnauer Moos, bekannt durch die Maler des Blauen Reiters.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2867445
+  - name: Grainau
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      seen: 2
+    description_de: Dorf am Fuß der Zugspitze mit Eibsee und Talstation der Zugspitzbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2918204
+  - name: Krün
+    admin1: '02'
+    themes:
+      natur_ruhe: 2
+      seen: 2
+      wandern: 2
+      bergpanorama: 2
+    description_de: Ruhiger Ort im oberen Isartal mit Barmsee und Blick auf Karwendel und Wetterstein.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2883236

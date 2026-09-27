@@ -1,0 +1,81 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: bayerischer-wald
+places:
+  - name: Bodenmais
+    admin1: '02'
+    themes:
+      wandern: 3
+      wellness: 2
+      familie: 2
+      natur_ruhe: 2
+    description_de: Ferienort am Großen Arber mit Besucherbergwerk Silberberg und den Rißlochwasserfällen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2947120
+  - name: Zwiesel
+    admin1: '02'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Glasstadt am Rand des Nationalparks Bayerischer Wald.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2803537
+  - name: Grafenau
+    admin1: '02'
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+      familie: 2
+    description_de: Stadt nahe dem Tierfreigelände des Nationalparks und seinen Wanderwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2918365
+  - name: Bayerisch Eisenstein
+    admin1: '02'
+    themes:
+      wandern: 3
+      wintersport: 2
+      natur_ruhe: 2
+    description_de: Grenzort am Großen Arber mit historischem Grenzbahnhof und Wegen in den Böhmerwald.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2951849
+  - name: Lam
+    admin1: '02'
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+      wellness: 2
+    description_de: Luftkurort im Lamer Winkel am Osser, beliebt für ruhige Wanderungen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2881786
+  - name: Spiegelau
+    admin1: '02'
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+      familie: 2
+    description_de: Ort im Nationalpark Bayerischer Wald mit Wegen zum Rachel und zum Rachelsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2835164
+  - name: Frauenau
+    admin1: '02'
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Glasdorf mit Glasmuseum und den Gläsernen Gärten am Rand des Nationalparks.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2925440

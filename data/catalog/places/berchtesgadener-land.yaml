@@ -1,0 +1,58 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: berchtesgadener-land
+places:
+  - name: Berchtesgaden
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      staedte_kultur: 2
+      seen: 2
+    description_de: Marktort im Nationalpark Berchtesgaden mit Salzbergwerk und Blick auf den Watzmann.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2950881
+  - name: Schönau am Königssee
+    admin1: '02'
+    themes:
+      seen: 3
+      wandern: 3
+      bergpanorama: 3
+    description_de: Ausgangspunkt für Schifffahrten auf dem Königssee nach St. Bartholomä und Touren im Nationalpark.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2837085
+  - name: Bad Reichenhall
+    admin1: '02'
+    themes:
+      wellness: 3
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Alpine Sole-Kurstadt mit Gradierwerk, Therme und Predigtstuhlbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953371
+  - name: Bischofswiesen
+    admin1: '02'
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+      familie: 2
+    description_de: Ruhiger Ort zwischen Berchtesgaden und Bad Reichenhall mit Wegen am Untersberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2948265
+  - name: Marktschellenberg
+    admin1: '02'
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Kleiner Markt an der Grenze zu Salzburg mit Almbachklamm und Schellenberger Eishöhle.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2873287

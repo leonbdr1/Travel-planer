@@ -1,0 +1,64 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: zentralschweiz
+places:
+  - name: Luzern
+    admin1: LU
+    themes:
+      staedte_kultur: 3
+      seen: 3
+    description_de: Stadt am Vierwaldstättersee mit Kapellbrücke und Altstadt.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659811
+  - name: Engelberg
+    admin1: OW
+    themes:
+      wandern: 3
+      wintersport: 3
+      bergpanorama: 3
+    description_de: Klosterdorf am Titlis.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2660902
+  - name: Weggis
+    admin1: LU
+    themes:
+      seen: 3
+      natur_ruhe: 2
+    description_de: Ort am Südhang der Rigi am Vierwaldstättersee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658038
+  - name: Vitznau
+    admin1: LU
+    themes:
+      seen: 3
+      bergpanorama: 3
+    description_de: Ort am Vierwaldstättersee mit Talstation der Rigibahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658107
+  - name: Stans
+    admin1: NW
+    themes:
+      staedte_kultur: 2
+      bergpanorama: 2
+    description_de: Hauptort Nidwaldens mit der Stanserhornbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658504
+  - name: Sarnen
+    admin1: OW
+    themes:
+      seen: 2
+      natur_ruhe: 2
+    description_de: Hauptort Obwaldens am Sarnersee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658786

@@ -1,0 +1,51 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: lueneburger-heide
+places:
+  - name: Lüneburg
+    admin1: '06'
+    themes:
+      staedte_kultur: 3
+    description_de: Hansestadt mit Backsteingotik, Salzmuseum und historischen Gassen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2875115
+  - name: Bispingen
+    admin1: '06'
+    themes:
+      familie: 2
+      wandern: 2
+    description_de: Heideort mit Ausflugszielen und Wegen zum Wilseder Berg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2948222
+  - name: Soltau
+    admin1: '06'
+    themes:
+      familie: 2
+      wellness: 2
+    description_de: Stadt mit Therme, Freizeitparks liegen in der Umgebung.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2831486
+  - name: Schneverdingen
+    admin1: '06'
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+    description_de: Heideblütenstadt am Rand des Naturparks Lüneburger Heide.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2837291
+  - name: Celle
+    admin1: '06'
+    themes:
+      staedte_kultur: 3
+    description_de: Fachwerkstadt mit Herzogschloss an der Aller.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2940213

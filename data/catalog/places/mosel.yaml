@@ -1,0 +1,77 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: mosel
+places:
+  - name: Cochem
+    admin1: '08'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+      wandern: 2
+    description_de: Stadt mit Reichsburg über der Mosel, Weinstuben und Moselschifffahrt.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2939949
+  - name: Bernkastel-Kues
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      staedte_kultur: 2
+    description_de: Fachwerkstadt mit Marktplatz, Burgruine Landshut und Weinlagen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2949998
+  - name: Traben-Trarbach
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Jugendstilstadt an der Mittelmosel mit Weinkellern und Radwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2821690
+  - name: Zell (Mosel)
+    match_name: Zell
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      wandern: 2
+    description_de: Weinstadt an einer Moselschleife, bekannt für die Lage Zeller Schwarze Katz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2804882
+  - name: Trier
+    admin1: '08'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+    description_de: Römerstadt mit Porta Nigra, Dom und Kaiserthermen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2821164
+  - name: Piesport
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      natur_ruhe: 2
+    description_de: Weinort an der Piesporter Moselschleife mit steilen Lagen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2853779
+  - name: Kröv
+    admin1: '08'
+    themes:
+      wein_kulinarik: 2
+      familie: 2
+      wandern: 2
+    description_de: Weinort mit Fachwerkhäusern und Wanderwegen durch die Weinberge.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2883504

@@ -1,0 +1,66 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: mecklenburgische-seenplatte
+places:
+  - name: Waren (Müritz)
+    match_name: Waren
+    admin1: '12'
+    themes:
+      seen: 3
+      natur_ruhe: 2
+      radfahren: 2
+    description_de: Stadt am Nordufer der Müritz, Tor zum Müritz-Nationalpark.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2814131
+  - name: Neustrelitz
+    admin1: '12'
+    themes:
+      staedte_kultur: 2
+      seen: 2
+    description_de: Residenzstadt mit Schlossgarten und Seen ringsum.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2864005
+  - name: Malchow
+    admin1: '12'
+    themes:
+      seen: 3
+      familie: 2
+    description_de: Inselstadt zwischen Fleesensee und Malchower See.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2874122
+  - name: Röbel/Müritz
+    match_name: Röbel
+    admin1: '12'
+    themes:
+      seen: 3
+      natur_ruhe: 2
+    description_de: Kleinstadt am Westufer der Müritz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2846286
+  - name: Plau am See
+    admin1: '12'
+    themes:
+      seen: 3
+      radfahren: 2
+    description_de: Luftkurort am Plauer See mit Hubbrücke.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2853297
+  - name: Mirow
+    admin1: '12'
+    themes:
+      seen: 3
+      natur_ruhe: 3
+    description_de: Ort mit Schlossinsel und Kanurouten Richtung Müritz und Rheinsberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2870986

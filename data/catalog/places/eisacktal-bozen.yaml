@@ -1,0 +1,57 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: eisacktal-bozen
+places:
+  - name: Brixen
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+    description_de: Bischofsstadt mit Dom, die Plose liegt vor der Tür.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3181550
+  - name: Klausen
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+    description_de: Künstlerstädtchen unter dem Kloster Säben.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3178764
+  - name: Sterzing
+    themes:
+      staedte_kultur: 2
+      wintersport: 2
+    description_de: Stadt mit Zwölferturm und Laubengassen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3164065
+  - name: Bozen
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+    description_de: Landeshauptstadt mit Südtiroler Archäologiemuseum und Lauben.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3181913
+  - name: Ritten
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Hochplateau über Bozen mit Erdpyramiden und Rittner Bahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 6534786
+  - name: Villanders
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Ort am Villanderer Berg über dem Eisacktal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 6534797

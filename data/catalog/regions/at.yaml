@@ -1,0 +1,56 @@
+# Regionen in Österreich – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11).
+- slug: zillertal
+  name: Zillertal
+  country: AT
+  description_de: Tiroler Tal mit Mayrhofen, dem Hintertuxer Gletscher und vielen Almwegen.
+  themes: [wandern, bergpanorama, wintersport, familie]
+- slug: oetztal-stubai
+  name: Ötztal und Stubaital
+  country: AT
+  description_de: Hochalpine Täler südlich von Innsbruck mit Gletschern, Wasserfällen und Thermalbad Längenfeld.
+  themes: [wandern, bergpanorama, wintersport, wellness]
+- slug: innsbruck-seefeld
+  name: Innsbruck und Seefelder Plateau
+  country: AT
+  description_de: Alpenstadt Innsbruck mit Nordkette und das Hochplateau um Seefeld und Leutasch.
+  themes: [staedte_kultur, wandern, wintersport, radfahren]
+- slug: kitzbueheler-alpen
+  name: Kitzbüheler Alpen
+  country: AT
+  description_de: Grasberge zwischen Kitzbühel und dem Brixental, im Sommer Wander- und Radregion.
+  themes: [wandern, wintersport, radfahren, wellness]
+- slug: ausserfern
+  name: Tannheimer Tal und Zugspitzarena
+  country: AT
+  description_de: Außerfern mit Tannheimer Tal, Reutte und den Orten an der Tiroler Zugspitze.
+  themes: [wandern, bergpanorama, seen, wintersport, familie]
+- slug: vorarlberg
+  name: Bregenzerwald und Montafon
+  country: AT
+  description_de: Vorarlberg zwischen Bodensee, Bregenzerwald mit Holzbaukultur und dem Montafon.
+  themes: [wandern, bergpanorama, wein_kulinarik, wintersport, seen]
+- slug: salzkammergut
+  name: Salzkammergut
+  country: AT
+  description_de: Seenlandschaft mit Wolfgangsee, Traunsee und Mondsee sowie der Kaiserstadt Bad Ischl.
+  themes: [seen, wandern, staedte_kultur, wellness]
+- slug: salzburger-land
+  name: Salzburger Land
+  country: AT
+  description_de: Zell am See und Kaprun, das Gasteinertal mit Thermen und die Stadt Salzburg.
+  themes: [wandern, seen, wellness, wintersport, staedte_kultur]
+- slug: kaernten
+  name: Kärntner Seen
+  country: AT
+  description_de: Wörthersee, Millstätter See und Nockberge im Süden Österreichs.
+  themes: [seen, wandern, radfahren, wellness]
+- slug: schladming-dachstein
+  name: Schladming-Dachstein
+  country: AT
+  description_de: Steirisches Ennstal mit Dachstein-Gletscher, Ramsau und Schladming.
+  themes: [wandern, bergpanorama, wintersport, familie]
+- slug: wachau
+  name: Wachau
+  country: AT
+  description_de: Donautal mit Weinterrassen, Marillengärten und dem Stift Melk.
+  themes: [wein_kulinarik, radfahren, wandern, staedte_kultur]

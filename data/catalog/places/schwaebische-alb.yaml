@@ -1,0 +1,69 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: schwaebische-alb
+places:
+  - name: Bad Urach
+    admin1: '01'
+    themes:
+      wandern: 3
+      wellness: 2
+      familie: 2
+    description_de: Kurstadt mit Uracher Wasserfall, Therme und Burgruine Hohenurach.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2818246
+  - name: Münsingen
+    admin1: '01'
+    themes:
+      natur_ruhe: 3
+      radfahren: 2
+      wandern: 2
+    description_de: Stadt im Biosphärengebiet Schwäbische Alb mit dem ehemaligen Truppenübungsplatz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2867560
+  - name: Blaubeuren
+    admin1: '01'
+    themes:
+      natur_ruhe: 2
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Städtchen am Blautopf, einer tiefblauen Karstquelle, mit Kloster.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2947949
+  - name: Lichtenstein
+    match_name: Unterhausen
+    admin1: '01'
+    themes:
+      familie: 2
+      wandern: 2
+      staedte_kultur: 2
+    description_de: Gemeinde mit Schloss Lichtenstein und Nebelhöhle am Albtrauf.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2819399
+  - name: Hayingen
+    admin1: '01'
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Kleinstadt im Lautertal mit Wimsener Höhle und ruhigen Wegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2908575
+  - name: Sigmaringen
+    admin1: '01'
+    themes:
+      staedte_kultur: 3
+      radfahren: 2
+      wandern: 2
+    description_de: Residenzstadt mit Hohenzollernschloss am Donauradweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2832232

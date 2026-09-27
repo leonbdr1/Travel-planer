@@ -1,0 +1,116 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: schwarzwald
+places:
+  - name: Titisee-Neustadt
+    admin1: '01'
+    themes:
+      seen: 3
+      wandern: 3
+      familie: 2
+      wintersport: 2
+    description_de: Ferienort am Titisee, nah an Feldberg und Wutachschlucht.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2822083
+  - name: Hinterzarten
+    admin1: '01'
+    themes:
+      wandern: 3
+      wintersport: 2
+      wellness: 2
+      natur_ruhe: 2
+    description_de: Kurort im Hochschwarzwald mit Moor, Ravennaschlucht und Skisprungschanze.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2903889
+  - name: Schluchsee
+    admin1: '01'
+    themes:
+      seen: 3
+      wandern: 2
+      familie: 2
+    description_de: Ort am Schluchsee mit Uferrundweg und Badestellen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2838208
+  - name: Baiersbronn
+    admin1: '01'
+    themes:
+      wandern: 3
+      wein_kulinarik: 3
+      natur_ruhe: 2
+    description_de: Weitläufige Gemeinde im Nordschwarzwald nahe dem Nationalpark, bekannt für ihre Gastronomie.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953197
+  - name: Triberg im Schwarzwald
+    match_name: Triberg
+    admin1: '01'
+    themes:
+      wandern: 2
+      familie: 2
+      staedte_kultur: 2
+    description_de: Ort an den Triberger Wasserfällen mit Kuckucksuhren-Tradition.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2821216
+  - name: Todtnau
+    admin1: '01'
+    themes:
+      wandern: 3
+      wintersport: 2
+      familie: 2
+    description_de: Ort am Feldberg mit Wasserfall, Rodelbahn und Skigebieten.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2821975
+  - name: St. Blasien
+    match_name: Sankt Blasien
+    admin1: '01'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Klosterort im Südschwarzwald mit markanter Kuppelkirche.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2841643
+  - name: Freudenstadt
+    admin1: '01'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+      wellness: 2
+    description_de: Stadt mit weitläufigem Marktplatz und Wegen in den Nordschwarzwald.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2924894
+  - name: Gengenbach
+    admin1: '01'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+    description_de: Fachwerkstädtchen im Kinzigtal zwischen Weinbergen und Schwarzwaldhöhen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2921355
+  - name: Bad Wildbad
+    admin1: '01'
+    themes:
+      wellness: 3
+      wandern: 2
+      familie: 2
+    description_de: Thermalkurort im Enztal mit Baumwipfelpfad auf dem Sommerberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2809025

@@ -1,0 +1,37 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: schladming-dachstein
+places:
+  - name: Schladming
+    admin1: '06'
+    themes:
+      wintersport: 3
+      wandern: 2
+      familie: 2
+    description_de: Stadt an der Planai mit Wegen in die Schladminger Tauern.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2765961
+  - name: Ramsau am Dachstein
+    admin1: '06'
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 2
+    description_de: Hochplateau unter der Dachstein-Südwand mit Gletscherbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2768006
+  - name: Bad Mitterndorf
+    match_name: Mitterndorf im Steirischen Salzkammergut
+    admin1: '06'
+    themes:
+      natur_ruhe: 2
+      wellness: 2
+      wintersport: 2
+    description_de: Ort im steirischen Salzkammergut mit Therme und Tauplitzalm.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2771408

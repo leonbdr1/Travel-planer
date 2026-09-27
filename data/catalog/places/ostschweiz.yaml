@@ -1,0 +1,53 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: ostschweiz
+places:
+  - name: Appenzell
+    admin1: AI
+    themes:
+      staedte_kultur: 3
+      wandern: 3
+    description_de: Dorf mit bemalten Häusern, Tor zum Alpstein und zur Ebenalp.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661740
+  - name: St. Gallen
+    match_name: Sankt Gallen
+    admin1: SG
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit Stiftsbezirk und Stiftsbibliothek (UNESCO-Welterbe).
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658822
+  - name: Wildhaus
+    admin1: SG
+    themes:
+      wandern: 2
+      wintersport: 2
+    description_de: Ort im Toggenburg unter den Churfirsten.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2657988
+  - name: Walenstadt
+    admin1: SG
+    themes:
+      seen: 3
+      wandern: 2
+    description_de: Ort am Walensee unter den Churfirsten.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2658061
+  - name: Rapperswil
+    admin1: SG
+    themes:
+      seen: 2
+      staedte_kultur: 2
+    description_de: Rosenstadt mit Schloss am Zürichsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659099

@@ -1,0 +1,76 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: kaernten
+places:
+  - name: Velden am Wörthersee
+    admin1: '02'
+    themes:
+      seen: 3
+      wellness: 2
+    description_de: Ort am Westufer des Wörthersees mit Seepromenade.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2762453
+  - name: Pörtschach am Wörthersee
+    admin1: '02'
+    themes:
+      seen: 3
+      radfahren: 2
+    description_de: Ort auf einer Halbinsel am Nordufer des Wörthersees.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2768497
+  - name: Klagenfurt am Wörthersee
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      seen: 2
+    description_de: Landeshauptstadt mit Lindwurmbrunnen und Strandbad am Wörthersee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2774326
+  - name: Bad Kleinkirchheim
+    admin1: '02'
+    themes:
+      wellness: 3
+      wintersport: 2
+      wandern: 2
+    description_de: Thermenort in den Nockbergen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2782878
+  - name: Villach
+    admin1: '02'
+    themes:
+      staedte_kultur: 2
+      wellness: 2
+      radfahren: 2
+    description_de: Draustadt mit Therme, der Dobratsch liegt vor der Tür.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2762372
+  - name: Hermagor
+    admin1: '02'
+    themes:
+      wandern: 2
+      seen: 2
+      familie: 2
+    description_de: Ort im Gailtal nahe Nassfeld und Pressegger See.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2776497
+  - name: Heiligenblut
+    admin1: '02'
+    themes:
+      bergpanorama: 3
+      wandern: 3
+    description_de: Bergsteigerdorf am Großglockner mit Wallfahrtskirche.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2776595

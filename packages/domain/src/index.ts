@@ -5,3 +5,4 @@ export * from './geo';
 export * from './claims';
 export * from './text';
 export * from './admin-areas';
+export * from './typography';

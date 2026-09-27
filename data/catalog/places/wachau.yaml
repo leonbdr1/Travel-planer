@@ -1,0 +1,53 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: wachau
+places:
+  - name: Krems an der Donau
+    admin1: '03'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+    description_de: Weinstadt mit Steiner Tor am östlichen Beginn der Wachau.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2773549
+  - name: Dürnstein
+    admin1: '03'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+    description_de: Städtchen mit blauem Stiftsturm und Burgruine über der Donau.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2780604
+  - name: Spitz
+    admin1: '03'
+    themes:
+      wein_kulinarik: 3
+      wandern: 2
+    description_de: Weinort unter dem Tausendeimerberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2764783
+  - name: Melk
+    admin1: '03'
+    themes:
+      staedte_kultur: 3
+      radfahren: 2
+    description_de: Stift Melk am Donauradweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2771682
+  - name: Weißenkirchen in der Wachau
+    admin1: '03'
+    themes:
+      wein_kulinarik: 3
+      radfahren: 2
+    description_de: Weinort mit Wehrkirche im Herzen der Wachau.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2761593

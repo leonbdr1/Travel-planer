@@ -1,0 +1,76 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: salzburger-land
+places:
+  - name: Zell am See
+    admin1: '05'
+    themes:
+      seen: 3
+      wandern: 2
+      wintersport: 2
+    description_de: Stadt am Zeller See mit der Schmittenhöhe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2760634
+  - name: Kaprun
+    admin1: '05'
+    themes:
+      wintersport: 3
+      bergpanorama: 3
+      wandern: 2
+    description_de: Ort am Kitzsteinhorn mit Hochgebirgsstauseen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2774758
+  - name: Saalbach-Hinterglemm
+    match_name: Saalbach
+    admin1: '05'
+    themes:
+      wintersport: 3
+      wandern: 2
+    description_de: Glemmtal mit ausgedehntem Ski- und Bikegebiet.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2766924
+  - name: Bad Gastein
+    admin1: '05'
+    themes:
+      wellness: 3
+      staedte_kultur: 2
+      wintersport: 2
+    description_de: Kurort mit Wasserfall im Ortszentrum und Thermalquellen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2782058
+  - name: Bad Hofgastein
+    admin1: '05'
+    themes:
+      wellness: 3
+      wandern: 2
+    description_de: Kurort im Gasteinertal mit Alpentherme.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2782053
+  - name: Flachau
+    admin1: '05'
+    themes:
+      wintersport: 3
+      familie: 2
+    description_de: Ferienort in der Region Salzburger Sportwelt.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2779522
+  - name: Salzburg
+    admin1: '05'
+    themes:
+      staedte_kultur: 3
+    description_de: Mozartstadt mit Festung Hohensalzburg und barocker Altstadt.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2766824

@@ -1,0 +1,10 @@
+-- Verification for 20261003b_catalog.
+-- 1. RLS on all four tables: expect 4 rows, all true.
+SELECT tablename, rowsecurity FROM pg_tables
+ WHERE schemaname = 'app' AND tablename IN ('themes', 'regions', 'places', 'place_themes');
+-- 2. app_rw may insert places (user places only, enforced by policy) but not regions: expect true, false.
+SELECT has_table_privilege('app_rw', 'app.places', 'INSERT') AS places_insert,
+       has_table_privilege('app_rw', 'app.regions', 'INSERT') AS regions_insert;
+-- 3. After the catalog import: verified catalog places per country.
+SELECT country_code, count(*) FILTER (WHERE verified) AS verified, count(*) AS total
+  FROM app.places WHERE kind = 'catalog' GROUP BY 1 ORDER BY 1;

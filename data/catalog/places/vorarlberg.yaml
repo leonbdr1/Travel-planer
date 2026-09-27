@@ -1,0 +1,87 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: vorarlberg
+places:
+  - name: Bregenz
+    admin1: '08'
+    themes:
+      staedte_kultur: 3
+      seen: 3
+    description_de: Landeshauptstadt am Bodensee mit Seebühne und Pfänderbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2781503
+  - name: Bezau
+    admin1: '08'
+    themes:
+      wein_kulinarik: 2
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Ort im Bregenzerwald mit Museumsbahn Wälderbähnle und Käsestraße.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2781806
+  - name: Egg
+    admin1: '08'
+    themes:
+      natur_ruhe: 2
+      wein_kulinarik: 2
+    description_de: Ort im Bregenzerwald mit Holzbaukultur und Käsereien.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2780380
+  - name: Schruns
+    admin1: '08'
+    themes:
+      wandern: 3
+      wintersport: 3
+      bergpanorama: 2
+    description_de: Hauptort des Montafons mit Hochjochbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2765581
+  - name: Tschagguns
+    admin1: '08'
+    themes:
+      wandern: 2
+      familie: 2
+      wintersport: 2
+    description_de: Montafoner Ort gegenüber von Schruns.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2763302
+  - name: Mellau
+    admin1: '08'
+    themes:
+      wintersport: 2
+      wandern: 2
+    description_de: Dorf unter der Kanisfluh im Bregenzerwald.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 8411026
+  - name: Dornbirn
+    admin1: '08'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Stadt mit Rappenlochschlucht und Seilbahn auf den Karren.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2780741
+  - name: Lech
+    admin1: '08'
+    themes:
+      wintersport: 3
+      wandern: 2
+      wellness: 2
+    description_de: Wintersportort am Arlberg, im Sommer Wandergebiet am Formarinsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2772798

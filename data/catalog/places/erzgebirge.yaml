@@ -1,0 +1,64 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: erzgebirge
+places:
+  - name: Oberwiesenthal
+    match_name: Kurort Oberwiesenthal
+    admin1: '13'
+    themes:
+      wintersport: 3
+      wandern: 2
+      familie: 2
+    description_de: Stadt am Fichtelberg mit Schwebebahn, Loipen und der Fichtelbergbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2882332
+  - name: Annaberg-Buchholz
+    admin1: '13'
+    themes:
+      staedte_kultur: 3
+    description_de: Bergstadt mit St. Annenkirche und Tradition der Weihnachtsmärkte.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2956005
+  - name: Seiffen
+    admin1: '13'
+    themes:
+      familie: 3
+      staedte_kultur: 2
+    description_de: Spielzeugdorf mit Holzkunstwerkstätten und Freilichtmuseum.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2882329
+  - name: Marienberg
+    admin1: '13'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Bergstadt der Renaissance mit Wanderwegen im mittleren Erzgebirge.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2873632
+  - name: Schwarzenberg
+    admin1: '13'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Stadt mit Schloss und Kirche über dem Schwarzwassertal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2834978
+  - name: Johanngeorgenstadt
+    admin1: '13'
+    themes:
+      wintersport: 2
+      natur_ruhe: 2
+    description_de: Grenzstadt mit Schaubergwerk und Loipen am Kammweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2894814

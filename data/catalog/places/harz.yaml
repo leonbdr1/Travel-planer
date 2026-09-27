@@ -1,0 +1,74 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: harz
+places:
+  - name: Wernigerode
+    admin1: '14'
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+    description_de: Fachwerkstadt am Harz mit Schloss und Startpunkt der Brockenbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2810808
+  - name: Goslar
+    admin1: '06'
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+    description_de: Welterbestadt mit Kaiserpfalz und Erzbergwerk Rammelsberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2918840
+  - name: Braunlage
+    admin1: '06'
+    themes:
+      wintersport: 2
+      wandern: 2
+      familie: 2
+    description_de: Ferienort am Wurmberg mit Seilbahn und Wegen im Nationalpark Harz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2945055
+  - name: Bad Harzburg
+    admin1: '06'
+    themes:
+      wellness: 3
+      wandern: 2
+    description_de: Kurstadt mit Baumwipfelpfad und Seilbahn auf den Burgberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953449
+  - name: Thale
+    admin1: '14'
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+      familie: 2
+    description_de: Ort am Eingang des Bodetals mit Hexentanzplatz und Rosstrappe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2823141
+  - name: Quedlinburg
+    admin1: '14'
+    themes:
+      staedte_kultur: 3
+    description_de: Welterbestadt mit Fachwerkhäusern, Stiftskirche und Schlossberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2851465
+  - name: Clausthal-Zellerfeld
+    admin1: '06'
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Bergstadt im Oberharz mit dem Oberharzer Wasserregal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2939995

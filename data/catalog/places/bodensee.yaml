@@ -1,0 +1,92 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: bodensee
+places:
+  - name: Lindau (Bodensee)
+    match_name: Lindau
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      seen: 3
+      radfahren: 2
+    description_de: Inselstadt mit Hafeneinfahrt, Löwe und Leuchtturm sowie Blick auf die Alpen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2877550
+  - name: Meersburg
+    admin1: '01'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+      seen: 2
+    description_de: Weinstadt mit Burg und Neuem Schloss oberhalb des Bodensees.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2872486
+  - name: Überlingen
+    admin1: '01'
+    themes:
+      seen: 2
+      wellness: 2
+      staedte_kultur: 2
+    description_de: Kurstadt am Überlinger See mit Uferpromenade und Therme.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2820577
+  - name: Konstanz
+    admin1: '01'
+    themes:
+      staedte_kultur: 3
+      seen: 3
+      radfahren: 2
+    description_de: Universitätsstadt mit Altstadt, Konzilgebäude und Fähre nach Meersburg, nahe der Insel Mainau.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2885679
+  - name: Friedrichshafen
+    admin1: '01'
+    themes:
+      staedte_kultur: 2
+      seen: 2
+      familie: 2
+    description_de: Stadt mit Zeppelin Museum und Uferpromenade am Nordufer des Bodensees.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2924585
+  - name: Langenargen
+    admin1: '01'
+    themes:
+      seen: 3
+      radfahren: 2
+      familie: 2
+    description_de: Ort mit Schloss Montfort am Ufer und Radwegen entlang des Sees.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2881263
+  - name: Wasserburg (Bodensee)
+    match_name: Wasserburg
+    admin1: '02'
+    themes:
+      seen: 3
+      natur_ruhe: 2
+    description_de: Halbinseldorf mit Kirche und Schloss direkt am Wasser.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2813758
+  - name: Radolfzell
+    admin1: '01'
+    themes:
+      seen: 2
+      radfahren: 2
+      natur_ruhe: 2
+    description_de: Stadt am Zeller See nahe der Halbinsel Mettnau und Naturschutzgebieten.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2850954

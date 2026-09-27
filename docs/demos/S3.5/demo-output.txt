@@ -1,0 +1,19 @@
+$ npm run demo -- s3.5
+# recorded 2026-09-27T05:05:09.897Z
+
+$ npm run cli -- geonames import data/geonames/dev-extract
+Importiert: DE 7244, AT 2244, CH 1415, IT-BZ 153 (1237 ms, Datenbank temporary PGlite)
+Postleitzahlen: 0 zugeordnet, 0 ohne passenden Ort
+Bestand: {"AT":2244,"CH":1415,"DE":7244,"IT-BZ":153}
+$ npm run cli -- catalog validate
+49 Regionen, 307 Orte (307 zugeordnet, 0 freigegeben): 0 Fehler, 14 Hinweise
+$ npm run cli -- catalog import --include-drafts
+Import (temporary PGlite, inklusive Entwürfe): 10 Themen, 49 Regionen, 307 Orte, 786 Ort-Themen; übersprungen: 0 nicht freigegeben, 0 nicht zugeordnet
+Bestand: 49 Regionen, 307 Katalogorte (0 freigegeben)
+$ npm run cli -- catalog import --include-drafts
+Import (temporary PGlite, inklusive Entwürfe): 10 Themen, 49 Regionen, 307 Orte, 786 Ort-Themen; übersprungen: 0 nicht freigegeben, 0 nicht zugeordnet
+Bestand: 49 Regionen, 307 Katalogorte (0 freigegeben)
+$ npm run cli -- catalog import
+Import (temporary PGlite): 10 Themen, 0 Regionen, 0 Orte, 0 Ort-Themen; übersprungen: 307 nicht freigegeben, 0 nicht zugeordnet
+Bestand: 49 Regionen, 307 Katalogorte (0 freigegeben)
+→ Validator 0 Fehler, zweiter Import mit identischem Bestand, ohne Freigabe kein Produktivimport

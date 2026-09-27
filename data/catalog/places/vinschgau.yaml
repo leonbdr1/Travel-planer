@@ -1,0 +1,57 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: vinschgau
+places:
+  - name: Mals
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+      radfahren: 2
+    description_de: Ort mit romanischen Türmen, das Kloster Marienberg liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3174144
+  - name: Schlanders
+    themes:
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Hauptort des Vinschgaus am Etschradweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3166537
+  - name: Latsch
+    themes:
+      wandern: 2
+      radfahren: 2
+    description_de: Ort am Eingang des Martelltals.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3175328
+  - name: Glurns
+    themes:
+      staedte_kultur: 3
+    description_de: Mittelalterliches Städtchen mit vollständig erhaltener Ringmauer.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3176031
+  - name: Prad am Stilfserjoch
+    themes:
+      bergpanorama: 3
+      radfahren: 2
+    description_de: Ort am Nationalpark Stilfserjoch.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3169914
+  - name: Schluderns
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 2
+    description_de: Ort unter der Churburg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3166474

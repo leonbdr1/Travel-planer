@@ -1,0 +1,31 @@
+# Regionen in der Schweiz – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11).
+- slug: berner-oberland
+  name: Berner Oberland
+  country: CH
+  description_de: Eiger, Mönch und Jungfrau, das Lauterbrunnental und die Seen bei Interlaken.
+  themes: [wandern, bergpanorama, seen, wintersport]
+- slug: wallis
+  name: Wallis
+  country: CH
+  description_de: Viertausender um Zermatt und Saas-Fee, Thermalbad Leukerbad und das Rhonetal.
+  themes: [wandern, bergpanorama, wintersport, wellness]
+- slug: graubuenden
+  name: Graubünden
+  country: CH
+  description_de: Engadin, Davos und Flims mit Hochtälern, Seen und der Rhätischen Bahn.
+  themes: [wandern, bergpanorama, seen, wintersport, wellness]
+- slug: zentralschweiz
+  name: Luzern und Vierwaldstättersee
+  country: CH
+  description_de: Luzern, der Vierwaldstättersee und Aussichtsberge wie Rigi, Pilatus und Titlis.
+  themes: [seen, bergpanorama, staedte_kultur, wandern]
+- slug: ostschweiz
+  name: Appenzell und Ostschweiz
+  country: CH
+  description_de: Alpstein mit Säntis, das Appenzellerland und die Stiftsstadt St. Gallen.
+  themes: [wandern, bergpanorama, staedte_kultur, wein_kulinarik]
+- slug: tessin
+  name: Tessin
+  country: CH
+  description_de: Südschweiz mit Lago Maggiore, Luganersee und mediterranem Flair.
+  themes: [seen, wein_kulinarik, staedte_kultur, wandern]

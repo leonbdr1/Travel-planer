@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: alta-badia
+places:
+  - name: Corvara
+    themes:
+      wintersport: 3
+      wandern: 3
+      bergpanorama: 3
+    description_de: Ort unter dem Sassongher an der Sellaronda.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3177943
+  - name: Abtei
+    themes:
+      wandern: 2
+      wein_kulinarik: 2
+    description_de: Gemeinde im Gadertal mit der Wallfahrtskirche Heiligkreuz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3182585
+  - name: St. Martin in Thurn
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 2
+    description_de: Ort mit dem ladinischen Museum Ciastel de Tor.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 6534788
+  - name: Wengen
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Ruhiges Seitental im Gadertal mit verstreuten Weilern.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 6534567

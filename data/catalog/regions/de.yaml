@@ -1,0 +1,131 @@
+# Regionen in Deutschland – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11).
+- slug: allgaeu
+  name: Allgäu
+  country: DE
+  description_de: Voralpenland mit Almen, Seen und den Allgäuer Alpen rund um Oberstdorf und Füssen.
+  themes: [wandern, bergpanorama, seen, wellness, wintersport, familie]
+- slug: werdenfelser-land
+  name: Werdenfelser Land
+  country: DE
+  description_de: Zugspitzregion mit Garmisch-Partenkirchen, Mittenwald und dem Ammergau.
+  themes: [wandern, bergpanorama, wintersport, staedte_kultur]
+- slug: berchtesgadener-land
+  name: Berchtesgadener Land
+  country: DE
+  description_de: Nationalpark Berchtesgaden mit Königssee, Watzmann und der Kurstadt Bad Reichenhall.
+  themes: [wandern, bergpanorama, seen, wellness]
+- slug: tegernsee-schliersee
+  name: Tegernsee und Schliersee
+  country: DE
+  description_de: Oberbayerische Seen vor den Mangfallbergen, gut erreichbar von München.
+  themes: [wandern, seen, bergpanorama, wellness, wein_kulinarik]
+- slug: chiemgau
+  name: Chiemsee und Chiemgau
+  country: DE
+  description_de: Der Chiemsee mit seinen Inseln und die Chiemgauer Alpen zwischen Ruhpolding und Reit im Winkl.
+  themes: [seen, wandern, radfahren, wintersport, familie]
+- slug: bayerischer-wald
+  name: Bayerischer Wald
+  country: DE
+  description_de: Waldgebirge an der Grenze zu Tschechien mit dem Nationalpark Bayerischer Wald.
+  themes: [wandern, natur_ruhe, wintersport, familie, wellness]
+- slug: fuenfseenland
+  name: Fünfseenland
+  country: DE
+  description_de: Starnberger See, Ammersee und kleinere Seen südwestlich von München.
+  themes: [seen, radfahren, natur_ruhe, wein_kulinarik]
+- slug: fraenkische-schweiz
+  name: Fränkische Schweiz
+  country: DE
+  description_de: Felsen, Burgen und Tropfsteinhöhlen im Wiesenttal zwischen Bamberg und Bayreuth.
+  themes: [wandern, natur_ruhe, radfahren, wein_kulinarik]
+- slug: romantische-strasse
+  name: Franken und Romantische Straße
+  country: DE
+  description_de: Mittelalterliche Städte wie Rothenburg ob der Tauber und Dinkelsbühl sowie die Weinstadt Würzburg.
+  themes: [staedte_kultur, wein_kulinarik, radfahren]
+- slug: schwarzwald
+  name: Schwarzwald
+  country: DE
+  description_de: Mittelgebirge mit Feldberg, Titisee und Schluchsee, Wanderwegen und Kurorten.
+  themes: [wandern, natur_ruhe, seen, wellness, wintersport, familie]
+- slug: bodensee
+  name: Bodensee
+  country: DE
+  description_de: Deutsches Bodenseeufer mit Lindau, Meersburg und Konstanz, Radwegen und Blick auf die Alpen.
+  themes: [seen, radfahren, staedte_kultur, wein_kulinarik, familie]
+- slug: schwaebische-alb
+  name: Schwäbische Alb
+  country: DE
+  description_de: Karsthochfläche mit Wasserfällen, Höhlen und Burgen wie Schloss Lichtenstein.
+  themes: [wandern, natur_ruhe, radfahren, familie]
+- slug: neckartal
+  name: Heidelberg und Neckartal
+  country: DE
+  description_de: Das Neckartal zwischen Heidelberg und Bad Wimpfen mit Burgen und Altstädten.
+  themes: [staedte_kultur, radfahren, wandern]
+- slug: pfalz
+  name: Pfälzerwald und Deutsche Weinstraße
+  country: DE
+  description_de: Weinorte entlang der Deutschen Weinstraße und der Pfälzerwald mit seinen Buntsandsteinfelsen.
+  themes: [wein_kulinarik, wandern, radfahren, natur_ruhe]
+- slug: mosel
+  name: Mosel
+  country: DE
+  description_de: Steillagen-Weinbau, Burgen und Moselschleifen zwischen Trier und Cochem.
+  themes: [wein_kulinarik, wandern, radfahren, staedte_kultur]
+- slug: mittelrhein
+  name: Mittelrhein und Rheingau
+  country: DE
+  description_de: UNESCO-Welterbe Oberes Mittelrheintal mit Loreley, Burgen und Weinorten.
+  themes: [wein_kulinarik, wandern, staedte_kultur, radfahren]
+- slug: eifel
+  name: Eifel
+  country: DE
+  description_de: Vulkaneifel mit Maaren, Nationalpark Eifel und Fachwerkstädtchen wie Monschau.
+  themes: [wandern, natur_ruhe, seen, radfahren]
+- slug: sauerland
+  name: Sauerland
+  country: DE
+  description_de: Waldreiches Mittelgebirge mit dem Rothaarsteig und den Wintersportorten um Winterberg.
+  themes: [wandern, wintersport, natur_ruhe, familie]
+- slug: harz
+  name: Harz
+  country: DE
+  description_de: Brocken, Harzer Schmalspurbahnen und historische Städte wie Goslar und Wernigerode.
+  themes: [wandern, staedte_kultur, natur_ruhe, wintersport]
+- slug: thueringer-wald
+  name: Thüringer Wald
+  country: DE
+  description_de: Rennsteig-Region mit Oberhof, Eisenach und der Wartburg.
+  themes: [wandern, wintersport, staedte_kultur, natur_ruhe]
+- slug: saechsische-schweiz
+  name: Sächsische Schweiz
+  country: DE
+  description_de: Elbsandsteingebirge mit Bastei, Festung Königstein und dem Malerweg.
+  themes: [wandern, natur_ruhe, radfahren]
+- slug: erzgebirge
+  name: Erzgebirge
+  country: DE
+  description_de: Bergbautradition, Holzkunst aus Seiffen und Wintersport rund um den Fichtelberg.
+  themes: [wandern, wintersport, staedte_kultur, familie]
+- slug: ostsee-mv
+  name: Ostseeküste Mecklenburg-Vorpommern
+  country: DE
+  description_de: Seebäder mit Bäderarchitektur auf Rügen und Usedom sowie am Fischland-Darß.
+  themes: [natur_ruhe, radfahren, wellness, familie]
+- slug: nordsee
+  name: Nordseeküste
+  country: DE
+  description_de: Wattenmeer, Inseln und Küstenorte zwischen Ostfriesland und Nordfriesland.
+  themes: [natur_ruhe, radfahren, wellness, familie]
+- slug: mecklenburgische-seenplatte
+  name: Mecklenburgische Seenplatte
+  country: DE
+  description_de: Müritz und hunderte weitere Seen, ideal für Kanu- und Radtouren.
+  themes: [seen, natur_ruhe, radfahren, familie]
+- slug: lueneburger-heide
+  name: Lüneburger Heide
+  country: DE
+  description_de: Heidelandschaften mit Wacholder, Heideblüte im Spätsommer und die Hansestadt Lüneburg.
+  themes: [wandern, radfahren, natur_ruhe, familie, staedte_kultur]

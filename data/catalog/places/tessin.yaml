@@ -1,0 +1,52 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: tessin
+places:
+  - name: Lugano
+    admin1: TI
+    themes:
+      staedte_kultur: 3
+      seen: 3
+    description_de: Stadt am Luganersee mit Monte Brè und Monte San Salvatore.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659836
+  - name: Locarno
+    admin1: TI
+    themes:
+      seen: 3
+      staedte_kultur: 2
+    description_de: Stadt am Lago Maggiore mit der Wallfahrtskirche Madonna del Sasso.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2659869
+  - name: Ascona
+    admin1: TI
+    themes:
+      seen: 3
+      wein_kulinarik: 2
+    description_de: Ort mit Seepromenade am Lago Maggiore.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661698
+  - name: Bellinzona
+    admin1: TI
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit drei Burgen (UNESCO-Welterbe).
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661567
+  - name: Brissago
+    admin1: TI
+    themes:
+      seen: 2
+      natur_ruhe: 2
+    description_de: Ort am Lago Maggiore mit Blick auf die Brissago-Inseln.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2661388

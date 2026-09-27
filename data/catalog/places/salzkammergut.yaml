@@ -1,0 +1,67 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: salzkammergut
+places:
+  - name: Bad Ischl
+    admin1: '04'
+    themes:
+      staedte_kultur: 3
+      wellness: 2
+    description_de: Kaiserstadt mit Kaiservilla und Therme.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2782052
+  - name: St. Wolfgang im Salzkammergut
+    match_name: Sankt Wolfgang im Salzkammergut
+    admin1: '04'
+    themes:
+      seen: 3
+      wandern: 2
+    description_de: Ort am Wolfgangsee mit Schafbergbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2766340
+  - name: Gmunden
+    admin1: '04'
+    themes:
+      seen: 3
+      staedte_kultur: 2
+    description_de: Stadt am Traunsee mit Seeschloss Ort und Keramikmanufaktur.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2778436
+  - name: Bad Aussee
+    admin1: '06'
+    themes:
+      seen: 2
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Kurort im steirischen Salzkammergut nahe Altausseer See und Grundlsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2782070
+  - name: Mondsee
+    admin1: '04'
+    themes:
+      seen: 3
+      staedte_kultur: 2
+    description_de: Marktort am Mondsee mit Basilika.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2771277
+  - name: Bad Goisern am Hallstättersee
+    match_name: Bad Goisern
+    admin1: '04'
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+      seen: 2
+    description_de: Ort im inneren Salzkammergut, der Hallstätter See liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2782055

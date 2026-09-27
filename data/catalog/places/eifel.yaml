@@ -1,0 +1,76 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: eifel
+places:
+  - name: Monschau
+    admin1: '07'
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+    description_de: Fachwerkstadt im engen Rurtal, Tor zum Nationalpark Eifel.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2869756
+  - name: Daun
+    admin1: '08'
+    themes:
+      natur_ruhe: 3
+      seen: 2
+      wandern: 2
+    description_de: Kreisstadt der Vulkaneifel mit den Dauner Maaren.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2938714
+  - name: Gerolstein
+    admin1: '08'
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Stadt mit Dolomitfelsen, Mineralquellen und dem Eifelsteig.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2920963
+  - name: Bad Münstereifel
+    admin1: '07'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+      wellness: 1
+    description_de: Kurstadt mit Stadtmauer, das Radioteleskop Effelsberg liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953398
+  - name: Schleiden
+    admin1: '07'
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Stadt am Nationalpark Eifel mit Vogelsang und Urftsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2838744
+  - name: Manderscheid
+    admin1: '08'
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+    description_de: Ort mit zwei Burgen, dem Lieserpfad und Maarmuseum.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2873970
+  - name: Nideggen
+    admin1: '07'
+    themes:
+      wandern: 2
+      seen: 2
+      natur_ruhe: 2
+    description_de: Burgstadt über dem Rurtal mit Buntsandsteinfelsen, der Rursee liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2863711

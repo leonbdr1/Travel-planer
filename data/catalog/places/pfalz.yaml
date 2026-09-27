@@ -1,0 +1,77 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: pfalz
+places:
+  - name: Bad Dürkheim
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      wellness: 2
+      wandern: 2
+    description_de: Kurstadt mit Riesenfass, Gradierbau und Weinlagen am Haardtrand.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953522
+  - name: Deidesheim
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      staedte_kultur: 2
+    description_de: Weinort mit historischem Marktplatz an der Deutschen Weinstraße.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2938465
+  - name: Neustadt an der Weinstraße
+    match_name: Neustadt
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Weinstadt am Haardtrand, das Hambacher Schloss liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2864054
+  - name: Dahn
+    admin1: '08'
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+    description_de: Felsenland im Dahner Tal mit Burgruinen und Kletterfelsen aus Buntsandstein.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2939370
+  - name: Annweiler am Trifels
+    admin1: '08'
+    themes:
+      wandern: 3
+      staedte_kultur: 2
+    description_de: Stadt unter der Reichsburg Trifels mit Wegen durch den Pfälzerwald.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2955951
+  - name: Edenkoben
+    admin1: '08'
+    themes:
+      wein_kulinarik: 3
+      wandern: 2
+    description_de: Weinort mit Schloss Villa Ludwigshöhe und Sesselbahn zur Rietburg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2933410
+  - name: Bad Bergzabern
+    admin1: '08'
+    themes:
+      wellness: 2
+      wein_kulinarik: 2
+      wandern: 2
+    description_de: Kurstadt im Süden der Weinstraße mit Thermalbad und Schloss.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953549

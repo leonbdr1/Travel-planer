@@ -1,0 +1,76 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: nordsee
+places:
+  - name: Sankt Peter-Ording
+    admin1: '10'
+    themes:
+      natur_ruhe: 3
+      wellness: 2
+      familie: 2
+    description_de: Nordseebad mit Pfahlbauten am weiten Sandstrand.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2841484
+  - name: Büsum
+    admin1: '10'
+    themes:
+      familie: 2
+      natur_ruhe: 2
+    description_de: Nordseeheilbad mit Hafen, Krabbenkuttern und Wattenmeer.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2940669
+  - name: Norden
+    admin1: '06'
+    themes:
+      natur_ruhe: 2
+      radfahren: 2
+      familie: 2
+    description_de: Stadt mit dem Fährhafen Norddeich für Juist und Norderney.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2862118
+  - name: Cuxhaven
+    admin1: '06'
+    themes:
+      familie: 2
+      wellness: 2
+    description_de: Seebad an der Elbmündung mit Kugelbake und Wattwanderungen nach Neuwerk.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2939658
+  - name: Husum
+    admin1: '10'
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 2
+    description_de: Hafenstadt mit Schloss und Krokusblüte im Frühjahr.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2897132
+  - name: Westerland
+    admin1: '10'
+    themes:
+      wellness: 2
+      natur_ruhe: 2
+    description_de: Hauptort auf Sylt mit Strandpromenade und Dünenlandschaft.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2810284
+  - name: Norderney
+    admin1: '06'
+    themes:
+      wellness: 3
+      natur_ruhe: 2
+      radfahren: 2
+    description_de: Ostfriesische Insel mit Thalassobad und weiten Stränden.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2862041

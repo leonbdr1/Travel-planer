@@ -1,0 +1,64 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: romantische-strasse
+places:
+  - name: Rothenburg ob der Tauber
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 1
+    description_de: Mittelalterliche Reichsstadt mit begehbarer Stadtmauer und dem Plönlein.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2844056
+  - name: Dinkelsbühl
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      radfahren: 1
+    description_de: Altstadt mit Stadtmauer, Türmen und Fachwerkhäusern an der Wörnitz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2936886
+  - name: Würzburg
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+    description_de: Stadt mit Residenz (UNESCO-Welterbe), Festung Marienberg und Frankenwein.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2805615
+  - name: Bamberg
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+    description_de: Welterbe-Altstadt mit Dom, Klein-Venedig und fränkischen Brauereien.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2952984
+  - name: Nördlingen
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      radfahren: 2
+      natur_ruhe: 1
+    description_de: Stadt im Meteoritenkrater Nördlinger Ries mit erhaltener Stadtmauer.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2861914
+  - name: Bad Mergentheim
+    admin1: '01'
+    themes:
+      wellness: 3
+      staedte_kultur: 2
+    description_de: Kurstadt im Taubertal mit Deutschordensschloss und Wildpark.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953402

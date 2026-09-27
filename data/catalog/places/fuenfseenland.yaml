@@ -1,0 +1,57 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: fuenfseenland
+places:
+  - name: Starnberg
+    admin1: '02'
+    themes:
+      seen: 3
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Stadt am Nordende des Starnberger Sees mit Dampferanlegestelle und Seepromenade.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2829457
+  - name: Herrsching am Ammersee
+    admin1: '02'
+    themes:
+      seen: 3
+      wandern: 2
+      wein_kulinarik: 2
+    description_de: Ort am Ostufer des Ammersees, Ausgangspunkt für den Weg zum Kloster Andechs.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2905604
+  - name: Tutzing
+    admin1: '02'
+    themes:
+      seen: 3
+      natur_ruhe: 2
+    description_de: Ort am Westufer des Starnberger Sees mit der Ilkahöhe und ruhigen Uferwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2820692
+  - name: Dießen am Ammersee
+    admin1: '02'
+    themes:
+      seen: 3
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Marktort mit Marienmünster und Kunsthandwerk am Südwestufer des Ammersees.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2937217
+  - name: Utting am Ammersee
+    admin1: '02'
+    themes:
+      seen: 2
+      natur_ruhe: 2
+      radfahren: 2
+    description_de: Ort am Westufer des Ammersees mit Badestellen und Radweg rund um den See.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2818014

@@ -1,0 +1,65 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: saechsische-schweiz
+places:
+  - name: Bad Schandau
+    admin1: '13'
+    themes:
+      wandern: 3
+      wellness: 2
+      natur_ruhe: 2
+    description_de: Kurort an der Elbe, Ausgangspunkt für die Schrammsteine und den Malerweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953352
+  - name: Königstein
+    admin1: '13'
+    themes:
+      wandern: 2
+      staedte_kultur: 2
+    description_de: Städtchen unter der Festung Königstein am Elberadweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2885764
+  - name: Pirna
+    admin1: '13'
+    themes:
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Altstadt am Elberadweg, Tor zur Sächsischen Schweiz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2853572
+  - name: Hohnstein
+    admin1: '13'
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+    description_de: Burgstadt über dem Polenztal mit Wegen Richtung Bastei.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2900844
+  - name: Sebnitz
+    admin1: '13'
+    themes:
+      natur_ruhe: 2
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Kunstblumenstadt am Rand des Nationalparks Sächsische Schweiz.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2834102
+  - name: Stadt Wehlen
+    admin1: '13'
+    themes:
+      wandern: 2
+      radfahren: 2
+    description_de: Kleine Stadt an der Elbe mit Aufstieg zur Bastei durch den Uttewalder Grund.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2829734

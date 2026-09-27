@@ -1,0 +1,45 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: innsbruck-seefeld
+places:
+  - name: Innsbruck
+    admin1: '07'
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+      wintersport: 2
+    description_de: Tiroler Landeshauptstadt mit Goldenem Dachl und Nordkettenbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2775220
+  - name: Seefeld in Tirol
+    admin1: '07'
+    themes:
+      wintersport: 3
+      wandern: 2
+      wellness: 2
+    description_de: Langlaufort auf einem Hochplateau mit Wildsee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2765278
+  - name: Leutasch
+    admin1: '07'
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+      wintersport: 2
+    description_de: Langgezogenes Hochtal mit Leutaschklamm und Loipen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3319549
+  - name: Hall in Tirol
+    admin1: '07'
+    themes:
+      staedte_kultur: 3
+    description_de: Mittelalterliche Salzstadt mit Münzerturm und Burg Hasegg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2764958

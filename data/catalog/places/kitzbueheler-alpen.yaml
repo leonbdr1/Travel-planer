@@ -1,0 +1,69 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: kitzbueheler-alpen
+places:
+  - name: Kitzbühel
+    admin1: '07'
+    themes:
+      wintersport: 3
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Stadt mit Hahnenkamm, Streif und mittelalterlichem Zentrum.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2774347
+  - name: Kirchberg in Tirol
+    admin1: '07'
+    themes:
+      wintersport: 2
+      wandern: 2
+      familie: 2
+    description_de: Ferienort zwischen Kitzbühel und dem Brixental.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2774399
+  - name: St. Johann in Tirol
+    match_name: Sankt Johann in Tirol
+    admin1: '07'
+    themes:
+      wandern: 2
+      wintersport: 2
+      familie: 2
+    description_de: Marktgemeinde am Kitzbüheler Horn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2766636
+  - name: Westendorf
+    admin1: '07'
+    themes:
+      familie: 3
+      wandern: 2
+    description_de: Dorf im Brixental mit Erlebniswegen für Kinder.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2761457
+  - name: Hopfgarten im Brixental
+    admin1: '07'
+    themes:
+      wandern: 2
+      radfahren: 2
+      wintersport: 2
+    description_de: Ort an der Hohen Salve.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2775541
+  - name: Fieberbrunn
+    admin1: '07'
+    themes:
+      wintersport: 2
+      wandern: 2
+      familie: 2
+    description_de: Ort in den Kitzbüheler Alpen mit Lauchsee und Anbindung an ein großes Skigebiet.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2779595

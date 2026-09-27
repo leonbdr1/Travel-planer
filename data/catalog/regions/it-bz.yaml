@@ -1,0 +1,31 @@
+# Regionen in Südtirol – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11).
+- slug: groeden-seiser-alm
+  name: Gröden und Seiser Alm
+  country: IT-BZ
+  description_de: Dolomitental mit Langkofel und Sella sowie die Seiser Alm am Schlern.
+  themes: [wandern, bergpanorama, wintersport, familie]
+- slug: alta-badia
+  name: Alta Badia
+  country: IT-BZ
+  description_de: Ladinisches Gadertal unter dem Sellastock mit Almhütten und Dolomitenpässen.
+  themes: [wandern, bergpanorama, wintersport, wein_kulinarik]
+- slug: meraner-land
+  name: Meraner Land
+  country: IT-BZ
+  description_de: Kurstadt Meran, Waalwege, Obstgärten und die Gärten von Schloss Trauttmansdorff.
+  themes: [wandern, wellness, wein_kulinarik, staedte_kultur]
+- slug: pustertal
+  name: Pustertal und Drei Zinnen
+  country: IT-BZ
+  description_de: Bruneck, das Hochpustertal und die Sextner Dolomiten mit den Drei Zinnen.
+  themes: [wandern, bergpanorama, wintersport, familie]
+- slug: vinschgau
+  name: Vinschgau
+  country: IT-BZ
+  description_de: Sonnenreiches Tal mit Waalwegen, Apfelanbau und Glurns als kleinster Stadt Südtirols.
+  themes: [wandern, radfahren, natur_ruhe, wein_kulinarik]
+- slug: eisacktal-bozen
+  name: Eisacktal und Bozen
+  country: IT-BZ
+  description_de: Brixen, Klausen, Sterzing und die Stadt Bozen mit dem Rittner Hochplateau.
+  themes: [staedte_kultur, wandern, wein_kulinarik, radfahren]

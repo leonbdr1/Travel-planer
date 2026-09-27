@@ -1,0 +1,46 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: ausserfern
+places:
+  - name: Reutte
+    admin1: '07'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Marktgemeinde mit Hängebrücke highline179 und der Burgenwelt Ehrenberg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2767511
+  - name: Tannheim
+    admin1: '07'
+    themes:
+      wandern: 3
+      seen: 3
+      natur_ruhe: 2
+    description_de: Hochtal mit Vilsalpsee und Haldensee.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2763915
+  - name: Ehrwald
+    admin1: '07'
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 2
+    description_de: Dorf am Fuß der Zugspitze mit der Tiroler Zugspitzbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3319581
+  - name: Lermoos
+    admin1: '07'
+    themes:
+      wandern: 2
+      familie: 2
+      bergpanorama: 2
+    description_de: Ort mit Blick auf das Zugspitzmassiv und die Mieminger Kette.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2772592

@@ -1,0 +1,56 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: neckartal
+places:
+  - name: Heidelberg
+    admin1: '01'
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+    description_de: Universitätsstadt mit Schlossruine, Alter Brücke und Philosophenweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2907911
+  - name: Neckargemünd
+    admin1: '01'
+    themes:
+      radfahren: 2
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Städtchen an der Elsenz-Mündung, Ausgangspunkt für Touren im Neckartal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2866774
+  - name: Hirschhorn
+    admin1: '05'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Ort mit Burg auf einem Bergsporn über einer Neckarschleife.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2903625
+  - name: Eberbach
+    admin1: '01'
+    themes:
+      wandern: 2
+      radfahren: 2
+      natur_ruhe: 2
+    description_de: Stadt am Neckar mit Resten der Stadtmauer und Wegen in den Odenwald.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2934020
+  - name: Bad Wimpfen
+    admin1: '01'
+    themes:
+      staedte_kultur: 3
+      wellness: 2
+    description_de: Stauferstadt mit Kaiserpfalz und Solebad hoch über dem Neckar.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953315

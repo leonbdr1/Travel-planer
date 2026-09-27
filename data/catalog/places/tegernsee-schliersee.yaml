@@ -1,0 +1,70 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: tegernsee-schliersee
+places:
+  - name: Tegernsee
+    admin1: '02'
+    themes:
+      seen: 3
+      wandern: 2
+      wein_kulinarik: 2
+      wellness: 2
+    description_de: Stadt am Ostufer des Tegernsees mit ehemaligem Kloster, Bräustüberl und Seepromenade.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2823679
+  - name: Rottach-Egern
+    admin1: '02'
+    themes:
+      seen: 3
+      wellness: 2
+      wandern: 2
+    description_de: Ort am Südende des Tegernsees, Ausgangspunkt für den Wallberg und Wanderungen zur Königsalm.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2843775
+  - name: Bad Wiessee
+    admin1: '02'
+    themes:
+      wellness: 3
+      seen: 3
+    description_de: Kurort am Westufer des Tegernsees mit Jod-Schwefel-Quellen und Seesauna.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2953318
+  - name: Gmund am Tegernsee
+    admin1: '02'
+    themes:
+      seen: 2
+      natur_ruhe: 2
+      radfahren: 2
+    description_de: Ort am Nordufer des Tegernsees mit Badestellen und Radwegen ins Voralpenland.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2919717
+  - name: Schliersee
+    admin1: '02'
+    themes:
+      seen: 3
+      wandern: 3
+      bergpanorama: 2
+    description_de: Ort am gleichnamigen See mit Insel Wörth, Schliersbergalm und dem Spitzingsee in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2838502
+  - name: Bayrischzell
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 2
+      wintersport: 2
+      natur_ruhe: 2
+    description_de: Bergdorf am Wendelstein mit Wegen zu Almen, im Winter Loipen und das Skigebiet Sudelfeld.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2951824

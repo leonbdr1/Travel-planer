@@ -1,0 +1,57 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: fraenkische-schweiz
+places:
+  - name: Pottenstein
+    admin1: '02'
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+      familie: 2
+    description_de: Felsenstädtchen mit Burg, Teufelshöhle und Sommerrodelbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2852440
+  - name: Gößweinstein
+    admin1: '02'
+    themes:
+      wandern: 3
+      staedte_kultur: 2
+      natur_ruhe: 2
+    description_de: Wallfahrtsort mit Basilika und Burg über dem Wiesenttal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2918767
+  - name: Ebermannstadt
+    admin1: '02'
+    themes:
+      radfahren: 2
+      wandern: 2
+      wein_kulinarik: 2
+    description_de: Tor zur Fränkischen Schweiz mit Dampfbahn und Radweg durch das Wiesenttal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2933986
+  - name: Waischenfeld
+    admin1: '02'
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Kleinstadt im Wiesenttal mit dem Felsen Steinerner Beutel und stillen Talwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2815297
+  - name: Pegnitz
+    admin1: '02'
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+      radfahren: 1
+    description_de: Stadt an der Pegnitzquelle, Ausgangspunkt für Touren in den Veldensteiner Forst.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2855065

@@ -1,0 +1,64 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: thueringer-wald
+places:
+  - name: Oberhof
+    admin1: '15'
+    themes:
+      wintersport: 3
+      wandern: 2
+    description_de: Wintersportort am Rennsteig mit Skihalle und Biathlonstadion.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2860282
+  - name: Eisenach
+    admin1: '15'
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+    description_de: Stadt der Wartburg und des Lutherhauses am Nordwestende des Rennsteigs.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2931574
+  - name: Ilmenau
+    admin1: '15'
+    themes:
+      wandern: 2
+      staedte_kultur: 2
+    description_de: Universitätsstadt am Goethewanderweg und Kickelhahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2896514
+  - name: Friedrichroda
+    admin1: '15'
+    themes:
+      familie: 2
+      wandern: 2
+      wellness: 1
+    description_de: Kurort mit Marienglashöhle, der Große Inselsberg liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2924656
+  - name: Tambach-Dietharz
+    admin1: '15'
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Ort mit Talsperre und Spitterfall am Rennsteig.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2824285
+  - name: Schmalkalden
+    admin1: '15'
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Fachwerkstadt mit Schloss Wilhelmsburg am Südhang des Thüringer Waldes.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2838059

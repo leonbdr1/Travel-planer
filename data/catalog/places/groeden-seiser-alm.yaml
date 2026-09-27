@@ -1,0 +1,62 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: groeden-seiser-alm
+places:
+  - name: St. Ulrich in Gröden
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 3
+      staedte_kultur: 2
+    description_de: Hauptort Grödens mit Holzschnitzkunst und Seilbahn auf die Seceda.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3171891
+  - name: St. Christina in Gröden
+    themes:
+      wandern: 3
+      bergpanorama: 3
+    description_de: Ort in Gröden unter dem Langkofel.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3167680
+  - name: Wolkenstein in Gröden
+    themes:
+      wintersport: 3
+      wandern: 3
+      bergpanorama: 3
+    description_de: Dorf am Sellastock, Ausgangspunkt der Sellaronda.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3166784
+  - name: Kastelruth
+    themes:
+      wandern: 2
+      familie: 2
+      natur_ruhe: 2
+    description_de: Dorf am Schlern mit Zugang zur Seiser Alm.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3179493
+  - name: Seis am Schlern
+    themes:
+      wandern: 3
+      bergpanorama: 2
+    description_de: Ort mit der Seiser-Alm-Bahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3166483
+  - name: Völs am Schlern
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+      wein_kulinarik: 2
+    description_de: Ort am Schlern mit dem Völser Weiher.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3177028

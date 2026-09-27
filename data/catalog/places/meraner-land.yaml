@@ -1,0 +1,67 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: meraner-land
+places:
+  - name: Meran
+    themes:
+      wellness: 3
+      staedte_kultur: 3
+      wandern: 2
+    description_de: Kurstadt mit Therme, Passerpromenade und den Gärten von Schloss Trauttmansdorff.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3173577
+  - name: Schenna
+    themes:
+      wandern: 3
+      bergpanorama: 2
+    description_de: Dorf über Meran mit Waalwegen und Schloss Schenna.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 6535868
+  - name: Dorf Tirol
+    themes:
+      wandern: 2
+      staedte_kultur: 2
+    description_de: Ort mit Schloss Tirol und den Muthöfen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 6534790
+  - name: Lana
+    themes:
+      wein_kulinarik: 2
+      wandern: 2
+    description_de: Obstbauort am Eingang des Ultentals.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3175177
+  - name: Naturns
+    themes:
+      wandern: 2
+      radfahren: 2
+    description_de: Ort im unteren Vinschgau mit der Prokuluskirche.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3172367
+  - name: Algund
+    themes:
+      wandern: 2
+      wein_kulinarik: 2
+    description_de: Weinort am Algunder Waalweg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3175243
+  - name: Partschins
+    themes:
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Ort am Partschinser Wasserfall.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3171468

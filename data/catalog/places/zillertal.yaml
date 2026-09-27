@@ -1,0 +1,69 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: zillertal
+places:
+  - name: Mayrhofen
+    admin1: '07'
+    themes:
+      wandern: 3
+      wintersport: 3
+      bergpanorama: 2
+      familie: 2
+    description_de: Hauptort im hinteren Zillertal mit Ahornbahn und Penkenbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2771725
+  - name: Zell am Ziller
+    admin1: '07'
+    themes:
+      wandern: 2
+      familie: 2
+      wintersport: 2
+    description_de: Ort im mittleren Zillertal mit Goldbergbau-Geschichte und der Zillertal Arena.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2760632
+  - name: Fügen
+    admin1: '07'
+    themes:
+      familie: 3
+      wellness: 2
+      wintersport: 2
+    description_de: Ort im vorderen Zillertal mit Erlebnistherme und Spieljochbahn.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2779154
+  - name: Tux
+    admin1: '07'
+    themes:
+      wintersport: 3
+      bergpanorama: 3
+      wandern: 2
+    description_de: Gemeinde am Hintertuxer Gletscher mit ganzjährigem Skibetrieb.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 11903603
+  - name: Gerlos
+    admin1: '07'
+    themes:
+      wintersport: 2
+      wandern: 2
+      seen: 2
+    description_de: Bergdorf am Gerlospass mit dem Stausee Durlaßboden.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3323921
+  - name: Kaltenbach
+    admin1: '07'
+    themes:
+      familie: 2
+      wintersport: 2
+    description_de: Ort am Eingang des Skigebiets Hochzillertal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2774876

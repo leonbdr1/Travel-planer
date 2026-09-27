@@ -1,0 +1,82 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: ostsee-mv
+places:
+  - name: Binz
+    match_name: Ostseebad Binz
+    admin1: '12'
+    themes:
+      familie: 3
+      wellness: 2
+      natur_ruhe: 2
+      radfahren: 2
+    description_de: Seebad auf Rügen mit Bäderarchitektur, Seebrücke und langem Sandstrand.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2856198
+  - name: Göhren
+    match_name: Ostseebad Göhren
+    admin1: '12'
+    themes:
+      natur_ruhe: 2
+      familie: 2
+    description_de: Seebad am Nordperd im Südosten Rügens mit Strand und Mönchgut.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2856195
+  - name: Putbus
+    admin1: '12'
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 2
+    description_de: Klassizistische Residenzstadt mit dem Circus und der Kleinbahn Rasender Roland.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2851615
+  - name: Heringsdorf
+    match_name: Seebad Heringsdorf
+    admin1: '12'
+    themes:
+      wellness: 2
+      familie: 2
+      radfahren: 2
+    description_de: Kaiserbad auf Usedom mit Seebrücke, Villen und Strandpromenade.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2833988
+  - name: Zingst
+    admin1: '12'
+    themes:
+      natur_ruhe: 3
+      radfahren: 2
+      familie: 2
+    description_de: Ostseeheilbad auf Fischland-Darß-Zingst, im Herbst Rastplatz der Kraniche.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2804135
+  - name: Kühlungsborn
+    match_name: Ostseebad Kühlungsborn
+    admin1: '12'
+    themes:
+      familie: 2
+      wellness: 2
+      radfahren: 2
+    description_de: Seebad mit Strandpromenade und der Bäderbahn Molli nach Bad Doberan.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2856193
+  - name: Warnemünde
+    admin1: '12'
+    themes:
+      staedte_kultur: 2
+      familie: 2
+    description_de: Seebad mit Leuchtturm, Altem Strom und breitem Strand bei Rostock.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2814055

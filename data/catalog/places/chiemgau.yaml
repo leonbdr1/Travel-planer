@@ -1,0 +1,82 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: chiemgau
+places:
+  - name: Prien am Chiemsee
+    admin1: '02'
+    themes:
+      seen: 3
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Hauptort am Westufer des Chiemsees mit Schiffen zur Herreninsel und Fraueninsel.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2852101
+  - name: Ruhpolding
+    admin1: '02'
+    themes:
+      wandern: 3
+      wintersport: 3
+      familie: 2
+      bergpanorama: 2
+    description_de: Biathlon- und Ferienort mit Rauschbergbahn und familienfreundlichen Wegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2843203
+  - name: Reit im Winkl
+    admin1: '02'
+    themes:
+      wintersport: 3
+      wandern: 2
+      bergpanorama: 2
+    description_de: Grenzort zu Tirol mit Winklmoosalm, Langlaufloipen und sonnigen Almwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2848382
+  - name: Inzell
+    admin1: '02'
+    themes:
+      wandern: 2
+      familie: 2
+      wintersport: 2
+      natur_ruhe: 2
+    description_de: Ort mit Eisschnelllaufhalle, Frillensee und Wanderwegen in den Chiemgauer Alpen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2895898
+  - name: Bernau am Chiemsee
+    admin1: '02'
+    themes:
+      seen: 3
+      radfahren: 2
+      familie: 2
+    description_de: Ort am Südufer des Chiemsees mit Badestellen und Blick auf die Kampenwand.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2950095
+  - name: Aschau im Chiemgau
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 2
+      staedte_kultur: 1
+    description_de: Dorf unter der Kampenwand mit Schloss Hohenaschau und Seilbahn auf den Berg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2863652
+  - name: Übersee
+    admin1: '02'
+    themes:
+      seen: 2
+      natur_ruhe: 2
+      radfahren: 2
+    description_de: Ort am Chiemsee-Südufer mit dem Naturschutzgebiet Achendelta und weiten Radwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2820564

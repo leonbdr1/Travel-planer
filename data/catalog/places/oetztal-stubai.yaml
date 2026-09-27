@@ -1,0 +1,66 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: oetztal-stubai
+places:
+  - name: Sölden
+    admin1: '07'
+    themes:
+      wintersport: 3
+      bergpanorama: 3
+      wandern: 2
+    description_de: Gletscherskiort mit Gaislachkogelbahn und Wegen ins hintere Ötztal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2764957
+  - name: Längenfeld
+    admin1: '07'
+    themes:
+      wellness: 3
+      wandern: 2
+    description_de: Ort mit Therme Aqua Dome, der Stuibenfall liegt in der Nähe.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 8740442
+  - name: Oetz
+    admin1: '07'
+    themes:
+      familie: 2
+      wandern: 2
+      seen: 2
+    description_de: Ort am Eingang des Ötztals mit dem Piburger See.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2769324
+  - name: Umhausen
+    admin1: '07'
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+    description_de: Dorf am Stuibenfall mit Klettersteig und Ötzi-Dorf.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2763164
+  - name: Neustift im Stubaital
+    admin1: '07'
+    themes:
+      wandern: 3
+      wintersport: 3
+      bergpanorama: 3
+    description_de: Talort mit Zugang zum Stubaier Gletscher.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2770651
+  - name: Fulpmes
+    admin1: '07'
+    themes:
+      wandern: 2
+      familie: 2
+    description_de: Schmiededorf im Stubaital mit dem Familienskigebiet Schlick 2000.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2779143

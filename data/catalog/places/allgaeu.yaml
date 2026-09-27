@@ -1,0 +1,109 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: allgaeu
+places:
+  - name: Oberstdorf
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 3
+      wellness: 2
+      familie: 2
+    description_de: Markt am Fuß von Nebelhorn und Fellhorn mit Breitachklamm und dichtem Netz an Bergwanderwegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2858964
+  - name: Füssen
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      seen: 3
+      wandern: 2
+      bergpanorama: 2
+      radfahren: 2
+    description_de: Stadt an Lech und Forggensee, nahe den Königsschlössern Neuschwanstein und Hohenschwangau.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2923507
+  - name: Oberstaufen
+    admin1: '02'
+    themes:
+      wellness: 3
+      wandern: 2
+      natur_ruhe: 2
+      wintersport: 2
+    description_de: Kurort an der Nagelfluhkette, bekannt für die Schrothkur und Wanderungen am Hochgrat.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2858966
+  - name: Pfronten
+    admin1: '02'
+    themes:
+      wandern: 3
+      bergpanorama: 2
+      familie: 2
+      wintersport: 2
+    description_de: Dörferverbund an der Grenze zu Tirol mit Breitenberg und Burgruine Falkenstein.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2853949
+  - name: Sonthofen
+    admin1: '02'
+    themes:
+      wandern: 2
+      radfahren: 2
+      familie: 2
+    description_de: Kleinstadt im Illertal, Ausgangspunkt für Touren in die Allgäuer Alpen und ins Ostrachtal.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2831088
+  - name: Immenstadt im Allgäu
+    admin1: '02'
+    themes:
+      seen: 3
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Städtchen am Großen Alpsee mit Badestellen und Wegen auf den Mittag.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2896261
+  - name: Nesselwang
+    admin1: '02'
+    themes:
+      familie: 3
+      wandern: 2
+      wintersport: 2
+    description_de: Ferienort an der Alpspitze mit Sommerrodelbahn und familienfreundlichen Wegen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2866416
+  - name: Isny im Allgäu
+    match_name: Isny
+    admin1: '01'
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Historische Stadt im württembergischen Allgäu mit Mauerring und den Wäldern der Adelegg.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2895638
+  - name: Kempten (Allgäu)
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      radfahren: 1
+    description_de: Zentrum des Allgäus mit Residenz, Altstadt und dem römischen Archäologischen Park Cambodunum.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2891621
