@@ -1,0 +1,39 @@
+# Deliberately broken product configuration for the S1.1 demo and tests:
+# the currency is not EUR, the support e-mail is invalid and a limit is negative.
+id: reiseplaner
+name: Reiseplaner
+name_is_working_title: true
+slug: reiseplaner
+tagline: Test
+operator:
+  company: Test
+  confirmed: false
+  address_lines: ["x"]
+  register_entry: x
+  vat_id: x
+  represented_by: x
+  contact_email: kontakt@reiseplaner.example
+  role_statement: x
+domains: { primary: reiseplaner.example, staging: staging.reiseplaner.example }
+brand:
+  colors: { primary: "#0f766e", primary_contrast: "#ffffff", accent: "#f59e0b", bargain: "#15803d", warning: "#b45309" }
+  fonts: { sans: Inter }
+  logo: /logo.svg
+markets:
+  language: de
+  currency: USD
+  guest_nationality: DE
+  timezone: Europe/Berlin
+  catalog_countries: [DE]
+support: { email: not-an-email, response_time_hours: 48 }
+compliance:
+  retention: { searches_days: 30, ip_hash_days: 7, guest_data_days_after_checkout: 90 }
+  ai_labels: { review_analysis: a, catalog_description: b, catalog_description_draft: c, wish_parse: d }
+  forbidden_claims: [Bestpreis]
+attribution:
+  - { id: geonames, text: GeoNames, license: CC BY 4.0, license_url: "https://creativecommons.org/licenses/by/4.0/", source_url: "https://www.geonames.org/" }
+limits:
+  search: { max_places: -1, max_dates: 12, max_combinations: 120, max_nights: 14, max_rooms: 5, max_adults_per_room: 6, max_children_per_room: 4, max_window_days: 400 }
+  rate_limits: { searches_per_hour: 10, searches_per_day: 30, wishes_per_hour: 30, lookups_per_hour: 120, access_link_per_hour: 5, reference_price_per_minute: 10 }
+  daily_quotas: { searches: 500, liteapi_calls: 60000, ors_calls: 450 }
+  llm_daily_budget_usd: 5

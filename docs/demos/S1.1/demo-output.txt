@@ -1,0 +1,39 @@
+$ npm run demo -- s1.1
+# recorded 2026-09-27T04:22:17.594Z
+
+validated product.config.yaml:
+{
+  "id": "reiseplaner",
+  "name": "Reiseplaner",
+  "slug": "reiseplaner",
+  "currency": "EUR",
+  "language": "de",
+  "catalog_countries": [
+    "DE",
+    "AT",
+    "CH",
+    "IT-BZ"
+  ],
+  "limits": {
+    "max_places": 10,
+    "max_dates": 12,
+    "max_combinations": 120,
+    "max_nights": 14,
+    "max_rooms": 5,
+    "max_adults_per_room": 6,
+    "max_children_per_room": 4,
+    "max_window_days": 400
+  },
+  "forbidden_claims": 15
+}
+
+$ npm run demo -- s1.1 --config packages/config/test/fixtures/broken.yaml
+packages/config/test/fixtures/broken.yaml: 3 validation error(s)
+✖ Invalid input: expected "EUR"
+  → at markets.currency
+✖ Invalid email address
+  → at support.email
+✖ Too small: expected number to be >0
+  → at limits.search.max_places
+failing paths: ["markets.currency","support.email","limits.search.max_places"]
+→ exit 1 (rejected as expected)

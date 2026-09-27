@@ -1,0 +1,115 @@
+# Einzige Quelle für Marken-, Domain-, Betreiber- und Produktwerte
+# (architektur.md 4.1). Wird beim Build mit zod geprüft
+# (packages/config) und als typisierte Konstante in Worker und SPA eingebunden.
+#
+# Arbeitswerte: Name und Slug gelten bis zur Entscheidung ⛔ BG-01,
+# Betreiberdaten bis ⛔ BG-02. Platzhalter-Domains nutzen die reservierte
+# TLD ".example" und sind damit nie echte Adressen.
+
+id: reiseplaner
+name: Reiseplaner
+name_is_working_title: true
+slug: reiseplaner
+tagline: Wann und wo bekomme ich innerhalb meines Rahmens das beste Angebot?
+
+operator:
+  company: Fischermann Intelligence
+  confirmed: false # ⛔ BG-02: Fischermann Intelligence oder Fischermann Media
+  address_lines:
+    - "[Anschrift folgt – Platzhalter bis BG-02]"
+  register_entry: "[Registereintrag folgt – Platzhalter bis BG-02]"
+  vat_id: "[USt-IdNr. folgt – Platzhalter bis BG-02]"
+  represented_by: "[Vertretungsberechtigte Person folgt – Platzhalter bis BG-02]"
+  contact_email: kontakt@reiseplaner.example
+  role_statement: >-
+    Wir vermitteln Unterkünfte. Vertragspartner für die Beherbergung ist die
+    jeweilige Unterkunft; Zahlung und Buchungsabwicklung übernimmt LiteAPI
+    (Nuitée) als Merchant of Record.
+
+domains:
+  primary: reiseplaner.example
+  staging: staging.reiseplaner.example
+
+brand:
+  colors:
+    primary: "#0f766e"
+    primary_contrast: "#ffffff"
+    accent: "#f59e0b"
+    bargain: "#15803d"
+    warning: "#b45309"
+  fonts:
+    sans: "Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+  logo: /logo.svg
+
+markets:
+  language: de
+  currency: EUR
+  guest_nationality: DE
+  timezone: Europe/Berlin
+  catalog_countries: [DE, AT, CH, IT-BZ]
+
+support:
+  email: support@reiseplaner.example
+  response_time_hours: 48
+
+compliance:
+  retention:
+    searches_days: 30
+    ip_hash_days: 7
+    guest_data_days_after_checkout: 90 # vorläufig, ⛔ BG-17
+  ai_labels:
+    review_analysis: KI-gestützte Auswertung von Gästebewertungen
+    catalog_description: KI-gestützt erstellt, redaktionell geprüft
+    catalog_description_draft: KI-gestützt erstellt, redaktionelle Prüfung ausstehend
+    wish_parse: Deine Eingabe wird per KI in Auswahl-Chips übersetzt. Bitte prüfe die Auswahl.
+  forbidden_claims:
+    - Bestpreis
+    - Bestpreisgarantie
+    - Preisgarantie
+    - Tiefpreisgarantie
+    - garantiert
+    - Garantie
+    - immer am günstigsten
+    - immer günstiger
+    - günstigster Preis
+    - billigster Preis
+    - niedrigster Preis
+    - unschlagbar
+    - spare bis zu
+    - sparen Sie bis zu
+    - Geld-zurück
+
+attribution:
+  - id: geonames
+    text: "Ortsdaten: GeoNames"
+    license: CC BY 4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    source_url: https://www.geonames.org/
+  - id: openstreetmap
+    text: "Fahrzeiten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende"
+    license: ODbL
+    license_url: https://opendatacommons.org/licenses/odbl/
+    source_url: https://www.openstreetmap.org/copyright
+
+limits:
+  search:
+    max_places: 10
+    max_dates: 12
+    max_combinations: 120
+    max_nights: 14
+    max_rooms: 5
+    max_adults_per_room: 6
+    max_children_per_room: 4
+    max_window_days: 400
+  rate_limits:
+    searches_per_hour: 10
+    searches_per_day: 30
+    wishes_per_hour: 30
+    lookups_per_hour: 120
+    access_link_per_hour: 5
+    reference_price_per_minute: 10
+  daily_quotas:
+    searches: 500
+    liteapi_calls: 60000
+    ors_calls: 450
+  llm_daily_budget_usd: 5
