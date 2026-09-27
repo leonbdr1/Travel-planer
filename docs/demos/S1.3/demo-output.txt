@@ -1,0 +1,19 @@
+$ npm run demo -- s1.3
+# recorded 2026-09-27T04:18:09.749Z
+
+starting local stack (PGlite + Vite + workerd) …
+GET /api/v1/health → HTTP 200
+{
+  "status": "ok",
+  "db": "ok",
+  "version": "348439b",
+  "product": "reiseplaner"
+}
+stopping the local database …
+GET /api/v1/health → HTTP 503
+{
+  "status": "degraded",
+  "db": "down",
+  "version": "348439b",
+  "product": "reiseplaner"
+}

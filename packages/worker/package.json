@@ -1,0 +1,22 @@
+{
+  "name": "@reiseplaner/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "types": "wrangler types --env-interface Env"
+  },
+  "dependencies": {
+    "@reiseplaner/config": "0.0.0",
+    "@reiseplaner/contracts": "0.0.0",
+    "@reiseplaner/db": "0.0.0",
+    "@reiseplaner/domain": "0.0.0",
+    "@reiseplaner/providers": "0.0.0",
+    "@reiseplaner/skills": "0.0.0",
+    "altcha-lib": "2.5.0",
+    "hono": "4.13.9",
+    "postgres": "3.4.9",
+    "zod": "4.6.5"
+  }
+}
