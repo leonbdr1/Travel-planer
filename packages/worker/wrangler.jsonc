@@ -24,6 +24,8 @@
   ],
   // Combination search (architektur.md 6.4).
   "workflows": [{ "name": "app-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
+  // Maintenance jobs (architektur.md 6.12); the schedules are mirrored in src/cron.ts.
+  "triggers": { "crons": ["*/10 * * * *"] },
   "vars": {
     "APP_ENV": "dev",
     "PROVIDERS_MODE": "fake",
@@ -37,7 +39,9 @@
     "FAKE_LATENCY_MS": "150",
     "FAKE_FAIL_EVERY": "40",
     // Dev only: show the AI-drafted catalog before its editorial approval (BG-11).
-    "CATALOG_ALLOW_DRAFTS": "true"
+    "CATALOG_ALLOW_DRAFTS": "true",
+    // Emergency brake for the booking flow (umsetzungsplan M8 rollback).
+    "BOOKING_ENABLED": "true"
   },
   "env": {
     "staging": {
@@ -51,7 +55,8 @@
         "LITEAPI_BASE_URL": "https://api.liteapi.travel/v3.0",
         "LITEAPI_BOOK_BASE_URL": "https://book.liteapi.travel/v3.0",
         "LITEAPI_PAYMENT_MODE": "sandbox",
-        "ORS_BASE_URL": "https://api.heigit.org/openrouteservice"
+        "ORS_BASE_URL": "https://api.heigit.org/openrouteservice",
+        "BOOKING_ENABLED": "true"
       }
     },
     "production": {
@@ -65,7 +70,8 @@
         "LITEAPI_BASE_URL": "https://api.liteapi.travel/v3.0",
         "LITEAPI_BOOK_BASE_URL": "https://book.liteapi.travel/v3.0",
         "LITEAPI_PAYMENT_MODE": "live",
-        "ORS_BASE_URL": "https://api.heigit.org/openrouteservice"
+        "ORS_BASE_URL": "https://api.heigit.org/openrouteservice",
+        "BOOKING_ENABLED": "true"
       }
     }
   }

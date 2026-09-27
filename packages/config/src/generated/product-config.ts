@@ -53,6 +53,10 @@ export const productConfig: ProductConfig = {
     "email": "support@reiseplaner.example",
     "response_time_hours": 48
   },
+  "mail": {
+    "from_name": "Reiseplaner",
+    "from_address": "buchung@reiseplaner.example"
+  },
   "compliance": {
     "retention": {
       "searches_days": 30,

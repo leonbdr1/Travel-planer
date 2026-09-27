@@ -84,7 +84,11 @@ export const SEARCH_TOKEN_TTL_DAYS = 30;
 export const BOOKING_SESSION_TOKEN_TTL_S = 2 * 60 * 60;
 export const BOOKING_ACCESS_TOKEN_TTL_S = 30 * 24 * 60 * 60;
 export const BOOKING_REF_LENGTH = 8;
+/** E-mail outbox (architektur.md 6.12): attempts and the wait before attempt n+1, in minutes. */
 export const EMAIL_MAX_ATTEMPTS = 5;
+export const EMAIL_RETRY_BACKOFF_MIN = [2, 10, 30, 120] as const;
+/** Batch size of the outbox-retry cron. */
+export const EMAIL_RETRY_BATCH = 20;
 export const WISH_TEXT_MAX_CHARS = 300;
 export const ALTCHA_COST = 5_000;
 export const ALTCHA_EXPIRES_S = 10 * 60;

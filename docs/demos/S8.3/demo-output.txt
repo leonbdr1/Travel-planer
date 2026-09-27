@@ -1,0 +1,35 @@
+$ npm run demo -- s8.3
+# recorded 2026-09-27T21:03:28.144Z
+
+1) Sofortversand: pending (Versuch 1, Fehler resend:server)
+2) Cron */10 * * * * (outbox-retry): {"sent":1,"pending":0,"failed":0} → Status sent, Versuch 2, Zugangslink aus dem Payload entfernt: true
+
+Versendete E-Mail (Textfassung):
+Betreff: Buchung bestätigt: Hotel Schwanen, Fr., 09.10.2026 (K7M2Q9XZ)
+  Deine Buchung ist bestätigt
+  
+  Deine Buchung ist bestätigt. Hier sind alle Angaben:
+  
+  Buchungsnummer: K7M2Q9XZ
+  Bestätigungsnummer der Unterkunft: HCN-482913
+  Unterkunft: Hotel Schwanen, Füssen
+  Anreise: Fr., 09.10.2026
+  Abreise: So., 11.10.2026 (2 Nächte)
+  Zimmer: Doppelzimmer Komfort mit Balkon, mit Frühstück
+  Gäste: 2
+  Bezahlt: 293,14 €
+  Vor Ort zu zahlen: 12,00 € (z. B. Kurtaxe)
+  
+  Kostenlos stornierbar bis 07.10.2026, 18:00 Uhr; danach gelten die Stornobedingungen der Unterkunft.
+  Vertragspartner für den Aufenthalt ist Hotel Schwanen. Bitte zeige bei der Anreise die Bestätigungsnummer der Unterkunft vor.
+  
+  Buchung ansehen oder stornieren:
+  https://reiseplaner.example/buchung/K7M2Q9XZ#a=demo
+  (Der Link ist persönlich und 30 Tage gültig. Bitte leite ihn nicht weiter.)
+  
+  --
+  Wir vermitteln Unterkünfte. Vertragspartner für die Beherbergung ist die jeweilige Unterkunft; Zahlung und Buchungsabwicklung übernimmt LiteAPI (Nuitée) als Merchant of Record.
+  Fragen? Schreib uns an support@reiseplaner.example.
+  Reiseplaner · Fischermann Intelligence
+  
+→ Bestätigung gerendert, zweiter Versuch per Cron versendet

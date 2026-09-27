@@ -46,6 +46,11 @@ export const productConfigSchema = z.strictObject({
     email: z.email(),
     response_time_hours: positiveInt,
   }),
+  /** Sender of transactional e-mails (Resend, architektur.md E10); replies go to support. */
+  mail: z.strictObject({
+    from_name: z.string().min(1),
+    from_address: z.email(),
+  }),
   compliance: z.strictObject({
     retention: z.strictObject({
       searches_days: positiveInt,

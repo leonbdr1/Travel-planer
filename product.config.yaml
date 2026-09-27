@@ -52,6 +52,11 @@ support:
   email: support@reiseplaner.example
   response_time_hours: 48
 
+# Absender der Buchungs-E-Mails (Resend, ⛔ BG-08: Domain und Konto).
+mail:
+  from_name: Reiseplaner
+  from_address: buchung@reiseplaner.example
+
 compliance:
   retention:
     searches_days: 30

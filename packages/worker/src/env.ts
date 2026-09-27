@@ -33,6 +33,8 @@ export interface Env {
   FAKE_FAIL_EVERY?: string;
   /** Dev only: include catalog entries still awaiting editorial approval (BG-11). */
   CATALOG_ALLOW_DRAFTS?: string;
+  /** Emergency brake for the booking flow. */
+  BOOKING_ENABLED?: string;
   // Secrets (wrangler secret put / .dev.vars)
   LITEAPI_API_KEY?: string;
   ANTHROPIC_API_KEY?: string;
@@ -57,6 +59,7 @@ export const runtimeConfigSchema = z.object({
   FAKE_LATENCY_MS: z.coerce.number().int().min(0).max(5000).default(0),
   FAKE_FAIL_EVERY: z.coerce.number().int().min(0).max(10_000).default(0),
   CATALOG_ALLOW_DRAFTS: boolString.default(false),
+  BOOKING_ENABLED: boolString.default(true),
 });
 
 export type RuntimeConfig = z.infer<typeof runtimeConfigSchema> & { version: string };
