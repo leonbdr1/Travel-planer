@@ -1,0 +1,2 @@
+-- Verification for 20261002b_travel_time_cache: expect one row with rowsecurity = true.
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'travel_time_cache';

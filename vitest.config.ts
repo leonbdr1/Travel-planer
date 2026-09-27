@@ -21,6 +21,7 @@ export default defineConfig({
       'packages/contracts',
       'packages/cli',
       'packages/worker',
+      'packages/worker/vitest.node.config.ts',
       'packages/web',
       'packages/ops-worker',
     ],

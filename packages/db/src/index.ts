@@ -3,3 +3,6 @@
 export { json, DbUnavailableError, type Db, type Queryable, type Row, type SqlValue } from './db';
 export { createPostgresDb, type PostgresDbOptions } from './postgres';
 export { pingDb } from './repos/meta';
+export * from './repos/usage';
+export * from './repos/budgets';
+export * from './repos/travel-times';

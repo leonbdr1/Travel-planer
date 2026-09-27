@@ -1,0 +1,15 @@
+$ npm run demo -- s2.3
+# recorded 2026-09-27T04:39:14.446Z
+
+$ npm run cli -- ors matrix --from 48.78,9.18 --to 47.41,10.28 47.57,10.70   # call 1
+mode fake, database temporary PGlite
+to 47.41,10.28: 147 min, 210.1 km
+to 47.57,10.7: 153 min, 218 km
+cache hits 0, routed 2, estimated 0
+new ORS requests (provider_usage): 1
+$ npm run cli -- ors matrix --from 48.78,9.18 --to 47.41,10.28 47.57,10.70   # call 2
+mode fake, database temporary PGlite
+to 47.41,10.28: 147 min, 210.1 km
+to 47.57,10.7: 153 min, 218 km
+cache hits 2, routed 0, estimated 0
+new ORS requests (provider_usage): 0
