@@ -10,7 +10,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { productConfig } from '@reiseplaner/config';
 import { repoRoot } from '@reiseplaner/db/node';
-import { constants, locationFacts, WALK_KINDS } from '@reiseplaner/domain';
+import { constants, locationFacts, WALK_KINDS, type HotelDetails, type HotelSummary } from '@reiseplaner/domain';
 import { createProviders, OVERPASS_PUBLIC_URL, ProviderError, type FetchLike } from '@reiseplaner/providers';
 import { memorySkillHooks, runSkill } from '@reiseplaner/skills';
 import { flag } from '../lib/args';
@@ -182,6 +182,23 @@ export function checkDates(now: Date): { checkin: string; checkout: string } {
   return { checkin, checkout: d.toISOString().slice(0, 10) };
 }
 
+/**
+ * What the evaluation needs per house: the rates answer carries only part of
+ * it (real LiteAPI: rating, no review count, no coordinates); step
+ * `hotel-content` takes the rest from the details, so those must have it.
+ */
+export function hotelDataCheck(rateHotels: readonly HotelSummary[], details: HotelDetails): [string, TestbetriebCheck['status'], string] {
+  const n = rateHotels.length;
+  const share = (pick: (h: HotelSummary) => unknown) => `${rateHotels.filter((h) => pick(h) !== null && pick(h) !== undefined).length}/${n}`;
+  const rates = `Tarifantwort: Note ${share((h) => h.rating)}, Anzahl Bewertungen ${share((h) => h.reviewCount)}, Koordinaten ${share((h) => h.lat)}, Sterne ${share((h) => h.stars)}`;
+  const d = details;
+  const detail =
+    `Details: Note ${d.rating ?? '–'}, ${d.reviewCount ?? '–'} Bewertungen, Sterne ${d.stars ?? '–'}, ` +
+    `Koordinaten ${d.lat !== null && d.lng !== null ? 'ja' : 'nein'}, ${d.facilityIds.length} Ausstattungs-IDs`;
+  const ok = d.reviewCount !== null && d.lat !== null && d.lng !== null;
+  return ['LiteAPI Hoteldaten', ok ? 'ok' : 'fehler', `${rates}; ${detail}${ok ? '' : ' (ohne Anzahl oder Koordinaten bleiben Häuser unbewertet)'}`];
+}
+
 export async function runTestbetriebChecks(options: CheckOptions): Promise<TestbetriebCheck[]> {
   const env = options.env;
   const baseFetch: FetchLike = options.fetch ?? ((input, init) => fetch(input, init));
@@ -217,6 +234,7 @@ export async function runTestbetriebChecks(options: CheckOptions): Promise<Testb
 
   // LiteAPI: rates around a real place, then details, reviews and facilities of one hotel.
   let hotelId: string | undefined;
+  let rateHotels: HotelSummary[] = [];
   if (!env.LITEAPI_API_KEY) {
     add('LiteAPI Tarife', 'fehler', 'kein Schlüssel: zuerst npm run cli -- testbetrieb einrichten');
   } else {
@@ -238,6 +256,7 @@ export async function runTestbetriebChecks(options: CheckOptions): Promise<Testb
       const cheapest = result.rates
         .flatMap((r) => r.options.map((o) => ({ hotelId: r.hotelId, o })))
         .sort((a, b) => a.o.totalCents - b.o.totalCents)[0];
+      rateHotels = result.hotels;
       const info = result.hotels.find((h) => h.id === cheapest?.hotelId);
       hotelId = cheapest?.hotelId ?? result.hotels[0]?.id;
       add(
@@ -256,6 +275,7 @@ export async function runTestbetriebChecks(options: CheckOptions): Promise<Testb
       try {
         const h = await providers.liteapi.getHotel(id);
         add('LiteAPI Hoteldetails', 'ok', `${h.name}: ${h.photos.length} Fotos, Beschreibung ${h.description ? 'vorhanden' : 'fehlt'}, ${h.facilities.length} Ausstattungsmerkmale`);
+        add(...hotelDataCheck(rateHotels, h));
       } catch (err) {
         add('LiteAPI Hoteldetails', 'fehler', errorText(err));
       }

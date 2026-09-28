@@ -1,4 +1,5 @@
-// SearchWorkflow (architektur.md 6.4, 6.15): `load` → `rates-<n>` → `score-1` →
+// SearchWorkflow (architektur.md 6.4, 6.15): `load` → `rates-<n>` → `hotel-content`
+// (review count, stars, coordinates from the hotel details) → `score-1` →
 // `reviews-fetch` → `reviews-verify` → up to REVIEW_FOLLOWUP_ROUNDS times
 // `reviews-fetch-<n>` → `reviews-verify-<n>` (finalists still unchecked) →
 // `location-facts` (OpenStreetMap, likely finalists) → `finalize` (score stage 2).
@@ -11,6 +12,7 @@ import { createRequestDeps } from '../deps';
 import { parseRuntimeConfig, type Env } from '../env';
 import { SEARCH_WORKFLOW_HEARTBEAT_JOB, sendHeartbeat } from '../services/heartbeat';
 import { effectiveLlmEnabled } from '../services/dev-settings';
+import { runHotelContent } from '../services/hotel-content';
 import { runLocationFacts, type LocationRunDeps } from '../services/location';
 import { runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../services/reviews';
 import { runFinalize, runLoad, runRatesBlock, runScoreStep } from '../services/search-run';
@@ -59,6 +61,7 @@ export class SearchWorkflow extends WorkflowEntrypoint<Env, SearchParams> {
       const block = await step.do(`rates-${i}`, STEP, () => withSearchDeps(this.env, (d) => runRatesBlock(d, searchId, i)));
       if (block.timedOut) break;
     }
+    await step.do('hotel-content', STEP, () => withSearchDeps(this.env, (d) => runHotelContent(d, searchId)));
     await step.do('score-1', STEP, () => withSearchDeps(this.env, (d) => runScoreStep(d, searchId)));
     // Separate steps: a failing AI call is retried without fetching reviews again.
     await step.do('reviews-fetch', STEP, () => withSearchDeps(this.env, (d) => runReviewsFetch(d, searchId)));

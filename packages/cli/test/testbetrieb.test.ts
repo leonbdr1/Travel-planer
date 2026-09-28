@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { productConfig } from '@reiseplaner/config';
 import { createFakeAnthropicFetch } from '@reiseplaner/providers';
 import { fakeResponders } from '@reiseplaner/skills';
-import { checkDates, looksLikeKey, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
+import { checkDates, hotelDataCheck, looksLikeKey, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
 import { withTestbetriebBlock } from '../src/lib/dev-vars';
 
 const fixture = (name: string) => readFileSync(resolve(import.meta.dirname, '../../providers/fixtures', name), 'utf8');
@@ -41,6 +41,20 @@ describe('key format', () => {
   });
 });
 
+describe('hotel data check', () => {
+  const house = { id: 'lp1', name: 'Haus', address: null, city: null, countryCode: null, lat: null, lng: null, stars: null, rating: 8.4, ratingScale: 10 as const, reviewCount: null, hotelType: null, mainPhotoUrl: null, facilityIds: [] };
+  const details = { ...house, description: null, photos: [], facilities: [], phone: null, email: null, checkinTime: null, checkoutTime: null, importantInformation: null };
+  it('names what the rates answer and the details carry, and fails when the details lack the review count', () => {
+    const [name, status, detail] = hotelDataCheck([house, { ...house, id: 'lp2', rating: null }], details);
+    expect(name).toBe('LiteAPI Hoteldaten');
+    expect(status).toBe('fehler');
+    expect(detail).toBe(
+      'Tarifantwort: Note 1/2, Anzahl Bewertungen 0/2, Koordinaten 0/2, Sterne 0/2; Details: Note 8.4, – Bewertungen, Sterne –, Koordinaten nein, 0 Ausstattungs-IDs (ohne Anzahl oder Koordinaten bleiben Häuser unbewertet)',
+    );
+    expect(hotelDataCheck([house], { ...details, reviewCount: 120, lat: 47.5, lng: 10.7 })[1]).toBe('ok');
+  });
+});
+
 describe('check', () => {
   it('uses the first Friday at least three weeks ahead', () => {
     expect(checkDates(new Date('2026-09-28T10:00:00Z'))).toEqual({ checkin: '2026-10-23', checkout: '2026-10-25' });
@@ -58,7 +72,22 @@ describe('check', () => {
       if (url.includes('api.anthropic.com')) return anthropic(url, init);
       if (url.endsWith('/hotels/rates')) return new Response(fixture('liteapi/rates.json'));
       if (url.includes('/data/hotel?')) {
-        return new Response(JSON.stringify({ data: { id: 'lp1a2b3c', name: 'Hotel am See', hotelDescription: 'Ruhig.', hotelImages: [{ url: 'https://img/1.jpg' }], hotelFacilities: ['Sauna'] } }));
+        return new Response(
+          JSON.stringify({
+            data: {
+              id: 'lp1a2b3c',
+              name: 'Hotel am See',
+              hotelDescription: 'Ruhig.',
+              hotelImages: [{ url: 'https://img/1.jpg' }],
+              hotelFacilities: ['Sauna'],
+              location: { latitude: 47.41, longitude: 10.28 },
+              starRating: 3,
+              rating: 8.6,
+              reviewCount: 412,
+              facilityIds: [7, 42],
+            },
+          }),
+        );
       }
       if (url.includes('/data/reviews')) return new Response(fixture('liteapi/reviews.json'));
       if (url.endsWith('/data/facilities')) return new Response(JSON.stringify({ error: { code: 4003, message: 'facilities not available in sandbox' } }), { status: 403 });
@@ -76,6 +105,9 @@ describe('check', () => {
     expect(byName['LiteAPI Tarife']).toMatchObject({ status: 'ok' });
     expect(byName['LiteAPI Tarife']?.detail).toMatch(/Füssen, 2026-10-23 bis 2026-10-25: \d+ Unterkünfte mit Angeboten/);
     expect(byName['LiteAPI Hoteldetails']).toMatchObject({ status: 'ok', detail: 'Hotel am See: 1 Fotos, Beschreibung vorhanden, 1 Ausstattungsmerkmale' });
+    expect(byName['LiteAPI Hoteldaten']).toMatchObject({ status: 'ok' });
+    expect(byName['LiteAPI Hoteldaten']?.detail).toMatch(/^Tarifantwort: Note \d+\/\d+, Anzahl Bewertungen \d+\/\d+, Koordinaten \d+\/\d+, Sterne \d+\/\d+; /);
+    expect(byName['LiteAPI Hoteldaten']?.detail).toContain('Details: Note 8.6, 412 Bewertungen, Sterne 3, Koordinaten ja, 2 Ausstattungs-IDs');
     expect(byName['LiteAPI Rezensionen']?.status).toBe('ok');
     expect(byName['LiteAPI Ausstattungsliste']).toMatchObject({ status: 'fehler' });
     expect(byName['LiteAPI Ausstattungsliste']?.detail).toContain('HTTP 403: {"error":{"code":4003,"message":"facilities not available in sandbox"}}');

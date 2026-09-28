@@ -13,6 +13,8 @@ export const LITEAPI_MAX_RETRIES = 2;
 export const RATE_CACHE_TTL_MIN = 30;
 export const REFERENCE_PRICE_CACHE_TTL_H = 6;
 export const HOTEL_CONTENT_TTL_DAYS = 7;
+/** Step `hotel-content`: no new details calls after this long (the step times out at 60 s); houses left over stay unrated. */
+export const HOTEL_CONTENT_STEP_BUDGET_S = 40;
 export const TRAVEL_TIME_CACHE_TTL_DAYS = 180;
 
 export const LOOK_TO_BOOK_ALERT = 3000;

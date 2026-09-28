@@ -17,14 +17,13 @@ import {
   type SearchResultsResponse,
 } from '@reiseplaner/contracts';
 import { productConfig } from '@reiseplaner/config';
-import { getCacheEntry, getSearchOffer, putCacheEntry, searchPlaces } from '@reiseplaner/db';
-import { constants, type HotelDetails } from '@reiseplaner/domain';
+import { getSearchOffer, searchPlaces } from '@reiseplaner/db';
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import type { AppEnv } from '../app';
 import { ApiError } from '../http/errors';
 import { rateLimit } from '../http/rate-limit';
 import { parseQuery } from '../http/validate';
-import { sha256Hex } from '../services/search-run';
+import { cachedHotelDetails, fetchHotelDetails } from '../services/hotel-content';
 import { effectiveFilters, evaluateSearch, filtersFromQuery, filtersFromRequest, matrixCells, offerDto, resultItems } from '../services/results';
 import { buildFinale } from '../services/finale';
 import { referencePriceFor } from '../services/reference-price';
@@ -97,16 +96,8 @@ export const resultRoutes = new Hono<AppEnv>()
     const hotel = data.hotelsById.get(hotelId);
     if (!hotel || offers.length === 0) throw new ApiError(404, 'not_found', 'Diese Unterkunft gehört nicht zu dieser Suche.');
 
-    const key = await sha256Hex(`hotel|${hotelId}`);
-    let details = await getCacheEntry<HotelDetails>(db, 'hotel_content', key, deps.now());
-    if (!details) {
-      try {
-        details = await deps.providers().liteapi.getHotel(hotelId);
-        await putCacheEntry(db, 'hotel_content', key, details, new Date(deps.now().getTime() + constants.HOTEL_CONTENT_TTL_DAYS * 86_400_000));
-      } catch {
-        details = null;
-      }
-    }
+    let details = await cachedHotelDetails(db, hotelId, deps.now());
+    if (!details) details = await fetchHotelDetails(db, deps.providers().liteapi, hotelId, deps.now()).catch(() => null);
     const first = offers[0];
     const body: HotelDetailResponse = {
       hotel: {

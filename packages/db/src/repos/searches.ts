@@ -234,10 +234,14 @@ export interface HotelUpsert {
   facilityIds: number[];
 }
 
+/**
+ * Rates answers carry only part of a house's data (real LiteAPI: name, photo,
+ * address, rating); a missing value keeps what the hotel-content step filled in.
+ */
 export async function upsertHotels(db: Queryable, hotels: readonly HotelUpsert[]): Promise<void> {
   if (hotels.length === 0) return;
   await db.query(
-    `INSERT INTO app.hotels (id, name, address, city, country_code, lat, lng, stars, rating, review_count, hotel_type, main_photo_url,
+    `INSERT INTO app.hotels AS cur (id, name, address, city, country_code, lat, lng, stars, rating, review_count, hotel_type, main_photo_url,
                              facility_ids, content_fetched_at)
      SELECT h.id, h.name, h.address, h.city, h.country_code, h.lat, h.lng, h.stars, h.rating, h.review_count, h.hotel_type,
             h.main_photo_url, coalesce(ARRAY(SELECT jsonb_array_elements_text(h.facility_ids)::int), '{}'), now()
@@ -245,10 +249,13 @@ export async function upsertHotels(db: Queryable, hotels: readonly HotelUpsert[]
             lat float8, lng float8, stars numeric, rating numeric, review_count int, hotel_type text, main_photo_url text,
             facility_ids jsonb)
      ON CONFLICT (id) DO UPDATE SET
-       name = excluded.name, address = excluded.address, city = excluded.city, country_code = excluded.country_code,
-       lat = excluded.lat, lng = excluded.lng, stars = excluded.stars, rating = excluded.rating,
-       review_count = excluded.review_count, hotel_type = excluded.hotel_type, main_photo_url = excluded.main_photo_url,
-       facility_ids = excluded.facility_ids, content_fetched_at = now()`,
+       name = excluded.name, address = coalesce(excluded.address, cur.address), city = coalesce(excluded.city, cur.city),
+       country_code = coalesce(excluded.country_code, cur.country_code), lat = coalesce(excluded.lat, cur.lat),
+       lng = coalesce(excluded.lng, cur.lng), stars = coalesce(excluded.stars, cur.stars), rating = coalesce(excluded.rating, cur.rating),
+       review_count = coalesce(excluded.review_count, cur.review_count), hotel_type = coalesce(excluded.hotel_type, cur.hotel_type),
+       main_photo_url = coalesce(excluded.main_photo_url, cur.main_photo_url),
+       facility_ids = CASE WHEN cardinality(excluded.facility_ids) = 0 THEN cur.facility_ids ELSE excluded.facility_ids END,
+       content_fetched_at = now()`,
     [
       json(
         hotels.map((h) => ({
@@ -264,6 +271,58 @@ export async function upsertHotels(db: Queryable, hotels: readonly HotelUpsert[]
           review_count: h.reviewCount,
           hotel_type: h.hotelType,
           main_photo_url: h.mainPhotoUrl,
+          facility_ids: h.facilityIds,
+        })),
+      ),
+    ],
+  );
+}
+
+/**
+ * Houses of a search that still lack what the evaluation needs from the hotel
+ * details (review count for the quality, coordinates for distance and walking
+ * minutes). Stars and facilities are filled along; some houses have none.
+ */
+export async function hotelsMissingContent(db: Queryable, searchId: string): Promise<string[]> {
+  const rows = await db.query<{ id: string }>(
+    `SELECT h.id FROM app.hotels h
+      WHERE h.id IN (SELECT DISTINCT hotel_id FROM app.offers WHERE search_id = $1::uuid)
+        AND (h.review_count IS NULL OR h.lat IS NULL OR h.lng IS NULL)
+      ORDER BY h.id`,
+    [searchId],
+  );
+  return rows.map((r) => r.id);
+}
+
+export type HotelContentFill = Omit<HotelUpsert, 'name' | 'mainPhotoUrl'>;
+
+/** Fills only what is missing; values already known (e.g. the rating of the rates answer) stay. */
+export async function fillHotelContent(db: Queryable, fills: readonly HotelContentFill[]): Promise<void> {
+  if (fills.length === 0) return;
+  await db.query(
+    `UPDATE app.hotels AS cur SET
+       address = coalesce(cur.address, f.address), city = coalesce(cur.city, f.city), country_code = coalesce(cur.country_code, f.country_code),
+       lat = coalesce(cur.lat, f.lat), lng = coalesce(cur.lng, f.lng), stars = coalesce(cur.stars, f.stars),
+       rating = coalesce(cur.rating, f.rating), review_count = coalesce(cur.review_count, f.review_count),
+       hotel_type = coalesce(cur.hotel_type, f.hotel_type),
+       facility_ids = CASE WHEN cardinality(cur.facility_ids) = 0
+                           THEN coalesce(ARRAY(SELECT jsonb_array_elements_text(f.facility_ids)::int), '{}') ELSE cur.facility_ids END
+       FROM jsonb_to_recordset($1::text::jsonb) AS f(id text, address text, city text, country_code text, lat float8, lng float8,
+            stars numeric, rating numeric, review_count int, hotel_type text, facility_ids jsonb)
+      WHERE cur.id = f.id`,
+    [
+      json(
+        fills.map((h) => ({
+          id: h.id,
+          address: h.address,
+          city: h.city,
+          country_code: h.countryCode,
+          lat: h.lat,
+          lng: h.lng,
+          stars: h.stars,
+          rating: h.rating,
+          review_count: h.reviewCount,
+          hotel_type: h.hotelType,
           facility_ids: h.facilityIds,
         })),
       ),
