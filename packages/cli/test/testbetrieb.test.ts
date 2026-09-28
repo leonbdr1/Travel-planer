@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { productConfig } from '@reiseplaner/config';
 import { createFakeAnthropicFetch } from '@reiseplaner/providers';
 import { fakeResponders } from '@reiseplaner/skills';
-import { checkDates, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
+import { checkDates, looksLikeKey, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
 import { withTestbetriebBlock } from '../src/lib/dev-vars';
 
 const fixture = (name: string) => readFileSync(resolve(import.meta.dirname, '../../providers/fixtures', name), 'utf8');
@@ -29,6 +29,15 @@ describe('.dev.vars block', () => {
     expect(twice).toContain('LLM_ENABLED=true');
     const removed = withTestbetriebBlock(twice, null);
     expect(removed).toBe('# local\nSIGNING_KEY=s1\nIP_HASH_SALT=s2\n');
+  });
+});
+
+describe('key format', () => {
+  it('accepts plain and base64 keys and rejects pasted junk', () => {
+    expect(looksLikeKey('sand_0123456789abcdef-ghij')).toBe(true);
+    expect(looksLikeKey(`ey${'A'.repeat(100)}+/x0=`)).toBe(true);
+    expect(looksLikeKey('eyJvcmci OiI1YjNjZTM1=')).toBe(false);
+    expect(looksLikeKey('short=')).toBe(false);
   });
 });
 

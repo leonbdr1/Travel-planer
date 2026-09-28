@@ -46,7 +46,12 @@ export function testbetriebVars(keys: TestbetriebKeys): Record<string, string> {
   };
 }
 
-const KEY_PATTERN = /^[A-Za-z0-9_\-.]{16,200}$/;
+// Plain tokens (LiteAPI, Anthropic) and base64 ones ending in "=" (HeiGIT openrouteservice keys).
+const KEY_PATTERN = /^[A-Za-z0-9_\-.+/=]{16,500}$/;
+
+export function looksLikeKey(value: string): boolean {
+  return KEY_PATTERN.test(value);
+}
 
 function cleanKey(value: string | undefined): string | undefined {
   const v = value?.trim().replace(/^["']|["']$/g, '');
@@ -125,7 +130,7 @@ async function setup(args: string[], log: (line: string) => void): Promise<numbe
     return 1;
   }
   for (const [name, value] of Object.entries({ LiteAPI: liteapi, openrouteservice: ors, Anthropic: anthropic })) {
-    if (value && !KEY_PATTERN.test(value)) {
+    if (value && !looksLikeKey(value)) {
       log(`Abbruch: Der ${name}-Schlüssel sieht nicht wie ein API-Schlüssel aus (Leerzeichen oder Sonderzeichen?).`);
       return 1;
     }
