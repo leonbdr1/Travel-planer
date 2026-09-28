@@ -104,5 +104,5 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 |---|---|---|---|---|
 | O10.1 | Infrastruktur | `blocked` | – | BG-03, BG-04, BG-09 |
 | O10.2 | Deploy-Pipeline | `blocked` | – | Operator-Lane |
-| S10.1 | Smoke-Tests | `spec'd` | – | |
+| S10.1 | Smoke-Tests | `demonstrated` | `docs/demos/S10.1/` | Lokal gegen den Produktions-Build 7/7; `--expect-env production` scheitert dort erwartungsgemäß. Gegen Staging und in `deploy.yml` offen (O10.1, O10.2). |
 | O10.3 | Go-Live | `blocked` | – | BG-13 |

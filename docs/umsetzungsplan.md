@@ -538,7 +538,8 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
   - STATUS: „Deploy-Pipeline“ → `demonstrated`.
 
 **S10.1 Smoke-Tests und Go-Live-Checkliste** (Fleet-Lane)
-- [ ] `npm run smoke -- --base-url <url>`: nur lesend (Health, Startseite, `/meta/config`, eine Autovervollständigung); `docs/runbooks/go-live-checkliste.md` (Rechtstexte final, Marge gesetzt, LiteAPI live, Budgets gesetzt, Watchdog aktiv, Backups aktiv, Claims-Prüfung grün, Walkthroughs gegen Staging gelesen).
+- [x] `npm run smoke -- --base-url <url>`: nur lesend (Health, Startseite, `/meta/config`, eine Autovervollständigung); `docs/runbooks/go-live-checkliste.md` (Rechtstexte final, Marge gesetzt, LiteAPI live, Budgets gesetzt, Watchdog aktiv, Backups aktiv, Claims-Prüfung grün, Walkthroughs gegen Staging gelesen). (d94c9af, 2026-09-28)
+  - ⟂ drift (2026-09-28): Vorgeführt gegen den lokalen Produktions-Build (`vite preview`) statt gegen Staging; Staging und die Verdrahtung in `deploy.yml` brauchen O10.1 und O10.2. Zusätzlich zu den genannten Prüfungen: Sicherheits-Header von API und Startseite (gleiche Quelle wie `_headers`), ein unveränderliches Asset und `--expect-env staging|production` (prüft Umgebung, Anbieter- und Zahlungsmodus, keine Katalog-Entwürfe in Produktion).
   - Wiring: `deploy.yml` → Smoke nach jedem Deploy.
   - Demo: `npm run smoke -- --base-url https://<staging-domain>` → alle Prüfungen grün.
   - STATUS: „Smoke-Tests“ → `demonstrated`.
