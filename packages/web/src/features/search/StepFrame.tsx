@@ -4,7 +4,7 @@
 // notice). Stars and rating minimums are "Weitere Filter" in the results.
 import { useCallback, useMemo, useState } from 'react';
 import type { LocalityDto, MetaConfigResponse } from '@reiseplaner/contracts';
-import { AiLabel, Alert, Button, Card, Chip, Description, ErrorMessage, Fieldset, Input, Label, Select, Textarea } from '@reiseplaner/ui';
+import { AiLabel, Alert, Button, Card, Chip, Description, ErrorMessage, Fieldset, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
@@ -53,6 +53,7 @@ export function StepFrame({
   const dateMessage = dateError(dates, meta);
   const originMissing = state.origin === null;
   const adultsInvalid = state.adults < 1;
+  const aiOff = !meta.llm_enabled;
   const loadLocalities = useCallback(
     (q: string, signal: AbortSignal) => fetchLocalities(q, signal).then((r) => r.items),
     [],
@@ -303,7 +304,7 @@ export function StepFrame({
             ))}
           </div>
         </Fieldset>
-        <div className="space-y-2">
+        <div className={cx('space-y-2', aiOff && 'opacity-60')} data-testid="wish-free-text" data-ai-off={aiOff || undefined}>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <Label htmlFor="wish-text">{t.freeText}</Label>
             <AiLabel text={meta.ai_labels.wish_parse ?? ''} />
@@ -311,18 +312,24 @@ export function StepFrame({
           <Textarea
             id="wish-text"
             maxLength={meta.limits.wish_text_max_chars}
-            placeholder={t.freeTextPlaceholder}
+            placeholder={aiOff ? '' : t.freeTextPlaceholder}
+            disabled={aiOff}
             value={state.wishText}
             onChange={(e) => update({ wishText: e.target.value })}
           />
           <div className="flex flex-wrap items-center gap-3">
-            <Button variant="secondary" disabled={!state.wishText.trim() || wishStatus === 'loading'} onClick={translate} data-testid="translate-wish">
+            <Button variant="secondary" disabled={aiOff || !state.wishText.trim() || wishStatus === 'loading'} onClick={translate} data-testid="translate-wish">
               {wishStatus === 'loading' ? t.translating : t.translate}
             </Button>
             <span className="text-xs text-zinc-500">
               {state.wishText.length}/{meta.limits.wish_text_max_chars}
             </span>
           </div>
+          {aiOff ? (
+            <p className="text-sm text-zinc-600" data-testid="wish-ai-off">
+              {meta.dev_settings ? t.aiOffDev : t.aiOff}
+            </p>
+          ) : null}
           {wishStatus === 'done' ? <Alert tone="success">{t.translated}</Alert> : null}
           {wishStatus === 'fallback' && wishNotice ? <Alert tone="warning">{wishNotice}</Alert> : null}
           {state.unmatched.length > 0 ? (

@@ -119,6 +119,8 @@ export const de = {
       freeTextPlaceholder: 'z. B. ruhig, mit Frühstück und Parkplatz',
       translate: 'In Chips übersetzen',
       translating: 'Wird übersetzt …',
+      aiOff: 'KI ausgeschaltet. Bitte wähle deine Wünsche oben über die Chips.',
+      aiOffDev: 'KI ausgeschaltet (Entwicklerseite). Bitte wähle deine Wünsche oben über die Chips.',
       translated: 'Übernommen und vorausgewählt. Bitte prüfe die Auswahl.',
       unmatched: 'Nicht zugeordnet:',
       unmatchedHint: 'Diese Wünsche können wir nicht gezielt suchen.',

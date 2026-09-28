@@ -4,7 +4,7 @@ export const entwicklerFlow: Flow = {
   name: 'entwickler',
   mode: 'P',
   description:
-    'Entwicklerseite (S11.8): über den Hinweisbalken erreichbar; KI-Prüfung mit einem Schalter aus- und wieder einschalten (simulierte KI: standardmäßig an, echte KI: standardmäßig aus); Suchgrenzen im lokalen Test.',
+    'Entwicklerseite (S11.8): über den Hinweisbalken erreichbar; KI-Prüfung mit einem Schalter aus- und wieder einschalten; bei ausgeschalteter KI ist das Freitextfeld der Suche ausgegraut (simulierte KI: standardmäßig an, echte KI: standardmäßig aus); Suchgrenzen im lokalen Test.',
   async run({ page, baseUrl, step, note }) {
     await step(
       'Entwicklerseite über den Hinweisbalken',
@@ -32,8 +32,22 @@ export const entwicklerFlow: Flow = {
     );
 
     await step(
+      'Suche bei ausgeschalteter KI: Freitextfeld ausgegraut, Chips wählbar',
+      async () => {
+        await page.goto(`${baseUrl}/suche`);
+        await page.getByTestId('wish-ai-off').waitFor({ timeout: 15_000 });
+        if (!(await page.locator('#wish-text').isDisabled())) throw new Error('KI-Freitextfeld ist nicht gesperrt');
+        if (!(await page.getByTestId('translate-wish').isDisabled())) throw new Error('Übersetzen-Knopf ist nicht gesperrt');
+        await page.getByTestId('wish-chips').locator('button').first().click();
+      },
+      { expectText: ['KI ausgeschaltet (Entwicklerseite)'], expectSelector: ['#wish-text:disabled', '[data-testid="wish-chips"] [aria-pressed="true"]'] },
+    );
+
+    await step(
       'KI wieder einschalten',
       async () => {
+        await page.goto(`${baseUrl}/entwickler`);
+        await page.locator('[data-testid="ai-switch"][aria-checked="false"]').waitFor({ timeout: 15_000 });
         await page.getByTestId('ai-switch').click();
         await page.locator('[data-testid="ai-switch"][aria-checked="true"]').waitFor({ timeout: 10_000 });
       },
