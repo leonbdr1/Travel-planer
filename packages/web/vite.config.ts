@@ -11,7 +11,13 @@ import { defineConfig } from 'vite';
 import { parse } from 'yaml';
 
 const root = resolve(import.meta.dirname, '../..');
-const product = parse(readFileSync(resolve(root, 'product.config.yaml'), 'utf8')) as { slug: string };
+const product = parse(readFileSync(resolve(root, 'product.config.yaml'), 'utf8')) as {
+  slug: string;
+  limits: { rate_limits: { coarse_per_minute: number } };
+};
+// Local namespace of the coarse rate limiter; staging and production
+// declare their own RATE_LIMITER binding in wrangler.jsonc (O10.1).
+const DEV_RATE_LIMIT_NAMESPACE = '1001';
 
 function gitSha(): string {
   if (process.env.GIT_SHA) return process.env.GIT_SHA;
@@ -30,7 +36,20 @@ export default defineConfig({
     tailwindcss(),
     cloudflare({
       configPath: '../worker/wrangler.jsonc',
-      config: { name: `${product.slug}-app` },
+      // Product values enter the Worker config here (TENANT GUARD): the name,
+      // and the coarse rate limit of architektur.md 11.1 (period 60 s).
+      config: (worker) => {
+        const coarse = { limit: product.limits.rate_limits.coarse_per_minute, period: 60 as const };
+        const declared = worker.ratelimits.filter((r) => r.name === 'RATE_LIMITER');
+        return {
+          name: `${product.slug}-app`,
+          ratelimits: declared.length
+            ? worker.ratelimits.map((r) => (r.name === 'RATE_LIMITER' ? { ...r, simple: coarse } : r))
+            : process.env.CLOUDFLARE_ENV
+              ? worker.ratelimits
+              : [{ name: 'RATE_LIMITER', namespace_id: DEV_RATE_LIMIT_NAMESPACE, simple: coarse }],
+        };
+      },
       ...(process.env.REISEPLANER_STATE_DIR ? { persistState: { path: process.env.REISEPLANER_STATE_DIR } } : {}),
       inspectorPort: false,
     }),

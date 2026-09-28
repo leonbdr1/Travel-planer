@@ -17,8 +17,15 @@ export interface WorkflowBinding<P> {
   create(options?: { id?: string; params?: P }): Promise<{ id: string }>;
 }
 
+/** Structural subset of the Workers Rate Limiting binding (coarse stage, architektur.md 11.1). */
+export interface RateLimiterBinding {
+  limit(options: { key: string }): Promise<{ success: boolean }>;
+}
+
 export interface Env {
   HYPERDRIVE: HyperdriveBinding;
+  /** Coarse rate limit per Cloudflare location; optional, the binding RPC stage is always on. */
+  RATE_LIMITER?: RateLimiterBinding;
   ASSETS?: AssetsBinding;
   SEARCH_WORKFLOW?: WorkflowBinding<{ searchId: string }>;
   APP_ENV: string;

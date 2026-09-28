@@ -123,7 +123,8 @@ export const productConfig: ProductConfig = {
       "wishes_per_hour": 30,
       "lookups_per_hour": 120,
       "access_link_per_hour": 5,
-      "reference_price_per_minute": 10
+      "reference_price_per_minute": 10,
+      "coarse_per_minute": 300
     },
     "daily_quotas": {
       "searches": 500,

@@ -1,0 +1,10 @@
+# Grobe Stufe des Rate Limits (RATE_LIMITER, Miniflare) im lokalen Stack (npm run dev), 2026-09-28T07:28Z
+# 320 Anfragen GET /api/v1/meta/config von einer IP innerhalb einer Minute (Limit limits.rate_limits.coarse_per_minute = 300):
+  300 200
+  20 429
+# Antwort Nr. 321:
+HTTP/1.1 429 Too Many Requests
+retry-after: 60
+{"error":{"code":"rate_limited","message":"Zu viele Anfragen. Bitte warte einen Moment.","details":{"limit":300,"window_s":60}}}
+# Health bleibt ausgenommen:
+GET /api/v1/health -> 200

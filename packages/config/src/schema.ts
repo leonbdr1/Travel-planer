@@ -98,6 +98,8 @@ export const productConfigSchema = z.strictObject({
       lookups_per_hour: positiveInt,
       access_link_per_hour: positiveInt,
       reference_price_per_minute: positiveInt,
+      /** Coarse first stage per Cloudflare location (RATE_LIMITER binding), all API routes but health. */
+      coarse_per_minute: positiveInt,
     }),
     daily_quotas: z.strictObject({
       searches: positiveInt,

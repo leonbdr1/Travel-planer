@@ -1,5 +1,6 @@
 // Hono API under /api/v1 (architektur.md 7). Middleware order:
-// security headers → body limit → per-request dependencies → routes.
+// security headers → body limit → per-request dependencies → coarse rate
+// limit (RATE_LIMITER binding) → routes (ALTCHA, RPC rate limits, budgets).
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import type { CreateSearchRequest } from '@reiseplaner/contracts';
@@ -10,6 +11,8 @@ import { constants } from '@reiseplaner/domain';
 import { createRequestDeps, type DbFactory, type ProvidersFactory, type RequestDeps } from './deps';
 import { parseRuntimeConfig, ConfigurationError, type Env } from './env';
 import { ApiError, errorBody, sendError } from './http/errors';
+import { redactForLog } from './http/log';
+import { coarseRateLimit } from './http/rate-limit';
 import { securityHeaders } from './http/security-headers';
 import { bookingRoutes } from './routes/bookings';
 import { geoRoutes } from './routes/geo';
@@ -61,6 +64,7 @@ export function createApp(options: AppOptions = {}) {
       await deps.dispose();
     }
   });
+  app.use('*', coarseRateLimit());
 
   app.route('/', healthRoutes);
   app.route('/meta', metaRoutes);
@@ -82,7 +86,7 @@ export function createApp(options: AppOptions = {}) {
     const dev = c.env.APP_ENV === 'dev' || c.env.APP_ENV === 'test';
     // Messages may carry data values; only local environments log them.
     console.error(
-      JSON.stringify({ level: 'error', msg: 'unhandled', name: (err as Error).name, ...(dev ? { detail: String((err as Error).message).slice(0, 300) } : {}) }),
+      JSON.stringify({ level: 'error', msg: 'unhandled', name: (err as Error).name, ...(dev ? { detail: redactForLog(String((err as Error).message)).slice(0, 300) } : {}) }),
     );
     return c.json(errorBody('internal', 'Interner Fehler. Bitte versuche es später erneut.'), 500);
   });

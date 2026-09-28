@@ -1,0 +1,37 @@
+$ npm run demo -- s9.3
+# recorded 2026-09-28T07:32:30.375Z
+
+building the production bundle (npm run build) …
+starting local stack in preview mode …
+GET / (Startseite, statische Assets mit _headers) → 200
+  content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  strict-transport-security: max-age=31536000; includeSubDomains
+  x-content-type-options: nosniff
+  referrer-policy: strict-origin-when-cross-origin
+  permissions-policy: camera=(), microphone=(), geolocation=(), payment=(self)
+  x-frame-options: DENY
+  cross-origin-opener-policy: same-origin
+  cache-control: public, max-age=0, must-revalidate
+GET /api/v1/meta/config (API, Worker-Middleware) → 200
+  content-security-policy: default-src 'none'; frame-ancestors 'none'
+  strict-transport-security: max-age=31536000; includeSubDomains
+  x-content-type-options: nosniff
+  referrer-policy: strict-origin-when-cross-origin
+  permissions-policy: camera=(), microphone=(), geolocation=(), payment=(self)
+  x-frame-options: DENY
+  cross-origin-opener-policy: same-origin
+  cache-control: no-store
+Buchung 796MFRJG: create 201, complete 200 (confirmed), Ansicht 200 mit e***@example.org, Zugangslink 202, unbekannte Nummer 202, Storno 200
+Cron */10 * * * * → 200
+Cron 0 * * * * → 200
+Cron 30 3 * * * → 200
+Worker-Log: 59 Zeilen, davon 3 strukturierte Worker-Logs; Stichprobe:
+  {"level":"info","msg":"cron outbox-retry","sent":0,"pending":0,"failed":0}
+  {"level":"info","msg":"cron cache-cleanup","cacheEntries":0,"rateLimits":0,"reviewChecks":0,"reviewPending":0,"travelTimes":0}
+  {"level":"info","msg":"cron daily","retention.searchesDeleted":0,"retention.ipHashesCleared":0,"retention.guestDataErased":0,"retention.outboxDeleted":0,"invitesSent":0,"lookToBook.ratio":2,"lookToBoo
+  E-Mail-Adresse: 0× im Log, 0× in Antworten (Ansicht, Zugangslink, Storno)
+  Telefonnummer: 0× im Log, 0× in Antworten (Ansicht, Zugangslink, Storno)
+  Such-Token: 0× im Log, 0× in Antworten (Ansicht, Zugangslink, Storno)
+  Sitzungstoken: 0× im Log, 0× in Antworten (Ansicht, Zugangslink, Storno)
+  Zugangstoken: 0× im Log, 0× in Antworten (Ansicht, Zugangslink, Storno)
+→ Header gesetzt; keine Klartext-E-Mail, keine Telefonnummer und kein Token in Log und Antworten

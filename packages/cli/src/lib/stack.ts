@@ -1,5 +1,7 @@
 // Starts the real local stack for demos: a throwaway PGlite database on a
-// free port plus `scripts/dev.ts` (Vite + workerd) pointed at it.
+// free port plus `scripts/dev.ts` (Vite + workerd) pointed at it. With
+// `preview: true` Vite serves the production build (`npm run build` first)
+// the way Workers Static Assets do, including `_headers`.
 import { spawn } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { createServer } from 'node:net';
@@ -23,15 +25,21 @@ export interface DemoStack {
   db: LocalDb;
   stopDb(): Promise<void>;
   stop(): Promise<void>;
+  /** Combined stdout and stderr of Vite and workerd (Worker logs). */
+  log(): string;
 }
 
-export async function startDemoStack(options: Pick<LocalDbOptions, 'onReady'> = {}): Promise<DemoStack> {
+export interface DemoStackOptions extends Pick<LocalDbOptions, 'onReady'> {
+  preview?: boolean;
+}
+
+export async function startDemoStack({ preview = false, ...options }: DemoStackOptions = {}): Promise<DemoStack> {
   const workDir = mkdtempSync(join(tmpdir(), 'reiseplaner-demo-'));
   const dbPort = await freePort();
   const webPort = await freePort();
   const db = await startLocalDb({ port: dbPort, dataDir: join(workDir, 'pglite'), log: () => {}, ...options });
   let dbStopped = false;
-  const child = spawn('npx', ['tsx', 'scripts/dev.ts'], {
+  const child = spawn('npx', ['tsx', 'scripts/dev.ts', ...(preview ? ['preview', '--port', String(webPort), '--strictPort'] : [])], {
     cwd: repoRoot,
     detached: true,
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -65,6 +73,7 @@ export async function startDemoStack(options: Pick<LocalDbOptions, 'onReady'> = 
           baseUrl,
           db,
           stopDb,
+          log: () => output,
           async stop() {
             await stopWeb();
             await stopDb();
