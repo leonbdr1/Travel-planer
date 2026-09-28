@@ -29,7 +29,7 @@ import {
   type NormalizedOffer,
   type Occupancy,
 } from '@reiseplaner/domain';
-import { ProviderError, type LiteApiPort } from '@reiseplaner/providers';
+import { ProviderError, type LiteApiPort, type ProviderSource } from '@reiseplaner/providers';
 import { searchRequestSchema, type SearchRequest } from '@reiseplaner/contracts';
 import { runScore } from './results';
 import { loadReviewData } from './reviews';
@@ -37,6 +37,8 @@ import { loadReviewData } from './reviews';
 export interface SearchRunDeps {
   db: Queryable;
   liteapi: LiteApiPort;
+  /** Source of `liteapi` (default fake); cached rates are only reused from the same source. */
+  liteapiSource?: ProviderSource;
   now: () => Date;
   liteapiDailyCap: number;
   currency: string;
@@ -57,7 +59,7 @@ export async function sha256Hex(text: string): Promise<string> {
 /** Cache key for rates (architektur.md 5.3): place | checkin | checkout | occupancy | currency | nationality | margin. */
 export function ratesCacheKey(c: Pick<CombinationTask, 'placeId' | 'checkin' | 'checkout'>, occupancies: readonly Occupancy[], deps: SearchRunDeps) {
   return sha256Hex(
-    [c.placeId, c.checkin, c.checkout, occupancyKey(occupancies), deps.currency, deps.guestNationality, deps.marginPercent ?? 'none'].join('|'),
+    [deps.liteapiSource ?? 'fake', c.placeId, c.checkin, c.checkout, occupancyKey(occupancies), deps.currency, deps.guestNationality, deps.marginPercent ?? 'none'].join('|'),
   );
 }
 

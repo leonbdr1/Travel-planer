@@ -29,6 +29,7 @@ export async function withSearchDeps<T>(env: Env, fn: (deps: ReviewRunDeps) => P
     return await fn({
       db: deps.db(),
       liteapi: deps.providers().liteapi,
+      liteapiSource: deps.providers().sources.liteapi,
       now: deps.now,
       liteapiDailyCap: productConfig.limits.daily_quotas.liteapi_calls,
       currency: productConfig.markets.currency,

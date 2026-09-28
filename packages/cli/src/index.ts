@@ -8,6 +8,7 @@ import { geonamesCommand } from './commands/geonames';
 import { liteapiCommand } from './commands/liteapi';
 import { orsCommand } from './commands/ors';
 import { secretsCommand } from './commands/secrets';
+import { testbetriebCommand } from './commands/testbetrieb';
 
 type Command = (args: string[], log: (line: string) => void) => Promise<number>;
 
@@ -20,6 +21,7 @@ const commands: Record<string, Command> = {
   fixtures: fixturesCommand,
   geonames: geonamesCommand,
   secrets: secretsCommand,
+  testbetrieb: testbetriebCommand,
 };
 
 const [name, ...args] = process.argv.slice(2);

@@ -6,7 +6,7 @@
 import { createPostgresDb, UsageRecorder, type Db } from '@reiseplaner/db';
 import { createProviders, type Providers } from '@reiseplaner/providers';
 import { fakeResponders } from '@reiseplaner/skills';
-import type { Env, RuntimeConfig } from './env';
+import { sourceOverrides, type Env, type RuntimeConfig } from './env';
 
 export interface RequestDeps {
   env: Env;
@@ -34,6 +34,7 @@ export const envProviders: ProvidersFactory = (config, env, usage, now) =>
   createProviders(
     {
       mode: config.PROVIDERS_MODE,
+      sources: sourceOverrides(config),
       liteapi: { apiKey: env.LITEAPI_API_KEY, baseUrl: config.LITEAPI_BASE_URL, bookBaseUrl: config.LITEAPI_BOOK_BASE_URL },
       ors: { apiKey: env.ORS_API_KEY, baseUrl: config.ORS_BASE_URL },
       resend: { apiKey: env.RESEND_API_KEY },

@@ -1,4 +1,14 @@
-export { isProvidersMode, providersModes, type ProvidersMode } from './mode';
+export {
+  isProvidersMode,
+  providerNames,
+  providerSources,
+  providerSourceValues,
+  providersModes,
+  type ProviderName,
+  type ProviderSource,
+  type ProviderSources,
+  type ProvidersMode,
+} from './mode';
 export { ProviderError, type ProviderErrorKind } from './http/errors';
 export { requestJson, type FetchLike } from './http/request';
 export {

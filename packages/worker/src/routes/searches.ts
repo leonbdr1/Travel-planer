@@ -126,7 +126,7 @@ export const searchRoutes = new Hono<AppEnv>()
         {
           db,
           routing: deps.providers().routing,
-          providersMode: deps.config.PROVIDERS_MODE,
+          routingSource: deps.providers().sources.routing,
           now: deps.now(),
           orsDailyCap: productConfig.limits.daily_quotas.ors_calls,
         },

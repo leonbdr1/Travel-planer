@@ -6,7 +6,7 @@ import { productConfig } from '@reiseplaner/config';
 import type { MetaConfigResponse } from '@reiseplaner/contracts';
 import { CHIPS, THEME_CODES, THEME_LABELS, constants } from '@reiseplaner/domain';
 import type { AppEnv } from '../app';
-import { ConfigurationError } from '../env';
+import { ConfigurationError, configuredSources } from '../env';
 import { newChallenge } from '../services/altcha';
 import { effectiveMaxCombinations } from '../services/maintenance';
 
@@ -33,6 +33,7 @@ export const metaRoutes = new Hono<AppEnv>()
     llm_enabled: config.LLM_ENABLED,
     payment_mode: config.LITEAPI_PAYMENT_MODE,
     booking_enabled: config.BOOKING_ENABLED,
+    provider_sources: configuredSources(config),
     catalog_drafts: config.CATALOG_ALLOW_DRAFTS,
     chips: CHIPS.map((chip) => ({ code: chip.code, label: chip.label })),
     themes: THEME_CODES.map((code) => ({ code, label: THEME_LABELS[code] })),

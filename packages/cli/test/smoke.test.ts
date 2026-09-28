@@ -13,6 +13,7 @@ const meta = {
   llm_enabled: true,
   payment_mode: 'sandbox',
   booking_enabled: true,
+  provider_sources: { liteapi: 'real', routing: 'real', llm: 'real', mail: 'real' },
   catalog_drafts: false,
   chips: [],
   themes: [],
@@ -66,9 +67,14 @@ describe('runSmoke', () => {
   });
 
   it('rejects a production deployment still running simulated providers', async () => {
-    const checks = await runSmoke(BASE, { fetch: deployment({ meta: { app_env: 'production', providers_mode: 'fake', payment_mode: 'sandbox' } }), expectEnv: 'production' });
+    const checks = await runSmoke(BASE, {
+      fetch: deployment({ meta: { app_env: 'production', providers_mode: 'fake', payment_mode: 'sandbox', provider_sources: { liteapi: 'fake', routing: 'fake', llm: 'fake', mail: 'fake' } } }),
+      expectEnv: 'production',
+    });
     expect(failed(checks)).toEqual(['Meta-Konfiguration']);
-    expect(checks.find((c) => c.name === 'Meta-Konfiguration')?.detail).toBe('nicht production: providers_mode fake statt live; payment_mode sandbox statt live');
+    expect(checks.find((c) => c.name === 'Meta-Konfiguration')?.detail).toBe(
+      'nicht production: providers_mode fake statt live; payment_mode sandbox statt live; simuliert: liteapi, routing, llm, mail',
+    );
   });
 
   it('reports an unreachable endpoint as a failed check', async () => {

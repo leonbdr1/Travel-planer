@@ -19,12 +19,12 @@ export async function orsCommand(args: string[], log: (line: string) => void): P
   const { db, via } = await openCliDb();
   try {
     const usage = new UsageRecorder();
-    const { routing } = createProviders(cliProvidersConfig(mode), { onCall: (p, e) => usage.record(p, e) });
+    const { routing, sources } = createProviders(cliProvidersConfig(mode), { onCall: (p, e) => usage.record(p, e) });
     const places = to.map((p) => ({ ...p, id: stableUuid(`cli-point:${p.lat},${p.lng}`) }));
     const day = new Date().toISOString().slice(0, 10);
     const before = (await usageSince(db, day)).filter((u) => u.provider === 'ors').reduce((s, u) => s + u.calls, 0);
     const { times, stats } = await getTravelTimes(
-      { db, routing, providersMode: mode, now: new Date(), orsDailyCap: productConfig.limits.daily_quotas.ors_calls },
+      { db, routing, routingSource: sources.routing, now: new Date(), orsDailyCap: productConfig.limits.daily_quotas.ors_calls },
       from,
       places,
     );

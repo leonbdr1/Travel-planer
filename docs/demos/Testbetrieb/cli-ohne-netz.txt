@@ -1,0 +1,23 @@
+# Einrichten, Prüfen, Ausschalten in der Bau-Sitzung (2026-09-28T09:29Z): Platzhalter-Schlüssel, LiteAPI und openrouteservice sind hier durch die Netzwerkregel gesperrt.
+
+$ REISEPLANER_LITEAPI_API_KEY=<platzhalter> REISEPLANER_ORS_API_KEY=<platzhalter> npm run cli -- testbetrieb einrichten --from-env
+Gespeichert in packages/worker/.dev.vars (Werte werden nicht angezeigt):
+  Unterkünfte und Preise: echt über LiteAPI (Sandbox-Schlüssel)
+  Fahrzeiten: echt über openrouteservice
+  KI-Prüfung der Rezensionen: aus
+  E-Mails: simuliert · Buchen: ausgeschaltet
+Nächste Schritte: npm run cli -- testbetrieb pruefen, danach npm run dev (läuft npm run dev schon: neu starten).
+
+$ npm run cli -- testbetrieb pruefen
+Testbetrieb prüfen: je ein echter Aufruf pro Anbieter (Schlüssel aus packages/worker/.dev.vars, werden nicht angezeigt) …
+✗ LiteAPI Tarife: client (HTTP 403): liteapi: hotels/rates HTTP 403: Host not in allowlist: api.liteapi.travel. Add this host to your network egress settings to allow access.
+– LiteAPI Hoteldetails: keine Unterkunft aus der Tarifsuche
+– LiteAPI Rezensionen: keine Unterkunft aus der Tarifsuche
+✗ LiteAPI Ausstattungsliste: client (HTTP 403): liteapi: data/facilities HTTP 403: Host not in allowlist: api.liteapi.travel. Add this host to your network egress settings to allow access.
+✗ Fahrzeiten: quota_exhausted (HTTP 403): ors: quota exhausted or access denied (ors: matrix HTTP 403: Host not in allowlist: api.heigit.org. Add this host to your network egress settings to allow access.)
+– KI: kein Schlüssel: Rezensionscheck und Wunschübersetzung sind aus
+3 Prüfung(en) fehlgeschlagen. Die Ausgabe enthält keine Schlüssel und kann so weitergegeben werden.
+(Exit-Code: 1)
+
+$ npm run cli -- testbetrieb aus
+Testbetrieb aus: Alle Anbieter sind wieder simuliert (npm run dev neu starten). Die Schlüssel sind aus packages/worker/.dev.vars entfernt.

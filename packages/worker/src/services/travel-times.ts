@@ -11,7 +11,7 @@ import {
   type Queryable,
 } from '@reiseplaner/db';
 import { constants, estimateDrive, originCell, type LatLng } from '@reiseplaner/domain';
-import type { ProvidersMode, RoutingPort } from '@reiseplaner/providers';
+import type { ProviderSource, RoutingPort } from '@reiseplaner/providers';
 
 export interface PlacePoint extends LatLng {
   id: string;
@@ -27,7 +27,8 @@ export interface TravelTime {
 export interface TravelTimeDeps {
   db: Queryable;
   routing: RoutingPort;
-  providersMode: ProvidersMode;
+  /** Source of `routing`; cached drive times are only reused from the same source. */
+  routingSource: ProviderSource;
   now: Date;
   orsDailyCap: number;
 }
@@ -45,6 +46,7 @@ export async function getTravelTimes(
   places: readonly PlacePoint[],
 ): Promise<{ times: Map<string, TravelTime>; stats: TravelTimeStats }> {
   const cell = originCell(origin);
+  const provider = deps.routingSource === 'fake' ? 'fake' : 'ors';
   const stats: TravelTimeStats = { cached: 0, routed: 0, estimated: 0, routingCalls: 0 };
   const times = new Map<string, TravelTime>();
   const ttlStart = new Date(deps.now.getTime() - constants.TRAVEL_TIME_CACHE_TTL_DAYS * 86_400_000);
@@ -53,6 +55,7 @@ export async function getTravelTimes(
     cell.key,
     places.map((p) => p.id),
     ttlStart,
+    provider,
   );
   for (const [placeId, row] of cached) {
     times.set(placeId, { durationMin: row.durationMin, distanceKm: row.distanceKm, estimated: false });
@@ -60,7 +63,6 @@ export async function getTravelTimes(
   }
 
   const missing = places.filter((p) => !times.has(p.id));
-  const provider = deps.providersMode === 'fake' ? 'fake' : 'ors';
   for (let i = 0; i < missing.length; i += constants.ORS_MATRIX_CHUNK) {
     const chunk = missing.slice(i, i + constants.ORS_MATRIX_CHUNK);
     let results: Array<{ durationMin: number; distanceKm: number } | null> | null = null;

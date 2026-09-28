@@ -1,0 +1,7 @@
+$ npx tsx e2e/dogfood/testbetrieb-ui.ts http://localhost:4185 docs/demos/Testbetrieb
+# Stack: npm run dev mit Testbetrieb-Block (LiteAPI simuliert, weil aus der Bau-Sitzung nicht erreichbar; Fahrzeiten echt ohne Schlüssel; Buchen aus), 2026-09-28T09:36Z
+Banner: Testbetrieb: Unterkünfte und Preise simuliert · Fahrzeiten echt, ohne Schlüssel als Luftlinie geschätzt · KI-Prüfung simuliert · E-Mails simuliert · Buchen ausgeschaltet
+Kartenlink: auf Google Maps ansehen ↗ → https://www.google.com/maps/search/?api=1&query=Ferienwohnung%20Sonnenhof%2C%20Sonnenweg%2029%2C%20F%C3%BCssen
+Buchen-Knöpfe: 0, Hinweis „Buchen ist im Testbetrieb aus“: 1×
+Konsolenfehler: keine
+→ Testbetrieb-Ansicht wie geplant

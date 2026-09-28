@@ -28,7 +28,7 @@ describe('travel times', () => {
   it('routes missing pairs once and serves repeats from the cache', async () => {
     const usage = new UsageRecorder();
     const { routing } = createProviders(config, { onCall: (p, e) => usage.record(p, e) });
-    const deps = { db: test.db, routing, providersMode: 'fake' as const, now, orsDailyCap: 450 };
+    const deps = { db: test.db, routing, routingSource: 'fake' as const, now, orsDailyCap: 450 };
     const first = await getTravelTimes(deps, stuttgart, places);
     expect(first.stats).toEqual({ cached: 0, routed: 2, estimated: 0, routingCalls: 1 });
     const oberstdorf = first.times.get(places[0]!.id)!;
@@ -44,17 +44,17 @@ describe('travel times', () => {
 
   it('falls back to marked estimates when the daily quota is used up (fail-closed)', async () => {
     const { routing } = createProviders(config);
-    const result = await getTravelTimes({ db: test.db, routing, providersMode: 'fake', now, orsDailyCap: 0 }, stuttgart, places);
+    const result = await getTravelTimes({ db: test.db, routing, routingSource: 'fake', now, orsDailyCap: 0 }, stuttgart, places);
     expect(result.stats).toMatchObject({ routed: 0, estimated: 2, routingCalls: 0 });
     expect([...result.times.values()].every((t) => t.estimated)).toBe(true);
   });
 
   it('falls back to estimates when the routing service reports its quota exhausted', async () => {
     const { routing } = createProviders(config, { fake: { orsQuotaExhausted: true } });
-    const result = await getTravelTimes({ db: test.db, routing, providersMode: 'fake', now, orsDailyCap: 450 }, stuttgart, places);
+    const result = await getTravelTimes({ db: test.db, routing, routingSource: 'fake', now, orsDailyCap: 450 }, stuttgart, places);
     expect(result.stats).toMatchObject({ estimated: 2, routingCalls: 1 });
     const cachedAfter = await getTravelTimes(
-      { db: test.db, routing: createProviders(config).routing, providersMode: 'fake', now, orsDailyCap: 450 },
+      { db: test.db, routing: createProviders(config).routing, routingSource: 'fake', now, orsDailyCap: 450 },
       stuttgart,
       places,
     );
@@ -68,7 +68,7 @@ describe('travel times', () => {
       lng: 10 + i * 0.01,
     }));
     const { routing } = createProviders(config);
-    const result = await getTravelTimes({ db: test.db, routing, providersMode: 'fake', now, orsDailyCap: 450 }, stuttgart, many);
+    const result = await getTravelTimes({ db: test.db, routing, routingSource: 'fake', now, orsDailyCap: 450 }, stuttgart, many);
     expect(result.stats).toMatchObject({ routed: 120, routingCalls: 3 });
   });
 });

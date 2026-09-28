@@ -2,15 +2,28 @@ import { Link, NavLink, Outlet, ScrollRestoration } from 'react-router';
 import { productConfig } from '@reiseplaner/config';
 import { cx } from '@reiseplaner/ui';
 import { de } from '../i18n/de';
-import { useMeta } from '../lib/meta';
+import { isTestbetrieb, useMeta } from '../lib/meta';
 import { Footer } from './Footer';
 
 function DevBanner() {
   const meta = useMeta();
-  if (meta.status !== 'ready' || meta.meta.providers_mode !== 'fake') return null;
+  if (meta.status !== 'ready') return null;
+  const m = meta.meta;
+  const s = m.provider_sources;
+  const allFake = Object.values(s).every((source) => source === 'fake');
+  if (!allFake && !isTestbetrieb(m)) return null;
+  const text = allFake
+    ? de.devBanner.fake
+    : de.devBanner.testbetrieb({
+        hotels: s.liteapi === 'real',
+        routing: s.routing === 'real',
+        ai: m.llm_enabled ? s.llm : 'off',
+        mail: s.mail === 'real',
+        booking: m.booking_enabled,
+      });
   return (
     <div data-testid="dev-banner" className="bg-amber-100 px-4 py-2 text-center text-xs font-medium text-amber-900">
-      {de.devBanner.fake}
+      {text}
     </div>
   );
 }

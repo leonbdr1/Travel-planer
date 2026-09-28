@@ -64,7 +64,8 @@ export function createOrsClient(options: OrsClientOptions): RoutingPort {
         });
       } catch (err) {
         if (err instanceof ProviderError && err.status === 403) {
-          throw new ProviderError('ors', 'quota_exhausted', 'daily quota exhausted', 403);
+          // Quota and denied access look alike (403); the original text tells them apart.
+          throw new ProviderError('ors', 'quota_exhausted', `quota exhausted or access denied (${err.message})`, 403);
         }
         throw err;
       }

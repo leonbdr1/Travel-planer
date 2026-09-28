@@ -35,7 +35,7 @@ function bookingDeps(c: Context<AppEnv>): BookingDeps {
     signingKey,
     origin: publicOrigin(c),
     paymentMode: deps.config.LITEAPI_PAYMENT_MODE,
-    simulatedPayment: deps.config.PROVIDERS_MODE === 'fake',
+    simulatedPayment: deps.providers().sources.liteapi === 'fake',
     bookingEnabled: deps.config.BOOKING_ENABLED,
     randomBytes: (n) => crypto.getRandomValues(new Uint8Array(n)),
   };

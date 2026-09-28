@@ -61,7 +61,14 @@ export async function requestJson<S extends z.ZodType>(options: RequestJsonOptio
     }
     clearTimeout(timer);
     if (!res.ok) {
-      lastError = new ProviderError(options.provider, kindForStatus(res.status), `${options.endpoint} HTTP ${res.status}`, res.status);
+      // A short excerpt of the provider's error body (never request headers or keys) for diagnosis.
+      const excerpt = (await res.text().catch(() => '')).replace(/\s+/g, ' ').trim().slice(0, 200);
+      lastError = new ProviderError(
+        options.provider,
+        kindForStatus(res.status),
+        `${options.endpoint} HTTP ${res.status}${excerpt ? `: ${excerpt}` : ''}`,
+        res.status,
+      );
       if (!lastError.retryable) throw lastError;
       continue;
     }
@@ -75,7 +82,7 @@ export async function requestJson<S extends z.ZodType>(options: RequestJsonOptio
     if (!parsed.success) {
       const where = parsed.error.issues
         .slice(0, 3)
-        .map((i) => i.path.join('.'))
+        .map((i) => `${i.path.join('.') || '(root)'} (${i.message})`)
         .join(', ');
       throw new ProviderError(options.provider, 'bad_response', `${options.endpoint} schema mismatch at ${where}`, res.status);
     }

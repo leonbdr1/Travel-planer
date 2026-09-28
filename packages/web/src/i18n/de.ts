@@ -42,6 +42,14 @@ export const de = {
   },
   devBanner: {
     fake: 'Entwicklungsmodus: Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail) sind simuliert. Es werden keine echten Buchungen ausgelöst.',
+    testbetrieb: (p: { hotels: boolean; routing: boolean; ai: 'real' | 'fake' | 'off'; mail: boolean; booking: boolean }) =>
+      [
+        `Testbetrieb: Unterkünfte und Preise ${p.hotels ? 'echt (LiteAPI)' : 'simuliert'}`,
+        `Fahrzeiten ${p.routing ? 'echt, ohne Schlüssel als Luftlinie geschätzt' : 'simuliert'}`,
+        `KI-Prüfung ${p.ai === 'real' ? 'echt' : p.ai === 'fake' ? 'simuliert' : 'aus'}`,
+        `E-Mails ${p.mail ? 'echt' : 'simuliert'}`,
+        ...(p.booking ? [] : ['Buchen ausgeschaltet']),
+      ].join(' · '),
   },
   footer: {
     legal: 'Rechtliches',
@@ -216,6 +224,7 @@ export const de = {
   },
   detail: {
     back: 'Zurück zu den Ergebnissen',
+    findOnMap: 'auf Google Maps ansehen',
     offers: 'Alle Termine und Tarife',
     date: 'Termin',
     room: 'Zimmer und Tarif',
@@ -311,6 +320,7 @@ export const de = {
     submitting: 'Angebot wird reserviert …',
     required: 'Bitte fülle alle Pflichtfelder aus und bestätige beide Hinweise.',
     disabled: 'Buchungen sind vorübergehend nicht verfügbar.',
+    disabledTestbetrieb: 'Buchen ist im Testbetrieb aus. Buche direkt bei der Unterkunft:',
     offerMissing: 'Dieses Angebot gibt es nicht mehr. Bitte gehe zurück zur Unterkunft.',
     priceChangedTitle: 'Der Preis hat sich geändert',
     priceChanged: (before: string, after: string) => `Die Unterkunft verlangt jetzt ${after} statt ${before}. Bitte bestätige den neuen Preis, bevor du bezahlst.`,

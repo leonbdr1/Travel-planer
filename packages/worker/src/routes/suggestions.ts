@@ -22,7 +22,7 @@ export function suggestionDeps(c: Context<AppEnv>): SuggestionDeps {
   return {
     db: deps.db(),
     routing: deps.providers().routing,
-    providersMode: deps.config.PROVIDERS_MODE,
+    routingSource: deps.providers().sources.routing,
     now: deps.now(),
     orsDailyCap: productConfig.limits.daily_quotas.ors_calls,
     includeDrafts: deps.config.CATALOG_ALLOW_DRAFTS,

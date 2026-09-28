@@ -6,6 +6,13 @@ export const metaConfigResponseSchema = z.object({
   llm_enabled: z.boolean(),
   payment_mode: z.enum(['sandbox', 'live']),
   booking_enabled: z.boolean(),
+  /** Effective source per provider (Testbetrieb: some real, others simulated). */
+  provider_sources: z.object({
+    liteapi: z.enum(['fake', 'real']),
+    routing: z.enum(['fake', 'real']),
+    llm: z.enum(['fake', 'real']),
+    mail: z.enum(['fake', 'real']),
+  }),
   catalog_drafts: z.boolean(),
   chips: z.array(z.object({ code: z.string(), label: z.string() })),
   themes: z.array(z.object({ code: z.string(), label: z.string() })),

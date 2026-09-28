@@ -33,6 +33,8 @@ function environmentProblems(meta: ReturnType<typeof metaConfigResponseSchema.pa
   if (meta.providers_mode !== providers) problems.push(`providers_mode ${meta.providers_mode} statt ${providers}`);
   if (env === 'production' && meta.payment_mode !== 'live') problems.push(`payment_mode ${meta.payment_mode} statt live`);
   if (env === 'production' && meta.catalog_drafts) problems.push('Katalog-Entwürfe sichtbar');
+  const simulated = Object.entries(meta.provider_sources).filter(([, source]) => source === 'fake').map(([name]) => name);
+  if (simulated.length) problems.push(`simuliert: ${simulated.join(', ')}`);
   return problems;
 }
 

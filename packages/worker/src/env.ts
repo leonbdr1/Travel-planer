@@ -2,7 +2,7 @@
 // Vars are validated with zod on every request; secrets are only checked for
 // presence here and never logged.
 import { z } from 'zod';
-import { providersModes } from '@reiseplaner/providers';
+import { providerSources, providerSourceValues, providersModes, type ProviderSources } from '@reiseplaner/providers';
 
 /** Structural subsets of the Workers binding types, so Node code (demos, CLI) can import the app. */
 export interface HyperdriveBinding {
@@ -42,6 +42,14 @@ export interface Env {
   CATALOG_ALLOW_DRAFTS?: string;
   /** Emergency brake for the booking flow. */
   BOOKING_ENABLED?: string;
+  /**
+   * Testbetrieb (local, real data): pin single providers to `fake` or `real`
+   * regardless of PROVIDERS_MODE. Not allowed to be `fake` in production.
+   */
+  LITEAPI_SOURCE?: string;
+  ROUTING_SOURCE?: string;
+  LLM_SOURCE?: string;
+  MAIL_SOURCE?: string;
   /** Ops worker base URL for heartbeats (unset locally: no heartbeats). */
   OPS_HEARTBEAT_URL?: string;
   // Secrets (wrangler secret put / .dev.vars)
@@ -69,6 +77,10 @@ export const runtimeConfigSchema = z.object({
   FAKE_FAIL_EVERY: z.coerce.number().int().min(0).max(10_000).default(0),
   CATALOG_ALLOW_DRAFTS: boolString.default(false),
   BOOKING_ENABLED: boolString.default(true),
+  LITEAPI_SOURCE: z.enum(providerSourceValues).optional(),
+  ROUTING_SOURCE: z.enum(providerSourceValues).optional(),
+  LLM_SOURCE: z.enum(providerSourceValues).optional(),
+  MAIL_SOURCE: z.enum(providerSourceValues).optional(),
 });
 
 export type RuntimeConfig = z.infer<typeof runtimeConfigSchema> & { version: string };
@@ -94,5 +106,24 @@ export function parseRuntimeConfig(env: Env, version: string): RuntimeConfig {
   if (result.data.CATALOG_ALLOW_DRAFTS && result.data.APP_ENV !== 'dev' && result.data.APP_ENV !== 'test') {
     throw new ConfigurationError(['CATALOG_ALLOW_DRAFTS is only allowed in dev']);
   }
-  return { ...result.data, version };
+  const config = { ...result.data, version };
+  if (result.data.APP_ENV === 'production' && Object.values(sourceOverrides(config)).includes('fake')) {
+    throw new ConfigurationError(['*_SOURCE=fake is not allowed in production']);
+  }
+  return config;
+}
+
+/** The per-provider overrides that are set (Testbetrieb). */
+export function sourceOverrides(config: RuntimeConfig): Partial<ProviderSources> {
+  const out: Partial<ProviderSources> = {};
+  if (config.LITEAPI_SOURCE) out.liteapi = config.LITEAPI_SOURCE;
+  if (config.ROUTING_SOURCE) out.routing = config.ROUTING_SOURCE;
+  if (config.LLM_SOURCE) out.llm = config.LLM_SOURCE;
+  if (config.MAIL_SOURCE) out.mail = config.MAIL_SOURCE;
+  return out;
+}
+
+/** Effective source of every provider for this configuration. */
+export function configuredSources(config: RuntimeConfig): ProviderSources {
+  return providerSources(config.PROVIDERS_MODE, sourceOverrides(config));
 }

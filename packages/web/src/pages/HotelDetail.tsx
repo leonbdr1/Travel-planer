@@ -11,7 +11,7 @@ import { cancellationText, QualityBadge } from '../features/results/ResultList';
 import { ReviewCheckPanel } from '../features/results/ReviewCheckPanel';
 import { de } from '../i18n/de';
 import { formatEuro, formatEuroCents, formatScore, formatStay } from '../lib/format';
-import { useMeta } from '../lib/meta';
+import { isTestbetrieb, useMeta } from '../lib/meta';
 import { tokenFromHash } from './SearchRun';
 
 const t = de.detail;
@@ -68,6 +68,10 @@ export function HotelDetail() {
   if (!data) return <div className="mx-auto max-w-4xl px-4 py-12"><Spinner label={de.common.loading} /></div>;
   const h = data.hotel;
   const bookingEnabled = meta.status !== 'ready' || meta.meta.booking_enabled;
+  // Testbetrieb books nothing; the map search leads to the property's own site and phone.
+  const testbetrieb = meta.status === 'ready' && isTestbetrieb(meta.meta);
+  const town = h.city ?? data.offers[0]?.place_name ?? null;
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([h.name, h.address, town].filter(Boolean).join(', '))}`;
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-10 sm:px-6">
       <Link to={back} className="text-sm font-medium text-brand-700 hover:underline">
@@ -81,6 +85,14 @@ export function HotelDetail() {
             {h.hotel_type ?? ''}
             {h.address ? ` · ${h.address}` : ''}
           </p>
+          {testbetrieb && !bookingEnabled ? (
+            <p className="text-sm text-zinc-600">
+              {de.booking.disabledTestbetrieb}{' '}
+              <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-brand-700 hover:underline" data-testid="find-on-map">
+                {t.findOnMap} ↗
+              </a>
+            </p>
+          ) : null}
         </div>
         <QualityBadge score={data.score.quality} reviews={h.review_count} />
       </div>
@@ -146,7 +158,7 @@ export function HotelDetail() {
                       >
                         {t.book}
                       </Link>
-                    ) : (
+                    ) : testbetrieb ? null : (
                       <span className="text-xs text-zinc-500">{de.booking.disabled}</span>
                     )}
                   </td>
