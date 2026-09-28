@@ -490,25 +490,29 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Voraussetzungen:** ⛔ BG-02 (Betreiber, Rechtstexte), ⛔ BG-14 (Watchdog), ⛔ BG-17 (Fristen).
 
 **S9.1 Pflicht- und Transparenzseiten** (Fleet-Lane)
-- [ ] Impressum, AGB, Datenschutzerklärung und Kontakt als klar markierte Platzhalter mit allen Pflichtabschnitten (Inhalte aus `product.config.yaml` und vom Anwalt); „So funktioniert's“ (Datenquelle, Vermittlerrolle, Zahlung, Ranking-Kriterien, Einsatz von KI, Quellenangaben GeoNames und OpenStreetMap); Prüfung, dass jede KI-Fläche `AiLabel` trägt (Test über alle Seiten nach `data-ai-provenance`).
+- [x] Impressum, AGB, Datenschutzerklärung und Kontakt als klar markierte Platzhalter mit allen Pflichtabschnitten (Inhalte aus `product.config.yaml` und vom Anwalt); „So funktioniert's“ (Datenquelle, Vermittlerrolle, Zahlung, Ranking-Kriterien, Einsatz von KI, Quellenangaben GeoNames und OpenStreetMap); Prüfung, dass jede KI-Fläche `AiLabel` trägt (Test über alle Seiten nach `data-ai-provenance`). (c3dc118, 2026-09-27)
+  - ⟂ drift (2026-09-27): Die KI-Kennzeichnung prüft ein Quelltext-Test (`packages/web/test/ai-labels.test.ts`: jede Datei, die KI-Ausgaben zeigt, rendert `AiLabel`); die Walkthroughs erfassen `data-ai-provenance` je Schritt im laufenden Stack. Ein eigener Browser-Durchlauf über alle Seiten entfällt, weil KI-Ausgaben nur nach einer Suche erscheinen. Rechtstexte bleiben Platzhalter bis BG-02 und BG-17.
   - Wiring: Fußzeile jeder Seite → Pflichtseiten.
   - Demo: `npm run dogfood -- --mode R --flow pflichtseiten` → Report zeigt von drei verschiedenen Seiten aus erreichbare Pflichtseiten.
   - STATUS: „Pflicht- und Transparenzseiten“ → `live-verified` (Inhalte bleiben Platzhalter bis BG-02).
 
 **S9.2 Wartungsjobs und Wächter** (Fleet-Lane)
-- [ ] Cron `daily`: Aufbewahrungsfristen, Bewertungseinladungen, Such-zu-Buchungs-Wächter mit automatischer Drosselung, Budget-Warnungen ab 80 %; Cron `cache-cleanup`; Heartbeats an den Ops-Worker; `npm run cli -- cost-report --days 7`.
+- [x] Cron `daily`: Aufbewahrungsfristen, Bewertungseinladungen, Such-zu-Buchungs-Wächter mit automatischer Drosselung, Budget-Warnungen ab 80 %; Cron `cache-cleanup`; Heartbeats an den Ops-Worker; `npm run cli -- cost-report --days 7`. (a11aac9, 2026-09-27)
+  - ⟂ drift (2026-09-27): Die Architektur nennt keinen Wert für die Drosselung; gewählt ist `LOOK_TO_BOOK_THROTTLED_MAX_COMBINATIONS` = 40. Die Drosselung liegt als Wert in `meta_kv` und endet erst unterhalb der Alarmschwelle (Hysterese). Betriebsalarme laufen als Typ `ops_alert` über die Outbox an `ops.alert_email`. `cache-cleanup` löscht auch abgelaufene `review_check_pending`-Reste (Drift 20). Bewertungseinladungen gehen ab dem Tag nach der Abreise raus, höchstens 14 Tage verspätet.
   - Wiring: Cron Triggers → Handler → Tabellen, Outbox, Ops-Heartbeat.
   - Demo: `npm run demo -- s9.2` → simulierter Tag mit 40.000 Tarifanfragen und 8 Buchungen (5.000 : 1) → Alarm-E-Mail in der Outbox, `SEARCH_MAX_COMBINATIONS` für neue Suchen gesenkt.
   - STATUS: „Wartungsjobs und Wächter“ → `demonstrated`.
 
 **S9.3 Härtung** (Fleet-Lane)
-- [ ] Finale Security-Header und CSP, ALTCHA auch bei `access-link`, alle Rate Limits aus `architektur.md` 11.1, maskierte Logs; Test, dass keine Antwort und kein Log Tokens oder vollständige E-Mail-Adressen enthält.
+- [x] Finale Security-Header und CSP, ALTCHA auch bei `access-link`, alle Rate Limits aus `architektur.md` 11.1, maskierte Logs; Test, dass keine Antwort und kein Log Tokens oder vollständige E-Mail-Adressen enthält. (f94f6ba, 2026-09-28)
+  - ⟂ drift (2026-09-28): Die SPA läuft nicht durch die Worker-Middleware (`run_worker_first` nur für `/api/*`); ihre Header samt CSP stehen in `packages/web/public/_headers`, erzeugt aus derselben Quelle wie die API-Header (Test hält beides gleich). Vite wendet `_headers` nur im Produktions-Build an; geprüft mit allen Walkthroughs gegen `vite preview`. Die CSP-Domains des Zahlungs-SDK fehlen weiter (BG-05). Die grobe Stufe des Rate Limits (`RATE_LIMITER`, 300 je Minute aus `product.config.yaml`) ist lokal über die Vite-Konfiguration gebunden; Staging und Produktion brauchen je einen eigenen Namespace (O10.1). Der IP-Hash enthält jetzt das UTC-Datum wie in 11.1 beschrieben (fehlte seit S4.2).
   - Wiring: Middleware → alle Routen.
   - Demo: `npm run demo -- s9.3` → Header-Liste der Startseite und einer API-Antwort; Log-Stichprobe ohne Klartext-E-Mails.
   - STATUS: „Härtung“ → `demonstrated`.
 
 **S9.4 Ops-Worker `reiseplaner-ops`** (Fleet-Lane)
-- [ ] `packages/ops-worker` nach dem Muster `frontlift/infra/cf-ops-worker`: Cron alle 15 Minuten, Prüfung von `/api/v1/health` und der Heartbeats (Alter der Cron-Läufe, letzter erfolgreicher Workflow), Alarm-Zustandsmaschine mit 4 Stunden Abkühlzeit und sofortigem „wieder in Ordnung“, Versand über Resend, KV für Zustände.
+- [x] `packages/ops-worker` nach dem Muster `frontlift/infra/cf-ops-worker`: Cron alle 15 Minuten, Prüfung von `/api/v1/health` und der Heartbeats (Alter der Cron-Läufe, letzter erfolgreicher Workflow), Alarm-Zustandsmaschine mit 4 Stunden Abkühlzeit und sofortigem „wieder in Ordnung“, Versand über Resend, KV für Zustände. (c3c8a72, 2026-09-28)
+  - ⟂ drift (2026-09-28): `frontlift/infra/cf-ops-worker` war nicht erreichbar; gebaut nach `architektur.md` 15 (siehe `HANDOFF.md` Drift 1). Schweregrade: Health kritisch, Heartbeats Warnung. Schwellen je Job in `product.config.yaml` (`ops`), der ungenutzte Domain-Wert `HEARTBEAT_STALE_AFTER_MIN` entfällt. Der Workflow meldet seinen Heartbeat nur noch nach erfolgreicher Suche. Die Demo läuft in Node gegen den echten Health-Endpunkt (Datenbank gestoppt und neu gestartet); die Zeit kommt wie bei `createScheduledController` aus dem Controller, die workerd-Tests nutzen ihn direkt. Zusätzlich live mit `wrangler dev` belegt. `wrangler.jsonc` hat nur `env.production`.
   - Wiring: Cron → Ops-Worker → Health-Endpunkt (S1.3) und Heartbeats (S9.2) → Resend.
   - Demo: `npm run demo -- s9.4` (Test mit `createScheduledController`) → Health liefert 503 → Alarm „kritisch“; zweiter Lauf innerhalb von 4 Stunden → kein zweiter Alarm; Health wieder 200 → Meldung „wieder in Ordnung“.
   - STATUS: „Ops-Watchdog“ → `demonstrated` (`live-verified` erst in M10 mit echtem Alarm-Test).

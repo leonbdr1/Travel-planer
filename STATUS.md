@@ -3,7 +3,7 @@
 Einzige Wahrheit über den Baustand (`CLAUDE.md`, `docs/umsetzungsplan.md`). Reifegrade:
 `spec'd` (nur beschrieben) · `built` (Code da, nicht verdrahtet) · `wired` · `demonstrated` (über den realen Einstiegspunkt vorgeführt) · `live-verified` (im laufenden Stack gesehen, Report gelesen) · `blocked` (wartet auf ⛔ BEN-GATE oder externe Ressource).
 
-Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schlüssel). Stand: 27.09.2026.
+Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schlüssel). Stand: 28.09.2026.
 
 ## M1 Grundgerüst
 
@@ -93,10 +93,10 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 
 | ID | Zeile | Reifegrad | Beleg | Anmerkung |
 |---|---|---|---|---|
-| S9.1 | Pflicht- und Transparenzseiten | `spec'd` | – | |
-| S9.2 | Wartungsjobs und Wächter | `spec'd` | – | |
-| S9.3 | Härtung | `spec'd` | – | |
-| S9.4 | Ops-Watchdog | `spec'd` | – | |
+| S9.1 | Pflicht- und Transparenzseiten | `live-verified` | `docs/demos/S9.1/` | Walkthrough 22/22, Screenshots gelesen; Rechtstexte bleiben Platzhalter bis BG-02. |
+| S9.2 | Wartungsjobs und Wächter | `demonstrated` | `docs/demos/S9.2/` | Simulierter Tag mit 5.000 : 1 → Alarm in der Outbox, neue Suchen auf 40 Kombinationen gedrosselt; Kostenbericht. |
+| S9.3 | Härtung | `demonstrated` | `docs/demos/S9.3/` | Header der Startseite (Produktions-Build) und der API; Buchung über HTTP ohne Klartext-E-Mail, Telefonnummer und Tokens in Log und Antworten; grobes Rate Limit 300/min; alle Walkthroughs gegen den Produktions-Build mit CSP ohne Konsolenfehler. |
+| S9.4 | Ops-Watchdog | `demonstrated` | `docs/demos/S9.4/` | Echter Health-Endpunkt: Datenbank gestoppt → „kritisch“, kein zweiter Alarm innerhalb von 4 h, Erinnerung, Entwarnung sofort; live mit `wrangler dev`. `live-verified` erst mit echtem Alarm in M10. |
 
 ## M10 Deployment und Go-Live
 

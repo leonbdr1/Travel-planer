@@ -1,6 +1,6 @@
 # HANDOFF – Frontier, offene Entscheidungen, Stolperfallen
 
-Stand: 27.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfragen … fang mit einer simplen Testwebsite an, nur lokal“).
+Stand: 28.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfragen … fang mit einer simplen Testwebsite an, nur lokal“).
 
 ## 1. Frontier
 
@@ -10,7 +10,8 @@ Stand: 27.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 - **Fertig (M6):** Filter, Qualitätsscore Stufe 1, Schnäppchen mit Begründung, Rangliste, Preis-Matrix, Liste, Detailansicht mit Vergleichspreis auf Abruf, Seite zur Rangliste, Kalibrierungswerkzeug (`docs/demos/S6.*`). Kernfunktion `demonstrated-not-maximized` bis M8.
 - **Fertig (M7):** Rezensionscheck mit Stichwortsuche in fünf Sprachen, Skill `review-verify` (44 Evals, Fake-Modell), Workflow-Schritte `reviews-fetch`/`reviews-verify`, Score Stufe 2 und Warnhinweise mit KI-Kennzeichnung in Liste und Detailansicht (`docs/demos/S7.*`, Akzeptanzbeispiel 4).
 - **Fertig (M8):** Buchung im Fake-Modus: Zustandsautomat, Endpunkte mit HMAC-Tokens, E-Mail-Postausgang mit Cron, Buchungsablauf in der SPA mit simulierter Zahlung, Bestätigung mit Hotel-Bestätigungsnummer, Stornierung und „Meine Buchung“ (`docs/demos/S8.*`, Akzeptanzbeispiel 5). Kernfunktion `maximized` mit simulierten Anbietern.
-- **Als Nächstes:** M9 Vertrauen, Recht und Schutz.
+- **Fertig (M9):** Pflicht- und Transparenzseiten (Platzhalter bis BG-02), Wartungsjobs mit Aufbewahrungsfristen, Bewertungseinladungen, Such-zu-Buchungs-Wächter mit Drosselung und Budget-Warnungen, Kostenbericht, Härtung (CSP der SPA über `_headers`, grobes Rate Limit, täglich wechselnder IP-Hash, Log-Maskierung) und der Watchdog `reiseplaner-ops` (`docs/demos/S9.*`).
+- **Als Nächstes:** M10 ist fast ganz Operator-Lane (Konten, Infrastruktur, Deploy, Go-Live: BG-02 bis BG-04, BG-09, BG-12, BG-13, BG-17). Ohne Konten machbar: S10.1 (Smoke-Test-Befehl und Go-live-Checkliste) gegen den lokalen Stack.
 - **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2); dazu S2.4, S2.5 (Sandbox), O3.1 (GeoNames-Download), echte Eval- und Katalogläufe (BG-07).
 
 ## 2. BEN-GATEs in dieser autonomen Sitzung
@@ -27,8 +28,10 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 | BG-11 Katalogfreigabe | Katalog als KI-Entwurf mit `verified: false`; lokal nur über den Entwicklungsschalter sichtbar | Stichprobe je Region, dann `verified: true` |
 | BG-12 Marge | keine Marge gesetzt | Vorschlag nach Preisvergleich |
 | BG-15 fi-deck-Repo-Parameter | Preflight und Verify-Slice manuell, im Commit dokumentiert | – |
-| BG-16 Operator-Sitzung | Ausführungssteuernde Dateien (package.json, CI, Hooks, Toolchain) in dieser Sitzung selbst angelegt, weil ohne sie nichts läuft | Review der Operator-Dateien |
+| BG-16 Operator-Sitzung | Ausführungssteuernde Dateien (package.json, CI, Hooks, Toolchain) in dieser Sitzung selbst angelegt, weil ohne sie nichts läuft. In S9.4 zusätzlich: `zod` als Abhängigkeit des Ops-Workers und der Ops-Worker als Abhängigkeit der CLI (je ein Eintrag in `package-lock.json`, keine neuen Pakete) | Review der Operator-Dateien |
 | BG-18 Competitor-Baseline | offen | Recherche vor öffentlicher Bewerbung |
+| BG-14 Watchdog | Default übernommen: eigene Instanz `reiseplaner-ops` (`packages/ops-worker`), nicht deployt | bestätigen; KV-Namespace, Secrets und Deploy in O10.1 |
+| BG-17 Aufbewahrungsfristen | Default übernommen: Gastdaten 90 Tage nach Abreise (vorläufig), Suchen 30 Tage, IP-Hashes 7 Tage, E-Mail-Postausgang 90 Tage ab Erstellung (derselbe Wert; `product.config.yaml` `compliance.retention`) | Anwalt; Rolle von LiteAPI/Nuitée im Datenschutz |
 | BG-19 Eval-Zielwert | 90 % als Arbeitswert (`SKILL_EVAL_TARGET_SCORE`) | bestätigen; echte Eval-Läufe brauchen BG-07 |
 | BG-07 Anthropic | kein Schlüssel; alle Skills laufen gegen deterministische Fake-Modelle (`packages/skills/src/fake`), Kosten 0 $ | Workspace und `ANTHROPIC_API_KEY`/`ANTHROPIC_API_KEY_EVAL`; dann `npm run skills:eval` und `catalog generate` echt |
 
@@ -52,9 +55,13 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 15. **Lokale Datenbank seriell:** PGlite hat eine einzige Sitzung; parallele Verbindungen über `pglite-socket` vermischen ihre Protokollnachrichten. Ein serieller TCP-Proxy (`packages/db/src/serial-proxy.ts`) bedient lokal und in Tests eine Verbindung nach der anderen. Produktion nutzt echtes Postgres über Hyperdrive.
 18. **Referenzpreis ohne Live-Adapter:** Der LiteAPI-Endpunkt „Get cached public price“ ist in `architektur.md` 8.1 nur mit Namen genannt und die Doku war gesperrt. Endpunkt, Cache (6 h), Limit (10/min) und Budget stehen; `ReferencePricePort` hat einen Fake und einen Live-Adapter, der nichts aufruft und `contract_unverified` meldet. Beim ersten Sandbox-Zugang Pfad und Antwort prüfen und den Adapter ergänzen. Die SPA lädt den Vergleichspreis je Termin auf Abruf.
 19. **Kalibrierung nur simuliert:** `npm run cli -- calibrate --latest` misst eine abgeschlossene Suche. In der simulierten Welt liegen alle Schnäppchentypen im Korridor 5–20 %, nachdem der Fake-Preis an die Bewertung gekoppelt wurde (vorher value 21,2 %). Die Konstanten sind unverändert; mit Sandbox-Daten neu messen.
-20. **Rezensionscheck:** Ausschnitte liegen zwischen `reviews-fetch` und `reviews-verify` in `review_check_pending` und werden nach der Prüfung gelöscht (Löschjob für abgelaufene Reste folgt in M9). Ungeprüfte Ergebnisse laufen nach 24 h ab. Sauberkeitswerte der LiteAPI bleiben aus, bis V7 entschieden ist (`LITEAPI_USE_SENTIMENT`). Der echte Eval-Lauf von `review-verify` (Zielwert BG-19) und die Kostenmessung je Suche („unter 4 Cent“, Abnahme M7) brauchen BG-07 und einen Sandbox-Lauf.
+20. **Rezensionscheck:** Ausschnitte liegen zwischen `reviews-fetch` und `reviews-verify` in `review_check_pending` und werden nach der Prüfung gelöscht; abgelaufene Reste löscht seit S9.2 der Cron `cache-cleanup`. Ungeprüfte Ergebnisse laufen nach 24 h ab. Sauberkeitswerte der LiteAPI bleiben aus, bis V7 entschieden ist (`LITEAPI_USE_SENTIMENT`). Der echte Eval-Lauf von `review-verify` (Zielwert BG-19) und die Kostenmessung je Suche („unter 4 Cent“, Abnahme M7) brauchen BG-07 und einen Sandbox-Lauf.
 21. **Zahlung nur simuliert:** Das LiteAPI-Zahlungs-SDK ist nicht eingebunden (Script-API und CSP-Domains ungeprüft, Doku gesperrt). Im Fake-Modus simuliert `/buchung/{ref}/zahlung` die Rückkehr vom SDK; in `sandbox`/`live` steht dort ein Hinweis. Mit dem ersten Sandbox-Zugang: SDK einbinden, CSP ergänzen, O8.1 durchspielen. Ob sich eine abgebrochene Zahlung über die `transactionId` abgleichen lässt, klärt S2.2.
 22. **Buchungsdetails:** Tokens im Header `X-Booking-Token`; das Sitzungstoken liegt während des Ablaufs im `sessionStorage` des Tabs. Die Kostenvorschau vor der Stornierung kennt nach Ablauf der kostenlosen Frist keinen Betrag (Stornostufen werden nicht gespeichert); die tatsächliche Gebühr kommt aus der Stornierungsantwort. Der Nebenläufigkeitstest läuft gegen PGlite, nicht gegen echtes Postgres.
+23. **KI-Kennzeichnung (S9.1):** Geprüft per Quelltext-Test (`packages/web/test/ai-labels.test.ts`) und in den Walkthroughs (`data-ai-provenance` je Schritt); kein separater Browser-Durchlauf über alle Seiten.
+24. **Härtung (S9.3):** Die SPA-Header samt CSP stehen in `packages/web/public/_headers` (aus `security-headers.ts` erzeugt, Test hält beides gleich) und gelten nur im Produktions-Build, nicht im Vite-Entwicklungsmodus. Die grobe Stufe des Rate Limits (`RATE_LIMITER`, `limits.rate_limits.coarse_per_minute`) bindet lokal die Vite-Konfiguration; Staging und Produktion brauchen je einen eigenen `ratelimits`-Eintrag mit eigener `namespace_id` in `wrangler.jsonc` (O10.1). Der IP-Hash enthält jetzt wie beschrieben das UTC-Datum (fehlte seit S4.2). Ein Staging-Build (`CLOUDFLARE_ENV=staging`) scheitert, solange die `__REISEPLANER_…__`-Platzhalter nicht gefüllt sind; das übernimmt das Deploy-Skript (O10.2).
+25. **Watchdog (S9.4):** Nach `architektur.md` 15 gebaut (Frontlift-Vorlage nicht erreichbar). Health kritisch, Heartbeats Warnung; Schwellen in `product.config.yaml` `ops`. Die Schwelle für `search-workflow` (24 h ohne erfolgreiche Suche) kann bei wenig Verkehr zu Warnungen führen; dann anheben. Ohne `RESEND_API_KEY` protokolliert der Watchdog lokal nur, in Produktion gilt das als Fehlversand (Zustand bleibt, nächster Lauf versucht es erneut).
+26. **Doppelte Konstante entfernt:** `THROTTLED_MAX_COMBINATIONS = 60` aus S1.3 war ungenutzt und widersprach dem Wert 40 aus S9.2; entfernt.
 14. **S2.4 und S2.5 zurückgestellt:** Beide brauchen Sandbox-Konten. BG-10 (Go/No-Go) ist offen; M3 ff. sind im Fake-Modus gebaut und bei No-Go verwerfbar.
 
 ## 4. Stolperfallen
@@ -68,3 +75,6 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 - Skills: Nach Änderungen an `packages/skills/bundles/**` `npm run skills:build` (läuft auch in `npm run gen`); die erzeugten Dateien in `packages/skills/src/generated/` werden committet. Prompt-Änderungen sind neue Versionen (`v1.0.1/`).
 - `npm run skills:eval -- <id> --fake` prüft Bundle, Runner und Assertions ohne Kosten; der Bericht liegt in `eval-results/` (gitignored).
 - `catalog generate --fake` schreibt standardmäßig nach `data/catalog/` und überspringt vorhandene Regionen; für Probeläufe `--out <verzeichnis>` angeben.
+- Produktionsnah lokal (mit `_headers`, CSP und gebautem Bundle): `npm run build`, dann `npx tsx scripts/dev.ts preview --port 4173 --strictPort`. `npm run dogfood -- --mode P --base-url http://localhost:4173` läuft dagegen.
+- Das grobe Rate Limit greift auch lokal: mehr als 300 API-Anfragen pro Minute von einer Adresse ergeben 429 (Health ausgenommen). Lasttests daher nicht gegen den Dev-Stack.
+- Watchdog lokal: `cd packages/ops-worker && npx wrangler dev --port 8788 --test-scheduled --var OPS_HB_TOKEN:<wert> --var APP_HEALTH_URL:http://localhost:5173/api/v1/health`, Lauf auslösen mit `curl "http://localhost:8788/__scheduled?cron=*/15+*+*+*+*"`. Die App sendet Heartbeats nur, wenn `OPS_HEARTBEAT_URL` gesetzt ist.
