@@ -589,26 +589,26 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
   - STATUS: „Suchformular mit Ziel“ → `live-verified`.
 
 **S11.5 Lage-Fakten im Finale** (Fleet-Lane, ⛔ BG-20, freigegeben 28.09.2026)
-- [ ] Haltestelle in Gehweite und belebte Umgebung (Gastronomie in der Nähe) aus OpenStreetMap (Overpass), zwischengespeichert, nur für die Finalisten.
+- [x] Haltestelle in Gehweite und belebte Umgebung (Gastronomie in der Nähe) aus OpenStreetMap (Overpass), zwischengespeichert, nur für die Finalisten. (d8585d4, 2026-09-28)
   - ⟂ drift (2026-09-28): Zusätzlich Bahnhof, Lift-Station und Supermarkt in Gehminuten (Ben: „näher am Lift“, „5 min zur Bushaltestelle“); geholt im Workflow-Schritt `location-facts` statt im Aufruf von `/finale`, damit das Finale schnell bleibt; Zwischenspeicher in `cache_entries` (Migration `20261012a`, neuer Namespace).
   - Wiring: Workflow `location-facts` → `PoiPort` (Overpass, Fake) → `cache_entries` → `/finale` → `offerFeatures` (Lage-Merkmale) → Preisleiter.
   - Demo: `npm run demo -- s11.5` → Gehminuten bei den Finalisten, ein Overpass-Aufruf je Suche, Wiederholung aus dem Zwischenspeicher.
   - STATUS: „Lage-Fakten“ → `live-verified`.
 
 **S11.6 Beschlüsse vom 28.09.2026** (Fleet-Lane, von Ben im Chat entschieden)
-- [ ] Warnsignale Schimmel/Ungeziefer 2 bestätigt / 3 ungeprüft, Schmutz 3 / 4; Ausnahme zur Mindestnote (ab 6,5, geprüft, höchstens 75 % des günstigsten Hauses mit normaler Note, nicht bei Komfort); Häuser ohne Bewertungen mit Plausibilitätsprüfung (höchstens eines im Finale, gekennzeichnet); Lob-Labels relativ (mindestens 5 % der Bewertungen, letzte 6 Monate doppelt); höchstens 5 Finalisten.
+- [x] Warnsignale Schimmel/Ungeziefer 2 bestätigt / 3 ungeprüft, Schmutz 3 / 4; Ausnahme zur Mindestnote (ab 6,5, geprüft, höchstens 75 % des günstigsten Hauses mit normaler Note, nicht bei Komfort); Häuser ohne Bewertungen mit Plausibilitätsprüfung (höchstens eines im Finale, gekennzeichnet); Lob-Labels relativ (mindestens 5 % der Bewertungen, letzte 6 Monate doppelt); höchstens 5 Finalisten. (d8585d4, 2026-09-28)
   - Wiring: `preselect` und `praiseLabels` → `/finale`, `/results`, Detailansicht.
   - Demo: `npm run demo -- s11.6` → Werte, Finale je Ziel mit den Regeln, Labels mit Zahlen.
   - STATUS: „Beschlüsse vom 28.09.“ → `demonstrated`.
 
 **S11.7 Finale als Preisleiter** (Fleet-Lane, Bens Entwurf A)
-- [ ] Zeile je Finalist mit Preis, Aufpreis, Name, Note und Badges statt Sätzen (grün: zusätzlich, durchgestrichen: fehlt, neutral: gleich), höchstens 6 Badges, davon bis zu 2 Fehlende immer sichtbar; Legende, OSM-Quellenangabe; Handy ohne Querscrollen.
+- [x] Zeile je Finalist mit Preis, Aufpreis, Name, Note und Badges statt Sätzen (grün: zusätzlich, durchgestrichen: fehlt, neutral: gleich), höchstens 6 Badges, davon bis zu 2 Fehlende immer sichtbar; Legende, OSM-Quellenangabe; Handy ohne Querscrollen. (d8585d4, 2026-09-28)
   - Wiring: `FinaleView` → `GET /finale` (`features`, `gains`, `losses`, `minutes`).
   - Demo: `npm run dogfood -- --mode P --flow finale` (Schritte Preisleiter und Handy).
   - STATUS: „Preisleiter“ → `live-verified`.
 
 **S11.8 Entwicklerseite** (Fleet-Lane)
-- [ ] `/entwickler` (nur `dev`/`test`): KI-Schalter für Rezensionscheck und Wunschübersetzung (echte KI standardmäßig aus, simulierte an), heutiger KI-Verbrauch; lokale Suchgrenzen 60/h und 200/Tag (`limits.dev_rate_limits`); Link im Hinweisbalken.
+- [x] `/entwickler` (nur `dev`/`test`): KI-Schalter für Rezensionscheck und Wunschübersetzung (echte KI standardmäßig aus, simulierte an), heutiger KI-Verbrauch; lokale Suchgrenzen 60/h und 200/Tag (`limits.dev_rate_limits`); Link im Hinweisbalken. (d8585d4, 2026-09-28)
   - Wiring: Seite → `GET/PUT /dev/settings` → `app.meta_kv` → Workflow (`effectiveLlmEnabled`) und `/wishes/parse`; `/meta/config` meldet den wirksamen Zustand.
   - Demo: `npm run demo -- s11.8` → Suche mit KI an, Schalter aus, Suche nur mit Stichworten, Schalter an.
   - STATUS: „Entwicklerseite“ → `live-verified`.
