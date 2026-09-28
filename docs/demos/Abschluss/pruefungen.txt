@@ -1,0 +1,22 @@
+# Prüfungen auf dem Endstand (Commit a009652, 2026-09-28)
+
+== typecheck
+15 von 15 Projekten ohne Fehler (npm run typecheck)
+== test
+ Test Files  47 passed (47)
+      Tests  250 passed (250)
+== db:test
+ok 6 - input_hash must be a SHA-256 hex digest
+ok 7 - outcome is constrained
+# 71 assertions, all files passed
+== build
+✓ built in 2.65s
+✓ built in 3.69s
+== claims
+check:claims: ok (9 file(s), 15 forbidden claims checked)
+== status
+check-status-rows: alle 51 Slice-IDs aus umsetzungsplan.md haben genau eine STATUS-Zeile
+== supply-chain
+supply-chain: ok (394 lock entries checked)
+== tree unchanged after gen
+(keine Änderungen: git status leer)

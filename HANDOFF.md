@@ -11,7 +11,8 @@ Stand: 28.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 - **Fertig (M7):** Rezensionscheck mit Stichwortsuche in fünf Sprachen, Skill `review-verify` (44 Evals, Fake-Modell), Workflow-Schritte `reviews-fetch`/`reviews-verify`, Score Stufe 2 und Warnhinweise mit KI-Kennzeichnung in Liste und Detailansicht (`docs/demos/S7.*`, Akzeptanzbeispiel 4).
 - **Fertig (M8):** Buchung im Fake-Modus: Zustandsautomat, Endpunkte mit HMAC-Tokens, E-Mail-Postausgang mit Cron, Buchungsablauf in der SPA mit simulierter Zahlung, Bestätigung mit Hotel-Bestätigungsnummer, Stornierung und „Meine Buchung“ (`docs/demos/S8.*`, Akzeptanzbeispiel 5). Kernfunktion `maximized` mit simulierten Anbietern.
 - **Fertig (M9):** Pflicht- und Transparenzseiten (Platzhalter bis BG-02), Wartungsjobs mit Aufbewahrungsfristen, Bewertungseinladungen, Such-zu-Buchungs-Wächter mit Drosselung und Budget-Warnungen, Kostenbericht, Härtung (CSP der SPA über `_headers`, grobes Rate Limit, täglich wechselnder IP-Hash, Log-Maskierung) und der Watchdog `reiseplaner-ops` (`docs/demos/S9.*`).
-- **Als Nächstes:** M10 ist fast ganz Operator-Lane (Konten, Infrastruktur, Deploy, Go-Live: BG-02 bis BG-04, BG-09, BG-12, BG-13, BG-17). Ohne Konten machbar: S10.1 (Smoke-Test-Befehl und Go-live-Checkliste) gegen den lokalen Stack.
+- **Fertig (M10, soweit ohne Konten möglich):** S10.1 Smoke-Test (`npm run smoke`) und Go-live-Checkliste (`docs/runbooks/go-live-checkliste.md`), lokal gegen den Produktions-Build vorgeführt. Gesamt-Walkthrough auf dem Endstand: `docs/demos/Abschluss/`.
+- **Als Nächstes:** Alles Weitere braucht Entscheidungen, Konten oder Deploy (Abschnitt 5). Die autonome Sitzung endet hier.
 - **Nicht möglich in dieser Sitzung:** alles mit Konten, Schlüsseln, Geld, Deploy (Operator-Lane, siehe Abschnitt 2); dazu S2.4, S2.5 (Sandbox), O3.1 (GeoNames-Download), echte Eval- und Katalogläufe (BG-07).
 
 ## 2. BEN-GATEs in dieser autonomen Sitzung
@@ -78,3 +79,12 @@ Ben hat ausdrücklich autonomes Arbeiten ohne Rückfragen angeordnet. Deshalb gi
 - Produktionsnah lokal (mit `_headers`, CSP und gebautem Bundle): `npm run build`, dann `npx tsx scripts/dev.ts preview --port 4173 --strictPort`. `npm run dogfood -- --mode P --base-url http://localhost:4173` läuft dagegen.
 - Das grobe Rate Limit greift auch lokal: mehr als 300 API-Anfragen pro Minute von einer Adresse ergeben 429 (Health ausgenommen). Lasttests daher nicht gegen den Dev-Stack.
 - Watchdog lokal: `cd packages/ops-worker && npx wrangler dev --port 8788 --test-scheduled --var OPS_HB_TOKEN:<wert> --var APP_HEALTH_URL:http://localhost:5173/api/v1/health`, Lauf auslösen mit `curl "http://localhost:8788/__scheduled?cron=*/15+*+*+*+*"`. Die App sendet Heartbeats nur, wenn `OPS_HEARTBEAT_URL` gesetzt ist.
+
+## 5. Was Ben als Nächstes tun muss (Reihenfolge)
+
+1. **Code sichten und zusammenführen:** Pull Request vom Branch `claude/software-entwicklung-konzept-gv58jh` öffnen; damit läuft die CI zum ersten Mal (O1.2, `ci.yml` läuft nur auf PRs und `main`). Repository in die Organisation verschieben und Branch-Schutz setzen (O1.1). Operator-Dateien prüfen (BG-16).
+2. **Entscheidungen:** Name und Domain (BG-01, BG-09), Betreiber und Anwalt für Impressum, AGB, Datenschutz und Fristen (BG-02, BG-17), Marge (BG-12), Katalogfreigabe als Stichprobe je Region (BG-11), Watchdog-Instanz (BG-14) und Eval-Zielwert (BG-19) bestätigen.
+3. **Sandbox-Konten, dann Validierung:** LiteAPI-Sandbox (BG-05) und HeiGIT-Schlüssel (BG-06) in `packages/worker/.dev.vars`, `PROVIDERS_MODE=sandbox`. Danach kann eine neue Sitzung die Contract-Prüfung (S2.2: Schemas, Referenzpreis, Zahlungs-SDK und seine CSP-Domains), Fixtures (O2.2), Sandbox-Buchung (S2.4, O8.1), Validierungsbericht (S2.5) und die Kalibrierung mit echten Daten erledigen. Das ist die Grundlage für Go/No-Go (BG-10).
+4. **Weitere Konten:** Anthropic-Workspace mit Budget (BG-07) für echte Eval-Läufe und die Katalog-Pipeline; Resend mit verifizierter Domain (BG-08).
+5. **Infrastruktur und Deploy (Operator-Lane):** Cloudflare Workers Paid, Supabase Frankfurt (BG-03, BG-04), Hyperdrive, Secrets, `RATE_LIMITER`-Namespaces, Watchdog mit KV (O10.1); Deploy-Pipeline (O10.2); Staging-Walkthroughs, `npm run smoke -- --expect-env staging`, Alarmtest, erste echte Buchung und Freigabe (O10.3, BG-13). Abhaken in `docs/runbooks/go-live-checkliste.md`.
+

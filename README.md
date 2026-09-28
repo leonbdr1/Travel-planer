@@ -2,7 +2,7 @@
 
 Der Nutzer beschreibt seinen Rahmen (Startort, maximale Fahrzeit, Themen, Zeitfenster, Reisemuster, Budget). Das Produkt schlägt Regionen und Orte aus einem geprüften Katalog vor, durchsucht alle Kombinationen aus Ort und Termin gleichzeitig, bewertet die Qualität ehrlich, erkennt Schnäppchen, prüft Rezensionen per KI und ermöglicht die Buchung über LiteAPI.
 
-> **Stand:** lokale Entwicklungsversion. Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail, Zahlung) sind **simuliert** – es gibt keine echten Preise und keine echten Buchungen. Baustand je Slice: [`STATUS.md`](STATUS.md).
+> **Stand (28.09.2026):** funktional vollständige lokale Version, Meilensteine M1 bis M9 und der Smoke-Test aus M10: Suche über alle Orte und Termine, ehrliche Bewertung mit Schnäppchen, KI-Rezensionscheck mit Warnhinweisen, Buchung mit Stornierung, Pflichtseiten, Wartungsjobs und Watchdog. Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail, Zahlung) sind **simuliert** – es gibt keine echten Preise und keine echten Buchungen. Baustand je Slice: [`STATUS.md`](STATUS.md); was bis zum Go-Live fehlt: [`HANDOFF.md`](HANDOFF.md) und [`docs/runbooks/go-live-checkliste.md`](docs/runbooks/go-live-checkliste.md).
 
 ## Schnellstart
 
@@ -14,6 +14,15 @@ npm run dev                                                                # sta
 ```
 
 Dann <http://localhost:5173> öffnen. `npm run dev` startet die lokale Datenbank (PGlite) und die App (Vite + Cloudflare-Worker in `workerd`) in einem Prozess.
+
+## Ausprobieren
+
+1. **Suche starten:** Startort (z. B. Stuttgart), maximale Fahrzeit, Themen oder ein Freitextwunsch (z. B. „sauber, ruhig und Blick auf den See“), Zeitfenster, Nächte und Anreisetag. Die Seite zeigt live, wie viele Termine entstehen.
+2. **Orte bestätigen:** Regionsvorschläge mit Begründung, Ortsliste mit Fahrzeiten; eigene Orte lassen sich ergänzen (z. B. Füssen).
+3. **Ergebnisse:** Preis-Matrix über alle Orte und Termine, Rangliste nach bestem Angebot, Preis oder Bewertung, Filter ohne neue Suche, Schnäppchen mit Begründung. In der simulierten Welt hat etwa „Hotel Schwanen“ in Füssen einen Warnhinweis „Schimmel“ aus dem Rezensionscheck.
+4. **Buchen:** Angebot wählen, Gastdaten, simulierte Zahlung, Bestätigung mit Buchungsnummer; unter „Meine Buchung“ ansehen und kostenlos stornieren. Ein Nachname mit „Fehler“ simuliert eine abgelehnte Buchung.
+
+Es entstehen weder Kosten noch echte E-Mails; der gelbe Balken oben erinnert daran.
 
 ## Befehle
 
@@ -27,7 +36,9 @@ Dann <http://localhost:5173> öffnen. `npm run dev` startet die lokale Datenbank
 | `npm run check:claims` | verbotene Werbeaussagen in UI-Texten |
 | `npm run demo -- <slice-id>` | Demo eines Slices über den realen Einstiegspunkt |
 | `npm run dogfood -- --mode R\|P [--flow <name>]` | Browser-Walkthrough mit Screen-Report |
-| `npm run cli -- <befehl>` | Katalog, GeoNames, Validierung, Kostenbericht … |
+| `npm run cli -- <befehl>` | Katalog, GeoNames, Validierung, Kostenbericht (`cost-report --days 7`) … |
+| `npm run smoke -- --base-url <url> [--expect-env staging\|production]` | nur lesender Smoke-Test nach einem Deploy |
+| `npm run build && npx tsx scripts/dev.ts preview --port 4173 --strictPort` | Produktions-Build lokal (mit Security-Headern und CSP) |
 
 ## Dokumente
 
@@ -61,5 +72,9 @@ packages/
 supabase/      Migrationen und pgTAP-Tests
 e2e/dogfood/   Walkthrough-Harness
 ```
+
+## Vom lokalen Stand zum Go-Live
+
+Der Code ist für den Betrieb auf Cloudflare (Worker, Workflows, Cron) mit Supabase gebaut; umgeschaltet wird über `PROVIDERS_MODE` (`fake` → `sandbox` → `live`) und Secrets, nicht über Codeänderungen. Es fehlen Entscheidungen und Konten, die nur Menschen treffen oder anlegen können: Betreiber und Rechtstexte, Name und Domain, Marge, Konten und Schlüssel für LiteAPI, openrouteservice, Anthropic und Resend, Cloudflare und Supabase, danach Staging, Abnahme und Freigabe. Die vollständige Liste mit Reihenfolge steht in [`HANDOFF.md`](HANDOFF.md) Abschnitt 2 und in der [Go-live-Checkliste](docs/runbooks/go-live-checkliste.md).
 
 Datenquellen: Ortsdaten von [GeoNames](https://www.geonames.org/) (CC BY 4.0); Fahrzeiten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende.
