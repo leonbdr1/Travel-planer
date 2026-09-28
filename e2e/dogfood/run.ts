@@ -91,7 +91,8 @@ async function runFlow(flow: Flow, page: Page, baseUrl: string, counter: { n: nu
         .slice(0, 40);
       const screenshot = `${String(index).padStart(2, '0')}-${slug}.png`;
       let shotOk = true;
-      await page.screenshot({ path: join(outDir, screenshot), fullPage: options.fullPage ?? true }).catch(() => {
+      // Transitions (e.g. the progress bar) are fast-forwarded, so the screenshot shows the state the checks saw.
+      await page.screenshot({ path: join(outDir, screenshot), fullPage: options.fullPage ?? true, animations: 'disabled' }).catch(() => {
         shotOk = false;
       });
       const state = await visibleState(page).catch(() => ({ bodyText: '', headings: [], aiLabels: [] }));
