@@ -1,0 +1,10 @@
+$ npm run smoke -- --base-url http://localhost:4184 --expect-env production
+Smoke-Test gegen http://localhost:4184 (2026-09-28T07:55Z, nur lesend)
+✓ Health: 200, Datenbank ok, Version c64c111
+✓ API-Header: 8 Sicherheits-Header wie erwartet
+✓ Startseite: 200, 467 Bytes HTML
+✓ Startseite-Header: 7 Sicherheits-Header wie erwartet (CSP mit default-src 'self')
+✓ Asset: /assets/index-C_1VRPHp.js: 200, public, max-age=31536000, immutable
+✗ Meta-Konfiguration: nicht production: app_env dev; providers_mode fake statt live; payment_mode sandbox statt live; Katalog-Entwürfe sichtbar
+✓ Autovervollständigung: „Stuttgart“ gefunden (Stuttgart, Baden-Württemberg, DE), 4 Treffer
+Ergebnis: 6/7 Prüfungen bestanden

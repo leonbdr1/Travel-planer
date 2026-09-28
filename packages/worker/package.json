@@ -9,7 +9,8 @@
     "./app": "./src/app.ts",
     "./cron": "./src/cron.ts",
     "./env": "./src/env.ts",
-    "./mail": "./src/mail/index.ts"
+    "./mail": "./src/mail/index.ts",
+    "./security-headers": "./src/http/security-headers.ts"
   },
   "scripts": {
     "types": "wrangler types --env-interface Env"
