@@ -1,7 +1,7 @@
 // SearchWorkflow (architektur.md 6.4, 6.15): `load` → `rates-<n>` → `score-1` →
 // `reviews-fetch` → `reviews-verify` → up to REVIEW_FOLLOWUP_ROUNDS times
 // `reviews-fetch-<n>` → `reviews-verify-<n>` (finalists still unchecked) →
-// `finalize` (score stage 2).
+// `location-facts` (OpenStreetMap, likely finalists) → `finalize` (score stage 2).
 // Steps return only ids and counters (1 MiB limit); every write is idempotent,
 // so a retried step never duplicates offers.
 import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep, type WorkflowStepConfig } from 'cloudflare:workers';
@@ -10,6 +10,8 @@ import { constants } from '@reiseplaner/domain';
 import { createRequestDeps } from '../deps';
 import { parseRuntimeConfig, type Env } from '../env';
 import { SEARCH_WORKFLOW_HEARTBEAT_JOB, sendHeartbeat } from '../services/heartbeat';
+import { effectiveLlmEnabled } from '../services/dev-settings';
+import { runLocationFacts, type LocationRunDeps } from '../services/location';
 import { runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../services/reviews';
 import { runFinalize, runLoad, runRatesBlock, runScoreStep } from '../services/search-run';
 
@@ -25,7 +27,7 @@ const STEP: WorkflowStepConfig = {
 declare const __GIT_SHA__: string | undefined;
 
 /** Per-step dependencies: fresh DB connection and providers, usage flushed at the end. */
-export async function withSearchDeps<T>(env: Env, fn: (deps: ReviewRunDeps) => Promise<T>): Promise<T> {
+export async function withSearchDeps<T>(env: Env, fn: (deps: ReviewRunDeps & LocationRunDeps) => Promise<T>): Promise<T> {
   const config = parseRuntimeConfig(env, typeof __GIT_SHA__ === 'string' ? __GIT_SHA__ : 'dev');
   const deps = createRequestDeps(env, config);
   try {
@@ -38,8 +40,11 @@ export async function withSearchDeps<T>(env: Env, fn: (deps: ReviewRunDeps) => P
       currency: productConfig.markets.currency,
       guestNationality: productConfig.markets.guest_nationality,
       llm: deps.providers().llm,
-      llmEnabled: config.LLM_ENABLED,
+      // The developer page can switch the AI off while testing (S11.8).
+      llmEnabled: await effectiveLlmEnabled(deps.db(), config),
       llmDailyBudgetUsd: productConfig.limits.llm_daily_budget_usd,
+      poi: deps.providers().poi,
+      poiSource: deps.providers().sources.poi,
     });
   } finally {
     await deps.dispose({ awaitClose: false });
@@ -64,6 +69,7 @@ export class SearchWorkflow extends WorkflowEntrypoint<Env, SearchParams> {
       if (followUp.candidates === 0) break;
       await step.do(`reviews-verify-${round}`, STEP, () => withSearchDeps(this.env, (d) => runReviewsVerify(d, searchId)));
     }
+    await step.do('location-facts', STEP, () => withSearchDeps(this.env, (d) => runLocationFacts(d, searchId)));
     const final = await step.do('finalize', STEP, () =>
       withSearchDeps(this.env, async (d) => {
         const result = await runFinalize(d, searchId);

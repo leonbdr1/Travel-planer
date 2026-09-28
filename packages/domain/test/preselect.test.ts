@@ -50,7 +50,8 @@ const offers = [
   offer('DIRTY', 80, 7.8),
   offer('TRAP', 70, 7.2),
   offer('DOM', 120, 8.0),
-  offer('NOREV', 90, null),
+  // No reviews and far below the usual price: looks like a fake listing.
+  offer('NOREV', 60, null),
   offer('FILTERED', 60, 8.8, { passes: false }),
 ];
 const hotels = new Map<string, PreselectHotel>([
@@ -104,31 +105,33 @@ describe('preselect', () => {
     expect(result.excluded.dominated).toBeGreaterThanOrEqual(1);
   });
 
-  it('needs one mention of mould or vermin for a red flag, but several of dirt', () => {
+  it('needs two mentions of mould or vermin for a red flag and three of dirt', () => {
     const warned = (topic: string, confirmed: number, unverified: number) =>
       new Map(evidence).set('DIRTY', { checked: true, warnings: [{ topic, confirmed, unverified }], labels: [] });
     // DIRTY is the cheapest house (80 €) and stays the first finalist unless flagged.
     const first = (e: Map<string, HotelEvidence>) => run('sparen', { evidence: e }).finalists[0]?.hotelId;
-    expect(first(warned('sauberkeit', 1, 0))).toBe('DIRTY');
-    expect(first(warned('sauberkeit', 0, 2))).toBe('DIRTY');
-    expect(first(warned('sauberkeit', 2, 0))).toBe('W1');
-    expect(first(warned('sauberkeit', 0, 3))).toBe('W1');
-    expect(first(warned('schimmel', 0, 1))).toBe('DIRTY');
-    expect(first(warned('schimmel', 1, 0))).toBe('W1');
-    expect(first(warned('ungeziefer', 0, 2))).toBe('W1');
+    expect(first(warned('sauberkeit', 2, 0))).toBe('DIRTY');
+    expect(first(warned('sauberkeit', 0, 3))).toBe('DIRTY');
+    expect(first(warned('sauberkeit', 3, 0))).toBe('W1');
+    expect(first(warned('sauberkeit', 0, 4))).toBe('W1');
+    // One guest alone can be wrong.
+    expect(first(warned('schimmel', 1, 0))).toBe('DIRTY');
+    expect(first(warned('schimmel', 0, 2))).toBe('DIRTY');
+    expect(first(warned('schimmel', 2, 0))).toBe('W1');
+    expect(first(warned('ungeziefer', 0, 3))).toBe('W1');
     // Noise is no red flag: it is shown as a warning, the traveller decides.
     expect(first(warned('laerm', 5, 0))).toBe('DIRTY');
   });
 
-  it('keeps at most four finalists, one per house, and names the rest runners-up', () => {
+  it('keeps at most five finalists, one per house, and names the rest runners-up', () => {
     // Each house brings one feature the others lack, so none is dominated.
-    const featureIds = [1, 3, 4, 6, 7, 8, 9];
-    const many = Array.from({ length: 7 }, (_, i) => offer(`H${i}`, 100 + i, 8.5, { rankScore: 1 - i / 100 }));
+    const featureIds = [1, 3, 4, 6, 7, 8, 9, 16];
+    const many = Array.from({ length: 8 }, (_, i) => offer(`H${i}`, 100 + i, 8.5, { rankScore: 1 - i / 100 }));
     const manyHotels = new Map(many.map((o, i) => [o.hotelId, house(o.hotelId, 3, [featureIds[i] ?? 1])]));
     const result = preselect({ goal: 'ausgewogen', evaluated: many, hotels: manyHotels, evidence: new Map() });
-    expect(result.finalists).toHaveLength(4);
+    expect(result.finalists).toHaveLength(5);
     expect(result.runnersUp).toHaveLength(3);
-    expect(new Set(result.finalists.map((o) => o.hotelId)).size).toBe(4);
+    expect(new Set(result.finalists.map((o) => o.hotelId)).size).toBe(5);
   });
 
   it('checks the likely finalists of every goal first, then the goal order without window and dominance', () => {
@@ -156,11 +159,44 @@ describe('preselect', () => {
     extras.forEach(([facility], i) => hotelsU.set(`U${i + 1}`, house(`U${i + 1}`, null, [facility])));
     const result = preselect({ goal: 'sparen', evaluated: withU, hotels: hotelsU, evidence });
     // Window from W1 (100 €, the cheapest checked house), not from U1 (80 €): W2 (110 €) stays in.
-    // W1 and W2 take their places first; two unchecked houses fill up, the others wait.
-    expect(result.finalists.map((o) => o.hotelId)).toEqual(['U1', 'U2', 'W1', 'W2']);
-    expect(result.runnersUp.map((o) => o.hotelId)).toEqual(['U3', 'U4']);
+    // W1 and W2 take their places first; three unchecked houses fill up, the last one waits.
+    expect(result.finalists.map((o) => o.hotelId)).toEqual(['U1', 'U2', 'U3', 'W1', 'W2']);
+    expect(result.runnersUp.map((o) => o.hotelId)).toEqual(['U4']);
     // Only DOM is dominated (by W1); the unchecked houses push no checked one out.
     expect(result.excluded.dominated).toBe(1);
+  });
+
+  it('lets a clearly cheaper checked house down to 6.5 in, but not for "Komfort"', () => {
+    // Cheapest house meeting the 7.5 floor: W1 at 100 €. BUDGET (6.7) at 75 € is 25 % cheaper.
+    // Without TRAP: a cheap BUDGET lowers the star-trap reference below TRAP's price.
+    const withBudget = (eur: number, q = 6.7) => [...offers.filter((o) => o.hotelId !== 'TRAP'), offer('BUDGET', eur, q)];
+    const hotelsB = new Map(hotels).set('BUDGET', house('BUDGET', null, [16]));
+    const evidenceB = new Map(evidence).set('BUDGET', clean);
+    const ids = (goal: Goal, list: EvaluatedOffer[], ev = evidenceB) => preselect({ goal, evaluated: list, hotels: hotelsB, evidence: ev }).finalists.map((o) => o.hotelId);
+    expect(ids('ausgewogen', withBudget(75))).toContain('BUDGET');
+    // Only 20 % cheaper, or below 6.5, or never checked, or "Komfort": out.
+    expect(ids('ausgewogen', withBudget(80))).not.toContain('BUDGET');
+    expect(ids('ausgewogen', withBudget(75, 6.4))).not.toContain('BUDGET');
+    expect(ids('ausgewogen', withBudget(75), evidence)).not.toContain('BUDGET');
+    expect(ids('komfort', withBudget(50))).not.toContain('BUDGET');
+    // The exception does not move the price window: W2 (110 €) stays in.
+    expect(ids('sparen', withBudget(60))).toEqual(['BUDGET', 'W1', 'W2']);
+  });
+
+  it('lets one house without reviews in when price and extras fit the picture, marked by its missing score', () => {
+    // Rated flats cost 40–60 € per night (median 52.50 €); 80 % of that is 42 €.
+    const fresh = (id: string, eur: number) => offer(id, eur, null);
+    const hotelsN = new Map(hotels).set('NEW1', house('NEW1', null, [16])).set('NEW2', house('NEW2', null, [9])).set('SPA', house('SPA', null, [4, 18]));
+    const ids = (goal: Goal, extra: EvaluatedOffer[]) =>
+      preselect({ goal, evaluated: [...offers, ...extra], hotels: hotelsN, evidence }).finalists.map((o) => o.hotelId);
+    expect(ids('sparen', [fresh('NEW1', 104)])).toEqual(['W1', 'NEW1', 'W2']);
+    // Too cheap for its kind: out.
+    expect(ids('sparen', [fresh('NEW1', 80)])).toEqual(['W1', 'W2']);
+    // Below the usual price with sauna and pool that hardly any rated house offers: out.
+    expect(ids('sparen', [fresh('SPA', 100)])).toEqual(['W1', 'W2']);
+    // At most one, and never for "Komfort".
+    expect(ids('sparen', [fresh('NEW1', 104), fresh('NEW2', 106)])).toHaveLength(3);
+    expect(ids('komfort', [fresh('NEW1', 104)])).not.toContain('NEW1');
   });
 
   it('lists the finalists of every goal once, for the follow-up round of the review check', () => {
@@ -204,13 +240,24 @@ describe('finale', () => {
     const nonRefundable = { ...offers.find((o) => o.hotelId === 'LUX'), refundable: false, placeId: 'P2', checkin: '2026-10-02' } as EvaluatedOffer;
     const [, lux] = compareFinalists([input('W1'), input('LUX', { offer: nonRefundable, hotel: { ...hotels.get('LUX')!, location: { lat: 47.6, lng: 10.75 } } })]);
     expect(lux?.gains.map((g) => g.code)).toEqual(['sauna_wellness', 'schwimmbad']);
-    // The flat can be cancelled for free and has a kitchen (holiday flat), the hotel room not;
-    // the more decisive difference first.
-    expect(lux?.losses.map((g) => g.label)).toEqual(['kostenlos stornierbar', 'Küche']);
+    // The flat can be cancelled for free, lies in the centre and has a kitchen (holiday flat),
+    // the hotel room not; the more decisive difference first.
+    expect(lux?.losses.map((g) => g.label)).toEqual(['kostenlos stornierbar', 'Ortskern', 'Küche']);
     expect(lux?.qualityDelta).toBe(1);
     expect(lux?.otherPlace).toBe(true);
     expect(lux?.otherDates).toBe(true);
     expect(lux?.location).toBe('ausserhalb');
+  });
+
+  it('compares walking distances from OpenStreetMap: whether is the difference, how far the label', () => {
+    const facts = (lift: number | null, bus: number | null, gastro = 0) => ({ walk: { lift, bahn: null, bus, supermarkt: null }, gastro });
+    const withFacts = (id: string, f: ReturnType<typeof facts>) => input(id, { hotel: { ...hotels.get(id)!, location: { lat: 47.5712, lng: 10.7011 }, facts: f } });
+    const [base, near] = compareFinalists([withFacts('W1', facts(null, 3, 5)), withFacts('W2', facts(2, 6))]);
+    expect(base?.features.map((f) => f.label)).toContain('3 min zur Bushaltestelle');
+    expect(near?.gains.map((g) => g.label)).toContain('2 min zum Lift');
+    // Both near a bus stop: no gain or loss, each shows its own minutes.
+    expect(near?.features.map((f) => f.label)).toContain('6 min zur Bushaltestelle');
+    expect(near?.losses.map((g) => g.label)).toEqual(['Restaurants in der Nähe']);
   });
 
   it('classifies the distance to the town centre', () => {

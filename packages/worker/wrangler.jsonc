@@ -34,6 +34,7 @@
     "LITEAPI_BOOK_BASE_URL": "https://book.liteapi.travel/v3.0",
     "LITEAPI_PAYMENT_MODE": "sandbox",
     "ORS_BASE_URL": "https://api.heigit.org/openrouteservice",
+    "OVERPASS_BASE_URL": "https://overpass-api.de/api/interpreter",
     // Fake mode only: simulated latency and every n-th rate call failing
     // persistently, so progress and "keine Daten" cells are visible locally.
     "FAKE_LATENCY_MS": "150",
@@ -56,6 +57,7 @@
         "LITEAPI_BOOK_BASE_URL": "https://book.liteapi.travel/v3.0",
         "LITEAPI_PAYMENT_MODE": "sandbox",
         "ORS_BASE_URL": "https://api.heigit.org/openrouteservice",
+        "OVERPASS_BASE_URL": "https://overpass-api.de/api/interpreter",
         "BOOKING_ENABLED": "true"
       }
     },
@@ -71,6 +73,7 @@
         "LITEAPI_BOOK_BASE_URL": "https://book.liteapi.travel/v3.0",
         "LITEAPI_PAYMENT_MODE": "live",
         "ORS_BASE_URL": "https://api.heigit.org/openrouteservice",
+        "OVERPASS_BASE_URL": "https://overpass-api.de/api/interpreter",
         "BOOKING_ENABLED": "true"
       }
     }

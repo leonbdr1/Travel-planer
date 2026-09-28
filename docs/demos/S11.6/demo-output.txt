@@ -1,0 +1,27 @@
+$ npm run demo -- s11.6
+# recorded 2026-09-28T18:52:57.685Z
+
+Beschlossene Werte (28.09.2026):
+  Mindestnote Günstig und sauber 7,0, Preis-Leistung 7,5, Komfort 8,3
+  Ausnahme: ab 6,5, geprüft, höchstens 75 % des günstigsten Hauses mit normaler Note, nicht bei Komfort
+  Warnsignale (bestätigt/ungeprüft): schimmel 2/3, ungeziefer 2/3, sauberkeit 3/4
+  Ohne Bewertungen: höchstens 1 im Finale, raus unter 80 % des Mittelpreises oder billiger mit mehr Extras als 75 % der bewerteten Häuser
+  Lob-Label: mindestens 3 Gäste und 5 % der Bewertungen, 80 % Lob-Anteil, letzte 6 Monate zählen 2-fach
+  Finale: höchstens 5 Unterkünfte
+starting local stack …
+Suche: 5 Orte × Freitage 2.–16.10., Ziel „Günstig und sauber“
+  Günstig und sauber: 2 Finalisten (Hotel Adler 8,1 103 €; Ferienwohnung Sonnenhof 7,2 118 €)
+    ohne Bewertungen im Finale: 0; unter der Mindestnote (Ausnahme): 0; mit Warnsignal: 0; aussortiert ohne Bewertungen: 1
+  Preis-Leistung: 4 Finalisten (Hotel Adler 8,1 103 €; Pension Bergfrieden 8,0 148 €; Pension Waldesruh 8,0 172 €; Landhotel Bären 7,6 179 €)
+    ohne Bewertungen im Finale: 0; unter der Mindestnote (Ausnahme): 0; mit Warnsignal: 0; aussortiert ohne Bewertungen: 1
+  Komfort: 5 Finalisten (Boutique-Hotel Hirsch 8,5 252 €; Apartments Am Markt 9,0 280 €; Hotel Waldesruh 8,8 297 €; Pension Sonnenhof 9,0 306 €; Hotel Edelweiß 8,9 334 €)
+    ohne Bewertungen im Finale: 0; unter der Mindestnote (Ausnahme): 0; mit Warnsignal: 0; aussortiert ohne Bewertungen: 3
+  Label „Schöne Aussicht“ bei Boutique-Hotel Hirsch: 24× gelobt, 1× kritisiert, 100 Bewertungen geprüft
+  Label „Freundliches Personal“ bei Boutique-Hotel Hirsch: 18× gelobt, 0× kritisiert, 100 Bewertungen geprüft
+  Label „Besonders sauber“ bei Boutique-Hotel Hirsch: 19× gelobt, 0× kritisiert, 100 Bewertungen geprüft
+  Label „Schöne Aussicht“ bei Apartments Am Markt: 27× gelobt, 1× kritisiert, 100 Bewertungen geprüft
+  Label „Bequeme Betten“ bei Apartments Am Markt: 31× gelobt, 0× kritisiert, 100 Bewertungen geprüft
+  Label „Bequeme Betten“ bei Hotel Waldesruh: 25× gelobt, 1× kritisiert, 100 Bewertungen geprüft
+  Label „Gutes Frühstück“ bei Hotel Waldesruh: 22× gelobt, 2× kritisiert, 100 Bewertungen geprüft
+  Label „Freundliches Personal“ bei Hotel Waldesruh: 18× gelobt, 2× kritisiert, 100 Bewertungen geprüft
+→ Höchstens fünf Finalisten, höchstens eines ohne Bewertungen, schwächere nur deutlich günstiger und nie bei Komfort, keine Warnsignale, Labels nach Anteil

@@ -48,6 +48,11 @@ describe('countPraise', () => {
     expect(count([review('Great breakfast, tolle Lage.', null, null)])).toEqual({ fruehstueck: [1, 0], lage: [1, 0] });
   });
 
+  it('weights reviews of the last months up, for the praise and for the base', () => {
+    const [c] = countPraise([review('Tolles Frühstück.', null, 'de', '2026-09-01'), review('Tolles Frühstück.', null, 'de', '2025-06-01'), review('Schönes Zimmer.', null, 'de', '2025-06-01')], today);
+    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, praisedWeighted: constants.PRAISE_RECENT_WEIGHT + 1, reviewsWeighted: constants.PRAISE_RECENT_WEIGHT + 2 });
+  });
+
   it('only counts reviews of the last 24 months', () => {
     expect(count([review('Tolles Frühstück.', null, 'de', '2024-09-01'), review('Tolles Frühstück.', null, 'de', '2026-09-01')])).toEqual({ fruehstueck: [1, 0] });
     expect(count([review('Tolles Frühstück.', null, 'de', null)])).toEqual({});
@@ -61,6 +66,15 @@ describe('praiseLabels', () => {
     expect(praiseLabels([{ topic: 'fruehstueck', praised: constants.PRAISE_MIN_MENTIONS, criticized: 0 }], none)).toEqual(['fruehstueck']);
     // 23× praised, 2× criticised: 92 % → label. 8× praised, 3× criticised: 73 % → none.
     expect(praiseLabels([{ topic: 'fruehstueck', praised: 23, criticized: 2 }, { topic: 'lage', praised: 8, criticized: 3 }], none)).toEqual(['fruehstueck']);
+  });
+
+  it('is relative to the review volume: 3 of 1000 guests are no label, 3 of 40 are', () => {
+    const base = { topic: 'fruehstueck', praised: 3, criticized: 0, praisedWeighted: 3, criticizedWeighted: 0 };
+    expect(praiseLabels([{ ...base, reviewsWeighted: 1000 }], none)).toEqual([]);
+    expect(praiseLabels([{ ...base, reviewsWeighted: 40 }], none)).toEqual(['fruehstueck']);
+    // 5 % of 1000 reviews: 50 praising guests.
+    const many = { ...base, praised: 50, praisedWeighted: constants.PRAISE_MIN_REVIEW_SHARE * 1000, reviewsWeighted: 1000 };
+    expect(praiseLabels([many], none)).toEqual(['fruehstueck']);
   });
 
   it('never shows "Besonders sauber" next to a warning about dirt, mould, vermin or smell', () => {

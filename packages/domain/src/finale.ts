@@ -48,15 +48,19 @@ function centerDistance(f: FinalistInput): number | null {
 }
 
 /** `finalists` cheapest first (as `preselect` returns them). */
+function featuresOf(f: FinalistInput, km: number | null): OfferFeature[] {
+  return offerFeatures({ ...f.hotel, inCore: locationClass(km) === 'kern' }, f.offer, f.labels);
+}
+
 export function compareFinalists(finalists: readonly FinalistInput[]): FinaleEntry[] {
   const base = finalists[0];
   if (!base) return [];
-  const baseFeatures = offerFeatures(base.hotel, base.offer, base.labels);
+  const baseFeatures = featuresOf(base, centerDistance(base));
   const baseCodes = new Set(baseFeatures.map((f) => f.code));
   return finalists.map((f, index) => {
-    const features = index === 0 ? baseFeatures : offerFeatures(f.hotel, f.offer, f.labels);
-    const codes = new Set(features.map((x) => x.code));
     const km = centerDistance(f);
+    const features = index === 0 ? baseFeatures : featuresOf(f, km);
+    const codes = new Set(features.map((x) => x.code));
     const delta = f.offer.quality !== null && base.offer.quality !== null ? Math.round((f.offer.quality - base.offer.quality) * 10) / 10 : null;
     return {
       offer: f.offer,

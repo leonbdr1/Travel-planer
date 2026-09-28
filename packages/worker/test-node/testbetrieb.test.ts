@@ -24,12 +24,13 @@ const env = (extra: Record<string, string>) => ({ ...base, ...extra }) as unknow
 describe('runtime config', () => {
   it('reads per-provider sources for the local Testbetrieb', () => {
     const config = parseRuntimeConfig(env({ MAIL_SOURCE: 'fake', CATALOG_ALLOW_DRAFTS: 'true', BOOKING_ENABLED: 'false' }), 'v');
-    expect(configuredSources(config)).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'fake' });
+    expect(configuredSources(config)).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'fake', poi: 'real' });
     expect(configuredSources(parseRuntimeConfig(env({ PROVIDERS_MODE: 'fake', LITEAPI_SOURCE: 'real' }), 'v'))).toEqual({
       liteapi: 'real',
       routing: 'fake',
       llm: 'fake',
       mail: 'fake',
+      poi: 'fake',
     });
   });
 
@@ -85,7 +86,7 @@ describe('/meta/config', () => {
       const app = createApp({ dbFactory: () => ({ ...test.db, close: async () => undefined }) });
       const res = await app.request('/api/v1/meta/config', {}, env({ MAIL_SOURCE: 'fake', BOOKING_ENABLED: 'false' }) as never);
       const body = (await res.json()) as { provider_sources: unknown; booking_enabled: boolean };
-      expect(body.provider_sources).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'fake' });
+      expect(body.provider_sources).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'fake', poi: 'real' });
       expect(body.booking_enabled).toBe(false);
     } finally {
       await test.close();

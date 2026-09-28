@@ -1,6 +1,6 @@
 # Konzept: [ARBEITSTITEL] – Flexible Unterkunftssuche
 
-Stand: 28.09.2026 · Fassung 4 · Produktkonzept aus Phase 1, ergänzt in Phase 2 um Wünsche, Zielgebiete, Ortskatalog und die Einordnung in die Firmenplattform (Frontlift, fi-deck), in Fassung 4 um die Entscheidungshilfe (Ziel, automatische Vorauswahl, Finale mit Aufpreis-Vergleich, Lob-Labels; Abschnitte 9.9 bis 9.11, F15 bis F17). Die Technik steht in `docs/architektur.md`.
+Stand: 28.09.2026 · Fassung 4 · Produktkonzept aus Phase 1, ergänzt in Phase 2 um Wünsche, Zielgebiete, Ortskatalog und die Einordnung in die Firmenplattform (Frontlift, fi-deck), in Fassung 4 um die Entscheidungshilfe (Ziel, automatische Vorauswahl, Finale mit Aufpreis-Vergleich, Lob-Labels; Abschnitte 9.9 bis 9.11, F15 bis F17), am selben Tag präzisiert nach Bens Entscheidungen (Preisleiter mit fünf Finalisten, Lage aus OpenStreetMap, Ausnahme für deutlich günstigere Häuser, Häuser ohne Bewertungen, Lob-Labels nach Anteil). Die Technik steht in `docs/architektur.md`.
 
 ---
 
@@ -191,23 +191,23 @@ Grundsatz: Das Programm sortiert aus, was offensichtlich nicht passt. Zwischen d
 - **Sterne sind kein Qualitätsmerkmal.** Gerade günstige Häuser mit wenigen Sternen sind oft sauberer als 4-Sterne-Häuser zum Billigpreis. Sterne gehen nie in den Qualitätswert ein.
 - **Aussortiert wird automatisch, mit Grund und Anzahl:**
   1. Wünsche nicht erfüllt (Budget, Hund, Parkplatz und die übrigen Filter).
-  2. Keine Bewertungen: Sauberkeit ist nicht einschätzbar.
-  3. Warnsignale: Beschwerden über Schimmel, Ungeziefer oder Sauberkeit.
-  4. Zu schwach bewertet für das Ziel (Mindest-Qualitätswert je Ziel).
+  2. Keine Bewertungen und etwas passt nicht ins Bild: auffällig billig für die Sterne oder billiger mit mehr Extras als üblich (Hinweis auf ein Scheinangebot); bei „Komfort“ immer, weil die Qualität niemand bestätigt hat. Passt ein Haus ohne Bewertungen ins Bild, kommt höchstens eines ins Finale, gekennzeichnet „noch keine Bewertungen“.
+  3. Warnsignale: Beschwerden über Schimmel oder Ungeziefer von mindestens zwei Gästen, über Schmutz von mindestens drei (ein einzelner Gast kann sich irren).
+  4. Zu schwach bewertet für das Ziel (Mindest-Qualitätswert je Ziel). Ausnahme außer bei „Komfort“: Ein geprüftes Haus ohne Warnsignal ab 6,5 bleibt, wenn es mindestens 25 % günstiger ist als das günstigste Haus mit normaler Note; wenn die meisten sehr teuer sind, kann es trotzdem reichen.
   5. **Sterne-Falle:** 4 oder 5 Sterne zum Preis eines einfachen Hauses, ohne geprüfte gute Bewertungen.
   6. Zu teuer für das Ziel: bei „Günstig und sauber“ deutlich über dem günstigsten sauberen Angebot, bei „Preis-Leistung“ weit darüber; bei „Komfort“ zählt nur das Budget.
   7. Es gibt ein besseres Angebot: ein anderes ist nicht teurer, mindestens gleich gut bewertet und bietet alles, was dieses bietet.
-- **Finalisten:** Was übrig bleibt, höchstens 4 Unterkünfte mit je ihrem günstigsten passenden Angebot. Unterkünfte mit geprüften Rezensionen haben Vorrang; eine ungeprüfte rückt nur nach, wenn nicht genug geprüfte passen, und ist gekennzeichnet. Alle anderen Angebote bleiben unter „Alle Angebote“ erreichbar, die Aussortierung ist nachvollziehbar.
-- Die Schwellenwerte sind Startwerte und werden mit echten Daten kalibriert.
+- **Finalisten:** Was übrig bleibt, höchstens 5 Unterkünfte mit je ihrem günstigsten passenden Angebot. Unterkünfte mit geprüften Rezensionen haben Vorrang; eine ungeprüfte rückt nur nach, wenn nicht genug geprüfte passen, und ist gekennzeichnet. Alle anderen Angebote bleiben unter „Alle Angebote“ erreichbar, die Aussortierung ist nachvollziehbar.
+- Die Schwellenwerte hat Ben am 28.09.2026 festgelegt; sie werden mit echten Daten im Testbetrieb überprüft.
 
 ### 9.10 Finale: was der Mehrpreis bringt
-- Die Finalisten stehen nebeneinander, das günstigste zuerst.
-- Für jeden weiteren Finalisten zeigt das Produkt den Aufpreis gegenüber dem günstigsten und, was er bringt oder kostet: Ausstattung (Sauna, Schwimmbad, Parkplatz, Küche …), Verpflegung, Stornierbarkeit, Lob-Labels, Qualitätswert, Lage zum Ortskern, anderer Ort oder Termin. Beispiel: „+10 € · Sauna · Frühstück inklusive; dafür nicht kostenlos stornierbar“.
+- Die Finalisten stehen als **Preisleiter** untereinander, das günstigste zuerst: je Zeile Preis, Aufpreis, Name, Note und kurze Badges statt Sätzen (grün: hat es zusätzlich, durchgestrichen: fehlt, neutral: wie beim günstigsten), zum Beispiel „Sauna“, „Parkplatz“, „Bus 5 min“.
+- Für jeden weiteren Finalisten zeigt das Produkt den Aufpreis gegenüber dem günstigsten und, was er bringt oder kostet: Ausstattung (Sauna, Schwimmbad, Parkplatz, Küche …), Verpflegung, Stornierbarkeit, Lob-Labels, Qualitätswert, Lage zum Ortskern, Gehminuten zu Bushaltestelle, Bahnhof, Lift und Supermarkt sowie Restaurants in der Nähe (Kartendaten von OpenStreetMap), anderer Ort oder Termin.
 - Das Produkt empfiehlt im Finale keinen Favoriten. Ob dem Nutzer 10 € für die Sauna wert sind, entscheidet er selbst.
 
 ### 9.11 Lob-Labels
 - Aus den Rezensionen der geprüften Unterkünfte zählt das Produkt Lob und Kritik je Thema: Frühstück, Sauberkeit, Ruhe, Personal, Betten, Aussicht, Lage (Erwähnungen in den Feldern „Positiv“ und „Negativ“ der Bewertungen, Stichwortliste in fünf Sprachen, die letzten 24 Monate).
-- Ein Label wie „Gutes Frühstück“ oder „Besonders sauber“ erscheint, wenn mindestens 3 Gäste das Thema loben, das Lob mindestens 80 % der Erwähnungen ausmacht und keine Warnung zum passenden Beschwerdethema vorliegt. Die Detailansicht nennt die Zahlen, etwa „Frühstück: 23× gelobt, 2× kritisiert“.
+- Ein Label wie „Gutes Frühstück“ oder „Besonders sauber“ erscheint, wenn genug Gäste im Verhältnis zu allen Bewertungen das Thema loben (mindestens 3 und mindestens 5 % der Bewertungen; von 1000 Gästen sagen 3 nichts aus, von 40 schon), Bewertungen der letzten 6 Monate doppelt zählen, das Lob mindestens 80 % der Erwähnungen ausmacht und keine Warnung zum passenden Beschwerdethema vorliegt. Die Detailansicht nennt die Zahlen, etwa „Frühstück: 23× gelobt, 2× kritisiert“.
 - Labels erscheinen ohne Zutun des Nutzers in Liste, Finale und Detailansicht.
 
 ## 10. MVP-Features als User Stories
@@ -332,7 +332,7 @@ Akzeptanzkriterien:
 - Impressum, AGB, Datenschutzerklärung und Kontaktseite sind von jeder Seite aus erreichbar.
 - Die Seite „So funktioniert's“ erklärt die Datenquelle, die Rolle des Betreibers als Vermittler, den Ablauf der Zahlung, die Ranking-Kriterien und den Einsatz von KI.
 - Nach dem Aufenthalt wird automatisch eine Einladung zur Bewertung versendet.
-- Datenquellen werden genannt, wo Lizenzen es verlangen: Ortsdaten von GeoNames (CC BY 4.0) und Kartendaten von OpenStreetMap-Mitwirkenden, auf denen die Fahrzeitberechnung beruht.
+- Datenquellen werden genannt, wo Lizenzen es verlangen: Ortsdaten von GeoNames (CC BY 4.0) und Kartendaten von OpenStreetMap-Mitwirkenden, auf denen die Fahrzeitberechnung und die Gehminuten im Finale beruhen.
 - Kein Text der Oberfläche verstößt gegen die Claims-Regel (Abschnitt 7, Punkt 9); der Build bricht bei einem Verstoß ab.
 
 ### F15 Ziel und automatische Vorauswahl
@@ -348,7 +348,7 @@ Akzeptanzkriterien:
 Als Nutzer möchte ich zwischen den letzten passenden Unterkünften selbst entscheiden und dabei sehen, was mir ein Mehrpreis bringt.
 
 Akzeptanzkriterien:
-- Höchstens 4 Finalisten nebeneinander, das günstigste zuerst, ohne Empfehlung.
+- Höchstens 5 Finalisten als Preisleiter, das günstigste zuerst, ohne Empfehlung.
 - Jeder weitere Finalist zeigt den Aufpreis und die Unterschiede zum günstigsten (Abschnitt 9.10).
 - *Gegeben* Wohnung 1 für 100 € und Wohnung 2 für 110 € mit Sauna, beide sauber und gut bewertet, Ziel „Günstig und sauber“. *Dann* stehen beide im Finale, und Wohnung 2 zeigt „+10 € · Sauna“. Eine Luxuswohnung für 300 € und eine Wohnung für 80 € mit Beschwerden über Schmutz erscheinen nicht im Finale.
 
@@ -374,7 +374,6 @@ Akzeptanzkriterien:
 | Werbung | Optional. Nur, wenn sie die Konversion nicht beeinträchtigt. |
 | Weitere Sprachen und Märkte | Nach Erfolg in Deutschland, Österreich und der Schweiz. |
 | Reiseplanung (Aktivitäten, Routen) | Niedrige Priorität. |
-| Lage-Fakten im Finale | Bushaltestelle in der Nähe, belebter oder ruhiger Ort; braucht Kartendaten von OpenStreetMap (neue Datenquelle, ⛔ Freigabe). |
 
 ## 12. Verworfene Ideen
 

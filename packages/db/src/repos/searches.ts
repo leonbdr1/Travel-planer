@@ -313,7 +313,7 @@ export async function upsertOffers(db: Queryable, searchId: string, combinationI
   );
 }
 
-export type CacheNamespace = 'rates' | 'reference_price' | 'hotel_content';
+export type CacheNamespace = 'rates' | 'reference_price' | 'hotel_content' | 'location_facts';
 
 export async function getCacheEntry<T>(db: Queryable, namespace: CacheNamespace, key: string, now: Date): Promise<T | null> {
   const rows = await db.query<{ value: string }>(
@@ -321,6 +321,16 @@ export async function getCacheEntry<T>(db: Queryable, namespace: CacheNamespace,
     [namespace, key, now.toISOString()],
   );
   return rows[0] ? (JSON.parse(rows[0].value) as T) : null;
+}
+
+/** Several keys of one namespace in one query; expired and missing keys are left out. */
+export async function getCacheEntries<T>(db: Queryable, namespace: CacheNamespace, keys: readonly string[], now: Date): Promise<Map<string, T>> {
+  if (keys.length === 0) return new Map();
+  const rows = await db.query<{ key: string; value: string }>(
+    'SELECT key, value::text AS value FROM app.cache_entries WHERE namespace = $1 AND key = ANY($2::text[]) AND expires_at > $3::timestamptz',
+    [namespace, keys, now.toISOString()],
+  );
+  return new Map(rows.map((r) => [r.key, JSON.parse(r.value) as T]));
 }
 
 export async function putCacheEntry(db: Queryable, namespace: CacheNamespace, key: string, value: unknown, expiresAt: Date): Promise<void> {

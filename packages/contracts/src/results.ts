@@ -188,7 +188,7 @@ export const finaleQuerySchema = resultsQuerySchema
   .pick({ budget: true, min_stars: true, min_rating: true, min_reviews: true, refundable: true, board: true, types: true, chips: true })
   .extend({ goal: goalSchema.optional() });
 
-export const offerFeatureSchema = z.object({ code: z.string(), label: z.string() });
+export const offerFeatureSchema = z.object({ code: z.string(), label: z.string(), minutes: z.number().int().optional() });
 export type OfferFeatureDto = z.infer<typeof offerFeatureSchema>;
 
 export const exclusionReasonSchema = z.enum(['filters', 'no_reviews', 'red_flag', 'star_trap', 'low_quality', 'too_expensive', 'dominated']);

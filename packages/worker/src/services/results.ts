@@ -21,6 +21,7 @@ import {
   type EvaluatedOffer,
   type FilterSettings,
   type HotelEvidence,
+  type LocationFacts,
   type PreselectHotel,
   type ReviewSignals,
   type SortKey,
@@ -105,8 +106,11 @@ export async function evaluateSearch(db: Queryable, searchId: string, filters: F
 }
 
 /** Hotels as the pre-selection sees them: stars (never a quality signal), facilities, type. */
-export function preselectHotels(hotels: readonly EvaluationHotelRow[]): Map<string, PreselectHotel> {
-  return new Map(hotels.map((h) => [h.id, { id: h.id, stars: h.stars, facilityIds: h.facilityIds, hotelType: h.hotelType }]));
+/** `facts`: location facts from OpenStreetMap where known (S11.5); they count in the comparison. */
+export function preselectHotels(hotels: readonly EvaluationHotelRow[], facts?: ReadonlyMap<string, LocationFacts>): Map<string, PreselectHotel> {
+  return new Map(
+    hotels.map((h) => [h.id, { id: h.id, stars: h.stars, facilityIds: h.facilityIds, hotelType: h.hotelType, facts: facts?.get(h.id) ?? null }]),
+  );
 }
 
 type SummaryHotel = Pick<EvaluationHotelRow, 'id' | 'name' | 'stars' | 'rating' | 'reviewCount' | 'hotelType' | 'city' | 'mainPhotoUrl'>;

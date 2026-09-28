@@ -105,6 +105,11 @@ export const productConfigSchema = z.strictObject({
       /** Coarse first stage per Cloudflare location (RATE_LIMITER binding), all API routes but health. */
       coarse_per_minute: positiveInt,
     }),
+    /** Local dev and Testbetrieb only (APP_ENV=dev): higher search limits for trying things out. */
+    dev_rate_limits: z.strictObject({
+      searches_per_hour: positiveInt,
+      searches_per_day: positiveInt,
+    }),
     daily_quotas: z.strictObject({
       searches: positiveInt,
       liteapi_calls: positiveInt,

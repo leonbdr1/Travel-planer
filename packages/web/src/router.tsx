@@ -11,6 +11,7 @@ import { BookingPayment } from './pages/BookingPayment';
 import { BookingReturn } from './pages/BookingReturn';
 import { BookingView } from './pages/BookingView';
 import { MyBooking } from './pages/MyBooking';
+import { Developer } from './pages/Developer';
 import { Contact, HowItWorks, Imprint, Privacy, Terms } from './pages/Legal';
 
 export const router = createBrowserRouter([
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
       { path: 'buchung/:ref/abschluss', element: <BookingReturn /> },
       { path: 'so-funktionierts', element: <HowItWorks /> },
       { path: 'ranking', element: <Ranking /> },
+      { path: 'entwickler', element: <Developer /> },
       { path: 'impressum', element: <Imprint /> },
       { path: 'agb', element: <Terms /> },
       { path: 'datenschutz', element: <Privacy /> },

@@ -78,7 +78,10 @@ export const resultRoutes = new Hono<AppEnv>()
   .get('/:id/finale', async (c) => {
     const search = await authorizedSearch(c, c.req.param('id'));
     const query = parseQuery(c, finaleQuerySchema);
-    const body: FinaleResponse = await buildFinale(c.get('deps').db(), search, searchRequestSchema.parse(search.request), query);
+    const body: FinaleResponse = await buildFinale(c.get('deps').db(), search, searchRequestSchema.parse(search.request), query, {
+      source: c.get('deps').providers().sources.poi,
+      now: c.get('deps').now(),
+    });
     return c.json(body);
   })
   .get('/:id/hotels/:hotelId', async (c) => {

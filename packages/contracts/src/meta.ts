@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const metaConfigResponseSchema = z.object({
   app_env: z.enum(['dev', 'test', 'staging', 'production']),
   providers_mode: z.enum(['fake', 'sandbox', 'live']),
+  /** Effective: in dev the developer page can switch the AI off. */
   llm_enabled: z.boolean(),
   payment_mode: z.enum(['sandbox', 'live']),
   booking_enabled: z.boolean(),
@@ -12,7 +13,10 @@ export const metaConfigResponseSchema = z.object({
     routing: z.enum(['fake', 'real']),
     llm: z.enum(['fake', 'real']),
     mail: z.enum(['fake', 'real']),
+    poi: z.enum(['fake', 'real']),
   }),
+  /** The developer page (/entwickler) is available: local dev only. */
+  dev_settings: z.boolean(),
   catalog_drafts: z.boolean(),
   chips: z.array(z.object({ code: z.string(), label: z.string() })),
   themes: z.array(z.object({ code: z.string(), label: z.string() })),

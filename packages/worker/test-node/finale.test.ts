@@ -13,6 +13,7 @@ import { createProviders, hasFallenHotel, hotelCountAt, type ProvidersConfig } f
 import { fakeResponders } from '@reiseplaner/skills';
 import { createApp } from '../src/app';
 import type { Env } from '../src/env';
+import { runLocationFacts, type LocationRunDeps } from '../src/services/location';
 import { runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../src/services/reviews';
 import { runFinalize, runLoad, runRatesBlock, runScoreStep, sha256Hex } from '../src/services/search-run';
 
@@ -65,7 +66,9 @@ beforeEach(async () => {
 });
 afterEach(async () => test.close());
 
-async function searched(goal: Goal | undefined): Promise<{ id: string; deps: ReviewRunDeps; providers: ReturnType<typeof createProviders> }> {
+type Deps = ReviewRunDeps & LocationRunDeps;
+
+async function searched(goal: Goal | undefined): Promise<{ id: string; deps: Deps; providers: ReturnType<typeof createProviders> }> {
   const providers = createProviders(config, { now, fake: { llmResponders: fakeResponders }, sleep: async () => undefined });
   const placeIds: string[] = [];
   for (const [i, [name, lat, lng]] of PLACES.entries()) {
@@ -106,8 +109,10 @@ async function searched(goal: Goal | undefined): Promise<{ id: string; deps: Rev
       { checkin: '2026-10-09', checkout: '2026-10-11' },
     ],
   });
-  const deps: ReviewRunDeps = {
+  const deps: Deps = {
     db: test.db,
+    poi: providers.poi,
+    poiSource: 'fake',
     liteapi: providers.liteapi,
     llm: providers.llm,
     llmEnabled: true,
@@ -130,11 +135,13 @@ async function searched(goal: Goal | undefined): Promise<{ id: string; deps: Rev
     if (followUp.candidates === 0) break;
     await runReviewsVerify(deps, id);
   }
+  locationRun = await runLocationFacts(deps, id);
   await runFinalize(deps, id);
   return { id, deps, providers };
 }
 
 let followUps: number[] = [];
+let locationRun: Awaited<ReturnType<typeof runLocationFacts>> | undefined;
 
 async function get(providers: ReturnType<typeof createProviders>, path: string) {
   const db: Db = { ...test.db, close: async () => undefined };
@@ -209,6 +216,22 @@ describe('finale (architektur.md 6.15)', () => {
     const cheapest = (f: FinaleResponse) => f.finalists[0]?.offer.total_price_eur ?? 0;
     expect(cheapest(komfort)).toBeGreaterThanOrEqual(cheapest(sparen));
     expect((await get(providers, `/searches/${id}/finale?goal=luxus`)).status).toBe(400);
+  });
+
+  it('shows walking minutes from OpenStreetMap for the finalists, fetched once per search and cached', async () => {
+    const { id, providers, deps } = await searched('ausgewogen');
+    expect(locationRun?.fetched).toBeGreaterThan(0);
+    expect(locationRun?.failed).toBe(false);
+    const finale = await finaleOf(providers, id);
+    const labels = finale.finalists.flatMap((f) => f.features.filter((x) => x.code.startsWith('lage_')).map((x) => x.label));
+    expect(labels.some((l) => /^\d+ min zu/.test(l))).toBe(true);
+    // Every finalist of every goal has facts: the step covered them all, a repeat fetches nothing.
+    const again = await runLocationFacts(deps, id);
+    expect(again.fetched).toBe(0);
+    expect(again.reused).toBe(again.houses);
+    // Without the service the finale still works, only without walking minutes.
+    const down = await runLocationFacts({ ...deps, poiSource: 'real', poi: { around: async () => Promise.reject(new Error('down')) } }, id);
+    expect(down.failed).toBe(true);
   });
 
   it('uses the default goal for searches without one and follows the list filters', async () => {

@@ -105,7 +105,7 @@ attribution:
     license_url: https://creativecommons.org/licenses/by/4.0/
     source_url: https://www.geonames.org/
   - id: openstreetmap
-    text: "Fahrzeiten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende"
+    text: "Fahrzeiten und Gehminuten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende"
     license: ODbL
     license_url: https://opendatacommons.org/licenses/odbl/
     source_url: https://www.openstreetmap.org/copyright
@@ -128,6 +128,11 @@ limits:
     access_link_per_hour: 5
     reference_price_per_minute: 10
     coarse_per_minute: 300
+  # Nur lokal (APP_ENV=dev, Testbetrieb): höhere Suchgrenzen zum Ausprobieren,
+  # von Ben am 28.09.2026 festgelegt. Staging und Produktion nutzen rate_limits.
+  dev_rate_limits:
+    searches_per_hour: 60
+    searches_per_day: 200
   daily_quotas:
     searches: 500
     liteapi_calls: 60000

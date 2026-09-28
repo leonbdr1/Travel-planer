@@ -9,7 +9,7 @@ export function isProvidersMode(value: unknown): value is ProvidersMode {
   return typeof value === 'string' && (providersModes as readonly string[]).includes(value);
 }
 
-export const providerNames = ['liteapi', 'routing', 'llm', 'mail'] as const;
+export const providerNames = ['liteapi', 'routing', 'llm', 'mail', 'poi'] as const;
 export type ProviderName = (typeof providerNames)[number];
 export const providerSourceValues = ['fake', 'real'] as const;
 export type ProviderSource = (typeof providerSourceValues)[number];
@@ -22,5 +22,6 @@ export function providerSources(mode: ProvidersMode, overrides: Partial<Provider
     routing: overrides.routing ?? base,
     llm: overrides.llm ?? base,
     mail: overrides.mail ?? base,
+    poi: overrides.poi ?? base,
   };
 }

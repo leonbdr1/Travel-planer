@@ -39,7 +39,7 @@ export async function run(out: DemoOutput): Promise<number> {
     out.log(`  Hotel Schwanen: Warnung Schimmel ${mould ? 'ja' : 'nein'}, Label „Besonders sauber“ ${cleanLabel ? 'ja' : 'nein'}, Labels: ${schwanen?.labels.map((l) => l.label).join(', ') || 'keine'}`);
 
     const ok = search.status === 'done' && consistent && mould && !cleanLabel;
-    out.log(ok ? `→ Labels erscheinen von selbst, jedes mit mindestens ${constants.PRAISE_MIN_MENTIONS}× Lob und ${constants.PRAISE_MIN_SHARE * 100} % Anteil; keine Sauberkeit neben Schimmel` : '→ UNEXPECTED');
+    out.log(ok ? `→ Labels erscheinen von selbst, jedes mit mindestens ${constants.PRAISE_MIN_MENTIONS}× Lob (und ${constants.PRAISE_MIN_REVIEW_SHARE * 100} % der Bewertungen) und ${constants.PRAISE_MIN_SHARE * 100} % Anteil; keine Sauberkeit neben Schimmel` : '→ UNEXPECTED');
     return ok ? 0 : 1;
   } finally {
     await stack.stop();

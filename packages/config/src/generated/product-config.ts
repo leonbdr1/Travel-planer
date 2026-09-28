@@ -108,7 +108,7 @@ export const productConfig: ProductConfig = {
     },
     {
       "id": "openstreetmap",
-      "text": "Fahrzeiten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende",
+      "text": "Fahrzeiten und Gehminuten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende",
       "license": "ODbL",
       "license_url": "https://opendatacommons.org/licenses/odbl/",
       "source_url": "https://www.openstreetmap.org/copyright"
@@ -133,6 +133,10 @@ export const productConfig: ProductConfig = {
       "access_link_per_hour": 5,
       "reference_price_per_minute": 10,
       "coarse_per_minute": 300
+    },
+    "dev_rate_limits": {
+      "searches_per_hour": 60,
+      "searches_per_day": 200
     },
     "daily_quotas": {
       "searches": 500,

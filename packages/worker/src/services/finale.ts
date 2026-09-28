@@ -5,9 +5,11 @@
 // finalist comes first, every other one shows its surcharge and what it
 // brings or lacks.
 import type { FinaleResponse, FinalistDto, SearchRequest } from '@reiseplaner/contracts';
+import type { ProviderSource } from '@reiseplaner/providers';
 import { searchPlaces, type Queryable, type SearchRow } from '@reiseplaner/db';
 import { compareFinalists, DEFAULT_GOAL, preselect, type Goal, type HotelEvidence } from '@reiseplaner/domain';
 import { effectiveFilters, evaluateSearch, filtersFromQuery, filtersFromRequest, hotelSummary, offerDto, preselectHotels, qualityDto } from './results';
+import { loadLocationFacts } from './location';
 import { loadReviewData, NO_REVIEW_DATA } from './reviews';
 
 export async function buildFinale(
@@ -15,13 +17,16 @@ export async function buildFinale(
   search: Pick<SearchRow, 'id' | 'status'>,
   request: SearchRequest,
   query: Record<string, string | undefined> & { goal?: Goal | undefined },
+  location: { source: ProviderSource; now: Date },
 ): Promise<FinaleResponse> {
   const filters = filtersFromQuery(query, filtersFromRequest(request));
   const reviews = await loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA);
   const data = await evaluateSearch(db, search.id, filters, reviews);
   const goal = query.goal ?? request.goal ?? DEFAULT_GOAL;
   const evidence: ReadonlyMap<string, HotelEvidence> = reviews.evidence ?? new Map();
-  const selection = preselect({ goal, evaluated: data.evaluated, hotels: preselectHotels(data.hotels), evidence });
+  // Location facts exist for the likely finalists (step `location-facts`); others compare without them.
+  const facts = await loadLocationFacts(db, location.source, data.hotels.map((h) => h.id), location.now).catch(() => new Map());
+  const selection = preselect({ goal, evaluated: data.evaluated, hotels: preselectHotels(data.hotels, facts), evidence });
 
   const places = new Map((await searchPlaces(db, search.id)).map((p) => [p.placeId, { lat: p.lat, lng: p.lng }]));
   const entries = compareFinalists(
@@ -32,6 +37,7 @@ export async function buildFinale(
         hotel: {
           facilityIds: h?.facilityIds ?? [],
           hotelType: h?.hotelType ?? null,
+          facts: facts.get(offer.hotelId) ?? null,
           location: h && h.lat !== null && h.lng !== null ? { lat: h.lat, lng: h.lng } : null,
         },
         place: places.get(offer.placeId) ?? null,

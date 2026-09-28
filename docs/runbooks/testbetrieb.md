@@ -18,7 +18,7 @@ Stand: Die Anbindungen an LiteAPI und openrouteservice sind nach der Architektur
 
 - **LiteAPI** (Unterkünfte, Preise, Rezensionen; Pflicht): auf liteapi.travel ein kostenloses Konto anlegen. Im Dashboard unter den API-Schlüsseln liegt ein **Sandbox-Schlüssel** (beginnt mit `sand_`). Ob die Sandbox echte Preise liefert, zeigt Schritt 3; sonst nehmen wir den Produktionsschlüssel aus demselben Dashboard. Es wird nichts gebucht.
 - **openrouteservice** (Fahrzeiten; optional): auf openrouteservice.org kostenlos registrieren (Standard-Plan), im Dashboard einen Schlüssel („Token“) erzeugen. Ohne Schlüssel rechnet das System mit einer Luftlinien-Schätzung und kennzeichnet sie.
-- **Anthropic** (KI-Prüfung der Rezensionen und Übersetzung von Freitextwünschen; optional): auf console.anthropic.com einen API-Schlüssel erzeugen und etwas Guthaben aufladen (5–10 $ reichen lange). Ein Tagesdeckel von 5 $ ist im Produkt eingebaut; zusätzlich kannst du in der Console ein Ausgabenlimit setzen. Eine Suche kostet wenige Cent.
+- **Anthropic** (KI-Prüfung der Rezensionen und Übersetzung von Freitextwünschen; optional): auf console.anthropic.com einen API-Schlüssel erzeugen und etwas Guthaben aufladen (5–10 $ reichen lange). Ein Tagesdeckel von 5 $ ist im Produkt eingebaut; zusätzlich kannst du in der Console ein Ausgabenlimit setzen. Eine Suche kostet wenige Cent. Ein Claude-Pro-Abo gilt dafür nicht (die API wird getrennt abgerechnet). Die KI bleibt im Testbetrieb aus, bis du sie auf der Entwicklerseite einschaltest.
 
 Schlüssel nie in den Chat kopieren.
 
@@ -26,7 +26,7 @@ Schlüssel nie in den Chat kopieren.
 
 Im Menü der Cloud-Umgebung in der Titelleiste der Sitzung auf „Edit“:
 
-- **Network access:** diese Domains erlauben: `api.liteapi.travel`, `book.liteapi.travel`, `docs.liteapi.travel`, `api.heigit.org`, `api.openrouteservice.org`.
+- **Network access:** diese Domains erlauben: `api.liteapi.travel`, `book.liteapi.travel`, `docs.liteapi.travel`, `api.heigit.org`, `api.openrouteservice.org`, `overpass-api.de` (OpenStreetMap), `api.anthropic.com`.
 - **Umgebungsvariablen** (oder „API credentials“, falls angeboten): `REISEPLANER_LITEAPI_API_KEY`, `REISEPLANER_ORS_API_KEY`, `REISEPLANER_ANTHROPIC_API_KEY`. Das Präfix verhindert Überschneidungen mit dem Zugang der Sitzung selbst.
 
 Danach eine **neue Sitzung** starten (Änderungen gelten erst dort) und schreiben: „Testbetrieb prüfen und reparieren“.
@@ -54,9 +54,13 @@ Oben auf jeder Seite zeigt ein gelber Balken, was echt und was simuliert ist. Sp
 
 ### 5. Nutzen
 
-Suche wie ein Kunde: Startort, Fahrzeit, Zeitfenster, Nächte, Anreisetage, Wünsche und mit einem Tipp dein Ziel („Günstig und sauber“, „Preis-Leistung“ oder „Komfort“). Ergebnis: oben „Deine Auswahl“ mit höchstens vier Unterkünften, die günstigste zuerst, bei den anderen der Aufpreis und was er bringt („+15 € · Dafür: Frühstück inklusive · Sauna“), darunter aufklappbar, was aussortiert wurde und warum. Das Ziel lässt sich oben ohne neue Suche umschalten. Darunter „Alle Angebote“ mit Preis-Matrix, Liste, Lob-Labels wie „Besonders sauber“ und „Weitere Filter“ (Sterne, Mindestbewertung); Detailseite mit allen Terminen, Qualitätswert, Rezensionscheck und „Was Gäste loben“. Zum Buchen „auf Google Maps ansehen“ und direkt bei der Unterkunft buchen.
+Suche wie ein Kunde: Startort, Fahrzeit, Zeitfenster, Nächte, Anreisetage, Wünsche und mit einem Tipp dein Ziel („Günstig und sauber“, „Preis-Leistung“ oder „Komfort“). Ergebnis: oben „Deine Auswahl“ als Preisleiter mit höchstens fünf Unterkünften, die günstigste zuerst, bei den anderen der Aufpreis und kurze Badges (grün: hat es zusätzlich, z. B. „Sauna“ oder „Lift 3 min“; durchgestrichen: fehlt), darüber aufklappbar, was aussortiert wurde und warum. Das Ziel lässt sich oben ohne neue Suche umschalten. Darunter „Alle Angebote“ mit Preis-Matrix, Liste, Lob-Labels wie „Besonders sauber“ und „Weitere Filter“ (Sterne, Mindestbewertung); Detailseite mit allen Terminen, Qualitätswert, Rezensionscheck und „Was Gäste loben“. Zum Buchen „auf Google Maps ansehen“ und direkt bei der Unterkunft buchen.
 
-Die Schwellen der Vorauswahl (wann etwas zu teuer, zu schwach oder eine Sterne-Falle ist) sind Startwerte. Wenn dir mit echten Hotels etwas falsch aussortiert oder durchgelassen vorkommt: Suche und Beobachtung notieren, dann kalibrieren wir.
+Die Schwellen der Vorauswahl hast du am 28.09.2026 festgelegt (Mindestnote 7,0 / 7,5 / 8,3 mit Ausnahme ab 6,5 bei mindestens 25 % günstiger, Preisfenster +35 % / +75 %, Schimmel ab 2 Gästen, Schmutz ab 3, höchstens 5 Finalisten). Wenn dir mit echten Hotels etwas falsch aussortiert oder durchgelassen vorkommt: Suche und Beobachtung notieren, dann justieren wir.
+
+**KI-Kosten im Griff:** Der gelbe Balken führt zur **Entwicklerseite** (`/entwickler`). Dort schaltest du die KI-Prüfung der Rezensionen an oder aus. Mit echtem Anthropic-Schlüssel ist sie **standardmäßig aus**: Rezensionen werden dann nur per Stichwort geprüft, Warnhinweise stehen als „ungeprüft“ da, es entstehen keine KI-Kosten. Eingeschaltet kostet eine Suche wenige Cent; die Seite zeigt den heutigen Verbrauch. Der Schalter gilt ab der nächsten Suche. Im lokalen Test gelten außerdem höhere Suchgrenzen (60 pro Stunde, 200 pro Tag).
+
+**Gehminuten** (Bushaltestelle, Bahnhof, Lift, Supermarkt, Restaurants in der Nähe) kommen aus OpenStreetMap, ohne Konto und ohne Schlüssel. `testbetrieb pruefen` fragt die Punkte rund um Füssen einmal ab („Lage (OpenStreetMap)“).
 
 ## Grenzen im Testbetrieb
 
@@ -83,7 +87,3 @@ Nach `einrichten` oder `aus` einen laufenden `npm run dev` neu starten.
 - Die Seite zeigt „keine Daten“ in der Matrix: meist Zeitüberschreitung oder Tageskontingent; nach einer Minute erneut suchen.
 - Port 5173 belegt: den anderen Dienst beenden oder `PORT=5174 npm run dev`.
 - Alles zurücksetzen: `npm run dev` stoppen, Ordner `.data` löschen, neu starten.
-
-## Beim Testen notieren
-
-Die Vorauswahl arbeitet mit Startwerten (Mindestnote je Ziel, Preisfenster, Sterne-Falle, Warnsignale, Lob-Labels). Die Liste mit einer Spalte für deine Einschätzung steht in [`../startwerte.md`](../startwerte.md). Am meisten hilft ein konkreter Fall: Suche (Orte, Termin, Ziel) und welche Unterkunft zu Unrecht aussortiert oder durchgelassen wurde.

@@ -35,6 +35,8 @@ export interface Env {
   LITEAPI_BOOK_BASE_URL: string;
   LITEAPI_PAYMENT_MODE: string;
   ORS_BASE_URL: string;
+  /** OpenStreetMap Overpass API (location facts, S11.5). */
+  OVERPASS_BASE_URL?: string;
   /** Fake mode only: simulated latency and failure rate of the providers. */
   FAKE_LATENCY_MS?: string;
   FAKE_FAIL_EVERY?: string;
@@ -50,6 +52,7 @@ export interface Env {
   ROUTING_SOURCE?: string;
   LLM_SOURCE?: string;
   MAIL_SOURCE?: string;
+  POI_SOURCE?: string;
   /** Ops worker base URL for heartbeats (unset locally: no heartbeats). */
   OPS_HEARTBEAT_URL?: string;
   // Secrets (wrangler secret put / .dev.vars)
@@ -73,6 +76,7 @@ export const runtimeConfigSchema = z.object({
   LITEAPI_BOOK_BASE_URL: z.url(),
   LITEAPI_PAYMENT_MODE: z.enum(['sandbox', 'live']),
   ORS_BASE_URL: z.url(),
+  OVERPASS_BASE_URL: z.url().default('https://overpass-api.de/api/interpreter'),
   FAKE_LATENCY_MS: z.coerce.number().int().min(0).max(5000).default(0),
   FAKE_FAIL_EVERY: z.coerce.number().int().min(0).max(10_000).default(0),
   CATALOG_ALLOW_DRAFTS: boolString.default(false),
@@ -81,6 +85,7 @@ export const runtimeConfigSchema = z.object({
   ROUTING_SOURCE: z.enum(providerSourceValues).optional(),
   LLM_SOURCE: z.enum(providerSourceValues).optional(),
   MAIL_SOURCE: z.enum(providerSourceValues).optional(),
+  POI_SOURCE: z.enum(providerSourceValues).optional(),
 });
 
 export type RuntimeConfig = z.infer<typeof runtimeConfigSchema> & { version: string };
@@ -120,6 +125,7 @@ export function sourceOverrides(config: RuntimeConfig): Partial<ProviderSources>
   if (config.ROUTING_SOURCE) out.routing = config.ROUTING_SOURCE;
   if (config.LLM_SOURCE) out.llm = config.LLM_SOURCE;
   if (config.MAIL_SOURCE) out.mail = config.MAIL_SOURCE;
+  if (config.POI_SOURCE) out.poi = config.POI_SOURCE;
   return out;
 }
 

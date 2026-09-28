@@ -14,6 +14,7 @@ import { ApiError, errorBody, sendError } from './http/errors';
 import { redactForLog } from './http/log';
 import { coarseRateLimit } from './http/rate-limit';
 import { securityHeaders } from './http/security-headers';
+import { devRoutes } from './routes/dev';
 import { bookingRoutes } from './routes/bookings';
 import { geoRoutes } from './routes/geo';
 import { healthRoutes } from './routes/health';
@@ -75,6 +76,7 @@ export function createApp(options: AppOptions = {}) {
   app.route('/searches', searchRoutes);
   app.route('/searches', resultRoutes);
   app.route('/bookings', bookingRoutes);
+  app.route('/dev', devRoutes);
 
   app.notFound((c) => c.json(errorBody('not_found', 'Diese Adresse gibt es nicht.'), 404));
   app.onError((err, c) => {

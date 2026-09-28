@@ -9,6 +9,7 @@ import { WISH_FALLBACK_NOTICE } from '@reiseplaner/domain';
 import { dbSkillHooks, runSkill } from '@reiseplaner/skills';
 import type { AppEnv } from '../app';
 import { rateLimit } from '../http/rate-limit';
+import { effectiveLlmEnabled } from '../services/dev-settings';
 import { parseJsonBody } from '../http/validate';
 
 const HOUR_S = 3600;
@@ -30,7 +31,7 @@ export const wishRoutes = new Hono<AppEnv>().post(
     const result = await runSkill<WishMapping>(
       {
         llm: deps.providers().llm,
-        llmEnabled: deps.config.LLM_ENABLED,
+        llmEnabled: await effectiveLlmEnabled(db, deps.config),
         prices: productConfig.ai,
         ...dbSkillHooks(db, productConfig.limits.llm_daily_budget_usd),
       },

@@ -1,0 +1,10 @@
+$ npm run demo -- s11.8
+# recorded 2026-09-28T18:53:14.426Z
+
+starting local stack …
+1) Entwicklerseite: KI simuliert, an; Suchgrenzen 60/h, 200/Tag
+   Suche mit KI an (Füssen): 10 Unterkünfte geprüft, 10 mit Ergebnis „geprüft“, 0 „ungeprüft“ (nur Stichworte); Warnhinweise 4 KI-bestätigt, 0 unbestätigt
+2) Schalter aus → KI aus, /meta/config llm_enabled=false
+   Suche mit KI aus (Oberstdorf): 8 Unterkünfte geprüft, 5 mit Ergebnis „geprüft“, 3 „ungeprüft“ (nur Stichworte); Warnhinweise 0 KI-bestätigt, 3 unbestätigt
+3) Schalter an → KI an, /meta/config llm_enabled=true
+→ Ausgeschaltet prüft der Rezensionscheck nur per Stichwort (keine KI-Kosten), eingeschaltet wieder mit KI

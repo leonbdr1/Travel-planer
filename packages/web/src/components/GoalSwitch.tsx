@@ -22,7 +22,7 @@ export function GoalSwitch({ value, onChange }: { value: Goal; onChange: (goal: 
             data-goal={goal}
             onClick={() => onChange(goal)}
             className={cx(
-              'rounded-md px-3 py-1.5 text-sm font-medium',
+              'rounded-md px-2 py-1.5 text-[13px] font-medium sm:px-3 sm:text-sm',
               value === goal ? 'bg-brand-600 text-brand-contrast' : 'text-zinc-700 hover:bg-zinc-50',
             )}
           >

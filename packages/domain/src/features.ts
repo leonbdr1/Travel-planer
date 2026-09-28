@@ -4,17 +4,46 @@
 // simulated world, to be re-mapped against the real /data/facilities list,
 // HANDOFF drift 8).
 import { chipDefinition } from './chips';
+import { hasGastroNearby, WALK_KINDS, type LocationFacts, type WalkKind } from './location';
 import type { BoardType } from './types';
 import { PRAISE_LABELS, type ChipCode, type PraiseTopic } from './vocabulary';
 
 export interface FeatureHotel {
   facilityIds: readonly number[];
   hotelType: string | null;
+  /** From OpenStreetMap, only known for likely finalists (S11.5). */
+  facts?: LocationFacts | null | undefined;
+  /** Within CENTER_DISTANCE_CORE_KM of the place's centre. */
+  inCore?: boolean | undefined;
+}
+
+const WALK_LABELS: Record<WalkKind, (min: number) => string> = {
+  lift: (min) => `${min} min zum Lift`,
+  bahn: (min) => `${min} min zum Bahnhof`,
+  bus: (min) => `${min} min zur Bushaltestelle`,
+  supermarkt: (min) => `${min} min zum Supermarkt`,
+};
+
+/** Location as comparable features: the code says whether, the label how far. */
+function locationFeatures(hotel: FeatureHotel): OfferFeature[] {
+  const out: OfferFeature[] = [];
+  const facts = hotel.facts;
+  if (facts) {
+    for (const kind of WALK_KINDS) {
+      const min = facts.walk[kind];
+      if (min !== null) out.push({ code: `lage_${kind}`, label: WALK_LABELS[kind](min), minutes: min });
+    }
+  }
+  if (hotel.inCore) out.push({ code: 'lage_ortskern', label: 'Ortskern' });
+  if (facts && hasGastroNearby(facts)) out.push({ code: 'lage_gastro', label: 'Restaurants in der Nähe' });
+  return out;
 }
 
 export interface OfferFeature {
   code: string;
   label: string;
+  /** Walking minutes for location features. */
+  minutes?: number;
 }
 
 interface FacilityFeature {
@@ -56,8 +85,8 @@ const LEADING_FACILITIES: readonly string[] = ['sauna_wellness', 'schwimmbad'];
 
 /**
  * Everything an offer brings, most decisive first (the finale shows the first
- * few): meals, free cancellation, sauna and pool, praise labels, the other
- * facilities.
+ * few): meals, free cancellation, sauna and pool, location, praise labels, the
+ * other facilities.
  */
 export function offerFeatures(
   hotel: FeatureHotel,
@@ -72,6 +101,7 @@ export function offerFeatures(
   if (HALF_BOARD.includes(offer.boardType)) features.push({ code: 'halbpension', label: 'Halbpension' });
   if (offer.refundable) features.push({ code: 'kostenlos_stornierbar', label: 'kostenlos stornierbar' });
   features.push(...facilities.filter((f) => LEADING_FACILITIES.includes(f.code)));
+  features.push(...locationFeatures(hotel));
   for (const topic of labels) features.push({ code: `lob_${topic}`, label: PRAISE_LABELS[topic].label });
   features.push(...facilities.filter((f) => !LEADING_FACILITIES.includes(f.code)));
   return features;

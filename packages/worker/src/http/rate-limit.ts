@@ -4,6 +4,7 @@
 //    lets the request through, because
 // 2. binding: per-route limit via app.increment_rate_limit, atomic in the
 //    database and fail-closed (RPC error → 503).
+import type { Context } from 'hono';
 import { createMiddleware } from 'hono/factory';
 import { productConfig } from '@reiseplaner/config';
 import { incrementRateLimit } from '@reiseplaner/db';
@@ -36,8 +37,10 @@ export function coarseRateLimit() {
   });
 }
 
-export function rateLimit(name: string, max: number, windowS: number) {
+/** `max` may depend on the request (e.g. higher limits in local dev). */
+export function rateLimit(name: string, maxOf: number | ((c: Context<AppEnv>) => number), windowS: number) {
   return createMiddleware<AppEnv>(async (c, next) => {
+    const max = typeof maxOf === 'number' ? maxOf : maxOf(c);
     const key = `${name}:${await clientHash(c)}`;
     const result = await incrementRateLimit(c.get('deps').db(), key, max, windowS);
     if (result.failed) {

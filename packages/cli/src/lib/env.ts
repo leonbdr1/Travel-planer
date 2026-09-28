@@ -4,7 +4,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { repoRoot } from '@reiseplaner/db/node';
-import { isProvidersMode, type ProvidersConfig, type ProvidersMode } from '@reiseplaner/providers';
+import { isProvidersMode, OVERPASS_PUBLIC_URL, type ProvidersConfig, type ProvidersMode } from '@reiseplaner/providers';
 
 export function readDevVars(): Record<string, string> {
   const path = resolve(repoRoot, 'packages/worker/.dev.vars');
@@ -40,6 +40,7 @@ export function cliProvidersConfig(mode: ProvidersMode): ProvidersConfig {
       bookBaseUrl: env.LITEAPI_BOOK_BASE_URL ?? 'https://book.liteapi.travel/v3.0',
     },
     ors: { apiKey: env.ORS_API_KEY, baseUrl: env.ORS_BASE_URL ?? 'https://api.heigit.org/openrouteservice' },
+    overpass: { baseUrl: env.OVERPASS_BASE_URL ?? OVERPASS_PUBLIC_URL },
     resend: { apiKey: env.RESEND_API_KEY },
     anthropic: { apiKey: env.ANTHROPIC_API_KEY },
   };

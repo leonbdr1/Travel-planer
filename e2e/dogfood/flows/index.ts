@@ -1,6 +1,7 @@
 import type { Flow } from '../types';
 import { startFlow } from './start';
 import { buchungFlow } from './buchung';
+import { entwicklerFlow } from './entwickler';
 import { ergebnisseFlow } from './ergebnisse';
 import { finaleFlow } from './finale';
 import { pflichtseitenFlow } from './pflichtseiten';
@@ -8,4 +9,4 @@ import { sucheFlow } from './suche';
 import { suchrahmenFlow } from './suchrahmen';
 import { warnungenFlow } from './warnungen';
 
-export const flows: Flow[] = [startFlow, pflichtseitenFlow, suchrahmenFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow];
+export const flows: Flow[] = [startFlow, pflichtseitenFlow, suchrahmenFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow];

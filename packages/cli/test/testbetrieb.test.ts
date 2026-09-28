@@ -54,6 +54,7 @@ describe('check', () => {
       if (url.includes('/data/reviews')) return new Response(fixture('liteapi/reviews.json'));
       if (url.endsWith('/data/facilities')) return new Response(JSON.stringify({ error: { code: 4003, message: 'facilities not available in sandbox' } }), { status: 403 });
       if (url.includes('openrouteservice')) return new Response(fixture('ors/matrix.json'));
+      if (url.includes('overpass')) return Response.json({ elements: [{ type: 'node', lat: 47.5712, lon: 10.7011, tags: { highway: 'bus_stop' } }, { type: 'node', lat: 47.5704, lon: 10.7004, tags: { amenity: 'cafe' } }] });
       return new Response('{}', { status: 404 });
     };
     const checks = await runTestbetriebChecks({
@@ -70,6 +71,7 @@ describe('check', () => {
     expect(byName['LiteAPI Ausstattungsliste']).toMatchObject({ status: 'fehler' });
     expect(byName['LiteAPI Ausstattungsliste']?.detail).toContain('HTTP 403: {"error":{"code":4003,"message":"facilities not available in sandbox"}}');
     expect(byName['Fahrzeiten']?.detail).toMatch(/^Stuttgart → Füssen: \d+ min/);
+    expect(byName['Lage (OpenStreetMap)']).toMatchObject({ status: 'ok', detail: 'Füssen: 2 Punkte, bus 2 min, 1 Restaurants nah' });
     expect(byName['KI']?.status).toBe('ok');
     for (const c of checks) expect(c.detail).not.toMatch(/abcdefghijklmnop/);
     const files = readdirSync(recordDir).sort();
@@ -82,6 +84,8 @@ describe('check', () => {
     expect(checks.map((c) => [c.name, c.status])).toEqual([
       ['LiteAPI Tarife', 'fehler'],
       ['Fahrzeiten', 'uebersprungen'],
+      // OpenStreetMap needs no key; here the answer is no Overpass response.
+      ['Lage (OpenStreetMap)', 'fehler'],
       ['KI', 'uebersprungen'],
     ]);
   });

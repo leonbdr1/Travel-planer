@@ -21,6 +21,7 @@ export * from './ranking';
 export * from './features';
 export * from './preselect';
 export * from './finale';
+export * from './location';
 export * from './pii';
 export * from './review-keywords';
 export * from './praise';

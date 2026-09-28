@@ -17,9 +17,9 @@ const mail = { from: 'a@example.org', to: 'b@example.org', subject: 's', html: '
 
 describe('provider sources', () => {
   it('follow PROVIDERS_MODE unless a provider is pinned', () => {
-    expect(providerSources('fake')).toEqual({ liteapi: 'fake', routing: 'fake', llm: 'fake', mail: 'fake' });
-    expect(providerSources('sandbox')).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'real' });
-    expect(providerSources('sandbox', { mail: 'fake', routing: 'fake' })).toEqual({ liteapi: 'real', routing: 'fake', llm: 'real', mail: 'fake' });
+    expect(providerSources('fake')).toEqual({ liteapi: 'fake', routing: 'fake', llm: 'fake', mail: 'fake', poi: 'fake' });
+    expect(providerSources('sandbox')).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'real', poi: 'real' });
+    expect(providerSources('sandbox', { mail: 'fake', routing: 'fake' })).toEqual({ liteapi: 'real', routing: 'fake', llm: 'real', mail: 'fake', poi: 'real' });
   });
 
   it('sends real LiteAPI calls while e-mail stays simulated', async () => {
@@ -34,7 +34,7 @@ describe('provider sources', () => {
         },
       },
     );
-    expect(providers.sources).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'fake' });
+    expect(providers.sources).toEqual({ liteapi: 'real', routing: 'real', llm: 'real', mail: 'fake', poi: 'real' });
     const rates = await providers.liteapi.searchRates({
       lat: 47.57,
       lng: 10.7,

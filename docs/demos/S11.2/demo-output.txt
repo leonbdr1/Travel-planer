@@ -1,5 +1,5 @@
 $ npm run demo -- s11.2
-# recorded 2026-09-28T13:57:20.638Z
+# recorded 2026-09-28T18:51:52.121Z
 
 starting local stack …
 Suche: Füssen × Freitage 2.–16.10., Ziel „Preis-Leistung“
@@ -24,4 +24,4 @@ Suche: Füssen × Freitage 2.–16.10., Ziel „Preis-Leistung“
     Aussicht: 0× gelobt, 1× kritisiert
     Lage: 0× gelobt, 4× kritisiert
   Hotel Schwanen: Warnung Schimmel ja, Label „Besonders sauber“ nein, Labels: Ruhig, Freundliches Personal, Bequeme Betten
-→ Labels erscheinen von selbst, jedes mit mindestens 3× Lob und 80 % Anteil; keine Sauberkeit neben Schimmel
+→ Labels erscheinen von selbst, jedes mit mindestens 3× Lob (und 5 % der Bewertungen) und 80 % Anteil; keine Sauberkeit neben Schimmel

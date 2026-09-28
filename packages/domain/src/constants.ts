@@ -66,13 +66,31 @@ export const RANK_W_PRICE = 0.4;
 export const RANK_BARGAIN_BONUS = 0.05;
 export const RANK_UNRATED_QUALITY_NORM = 0.5;
 
-// Decision aid (konzept.md 9.9–9.11): start values, to be calibrated with real data.
+// Decision aid (konzept.md 9.9–9.11): values decided with Ben on 2026-09-28,
+// to be calibrated with real data in the Testbetrieb.
 /** Minimum quality score per goal; below it a house is "zu schwach bewertet für dein Ziel". */
 export const GOAL_QUALITY_FLOOR = { sparen: 7.0, ausgewogen: 7.5, komfort: 8.3 } as const;
 /** Price window above the cheapest remaining house per goal (share of its total price); null = budget only. */
 export const GOAL_PRICE_WINDOW = { sparen: 0.35, ausgewogen: 0.75, komfort: null } as const;
+/**
+ * Exception to the quality floor (not for "komfort"): a checked house without
+ * red flags scoring at least this much stays in when it costs at most
+ * LOW_QUALITY_EXCEPTION_PRICE_RATIO of the cheapest house meeting the floor.
+ */
+export const LOW_QUALITY_EXCEPTION_MIN = 6.5;
+export const LOW_QUALITY_EXCEPTION_PRICE_RATIO = 0.75;
 /** At most this many finalists, one offer per house. */
-export const FINALISTS_MAX = 4;
+export const FINALISTS_MAX = 5;
+/**
+ * Houses without reviews: at most this many in the finale, marked. Out when
+ * the price per night is below UNRATED_MIN_PRICE_RATIO of the median of rated
+ * houses with the same stars (all rated houses when fewer than
+ * STAR_TRAP_MIN_REFERENCE), or below that median with more extras than
+ * UNRATED_MAX_EXTRAS_SHARE of the rated houses reach: both point to a fake listing.
+ */
+export const UNRATED_FINALISTS_MAX = 1;
+export const UNRATED_MIN_PRICE_RATIO = 0.8;
+export const UNRATED_MAX_EXTRAS_SHARE = 0.25;
 /**
  * Review-check candidates may score this much below a threshold: recent
  * reviews can still lift them by up to SCORE_RECENCY_WEIGHT × SCORE_RECENCY_MAX_DELTA.
@@ -89,12 +107,12 @@ export const STAR_TRAP_MIN_QUALITY = 8.0;
 /**
  * Complaint topics that take a house out of the finale ("Warnsignale"), with
  * the mentions needed: confirmed by the review check, or keyword hits without
- * AI verification. One mention of mould or vermin is enough, dirt needs more.
+ * AI verification. Two guests on mould or vermin, three on dirt: one guest alone can be wrong.
  */
 export const RED_FLAG_MIN_MENTIONS = {
-  schimmel: { confirmed: 1, unverified: 2 },
-  ungeziefer: { confirmed: 1, unverified: 2 },
-  sauberkeit: { confirmed: 2, unverified: 3 },
+  schimmel: { confirmed: 2, unverified: 3 },
+  ungeziefer: { confirmed: 2, unverified: 3 },
+  sauberkeit: { confirmed: 3, unverified: 4 },
 } as const;
 /** Complaint topics that keep a star-trap suspect out (any warning shown on them). */
 export const STAR_TRAP_WARNING_TOPICS = ['zustand', 'sauberkeit'] as const;
@@ -102,17 +120,42 @@ export const STAR_TRAP_WARNING_TOPICS = ['zustand', 'sauberkeit'] as const;
 export const DOMINANCE_QUALITY_TOLERANCE = 0.2;
 /** Finale: quality differences from this size on are shown. */
 export const FINALE_QUALITY_DELTA_MIN = 0.3;
-/** Finale: a card lists this many differences per side; the rest opens on request. */
-export const FINALE_FEATURES_SHOWN = 3;
-/** Praise labels (konzept.md 9.11): at least this many praising guests, this share of all mentions, reviews of this age. */
+/** Finale price ladder: a row shows this many badges (differences first); the rest opens on request. */
+export const FINALE_BADGES_SHOWN = 6;
+/** Of these, what a house lacks against the cheapest stays visible up to this many. */
+export const FINALE_LOSSES_SHOWN = 2;
+/**
+ * Praise labels (konzept.md 9.11): at least PRAISE_MIN_MENTIONS praising
+ * guests and PRAISE_MIN_REVIEW_SHARE of all reviews of the last
+ * PRAISE_MAX_AGE_MONTHS, a praise share of PRAISE_MIN_SHARE of the mentions.
+ * Reviews of the last PRAISE_RECENT_MONTHS count PRAISE_RECENT_WEIGHT times,
+ * so fresh praise weighs more (3 of 1000 guests say nothing, 3 of 40 do).
+ */
 export const PRAISE_MIN_MENTIONS = 3;
+export const PRAISE_MIN_REVIEW_SHARE = 0.05;
 export const PRAISE_MIN_SHARE = 0.8;
 export const PRAISE_MAX_AGE_MONTHS = 24;
+export const PRAISE_RECENT_MONTHS = 6;
+export const PRAISE_RECENT_WEIGHT = 2;
 /** The result list shows at most this many labels per house (the most praised first). */
 export const PRAISE_MAX_LABELS_LIST = 3;
 /** Distance of a house to its place's centre: "im Ortskern" up to, "im Ort" up to (km). */
 export const CENTER_DISTANCE_CORE_KM = 0.6;
 export const CENTER_DISTANCE_TOWN_KM = 2;
+/**
+ * Location facts from OpenStreetMap (S11.5, architektur.md 6.15): walking
+ * minutes = straight line × WALK_DETOUR_FACTOR at WALK_METERS_PER_MIN.
+ * A stop, lift or shop counts up to its walking limit; restaurants and cafés
+ * within LOCATION_GASTRO_RADIUS_M, from LOCATION_GASTRO_MIN on.
+ */
+export const WALK_METERS_PER_MIN = 80;
+export const WALK_DETOUR_FACTOR = 1.3;
+export const LOCATION_MAX_WALK_MIN = { lift: 15, bahn: 15, bus: 10, supermarkt: 10 } as const;
+export const LOCATION_GASTRO_RADIUS_M = 300;
+export const LOCATION_GASTRO_MIN = 3;
+/** Overpass search radius around a house: covers the longest walking limit. */
+export const LOCATION_SEARCH_RADIUS_M = 1200;
+export const LOCATION_FACTS_TTL_DAYS = 90;
 
 export const REVIEW_TOP_N = 10;
 /**

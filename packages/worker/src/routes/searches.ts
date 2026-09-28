@@ -21,7 +21,7 @@ import {
 } from '@reiseplaner/db';
 import { checkCombinations, constants, formatIsoDate, generateStayDates, splitOccupancy } from '@reiseplaner/domain';
 import type { AppEnv } from '../app';
-import { ConfigurationError } from '../env';
+import { ConfigurationError, type RuntimeConfig } from '../env';
 import { clientHash } from '../http/client';
 import { ApiError } from '../http/errors';
 import { rateLimit } from '../http/rate-limit';
@@ -34,6 +34,11 @@ import { getTravelTimes } from '../services/travel-times';
 
 const HOUR_S = 3600;
 const DAY_S = 86_400;
+
+/** Search limits: higher only in local dev (Testbetrieb), as set in product.config.yaml. */
+function searchLimits(config: RuntimeConfig): { searches_per_hour: number; searches_per_day: number } {
+  return config.APP_ENV === 'dev' ? productConfig.limits.dev_rate_limits : productConfig.limits.rate_limits;
+}
 
 const DATE_MESSAGES: Record<string, string> = {
   invalid_date: 'Bitte gib gültige Daten ein.',
@@ -79,8 +84,8 @@ export const searchRoutes = new Hono<AppEnv>()
       c.set('searchRequest', req);
       await next();
     },
-    rateLimit('searches-hour', productConfig.limits.rate_limits.searches_per_hour, HOUR_S),
-    rateLimit('searches-day', productConfig.limits.rate_limits.searches_per_day, DAY_S),
+    rateLimit('searches-hour', (c) => searchLimits(c.get('deps').config).searches_per_hour, HOUR_S),
+    rateLimit('searches-day', (c) => searchLimits(c.get('deps').config).searches_per_day, DAY_S),
     async (c) => {
       const deps = c.get('deps');
       const db = deps.db();

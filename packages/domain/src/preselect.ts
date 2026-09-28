@@ -9,12 +9,17 @@ import {
   FINALISTS_MAX,
   GOAL_PRICE_WINDOW,
   GOAL_QUALITY_FLOOR,
+  LOW_QUALITY_EXCEPTION_MIN,
+  LOW_QUALITY_EXCEPTION_PRICE_RATIO,
   RED_FLAG_MIN_MENTIONS,
   STAR_TRAP_MIN_QUALITY,
   STAR_TRAP_MIN_REFERENCE,
   STAR_TRAP_MIN_STARS,
   STAR_TRAP_PRICE_RATIO,
   STAR_TRAP_WARNING_TOPICS,
+  UNRATED_FINALISTS_MAX,
+  UNRATED_MAX_EXTRAS_SHARE,
+  UNRATED_MIN_PRICE_RATIO,
 } from './constants';
 import { offerFeatures, type FeatureHotel } from './features';
 import type { EvaluatedOffer } from './ranking';
@@ -60,7 +65,14 @@ interface Entry {
   stars: number | null;
   evidence: HotelEvidence;
   features: ReadonlySet<string>;
+  /** Below the goal's quality floor, in through LOW_QUALITY_EXCEPTION_*. */
+  exception: boolean;
 }
+
+/** Extras a fake listing likes to promise; counted for houses without reviews. */
+const PREMIUM_FEATURES: readonly string[] = ['fruehstueck_inklusive', 'halbpension', 'sauna_wellness', 'schwimmbad'];
+const premiumCount = (e: Entry) => PREMIUM_FEATURES.filter((f) => e.features.has(f)).length;
+const isRated = (e: Entry) => e.offer.quality !== null;
 
 type Stage = 'final' | 'candidates';
 
@@ -122,9 +134,9 @@ function dominates(b: Entry, a: Entry): boolean {
  * houses somewhat below a quality threshold stay in: the check can clear a
  * star-trap suspect or lift a score with good recent reviews.
  */
-function failedRule(e: Entry, goal: Goal, stage: Stage, budgetMedian: number | null): ExclusionReason | null {
+function failedRule(e: Entry, goal: Goal, stage: Stage, budgetMedian: number | null, unratedFits: (e: Entry) => boolean): ExclusionReason | null {
   const q = e.offer.quality;
-  if (q === null) return 'no_reviews';
+  if (q === null) return unratedFits(e) ? null : 'no_reviews';
   if (stage === 'final' && hasRedFlag(e.evidence)) return 'red_flag';
   const margin = stage === 'final' ? 0 : CANDIDATE_QUALITY_MARGIN;
   const suspect = (e.stars ?? 0) >= STAR_TRAP_MIN_STARS && budgetMedian !== null && e.offer.pricePerNightCents < STAR_TRAP_PRICE_RATIO * budgetMedian;
@@ -134,6 +146,35 @@ function failedRule(e: Entry, goal: Goal, stage: Stage, budgetMedian: number | n
   }
   if (q < GOAL_QUALITY_FLOOR[goal] - margin) return 'low_quality';
   return null;
+}
+
+function exceptionEligible(e: Entry, goal: Goal, stage: Stage): boolean {
+  const q = e.offer.quality;
+  if (goal === 'komfort' || q === null) return false;
+  return stage === 'final' ? e.evidence.checked && q >= LOW_QUALITY_EXCEPTION_MIN : q >= LOW_QUALITY_EXCEPTION_MIN - CANDIDATE_QUALITY_MARGIN;
+}
+
+/**
+ * Houses without reviews fit when their price and extras look like the rated
+ * houses around them: not far below the usual price for their stars, and not
+ * cheaper while promising more extras than most. Never for "komfort", whose
+ * promise is quality nobody has confirmed yet.
+ */
+function unratedCheck(entries: readonly Entry[], goal: Goal): (e: Entry) => boolean {
+  const rated = entries.filter(isRated);
+  const extras = rated.map(premiumCount);
+  const prices = (list: readonly Entry[]) => list.map((e) => e.offer.pricePerNightCents);
+  return (e) => {
+    if (goal === 'komfort') return false;
+    const reference =
+      median(prices(rated.filter((r) => (r.stars ?? 0) === (e.stars ?? 0))), STAR_TRAP_MIN_REFERENCE) ?? median(prices(rated), STAR_TRAP_MIN_REFERENCE);
+    if (reference === null) return false;
+    const price = e.offer.pricePerNightCents;
+    if (price < UNRATED_MIN_PRICE_RATIO * reference) return false;
+    const own = premiumCount(e);
+    const reaching = extras.filter((c) => c >= own).length / extras.length;
+    return !(price < reference && own > 0 && reaching < UNRATED_MAX_EXTRAS_SHARE);
+  };
 }
 
 function applyRules(input: PreselectInput, stage: Stage): { remaining: Entry[]; excluded: Record<ExclusionReason, number> } {
@@ -154,7 +195,7 @@ function applyRules(input: PreselectInput, stage: Stage): { remaining: Entry[]; 
     const hotel = input.hotels.get(hotelId);
     const evidence = input.evidence.get(hotelId) ?? NO_EVIDENCE;
     const features = offerFeatures(hotel ?? { facilityIds: [], hotelType: null }, offer, evidence.labels);
-    entries.push({ offer, stars: hotel?.stars ?? null, evidence, features: new Set(features.map((f) => f.code)) });
+    entries.push({ offer, stars: hotel?.stars ?? null, evidence, features: new Set(features.map((f) => f.code)), exception: false });
   }
   // Budget price reference for the star trap: houses with fewer stars (or none).
   const budgetMedian = median(
@@ -162,10 +203,21 @@ function applyRules(input: PreselectInput, stage: Stage): { remaining: Entry[]; 
     STAR_TRAP_MIN_REFERENCE,
   );
   const remaining: Entry[] = [];
+  const belowFloor: Entry[] = [];
+  const unratedFits = unratedCheck(entries, input.goal);
   for (const e of entries) {
-    const reason = failedRule(e, input.goal, stage, budgetMedian);
-    if (reason) excluded[reason] += 1;
+    const reason = failedRule(e, input.goal, stage, budgetMedian, unratedFits);
+    if (reason === 'low_quality' && exceptionEligible(e, input.goal, stage)) belowFloor.push(e);
+    else if (reason) excluded[reason] += 1;
     else remaining.push(e);
+  }
+  // A weaker house stays in when it is clearly cheaper than every house
+  // meeting the floor (or when no house meets it).
+  const normal = remaining.filter(isRated).map((e) => e.offer.totalCents);
+  const cheapestNormal = normal.length > 0 ? Math.min(...normal) : null;
+  for (const e of belowFloor) {
+    if (cheapestNormal === null || e.offer.totalCents <= LOW_QUALITY_EXCEPTION_PRICE_RATIO * cheapestNormal) remaining.push({ ...e, exception: true });
+    else excluded.low_quality += 1;
   }
   return { remaining, excluded };
 }
@@ -177,8 +229,11 @@ export function preselect(input: PreselectInput): Preselection {
   if (window !== null && remaining.length > 0) {
     // Measured from the cheapest clean house: the cheapest one with a review
     // check that passed every rule; without any check, the cheapest one.
-    const checked = remaining.filter((e) => e.evidence.checked);
-    const limit = Math.min(...(checked.length > 0 ? checked : remaining).map((e) => e.offer.totalCents)) * (1 + window);
+    // Houses in by the quality exception do not set the window.
+    const normal = remaining.filter((e) => isRated(e) && !e.exception);
+    const checked = normal.filter((e) => e.evidence.checked);
+    const base = checked.length > 0 ? checked : normal.length > 0 ? normal : remaining;
+    const limit = Math.min(...base.map((e) => e.offer.totalCents)) * (1 + window);
     const within = remaining.filter((e) => e.offer.totalCents <= limit);
     excluded.too_expensive += remaining.length - within.length;
     remaining = within;
@@ -188,11 +243,22 @@ export function preselect(input: PreselectInput): Preselection {
 
   // Checked houses first; unchecked ones only fill up the finale.
   const byGoal = (a: Entry, b: Entry) => goalOrder(input.goal)(a.offer, b.offer);
-  const ordered = [...undominated.filter((e) => e.evidence.checked).sort(byGoal), ...undominated.filter((e) => !e.evidence.checked).sort(byGoal)].map(
-    (e) => e.offer,
-  );
-  const finalists = ordered.slice(0, FINALISTS_MAX).sort((a, b) => a.totalCents - b.totalCents || b.rankScore - a.rankScore);
-  return { goal: input.goal, finalists, runnersUp: ordered.slice(FINALISTS_MAX), excluded };
+  const ordered = [...undominated.filter((e) => e.evidence.checked).sort(byGoal), ...undominated.filter((e) => !e.evidence.checked).sort(byGoal)];
+  // At most UNRATED_FINALISTS_MAX houses without reviews in the finale.
+  const picked: EvaluatedOffer[] = [];
+  const runnersUp: EvaluatedOffer[] = [];
+  let unrated = 0;
+  for (const e of ordered) {
+    const fits = picked.length < FINALISTS_MAX && (isRated(e) || unrated < UNRATED_FINALISTS_MAX);
+    if (!fits) {
+      runnersUp.push(e.offer);
+      continue;
+    }
+    if (!isRated(e)) unrated += 1;
+    picked.push(e.offer);
+  }
+  const finalists = picked.sort((a, b) => a.totalCents - b.totalCents || b.rankScore - a.rankScore);
+  return { goal: input.goal, finalists, runnersUp, excluded };
 }
 
 /**
@@ -205,7 +271,8 @@ export function preselect(input: PreselectInput): Preselection {
  */
 export function reviewCandidateIds(input: PreselectInput, limit: number): string[] {
   const reserve = applyRules(input, 'candidates')
-    .remaining.map((e) => e.offer)
+    .remaining.filter(isRated)
+    .map((e) => e.offer)
     .sort(goalOrder(input.goal))
     .map((o) => o.hotelId);
   return [...new Set([...finalistIdsAcrossGoals(input), ...reserve])].slice(0, limit);
@@ -218,5 +285,6 @@ export function reviewCandidateIds(input: PreselectInput, limit: number): string
  */
 export function finalistIdsAcrossGoals(input: PreselectInput): string[] {
   const goals = [input.goal, ...GOALS.filter((g) => g !== input.goal)];
-  return [...new Set(goals.flatMap((goal) => preselect({ ...input, goal }).finalists.map((o) => o.hotelId)))];
+  // Houses without reviews have nothing to check.
+  return [...new Set(goals.flatMap((goal) => preselect({ ...input, goal }).finalists.filter((o) => o.quality !== null).map((o) => o.hotelId)))];
 }

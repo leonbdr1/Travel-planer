@@ -5,7 +5,7 @@ export const finaleFlow: Flow = {
   name: 'finale',
   mode: 'P',
   description:
-    'Entscheidungshilfe (F15–F17, konzept.md 9.9–9.11): Ziel „Günstig und sauber“ im Suchformular, Suche Stuttgart → 5 Orte × 3 Freitage; oben „Deine Auswahl“ mit höchstens 4 Finalisten, die günstigste zuerst, bei den anderen Aufpreis und was er bringt, ohne Empfehlung; aussortierte Unterkünfte mit Gründen; Zielwechsel ohne neue Suche; Lob-Labels in Liste und Detailansicht; Sterne und Mindestbewertung unter „Weitere Filter“.',
+    'Entscheidungshilfe (F15–F17, konzept.md 9.9–9.11): Ziel „Günstig und sauber“ im Suchformular, Suche Stuttgart → 5 Orte × 3 Freitage; oben „Deine Auswahl“ als Preisleiter mit höchstens 5 Unterkünften, die günstigste zuerst, bei den anderen Aufpreis und Badges (grün: hat es zusätzlich, durchgestrichen: fehlt), Gehminuten aus OpenStreetMap, ohne Empfehlung; aussortierte Unterkünfte mit Gründen; Zielwechsel ohne neue Suche; Lob-Labels in Liste und Detailansicht; Sterne und Mindestbewertung unter „Weitere Filter“.',
   async run({ page, baseUrl, step, note }) {
     await step(
       'Suchformular: Ziel „Günstig und sauber“ mit einem Tipp',
@@ -31,15 +31,15 @@ export const finaleFlow: Flow = {
         await page.locator('[data-testid="finale"][data-goal="sparen"]').waitFor();
         const totals = await page.getByTestId('finalist-total').evaluateAll((els) => els.map((el) => Number(el.getAttribute('data-total-eur'))));
         const sorted = totals.every((v, i) => i === 0 || v >= (totals[i - 1] ?? 0));
-        if (totals.length === 0 || totals.length > 4 || !sorted) throw new Error(`finalists: ${totals.join(', ')}`);
+        if (totals.length === 0 || totals.length > 5 || !sorted) throw new Error(`finalists: ${totals.join(', ')}`);
         const surcharges = await page.getByTestId('surcharge').evaluateAll((els) => els.map((el) => Number(el.getAttribute('data-delta-eur'))));
         const expected = totals.slice(1).map((v) => Math.round((v - (totals[0] ?? 0)) * 100) / 100);
         if (surcharges.map((v) => Math.round(v * 100) / 100).join() !== expected.join()) throw new Error(`surcharges ${surcharges.join()} ≠ ${expected.join()}`);
         note(`${totals.length} Finalisten, Gesamtpreise ${totals.join(' € · ')} €; Aufpreise ${surcharges.map((v) => `+${v} €`).join(', ') || 'keine'}.`);
       },
       {
-        expectText: ['Deine Auswahl', 'Wir haben aussortiert', 'Günstigste deiner Auswahl', 'aussortiert', 'Wir empfehlen keinen Favoriten', 'Alle Angebote'],
-        expectSelector: ['[data-testid="finalist"]', '[data-testid="excluded"]'],
+        expectText: ['Deine Auswahl', 'Wir haben aussortiert', 'günstigste', 'aussortiert', 'hat es zusätzlich', 'fehlt', 'Wir empfehlen keinen Favoriten', 'Alle Angebote'],
+        expectSelector: ['[data-testid="finalist"]', '[data-testid="excluded"]', '[data-testid="feature-badge"]', '[data-testid="finale-legend"]'],
         rejectText: ['Unsere Empfehlung', 'Testsieger'],
         fullPage: true,
       },
@@ -57,19 +57,54 @@ export const finaleFlow: Flow = {
     );
 
     await step(
-      'Aufpreis und was er bringt oder kostet',
+      'Preisleiter: Aufpreis und Badges statt Sätzen, Gehminuten aus OpenStreetMap',
       async () => {
-        const second = page.getByTestId('finalist').nth(1);
-        if ((await page.getByTestId('finalist').count()) < 2) {
-          note('Nur ein Finalist: kein Vergleich nötig.');
-          return;
-        }
-        await second.scrollIntoViewIfNeeded();
-        const lines = await page.getByTestId('comparison').allInnerTexts();
-        note(`Vergleich: ${lines.map((l) => l.replace(/\n/g, ' / ')).join(' || ')}`);
+        await page.getByTestId('finalists').scrollIntoViewIfNeeded();
+        const rows = await page.getByTestId('finalist').evaluateAll((els) =>
+          els.map((el) => {
+            const name = el.querySelector('[data-testid="finalist-name"]')?.textContent ?? '';
+            const delta = el.querySelector('[data-testid="surcharge"]')?.textContent ?? 'günstigste';
+            const badges = Array.from(el.querySelectorAll('[data-testid="feature-badge"]')).map((b) => `${b.getAttribute('data-kind') === 'plus' ? '+' : b.getAttribute('data-kind') === 'minus' ? '−' : ''}${b.textContent}`);
+            return `${name} (${delta}): ${badges.join(', ')}`;
+          }),
+        );
+        note(`Leiter: ${rows.join(' || ')}`);
+        const walk = await page.locator('[data-testid="feature-badge"][data-code^="lage_"]').count();
+        if (walk === 0) throw new Error('no location badges');
       },
-      { expectText: ['gegenüber'], expectSelector: ['[data-testid="comparison"]'] },
+      {
+        expectText: ['min', 'Kartendaten © OpenStreetMap-Mitwirkende'],
+        expectSelector: ['[data-testid="feature-badge"][data-code^="lage_"]', '[data-testid="osm-attribution"]'],
+        rejectText: ['Dafür nicht:', 'gegenüber'],
+      },
     );
+
+    await step(
+      'Preisleiter auf dem Handy (390 px)',
+      async () => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.getByTestId('finale').scrollIntoViewIfNeeded();
+        // The finale itself must fit; wide tables further down scroll inside their own box.
+        const wide = await page.getByTestId('finale').evaluate((root) =>
+          Array.from(root.querySelectorAll('*'))
+            .filter((el) => el.getBoundingClientRect().right > window.innerWidth + 1)
+            .slice(0, 3)
+            .map((el) => `${el.tagName.toLowerCase()}.${String(el.className).slice(0, 60)} → ${Math.round(el.getBoundingClientRect().right)}px`),
+        );
+        if (wide.length > 0) throw new Error(`finale wider than the screen: ${wide.join(' | ')}`);
+        const pageWide = await page.evaluate(() =>
+          Array.from(document.querySelectorAll('body *'))
+            .filter((el) => el.getBoundingClientRect().right > window.innerWidth + 1 && !el.closest('table'))
+            .slice(0, 3)
+            .map((el) => `${el.tagName.toLowerCase()}[${el.getAttribute('data-testid') ?? ''}].${String(el.className).slice(0, 50)}`),
+        );
+        // Tables (price matrix) scroll inside their own box; everything else fits.
+        const outside = pageWide.filter((w) => !w.startsWith('thead') && !w.startsWith('tbody') && !w.startsWith('tr') && !w.startsWith('th') && !w.startsWith('td'));
+        if (outside.length > 0) throw new Error(`wider than the screen: ${outside.join(' | ')}`);
+      },
+      { expectSelector: ['[data-testid="finalist"] [data-testid="feature-badge"]'] },
+    );
+    await page.setViewportSize({ width: 1280, height: 900 });
 
     await step(
       'Zielwechsel ohne neue Suche: „Komfort“',

@@ -1,6 +1,6 @@
 # Architektur: [ARBEITSTITEL]
 
-Stand: 26.09.2026 · **Fassung 2 (Plattform-Angleichung)** · Ergebnis von Phase 2 · Baut auf `docs/konzept.md` (Fassung 3) auf. Ergänzt am 28.09.2026 um Abschnitt 6.15 und die zugehörigen Zeilen in 5.5, 6.10, 7.2 und 7.3 (Entscheidungshilfe, konzept.md Fassung 4, M11); bestehende Abschnitte unverändert.
+Stand: 26.09.2026 · **Fassung 2 (Plattform-Angleichung)** · Ergebnis von Phase 2 · Baut auf `docs/konzept.md` (Fassung 3) auf. Ergänzt am 28.09.2026 um Abschnitt 6.15 und die zugehörigen Zeilen in 5.5, 6.10, 7.2 und 7.3 (Entscheidungshilfe, konzept.md Fassung 4, M11), am selben Tag nach Bens Entscheidungen um Lage-Fakten aus OpenStreetMap (8.4, BG-20), die Entwicklerseite (7.2) und die Werte in 6.15; von Ben freigegeben. Bestehende Abschnitte sonst unverändert.
 Ersetzt Fassung 1 vom selben Tag (Python/FastAPI auf eigenem Hetzner-Server). Grund: Das Produkt soll nahtlos auf der bestehenden Firmenplattform laufen, die Frontlift nutzt, und mit fi-deck gebaut werden.
 
 Preise, Limits und Endpunkte externer Dienste entsprechen dem Stand 09/2026. Jede Zahl trägt ihre Quelle in Abschnitt 18 (Belege). Vor der Implementierung werden sie gegen die aktuelle Dokumentation geprüft (`umsetzungsplan.md`, Verified contracts). Abweichungen werden gemeldet und nicht still übernommen.
@@ -388,7 +388,7 @@ Einzige Quelle für alles, was sich je Produkt oder Markt unterscheidet. Wird be
 
 **hotels**: `id` (LiteAPI-`hotelId`, PK), `name`, `address`, `city`, `country_code`, `lat`, `lng`, `stars`, `rating` (auf 0–10 normalisiert), `review_count`, `hotel_type`, `main_photo_url` (wird nur verlinkt), `facility_ids int[]`, `content_fetched_at` (TTL 7 Tage).
 
-**cache_entries**: `namespace` (`rates` · `reference_price` · `hotel_content`), `key` (SHA-256 der normalisierten Parameter), `value jsonb`, `expires_at`; PK aus `namespace` und `key`. Der Schlüssel für `rates` wird gebildet aus `place_id | checkin | checkout | occupancy | currency | guest_nationality | margin`. TTL für Tarife 30 Minuten.
+**cache_entries**: `namespace` (`rates` · `reference_price` · `hotel_content` · `location_facts`, S11.5), `key` (SHA-256 der normalisierten Parameter), `value jsonb`, `expires_at`; PK aus `namespace` und `key`. Der Schlüssel für `rates` wird gebildet aus `place_id | checkin | checkout | occupancy | currency | guest_nationality | margin`. TTL für Tarife 30 Minuten.
 
 ### 5.4 Suchen
 
@@ -617,34 +617,43 @@ Ergänzt am 28.09.2026 nach Bens Vorgabe (konzept.md Fassung 4, Abschnitte 9.9 b
 - **Eintrag je Unterkunft:** ihr günstigstes Angebot, das die Filter erfüllt (bei Gleichstand das kostenlos stornierbare).
 - **Regeln in dieser Reihenfolge**, gezählt beim ersten Treffer:
   1. `filters`: kein Angebot erfüllt die Filter (Budget, Chips, Sterne, Mindestbewertung …).
-  2. `no_reviews`: kein Qualitätswert.
-  3. `red_flag`: Warnung zu Schimmel oder Ungeziefer mit ≥ 1 bestätigten oder ≥ 2 ungeprüften Erwähnungen, zu Sauberkeit mit ≥ 2 bestätigten oder ≥ 3 ungeprüften (`RED_FLAG_MIN_MENTIONS`).
+  2. `no_reviews`: kein Qualitätswert und nicht plausibel: Preis pro Nacht unter `UNRATED_MIN_PRICE_RATIO` × Median der bewerteten Häuser mit gleicher Sternezahl (bei weniger als `STAR_TRAP_MIN_REFERENCE` aller bewerteten), oder unter diesem Median mit mehr Extras (Frühstück, Halbpension, Sauna, Schwimmbad) als drei Viertel der bewerteten Häuser (`UNRATED_MAX_EXTRAS_SHARE`); bei `komfort` immer. Plausible Häuser ohne Bewertungen durchlaufen die übrigen Regeln ohne Qualitätsschwelle.
+  3. `red_flag`: Warnung zu Schimmel oder Ungeziefer mit ≥ 2 bestätigten oder ≥ 3 ungeprüften Erwähnungen, zu Sauberkeit mit ≥ 3 bestätigten oder ≥ 4 ungeprüften (`RED_FLAG_MIN_MENTIONS`, Ben 28.09.2026: ein einzelner Gast kann sich irren).
   4. `star_trap`: ≥ `STAR_TRAP_MIN_STARS` Sterne und Preis pro Nacht unter `STAR_TRAP_PRICE_RATIO` × Median der Häuser mit weniger Sternen (mindestens `STAR_TRAP_MIN_REFERENCE` davon mit Qualitätswert). Entlastet nur durch einen Rezensionscheck, Qualität ≥ `STAR_TRAP_MIN_QUALITY` und keine Warnung zu Zustand oder Sauberkeit.
-  5. `low_quality`: Qualität unter `GOAL_QUALITY_FLOOR[goal]`.
+  5. `low_quality`: Qualität unter `GOAL_QUALITY_FLOOR[goal]`. Ausnahme (nicht bei `komfort`): ein Haus mit Rezensionscheck, ohne Warnsignal und mit Qualität ≥ `LOW_QUALITY_EXCEPTION_MIN` bleibt, wenn es höchstens `LOW_QUALITY_EXCEPTION_PRICE_RATIO` × den Preis des günstigsten Hauses kostet, das die Schwelle erreicht (ohne ein solches Haus immer). Solche Häuser setzen das Preisfenster nicht.
   6. `too_expensive`: Gesamtpreis über dem günstigsten sauberen Haus × (1 + `GOAL_PRICE_WINDOW[goal]`); „sauber“ heißt: mit Rezensionscheck und durch alle Regeln gekommen (ohne jeden Check das günstigste verbliebene). Bei `komfort` kein Fenster.
   7. `dominated`: ein anderes Haus ist nicht teurer, höchstens `DOMINANCE_QUALITY_TOLERANCE` schlechter bewertet, bietet jedes Merkmal dieses Hauses und ist in Preis, Qualität (über der Toleranz) oder Merkmalen besser. Ein ungeprüftes Haus verdrängt nie ein geprüftes.
-- **Finalisten:** höchstens `FINALISTS_MAX`; zuerst die Häuser mit Rezensionscheck in Zielreihenfolge (`sparen` Preis, `komfort` Qualität, `ausgewogen` Rangwert), ungeprüfte füllen nur auf und sind als „Rezensionen nicht geprüft“ gekennzeichnet; angezeigt nach Preis. Die übrigen passenden Häuser zählen als Nachrücker. Jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund.
-- **Merkmale** (`offerFeatures`), in dieser Reihenfolge: Frühstück inklusive, Halbpension, kostenlos stornierbar; Sauna oder Wellness, Schwimmbad; Lob-Labels; übrige Ausstattung aus den Chip-Zuordnungen (Parkplatz, Küche, Hund, Familienzimmer, barrierefrei) sowie Restaurant und E-Ladestation. Eine Finalkarte nennt je Seite die ersten `FINALE_FEATURES_SHOWN`, der Rest ist aufklappbar.
+- **Finalisten:** höchstens `FINALISTS_MAX`; zuerst die Häuser mit Rezensionscheck in Zielreihenfolge (`sparen` Preis, `komfort` Qualität, `ausgewogen` Rangwert), ungeprüfte füllen nur auf und sind als „Rezensionen nicht geprüft“ gekennzeichnet, darunter höchstens `UNRATED_FINALISTS_MAX` ohne Bewertungen (gekennzeichnet „noch keine Bewertungen“); angezeigt nach Preis. Die übrigen passenden Häuser zählen als Nachrücker. Jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund.
+- **Merkmale** (`offerFeatures`), in dieser Reihenfolge: Frühstück inklusive, Halbpension, kostenlos stornierbar; Sauna oder Wellness, Schwimmbad; Lage (Gehminuten zu Lift, Bahnhof, Bushaltestelle, Supermarkt aus 6.15 „Lage-Fakten“, „Ortskern“, „Restaurants in der Nähe“); Lob-Labels; übrige Ausstattung aus den Chip-Zuordnungen (Parkplatz, Küche, Hund, Familienzimmer, barrierefrei) sowie Restaurant und E-Ladestation. Lage-Merkmale vergleichen „ob“ (Code), das Label nennt „wie weit“.
+- **Darstellung als Preisleiter** (S11.7, Bens Entwurf A): eine Zeile je Finalist mit Gesamtpreis, Aufpreis, Name, Note und kurzen Badges statt Sätzen: grün, was es zusätzlich hat, durchgestrichen, was fehlt, neutral, was auch das günstigste hat; zusammen höchstens `FINALE_BADGES_SHOWN`, davon bis zu `FINALE_LOSSES_SHOWN` Fehlendes immer sichtbar, der Rest aufklappbar. Unter der Leiter Legende und Quellenangabe OpenStreetMap.
 - **Finale** (`compareFinalists`): Basis ist der günstigste Finalist. Je weiterer Finalist: Aufpreis in Cent, Merkmale mehr („Dafür“) und weniger („Dafür nicht“), Qualitätsabstand ab `FINALE_QUALITY_DELTA_MIN`, anderer Ort, anderer Termin, Entfernung zur Ortsmitte (Haversine zu den Koordinaten des Orts) als Klasse `kern` (≤ `CENTER_DISTANCE_CORE_KM`), `ort` (≤ `CENTER_DISTANCE_TOWN_KM`) oder `ausserhalb`. Keine Empfehlung, kein Favorit.
 - **Kandidaten des Rezensionschecks** (`reviewCandidateIds`): zuerst die wahrscheinlichen Finalisten aller drei Ziele (das Ziel der Suche zuerst; Warnsignale sind vor dem Check unbekannt), dann als Reserve die Zielreihenfolge unter den Regeln ohne Warnsignale, mit um `CANDIDATE_QUALITY_MARGIN` (= `SCORE_RECENCY_WEIGHT` × `SCORE_RECENCY_MAX_DELTA`) gesenkten Schwellen, ohne Preisfenster und Dominanz; insgesamt `REVIEW_TOP_N`.
 - **Nachprüfrunden** (Workflow-Schritte `reviews-fetch-<n>`/`reviews-verify-<n>`): Der Check verschiebt Qualitätswerte und nimmt Häuser heraus, dadurch rücken ungeprüfte Häuser ins Finale nach. Bis zu `REVIEW_FOLLOWUP_ROUNDS` Runden prüfen deshalb die dann aktuellen Finalisten aller Ziele ohne Check (`finalistIdsAcrossGoals`), je höchstens `REVIEW_FOLLOWUP_MAX`; eine Runde ohne Kandidaten beendet die Schleife. Budgets wie in 6.10 (fail-closed).
-- **Lob-Labels** (`countPraise`, `praiseLabels`): Stichwortliste `packages/domain/src/praise-lexicon.yaml` je Thema (`fruehstueck`, `sauberkeit`, `ruhe`, `personal`, `betten`, `aussicht`, `lage`) in DE, EN, FR, IT, NL, nur in der Sprache der Bewertung. Ein Themenwort im Feld „Positiv“ zählt als Lob, im Feld „Negativ“ als Kritik, je Bewertung höchstens einmal; der erste Satz eines Negativ-Felds, das mit „Nichts“ o. Ä. beginnt, zählt nicht. Bewertungen der letzten `PRAISE_MAX_AGE_MONTHS`. Label ab `PRAISE_MIN_MENTIONS` Lob, Lobanteil ≥ `PRAISE_MIN_SHARE` und ohne angezeigte Warnung zu den zugehörigen Beschwerdethemen (`PRAISE_BLOCKED_BY`). Ohne KI; die Zahlen stehen in `review_checks.praise`.
+- **Lob-Labels** (`countPraise`, `praiseLabels`): Stichwortliste `packages/domain/src/praise-lexicon.yaml` je Thema (`fruehstueck`, `sauberkeit`, `ruhe`, `personal`, `betten`, `aussicht`, `lage`) in DE, EN, FR, IT, NL, nur in der Sprache der Bewertung. Ein Themenwort im Feld „Positiv“ zählt als Lob, im Feld „Negativ“ als Kritik, je Bewertung höchstens einmal; der erste Satz eines Negativ-Felds, das mit „Nichts“ o. Ä. beginnt, zählt nicht. Bewertungen der letzten `PRAISE_MAX_AGE_MONTHS`. Label ab `PRAISE_MIN_MENTIONS` lobenden Gästen und `PRAISE_MIN_REVIEW_SHARE` aller Bewertungen des Zeitraums (Bewertungen der letzten `PRAISE_RECENT_MONTHS` zählen `PRAISE_RECENT_WEIGHT`-fach, im Anteil wie in der Basis), Lobanteil ≥ `PRAISE_MIN_SHARE` und ohne angezeigte Warnung zu den zugehörigen Beschwerdethemen (`PRAISE_BLOCKED_BY`). Ohne KI; die Zahlen stehen in `review_checks.praise`.
+- **Lage-Fakten** (`location.ts`, S11.5, BG-20 am 28.09.2026 freigegeben): Workflow-Schritt `location-facts` nach den Nachprüfrunden holt für die wahrscheinlichen Finalisten aller Ziele in einer Overpass-Abfrage (8.4) Bushaltestellen, Bahnhöfe, Lift-Stationen, Supermärkte im Umkreis `LOCATION_SEARCH_RADIUS_M` und Gastronomie im Umkreis `LOCATION_GASTRO_RADIUS_M`. Gehminuten = Luftlinie × `WALK_DETOUR_FACTOR` / `WALK_METERS_PER_MIN`; zählt bis `LOCATION_MAX_WALK_MIN` je Art, „Restaurants in der Nähe“ ab `LOCATION_GASTRO_MIN`. Ergebnis je Haus in `cache_entries` (`location_facts`, Schlüssel je Quelle, `LOCATION_FACTS_TTL_DAYS`). Fällt der Dienst aus, zeigt das Finale keine Gehminuten; die Suche läuft weiter.
 - **API:** `GET /searches/{id}/finale?goal=&…` mit denselben Filterparametern wie `/results`; Antwort `FinaleResponse` (Ziel, wirksame Filter, Finalisten mit Vergleich, `excluded` je Grund, `runners_up`, `hotels`). `/results` und die Detailansicht tragen `labels`, die Detailansicht zusätzlich `praise` mit den Zahlen.
 
 | Konstante | Startwert | Bedeutung |
 |---|---|---|
 | `GOAL_QUALITY_FLOOR` | 7,0 / 7,5 / 8,3 | Mindest-Qualität für `sparen` / `ausgewogen` / `komfort` |
 | `GOAL_PRICE_WINDOW` | 0,35 / 0,75 / – | Preisfenster über dem günstigsten verbliebenen Haus |
-| `FINALISTS_MAX` | 4 | |
+| `FINALISTS_MAX` | 5 | Ben 28.09.2026 |
+| `LOW_QUALITY_EXCEPTION_MIN` / `LOW_QUALITY_EXCEPTION_PRICE_RATIO` | 6,5 / 0,75 | schwächere Häuser nur deutlich günstiger, nicht bei `komfort` |
+| `UNRATED_FINALISTS_MAX` / `UNRATED_MIN_PRICE_RATIO` / `UNRATED_MAX_EXTRAS_SHARE` | 1 / 0,8 / 0,25 | Häuser ohne Bewertungen |
 | `STAR_TRAP_MIN_STARS` / `STAR_TRAP_PRICE_RATIO` / `STAR_TRAP_MIN_REFERENCE` / `STAR_TRAP_MIN_QUALITY` | 4 / 0,7 / 3 / 8,0 | Sterne-Falle |
-| `RED_FLAG_MIN_MENTIONS` | Schimmel, Ungeziefer 1 / 2; Sauberkeit 2 / 3 | bestätigt / ungeprüft |
-| `DOMINANCE_QUALITY_TOLERANCE` / `FINALE_QUALITY_DELTA_MIN` / `FINALE_FEATURES_SHOWN` | 0,2 / 0,3 / 3 | |
+| `RED_FLAG_MIN_MENTIONS` | Schimmel, Ungeziefer 2 / 3; Sauberkeit 3 / 4 | bestätigt / ungeprüft |
+| `DOMINANCE_QUALITY_TOLERANCE` / `FINALE_QUALITY_DELTA_MIN` | 0,2 / 0,3 | |
+| `FINALE_BADGES_SHOWN` / `FINALE_LOSSES_SHOWN` | 6 / 2 | Badges je Zeile der Preisleiter |
 | `CANDIDATE_QUALITY_MARGIN` | 0,75 | Spielraum der Rezensionscheck-Kandidaten |
 | `REVIEW_FOLLOWUP_ROUNDS` / `REVIEW_FOLLOWUP_MAX` | 2 / 4 | Nachprüfrunden und Häuser je Runde; höchstens 8 Checks zusätzlich zu `REVIEW_TOP_N` |
-| `PRAISE_MIN_MENTIONS` / `PRAISE_MIN_SHARE` / `PRAISE_MAX_AGE_MONTHS` / `PRAISE_MAX_LABELS_LIST` | 3 / 0,8 / 24 / 3 | Lob-Labels; die Liste zeigt die drei meistgelobten |
+| `PRAISE_MIN_MENTIONS` / `PRAISE_MIN_REVIEW_SHARE` / `PRAISE_MIN_SHARE` / `PRAISE_MAX_AGE_MONTHS` / `PRAISE_MAX_LABELS_LIST` | 3 / 0,05 / 0,8 / 24 / 3 | Lob-Labels; die Liste zeigt die drei meistgelobten |
+| `PRAISE_RECENT_MONTHS` / `PRAISE_RECENT_WEIGHT` | 6 / 2 | frisches Lob zählt doppelt |
+| `WALK_METERS_PER_MIN` / `WALK_DETOUR_FACTOR` | 80 / 1,3 | Gehminuten |
+| `LOCATION_MAX_WALK_MIN` | Lift 15, Bahnhof 15, Bus 10, Supermarkt 10 | |
+| `LOCATION_GASTRO_RADIUS_M` / `LOCATION_GASTRO_MIN` / `LOCATION_SEARCH_RADIUS_M` / `LOCATION_FACTS_TTL_DAYS` | 300 / 3 / 1200 / 90 | |
 | `CENTER_DISTANCE_CORE_KM` / `CENTER_DISTANCE_TOWN_KM` | 0,6 / 2 | Lage zur Ortsmitte |
 
-Alle Werte sind Startwerte und werden mit echten Daten kalibriert (Testbetrieb). Lage-Fakten wie Bushaltestelle oder belebter Ort bräuchten OpenStreetMap als neue Datenquelle (⛔ Freigabe, S11.5).
+Die Werte hat Ben am 28.09.2026 festgelegt; sie werden mit echten Daten im Testbetrieb überprüft.
 
 ## 7. API-Endpunkte
 
@@ -672,6 +681,7 @@ Alle Werte sind Startwerte und werden mit echten Daten kalibriert (Testbetrieb).
 | GET | `/searches/{id}` | Status und Fortschritt | Such-Token |
 | GET | `/searches/{id}/results` | Matrix und Liste; Filter und `sort` als Parameter | Such-Token |
 | GET | `/searches/{id}/finale` | Vorauswahl und Finale für das Ziel (`goal`), dieselben Filter wie `/results` (6.15, M11) | Such-Token |
+| GET, PUT | `/dev/settings` | Entwicklerseite: KI-Schalter für lokale Tests, KI-Verbrauch heute, lokale Suchgrenzen (S11.8); nur `APP_ENV` `dev`/`test`, sonst 404 | – |
 | GET | `/searches/{id}/hotels/{hotel_id}` | Detailansicht: alle Termine, Score-Aufschlüsselung, Rezensionscheck | Such-Token |
 | GET | `/searches/{id}/hotels/{hotel_id}/reference-price?offer_id=` | Öffentlicher Vergleichspreis (Beta, Cache 6 h) | Such-Token |
 | POST | `/bookings` | Buchung anlegen und Prebook | Such-Token |
@@ -781,6 +791,11 @@ Antwort: `booking_ref`, `session_token` (2 Stunden gültig), `price`, `price_cha
 ### 8.3 GeoNames
 - Quelle: Länder-Exporte `DE`, `AT`, `CH`, `IT` (gefiltert auf die Provinz Bozen) und die Postleitzahlen-Exporte. Der Import läuft in der Operator-Lane, weil er Netzwerk braucht: Dateien herunterladen, prüfen (Prüfsumme in `data/geonames/README.md`), dann `npm run cli -- geonames import <verzeichnis>`.
 - Nur Siedlungen (Feature-Klasse `P`). Aktualisierung halbjährlich oder bei Bedarf.
+
+### 8.4 OpenStreetMap (Overpass API)
+- `POST https://overpass-api.de/api/interpreter` mit Formularfeld `data` (Overpass QL, `[out:json]`, `out center`), eine Abfrage je Suche für alle Häuser (`around` je Haus). Kein Schlüssel; die öffentliche Instanz verlangt wenige, begrenzte Abfragen und einen erkennbaren User-Agent (`<slug> (<domain>)`). Zeitlimit 20 s, eine Wiederholung bei 429/5xx, danach ohne Lage-Fakten weiter.
+- Quelle schaltbar wie die übrigen Anbieter (`POI_SOURCE`, Fake im Modus `fake`); Quellenangabe „© OpenStreetMap-Mitwirkende“ (ODbL) unter dem Finale.
+- Freigegeben von Ben am 28.09.2026 (BG-20). Ein eigenes Kontingent entfällt: höchstens eine Abfrage je Suche, Suchen sind begrenzt.
 
 ## 9. KI-Integration
 

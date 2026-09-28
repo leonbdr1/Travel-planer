@@ -98,7 +98,7 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 | BG-17 | Aufbewahrungsfristen Gastdaten, Rolle von LiteAPI/Nuitée im Datenschutz | 90 Tage vorläufig; Anwalt | M9 |
 | BG-18 | Verifikation der Competitor-Baseline (Maximum-Messlatte) | Recherche vor M5, danach Codex-Review des One-Pagers | M5 |
 | BG-19 | Zielwert der Skill-Evals | 90 % | M4, M7 |
-| BG-20 | OpenStreetMap (Overpass) als neue Datenquelle für Lage-Fakten im Finale (Haltestelle, belebte Umgebung) | erst nach dem Testbetrieb entscheiden; Quellenangabe OSM steht schon auf „So funktioniert's“ | S11.5 |
+| BG-20 | OpenStreetMap (Overpass) als neue Datenquelle für Lage-Fakten im Finale (Haltestelle, belebte Umgebung) | ✅ freigegeben am 28.09.2026 (Ben im Chat) | S11.5 |
 
 ## 4. Meilensteine
 
@@ -558,7 +558,7 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 ### M11 Entscheidungshilfe: Ziel, Vorauswahl, Finale, Lob-Labels
 
 **Ziel:** F15 bis F17 (`konzept.md` Fassung 4, Abschnitte 9.9 bis 9.11; `architektur.md` 6.15). Eingeschoben am 28.09.2026 nach Bens Vorgabe: Das Programm sortiert aus, was nicht zum Ziel passt, und zeigt zwischen den übrigen Unterkünften, was der Aufpreis bringt; die Entscheidung trifft der Nutzer. M10 wartet ohnehin auf Konten und Freigaben.
-**Voraussetzungen:** keine neuen BEN-GATEs außer ⛔ BG-20 für S11.5.
+**Voraussetzungen:** keine neuen BEN-GATEs außer ⛔ BG-20 für S11.5 (freigegeben 28.09.2026).
 
 **S11.1 Ziel und automatische Vorauswahl** (Fleet-Lane)
 - [x] `goal` im SearchRequest (optional, ohne Angabe „Preis-Leistung“); `packages/domain/src/preselect.ts` mit den Regeln aus 6.15 und Zählung je Grund; Kandidaten des Rezensionschecks nach Ziel statt nach Rang; `GET /searches/{id}/finale` mit denselben Filtern wie `/results` und `goal`. (da775cf, 2026-09-28)
@@ -588,11 +588,30 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
   - Demo: `npm run demo -- s11.4` → Ziel „Komfort“ gespeichert und im Finale wirksam, ohne Ziel „Preis-Leistung“, unbekanntes Ziel 400, Sterne als Ergebnisfilter.
   - STATUS: „Suchformular mit Ziel“ → `live-verified`.
 
-**S11.5 Lage-Fakten im Finale** (Fleet-Lane, ⛔ BG-20)
+**S11.5 Lage-Fakten im Finale** (Fleet-Lane, ⛔ BG-20, freigegeben 28.09.2026)
 - [ ] Haltestelle in Gehweite und belebte Umgebung (Gastronomie in der Nähe) aus OpenStreetMap (Overpass), zwischengespeichert, nur für die Finalisten.
-  - Wiring: `/finale` → OSM-Port mit Fake → Merkmale im Vergleich.
-  - Demo: nach der Freigabe festzulegen.
-  - STATUS: „Lage-Fakten“ → `spec'd`.
+  - ⟂ drift (2026-09-28): Zusätzlich Bahnhof, Lift-Station und Supermarkt in Gehminuten (Ben: „näher am Lift“, „5 min zur Bushaltestelle“); geholt im Workflow-Schritt `location-facts` statt im Aufruf von `/finale`, damit das Finale schnell bleibt; Zwischenspeicher in `cache_entries` (Migration `20261012a`, neuer Namespace).
+  - Wiring: Workflow `location-facts` → `PoiPort` (Overpass, Fake) → `cache_entries` → `/finale` → `offerFeatures` (Lage-Merkmale) → Preisleiter.
+  - Demo: `npm run demo -- s11.5` → Gehminuten bei den Finalisten, ein Overpass-Aufruf je Suche, Wiederholung aus dem Zwischenspeicher.
+  - STATUS: „Lage-Fakten“ → `live-verified`.
+
+**S11.6 Beschlüsse vom 28.09.2026** (Fleet-Lane, von Ben im Chat entschieden)
+- [ ] Warnsignale Schimmel/Ungeziefer 2 bestätigt / 3 ungeprüft, Schmutz 3 / 4; Ausnahme zur Mindestnote (ab 6,5, geprüft, höchstens 75 % des günstigsten Hauses mit normaler Note, nicht bei Komfort); Häuser ohne Bewertungen mit Plausibilitätsprüfung (höchstens eines im Finale, gekennzeichnet); Lob-Labels relativ (mindestens 5 % der Bewertungen, letzte 6 Monate doppelt); höchstens 5 Finalisten.
+  - Wiring: `preselect` und `praiseLabels` → `/finale`, `/results`, Detailansicht.
+  - Demo: `npm run demo -- s11.6` → Werte, Finale je Ziel mit den Regeln, Labels mit Zahlen.
+  - STATUS: „Beschlüsse vom 28.09.“ → `demonstrated`.
+
+**S11.7 Finale als Preisleiter** (Fleet-Lane, Bens Entwurf A)
+- [ ] Zeile je Finalist mit Preis, Aufpreis, Name, Note und Badges statt Sätzen (grün: zusätzlich, durchgestrichen: fehlt, neutral: gleich), höchstens 6 Badges, davon bis zu 2 Fehlende immer sichtbar; Legende, OSM-Quellenangabe; Handy ohne Querscrollen.
+  - Wiring: `FinaleView` → `GET /finale` (`features`, `gains`, `losses`, `minutes`).
+  - Demo: `npm run dogfood -- --mode P --flow finale` (Schritte Preisleiter und Handy).
+  - STATUS: „Preisleiter“ → `live-verified`.
+
+**S11.8 Entwicklerseite** (Fleet-Lane)
+- [ ] `/entwickler` (nur `dev`/`test`): KI-Schalter für Rezensionscheck und Wunschübersetzung (echte KI standardmäßig aus, simulierte an), heutiger KI-Verbrauch; lokale Suchgrenzen 60/h und 200/Tag (`limits.dev_rate_limits`); Link im Hinweisbalken.
+  - Wiring: Seite → `GET/PUT /dev/settings` → `app.meta_kv` → Workflow (`effectiveLlmEnabled`) und `/wishes/parse`; `/meta/config` meldet den wirksamen Zustand.
+  - Demo: `npm run demo -- s11.8` → Suche mit KI an, Schalter aus, Suche nur mit Stichworten, Schalter an.
+  - STATUS: „Entwicklerseite“ → `live-verified`.
 
 **Abnahme M11:** F15 bis F17 erfüllt; jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund; Sterne-Fallen und Warnsignale erreichen das Finale nicht; Walkthrough `finale` gelesen.
 **Rollback:** Die Liste „Alle Angebote“ bleibt vollständig; das Finale ist eine zusätzliche Sicht und lässt sich in `ResultsView` ausblenden.
@@ -610,3 +629,4 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 | 2026-09-26 | 1 | Erster Plan auf Basis von Python/FastAPI auf eigenem Server |
 | 2026-09-26 | 2 | Neufassung auf der Firmenplattform (Cloudflare, Supabase, Claude-Skills) im fi-deck-Plan-Format mit Operator- und Fleet-Lane |
 | 2026-09-28 | 2 (Ergänzung) | M11 Entscheidungshilfe (Ziel, Vorauswahl, Finale, Lob-Labels) nach Bens Vorgabe; BG-20 für OpenStreetMap |
+| 2026-09-28 | 2 (Ergänzung) | Bens Entscheidungen im Chat: Werte der Vorauswahl (S11.6), BG-20 freigegeben (S11.5), Preisleiter nach Entwurf A (S11.7), Entwicklerseite mit KI-Schalter und lokalen Suchgrenzen (S11.8) |

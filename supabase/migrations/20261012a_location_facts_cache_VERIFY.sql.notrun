@@ -1,0 +1,4 @@
+-- Verification for 20261012a_location_facts_cache: the namespace check lists
+-- location_facts, and row security is still enabled on cache_entries.
+SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname = 'cache_entries_namespace_check';
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'cache_entries';

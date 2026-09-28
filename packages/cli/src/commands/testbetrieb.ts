@@ -10,8 +10,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { productConfig } from '@reiseplaner/config';
 import { repoRoot } from '@reiseplaner/db/node';
-import { constants } from '@reiseplaner/domain';
-import { createProviders, ProviderError, type FetchLike } from '@reiseplaner/providers';
+import { constants, locationFacts, WALK_KINDS } from '@reiseplaner/domain';
+import { createProviders, OVERPASS_PUBLIC_URL, ProviderError, type FetchLike } from '@reiseplaner/providers';
 import { memorySkillHooks, runSkill } from '@reiseplaner/skills';
 import { flag } from '../lib/args';
 import { devVarsPath, updateDevVars } from '../lib/dev-vars';
@@ -201,6 +201,7 @@ export async function runTestbetriebChecks(options: CheckOptions): Promise<Testb
         bookBaseUrl: env.LITEAPI_BOOK_BASE_URL ?? 'https://book.liteapi.travel/v3.0',
       },
       ors: { apiKey: env.ORS_API_KEY, baseUrl: env.ORS_BASE_URL ?? 'https://api.heigit.org/openrouteservice' },
+      overpass: { baseUrl: env.OVERPASS_BASE_URL ?? OVERPASS_PUBLIC_URL },
       resend: {},
       anthropic: { apiKey: env.ANTHROPIC_API_KEY },
     },
@@ -282,6 +283,16 @@ export async function runTestbetriebChecks(options: CheckOptions): Promise<Testb
     } catch (err) {
       add('Fahrzeiten', 'fehler', errorText(err));
     }
+  }
+
+  // OpenStreetMap (Overpass): points around the centre of the check place, no key.
+  try {
+    const pois = await providers.poi.around([CHECK_PLACE], constants.LOCATION_SEARCH_RADIUS_M, constants.LOCATION_GASTRO_RADIUS_M);
+    const facts = locationFacts(CHECK_PLACE, pois);
+    const walk = WALK_KINDS.filter((k) => facts.walk[k] !== null).map((k) => `${k} ${facts.walk[k]} min`);
+    add('Lage (OpenStreetMap)', pois.length > 0 ? 'ok' : 'fehler', `${CHECK_PLACE.name}: ${pois.length} Punkte, ${walk.join(', ') || 'nichts in Gehweite'}, ${facts.gastro} Restaurants nah`);
+  } catch (err) {
+    add('Lage (OpenStreetMap)', 'fehler', errorText(err));
   }
 
   // Anthropic: one real skill run through the runner (model, forced tool call, output check).

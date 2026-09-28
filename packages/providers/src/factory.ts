@@ -8,9 +8,11 @@ import type { LlmPort } from './llm/port';
 import { createLiteApiClient, type LiteApiPort } from './liteapi/client';
 import { createResendClient, type MailPort } from './mail/client';
 import { createOrsClient, type RoutingPort } from './routing/client';
+import { createOverpassClient, OVERPASS_PUBLIC_URL, type PoiPort } from './poi/client';
 import { createFakeAnthropicFetch, type FakeLlmResponder } from './fake/anthropic-fetch';
 import { createFakeLiteApiFetch, type FakeFault } from './fake/liteapi-fetch';
 import { createFakeOrsFetch } from './fake/ors-fetch';
+import { createFakeOverpassFetch } from './fake/overpass-fetch';
 import { createFakeReferencePrice } from './fake/reference-price';
 import { createFakeResendFetch } from './fake/resend-fetch';
 import { createUnverifiedReferencePrice, type ReferencePricePort } from './reference-price/port';
@@ -22,6 +24,8 @@ export interface ProvidersConfig {
   sources?: Partial<ProviderSources>;
   liteapi: { apiKey?: string | undefined; baseUrl: string; bookBaseUrl: string };
   ors: { apiKey?: string | undefined; baseUrl: string };
+  /** OpenStreetMap points of interest; no key. Defaults to the public instance. */
+  overpass?: { baseUrl: string };
   resend: { apiKey?: string | undefined };
   anthropic: { apiKey?: string | undefined };
 }
@@ -55,6 +59,8 @@ export interface Providers {
   /** Public reference price (beta); live adapter pending the contract check. */
   referencePrice: ReferencePricePort;
   routing: RoutingPort;
+  /** OpenStreetMap points of interest (location facts in the finale). */
+  poi: PoiPort;
   mail: MailPort;
   llm: LlmPort;
 }
@@ -100,6 +106,12 @@ export function createProviders(config: ProvidersConfig, hooks: ProviderHooks = 
       baseUrl: config.ors.baseUrl,
       fetch: fakeRouting ? createFakeOrsFetch(tuning.orsQuotaExhausted ? { quotaExhausted: true } : {}) : realFetch,
       onCall: count('ors'),
+    }),
+    poi: createOverpassClient({
+      baseUrl: config.overpass?.baseUrl ?? OVERPASS_PUBLIC_URL,
+      fetch: sources.poi === 'fake' ? createFakeOverpassFetch() : realFetch,
+      userAgent: `${productConfig.slug} (${productConfig.domains.primary})`,
+      onCall: count('overpass'),
     }),
     mail: createResendClient({
       apiKey: fakeMail ? 'fake-key' : config.resend.apiKey,

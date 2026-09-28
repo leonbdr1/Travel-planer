@@ -24,6 +24,7 @@ export {
   type RatesResult,
 } from './liteapi/client';
 export { createOrsClient, type RouteMetric, type RoutingPort } from './routing/client';
+export { createOverpassClient, OVERPASS_PUBLIC_URL, overpassQuery, poiKind, type PoiPort } from './poi/client';
 export { createResendClient, type MailMessage, type MailPort } from './mail/client';
 export { createProviders, type FakeTuning, type ProviderHooks, type Providers, type ProvidersConfig } from './factory';
 export { createFakeLiteApiFetch, type FakeFault } from './fake/liteapi-fetch';

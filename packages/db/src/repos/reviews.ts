@@ -22,6 +22,10 @@ export const praiseRowSchema = z.object({
   topic: z.string(),
   praised: z.number().int().min(0),
   criticized: z.number().int().min(0),
+  // Weighted counts (recent reviews count more); absent in rows written before.
+  praisedWeighted: z.number().min(0).optional(),
+  criticizedWeighted: z.number().min(0).optional(),
+  reviewsWeighted: z.number().min(0).optional(),
 });
 export type PraiseRow = z.infer<typeof praiseRowSchema>;
 const sentimentSchema = z.array(z.object({ name: z.string(), rating: z.number() })).nullable();

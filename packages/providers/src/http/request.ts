@@ -12,6 +12,8 @@ export interface RequestJsonOptions<S extends z.ZodType> {
   method?: 'GET' | 'POST' | 'PUT';
   headers?: Record<string, string>;
   body?: unknown;
+  /** A body that is not JSON (e.g. a form); sent as is with `contentType`. */
+  bodyText?: { text: string; contentType: string };
   schema: S;
   fetch: FetchLike;
   timeoutMs: number;
@@ -39,14 +41,17 @@ export async function requestJson<S extends z.ZodType>(options: RequestJsonOptio
     const timer = setTimeout(() => controller.abort(), options.timeoutMs);
     let res: Response;
     try {
+      const text = options.bodyText;
       res = await options.fetch(options.url, {
-        method: options.method ?? (options.body === undefined ? 'GET' : 'POST'),
+        method: options.method ?? (options.body === undefined && !text ? 'GET' : 'POST'),
         headers: {
           accept: 'application/json',
           ...(options.body === undefined ? {} : { 'content-type': 'application/json' }),
+          ...(text ? { 'content-type': text.contentType } : {}),
           ...options.headers,
         },
         ...(options.body === undefined ? {} : { body: JSON.stringify(options.body) }),
+        ...(text ? { body: text.text } : {}),
         signal: controller.signal,
       });
     } catch (err) {

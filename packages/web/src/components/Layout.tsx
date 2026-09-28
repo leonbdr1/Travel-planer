@@ -24,6 +24,14 @@ function DevBanner() {
   return (
     <div data-testid="dev-banner" className="bg-amber-100 px-4 py-2 text-center text-xs font-medium text-amber-900">
       {text}
+      {m.dev_settings ? (
+        <>
+          {' · '}
+          <Link to="/entwickler" className="underline" data-testid="dev-link">
+            {de.developer.link}
+          </Link>
+        </>
+      ) : null}
     </div>
   );
 }
@@ -52,7 +60,8 @@ export function Layout() {
             <NavLink to="/suche" className={navClass}>
               {de.nav.search}
             </NavLink>
-            <NavLink to="/so-funktionierts" className={navClass}>
+            {/* On phones the footer carries it: the header must fit 360 px. */}
+            <NavLink to="/so-funktionierts" className={(state) => cx(navClass(state), 'hidden sm:inline-block')}>
               {de.nav.howItWorks}
             </NavLink>
             <NavLink to="/buchung" className={navClass}>

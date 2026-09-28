@@ -2,10 +2,18 @@
 // guests praise it (a topic word in the review's "positive" field) and how
 // many criticise it (in the "negative" field), over the last
 // PRAISE_MAX_AGE_MONTHS. One count per review and field. A label such as
-// "Gutes Frühstück" appears with at least PRAISE_MIN_MENTIONS praising guests,
-// a praise share of at least PRAISE_MIN_SHARE and no warning on the matching
+// "Gutes Frühstück" appears relative to the house's review volume (see
+// constants: praising guests, share of all reviews with recent ones weighted
+// up, praise share of the mentions) and without a warning on the matching
 // complaint topics. Only counts leave this module, never review texts.
-import { PRAISE_MAX_AGE_MONTHS, PRAISE_MIN_MENTIONS, PRAISE_MIN_SHARE } from './constants';
+import {
+  PRAISE_MAX_AGE_MONTHS,
+  PRAISE_MIN_MENTIONS,
+  PRAISE_MIN_REVIEW_SHARE,
+  PRAISE_MIN_SHARE,
+  PRAISE_RECENT_MONTHS,
+  PRAISE_RECENT_WEIGHT,
+} from './constants';
 import { addMonths } from './dates';
 import { PRAISE_LEXICON, type PraiseLexicon } from './generated/praise-lexicon';
 import { REVIEW_LEXICON_LANGUAGES, type LexiconLanguage } from './generated/review-lexicon';
@@ -21,6 +29,21 @@ export interface PraiseCount {
   praised: number;
   /** Reviews whose negative field names the topic. */
   criticized: number;
+  /** The same with recent reviews weighted up (PRAISE_RECENT_WEIGHT). */
+  praisedWeighted: number;
+  criticizedWeighted: number;
+  /** All reviews of the period, weighted the same way: the base of the review share. */
+  reviewsWeighted: number;
+}
+
+/** Counts as stored; rows written before the weighting fall back to the plain counts. */
+export interface StoredPraiseCount {
+  topic: string;
+  praised: number;
+  criticized: number;
+  praisedWeighted?: number | undefined;
+  criticizedWeighted?: number | undefined;
+  reviewsWeighted?: number | undefined;
 }
 
 interface CompiledPraiseLexicon {
@@ -65,9 +88,13 @@ function mentions(text: string, patterns: readonly RegExp[]): boolean {
 /** Praise and criticism per topic relative to `today`; topics nobody mentions are left out. */
 export function countPraise(reviews: readonly GuestReview[], today: IsoDate, compiled: CompiledPraiseLexicon = DEFAULT_COMPILED): PraiseCount[] {
   const cutoff = addMonths(today, -PRAISE_MAX_AGE_MONTHS);
+  const recent = addMonths(today, -PRAISE_RECENT_MONTHS);
   const counts = new Map<PraiseTopic, PraiseCount>();
+  let reviewsWeighted = 0;
   for (const review of reviews) {
     if (review.date === null || review.date < cutoff || review.date > today) continue;
+    const weight = review.date >= recent ? PRAISE_RECENT_WEIGHT : 1;
+    reviewsWeighted += weight;
     const langs = languagesOf(review.language);
     const pros = review.pros ? normalize(review.pros) : '';
     const cons = review.cons ? withoutNothingOpening(normalize(review.cons), langs, compiled) : '';
@@ -77,13 +104,21 @@ export function countPraise(reviews: readonly GuestReview[], today: IsoDate, com
       const praised = pros !== '' && mentions(pros, patterns);
       const criticized = cons !== '' && mentions(cons, patterns);
       if (!praised && !criticized) continue;
-      const c = counts.get(topic) ?? { topic, praised: 0, criticized: 0 };
-      if (praised) c.praised += 1;
-      if (criticized) c.criticized += 1;
+      const c = counts.get(topic) ?? { topic, praised: 0, criticized: 0, praisedWeighted: 0, criticizedWeighted: 0, reviewsWeighted: 0 };
+      if (praised) {
+        c.praised += 1;
+        c.praisedWeighted += weight;
+      }
+      if (criticized) {
+        c.criticized += 1;
+        c.criticizedWeighted += weight;
+      }
       counts.set(topic, c);
     }
   }
-  return PRAISE_TOPICS.map((t) => counts.get(t)).filter((c): c is PraiseCount => c !== undefined);
+  return PRAISE_TOPICS.map((t) => counts.get(t))
+    .filter((c): c is PraiseCount => c !== undefined)
+    .map((c) => ({ ...c, reviewsWeighted }));
 }
 
 /**
@@ -91,11 +126,23 @@ export function countPraise(reviews: readonly GuestReview[], today: IsoDate, com
  * complaint topics the traveller sees a warning for; they block the matching
  * labels ("Besonders sauber" never stands next to a mould warning).
  */
-export function praiseLabels(counts: ReadonlyArray<{ topic: string; praised: number; criticized: number }>, warningTopics: ReadonlySet<string>): PraiseTopic[] {
+export function praiseLabels(counts: readonly StoredPraiseCount[], warningTopics: ReadonlySet<string>): PraiseTopic[] {
   return counts
-    .filter((c): c is PraiseCount => isPraiseTopic(c.topic))
-    .filter((c) => c.praised >= PRAISE_MIN_MENTIONS && c.praised / (c.praised + c.criticized) >= PRAISE_MIN_SHARE)
+    .filter((c): c is StoredPraiseCount & { topic: PraiseTopic } => isPraiseTopic(c.topic))
+    .map((c) => ({
+      topic: c.topic,
+      praised: c.praised,
+      praisedW: c.praisedWeighted ?? c.praised,
+      criticizedW: c.criticizedWeighted ?? c.criticized,
+      reviewsW: c.reviewsWeighted ?? 0,
+    }))
+    .filter(
+      (c) =>
+        c.praised >= PRAISE_MIN_MENTIONS &&
+        c.praisedW >= PRAISE_MIN_REVIEW_SHARE * c.reviewsW &&
+        c.praisedW / (c.praisedW + c.criticizedW) >= PRAISE_MIN_SHARE,
+    )
     .filter((c) => !PRAISE_BLOCKED_BY[c.topic].some((t) => warningTopics.has(t)))
-    .sort((a, b) => b.praised - a.praised || PRAISE_TOPICS.indexOf(a.topic) - PRAISE_TOPICS.indexOf(b.topic))
+    .sort((a, b) => b.praisedW - a.praisedW || PRAISE_TOPICS.indexOf(a.topic) - PRAISE_TOPICS.indexOf(b.topic))
     .map((c) => c.topic);
 }

@@ -1,49 +1,162 @@
-// Finale (F15, F16): the goal switch, what the program sorted out and why,
-// and at most four finalists side by side, the cheapest first. Every other
-// finalist shows its surcharge and what it brings or lacks. No
+// Finale (F15, F16, S11.7): the goal switch, what the program sorted out and
+// why, and the finalists as a price ladder, the cheapest first. Every row
+// shows price, surcharge and short badges (green: has it additionally, struck
+// through: lacks it, plain: same as the cheapest), no sentences. No
 // recommendation: whether the sauna is worth 10 € is the traveller's call.
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { exclusionReasonSchema, type ExclusionReasonCode, type FinaleResponse, type FinalistDto, type OfferFeatureDto } from '@reiseplaner/contracts';
 import { constants, DEFAULT_GOAL, type Goal } from '@reiseplaner/domain';
-import { Alert, Badge, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
+import { Alert, Badge, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
-import { formatEuro, formatKm, formatSignedScore, formatStay } from '../../lib/format';
+import { formatEuro, formatScore, formatStay } from '../../lib/format';
 import { fetchFinale, type ResultsParams } from './api';
-import { PraiseLabels } from './PraiseLabels';
-import { cancellationText, QualityBadge } from './ResultList';
+import { FeatureIcon } from './FeatureIcon';
 
 const t = de.finale;
 
-// Four finalists as 2 × 2: the comparison lines need the width.
-const GRID: Record<number, string> = { 1: 'grid-cols-1', 2: 'sm:grid-cols-2', 3: 'sm:grid-cols-2 lg:grid-cols-3', 4: 'sm:grid-cols-2' };
+type BadgeKind = 'plus' | 'minus' | 'same';
 
-/** The first FINALE_FEATURES_SHOWN differences, the rest on request (not overwhelming). */
-function FeatureList({ features }: { features: readonly OfferFeatureDto[] }) {
-  const [all, setAll] = useState(false);
-  const shown = all ? features : features.slice(0, constants.FINALE_FEATURES_SHOWN);
-  const hidden = features.length - shown.length;
+const BADGE_CLASS: Record<BadgeKind, string> = {
+  plus: 'bg-brand-50 text-brand-800 ring-brand-200 font-semibold',
+  minus: 'bg-zinc-50 text-zinc-400 ring-zinc-200 line-through',
+  same: 'bg-white text-zinc-700 ring-zinc-200',
+};
+
+function badgeText(f: OfferFeatureDto): string {
+  const walk = f.code.startsWith('lage_') && f.minutes !== undefined ? t.walk[f.code.slice('lage_'.length)] : undefined;
+  if (walk && f.minutes !== undefined) return walk(f.minutes);
+  return t.badge[f.code] ?? f.label;
+}
+
+function FeatureBadge({ f, kind }: { f: OfferFeatureDto; kind: BadgeKind }) {
+  const praise = f.code.startsWith('lob_');
   return (
-    <>
-      {shown.map((x) => x.label).join(' · ')}
-      {hidden > 0 ? (
-        <>
-          {' · '}
-          <button type="button" className="font-medium text-brand-700 hover:underline" onClick={() => setAll(true)} data-testid="more-features">
-            {t.moreFeatures(hidden)}
-          </button>
-        </>
-      ) : null}
-    </>
+    <span
+      className={cx(
+        'inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs leading-none ring-1 ring-inset whitespace-nowrap',
+        praise && kind !== 'minus' ? 'bg-amber-50 text-amber-800 ring-amber-200' : BADGE_CLASS[kind],
+      )}
+      title={f.minutes !== undefined ? t.walkTitle(f.label) : f.label}
+      data-testid="feature-badge"
+      data-kind={kind}
+      data-code={f.code}
+    >
+      <FeatureIcon code={f.code} />
+      {badgeText(f)}
+    </span>
   );
 }
 
-function reasonText(reason: ExclusionReasonCode, n: number): string {
-  return reason === 'star_trap' ? t.excluded.star_trap(n, constants.STAR_TRAP_MIN_STARS) : t.excluded[reason](n);
+/**
+ * What a house brings, compared with the cheapest: extras (green, most
+ * decisive first), what it lacks (struck through, at least
+ * FINALE_LOSSES_SHOWN always visible), then what both have, together at most
+ * FINALE_BADGES_SHOWN; the rest on request. The cheapest shows its own features.
+ */
+function Badges({ f, isBase }: { f: FinalistDto; isBase: boolean }) {
+  const [all, setAll] = useState(false);
+  const max = constants.FINALE_BADGES_SHOWN;
+  const gainCodes = new Set(f.gains.map((g) => g.code));
+  const same = (isBase ? f.features : f.features.filter((x) => !gainCodes.has(x.code))).map((x) => ({ f: x, kind: 'same' as const }));
+  const plus = isBase ? [] : f.gains.map((x) => ({ f: x, kind: 'plus' as const }));
+  const minus = isBase ? [] : f.losses.map((x) => ({ f: x, kind: 'minus' as const }));
+  const lossSlots = Math.min(minus.length, Math.max(constants.FINALE_LOSSES_SHOWN, max - plus.length));
+  const gainSlots = Math.min(plus.length, max - lossSlots);
+  const first = [...plus.slice(0, gainSlots), ...minus.slice(0, lossSlots)];
+  const rest = [...plus.slice(gainSlots), ...minus.slice(lossSlots)];
+  const fill = Math.max(0, max - first.length);
+  const list = all ? [...plus, ...minus, ...same] : [...first, ...same.slice(0, fill)];
+  const hidden = all ? 0 : rest.length + Math.max(0, same.length - fill);
+  const shown = list;
+  if (list.length === 0 && f.warnings.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-1.5" data-testid="badges">
+      {shown.map((b) => (
+        <FeatureBadge key={`${b.kind}-${b.f.code}`} f={b.f} kind={b.kind} />
+      ))}
+      {f.warnings.map((w) => (
+        <Badge
+          key={w.topic}
+          tone={w.verified ? 'warning' : 'neutral'}
+          className="rounded-full"
+          title={de.reviewCheck.mentionsShort(w.count, w.recent_count, constants.REVIEW_RECENT_MONTHS_LABEL)}
+          data-testid="warning-badge"
+        >
+          {w.label}
+        </Badge>
+      ))}
+      {hidden > 0 ? (
+        <button type="button" className="rounded-full px-2 py-1 text-xs font-medium text-brand-700 hover:underline" onClick={() => setAll(true)} data-testid="more-features">
+          {t.moreBadges(hidden)}
+        </button>
+      ) : null}
+    </div>
+  );
 }
 
-function Excluded({ excluded }: { excluded: FinaleResponse['excluded'] }) {
+function Row({ f, isBase, href }: { f: FinalistDto; isBase: boolean; href: string }) {
+  const o = f.offer;
+  const same = Math.round(f.price_delta_eur) === 0;
+  return (
+    <li className="grid grid-cols-[5.5rem_1fr] gap-3 px-3 py-3 sm:grid-cols-[7rem_1fr] sm:px-4" data-testid="finalist" data-hotel-id={f.hotel.id}>
+      <div>
+        <span className="block text-lg font-bold text-zinc-950 tabular-nums" data-testid="finalist-total" data-total-eur={o.total_price_eur}>
+          {formatEuro(o.total_price_eur)}
+        </span>
+        {isBase ? (
+          <span className="text-xs text-zinc-500">{t.cheapest}</span>
+        ) : (
+          <span className="text-xs font-semibold text-brand-700 tabular-nums" data-testid="surcharge" data-delta-eur={f.price_delta_eur}>
+            {same ? t.samePriceShort : t.surcharge(formatEuro(f.price_delta_eur))}
+          </span>
+        )}
+      </div>
+      <div className="min-w-0 space-y-1.5">
+        <div className="flex items-start justify-between gap-2">
+          <Link to={href} className="font-semibold text-zinc-950 hover:underline" data-testid="finalist-name">
+            {f.hotel.name}
+          </Link>
+          {f.quality.score === null ? (
+            <Badge tone="warning" data-testid="unrated">
+              {t.unrated}
+            </Badge>
+          ) : (
+            <span className="rounded-md bg-brand-700 px-1.5 py-0.5 text-sm font-bold text-white tabular-nums" title={de.results.reviews(f.hotel.review_count ?? 0)}>
+              {formatScore(f.quality.score)}
+            </span>
+          )}
+        </div>
+        <p className="text-xs text-zinc-500">
+          {o.place_name} · {formatStay(o.checkin, o.checkout)}
+          {f.hotel.stars ? <span className="ml-1 text-amber-600">{'★'.repeat(Math.round(f.hotel.stars))}</span> : null}
+        </p>
+        <Badges f={f} isBase={isBase} />
+      </div>
+    </li>
+  );
+}
+
+function Legend({ osm }: { osm: boolean }) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-zinc-500" data-testid="finale-legend">
+      <span className={cx('rounded-full px-2 py-0.5 ring-1 ring-inset', BADGE_CLASS.plus)}>{t.legend.plus}</span>
+      <span className={cx('rounded-full px-2 py-0.5 ring-1 ring-inset', BADGE_CLASS.minus)}>{t.legend.minus}</span>
+      <span className={cx('rounded-full px-2 py-0.5 ring-1 ring-inset', BADGE_CLASS.same)}>{t.legend.same}</span>
+      {osm ? <span data-testid="osm-attribution">{t.osm}</span> : null}
+    </div>
+  );
+}
+
+function reasonText(reason: ExclusionReasonCode, n: number, goal: Goal): string {
+  if (reason === 'star_trap') return t.excluded.star_trap(n, constants.STAR_TRAP_MIN_STARS);
+  // "Komfort" has no price exception for weaker houses.
+  if (reason === 'low_quality' && goal === 'komfort') return t.excluded.low_quality_komfort(n);
+  return t.excluded[reason](n);
+}
+
+function Excluded({ excluded, goal }: { excluded: FinaleResponse['excluded']; goal: Goal }) {
   const reasons = exclusionReasonSchema.options.filter((r) => excluded[r] > 0);
   const total = reasons.reduce((sum, r) => sum + excluded[r], 0);
   if (total === 0) return <p className="text-sm text-zinc-500">{t.excludedNone}</p>;
@@ -53,105 +166,11 @@ function Excluded({ excluded }: { excluded: FinaleResponse['excluded'] }) {
       <ul className="mt-2 list-disc space-y-1 pl-5">
         {reasons.map((r) => (
           <li key={r} data-reason={r}>
-            {reasonText(r, excluded[r])}
+            {reasonText(r, excluded[r], goal)}
           </li>
         ))}
       </ul>
     </details>
-  );
-}
-
-function locationLine(f: FinalistDto): string | null {
-  if (f.location === null) return null;
-  const where = t.location[f.location];
-  return f.location !== 'kern' && f.center_distance_km !== null ? `${where} · ${t.distance(formatKm(f.center_distance_km))}` : where;
-}
-
-function Comparison({ f }: { f: FinalistDto }) {
-  const extras = [
-    ...(f.quality_delta !== null ? [t.qualityDelta(formatSignedScore(f.quality_delta))] : []),
-    ...(f.other_place ? [t.otherPlace(f.offer.place_name)] : []),
-    ...(f.other_dates ? [t.otherDates(formatStay(f.offer.checkin, f.offer.checkout))] : []),
-  ];
-  return (
-    <div className="space-y-1 rounded-md bg-zinc-50 px-3 py-2 text-sm ring-1 ring-zinc-200" data-testid="comparison">
-      {f.gains.length > 0 ? (
-        <p data-testid="gains">
-          <span className="font-semibold text-emerald-800">{t.brings}:</span> <FeatureList features={f.gains} />
-        </p>
-      ) : null}
-      {f.losses.length > 0 ? (
-        <p data-testid="losses">
-          <span className="font-semibold text-zinc-800">{t.lacks}:</span> <FeatureList features={f.losses} />
-        </p>
-      ) : null}
-      {f.gains.length === 0 && f.losses.length === 0 ? <p className="text-zinc-600">{t.noDifference}</p> : null}
-      {extras.length > 0 ? <p className="text-zinc-600">{extras.join(' · ')}</p> : null}
-    </div>
-  );
-}
-
-function FinalistCard({ f, baseName, isBase, href }: { f: FinalistDto; baseName: string; isBase: boolean; href: string }) {
-  const o = f.offer;
-  const where = locationLine(f);
-  return (
-    <Card className="flex h-full flex-col gap-3" data-testid="finalist" data-hotel-id={f.hotel.id}>
-      <div className="space-y-1">
-        {isBase ? (
-          <Badge tone="neutral">{t.base}</Badge>
-        ) : (
-          <p data-testid="surcharge" data-delta-eur={f.price_delta_eur}>
-            {Math.round(f.price_delta_eur) === 0 ? (
-              <span className="text-sm font-semibold text-zinc-700">{t.samePrice(baseName)}</span>
-            ) : (
-              <>
-                <span className="text-lg font-bold text-zinc-950 tabular-nums">{t.surcharge(formatEuro(f.price_delta_eur))}</span>{' '}
-                <span className="text-sm text-zinc-500">{t.surchargeAgainst(baseName)}</span>
-              </>
-            )}
-          </p>
-        )}
-        <Link to={href} className="block text-lg font-semibold text-zinc-950 hover:underline" data-testid="finalist-name">
-          {f.hotel.name}
-        </Link>
-        <div className="flex flex-wrap items-center gap-2">
-          <QualityBadge score={f.quality.score} reviews={f.hotel.review_count} />
-          {f.hotel.stars ? <span className="text-sm text-amber-600">{'★'.repeat(Math.round(f.hotel.stars))}</span> : null}
-        </div>
-      </div>
-      <PraiseLabels labels={f.labels} />
-      <div className="space-y-0.5 text-sm text-zinc-600">
-        <p>
-          {o.place_name} · {formatStay(o.checkin, o.checkout)}
-        </p>
-        {where ? <p data-testid="finalist-location">{where}</p> : null}
-        <p>
-          {o.room_name} · {de.results.boardNames[o.board_type]} · {cancellationText(o.refundable, o.free_cancel_until)}
-        </p>
-      </div>
-      {f.warnings.length > 0 ? (
-        <div className="flex flex-wrap gap-1.5">
-          {f.warnings.map((w) => (
-            <Badge key={w.topic} tone={w.verified ? 'warning' : 'neutral'}>
-              {w.label}: {de.reviewCheck.mentionsShort(w.count, w.recent_count, constants.REVIEW_RECENT_MONTHS_LABEL)}
-            </Badge>
-          ))}
-        </div>
-      ) : null}
-      {f.review_status === 'none' ? <p className="text-xs text-zinc-500">{t.notChecked}</p> : null}
-      {!isBase ? <Comparison f={f} /> : null}
-      <div className="mt-auto flex items-end justify-between gap-2 pt-2">
-        <div>
-          <span className="block text-xs uppercase tracking-wide text-zinc-500">{de.results.total}</span>
-          <span className="text-2xl font-bold text-zinc-950 tabular-nums" data-testid="finalist-total" data-total-eur={o.total_price_eur}>
-            {formatEuro(o.total_price_eur)}
-          </span>
-        </div>
-        <Link to={href} className="text-sm font-semibold text-brand-700 hover:underline">
-          {t.details}
-        </Link>
-      </div>
-    </Card>
   );
 }
 
@@ -204,18 +223,17 @@ export function FinaleView({
       {!data && loading ? <Spinner label={de.common.loading} /> : null}
       {data ? (
         <>
-          <Excluded excluded={data.excluded} />
+          <Excluded excluded={data.excluded} goal={data.goal} />
           {data.finalists.length === 0 ? (
             <Alert tone="info">{t.empty}</Alert>
           ) : (
             <>
-              <ol className={cx('grid gap-3', GRID[data.finalists.length])} data-testid="finalists">
+              <ol className="max-w-3xl divide-y divide-zinc-200 overflow-hidden rounded-xl bg-white ring-1 ring-zinc-200" data-testid="finalists">
                 {data.finalists.map((f) => (
-                  <li key={f.hotel.id}>
-                    <FinalistCard f={f} isBase={f === base} baseName={base?.hotel.name ?? ''} href={detailHref(f.hotel.id)} />
-                  </li>
+                  <Row key={f.hotel.id} f={f} isBase={f === base} href={detailHref(f.hotel.id)} />
                 ))}
               </ol>
+              <Legend osm={data.finalists.some((f) => f.features.some((x) => x.minutes !== undefined))} />
               <p className="text-xs text-zinc-500" data-testid="finale-note">
                 {t.decide}
                 {data.runners_up > 0 ? ` ${t.runnersUp(data.runners_up)}` : ''}

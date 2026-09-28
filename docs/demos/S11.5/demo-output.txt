@@ -1,0 +1,19 @@
+$ npm run demo -- s11.5
+# recorded 2026-09-28T18:52:40.736Z
+
+starting local stack …
+Suche: Oberstdorf, Füssen × Freitage 2.–16.10., Ziel „Preis-Leistung“
+  Günstig und sauber:
+    - Ferienwohnung Sonnenhof (Füssen): 5 min zur Bushaltestelle, 7 min zum Supermarkt
+    - Hotel Kastanienhof (Oberstdorf): 4 min zum Supermarkt
+  Preis-Leistung:
+    - Ferienwohnung Sonnenhof (Füssen): 5 min zur Bushaltestelle, 7 min zum Supermarkt
+    - Pension Waldesruh (Füssen): 7 min zur Bushaltestelle, Ortskern, Restaurants in der Nähe
+    - Landhotel Bären (Füssen): 4 min zur Bushaltestelle
+    - Gasthof Waldesruh (Füssen): 10 min zur Bushaltestelle, 6 min zum Supermarkt
+    - Pension Kaiserblick (Oberstdorf): Restaurants in der Nähe
+  Komfort:
+    - Pension Kaiserblick (Oberstdorf): Restaurants in der Nähe
+  Finalisten mit Gehminuten: 6 von 8; Overpass-Aufrufe nach der ersten Suche: 1
+  Dieselbe Suche noch einmal: Overpass-Aufrufe insgesamt 1 (Zwischenspeicher je Unterkunft)
+→ Ein Overpass-Aufruf je Suche für die Finalisten aller Ziele, Gehminuten im Vergleich, Wiederholung aus dem Zwischenspeicher
