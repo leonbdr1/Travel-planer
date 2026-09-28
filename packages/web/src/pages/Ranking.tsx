@@ -1,5 +1,6 @@
 // "So berechnen wir die Rangliste" (konzept.md 9.5, legal transparency of
-// the main ranking criteria). Weights come from packages/domain constants.
+// the main ranking criteria), including the pre-selection of "Deine Auswahl"
+// and the praise labels (9.9–9.11). Weights come from packages/domain constants.
 import { constants } from '@reiseplaner/domain';
 import { Card, Heading, Text } from '@reiseplaner/ui';
 import { de } from '../i18n/de';
@@ -11,6 +12,8 @@ export function Ranking() {
     [t.qualityTitle, t.quality],
     [t.priceTitle, `${t.price} ${t.weights(Math.round(constants.RANK_W_QUALITY * 100), Math.round(constants.RANK_W_PRICE * 100), Math.round(constants.RANK_BARGAIN_BONUS * 100))}`],
     [t.bargainTitle, t.bargain],
+    [t.finaleTitle, t.finale(constants.STAR_TRAP_MIN_STARS, constants.FINALISTS_MAX)],
+    [t.praiseTitle, t.praise(constants.PRAISE_MIN_MENTIONS, Math.round(constants.PRAISE_MIN_SHARE * 100))],
     [t.sortTitle, t.sort],
     [t.otherTitle, t.other],
   ];

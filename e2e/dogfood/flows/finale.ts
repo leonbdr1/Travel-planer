@@ -1,0 +1,127 @@
+import type { Flow } from '../types';
+import { choosePlaces, fillSearchFrame } from './suche';
+
+export const finaleFlow: Flow = {
+  name: 'finale',
+  mode: 'P',
+  description:
+    'Entscheidungshilfe (F15–F17, konzept.md 9.9–9.11): Ziel „Günstig und sauber“ im Suchformular, Suche Stuttgart → 5 Orte × 3 Freitage; oben „Deine Auswahl“ mit höchstens 4 Finalisten, die günstigste zuerst, bei den anderen Aufpreis und was er bringt, ohne Empfehlung; aussortierte Unterkünfte mit Gründen; Zielwechsel ohne neue Suche; Lob-Labels in Liste und Detailansicht; Sterne und Mindestbewertung unter „Weitere Filter“.',
+  async run({ page, baseUrl, step, note }) {
+    await step(
+      'Suchformular: Ziel „Günstig und sauber“ mit einem Tipp',
+      async () => {
+        await fillSearchFrame(page, baseUrl, '2026-10-20', 3, 'Günstig und sauber');
+        await page.getByTestId('goal').scrollIntoViewIfNeeded();
+      },
+      {
+        expectText: ['Worauf legst du Wert?', 'Günstig und sauber', 'Preis-Leistung', 'Komfort', 'Der Preis zählt am meisten, Sauberkeit ist Pflicht.', 'Weitere Filter'],
+        expectSelector: ['[data-testid="goal-switch"] [aria-checked="true"][data-goal="sparen"]'],
+        // The old form fields are gone (their labels were "Mindestens Sterne" and "Mindeststandard").
+        rejectText: ['Mindestens Sterne', 'Mindeststandard'],
+      },
+    );
+
+    await step(
+      'Suche abgeschlossen: „Deine Auswahl“ steht oben',
+      async () => {
+        await choosePlaces(page, 3);
+        await page.getByTestId('start-search').click();
+        await page.waitForURL(/\/suche\/[0-9a-f-]{36}#t=/, { timeout: 30_000 });
+        await page.getByTestId('finalist').first().waitFor({ timeout: 90_000 });
+        await page.locator('[data-testid="finale"][data-goal="sparen"]').waitFor();
+        const totals = await page.getByTestId('finalist-total').evaluateAll((els) => els.map((el) => Number(el.getAttribute('data-total-eur'))));
+        const sorted = totals.every((v, i) => i === 0 || v >= (totals[i - 1] ?? 0));
+        if (totals.length === 0 || totals.length > 4 || !sorted) throw new Error(`finalists: ${totals.join(', ')}`);
+        const surcharges = await page.getByTestId('surcharge').evaluateAll((els) => els.map((el) => Number(el.getAttribute('data-delta-eur'))));
+        const expected = totals.slice(1).map((v) => Math.round((v - (totals[0] ?? 0)) * 100) / 100);
+        if (surcharges.map((v) => Math.round(v * 100) / 100).join() !== expected.join()) throw new Error(`surcharges ${surcharges.join()} ≠ ${expected.join()}`);
+        note(`${totals.length} Finalisten, Gesamtpreise ${totals.join(' € · ')} €; Aufpreise ${surcharges.map((v) => `+${v} €`).join(', ') || 'keine'}.`);
+      },
+      {
+        expectText: ['Deine Auswahl', 'Wir haben aussortiert', 'Günstigste deiner Auswahl', 'aussortiert', 'Wir empfehlen keinen Favoriten', 'Alle Angebote'],
+        expectSelector: ['[data-testid="finalist"]', '[data-testid="excluded"]'],
+        rejectText: ['Unsere Empfehlung', 'Testsieger'],
+        fullPage: true,
+      },
+    );
+
+    await step(
+      'Aussortiert, mit Grund und Anzahl',
+      async () => {
+        await page.getByTestId('excluded').locator('summary').click();
+        const reasons = await page.getByTestId('excluded').locator('li').allInnerTexts();
+        if (reasons.length === 0) throw new Error('no exclusion reasons');
+        note(`Gründe: ${reasons.join(' | ')}`);
+      },
+      { expectText: ['zu teuer für dein Ziel'], expectSelector: ['[data-testid="excluded"] li[data-reason]'] },
+    );
+
+    await step(
+      'Aufpreis und was er bringt oder kostet',
+      async () => {
+        const second = page.getByTestId('finalist').nth(1);
+        if ((await page.getByTestId('finalist').count()) < 2) {
+          note('Nur ein Finalist: kein Vergleich nötig.');
+          return;
+        }
+        await second.scrollIntoViewIfNeeded();
+        const lines = await page.getByTestId('comparison').allInnerTexts();
+        note(`Vergleich: ${lines.map((l) => l.replace(/\n/g, ' / ')).join(' || ')}`);
+      },
+      { expectText: ['gegenüber'], expectSelector: ['[data-testid="comparison"]'] },
+    );
+
+    await step(
+      'Zielwechsel ohne neue Suche: „Komfort“',
+      async () => {
+        await page.getByTestId('finale').getByTestId('goal-switch').getByRole('radio', { name: 'Komfort' }).click();
+        await page.locator('[data-testid="finale"][data-goal="komfort"]').waitFor({ timeout: 15_000 });
+        await page.getByTestId('finale').scrollIntoViewIfNeeded();
+        const names = await page.getByTestId('finalist-name').allInnerTexts();
+        note(`Komfort-Finalisten: ${names.join(', ')}`);
+      },
+      {
+        expectText: ['Qualität zählt mehr als der Preis.'],
+        expectSelector: ['[data-testid="finale"][data-goal="komfort"] [data-testid="finalist"]'],
+      },
+    );
+
+    await step(
+      'Lob-Labels erscheinen von selbst in der Liste',
+      async () => {
+        await page.getByTestId('result-list').scrollIntoViewIfNeeded();
+        const labels = await page.getByTestId('result-list').getByTestId('praise-label').allInnerTexts();
+        if (labels.length === 0) throw new Error('no praise labels in the list');
+        note(`Labels in der Liste: ${[...new Set(labels)].join(', ')} (${labels.length} insgesamt).`);
+      },
+      { expectSelector: ['[data-testid="result-list"] [data-testid="praise-label"]'] },
+    );
+
+    await step(
+      'Detailansicht: „Was Gäste loben“ mit Zahlen',
+      async () => {
+        const item = page.getByTestId('result-list').locator('li').filter({ has: page.getByTestId('praise-label') }).first();
+        await item.getByTestId('result-name').click();
+        await page.getByTestId('praise').waitFor({ timeout: 15_000 });
+        await page.getByTestId('praise').scrollIntoViewIfNeeded();
+        note(`Detail: ${(await page.getByTestId('praise-count').allInnerTexts()).join(' | ')}`);
+      },
+      {
+        expectText: ['Was Gäste loben', '× gelobt', '× kritisiert', 'ohne KI'],
+        expectSelector: ['[data-testid="praise"] [data-testid="praise-label"]', '[data-testid="praise-count"]'],
+        fullPage: true,
+      },
+    );
+
+    await step(
+      'Sterne und Mindestbewertung unter „Weitere Filter“',
+      async () => {
+        await page.goBack();
+        await page.getByTestId('result-filters').waitFor({ timeout: 15_000 });
+        await page.getByTestId('more-filters').locator('summary').click();
+        await page.getByTestId('more-filters').scrollIntoViewIfNeeded();
+      },
+      { expectText: ['Weitere Filter: Sterne und Bewertungen', 'Sterne ab', 'Bewertung ab', 'Sterne sagen wenig über Sauberkeit und Zustand.'] },
+    );
+  },
+};

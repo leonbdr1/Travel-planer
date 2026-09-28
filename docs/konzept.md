@@ -1,6 +1,6 @@
 # Konzept: [ARBEITSTITEL] – Flexible Unterkunftssuche
 
-Stand: 26.09.2026 · Fassung 3 · Produktkonzept aus Phase 1, ergänzt in Phase 2 um Wünsche, Zielgebiete, Ortskatalog und die Einordnung in die Firmenplattform (Frontlift, fi-deck). Die Technik steht in `docs/architektur.md`.
+Stand: 28.09.2026 · Fassung 4 · Produktkonzept aus Phase 1, ergänzt in Phase 2 um Wünsche, Zielgebiete, Ortskatalog und die Einordnung in die Firmenplattform (Frontlift, fi-deck), in Fassung 4 um die Entscheidungshilfe (Ziel, automatische Vorauswahl, Finale mit Aufpreis-Vergleich, Lob-Labels; Abschnitte 9.9 bis 9.11, F15 bis F17). Die Technik steht in `docs/architektur.md`.
 
 ---
 
@@ -72,6 +72,8 @@ Ein automatisierter Suchtrichter:
 | KI-Reiseplaner (z. B. Mindtrip, Layla, KI-Assistenten der Buchungsportale) | Reiseideen, Routen, Chat | Kein systematischer Preis-Scan über Kombinationen aus Ort und Termin. Keine Schnäppchenlogik. |
 
 **Alleinstellungsmerkmal:** Kombinatorische Suche über Orte und Termine, Qualitätsscore, der Anzahl und Alter der Bewertungen berücksichtigt, erklärte Schnäppchenerkennung, KI-Rezensionscheck und Buchung an einem Ort.
+
+**Entscheidungshilfe statt Filterwand (Fassung 4):** Portale filtern nach Etiketten wie Sternen. Das Produkt fragt nach dem Ziel (günstig und sauber, Preis-Leistung, Komfort), sortiert selbst aus, was dazu nicht passt, und legt dem Nutzer am Ende nur die wenigen Unterkünfte vor, zwischen denen die Wahl wirklich offen ist. Dort zeigt es, was jeder Mehrpreis bringt („+10 € · Sauna“). Die letzte Entscheidung trifft der Nutzer. Lob aus echten Gästebewertungen erscheint als einfaches Label („Gutes Frühstück“, „Besonders sauber“), ohne dass der Nutzer etwas einstellen muss.
 
 ### 5.1 Maximum-Messlatte der Kernfunktion
 
@@ -182,6 +184,32 @@ Ein Treffer ist ein Schnäppchen, wenn mindestens einer dieser Fälle zutrifft. 
 ### 9.8 Suchumfang im MVP
 - Höchstens 10 Orte × 12 Termine, also 120 Kombinationen pro Suche.
 
+### 9.9 Ziel und automatische Vorauswahl
+Grundsatz: Das Programm sortiert aus, was offensichtlich nicht passt. Zwischen dem, was übrig bleibt, entscheidet der Nutzer selbst.
+
+- **Ziel (ein Tipp, Standard „Preis-Leistung“):** „Günstig und sauber“ (Preis zählt am meisten, Sauberkeit ist Pflicht), „Preis-Leistung“ (Qualität und Preis gleich wichtig), „Komfort“ (Qualität zählt mehr als der Preis).
+- **Sterne sind kein Qualitätsmerkmal.** Gerade günstige Häuser mit wenigen Sternen sind oft sauberer als 4-Sterne-Häuser zum Billigpreis. Sterne gehen nie in den Qualitätswert ein.
+- **Aussortiert wird automatisch, mit Grund und Anzahl:**
+  1. Wünsche nicht erfüllt (Budget, Hund, Parkplatz und die übrigen Filter).
+  2. Keine Bewertungen: Sauberkeit ist nicht einschätzbar.
+  3. Warnsignale: Beschwerden über Schimmel, Ungeziefer oder Sauberkeit.
+  4. Zu schwach bewertet für das Ziel (Mindest-Qualitätswert je Ziel).
+  5. **Sterne-Falle:** 4 oder 5 Sterne zum Preis eines einfachen Hauses, ohne geprüfte gute Bewertungen.
+  6. Zu teuer für das Ziel: bei „Günstig und sauber“ deutlich über dem günstigsten sauberen Angebot, bei „Preis-Leistung“ weit darüber; bei „Komfort“ zählt nur das Budget.
+  7. Es gibt ein besseres Angebot: ein anderes ist nicht teurer, mindestens gleich gut bewertet und bietet alles, was dieses bietet.
+- **Finalisten:** Was übrig bleibt, höchstens 4 Unterkünfte mit je ihrem günstigsten passenden Angebot. Unterkünfte mit geprüften Rezensionen haben Vorrang; eine ungeprüfte rückt nur nach, wenn nicht genug geprüfte passen, und ist gekennzeichnet. Alle anderen Angebote bleiben unter „Alle Angebote“ erreichbar, die Aussortierung ist nachvollziehbar.
+- Die Schwellenwerte sind Startwerte und werden mit echten Daten kalibriert.
+
+### 9.10 Finale: was der Mehrpreis bringt
+- Die Finalisten stehen nebeneinander, das günstigste zuerst.
+- Für jeden weiteren Finalisten zeigt das Produkt den Aufpreis gegenüber dem günstigsten und, was er bringt oder kostet: Ausstattung (Sauna, Schwimmbad, Parkplatz, Küche …), Verpflegung, Stornierbarkeit, Lob-Labels, Qualitätswert, Lage zum Ortskern, anderer Ort oder Termin. Beispiel: „+10 € · Sauna · Frühstück inklusive; dafür nicht kostenlos stornierbar“.
+- Das Produkt empfiehlt im Finale keinen Favoriten. Ob dem Nutzer 10 € für die Sauna wert sind, entscheidet er selbst.
+
+### 9.11 Lob-Labels
+- Aus den Rezensionen der geprüften Unterkünfte zählt das Produkt Lob und Kritik je Thema: Frühstück, Sauberkeit, Ruhe, Personal, Betten, Aussicht, Lage (Erwähnungen in den Feldern „Positiv“ und „Negativ“ der Bewertungen, Stichwortliste in fünf Sprachen, die letzten 24 Monate).
+- Ein Label wie „Gutes Frühstück“ oder „Besonders sauber“ erscheint, wenn mindestens 3 Gäste das Thema loben, das Lob mindestens 80 % der Erwähnungen ausmacht und keine Warnung zum passenden Beschwerdethema vorliegt. Die Detailansicht nennt die Zahlen, etwa „Frühstück: 23× gelobt, 2× kritisiert“.
+- Labels erscheinen ohne Zutun des Nutzers in Liste, Finale und Detailansicht.
+
 ## 10. MVP-Features als User Stories
 
 ### F1 Suchrahmen eingeben
@@ -227,6 +255,7 @@ Als Nutzer möchte ich die Treffer nach meinen Mindestanforderungen filtern, dam
 Akzeptanzkriterien:
 - Filter: Budget, Mindeststerne, Mindestbewertung, Mindestanzahl Bewertungen, Unterkunftsart, kostenlos stornierbar, Verpflegung.
 - Die Filter aus dem Suchformular sind vorbelegt und im Ergebnis ohne neue Suche änderbar.
+- Ab Fassung 4 stehen im Suchformular nur Budget, Ziel (F15) und Wünsche; Sterne, Mindestbewertung und Mindestanzahl sind „Weitere Filter“ im Ergebnis.
 
 ### F6 Qualitätsscore
 Als Nutzer möchte ich einen verlässlichen Qualitätswert pro Unterkunft sehen, damit ich Unterkünfte mit wenigen oder veralteten Bewertungen richtig einschätzen kann.
@@ -306,6 +335,30 @@ Akzeptanzkriterien:
 - Datenquellen werden genannt, wo Lizenzen es verlangen: Ortsdaten von GeoNames (CC BY 4.0) und Kartendaten von OpenStreetMap-Mitwirkenden, auf denen die Fahrzeitberechnung beruht.
 - Kein Text der Oberfläche verstößt gegen die Claims-Regel (Abschnitt 7, Punkt 9); der Build bricht bei einem Verstoß ab.
 
+### F15 Ziel und automatische Vorauswahl
+Als Nutzer möchte ich nur sagen, worauf es mir ankommt, damit das Programm alles Unpassende für mich aussortiert.
+
+Akzeptanzkriterien:
+- Das Suchformular fragt mit einem Tipp nach dem Ziel (Abschnitt 9.9); ohne Wahl gilt „Preis-Leistung“.
+- Das Ergebnis zeigt, wie viele Unterkünfte aus welchem Grund aussortiert wurden, und bietet den Weg zu allen Angeboten.
+- Eine 4-Sterne-Unterkunft zum Preis eines einfachen Hauses ohne geprüfte gute Bewertungen kommt nicht ins Finale.
+- Das Ziel lässt sich im Ergebnis ohne neue Suche ändern.
+
+### F16 Finale mit Aufpreis-Vergleich
+Als Nutzer möchte ich zwischen den letzten passenden Unterkünften selbst entscheiden und dabei sehen, was mir ein Mehrpreis bringt.
+
+Akzeptanzkriterien:
+- Höchstens 4 Finalisten nebeneinander, das günstigste zuerst, ohne Empfehlung.
+- Jeder weitere Finalist zeigt den Aufpreis und die Unterschiede zum günstigsten (Abschnitt 9.10).
+- *Gegeben* Wohnung 1 für 100 € und Wohnung 2 für 110 € mit Sauna, beide sauber und gut bewertet, Ziel „Günstig und sauber“. *Dann* stehen beide im Finale, und Wohnung 2 zeigt „+10 € · Sauna“. Eine Luxuswohnung für 300 € und eine Wohnung für 80 € mit Beschwerden über Schmutz erscheinen nicht im Finale.
+
+### F17 Lob-Labels
+Als Nutzer möchte ich auf einen Blick sehen, was Gäste an einer Unterkunft loben, ohne etwas einstellen zu müssen.
+
+Akzeptanzkriterien:
+- Labels nach Abschnitt 9.11 in Liste, Finale und Detailansicht.
+- Die Detailansicht nennt Lob und Kritik je Thema mit Anzahl.
+
 ## 11. Spätere Features
 
 | Feature | Anmerkung |
@@ -321,6 +374,7 @@ Akzeptanzkriterien:
 | Werbung | Optional. Nur, wenn sie die Konversion nicht beeinträchtigt. |
 | Weitere Sprachen und Märkte | Nach Erfolg in Deutschland, Österreich und der Schweiz. |
 | Reiseplanung (Aktivitäten, Routen) | Niedrige Priorität. |
+| Lage-Fakten im Finale | Bushaltestelle in der Nähe, belebter oder ruhiger Ort; braucht Kartendaten von OpenStreetMap (neue Datenquelle, ⛔ Freigabe). |
 
 ## 12. Verworfene Ideen
 

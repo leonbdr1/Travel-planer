@@ -75,7 +75,8 @@ interface CompiledKeyword {
 
 const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-function keywordRegex(keyword: string): RegExp {
+/** Whole-word, case-insensitive matcher of a lexicon keyword (`*` for further letters). */
+export function keywordRegex(keyword: string): RegExp {
   const lead = keyword.startsWith('*');
   const trail = keyword.endsWith('*');
   const core = keyword.replace(/^\*/, '').replace(/\*$/, '');

@@ -1,6 +1,6 @@
 # Architektur: [ARBEITSTITEL]
 
-Stand: 26.09.2026 · **Fassung 2 (Plattform-Angleichung)** · Ergebnis von Phase 2 · Baut auf `docs/konzept.md` (Fassung 3) auf.
+Stand: 26.09.2026 · **Fassung 2 (Plattform-Angleichung)** · Ergebnis von Phase 2 · Baut auf `docs/konzept.md` (Fassung 3) auf. Ergänzt am 28.09.2026 um Abschnitt 6.15 und die zugehörigen Zeilen in 5.5, 6.10, 7.2 und 7.3 (Entscheidungshilfe, konzept.md Fassung 4, M11); bestehende Abschnitte unverändert.
 Ersetzt Fassung 1 vom selben Tag (Python/FastAPI auf eigenem Hetzner-Server). Grund: Das Produkt soll nahtlos auf der bestehenden Firmenplattform laufen, die Frontlift nutzt, und mit fi-deck gebaut werden.
 
 Preise, Limits und Endpunkte externer Dienste entsprechen dem Stand 09/2026. Jede Zahl trägt ihre Quelle in Abschnitt 18 (Belege). Vor der Implementierung werden sie gegen die aktuelle Dokumentation geprüft (`umsetzungsplan.md`, Verified contracts). Abweichungen werden gemeldet und nicht still übernommen.
@@ -403,6 +403,8 @@ Einzige Quelle für alles, was sich je Produkt oder Markt unterscheidet. Wird be
 
 **review_checks**: `hotel_id` PK, `status` (`ok` · `no_reviews` · `skipped_budget` · `failed`), `reviews_analyzed`, `latest_review_date`, `recent_rating`, `recent_count`, `topics jsonb` (Liste aus `topic`, `confirmed_count`, `unverified_count`, `latest_date`, `severity`), `liteapi_sentiment jsonb`, `skill_version`, `checked_at`, `expires_at` (TTL 30 Tage). Rezensionstexte und Namen der Verfasser werden nicht gespeichert.
 
+Ergänzung M11 (Migration `20261011a_review_praise`): `praise jsonb` (Liste aus `topic`, `praised`, `criticized` je Lob-Thema, Standard `[]`) für die Lob-Labels (6.15). Auch hier nur Zahlen, keine Texte.
+
 ### 5.6 Buchungen und E-Mails
 
 Der Buchungsstatus `booking` markiert einen laufenden Aufruf von `/rates/book`; so werden doppelte `complete`-Aufrufe erkannt. `email_outbox.provider_message_id` speichert die ID, die Resend beim Versand zurückgibt.
@@ -548,7 +550,7 @@ Grundlage ist die Menge `F`: Angebote mit `passes_filters` und `quality ≠ null
 - **Matrix:** Zeilen Orte, Spalten Termine; eine Zelle zeigt das Angebot mit dem höchsten `rank_score` in `F`. `state`: `offer`, `empty` (kein passendes Angebot) oder `failed` (keine Daten). `price_bucket` 1–5 nach Quintilen der Zellpreise.
 
 ### 6.10 Rezensionscheck (`review-keywords.ts`, Skill `reiseplaner.review-verify`)
-1. Kandidaten: die Top `REVIEW_TOP_N` unterschiedlichen Hotels nach Stufe 1; gültige `review_checks` werden wiederverwendet.
+1. Kandidaten: die Top `REVIEW_TOP_N` unterschiedlichen Hotels nach Stufe 1; gültige `review_checks` werden wiederverwendet. Ab M11 die wahrscheinlichen Finalisten aller Ziele und die Zielreihenfolge, danach Nachprüfrunden (6.15).
 2. `GET /data/reviews` mit den neuesten `REVIEW_MAX_REVIEWS` Bewertungen; `getSentiment` nur, wenn `LITEAPI_USE_SENTIMENT = true` (abhängig von Validierung V7).
 3. Bewertungen älter als `REVIEW_MAX_AGE_MONTHS` werden verworfen; daraus `recent_rating` und `recent_count` der letzten 12 Monate.
 4. **Stichwortsuche:** Regex mit Wortgrenzen, ohne Groß- und Kleinschreibung. Lexikon `packages/domain/src/review-lexicon.yaml` mit Einträgen in DE, EN, FR, IT und NL je Thema: `sauberkeit`, `schimmel`, `ungeziefer`, `laerm`, `geruch`, `zustand`, `abweichung_beschreibung`. Um jeden Treffer ein Ausschnitt von ±120 Zeichen mit ID und Datum; höchstens 5 Ausschnitte je Thema und 25 insgesamt. Namen der Verfasser werden vorher entfernt.
@@ -607,6 +609,43 @@ Drei Cron Triggers (Workers Paid erlaubt 250 je Account, Free 5). Jeder Job ist 
 | `REVIEW_TOP_N` / `REVIEW_MAX_REVIEWS` / `REVIEW_MAX_AGE_MONTHS` / `REVIEW_CACHE_DAYS` | 10 / 100 / 24 / 30 | |
 | `LLM_DAILY_BUDGET_USD` | 5 | Tagesdeckel für alle Laufzeit-Skills |
 
+### 6.15 Ziel, automatische Vorauswahl, Finale und Lob-Labels (`preselect.ts`, `finale.ts`, `features.ts`, `praise.ts`; M11)
+
+Ergänzt am 28.09.2026 nach Bens Vorgabe (konzept.md Fassung 4, Abschnitte 9.9 bis 9.11). Grundsatz: Das Programm sortiert aus, was offensichtlich nicht passt; zwischen dem Rest entscheidet der Nutzer. Sterne gehen nie in die Qualität ein.
+
+- **Ziel** (`goal` im SearchRequest, optional; ohne Angabe `DEFAULT_GOAL = ausgewogen`): `sparen` („Günstig und sauber“), `ausgewogen` („Preis-Leistung“), `komfort`. Das Finale nimmt ein anderes Ziel als Parameter, ohne neue Suche.
+- **Eintrag je Unterkunft:** ihr günstigstes Angebot, das die Filter erfüllt (bei Gleichstand das kostenlos stornierbare).
+- **Regeln in dieser Reihenfolge**, gezählt beim ersten Treffer:
+  1. `filters`: kein Angebot erfüllt die Filter (Budget, Chips, Sterne, Mindestbewertung …).
+  2. `no_reviews`: kein Qualitätswert.
+  3. `red_flag`: Warnung zu Schimmel oder Ungeziefer mit ≥ 1 bestätigten oder ≥ 2 ungeprüften Erwähnungen, zu Sauberkeit mit ≥ 2 bestätigten oder ≥ 3 ungeprüften (`RED_FLAG_MIN_MENTIONS`).
+  4. `star_trap`: ≥ `STAR_TRAP_MIN_STARS` Sterne und Preis pro Nacht unter `STAR_TRAP_PRICE_RATIO` × Median der Häuser mit weniger Sternen (mindestens `STAR_TRAP_MIN_REFERENCE` davon mit Qualitätswert). Entlastet nur durch einen Rezensionscheck, Qualität ≥ `STAR_TRAP_MIN_QUALITY` und keine Warnung zu Zustand oder Sauberkeit.
+  5. `low_quality`: Qualität unter `GOAL_QUALITY_FLOOR[goal]`.
+  6. `too_expensive`: Gesamtpreis über dem günstigsten sauberen Haus × (1 + `GOAL_PRICE_WINDOW[goal]`); „sauber“ heißt: mit Rezensionscheck und durch alle Regeln gekommen (ohne jeden Check das günstigste verbliebene). Bei `komfort` kein Fenster.
+  7. `dominated`: ein anderes Haus ist nicht teurer, höchstens `DOMINANCE_QUALITY_TOLERANCE` schlechter bewertet, bietet jedes Merkmal dieses Hauses und ist in Preis, Qualität (über der Toleranz) oder Merkmalen besser. Ein ungeprüftes Haus verdrängt nie ein geprüftes.
+- **Finalisten:** höchstens `FINALISTS_MAX`; zuerst die Häuser mit Rezensionscheck in Zielreihenfolge (`sparen` Preis, `komfort` Qualität, `ausgewogen` Rangwert), ungeprüfte füllen nur auf und sind als „Rezensionen nicht geprüft“ gekennzeichnet; angezeigt nach Preis. Die übrigen passenden Häuser zählen als Nachrücker. Jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund.
+- **Merkmale** (`offerFeatures`), in dieser Reihenfolge: Frühstück inklusive, Halbpension, kostenlos stornierbar; Sauna oder Wellness, Schwimmbad; Lob-Labels; übrige Ausstattung aus den Chip-Zuordnungen (Parkplatz, Küche, Hund, Familienzimmer, barrierefrei) sowie Restaurant und E-Ladestation. Eine Finalkarte nennt je Seite die ersten `FINALE_FEATURES_SHOWN`, der Rest ist aufklappbar.
+- **Finale** (`compareFinalists`): Basis ist der günstigste Finalist. Je weiterer Finalist: Aufpreis in Cent, Merkmale mehr („Dafür“) und weniger („Dafür nicht“), Qualitätsabstand ab `FINALE_QUALITY_DELTA_MIN`, anderer Ort, anderer Termin, Entfernung zur Ortsmitte (Haversine zu den Koordinaten des Orts) als Klasse `kern` (≤ `CENTER_DISTANCE_CORE_KM`), `ort` (≤ `CENTER_DISTANCE_TOWN_KM`) oder `ausserhalb`. Keine Empfehlung, kein Favorit.
+- **Kandidaten des Rezensionschecks** (`reviewCandidateIds`): zuerst die wahrscheinlichen Finalisten aller drei Ziele (das Ziel der Suche zuerst; Warnsignale sind vor dem Check unbekannt), dann als Reserve die Zielreihenfolge unter den Regeln ohne Warnsignale, mit um `CANDIDATE_QUALITY_MARGIN` (= `SCORE_RECENCY_WEIGHT` × `SCORE_RECENCY_MAX_DELTA`) gesenkten Schwellen, ohne Preisfenster und Dominanz; insgesamt `REVIEW_TOP_N`.
+- **Nachprüfrunden** (Workflow-Schritte `reviews-fetch-<n>`/`reviews-verify-<n>`): Der Check verschiebt Qualitätswerte und nimmt Häuser heraus, dadurch rücken ungeprüfte Häuser ins Finale nach. Bis zu `REVIEW_FOLLOWUP_ROUNDS` Runden prüfen deshalb die dann aktuellen Finalisten aller Ziele ohne Check (`finalistIdsAcrossGoals`), je höchstens `REVIEW_FOLLOWUP_MAX`; eine Runde ohne Kandidaten beendet die Schleife. Budgets wie in 6.10 (fail-closed).
+- **Lob-Labels** (`countPraise`, `praiseLabels`): Stichwortliste `packages/domain/src/praise-lexicon.yaml` je Thema (`fruehstueck`, `sauberkeit`, `ruhe`, `personal`, `betten`, `aussicht`, `lage`) in DE, EN, FR, IT, NL, nur in der Sprache der Bewertung. Ein Themenwort im Feld „Positiv“ zählt als Lob, im Feld „Negativ“ als Kritik, je Bewertung höchstens einmal; der erste Satz eines Negativ-Felds, das mit „Nichts“ o. Ä. beginnt, zählt nicht. Bewertungen der letzten `PRAISE_MAX_AGE_MONTHS`. Label ab `PRAISE_MIN_MENTIONS` Lob, Lobanteil ≥ `PRAISE_MIN_SHARE` und ohne angezeigte Warnung zu den zugehörigen Beschwerdethemen (`PRAISE_BLOCKED_BY`). Ohne KI; die Zahlen stehen in `review_checks.praise`.
+- **API:** `GET /searches/{id}/finale?goal=&…` mit denselben Filterparametern wie `/results`; Antwort `FinaleResponse` (Ziel, wirksame Filter, Finalisten mit Vergleich, `excluded` je Grund, `runners_up`, `hotels`). `/results` und die Detailansicht tragen `labels`, die Detailansicht zusätzlich `praise` mit den Zahlen.
+
+| Konstante | Startwert | Bedeutung |
+|---|---|---|
+| `GOAL_QUALITY_FLOOR` | 7,0 / 7,5 / 8,3 | Mindest-Qualität für `sparen` / `ausgewogen` / `komfort` |
+| `GOAL_PRICE_WINDOW` | 0,35 / 0,75 / – | Preisfenster über dem günstigsten verbliebenen Haus |
+| `FINALISTS_MAX` | 4 | |
+| `STAR_TRAP_MIN_STARS` / `STAR_TRAP_PRICE_RATIO` / `STAR_TRAP_MIN_REFERENCE` / `STAR_TRAP_MIN_QUALITY` | 4 / 0,7 / 3 / 8,0 | Sterne-Falle |
+| `RED_FLAG_MIN_MENTIONS` | Schimmel, Ungeziefer 1 / 2; Sauberkeit 2 / 3 | bestätigt / ungeprüft |
+| `DOMINANCE_QUALITY_TOLERANCE` / `FINALE_QUALITY_DELTA_MIN` / `FINALE_FEATURES_SHOWN` | 0,2 / 0,3 / 3 | |
+| `CANDIDATE_QUALITY_MARGIN` | 0,75 | Spielraum der Rezensionscheck-Kandidaten |
+| `REVIEW_FOLLOWUP_ROUNDS` / `REVIEW_FOLLOWUP_MAX` | 2 / 4 | Nachprüfrunden und Häuser je Runde; höchstens 8 Checks zusätzlich zu `REVIEW_TOP_N` |
+| `PRAISE_MIN_MENTIONS` / `PRAISE_MIN_SHARE` / `PRAISE_MAX_AGE_MONTHS` / `PRAISE_MAX_LABELS_LIST` | 3 / 0,8 / 24 / 3 | Lob-Labels; die Liste zeigt die drei meistgelobten |
+| `CENTER_DISTANCE_CORE_KM` / `CENTER_DISTANCE_TOWN_KM` | 0,6 / 2 | Lage zur Ortsmitte |
+
+Alle Werte sind Startwerte und werden mit echten Daten kalibriert (Testbetrieb). Lage-Fakten wie Bushaltestelle oder belebter Ort bräuchten OpenStreetMap als neue Datenquelle (⛔ Freigabe, S11.5).
+
 ## 7. API-Endpunkte
 
 ### 7.1 Konventionen
@@ -632,6 +671,7 @@ Drei Cron Triggers (Workers Paid erlaubt 250 je Account, Free 5). Jeder Job ist 
 | POST | `/searches` | Suche starten (Workflow) | ALTCHA, RPC-Limit, Tageskontingent |
 | GET | `/searches/{id}` | Status und Fortschritt | Such-Token |
 | GET | `/searches/{id}/results` | Matrix und Liste; Filter und `sort` als Parameter | Such-Token |
+| GET | `/searches/{id}/finale` | Vorauswahl und Finale für das Ziel (`goal`), dieselben Filter wie `/results` (6.15, M11) | Such-Token |
 | GET | `/searches/{id}/hotels/{hotel_id}` | Detailansicht: alle Termine, Score-Aufschlüsselung, Rezensionscheck | Such-Token |
 | GET | `/searches/{id}/hotels/{hotel_id}/reference-price?offer_id=` | Öffentlicher Vergleichspreis (Beta, Cache 6 h) | Such-Token |
 | POST | `/bookings` | Buchung anlegen und Prebook | Such-Token |
@@ -664,6 +704,8 @@ Die Schemas sind in `packages/contracts` als zod definiert. Beispiele der Nutzla
 }
 ```
 Antwort 202: `{"search_id": "<uuid>", "token": "<32 Byte base64url>"}`.
+
+Ab M11 optional `"goal": "sparen" | "ausgewogen" | "komfort"` (6.15); ohne Angabe gilt `ausgewogen`. Das Suchformular setzt Sterne und Mindestbewertung nicht mehr, sie bleiben Filter im Ergebnis.
 
 **SearchResults** (`GET /searches/{id}/results`)
 ```json

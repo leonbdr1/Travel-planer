@@ -5,6 +5,7 @@ import type { WizardState } from './state';
 export function toSearchRequest(state: WizardState): SearchRequest | null {
   if (!state.origin) return null;
   return {
+    goal: state.goal,
     origin: { geonameid: state.origin.geonameid, label: state.origin.name, lat: state.origin.lat, lng: state.origin.lng },
     max_drive_minutes: state.maxDriveMinutes,
     themes: state.themes,
@@ -13,9 +14,10 @@ export function toSearchRequest(state: WizardState): SearchRequest | null {
     arrival_weekdays: state.weekdays,
     occupancy: { rooms: state.rooms, adults: state.adults, children_ages: state.childrenAges },
     budget_total_eur: state.budgetEur,
+    // Stars and rating minimums are set in the results ("Weitere Filter").
     filters: {
-      min_stars: state.minStars,
-      min_rating: state.minRating,
+      min_stars: null,
+      min_rating: null,
       min_reviews: null,
       property_types: [],
       refundable_only: false,

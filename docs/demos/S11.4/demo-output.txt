@@ -1,0 +1,10 @@
+$ npm run demo -- s11.4
+# recorded 2026-09-28T13:57:37.768Z
+
+starting local stack …
+1) Suche mit Ziel „Komfort“: Finale-Ziel Komfort (komfort)
+2) Suche ohne Ziel (ältere Anfrage): Finale-Ziel Preis-Leistung (ausgewogen)
+3) Suche mit unbekanntem Ziel „luxus“: HTTP 400
+4) Weitere Filter im Ergebnis: Sterne ab 4 → 4, 5 Unterkünfte
+   Finale mit Sterne ab 4: keine Finalisten
+→ Ziel wird gespeichert und gilt im Finale; ohne Ziel Preis-Leistung; unbekanntes Ziel abgelehnt; Sterne als weiterer Filter

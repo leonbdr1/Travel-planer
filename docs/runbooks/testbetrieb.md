@@ -54,7 +54,9 @@ Oben auf jeder Seite zeigt ein gelber Balken, was echt und was simuliert ist. Sp
 
 ### 5. Nutzen
 
-Suche wie ein Kunde: Startort, Fahrzeit, Zeitfenster, Nächte, Anreisetage, Wünsche. Ergebnis: Preis-Matrix über alle Orte und Termine, Rangliste, Schnäppchen, Detailseite mit allen Terminen, Qualitätswert und Rezensionscheck. Zum Buchen „auf Google Maps ansehen“ und direkt bei der Unterkunft buchen.
+Suche wie ein Kunde: Startort, Fahrzeit, Zeitfenster, Nächte, Anreisetage, Wünsche und mit einem Tipp dein Ziel („Günstig und sauber“, „Preis-Leistung“ oder „Komfort“). Ergebnis: oben „Deine Auswahl“ mit höchstens vier Unterkünften, die günstigste zuerst, bei den anderen der Aufpreis und was er bringt („+15 € · Dafür: Frühstück inklusive · Sauna“), darunter aufklappbar, was aussortiert wurde und warum. Das Ziel lässt sich oben ohne neue Suche umschalten. Darunter „Alle Angebote“ mit Preis-Matrix, Liste, Lob-Labels wie „Besonders sauber“ und „Weitere Filter“ (Sterne, Mindestbewertung); Detailseite mit allen Terminen, Qualitätswert, Rezensionscheck und „Was Gäste loben“. Zum Buchen „auf Google Maps ansehen“ und direkt bei der Unterkunft buchen.
+
+Die Schwellen der Vorauswahl (wann etwas zu teuer, zu schwach oder eine Sterne-Falle ist) sind Startwerte. Wenn dir mit echten Hotels etwas falsch aussortiert oder durchgelassen vorkommt: Suche und Beobachtung notieren, dann kalibrieren wir.
 
 ## Grenzen im Testbetrieb
 

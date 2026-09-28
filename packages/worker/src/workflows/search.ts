@@ -1,9 +1,12 @@
-// SearchWorkflow (architektur.md 6.4): `load` → `rates-<n>` → `score-1` →
-// `reviews-fetch` → `reviews-verify` → `finalize` (score stage 2).
+// SearchWorkflow (architektur.md 6.4, 6.15): `load` → `rates-<n>` → `score-1` →
+// `reviews-fetch` → `reviews-verify` → up to REVIEW_FOLLOWUP_ROUNDS times
+// `reviews-fetch-<n>` → `reviews-verify-<n>` (finalists still unchecked) →
+// `finalize` (score stage 2).
 // Steps return only ids and counters (1 MiB limit); every write is idempotent,
 // so a retried step never duplicates offers.
 import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep, type WorkflowStepConfig } from 'cloudflare:workers';
 import { productConfig } from '@reiseplaner/config';
+import { constants } from '@reiseplaner/domain';
 import { createRequestDeps } from '../deps';
 import { parseRuntimeConfig, type Env } from '../env';
 import { SEARCH_WORKFLOW_HEARTBEAT_JOB, sendHeartbeat } from '../services/heartbeat';
@@ -55,6 +58,12 @@ export class SearchWorkflow extends WorkflowEntrypoint<Env, SearchParams> {
     // Separate steps: a failing AI call is retried without fetching reviews again.
     await step.do('reviews-fetch', STEP, () => withSearchDeps(this.env, (d) => runReviewsFetch(d, searchId)));
     await step.do('reviews-verify', STEP, () => withSearchDeps(this.env, (d) => runReviewsVerify(d, searchId)));
+    // Checks move scores and take houses out; finalists that moved in unchecked get checked too.
+    for (let round = 2; round <= 1 + constants.REVIEW_FOLLOWUP_ROUNDS; round += 1) {
+      const followUp = await step.do(`reviews-fetch-${round}`, STEP, () => withSearchDeps(this.env, (d) => runReviewsFetch(d, searchId, round)));
+      if (followUp.candidates === 0) break;
+      await step.do(`reviews-verify-${round}`, STEP, () => withSearchDeps(this.env, (d) => runReviewsVerify(d, searchId)));
+    }
     const final = await step.do('finalize', STEP, () =>
       withSearchDeps(this.env, async (d) => {
         const result = await runFinalize(d, searchId);

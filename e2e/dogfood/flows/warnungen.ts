@@ -51,7 +51,7 @@ export const warnungenFlow: Flow = {
         note(reviewing ? 'Zwischenstand „Rezensionen werden geprüft“ war sichtbar.' : 'Der Rezensionscheck war zu schnell für den Zwischenstand.');
         await page.getByTestId('result-list').waitFor({ timeout: 90_000 });
       },
-      { expectText: ['Suche abgeschlossen', '2 von 2 Kombinationen', 'Ergebnisse'], expectSelector: ['[data-testid="result-warnings"]'] },
+      { expectText: ['Suche abgeschlossen', '2 von 2 Kombinationen', 'Alle Angebote'], expectSelector: ['[data-testid="result-warnings"]'] },
     );
 
     const schwanen = page.getByTestId('result-list').locator('li').filter({ has: page.getByTestId('result-name').filter({ hasText: 'Hotel Schwanen' }) });

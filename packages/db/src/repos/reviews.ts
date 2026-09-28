@@ -1,7 +1,7 @@
 // Review checks per hotel and the transient keyword snippets between the
 // workflow steps reviews-fetch and reviews-verify (architektur.md 6.10,
-// migration 20261007a). No review texts in review_checks; pending snippets
-// are deleted once verified.
+// migrations 20261007a and 20261011a). No review texts in review_checks, only
+// counts; pending snippets are deleted once verified.
 import { z } from 'zod';
 import { json, type Queryable } from '../db';
 
@@ -17,6 +17,13 @@ export const reviewTopicRowSchema = z.object({
   severity: severity.nullable(),
 });
 export type ReviewTopicRow = z.infer<typeof reviewTopicRowSchema>;
+/** Praise and criticism per praise topic (konzept.md 9.11). */
+export const praiseRowSchema = z.object({
+  topic: z.string(),
+  praised: z.number().int().min(0),
+  criticized: z.number().int().min(0),
+});
+export type PraiseRow = z.infer<typeof praiseRowSchema>;
 const sentimentSchema = z.array(z.object({ name: z.string(), rating: z.number() })).nullable();
 
 export interface ReviewCheck {
@@ -27,6 +34,7 @@ export interface ReviewCheck {
   recentRating: number | null;
   recentCount: number;
   topics: ReviewTopicRow[];
+  praise: PraiseRow[];
   sentiment: Array<{ name: string; rating: number }> | null;
   skillVersion: string | null;
   checkedAt: string;
@@ -42,6 +50,7 @@ type ReviewCheckDbRow = {
   recent_rating: number | null;
   recent_count: number;
   topics: unknown;
+  praise: unknown;
   liteapi_sentiment: unknown;
   skill_version: string | null;
   checked_at: string;
@@ -49,7 +58,7 @@ type ReviewCheckDbRow = {
 };
 
 const CHECK_COLUMNS = `hotel_id, status, reviews_analyzed, latest_review_date::text AS latest_review_date, recent_rating::float8 AS recent_rating,
-  recent_count, topics::text AS topics, liteapi_sentiment::text AS liteapi_sentiment, skill_version,
+  recent_count, topics::text AS topics, praise::text AS praise, liteapi_sentiment::text AS liteapi_sentiment, skill_version,
   to_char(checked_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS checked_at,
   to_char(expires_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS expires_at`;
 
@@ -64,6 +73,7 @@ function toCheck(r: ReviewCheckDbRow): ReviewCheck {
     recentRating: r.recent_rating === null ? null : Number(r.recent_rating),
     recentCount: Number(r.recent_count),
     topics: z.array(reviewTopicRowSchema).parse(parseJsonColumn(r.topics)),
+    praise: z.array(praiseRowSchema).parse(parseJsonColumn(r.praise)),
     sentiment: sentimentSchema.parse(r.liteapi_sentiment === null ? null : parseJsonColumn(r.liteapi_sentiment)),
     skillVersion: r.skill_version,
     checkedAt: r.checked_at,
@@ -102,6 +112,7 @@ export interface ReviewCheckWrite {
   recentRating: number | null;
   recentCount: number;
   topics: ReviewTopicRow[];
+  praise: PraiseRow[];
   sentiment: Array<{ name: string; rating: number }> | null;
   skillVersion: string | null;
   checkedAt: Date;
@@ -111,13 +122,13 @@ export interface ReviewCheckWrite {
 export async function upsertReviewCheck(db: Queryable, c: ReviewCheckWrite): Promise<void> {
   await db.query(
     `INSERT INTO app.review_checks (hotel_id, status, reviews_analyzed, latest_review_date, recent_rating, recent_count, topics,
-                                    liteapi_sentiment, skill_version, checked_at, expires_at)
-     VALUES ($1, $2, $3, $4::date, $5, $6, $7::text::jsonb, $8::text::jsonb, $9, $10::timestamptz, $11::timestamptz)
+                                    liteapi_sentiment, skill_version, checked_at, expires_at, praise)
+     VALUES ($1, $2, $3, $4::date, $5, $6, $7::text::jsonb, $8::text::jsonb, $9, $10::timestamptz, $11::timestamptz, $12::text::jsonb)
      ON CONFLICT (hotel_id) DO UPDATE SET
        status = EXCLUDED.status, reviews_analyzed = EXCLUDED.reviews_analyzed, latest_review_date = EXCLUDED.latest_review_date,
        recent_rating = EXCLUDED.recent_rating, recent_count = EXCLUDED.recent_count, topics = EXCLUDED.topics,
        liteapi_sentiment = EXCLUDED.liteapi_sentiment, skill_version = EXCLUDED.skill_version,
-       checked_at = EXCLUDED.checked_at, expires_at = EXCLUDED.expires_at`,
+       checked_at = EXCLUDED.checked_at, expires_at = EXCLUDED.expires_at, praise = EXCLUDED.praise`,
     [
       c.hotelId,
       c.status,
@@ -130,22 +141,9 @@ export async function upsertReviewCheck(db: Queryable, c: ReviewCheckWrite): Pro
       c.skillVersion,
       c.checkedAt.toISOString(),
       c.expiresAt.toISOString(),
+      json(z.array(praiseRowSchema).parse(c.praise)),
     ],
   );
-}
-
-/** Top `limit` distinct hotels of a search by stage-1 rank among offers that pass the search's filters. */
-export async function reviewCandidates(db: Queryable, searchId: string, limit: number): Promise<Array<{ hotelId: string; name: string }>> {
-  const rows = await db.query<{ hotel_id: string; name: string }>(
-    `SELECT o.hotel_id, h.name
-       FROM app.offers o JOIN app.hotels h ON h.id = o.hotel_id
-      WHERE o.search_id = $1::uuid AND o.passes_filters AND o.quality_score IS NOT NULL AND o.rank_score IS NOT NULL
-      GROUP BY o.hotel_id, h.name
-      ORDER BY max(o.rank_score) DESC, min(o.price_per_night_cents), o.hotel_id
-      LIMIT $2`,
-    [searchId, limit],
-  );
-  return rows.map((r) => ({ hotelId: r.hotel_id, name: r.name }));
 }
 
 export const pendingSnippetSchema = z.object({
@@ -165,6 +163,8 @@ export const pendingScanSchema = z.object({
   recentRating: z.number().nullable(),
   recentCount: z.number().int(),
   sentiment: sentimentSchema,
+  // Rows written before 20261011a have no praise counts.
+  praise: z.array(praiseRowSchema).default([]),
 });
 export type PendingScan = z.infer<typeof pendingScanSchema>;
 

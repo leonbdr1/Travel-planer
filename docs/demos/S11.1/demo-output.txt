@@ -1,0 +1,27 @@
+$ npm run demo -- s11.1
+# recorded 2026-09-28T14:08:31.148Z
+
+starting local stack …
+Suche: Füssen, Oberstdorf, Sonthofen × Freitage 2.–16.10., 2 Nächte, Ziel „Günstig und sauber“
+  Suche: done; Ziel im Finale: Günstig und sauber (sparen); 36 Unterkünfte in der Suche
+  Aussortiert:
+      3 ohne Bewertungen
+      5 Warnsignale (Schimmel, Ungeziefer, Schmutz)
+      3 Sterne-Falle
+      2 zu schwach bewertet für das Ziel
+     21 zu teuer für das Ziel
+  Finalisten (2, günstigste zuerst), weitere passende: 0
+    - Hotel Adler ★★ · Qualität 8,1 · 103 € · Sonthofen 2026-10-02
+      außerhalb (3,5 km)
+      Lob: Freundliches Personal, Gute Lage, Besonders sauber
+      günstigste der Auswahl
+    - Ferienwohnung Sonnenhof · Qualität 7,2 · 118 € · Füssen 2026-10-02
+      im Ort (1,9 km)
+      +16 € gegenüber Hotel Adler · dafür: kostenlos stornierbar, Sauna oder Wellness, Küche · dafür nicht: Frühstück inklusive, Freundliches Personal, Gute Lage, Besonders sauber · Bewertung −0,9 · anderer Ort
+  Häuser mit 4 oder mehr Sternen und schwacher Bewertung in der Liste: 4
+    Hotel Bellevue ★★★★ · 86 € · Qualität 5,9 · nicht geprüft
+    Parkhotel ★★★★ · 89 € · Qualität 6,3 · nicht geprüft
+    Apartments Kastanienhof ★★★★ · 105 € · Qualität 6,9 · nicht geprüft
+    Hotel Felsenkeller ★★★★★ · 265 € · Qualität 6,9 · nicht geprüft
+  Rezensionen geprüft: 2 von 2 Finalisten (Top 10 nach Ziel)
+→ Ziel gilt, jede Unterkunft ist Finalist, Nachrücker oder hat einen Grund; Finalisten geprüft; Sterne-Fallen draußen

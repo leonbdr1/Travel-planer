@@ -106,3 +106,13 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | O10.2 | Deploy-Pipeline | `blocked` | – | Operator-Lane |
 | S10.1 | Smoke-Tests | `demonstrated` | `docs/demos/S10.1/` | Lokal gegen den Produktions-Build 7/7; `--expect-env production` scheitert dort erwartungsgemäß. Gegen Staging und in `deploy.yml` offen (O10.1, O10.2). |
 | O10.3 | Go-Live | `blocked` | – | BG-13 |
+
+## M11 Entscheidungshilfe
+
+| ID | Zeile | Reifegrad | Beleg | Anmerkung |
+|---|---|---|---|---|
+| S11.1 | Ziel und Vorauswahl | `demonstrated` | `docs/demos/S11.1/` | „Günstig und sauber“ über Füssen, Oberstdorf, Sonthofen: 36 Unterkünfte, jede ist Finalist, Nachrücker oder hat einen Grund; beide Finalisten geprüft, die heruntergekommenen 4-Sterne-Häuser als Sterne-Falle draußen. Rezensionscheck: Finalisten aller Ziele zuerst, bis zu zwei Nachprüfrunden. |
+| S11.2 | Lob-Labels | `live-verified` | `docs/demos/S11.2/`, `docs/demos/S11.3/walkthrough-P/` | Füssen: 4 von 15 Unterkünften mit Labels, Detail mit Zahlen (z. B. „Aussicht: 32× gelobt, 0× kritisiert“); Hotel Schwanen (Schimmel) ohne „Besonders sauber“; Screenshots gelesen. |
+| S11.3 | Finale | `live-verified` | `docs/demos/S11.3/` | Je Ziel günstigste zuerst, Aufpreis = Preisdifferenz, Unterschiede benannt, keine Empfehlung, alle Finalisten aller drei Ziele geprüft. Walkthrough 36/36, Screenshots gelesen; danach Listen auf 3 Punkte gekürzt und 2 × 2-Raster (erneut gelesen). |
+| S11.4 | Suchformular mit Ziel | `live-verified` | `docs/demos/S11.4/` | Ziel wird gespeichert, ohne Ziel „Preis-Leistung“, unbekanntes Ziel 400, Sterne als Ergebnisfilter; alle Pfad-Walkthroughs 171/171 ohne Konsolenfehler. |
+| S11.5 | Lage-Fakten | `blocked` | – | BG-20 (OpenStreetMap als neue Datenquelle). |

@@ -1,0 +1,27 @@
+$ npm run demo -- s11.2
+# recorded 2026-09-28T13:57:20.638Z
+
+starting local stack …
+Suche: Füssen × Freitage 2.–16.10., Ziel „Preis-Leistung“
+  15 Unterkünfte in der Liste, 4 mit Lob-Labels:
+    Pension Waldesruh: Schöne Aussicht · Besonders sauber
+    Gasthof Waldesruh: Ruhig · Gute Lage
+    Pension Kastanienhof: Freundliches Personal
+    Hotel Schwanen: Ruhig · Freundliches Personal · Bequeme Betten
+  Detail Pension Waldesruh – „Was Gäste loben“:
+    Sauberkeit: 25× gelobt, 0× kritisiert
+    Ruhe: 0× gelobt, 2× kritisiert
+    Personal: 0× gelobt, 3× kritisiert
+    Betten: 0× gelobt, 1× kritisiert
+    Aussicht: 32× gelobt, 0× kritisiert
+    Lage: 0× gelobt, 1× kritisiert
+  Detail Gasthof Waldesruh – „Was Gäste loben“:
+    Ruhe: 16× gelobt, 1× kritisiert
+    Aussicht: 0× gelobt, 1× kritisiert
+    Lage: 10× gelobt, 0× kritisiert
+  Detail Pension Kastanienhof – „Was Gäste loben“:
+    Personal: 56× gelobt, 0× kritisiert
+    Aussicht: 0× gelobt, 1× kritisiert
+    Lage: 0× gelobt, 4× kritisiert
+  Hotel Schwanen: Warnung Schimmel ja, Label „Besonders sauber“ nein, Labels: Ruhig, Freundliches Personal, Bequeme Betten
+→ Labels erscheinen von selbst, jedes mit mindestens 3× Lob und 80 % Anteil; keine Sauberkeit neben Schimmel

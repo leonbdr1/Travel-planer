@@ -17,7 +17,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('result-list').waitFor({ timeout: 30_000 });
       },
       {
-        expectText: ['45 von 45 Kombinationen', 'Ergebnisse', 'Preise abgerufen um', 'Bestes Angebot', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen'],
+        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise abgerufen um', 'Bestes Angebot', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen'],
         expectSelector: ['[data-testid="result-matrix"]', '[data-testid="bargain-reason"]', '[data-testid="result-filters"]'],
         fullPage: true,
       },
@@ -83,7 +83,14 @@ export const ergebnisseFlow: Flow = {
     await step(
       'Detailansicht mit allen Terminen und Score-Aufschlüsselung',
       async () => {
-        await page.getByTestId('result-name').first().click();
+        // The review check covers the likely finalists of every goal (architektur.md 6.15),
+        // not every house of the list: open the first checked one.
+        const checked = page
+          .getByTestId('result-list')
+          .locator('li')
+          .filter({ has: page.locator('[data-testid="result-review-ok"], [data-testid="result-warnings"]') })
+          .first();
+        await checked.getByTestId('result-name').click();
         await page.getByTestId('detail-offers').waitFor({ timeout: 15_000 });
       },
       {

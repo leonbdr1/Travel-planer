@@ -1,6 +1,6 @@
 // Wizard state (steps 1–3). Kept in sessionStorage so a reload keeps the
 // progress; nothing leaves the browser except the API calls.
-import { addDays, formatIsoDate, generateStayDates, type DatesResult } from '@reiseplaner/domain';
+import { addDays, DEFAULT_GOAL, formatIsoDate, generateStayDates, type DatesResult, type Goal } from '@reiseplaner/domain';
 import type { LocalityDto, MetaConfigResponse, PlaceDto, RegionSuggestionDto } from '@reiseplaner/contracts';
 
 export interface WizardState {
@@ -16,8 +16,8 @@ export interface WizardState {
   childrenAges: number[];
   rooms: number;
   budgetEur: number | null;
-  minStars: number | null;
-  minRating: number | null;
+  /** What the traveller is after (F15); stars and rating minimums live in the results. */
+  goal: Goal;
   chips: string[];
   wishText: string;
   unmatched: string[];
@@ -51,8 +51,7 @@ export function initialState(now: Date = new Date()): WizardState {
     childrenAges: [],
     rooms: 1,
     budgetEur: null,
-    minStars: null,
-    minRating: null,
+    goal: DEFAULT_GOAL,
     chips: [],
     wishText: '',
     unmatched: [],

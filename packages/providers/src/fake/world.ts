@@ -3,8 +3,10 @@
 // Every location (rounded to 0.01°) deterministically gets a set of hotels;
 // prices depend on season, weekday, occupancy and a per-date noise, some
 // dates carry a deal (date bargains), some hotels have few but perfect
-// reviews (quality score), and some have recurring complaints in their
-// reviews (review check). All data is synthetic – no real hotels.
+// reviews (quality score), some have recurring complaints in their reviews
+// (review check), better-rated ones have strengths their guests keep praising
+// (praise labels), and some places have a run-down 4-star hotel at a budget
+// price (star trap). All data is synthetic – no real hotels.
 import { base64UrlDecode, base64UrlEncode, between, hashString, intBetween, pick, seeded } from './random';
 
 export type HotelKind = 'Hotel' | 'Gasthof' | 'Pension' | 'Landhotel' | 'Apartments' | 'Boutique-Hotel' | 'Ferienwohnung';
@@ -239,14 +241,61 @@ export function generateHotel(latE2: number, lngE2: number, index: number): Fake
   };
 }
 
+// A run-down 4-star house: stars and facilities of a good hotel, the price of
+// a simple one, reviews about wear and dirt (konzept.md 9.9, "Sterne-Falle").
+// Its own random streams keep every other hotel of the place unchanged.
+const FALLEN_HOTEL_SHARE = 0.4;
+const FALLEN_NAMES = ['Parkhotel', 'Kurhotel', 'Hotel Europa', 'Hotel Residenz', 'Hotel Bellevue', 'Hotel Imperial', 'Sporthotel', 'Grand Hotel Kurhaus'];
+
+export function hasFallenHotel(latE2: number, lngE2: number): boolean {
+  return seeded('fallen', latE2, lngE2)() < FALLEN_HOTEL_SHARE;
+}
+
+export function generateFallenHotel(latE2: number, lngE2: number, index: number): FakeHotel {
+  const r = seeded('fallen-hotel', latE2, lngE2);
+  const facilityIds = [1, 2, 4, 5, 9, 15, 17, 18, 19].filter((id) => r() < (id === 4 || id === 5 ? 0.8 : 0.6));
+  const offsetKm = between(r, 0.3, 4);
+  const angle = between(r, 0, Math.PI * 2);
+  const lat = latE2 / 100 + (offsetKm / 111) * Math.cos(angle);
+  const lng = lngE2 / 100 + (offsetKm / (111 * Math.cos((latE2 / 100) * (Math.PI / 180)))) * Math.sin(angle);
+  return {
+    id: hotelId(latE2, lngE2, index),
+    name: pick(r, FALLEN_NAMES),
+    kind: 'Hotel',
+    stars: 4,
+    // Many reviews and a weak average: the quality score stays below every goal's floor.
+    rating: Math.round(between(r, 5.5, 6.5) * 10) / 10,
+    reviewCount: intBetween(r, 120, 600),
+    lat: Math.round(lat * 1e5) / 1e5,
+    lng: Math.round(lng * 1e5) / 1e5,
+    address: `${pick(r, STREETS)} ${intBetween(r, 1, 48)}`,
+    basePerNightCents: Math.round(basePriceEur('Hotel', 4, r) * between(r, 0.28, 0.34) * 100),
+    cityTaxCentsPerPersonNight: intBetween(r, 15, 35) * 10,
+    taxesKnown: true,
+    facilityIds,
+    photo: `/fake/hotel-${intBetween(r, 1, 8)}.svg`,
+    rooms: roomsFor('Hotel', r),
+    boards: ['BB'],
+    nonRefundableOffered: true,
+    issue: r() < 0.6 ? 'condition' : 'dirty',
+    availability: between(r, 0.85, 0.97),
+  };
+}
+
 export function hotelsAt(lat: number, lng: number): FakeHotel[] {
   const { latE2, lngE2 } = anchorOf(lat, lng);
-  return Array.from({ length: hotelCountAt(latE2, lngE2) }, (_, i) => generateHotel(latE2, lngE2, i));
+  const count = hotelCountAt(latE2, lngE2);
+  const hotels = Array.from({ length: count }, (_, i) => generateHotel(latE2, lngE2, i));
+  if (hasFallenHotel(latE2, lngE2)) hotels.push(generateFallenHotel(latE2, lngE2, count));
+  return hotels;
 }
 
 export function hotelById(id: string): FakeHotel | null {
   const parsed = parseHotelId(id);
-  if (!parsed || parsed.index >= hotelCountAt(parsed.latE2, parsed.lngE2)) return null;
+  if (!parsed) return null;
+  const count = hotelCountAt(parsed.latE2, parsed.lngE2);
+  if (parsed.index === count && hasFallenHotel(parsed.latE2, parsed.lngE2)) return generateFallenHotel(parsed.latE2, parsed.lngE2, count);
+  if (parsed.index >= count) return null;
   return generateHotel(parsed.latE2, parsed.lngE2, parsed.index);
 }
 
@@ -384,19 +433,64 @@ export interface FakeReview {
   cons: string;
 }
 
-const PROS_DE = [
-  'Sehr freundliches Personal und ein reichhaltiges Frühstück.',
-  'Tolle Lage, ideal als Ausgangspunkt für Wanderungen.',
-  'Das Zimmer war gemütlich und ruhig.',
-  'Super Aussicht vom Balkon, wir kommen wieder.',
-  'Absolut sauber und alles top gepflegt.',
-  'Gute Betten, sehr ruhige Nächte.',
-  'Preis-Leistung stimmt.',
-  'Kostenlose Parkplätze direkt am Haus.',
-];
-const PROS_EN = ['Great location and very friendly staff.', 'Clean room and a lovely breakfast.', 'Quiet at night, comfortable beds.'];
-const CONS_DE = ['Das WLAN war etwas langsam.', 'Parkplätze waren knapp.', 'Frühstück hätte etwas mehr Auswahl haben können.', 'Nichts zu bemängeln.', 'Die Anfahrt über die Bergstraße ist etwas kurvig.'];
+// Neutral texts name no praise topic, so labels come only from a hotel's
+// strengths. No text here contains a complaint keyword of the review check.
+const PROS_DE = ['Preis-Leistung stimmt.', 'Kostenlose Parkplätze direkt am Haus.', 'Alles bestens, gerne wieder.', 'Schönes Haus mit viel Charme.'];
+const PROS_EN = ['Good value for money.', 'Free parking right at the house.', 'Everything was fine, would come again.'];
+const CONS_DE = ['Das WLAN war etwas langsam.', 'Parkplätze waren knapp.', 'Der Aufzug war etwas klein.', 'Nichts zu bemängeln.', 'Die Anfahrt über die Bergstraße ist etwas kurvig.'];
 const CONS_EN = ['Wifi was a bit slow.', 'Nothing to complain about.'];
+
+export type StrengthTopic = 'fruehstueck' | 'sauberkeit' | 'ruhe' | 'personal' | 'betten' | 'aussicht' | 'lage';
+const STRENGTH_TOPICS: readonly StrengthTopic[] = ['fruehstueck', 'sauberkeit', 'ruhe', 'personal', 'betten', 'aussicht', 'lage'];
+type Texts = { de: readonly string[]; en: readonly string[] };
+
+const PRAISE_PROS: Record<StrengthTopic, Texts> = {
+  fruehstueck: {
+    de: ['Ein reichhaltiges Frühstück mit regionalen Produkten.', 'Das Frühstück war hervorragend.', 'Frühstücksbuffet mit großer Auswahl.'],
+    en: ['A lovely breakfast.', 'Excellent breakfast with local products.'],
+  },
+  sauberkeit: { de: ['Absolut sauber und alles top gepflegt.', 'Blitzsauberes Zimmer und Bad.'], en: ['Very clean room.', 'Spotless and clean.'] },
+  ruhe: { de: ['Sehr ruhiges Haus, wir haben super geschlafen.', 'Herrlich ruhige Nächte.'], en: ['Very quiet at night.'] },
+  personal: { de: ['Sehr freundliches Personal, wir haben uns willkommen gefühlt.', 'Die Gastgeber waren unglaublich herzlich.'], en: ['Very friendly and helpful staff.'] },
+  betten: { de: ['Sehr bequeme Betten.', 'Die Matratzen waren top, wir haben toll geschlafen.'], en: ['Comfortable beds.'] },
+  aussicht: { de: ['Traumhafte Aussicht vom Balkon.', 'Der Blick auf die Berge ist einmalig.'], en: ['Amazing view from the balcony.'] },
+  lage: { de: ['Tolle Lage, ideal als Ausgangspunkt für Wanderungen.', 'Zentral gelegen, alles zu Fuß erreichbar.'], en: ['Great location, close to everything.'] },
+};
+
+/** Mild criticism without complaint keywords (no warnings, only the praise share drops). */
+const WEAK_CONS: Record<Exclude<StrengthTopic, 'sauberkeit'>, Texts> = {
+  fruehstueck: { de: ['Das Frühstück war eher einfach.'], en: ['Breakfast was rather basic.'] },
+  ruhe: { de: ['Nachts nicht ganz ruhig, man hört die Straße.'], en: ['Not very quiet at night.'] },
+  personal: { de: ['Das Personal an der Rezeption wirkte etwas gestresst.'], en: ['Staff seemed a bit stressed.'] },
+  betten: { de: ['Die Betten waren uns etwas zu weich.'], en: ['Beds were a bit too soft.'] },
+  aussicht: { de: ['Die Aussicht aus unserem Zimmer ging leider nur auf den Parkplatz.'], en: ['The view was only of the car park.'] },
+  lage: { de: ['Etwas abseits gelegen, ohne Auto schwierig.'], en: ['Location is a bit remote without a car.'] },
+};
+
+/** Share of reviews that praise one of the hotel's strengths, and that criticise some topic mildly. */
+const STRENGTH_PRAISE_SHARE = 0.6;
+const WEAKNESS_SHARE = 0.06;
+
+/**
+ * Topics this hotel's guests keep praising: better-rated houses have more,
+ * never one its problems contradict (no "sauber" with mould, no breakfast
+ * without breakfast). Own random stream: the rest of the world is unchanged.
+ */
+export function strengthsOf(hotel: FakeHotel): StrengthTopic[] {
+  if (hotel.rating === null || hotel.reviewCount < 8) return [];
+  const r = seeded('strengths', hotel.id);
+  const count = hotel.rating >= 8.8 ? intBetween(r, 2, 3) : hotel.rating >= 8 ? intBetween(r, 1, 2) : hotel.rating >= 7.2 ? intBetween(r, 0, 1) : 0;
+  const blocked = new Set<StrengthTopic>();
+  if (!hotel.boards.includes('BB')) blocked.add('fruehstueck');
+  if (hotel.issue === 'mold' || hotel.issue === 'dirty' || hotel.issue === 'bugs' || hotel.issue === 'smell') blocked.add('sauberkeit');
+  if (hotel.issue === 'noise') blocked.add('ruhe');
+  if (hotel.issue === 'condition') blocked.add('betten');
+  if (hotel.issue === 'photos') blocked.add('aussicht');
+  const pool = STRENGTH_TOPICS.filter((t) => !blocked.has(t));
+  const chosen: StrengthTopic[] = [];
+  while (chosen.length < count && pool.length > 0) chosen.push(pool.splice(Math.floor(r() * pool.length), 1)[0] as StrengthTopic);
+  return chosen;
+}
 
 const ISSUE_CONS: Record<Exclude<IssueProfile, 'none'>, string[]> = {
   mold: ['Leider Schimmel an der Duschfuge.', 'Im Bad war Schimmel an der Decke, das war unschön.', 'Schwarzer Schimmel hinter dem Duschvorhang.'],
@@ -414,11 +508,17 @@ const FIRST_NAMES = ['Anna', 'Jonas', 'Mia', 'Lukas', 'Lea', 'Paul', 'Sophie', '
  * Reviews for a hotel, newest first, relative to `today`. Hotels with an
  * issue profile get recurring complaints in the first slots when those fall
  * within the last six months; mould houses get exactly these three
- * (konzept.md 5.1 example 4), other issues one more in slot 9.
+ * (konzept.md 5.1 example 4), other issues one more in slot 9. Most positive
+ * texts praise one of the hotel's strengths, a few negative texts criticise a
+ * topic mildly; both come from a second random stream, so dates, scores and
+ * complaints stay as before.
  */
 export function reviewsFor(hotel: FakeHotel, today: string, limit: number): FakeReview[] {
   const count = Math.min(hotel.reviewCount, limit);
   const r = seeded('reviews', hotel.id);
+  const p = seeded('praise', hotel.id);
+  const strengths = strengthsOf(hotel);
+  const weaknesses = (Object.keys(WEAK_CONS) as Array<keyof typeof WEAK_CONS>).filter((t) => t !== 'fruehstueck' || hotel.boards.includes('BB'));
   const reviews: FakeReview[] = [];
   const issueSlots = hotel.issue === 'none' ? new Set<number>() : hotel.issue === 'mold' ? new Set([0, 2, 4]) : new Set([0, 2, 4, 9]);
   for (let i = 0; i < count; i += 1) {
@@ -426,22 +526,27 @@ export function reviewsFor(hotel: FakeHotel, today: string, limit: number): Fake
     const ageDays = Math.round(Math.pow(i / Math.max(count, 1), 1.3) * 700 + between(r, 1, 12));
     const date = addDays(today, -ageDays);
     const english = r() < 0.2;
+    const lang = english ? 'en' : 'de';
     const base = hotel.rating ?? 8;
     const issueHere = issueSlots.has(i) && hotel.issue !== 'none' && (i < 5 ? ageDays < 180 : true);
     const score = Math.max(1, Math.min(10, Math.round((base + between(r, -1.2, 1.0) - (issueHere ? 2.5 : 0)) * 10) / 10));
-    const cons = issueHere
+    const baseCons = issueHere
       ? pick(r, ISSUE_CONS[hotel.issue as Exclude<IssueProfile, 'none'>])
       : english
         ? pick(r, CONS_EN)
         : pick(r, CONS_DE);
+    const name = pick(r, FIRST_NAMES);
+    const neutralPros = english ? pick(r, PROS_EN) : pick(r, PROS_DE);
+    const praised = strengths.length > 0 && p() < STRENGTH_PRAISE_SHARE ? pick(p, strengths) : null;
+    const weakness = !issueHere && p() < WEAKNESS_SHARE ? pick(p, weaknesses) : null;
     reviews.push({
       averageScore: score,
       date: `${date} 10:00:00`,
-      language: english ? 'en' : 'de',
-      name: pick(r, FIRST_NAMES),
+      language: lang,
+      name,
       headline: score >= 8.5 ? (english ? 'Wonderful stay' : 'Wunderbarer Aufenthalt') : score >= 7 ? (english ? 'Good' : 'Gut') : english ? 'Disappointing' : 'Enttäuschend',
-      pros: english ? pick(r, PROS_EN) : pick(r, PROS_DE),
-      cons,
+      pros: praised ? pick(p, PRAISE_PROS[praised][lang]) : neutralPros,
+      cons: weakness ? pick(p, WEAK_CONS[weakness][lang]) : baseCons,
     });
   }
   return reviews;

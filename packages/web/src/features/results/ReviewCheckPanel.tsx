@@ -1,12 +1,14 @@
-// Review check panel (F8): warnings with topic, number of mentions, how many
-// of them are recent, the latest date and severity. Confirmed warnings are
-// labelled as AI-assisted analysis; keyword hits without AI verification are
-// shown as unverified hints and never reduce the score.
+// Review check panel (F8, F17): warnings with topic, number of mentions, how
+// many of them are recent, the latest date and severity. Confirmed warnings
+// are labelled as AI-assisted analysis; keyword hits without AI verification
+// are shown as unverified hints and never reduce the score. Below, what
+// guests praise: the labels and the counts behind them (no AI).
 import type { ReviewCheckDto } from '@reiseplaner/contracts';
 import { constants } from '@reiseplaner/domain';
 import { AiLabel, Card, Heading, Text, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDate, formatDateTime } from '../../lib/format';
+import { PraiseLabels } from './PraiseLabels';
 
 const t = de.reviewCheck;
 
@@ -43,6 +45,23 @@ export function ReviewCheckPanel({ check, aiLabel }: { check: ReviewCheckDto | n
             </li>
           ))}
         </ul>
+      ) : null}
+      {check && check.praise.some((p) => p.praised > 0) ? (
+        <div className="space-y-2 border-t border-zinc-100 pt-3" data-testid="praise">
+          <Heading level={3}>{t.praiseTitle}</Heading>
+          <PraiseLabels labels={check.labels} />
+          <ul className="space-y-0.5 text-sm text-zinc-700">
+            {/* Topics nobody praised would only be noise here; complaints are the warnings above. */}
+            {check.praise.filter((p) => p.praised > 0).map((p) => (
+              <li key={p.topic} data-testid="praise-count" data-topic={p.topic}>
+                {t.praiseCount(p.label, p.praised, p.criticized)}
+              </li>
+            ))}
+          </ul>
+          <Text className="text-xs text-zinc-500">
+            {t.praiseNote(constants.PRAISE_MIN_MENTIONS, Math.round(constants.PRAISE_MIN_SHARE * 100), constants.PRAISE_MAX_AGE_MONTHS)}
+          </Text>
+        </div>
       ) : null}
       {check && check.status !== 'no_reviews' ? (
         <Text className="text-xs text-zinc-500">{t.checkedCount(check.reviews_checked, formatDateTime(check.checked_at))}</Text>

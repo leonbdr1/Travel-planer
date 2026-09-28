@@ -1,8 +1,17 @@
 // Search evaluation for the workflow step `score-1` and the results
 // endpoints (architektur.md 6.6–6.9): offers and hotels from the database,
 // filters from the request or the query, ranking from packages/domain.
-import type { EffectiveFilters, MatrixCellDto, OfferDto, ResultItem, SearchRequest, WarningDto } from '@reiseplaner/contracts';
-import { loadEvaluationData, saveEvaluation, setSearchStatus, type Queryable } from '@reiseplaner/db';
+import {
+  searchRequestSchema,
+  type EffectiveFilters,
+  type MatrixCellDto,
+  type OfferDto,
+  type PraiseLabelDto,
+  type ResultItem,
+  type SearchRequest,
+  type WarningDto,
+} from '@reiseplaner/contracts';
+import { getSearch, loadEvaluationData, saveEvaluation, setSearchStatus, type EvaluationHotelRow, type Queryable } from '@reiseplaner/db';
 import {
   buildMatrix,
   evaluateOffers,
@@ -11,9 +20,17 @@ import {
   type EvalHotel,
   type EvaluatedOffer,
   type FilterSettings,
+  type HotelEvidence,
+  type PreselectHotel,
   type ReviewSignals,
   type SortKey,
 } from '@reiseplaner/domain';
+
+export async function loadSearchRequest(db: Queryable, searchId: string): Promise<SearchRequest> {
+  const search = await getSearch(db, searchId);
+  if (!search) throw new Error(`search ${searchId} not found`);
+  return searchRequestSchema.parse(search.request);
+}
 
 const BOARDS: readonly BoardType[] = ['RO', 'BB', 'HB', 'FB', 'AI', 'OTHER'];
 
@@ -72,6 +89,10 @@ export interface ReviewData {
   status: ReadonlyMap<string, 'ok' | 'unverified'>;
   /** Number of reviews the check analysed, per hotel. */
   checked?: ReadonlyMap<string, number>;
+  /** Praise labels per hotel, the most praised first. */
+  labels?: ReadonlyMap<string, PraiseLabelDto[]>;
+  /** What the review check found, for the automatic pre-selection. */
+  evidence?: ReadonlyMap<string, HotelEvidence>;
 }
 
 export const NO_REVIEWS: ReviewData = { signals: new Map(), warnings: new Map(), status: new Map() };
@@ -81,6 +102,31 @@ export async function evaluateSearch(db: Queryable, searchId: string, filters: F
   const hotels = new Map<string, EvalHotel>(data.hotels.map((h) => [h.id, h]));
   const evaluated = evaluateOffers(data.offers, hotels, filters, reviews.signals);
   return { ...data, hotelsById: new Map(data.hotels.map((h) => [h.id, h])), evaluated };
+}
+
+/** Hotels as the pre-selection sees them: stars (never a quality signal), facilities, type. */
+export function preselectHotels(hotels: readonly EvaluationHotelRow[]): Map<string, PreselectHotel> {
+  return new Map(hotels.map((h) => [h.id, { id: h.id, stars: h.stars, facilityIds: h.facilityIds, hotelType: h.hotelType }]));
+}
+
+type SummaryHotel = Pick<EvaluationHotelRow, 'id' | 'name' | 'stars' | 'rating' | 'reviewCount' | 'hotelType' | 'city' | 'mainPhotoUrl'>;
+
+export function hotelSummary(hotelId: string, hotels: ReadonlyMap<string, SummaryHotel>): ResultItem['hotel'] {
+  const h = hotels.get(hotelId);
+  return {
+    id: hotelId,
+    name: h?.name ?? hotelId,
+    stars: h?.stars ?? null,
+    rating: h?.rating ?? null,
+    review_count: h?.reviewCount ?? null,
+    hotel_type: h?.hotelType ?? null,
+    city: h?.city ?? null,
+    photo_url: h?.mainPhotoUrl ?? null,
+  };
+}
+
+export function qualityDto(o: EvaluatedOffer): ResultItem['quality'] {
+  return { score: o.quality, checked: o.breakdown.recency.checked, no_reviews: o.quality === null };
 }
 
 export function offerDto(o: EvaluatedOffer & { nights?: number }): OfferDto {
@@ -124,33 +170,17 @@ export function matrixCells(
   }));
 }
 
-export function resultItems(
-  evaluated: readonly EvaluatedOffer[],
-  hotels: ReadonlyMap<string, { id: string; name: string; stars: number | null; rating: number | null; reviewCount: number | null; hotelType: string | null; city: string | null; mainPhotoUrl: string | null }>,
-  sort: SortKey,
-  reviews: ReviewData,
-): ResultItem[] {
-  return hotelList(evaluated, sort).map(({ offer, otherDatesCount }) => {
-    const h = hotels.get(offer.hotelId);
-    return {
-      hotel: {
-        id: offer.hotelId,
-        name: h?.name ?? offer.hotelId,
-        stars: h?.stars ?? null,
-        rating: h?.rating ?? null,
-        review_count: h?.reviewCount ?? null,
-        hotel_type: h?.hotelType ?? null,
-        city: h?.city ?? null,
-        photo_url: h?.mainPhotoUrl ?? null,
-      },
-      best_offer: offerDto(offer),
-      other_dates_count: otherDatesCount,
-      quality: { score: offer.quality, checked: offer.breakdown.recency.checked, no_reviews: offer.quality === null },
-      warnings: reviews.warnings.get(offer.hotelId) ?? [],
-      review_status: reviews.status.get(offer.hotelId) ?? 'none',
-      reviews_checked: reviews.checked?.get(offer.hotelId) ?? null,
-    };
-  });
+export function resultItems(evaluated: readonly EvaluatedOffer[], hotels: ReadonlyMap<string, SummaryHotel>, sort: SortKey, reviews: ReviewData): ResultItem[] {
+  return hotelList(evaluated, sort).map(({ offer, otherDatesCount }) => ({
+    hotel: hotelSummary(offer.hotelId, hotels),
+    best_offer: offerDto(offer),
+    other_dates_count: otherDatesCount,
+    quality: qualityDto(offer),
+    warnings: reviews.warnings.get(offer.hotelId) ?? [],
+    review_status: reviews.status.get(offer.hotelId) ?? 'none',
+    reviews_checked: reviews.checked?.get(offer.hotelId) ?? null,
+    labels: reviews.labels?.get(offer.hotelId) ?? [],
+  }));
 }
 
 /** Workflow step `score-1`: evaluation for the search's own filters, stored with the offers. */

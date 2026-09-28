@@ -3,8 +3,14 @@ import { z } from 'zod';
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const themeCode = z.string().regex(/^[a-z][a-z_]*$/).max(40);
 
+/** Goal of the automatic pre-selection (konzept.md 9.9); the codes of GOALS in packages/domain. */
+export const goalSchema = z.enum(['sparen', 'ausgewogen', 'komfort']);
+export type GoalCode = z.infer<typeof goalSchema>;
+
 /** SearchRequest (architektur.md 7.3). Product limits are enforced by the route. */
 export const searchRequestSchema = z.object({
+  /** Without a goal (searches before Fassung 4) the domain default applies. */
+  goal: goalSchema.optional(),
   origin: z.object({ geonameid: z.number().int().positive(), label: z.string().max(120), lat: z.number(), lng: z.number() }),
   max_drive_minutes: z.number().int().min(15).max(720).nullable(),
   themes: z.array(themeCode).max(10),

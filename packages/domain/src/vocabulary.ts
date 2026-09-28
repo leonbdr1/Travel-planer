@@ -69,6 +69,49 @@ export const REVIEW_TOPIC_LABELS: Record<ReviewTopic, string> = {
   abweichung_beschreibung: 'Abweichung von Fotos oder Beschreibung',
 };
 
+/**
+ * What the traveller is after (konzept.md 9.9); one tap in the search form.
+ * The UI names them "Günstig und sauber", "Preis-Leistung" and "Komfort"
+ * (packages/web/src/i18n/de.ts).
+ */
+export const GOALS = ['sparen', 'ausgewogen', 'komfort'] as const;
+export type Goal = (typeof GOALS)[number];
+export const DEFAULT_GOAL: Goal = 'ausgewogen';
+
+export function isGoal(value: unknown): value is Goal {
+  return typeof value === 'string' && (GOALS as readonly string[]).includes(value);
+}
+
+/** Topics guests praise (konzept.md 9.11); labels appear without any user setting. */
+export const PRAISE_TOPICS = ['fruehstueck', 'sauberkeit', 'ruhe', 'personal', 'betten', 'aussicht', 'lage'] as const;
+export type PraiseTopic = (typeof PRAISE_TOPICS)[number];
+
+/** Label shown when guests praise the topic; the second text names the topic in the evidence line. */
+export const PRAISE_LABELS: Record<PraiseTopic, { label: string; topic: string }> = {
+  fruehstueck: { label: 'Gutes Frühstück', topic: 'Frühstück' },
+  sauberkeit: { label: 'Besonders sauber', topic: 'Sauberkeit' },
+  ruhe: { label: 'Ruhig', topic: 'Ruhe' },
+  personal: { label: 'Freundliches Personal', topic: 'Personal' },
+  betten: { label: 'Bequeme Betten', topic: 'Betten' },
+  aussicht: { label: 'Schöne Aussicht', topic: 'Aussicht' },
+  lage: { label: 'Gute Lage', topic: 'Lage' },
+};
+
+/** A praise label is withheld while a warning on the matching complaint topic exists. */
+export const PRAISE_BLOCKED_BY: Record<PraiseTopic, readonly ReviewTopic[]> = {
+  fruehstueck: [],
+  sauberkeit: ['sauberkeit', 'schimmel', 'ungeziefer', 'geruch'],
+  ruhe: ['laerm'],
+  personal: [],
+  betten: ['zustand'],
+  aussicht: ['abweichung_beschreibung'],
+  lage: [],
+};
+
+export function isPraiseTopic(value: string): value is PraiseTopic {
+  return (PRAISE_TOPICS as readonly string[]).includes(value);
+}
+
 export function isThemeCode(value: string): value is ThemeCode {
   return (THEME_CODES as readonly string[]).includes(value);
 }

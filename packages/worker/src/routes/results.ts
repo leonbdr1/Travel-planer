@@ -1,13 +1,17 @@
-// GET /api/v1/searches/{id}/results, /searches/{id}/hotels/{hotel_id} and
-// /searches/{id}/hotels/{hotel_id}/reference-price (architektur.md 6.9, 7.2):
-// filters and sorting without a new search, every hotel once in the list,
-// matrix with price buckets, hotel detail with all dates and the score
-// breakdown, public reference price per offer. Requires the search token.
+// GET /api/v1/searches/{id}/results, /searches/{id}/finale,
+// /searches/{id}/hotels/{hotel_id} and
+// /searches/{id}/hotels/{hotel_id}/reference-price (architektur.md 6.9, 6.15,
+// 7.2): filters and sorting without a new search, every hotel once in the
+// list, matrix with price buckets, the finale for a goal, hotel detail with
+// all dates and the score breakdown, public reference price per offer.
+// Requires the search token.
 import { Hono } from 'hono';
 import {
+  finaleQuerySchema,
   hotelDetailResponseSchema,
   referencePriceQuerySchema,
   resultsQuerySchema,
+  type FinaleResponse,
   type HotelDetailResponse,
   type ReferencePriceResponse,
   type SearchResultsResponse,
@@ -22,6 +26,7 @@ import { rateLimit } from '../http/rate-limit';
 import { parseQuery } from '../http/validate';
 import { sha256Hex } from '../services/search-run';
 import { effectiveFilters, evaluateSearch, filtersFromQuery, filtersFromRequest, matrixCells, offerDto, resultItems } from '../services/results';
+import { buildFinale } from '../services/finale';
 import { referencePriceFor } from '../services/reference-price';
 import { loadReviewData, NO_REVIEW_DATA } from '../services/reviews';
 import { authorizedSearch } from './searches';
@@ -68,6 +73,12 @@ export const resultRoutes = new Hono<AppEnv>()
       },
       meta: { prices_fetched_at: fetched, sort: query.sort, cell },
     };
+    return c.json(body);
+  })
+  .get('/:id/finale', async (c) => {
+    const search = await authorizedSearch(c, c.req.param('id'));
+    const query = parseQuery(c, finaleQuerySchema);
+    const body: FinaleResponse = await buildFinale(c.get('deps').db(), search, searchRequestSchema.parse(search.request), query);
     return c.json(body);
   })
   .get('/:id/hotels/:hotelId', async (c) => {

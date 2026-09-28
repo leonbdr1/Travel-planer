@@ -1,0 +1,7 @@
+-- Verification for 20261011a_review_praise: one row for the praise column
+-- (jsonb, default '[]'), one row for its array constraint, and row security
+-- still enabled on review_checks.
+SELECT column_name, data_type, column_default, is_nullable FROM information_schema.columns
+ WHERE table_schema = 'app' AND table_name = 'review_checks' AND column_name = 'praise';
+SELECT conname FROM pg_constraint WHERE conname = 'review_checks_praise_array';
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'review_checks';

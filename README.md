@@ -2,7 +2,7 @@
 
 Der Nutzer beschreibt seinen Rahmen (Startort, maximale Fahrzeit, Themen, Zeitfenster, Reisemuster, Budget). Das Produkt schlägt Regionen und Orte aus einem geprüften Katalog vor, durchsucht alle Kombinationen aus Ort und Termin gleichzeitig, bewertet die Qualität ehrlich, erkennt Schnäppchen, prüft Rezensionen per KI und ermöglicht die Buchung über LiteAPI.
 
-> **Stand (28.09.2026):** funktional vollständige lokale Version, Meilensteine M1 bis M9 und der Smoke-Test aus M10: Suche über alle Orte und Termine, ehrliche Bewertung mit Schnäppchen, KI-Rezensionscheck mit Warnhinweisen, Buchung mit Stornierung, Pflichtseiten, Wartungsjobs und Watchdog. Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail, Zahlung) sind **simuliert** – es gibt keine echten Preise und keine echten Buchungen. Baustand je Slice: [`STATUS.md`](STATUS.md); was bis zum Go-Live fehlt: [`HANDOFF.md`](HANDOFF.md) und [`docs/runbooks/go-live-checkliste.md`](docs/runbooks/go-live-checkliste.md).
+> **Stand (28.09.2026):** funktional vollständige lokale Version, Meilensteine M1 bis M9, der Smoke-Test aus M10 und die Entscheidungshilfe aus M11: Suche über alle Orte und Termine, ehrliche Bewertung mit Schnäppchen, KI-Rezensionscheck mit Warnhinweisen, Ziel mit automatischer Vorauswahl und Finale („was der Aufpreis bringt“), Lob-Labels, Buchung mit Stornierung, Pflichtseiten, Wartungsjobs und Watchdog. Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail, Zahlung) sind **simuliert** – es gibt keine echten Preise und keine echten Buchungen. Baustand je Slice: [`STATUS.md`](STATUS.md); was bis zum Go-Live fehlt: [`HANDOFF.md`](HANDOFF.md) und [`docs/runbooks/go-live-checkliste.md`](docs/runbooks/go-live-checkliste.md).
 
 ## Schnellstart
 
@@ -19,10 +19,11 @@ Dann <http://localhost:5173> öffnen. `npm run dev` startet die lokale Datenbank
 
 > **Mit echten Hotels testen:** [`docs/runbooks/testbetrieb.md`](docs/runbooks/testbetrieb.md) (eigene Schlüssel für LiteAPI, optional openrouteservice und Anthropic; E-Mails simuliert, Buchen aus).
 
-1. **Suche starten:** Startort (z. B. Stuttgart), maximale Fahrzeit, Themen oder ein Freitextwunsch (z. B. „sauber, ruhig und Blick auf den See“), Zeitfenster, Nächte und Anreisetag. Die Seite zeigt live, wie viele Termine entstehen.
+1. **Suche starten:** Startort (z. B. Stuttgart), maximale Fahrzeit, Themen oder ein Freitextwunsch (z. B. „sauber, ruhig und Blick auf den See“), Zeitfenster, Nächte, Anreisetag und das Ziel („Günstig und sauber“, „Preis-Leistung“, „Komfort“). Die Seite zeigt live, wie viele Termine entstehen.
 2. **Orte bestätigen:** Regionsvorschläge mit Begründung, Ortsliste mit Fahrzeiten; eigene Orte lassen sich ergänzen (z. B. Füssen).
-3. **Ergebnisse:** Preis-Matrix über alle Orte und Termine, Rangliste nach bestem Angebot, Preis oder Bewertung, Filter ohne neue Suche, Schnäppchen mit Begründung. In der simulierten Welt hat etwa „Hotel Schwanen“ in Füssen einen Warnhinweis „Schimmel“ aus dem Rezensionscheck.
-4. **Buchen:** Angebot wählen, Gastdaten, simulierte Zahlung, Bestätigung mit Buchungsnummer; unter „Meine Buchung“ ansehen und kostenlos stornieren. Ein Nachname mit „Fehler“ simuliert eine abgelehnte Buchung.
+3. **Deine Auswahl:** Das Programm sortiert aus, was nicht zum Ziel passt (zu teuer, zu schwach bewertet, Warnsignale wie Schimmel, Sterne-Falle, es gibt ein besseres Angebot), und zeigt höchstens vier Unterkünfte, die günstigste zuerst, bei den anderen den Aufpreis und was er bringt. Keine Empfehlung; das Ziel lässt sich ohne neue Suche wechseln.
+4. **Alle Angebote:** Preis-Matrix über alle Orte und Termine, Rangliste nach bestem Angebot, Preis oder Bewertung, Filter ohne neue Suche (Sterne und Mindestbewertung unter „Weitere Filter“), Schnäppchen mit Begründung, Lob-Labels wie „Gutes Frühstück“. In der simulierten Welt hat etwa „Hotel Schwanen“ in Füssen einen Warnhinweis „Schimmel“ aus dem Rezensionscheck.
+5. **Buchen:** Angebot wählen, Gastdaten, simulierte Zahlung, Bestätigung mit Buchungsnummer; unter „Meine Buchung“ ansehen und kostenlos stornieren. Ein Nachname mit „Fehler“ simuliert eine abgelehnte Buchung.
 
 Es entstehen weder Kosten noch echte E-Mails; der gelbe Balken oben erinnert daran.
 

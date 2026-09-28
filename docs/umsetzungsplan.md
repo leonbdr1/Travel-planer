@@ -9,7 +9,7 @@
 
 ## 0. So ist dieser Plan zu lesen
 
-- **Meilensteine** M1 bis M10, der Reihe nach. M1 ist das lauffähige Grundgerüst, M2 ein Go/No-Go-Punkt.
+- **Meilensteine** M1 bis M10, der Reihe nach. M1 ist das lauffähige Grundgerüst, M2 ein Go/No-Go-Punkt. M11 (Entscheidungshilfe) ist am 28.09.2026 dazugekommen und wird vor dem Go-Live gebaut.
 - Jeder Meilenstein besteht aus **Operator-Schritten** `O<m>.<n>` (Operator-Lane: interaktive Sitzung mit Ben, siehe `architektur.md` 14.1) und **Slices** `S<m>.<n>` (Fleet-Lane).
 - **Jede Aufgabe** ist eine Checkbox mit vier Angaben: *Deliverable*, *Wiring* (realer Aufrufer → Modul → realer Konsument), *Demo* (Kommando über den realen Einstiegspunkt und Soll-Ausgabe), *STATUS* (welche Zeile auf welchen Reifegrad geht).
 - **Abhaken:** `- [x] … (<commit-hash>, <datum>)`. Eine Aufgabe ohne Hash gilt als nicht erledigt.
@@ -98,6 +98,7 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 | BG-17 | Aufbewahrungsfristen Gastdaten, Rolle von LiteAPI/Nuitée im Datenschutz | 90 Tage vorläufig; Anwalt | M9 |
 | BG-18 | Verifikation der Competitor-Baseline (Maximum-Messlatte) | Recherche vor M5, danach Codex-Review des One-Pagers | M5 |
 | BG-19 | Zielwert der Skill-Evals | 90 % | M4, M7 |
+| BG-20 | OpenStreetMap (Overpass) als neue Datenquelle für Lage-Fakten im Finale (Haltestelle, belebte Umgebung) | erst nach dem Testbetrieb entscheiden; Quellenangabe OSM steht schon auf „So funktioniert's“ | S11.5 |
 
 ## 4. Meilensteine
 
@@ -552,6 +553,46 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Abnahme M10:** Produktion erreichbar; Smoke grün; echte Buchung und Stornierung belegt; Watchdog-Alarm empfangen; Go-Live-Checkliste vollständig abgehakt.
 **Rollback:** `wrangler rollback`; `BOOKING_ENABLED=false` und `SEARCH_ENABLED=false` als Notbremse; Migrationen per Vorwärts-Korrektur.
 
+---
+
+### M11 Entscheidungshilfe: Ziel, Vorauswahl, Finale, Lob-Labels
+
+**Ziel:** F15 bis F17 (`konzept.md` Fassung 4, Abschnitte 9.9 bis 9.11; `architektur.md` 6.15). Eingeschoben am 28.09.2026 nach Bens Vorgabe: Das Programm sortiert aus, was nicht zum Ziel passt, und zeigt zwischen den übrigen Unterkünften, was der Aufpreis bringt; die Entscheidung trifft der Nutzer. M10 wartet ohnehin auf Konten und Freigaben.
+**Voraussetzungen:** keine neuen BEN-GATEs außer ⛔ BG-20 für S11.5.
+
+**S11.1 Ziel und automatische Vorauswahl** (Fleet-Lane)
+- [ ] `goal` im SearchRequest (optional, ohne Angabe „Preis-Leistung“); `packages/domain/src/preselect.ts` mit den Regeln aus 6.15 und Zählung je Grund; Kandidaten des Rezensionschecks nach Ziel statt nach Rang; `GET /searches/{id}/finale` mit denselben Filtern wie `/results` und `goal`.
+  - Wiring: Workflow-Schritt `reviews-fetch` → `reviewCandidateIds` → Rezensionscheck; Route `/finale` → `loadReviewData` (Belege je Haus) → `preselect` → `compareFinalists` → Antwort.
+  - Demo: `npm run demo -- s11.1` → Suche „Günstig und sauber“ über drei Orte: Aussortierte je Grund, Finalisten günstigste zuerst, alle Finalisten geprüft, 4-Sterne-Häuser mit schwacher Bewertung nicht im Finale; Gründe + Finalisten + Nachrücker = Unterkünfte.
+  - STATUS: „Ziel und Vorauswahl“ → `demonstrated`.
+
+**S11.2 Lob-Labels** (Fleet-Lane)
+- [ ] `praise-lexicon.yaml` in fünf Sprachen → `generated/praise-lexicon.ts`; `countPraise` und `praiseLabels` in `packages/domain/src/praise.ts`; Migration `20261011a_review_praise` mit pgTAP; Zählung im Schritt `reviews-fetch`; Labels in Liste, Finale und Detailansicht („Was Gäste loben“ mit Zahlen); simulierte Welt mit Stärken je Haus und heruntergekommenen 4-Sterne-Häusern zum Billigpreis.
+  - Wiring: `reviews-fetch` → `countPraise` → `review_checks.praise` → `loadReviewData` → `/results`, `/finale`, Detailansicht → `PraiseLabels`.
+  - Demo: `npm run demo -- s11.2` → Füssen: Unterkünfte mit Labels, Detail mit „× gelobt, × kritisiert“, Hotel Schwanen (Schimmel) ohne „Besonders sauber“.
+  - STATUS: „Lob-Labels“ → `live-verified` (Walkthrough `finale`).
+
+**S11.3 Finale mit Aufpreis-Vergleich** (Fleet-Lane)
+- [ ] `packages/domain/src/finale.ts` und `features.ts`; Ergebnisseite oben „Deine Auswahl“: Zielwechsel ohne neue Suche, Aussortiertes mit Gründen (aufklappbar), bis zu vier Karten, die günstigste zuerst, mit Aufpreis, „Dafür“ und „Dafür nicht“, Qualitätsabstand, Lage zur Ortsmitte, anderer Ort oder Termin; keine Empfehlung.
+  - Wiring: `ResultsView` → `FinaleView` → `GET /finale` mit den angewandten Filtern der Liste.
+  - Demo: `npm run demo -- s11.3` → je Ziel die Finalisten mit Vergleichszeilen; `npm run dogfood -- --mode P --flow finale`.
+  - STATUS: „Finale“ → `live-verified`.
+
+**S11.4 Einfaches Suchformular, Doku und Walkthrough** (Fleet-Lane)
+- [ ] Ziel als ein Tipp im Suchformular; Sterne und Mindestbewertung nur noch als „Weitere Filter“ im Ergebnis; `architektur.md` 6.15; Walkthrough-Ablauf `finale`; bestehende Abläufe angepasst.
+  - Wiring: `StepFrame` → `WizardState.goal` → `toSearchRequest` → `POST /searches` → Workflow und `/finale`.
+  - Demo: `npm run demo -- s11.4` → Ziel „Komfort“ gespeichert und im Finale wirksam, ohne Ziel „Preis-Leistung“, unbekanntes Ziel 400, Sterne als Ergebnisfilter.
+  - STATUS: „Suchformular mit Ziel“ → `live-verified`.
+
+**S11.5 Lage-Fakten im Finale** (Fleet-Lane, ⛔ BG-20)
+- [ ] Haltestelle in Gehweite und belebte Umgebung (Gastronomie in der Nähe) aus OpenStreetMap (Overpass), zwischengespeichert, nur für die Finalisten.
+  - Wiring: `/finale` → OSM-Port mit Fake → Merkmale im Vergleich.
+  - Demo: nach der Freigabe festzulegen.
+  - STATUS: „Lage-Fakten“ → `spec'd`.
+
+**Abnahme M11:** F15 bis F17 erfüllt; jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund; Sterne-Fallen und Warnsignale erreichen das Finale nicht; Walkthrough `finale` gelesen.
+**Rollback:** Die Liste „Alle Angebote“ bleibt vollständig; das Finale ist eine zusätzliche Sicht und lässt sich in `ResultsView` ausblenden.
+
 ## 5. Nach dem Go-Live
 
 - Die Maximum-Messlatte wird zum Revisit-Termin erneut geprüft (`konzept.md` 5.1).
@@ -564,3 +605,4 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 |---|---|---|
 | 2026-09-26 | 1 | Erster Plan auf Basis von Python/FastAPI auf eigenem Server |
 | 2026-09-26 | 2 | Neufassung auf der Firmenplattform (Cloudflare, Supabase, Claude-Skills) im fi-deck-Plan-Format mit Operator- und Fleet-Lane |
+| 2026-09-28 | 2 (Ergänzung) | M11 Entscheidungshilfe (Ziel, Vorauswahl, Finale, Lob-Labels) nach Bens Vorgabe; BG-20 für OpenStreetMap |

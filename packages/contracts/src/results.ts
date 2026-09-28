@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { goalSchema } from './searches';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -41,6 +42,13 @@ export const warningSchema = z.object({
 });
 export type WarningDto = z.infer<typeof warningSchema>;
 
+/** A praise label such as "Gutes Frühstück" (konzept.md 9.11), counted from reviews without AI. */
+export const praiseLabelSchema = z.object({ topic: z.string(), label: z.string() });
+export type PraiseLabelDto = z.infer<typeof praiseLabelSchema>;
+
+/** Evidence line of the detail view: "Frühstück: 23× gelobt, 2× kritisiert". */
+export const praiseCountSchema = z.object({ topic: z.string(), label: z.string(), praised: z.number().int(), criticized: z.number().int() });
+
 export const reviewCheckSchema = z.object({
   status: z.enum(['ok', 'no_reviews', 'skipped_budget', 'failed']),
   /** The skill checked keyword hits (label as AI-assisted analysis). */
@@ -49,6 +57,8 @@ export const reviewCheckSchema = z.object({
   recent_rating: z.number().nullable(),
   recent_count: z.number().int(),
   warnings: z.array(warningSchema),
+  labels: z.array(praiseLabelSchema),
+  praise: z.array(praiseCountSchema),
   checked_at: z.string(),
 });
 export type ReviewCheckDto = z.infer<typeof reviewCheckSchema>;
@@ -98,6 +108,8 @@ export const resultItemSchema = z.object({
   review_status: z.enum(['none', 'ok', 'unverified']),
   /** Reviews analysed by the review check, null without a check. */
   reviews_checked: z.number().int().nullable(),
+  /** Praise labels, the most praised first (the list shows the first few). */
+  labels: z.array(praiseLabelSchema),
 });
 export type ResultItem = z.infer<typeof resultItemSchema>;
 
@@ -166,6 +178,60 @@ export const hotelDetailResponseSchema = z.object({
   occupancy: z.object({ rooms: z.number().int(), adults: z.number().int(), children: z.number().int() }),
 });
 export type HotelDetailResponse = z.infer<typeof hotelDetailResponseSchema>;
+
+/**
+ * GET /searches/{id}/finale?goal=&… (konzept.md 9.9, 9.10; architektur.md
+ * 6.15): the same filter parameters as the results, plus the goal. Without a
+ * goal the search's own goal applies.
+ */
+export const finaleQuerySchema = resultsQuerySchema
+  .pick({ budget: true, min_stars: true, min_rating: true, min_reviews: true, refundable: true, board: true, types: true, chips: true })
+  .extend({ goal: goalSchema.optional() });
+
+export const offerFeatureSchema = z.object({ code: z.string(), label: z.string() });
+export type OfferFeatureDto = z.infer<typeof offerFeatureSchema>;
+
+export const exclusionReasonSchema = z.enum(['filters', 'no_reviews', 'red_flag', 'star_trap', 'low_quality', 'too_expensive', 'dominated']);
+export type ExclusionReasonCode = z.infer<typeof exclusionReasonSchema>;
+
+export const finalistSchema = z.object({
+  hotel: hotelSummarySchema,
+  offer: offerDtoSchema,
+  quality: qualityDtoSchema,
+  warnings: z.array(warningSchema),
+  review_status: z.enum(['none', 'ok', 'unverified']),
+  labels: z.array(praiseLabelSchema),
+  /** Everything the offer brings (facilities, meals, free cancellation, praise labels). */
+  features: z.array(offerFeatureSchema),
+  /** Surcharge against the cheapest finalist; 0 for the cheapest itself. */
+  price_delta_eur: z.number(),
+  /** Brings, compared with the cheapest finalist. */
+  gains: z.array(offerFeatureSchema),
+  /** Lacks, compared with the cheapest finalist. */
+  losses: z.array(offerFeatureSchema),
+  /** Quality difference to the cheapest finalist, only when large enough to mention. */
+  quality_delta: z.number().nullable(),
+  other_place: z.boolean(),
+  other_dates: z.boolean(),
+  center_distance_km: z.number().nullable(),
+  location: z.enum(['kern', 'ort', 'ausserhalb']).nullable(),
+});
+export type FinalistDto = z.infer<typeof finalistSchema>;
+
+export const finaleResponseSchema = z.object({
+  search: z.object({ id: z.string(), status: z.enum(['queued', 'running', 'reviewing', 'done', 'partial', 'failed']) }),
+  goal: goalSchema,
+  filters: effectiveFiltersSchema,
+  /** At most four, one offer per house, the cheapest first. No recommendation. */
+  finalists: z.array(finalistSchema),
+  /** Houses the program sorted out, per reason (a house counts for its first reason). */
+  excluded: z.record(exclusionReasonSchema, z.number().int()),
+  /** Houses that fit but did not make it into the finale. */
+  runners_up: z.number().int(),
+  /** Houses with at least one offer in the search. */
+  hotels: z.number().int(),
+});
+export type FinaleResponse = z.infer<typeof finaleResponseSchema>;
 
 /** GET /searches/{id}/hotels/{hotel_id}/reference-price?offer_id= (architektur.md 7.2). */
 export const referencePriceQuerySchema = z.object({

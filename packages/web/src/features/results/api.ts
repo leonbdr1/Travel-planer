@@ -1,4 +1,4 @@
-import { hotelDetailResponseSchema, referencePriceResponseSchema, searchResultsResponseSchema } from '@reiseplaner/contracts';
+import { finaleResponseSchema, hotelDetailResponseSchema, referencePriceResponseSchema, searchResultsResponseSchema } from '@reiseplaner/contracts';
 import { apiRequest } from '../../api/client';
 
 export type ResultsParams = Record<string, string>;
@@ -6,6 +6,15 @@ export type ResultsParams = Record<string, string>;
 export function fetchResults(id: string, token: string, params: ResultsParams, signal?: AbortSignal) {
   const query = new URLSearchParams(params).toString();
   return apiRequest(`/searches/${encodeURIComponent(id)}/results${query ? `?${query}` : ''}`, searchResultsResponseSchema, {
+    headers: { 'X-Search-Token': token },
+    ...(signal ? { signal } : {}),
+  });
+}
+
+/** Finale for the goal (without one: the search's own goal) and the same filters as the list. */
+export function fetchFinale(id: string, token: string, params: ResultsParams, signal?: AbortSignal) {
+  const query = new URLSearchParams(params).toString();
+  return apiRequest(`/searches/${encodeURIComponent(id)}/finale${query ? `?${query}` : ''}`, finaleResponseSchema, {
     headers: { 'X-Search-Token': token },
     ...(signal ? { signal } : {}),
   });

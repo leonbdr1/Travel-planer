@@ -1,0 +1,44 @@
+$ npm run demo -- s11.3
+# recorded 2026-09-28T14:08:47.519Z
+
+starting local stack …
+Suche: Füssen, Oberstdorf, Sonthofen × Freitage 2.–16.10., Ziel „Günstig und sauber“; danach Zielwechsel ohne neue Suche
+  Günstig und sauber: 2 Finalisten (0 ohne Rezensionscheck), 34 aussortiert, davon 5 mit Warnsignalen, 0 weitere passende
+    - Hotel Adler ★★ · Qualität 8,1 · 103 € · Sonthofen 2026-10-02
+      außerhalb (3,5 km)
+      Lob: Freundliches Personal, Gute Lage, Besonders sauber
+      günstigste der Auswahl
+    - Ferienwohnung Sonnenhof · Qualität 7,2 · 118 € · Füssen 2026-10-02
+      im Ort (1,9 km)
+      +16 € gegenüber Hotel Adler · dafür: kostenlos stornierbar, Sauna oder Wellness, Küche · dafür nicht: Frühstück inklusive, Freundliches Personal, Gute Lage, Besonders sauber · Bewertung −0,9 · anderer Ort
+  Preis-Leistung: 3 Finalisten (0 ohne Rezensionscheck), 33 aussortiert, davon 5 mit Warnsignalen, 0 weitere passende
+    - Hotel Adler ★★ · Qualität 8,1 · 103 € · Sonthofen 2026-10-02
+      außerhalb (3,5 km)
+      Lob: Freundliches Personal, Gute Lage, Besonders sauber
+      günstigste der Auswahl
+    - Pension Waldesruh · Qualität 8,0 · 172 € · Füssen 2026-10-16
+      im Ortskern
+      Lob: Schöne Aussicht, Besonders sauber
+      +70 € gegenüber Hotel Adler · dafür: kostenlos stornierbar, Schöne Aussicht, Familienzimmer, Restaurant im Haus · dafür nicht: Schwimmbad, Freundliches Personal, Gute Lage, Parkplatz · anderer Ort · anderer Termin
+    - Landhotel Bären ★★★ · Qualität 7,6 · 179 € · Füssen 2026-10-09
+      außerhalb (4,7 km)
+      +76 € gegenüber Hotel Adler · dafür: kostenlos stornierbar, Familienzimmer, Barrierefrei · dafür nicht: Schwimmbad, Freundliches Personal, Gute Lage, Besonders sauber, Parkplatz · Bewertung −0,5 · anderer Ort · anderer Termin
+  Komfort: 4 Finalisten (0 ohne Rezensionscheck), 32 aussortiert, davon 5 mit Warnsignalen, 0 weitere passende
+    - Hotel Enzian ★★★★ · Qualität 8,4 · 235 € · Sonthofen 2026-10-09
+      außerhalb (4,1 km)
+      Lob: Gute Lage
+      günstigste der Auswahl
+    - Pension Kaiserblick ★★★ · Qualität 8,4 · 250 € · Oberstdorf 2026-10-02
+      außerhalb (5,3 km)
+      Lob: Freundliches Personal, Bequeme Betten
+      +15 € gegenüber Hotel Enzian · dafür: kostenlos stornierbar, Sauna oder Wellness, Freundliches Personal, Bequeme Betten, Barrierefrei, E-Ladestation · dafür nicht: Gute Lage, Hund erlaubt · anderer Ort · anderer Termin
+    - Boutique-Hotel Hirsch ★★★★ · Qualität 8,5 · 252 € · Sonthofen 2026-10-16
+      außerhalb (5,8 km)
+      Lob: Schöne Aussicht, Besonders sauber, Freundliches Personal
+      +17 € gegenüber Hotel Enzian · dafür: Sauna oder Wellness, Schöne Aussicht, Besonders sauber, Freundliches Personal · dafür nicht: Gute Lage, Hund erlaubt · anderer Termin
+    - Pension Sonnenhof ★★★ · Qualität 9,0 · 306 € · Sonthofen 2026-10-02
+      außerhalb (5,6 km)
+      Lob: Ruhig, Freundliches Personal
+      +72 € gegenüber Hotel Enzian · dafür: Sauna oder Wellness, Ruhig, Freundliches Personal · dafür nicht: Gute Lage, Hund erlaubt, Familienzimmer · Bewertung +0,6 · anderer Termin
+  Vergleichszeilen mit Unterschieden: 6; Finalisten ohne Rezensionscheck über alle Ziele: 0
+→ Je Ziel: günstigste zuerst, Aufpreis = Preisdifferenz, Unterschiede benannt, alle Finalisten geprüft, keine Empfehlung

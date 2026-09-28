@@ -345,16 +345,19 @@ export interface SearchPlaceRow {
   name: string;
   driveMinutes: number | null;
   source: 'suggested' | 'user';
+  /** Centre of the place (distance of a house to the centre, architektur.md 6.15). */
+  lat: number;
+  lng: number;
 }
 
 export async function searchPlaces(db: Queryable, searchId: string): Promise<SearchPlaceRow[]> {
-  const rows = await db.query<{ place_id: string; name: string; drive_minutes: number | null; source: 'suggested' | 'user' }>(
-    `SELECT sp.place_id::text AS place_id, p.name, sp.drive_minutes, sp.source
+  const rows = await db.query<{ place_id: string; name: string; drive_minutes: number | null; source: 'suggested' | 'user'; lat: number; lng: number }>(
+    `SELECT sp.place_id::text AS place_id, p.name, sp.drive_minutes, sp.source, p.lat::float8 AS lat, p.lng::float8 AS lng
        FROM app.search_places sp JOIN app.places p ON p.id = sp.place_id
       WHERE sp.search_id = $1::uuid ORDER BY sp.sort`,
     [searchId],
   );
-  return rows.map((r) => ({ placeId: r.place_id, name: r.name, driveMinutes: r.drive_minutes, source: r.source }));
+  return rows.map((r) => ({ placeId: r.place_id, name: r.name, driveMinutes: r.drive_minutes, source: r.source, lat: Number(r.lat), lng: Number(r.lng) }));
 }
 
 /** Matrix cells for the progress view: state and cheapest total per place × date. */
@@ -419,6 +422,8 @@ export interface EvaluationHotelRow {
   hotelType: string | null;
   mainPhotoUrl: string | null;
   facilityIds: number[];
+  lat: number | null;
+  lng: number | null;
 }
 
 /** Everything the evaluation needs: offers with place and dates, hotels, combination states. */
@@ -569,9 +574,11 @@ export async function loadEvaluationData(db: Queryable, searchId: string) {
     hotel_type: string | null;
     main_photo_url: string | null;
     facility_ids: number[];
+    lat: number | null;
+    lng: number | null;
   }>(
     `SELECT h.id, h.name, h.address, h.city, h.stars::float8 AS stars, h.rating::float8 AS rating, h.review_count, h.hotel_type,
-            h.main_photo_url, h.facility_ids
+            h.main_photo_url, h.facility_ids, h.lat::float8 AS lat, h.lng::float8 AS lng
        FROM app.hotels h WHERE h.id IN (SELECT DISTINCT hotel_id FROM app.offers WHERE search_id = $1::uuid)`,
     [searchId],
   );
@@ -616,6 +623,8 @@ export async function loadEvaluationData(db: Queryable, searchId: string) {
         hotelType: h.hotel_type,
         mainPhotoUrl: h.main_photo_url,
         facilityIds: h.facility_ids.map(Number),
+        lat: h.lat === null ? null : Number(h.lat),
+        lng: h.lng === null ? null : Number(h.lng),
       }),
     ),
     combinations: combinations.map((c) => ({

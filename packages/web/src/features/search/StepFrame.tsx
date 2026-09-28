@@ -1,10 +1,12 @@
-// Step 1: search frame (F1): start location, drive time, themes, time window,
-// travel pattern with live date count, travellers, budget, minimum standard,
-// wish chips and free text translated by AI (with the visible AI notice).
+// Step 1: search frame (F1, F15): start location, drive time, themes, time
+// window, travel pattern with live date count, travellers, budget, goal (one
+// tap), wish chips and free text translated by AI (with the visible AI
+// notice). Stars and rating minimums are "Weitere Filter" in the results.
 import { useCallback, useMemo, useState } from 'react';
 import type { LocalityDto, MetaConfigResponse } from '@reiseplaner/contracts';
 import { AiLabel, Alert, Button, Card, Chip, Description, ErrorMessage, Fieldset, Input, Label, Select, Textarea } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
+import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchLocalities, parseWish } from './api';
@@ -12,8 +14,6 @@ import { stayDates, toggle, type WizardState } from './state';
 
 const t = de.wizard.frame;
 const DRIVE_OPTIONS = [60, 90, 120, 150, 180, 240, 300, 360];
-const STAR_OPTIONS = [2, 3, 4, 5];
-const RATING_OPTIONS = [7, 7.5, 8, 8.5, 9];
 const MAX_CHILD_AGE = 17;
 
 type Update = (patch: Partial<WizardState>) => void;
@@ -285,37 +285,10 @@ export function StepFrame({
             />
             <Description>{t.budgetHint}</Description>
           </div>
-          <div>
-            <Label htmlFor="min-stars">{t.minStars}</Label>
-            <Select
-              id="min-stars"
-              className="mt-2"
-              value={state.minStars ?? ''}
-              onChange={(e) => update({ minStars: e.target.value === '' ? null : Number(e.target.value) })}
-            >
-              <option value="">{t.any}</option>
-              {STAR_OPTIONS.map((n) => (
-                <option key={n} value={n}>
-                  {`${n}+`}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <div>
-            <Label htmlFor="min-rating">{t.minRating}</Label>
-            <Select
-              id="min-rating"
-              className="mt-2"
-              value={state.minRating ?? ''}
-              onChange={(e) => update({ minRating: e.target.value === '' ? null : Number(e.target.value) })}
-            >
-              <option value="">{t.any}</option>
-              {RATING_OPTIONS.map((n) => (
-                <option key={n} value={n}>
-                  {`${n.toLocaleString('de-DE')}+`}
-                </option>
-              ))}
-            </Select>
+          <div className="space-y-2 sm:col-span-2" data-testid="goal">
+            <p className="text-sm/6 font-medium text-zinc-950">{de.goals.label}</p>
+            <GoalSwitch value={state.goal} onChange={(goal) => update({ goal })} />
+            <Description>{t.goalHint}</Description>
           </div>
         </div>
       </Card>

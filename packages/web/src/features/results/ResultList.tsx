@@ -1,11 +1,13 @@
-// Result list (F10): every hotel once with its best offer: name, place, dates,
-// total price, quality, bargain reason, warnings, cancellation.
+// Result list (F10, F17): every hotel once with its best offer: name, place,
+// dates, total price, quality, praise labels, bargain reason, warnings,
+// cancellation.
 import { Link } from 'react-router';
 import type { ResultItem } from '@reiseplaner/contracts';
 import { constants } from '@reiseplaner/domain';
 import { AiLabel, Badge, Card, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDateTime, formatEuro, formatEuroCents, formatScore, formatStay } from '../../lib/format';
+import { PraiseLabels } from './PraiseLabels';
 
 const t = de.results;
 const rc = de.reviewCheck;
@@ -56,6 +58,7 @@ export function ResultList({
                 <p className="text-sm text-zinc-600">
                   {o.room_name} · {t.boardNames[o.board_type]} · {cancellationText(o.refundable, o.free_cancel_until)}
                 </p>
+                <PraiseLabels labels={item.labels} max={constants.PRAISE_MAX_LABELS_LIST} />
                 {o.bargain ? (
                   <p className="text-sm" data-testid="bargain-reason">
                     <Badge tone="bargain">{t.bargain}</Badge> <span className="font-medium text-emerald-800">{o.bargain.reason}</span>

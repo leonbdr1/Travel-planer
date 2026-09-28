@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test';
 import type { Flow } from '../types';
 
-/** Wizard steps 1–3 for 5 places × n Fridays (12 by default: 60 combinations). */
-export async function prepareSixtyCombinations(page: Page, baseUrl: string, windowEnd = '2026-12-20', dates = 12) {
+/** Wizard step 1: Stuttgart, Fridays from 1 October, 2 nights, hiking; optionally a goal (its button label). */
+export async function fillSearchFrame(page: Page, baseUrl: string, windowEnd: string, dates: number, goal?: string) {
   await page.goto(`${baseUrl}/suche`);
   await page.evaluate(() => sessionStorage.clear());
   await page.goto(`${baseUrl}/suche`);
@@ -14,6 +14,17 @@ export async function prepareSixtyCombinations(page: Page, baseUrl: string, wind
   await page.locator('#max-drive').selectOption('180');
   await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();
   await page.getByTestId('date-count').filter({ hasText: `${dates} Termine` }).waitFor();
+  if (goal) await page.getByTestId('goal-switch').getByRole('radio', { name: goal }).click();
+}
+
+/** Wizard steps 1–3 for 5 places × n Fridays (12 by default: 60 combinations). */
+export async function prepareSixtyCombinations(page: Page, baseUrl: string, windowEnd = '2026-12-20', dates = 12) {
+  await fillSearchFrame(page, baseUrl, windowEnd, dates);
+  await choosePlaces(page, dates);
+}
+
+/** Wizard steps 2–3 from a filled frame: the first 5 suggested places, confirmed. */
+export async function choosePlaces(page: Page, dates: number) {
   await page.getByTestId('frame-next').click();
   await page.getByTestId('region-card').first().waitFor({ timeout: 30_000 });
   await page.getByTestId('regions-next').click();
