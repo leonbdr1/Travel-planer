@@ -12,6 +12,7 @@
     "@reiseplaner/contracts": "0.0.0",
     "@reiseplaner/db": "0.0.0",
     "@reiseplaner/domain": "0.0.0",
+    "@reiseplaner/ops-worker": "0.0.0",
     "@reiseplaner/providers": "0.0.0",
     "@reiseplaner/skills": "0.0.0",
     "@reiseplaner/worker": "0.0.0",

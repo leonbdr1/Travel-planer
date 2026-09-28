@@ -49,6 +49,10 @@ export const productConfigSchema = z.strictObject({
   /** Recipient of operational alerts (look-to-book watch, budgets, watchdog). */
   ops: z.strictObject({
     alert_email: z.email(),
+    health_timeout_s: positiveInt,
+    alert_cooldown_hours: positiveInt,
+    /** Heartbeat jobs of the app worker (cron jobs, search workflow) and their maximum age. */
+    heartbeat_max_age_min: z.record(z.string().regex(/^[a-z0-9-]{1,40}$/), positiveInt),
   }),
   /** Sender of transactional e-mails (Resend, architektur.md E10); replies go to support. */
   mail: z.strictObject({

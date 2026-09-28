@@ -1,0 +1,30 @@
+# Live-Verdrahtung im lokalen workerd: App-Stack (npm run dev, Port 4183) und Ops-Worker (wrangler dev, Port 8788, --test-scheduled), 2026-09-28T07:45Z
+
+## 1. Heartbeats über die echte Sendefunktion der App (packages/worker/src/services/heartbeat.ts)
+sendHeartbeat(daily) mit OPS_HB_TOKEN → true; mit falschem Token → false
+sendHeartbeat(outbox-retry) mit OPS_HB_TOKEN → true; mit falschem Token → false
+sendHeartbeat(cache-cleanup) mit OPS_HB_TOKEN → true; mit falschem Token → false
+sendHeartbeat(search-workflow) mit OPS_HB_TOKEN → true; mit falschem Token → false
+
+## 2. Cron des Ops-Workers (/__scheduled), App gesund
+GET /__scheduled?cron=*/15 * * * * → 200
+
+## 3. GET /status (Bearer OPS_HB_TOKEN)
+{"last_run": {"at": "2026-09-28T07:45:45.377Z", "checks": {"health": {"status": "ok", "detail": "HTTP 200"}, "heartbeat:outbox-retry": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}, "heartbeat:cache-cleanup": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}, "heartbeat:daily": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}, "heartbeat:search-workflow": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}}, "events": [], "mail": "none"}, "heartbeats": {"outbox-retry": {"at": "2026-09-28T07:45:43.797Z", "age_min": 0, "max_age_min": 30}, "cache-cleanup": {"at": "2026-09-28T07:45:44.599Z", "age_min": 0, "max_age_min": 180}, "daily": {"at": "2026-09-28T07:45:43.038Z", "age_min": 0, "max_age_min": 1560}, "search-workflow": {"at": "2026-09-28T07:45:45.321Z", "age_min": 0, "max_age_min": 1440}}}
+
+## 4. App-Stack beendet (Ausfall), Cron des Ops-Workers
+App GET /api/v1/health → 000
+GET /__scheduled → 200
+Log des Ops-Workers:
+  {"level":"info","msg":"alert mail not sent (local)","subject":"[KRITISCH] Reiseplaner: Health-Check der App"}
+  {"level":"info","msg":"watchdog run","failing":["health"],"events":1,"mail":"logged"}
+
+## 5. App-Stack neu gestartet, Cron des Ops-Workers
+App GET /api/v1/health → 200
+GET /__scheduled → 200
+Log des Ops-Workers:
+  {"level":"info","msg":"alert mail not sent (local)","subject":"[WIEDER IN ORDNUNG] Reiseplaner: Health-Check der App"}
+  {"level":"info","msg":"watchdog run","failing":[],"events":1,"mail":"logged"}
+
+## 6. Zustand nach dem Lauf
+{"at": "2026-09-28T07:46:14.193Z", "checks": {"health": {"status": "ok", "detail": "HTTP 200"}, "heartbeat:outbox-retry": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}, "heartbeat:cache-cleanup": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}, "heartbeat:daily": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}, "heartbeat:search-workflow": {"status": "ok", "detail": "letzter Heartbeat ist 0 Min. alt"}}, "events": [{"check": "health", "kind": "recovered", "severity": null}], "mail": "logged"}

@@ -6,7 +6,7 @@ import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep, type Workflo
 import { productConfig } from '@reiseplaner/config';
 import { createRequestDeps } from '../deps';
 import { parseRuntimeConfig, type Env } from '../env';
-import { sendHeartbeat } from '../services/heartbeat';
+import { SEARCH_WORKFLOW_HEARTBEAT_JOB, sendHeartbeat } from '../services/heartbeat';
 import { runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../services/reviews';
 import { runFinalize, runLoad, runRatesBlock, runScoreStep } from '../services/search-run';
 
@@ -57,7 +57,10 @@ export class SearchWorkflow extends WorkflowEntrypoint<Env, SearchParams> {
     const final = await step.do('finalize', STEP, () =>
       withSearchDeps(this.env, async (d) => {
         const result = await runFinalize(d, searchId);
-        await sendHeartbeat({ url: this.env.OPS_HEARTBEAT_URL, token: this.env.OPS_HB_TOKEN }, 'search-workflow', { status: result.status });
+        // The watchdog tracks the last successful search ("partial" still delivered results).
+        if (result.status !== 'failed') {
+          await sendHeartbeat({ url: this.env.OPS_HEARTBEAT_URL, token: this.env.OPS_HB_TOKEN }, SEARCH_WORKFLOW_HEARTBEAT_JOB, { status: result.status });
+        }
         return result;
       }),
     );

@@ -54,7 +54,15 @@ export const productConfig: ProductConfig = {
     "response_time_hours": 48
   },
   "ops": {
-    "alert_email": "betrieb@reiseplaner.example"
+    "alert_email": "betrieb@reiseplaner.example",
+    "health_timeout_s": 10,
+    "alert_cooldown_hours": 4,
+    "heartbeat_max_age_min": {
+      "outbox-retry": 30,
+      "cache-cleanup": 180,
+      "daily": 1560,
+      "search-workflow": 1440
+    }
   },
   "mail": {
     "from_name": "Reiseplaner",

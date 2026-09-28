@@ -1,6 +1,9 @@
 // Heartbeats to the ops worker (architektur.md 6.12, 13): every cron job and
 // finished search reports that it ran. Best effort: without configuration
 // (local) nothing is sent, and a failing heartbeat never fails the job.
+/** Heartbeat of the search workflow; sent only when a search finished successfully. */
+export const SEARCH_WORKFLOW_HEARTBEAT_JOB = 'search-workflow';
+
 export interface HeartbeatConfig {
   url?: string | undefined;
   token?: string | undefined;

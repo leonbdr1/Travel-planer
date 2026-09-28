@@ -22,9 +22,6 @@ export const LOOK_TO_BOOK_WINDOW_DAYS = 7;
 export const LOOK_TO_BOOK_THROTTLED_MAX_COMBINATIONS = 40;
 /** Review invitations go out from the day after checkout, at most this many days late. */
 export const REVIEW_INVITE_MAX_DELAY_DAYS = 14;
-/** Heartbeats may be this late before the ops worker alarms, per job (minutes). */
-export const HEARTBEAT_STALE_AFTER_MIN = { 'outbox-retry': 30, 'cache-cleanup': 180, daily: 26 * 60 } as const;
-export const THROTTLED_MAX_COMBINATIONS = 60;
 
 export const PREFILTER_KM_PER_MIN = 1.2;
 export const ORIGIN_CELL_DEG = 0.02;

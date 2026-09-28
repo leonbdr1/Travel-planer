@@ -52,9 +52,19 @@ support:
   email: support@reiseplaner.example
   response_time_hours: 48
 
-# Empfänger von Betriebsalarmen (Such-zu-Buchungs-Wächter, Budgets, Watchdog).
+# Empfänger von Betriebsalarmen (Such-zu-Buchungs-Wächter, Budgets, Watchdog)
+# und Schwellen des Watchdogs reiseplaner-ops (architektur.md 15, läuft alle 15 Minuten).
 ops:
   alert_email: betrieb@reiseplaner.example
+  health_timeout_s: 10
+  # Eine anhaltende Störung wird frühestens nach dieser Zeit erneut gemeldet.
+  alert_cooldown_hours: 4
+  # Höchstalter des letzten Heartbeats je Job, danach warnt der Watchdog.
+  heartbeat_max_age_min:
+    outbox-retry: 30
+    cache-cleanup: 180
+    daily: 1560
+    search-workflow: 1440
 
 # Absender der Buchungs-E-Mails (Resend, ⛔ BG-08: Domain und Konto).
 mail:

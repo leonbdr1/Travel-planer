@@ -22,8 +22,10 @@ export async function freePort(): Promise<number> {
 
 export interface DemoStack {
   baseUrl: string;
-  db: LocalDb;
+  readonly db: LocalDb;
   stopDb(): Promise<void>;
+  /** Starts the database again on the same port and data directory (outage demos). */
+  restartDb(): Promise<void>;
   stop(): Promise<void>;
   /** Combined stdout and stderr of Vite and workerd (Worker logs). */
   log(): string;
@@ -37,7 +39,7 @@ export async function startDemoStack({ preview = false, ...options }: DemoStackO
   const workDir = mkdtempSync(join(tmpdir(), 'reiseplaner-demo-'));
   const dbPort = await freePort();
   const webPort = await freePort();
-  const db = await startLocalDb({ port: dbPort, dataDir: join(workDir, 'pglite'), log: () => {}, ...options });
+  let db = await startLocalDb({ port: dbPort, dataDir: join(workDir, 'pglite'), log: () => {}, ...options });
   let dbStopped = false;
   const child = spawn('npx', ['tsx', 'scripts/dev.ts', ...(preview ? ['preview', '--port', String(webPort), '--strictPort'] : [])], {
     cwd: repoRoot,
@@ -71,8 +73,15 @@ export async function startDemoStack({ preview = false, ...options }: DemoStackO
       if ((await fetch(`${baseUrl}/api/v1/health`)).status === 200) {
         return {
           baseUrl,
-          db,
+          get db() {
+            return db;
+          },
           stopDb,
+          async restartDb() {
+            await stopDb();
+            db = await startLocalDb({ port: dbPort, dataDir: join(workDir, 'pglite'), log: () => {} });
+            dbStopped = false;
+          },
           log: () => output,
           async stop() {
             await stopWeb();

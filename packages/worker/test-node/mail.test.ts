@@ -1,13 +1,16 @@
 // E-mail templates and the outbox: rendering (HTML escaped, text version),
 // immediate send, retry by the cron function with backoff, giving up after
-// the maximum attempts; cron schedules match wrangler.jsonc.
+// the maximum attempts; cron schedules match wrangler.jsonc and every
+// heartbeat job has a watchdog threshold.
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { productConfig } from '@reiseplaner/config';
 import { getOutboxEmail } from '@reiseplaner/db';
 import { createTestDb, type TestDb } from '@reiseplaner/db/testing';
 import { createProviders, fakeMailbox, type ProvidersConfig } from '@reiseplaner/providers';
-import { CRON_SCHEDULES } from '../src/cron';
+import { CRON_JOBS, CRON_SCHEDULES } from '../src/cron';
+import { SEARCH_WORKFLOW_HEARTBEAT_JOB } from '../src/services/heartbeat';
 import { retryDueEmails, sendViaOutbox } from '../src/mail/outbox';
 import { renderEmail } from '../src/mail/templates';
 
@@ -103,6 +106,11 @@ describe('outbox', () => {
       await retryDueEmails(deps);
     }
     expect(await getOutboxEmail(test.db, first.id)).toMatchObject({ status: 'failed', attempts: 5 });
+  });
+
+  it('gives every heartbeat job a watchdog threshold (product.config ops.heartbeat_max_age_min)', () => {
+    const jobs = [...Object.values(CRON_JOBS), SEARCH_WORKFLOW_HEARTBEAT_JOB].sort();
+    expect(Object.keys(productConfig.ops.heartbeat_max_age_min).sort()).toEqual(jobs);
   });
 
   it('keeps the cron schedules in sync with wrangler.jsonc', () => {

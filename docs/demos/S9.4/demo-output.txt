@@ -1,0 +1,35 @@
+$ npm run demo -- s9.4
+# recorded 2026-09-28T07:46:47.105Z
+
+starting local stack …
+t+  0 min (App läuft): Health 200 → keine E-Mail
+t+ 15 min (Datenbank gestoppt): Health 503 → E-Mail „[KRITISCH] Reiseplaner: Health-Check der App“
+t+ 30 min (weiterhin gestört, innerhalb von 4 Std.): Health 503 → keine E-Mail
+t+240 min (weiterhin gestört, noch keine 4 Std. seit der Meldung): Health 503 → keine E-Mail
+t+255 min (weiterhin gestört, 4 Std. seit der Meldung): Health 503 → E-Mail „[KRITISCH] Reiseplaner: Health-Check der App“
+t+270 min (Datenbank wieder gestartet): Health 200 → E-Mail „[WIEDER IN ORDNUNG] Reiseplaner: Health-Check der App“
+t+285 min (App läuft): Health 200 → keine E-Mail
+--- E-Mail 1 an betrieb@reiseplaner.example: [KRITISCH] Reiseplaner: Health-Check der App
+    Watchdog Reiseplaner, Prüfung am 28.09.2026, 10:15 Uhr
+    
+    KRITISCH: Health-Check der App – HTTP 503, seit 28.09.2026, 10:15 Uhr
+    
+    Eine anhaltende Störung meldet der Watchdog frühestens nach 4 Stunden erneut; die Entwarnung kommt sofort.
+    Health-Endpunkt: http://localhost:44621/api/v1/health
+--- E-Mail 2 an betrieb@reiseplaner.example: [KRITISCH] Reiseplaner: Health-Check der App
+    Watchdog Reiseplaner, Prüfung am 28.09.2026, 14:15 Uhr
+    
+    KRITISCH (weiterhin): Health-Check der App – HTTP 503, seit 28.09.2026, 10:15 Uhr
+    
+    Eine anhaltende Störung meldet der Watchdog frühestens nach 4 Stunden erneut; die Entwarnung kommt sofort.
+    Health-Endpunkt: http://localhost:44621/api/v1/health
+--- E-Mail 3 an betrieb@reiseplaner.example: [WIEDER IN ORDNUNG] Reiseplaner: Health-Check der App
+    Watchdog Reiseplaner, Prüfung am 28.09.2026, 14:30 Uhr
+    
+    WIEDER IN ORDNUNG: Health-Check der App – HTTP 200, Störung dauerte 4 Std. 15 Min.
+    
+    Eine anhaltende Störung meldet der Watchdog frühestens nach 4 Stunden erneut; die Entwarnung kommt sofort.
+    Health-Endpunkt: http://localhost:44621/api/v1/health
+GET /status → 200: health ok, heartbeat:outbox-retry ok, heartbeat:cache-cleanup ok, heartbeat:daily ok, heartbeat:search-workflow ok
+KV-Schlüssel: hb:cache-cleanup, hb:daily, hb:outbox-retry, hb:search-workflow, meta:started, state:health, state:heartbeat:cache-cleanup, state:heartbeat:daily, state:heartbeat:outbox-retry, state:heartbeat:search-workflow
+→ Alarm „kritisch“ sofort, kein zweiter Alarm innerhalb von 4 Stunden, Erinnerung danach, Entwarnung sofort

@@ -1,0 +1,30 @@
+// Watchdog reiseplaner-ops (architektur.md 12, 15): own deploy unit on
+// workers.dev. Contains no product values: the deploy step fills the
+// __REISEPLANER_…__ placeholders ("TENANT GUARD"). Locally it watches the
+// dev stack (`npm run dev`). Secrets: OPS_HB_TOKEN (same value as in the
+// app worker), RESEND_API_KEY.
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "ops",
+  "main": "./src/index.ts",
+  "compatibility_date": "2026-08-04",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "workers_dev": true,
+  "triggers": { "crons": ["*/15 * * * *"] },
+  "kv_namespaces": [{ "binding": "OPS_KV", "id": "00000000000000000000000000000000" }],
+  "vars": {
+    "OPS_ENV": "dev",
+    "APP_HEALTH_URL": "http://localhost:5173/api/v1/health"
+  },
+  "env": {
+    "production": {
+      "name": "__REISEPLANER_OPS_WORKER_NAME__",
+      "kv_namespaces": [{ "binding": "OPS_KV", "id": "__REISEPLANER_OPS_KV_ID__" }],
+      "vars": {
+        "OPS_ENV": "production",
+        "APP_HEALTH_URL": "__REISEPLANER_APP_HEALTH_URL__"
+      }
+    }
+  }
+}

@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "dependencies": {
-    "@reiseplaner/config": "0.0.0"
+    "@reiseplaner/config": "0.0.0",
+    "zod": "4.6.5"
   }
 }
