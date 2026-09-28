@@ -21,6 +21,7 @@ import {
   UNRATED_MAX_EXTRAS_SHARE,
   UNRATED_MIN_PRICE_RATIO,
 } from './constants';
+import { byComparison, premiumExtras, recommendedIndex, type ComparisonInput } from './comparison';
 import { offerFeatures, type FeatureHotel } from './features';
 import type { EvaluatedOffer } from './ranking';
 import { GOALS, type Goal, type PraiseTopic } from './vocabulary';
@@ -47,6 +48,8 @@ export interface Preselection {
   goal: Goal;
   /** At most FINALISTS_MAX offers, one per house, cheapest first. */
   finalists: EvaluatedOffer[];
+  /** The finalist with the lowest comparison price (comparison.ts); null without a rated finalist. */
+  recommendedHotelId: string | null;
   /** Houses that fit but did not make it into the finale, in goal order. */
   runnersUp: EvaluatedOffer[];
   /** Houses per reason. */
@@ -70,9 +73,13 @@ interface Entry {
 }
 
 /** Extras a fake listing likes to promise; counted for houses without reviews. */
-const PREMIUM_FEATURES: readonly string[] = ['fruehstueck_inklusive', 'halbpension', 'sauna_wellness', 'schwimmbad'];
-const premiumCount = (e: Entry) => PREMIUM_FEATURES.filter((f) => e.features.has(f)).length;
+const premiumCount = (e: Entry) => premiumExtras(e.features);
 const isRated = (e: Entry) => e.offer.quality !== null;
+
+export function comparisonOf(offer: EvaluatedOffer, featureCodes: Iterable<string>): ComparisonInput {
+  return { totalCents: offer.totalCents, quality: offer.quality, reviews: offer.breakdown.effectiveReviews, extras: premiumExtras(featureCodes) };
+}
+const comparisonEntry = (e: Entry) => comparisonOf(e.offer, e.features);
 
 type Stage = 'final' | 'candidates';
 
@@ -106,12 +113,10 @@ function hasAnyWarning(e: HotelEvidence, topics: readonly string[]): boolean {
   return e.warnings.some((w) => topics.includes(w.topic) && (w.confirmed > 0 || w.unverified > 0));
 }
 
+/** Every goal by comparison price: the cheapest, unless a little more buys proven advantages. */
 function goalOrder(goal: Goal) {
-  return (a: EvaluatedOffer, b: EvaluatedOffer): number => {
-    if (goal === 'sparen') return a.totalCents - b.totalCents || (b.quality ?? 0) - (a.quality ?? 0);
-    if (goal === 'komfort') return (b.quality ?? 0) - (a.quality ?? 0) || a.totalCents - b.totalCents;
-    return b.rankScore - a.rankScore || a.totalCents - b.totalCents;
-  };
+  const cmp = byComparison(goal);
+  return (a: Entry, b: Entry): number => cmp(comparisonEntry(a), comparisonEntry(b));
 }
 
 /**
@@ -194,7 +199,8 @@ function applyRules(input: PreselectInput, stage: Stage): { remaining: Entry[]; 
     }
     const hotel = input.hotels.get(hotelId);
     const evidence = input.evidence.get(hotelId) ?? NO_EVIDENCE;
-    const features = offerFeatures(hotel ?? { facilityIds: [], hotelType: null }, offer, evidence.labels);
+    const reviews = { reviewCount: offer.breakdown.reviewCount, effectiveReviews: offer.breakdown.effectiveReviews };
+    const features = offerFeatures({ ...(hotel ?? { facilityIds: [], hotelType: null }), ...reviews }, offer, evidence.labels);
     entries.push({ offer, stars: hotel?.stars ?? null, evidence, features: new Set(features.map((f) => f.code)), exception: false });
   }
   // Budget price reference for the star trap: houses with fewer stars (or none).
@@ -242,10 +248,10 @@ export function preselect(input: PreselectInput): Preselection {
   excluded.dominated += remaining.length - undominated.length;
 
   // Checked houses first; unchecked ones only fill up the finale.
-  const byGoal = (a: Entry, b: Entry) => goalOrder(input.goal)(a.offer, b.offer);
+  const byGoal = goalOrder(input.goal);
   const ordered = [...undominated.filter((e) => e.evidence.checked).sort(byGoal), ...undominated.filter((e) => !e.evidence.checked).sort(byGoal)];
   // At most UNRATED_FINALISTS_MAX houses without reviews in the finale.
-  const picked: EvaluatedOffer[] = [];
+  const picked: Entry[] = [];
   const runnersUp: EvaluatedOffer[] = [];
   let unrated = 0;
   for (const e of ordered) {
@@ -255,10 +261,21 @@ export function preselect(input: PreselectInput): Preselection {
       continue;
     }
     if (!isRated(e)) unrated += 1;
-    picked.push(e.offer);
+    picked.push(e);
   }
-  const finalists = picked.sort((a, b) => a.totalCents - b.totalCents || b.rankScore - a.rankScore);
-  return { goal: input.goal, finalists, runnersUp, excluded };
+  picked.sort((a, b) => a.offer.totalCents - b.offer.totalCents || byGoal(a, b));
+  const recommended = recommendedIndex(picked.map(comparisonEntry), input.goal);
+  const recommendedHotelId = recommended === null ? null : (picked[recommended]?.offer.hotelId ?? null);
+  return { goal: input.goal, finalists: picked.map((e) => e.offer), recommendedHotelId, runnersUp, excluded };
+}
+
+/**
+ * Houses that pass the goal's rules (filters, reviews or a plausible price,
+ * no red flag, no star trap, quality floor or its exception). Lists and the
+ * matrix show only these, so a bad house never shows up with a cheap price.
+ */
+export function admissibleHotelIds(input: PreselectInput): Set<string> {
+  return new Set(applyRules(input, 'final').remaining.map((e) => e.offer.hotelId));
 }
 
 /**
@@ -272,9 +289,8 @@ export function preselect(input: PreselectInput): Preselection {
 export function reviewCandidateIds(input: PreselectInput, limit: number): string[] {
   const reserve = applyRules(input, 'candidates')
     .remaining.filter(isRated)
-    .map((e) => e.offer)
     .sort(goalOrder(input.goal))
-    .map((o) => o.hotelId);
+    .map((e) => e.offer.hotelId);
   return [...new Set([...finalistIdsAcrossGoals(input), ...reserve])].slice(0, limit);
 }
 

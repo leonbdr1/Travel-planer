@@ -34,6 +34,9 @@ export interface ReviewCheck {
   hotelId: string;
   status: ReviewCheckStatus;
   reviewsAnalyzed: number;
+  /** Reviews loaded and those not older than REVIEW_FRESH_MONTHS; null for checks stored before 20261013a. */
+  reviewsLoaded: number | null;
+  freshCount: number | null;
   latestReviewDate: string | null;
   recentRating: number | null;
   recentCount: number;
@@ -50,6 +53,8 @@ type ReviewCheckDbRow = {
   hotel_id: string;
   status: ReviewCheckStatus;
   reviews_analyzed: number;
+  reviews_loaded: number | null;
+  fresh_count: number | null;
   latest_review_date: string | null;
   recent_rating: number | null;
   recent_count: number;
@@ -61,7 +66,7 @@ type ReviewCheckDbRow = {
   expires_at: string;
 };
 
-const CHECK_COLUMNS = `hotel_id, status, reviews_analyzed, latest_review_date::text AS latest_review_date, recent_rating::float8 AS recent_rating,
+const CHECK_COLUMNS = `hotel_id, status, reviews_analyzed, reviews_loaded, fresh_count, latest_review_date::text AS latest_review_date, recent_rating::float8 AS recent_rating,
   recent_count, topics::text AS topics, praise::text AS praise, liteapi_sentiment::text AS liteapi_sentiment, skill_version,
   to_char(checked_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS checked_at,
   to_char(expires_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS expires_at`;
@@ -73,6 +78,8 @@ function toCheck(r: ReviewCheckDbRow): ReviewCheck {
     hotelId: r.hotel_id,
     status: r.status,
     reviewsAnalyzed: Number(r.reviews_analyzed),
+    reviewsLoaded: r.reviews_loaded === null ? null : Number(r.reviews_loaded),
+    freshCount: r.fresh_count === null ? null : Number(r.fresh_count),
     latestReviewDate: r.latest_review_date,
     recentRating: r.recent_rating === null ? null : Number(r.recent_rating),
     recentCount: Number(r.recent_count),
@@ -112,6 +119,8 @@ export interface ReviewCheckWrite {
   hotelId: string;
   status: ReviewCheckStatus;
   reviewsAnalyzed: number;
+  reviewsLoaded: number | null;
+  freshCount: number | null;
   latestReviewDate: string | null;
   recentRating: number | null;
   recentCount: number;
@@ -126,10 +135,11 @@ export interface ReviewCheckWrite {
 export async function upsertReviewCheck(db: Queryable, c: ReviewCheckWrite): Promise<void> {
   await db.query(
     `INSERT INTO app.review_checks (hotel_id, status, reviews_analyzed, latest_review_date, recent_rating, recent_count, topics,
-                                    liteapi_sentiment, skill_version, checked_at, expires_at, praise)
-     VALUES ($1, $2, $3, $4::date, $5, $6, $7::text::jsonb, $8::text::jsonb, $9, $10::timestamptz, $11::timestamptz, $12::text::jsonb)
+                                    liteapi_sentiment, skill_version, checked_at, expires_at, praise, reviews_loaded, fresh_count)
+     VALUES ($1, $2, $3, $4::date, $5, $6, $7::text::jsonb, $8::text::jsonb, $9, $10::timestamptz, $11::timestamptz, $12::text::jsonb, $13, $14)
      ON CONFLICT (hotel_id) DO UPDATE SET
        status = EXCLUDED.status, reviews_analyzed = EXCLUDED.reviews_analyzed, latest_review_date = EXCLUDED.latest_review_date,
+       reviews_loaded = EXCLUDED.reviews_loaded, fresh_count = EXCLUDED.fresh_count,
        recent_rating = EXCLUDED.recent_rating, recent_count = EXCLUDED.recent_count, topics = EXCLUDED.topics,
        liteapi_sentiment = EXCLUDED.liteapi_sentiment, skill_version = EXCLUDED.skill_version,
        checked_at = EXCLUDED.checked_at, expires_at = EXCLUDED.expires_at, praise = EXCLUDED.praise`,
@@ -146,6 +156,8 @@ export async function upsertReviewCheck(db: Queryable, c: ReviewCheckWrite): Pro
       c.checkedAt.toISOString(),
       c.expiresAt.toISOString(),
       json(z.array(praiseRowSchema).parse(c.praise)),
+      c.reviewsLoaded,
+      c.freshCount,
     ],
   );
 }
@@ -167,8 +179,10 @@ export const pendingScanSchema = z.object({
   recentRating: z.number().nullable(),
   recentCount: z.number().int(),
   sentiment: sentimentSchema,
-  // Rows written before 20261011a have no praise counts.
+  // Rows written before 20261011a have no praise counts, before 20261013a no review ages.
   praise: z.array(praiseRowSchema).default([]),
+  loaded: z.number().int().nullable().default(null),
+  freshCount: z.number().int().nullable().default(null),
 });
 export type PendingScan = z.infer<typeof pendingScanSchema>;
 

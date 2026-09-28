@@ -24,14 +24,11 @@ const pct = (n: number, d: number) => (d === 0 ? '–' : `${((100 * n) / d).toFi
 
 const CORRIDOR = { min: constants.CALIBRATION_BARGAIN_RATE_MIN, max: constants.CALIBRATION_BARGAIN_RATE_MAX };
 
-function proposal(type: 'value' | 'date' | 'place', rate: number): string {
+/** Only the date mark is left (Ben, 2026-09-28); value and place marks hit nearly every real offer. */
+function proposal(rate: number): string {
   if (rate >= CORRIDOR.min && rate <= CORRIDOR.max) return 'im Korridor, keine Änderung vorgeschlagen.';
   const stricter = rate > CORRIDOR.max;
-  const hint = {
-    value: stricter ? 'BARGAIN_VALUE_FACTOR erhöhen (z. B. um 0.1)' : 'BARGAIN_VALUE_FACTOR senken (z. B. um 0.1)',
-    date: stricter ? 'BARGAIN_DATE_FACTOR senken (z. B. um 0.05)' : 'BARGAIN_DATE_FACTOR erhöhen (z. B. um 0.05)',
-    place: stricter ? 'BARGAIN_PLACE_FACTOR senken (z. B. um 0.05)' : 'BARGAIN_PLACE_FACTOR erhöhen (z. B. um 0.05)',
-  }[type];
+  const hint = stricter ? 'BARGAIN_DATE_FACTOR senken (z. B. um 0.05)' : 'BARGAIN_DATE_FACTOR erhöhen (z. B. um 0.05)';
   return `${stricter ? 'über' : 'unter'} dem Korridor; ${hint} und neu messen.`;
 }
 
@@ -50,11 +47,8 @@ export async function calibrationReport(db: Queryable, searchId: string, sourceN
     .filter((q): q is number => typeof q === 'number')
     .sort((a, b) => a - b);
   const unrated = data.hotels.filter((h) => h.rating === null || (h.reviewCount ?? 0) === 0).length;
-  const count = (type: string) => F.filter((o) => o.bargain?.types.includes(type as 'value' | 'date' | 'place')).length;
-  const rates = { value: count('value') / Math.max(1, F.length), date: count('date') / Math.max(1, F.length), place: count('place') / Math.max(1, F.length) };
-  const any = F.filter((o) => o.bargain).length;
-  const valueRatios = F.map((o) => (o.quality as number) / (o.pricePerNightCents / 100));
-  const medV = median(valueRatios);
+  const dateMarks = F.filter((o) => o.bargain?.types.includes('date')).length;
+  const rates = { date: dateMarks / Math.max(1, F.length) };
   const lines = [
     '# Kalibrierung Stufe 1',
     '',
@@ -67,22 +61,15 @@ export async function calibrationReport(db: Queryable, searchId: string, sourceN
     `|---|---|---|---|---|---|---|---|`,
     `| ${[0, 0.1, 0.25, 0.5, 0.75, 0.9, 1].map((q) => quantile(scores, q).toFixed(2)).join(' | ')} | ${unrated} von ${data.hotels.length} |`,
     '',
-    '## Schnäppchenquote je Typ (Anteil an F)',
+    '## Schnäppchenquote (Anteil an F, nur Termin-Schnäppchen)',
     '',
     `| Typ | Konstante(n) | Anzahl | Quote | Zielkorridor ${pct(CORRIDOR.min, 1)} bis ${pct(CORRIDOR.max, 1)} |`,
     '|---|---|---|---|---|',
-    `| value | Faktor ${constants.BARGAIN_VALUE_FACTOR}, Qualität ≥ ${constants.BARGAIN_VALUE_MIN_QUALITY} | ${count('value')} | ${pct(count('value'), F.length)} | ${inCorridor(rates.value)} |`,
-    `| date | Faktor ${constants.BARGAIN_DATE_FACTOR}, ≥ ${constants.BARGAIN_DATE_MIN_DATES} Termine | ${count('date')} | ${pct(count('date'), F.length)} | ${inCorridor(rates.date)} |`,
-    `| place | Faktor ${constants.BARGAIN_PLACE_FACTOR}, ≥ ${constants.BARGAIN_PLACE_MIN_OFFERS} Vergleichsangebote, Abstand ≤ ${constants.BARGAIN_PLACE_MAX_QUALITY_GAP} | ${count('place')} | ${pct(count('place'), F.length)} | ${inCorridor(rates.place)} |`,
-    `| mindestens eins | | ${any} | ${pct(any, F.length)} | |`,
-    '',
-    '## Preis-Leistung (value)',
-    '',
-    `Median v = Qualität / Preis pro Nacht in €: ${medV.toFixed(4)}; P90/Median: ${(quantile([...valueRatios].sort((a, b) => a - b), 0.9) / medV).toFixed(2)}.`,
+    `| date | Faktor ${constants.BARGAIN_DATE_FACTOR}, ≥ ${constants.BARGAIN_DATE_MIN_DATES} Termine | ${dateMarks} | ${pct(dateMarks, F.length)} | ${inCorridor(rates.date)} |`,
     '',
     '## Vorschläge',
     '',
-    ...(['value', 'date', 'place'] as const).map((type) => `- ${type}: ${proposal(type, rates[type])}`),
+    `- date: ${proposal(rates.date)}`,
     `- Unterkünfte ohne Bewertungen: ${pct(unrated, data.hotels.length)}; sie bleiben ohne Score und damit ohne Schnäppchen (6.8).`,
     '',
     '## Hinweise',

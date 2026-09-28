@@ -4,6 +4,7 @@
 // simulated world, to be re-mapped against the real /data/facilities list,
 // HANDOFF drift 8).
 import { chipDefinition } from './chips';
+import { hasManyReviews } from './comparison';
 import { hasGastroNearby, WALK_KINDS, type LocationFacts, type WalkKind } from './location';
 import type { BoardType } from './types';
 import { PRAISE_LABELS, type ChipCode, type PraiseTopic } from './vocabulary';
@@ -15,6 +16,9 @@ export interface FeatureHotel {
   facts?: LocationFacts | null | undefined;
   /** Within CENTER_DISTANCE_CORE_KM of the place's centre. */
   inCore?: boolean | undefined;
+  /** Reviews in total and as they count (older ones weigh less): "viele Bewertungen" is a plus like a sauna. */
+  reviewCount?: number | null | undefined;
+  effectiveReviews?: number | null | undefined;
 }
 
 const WALK_LABELS: Record<WalkKind, (min: number) => string> = {
@@ -44,6 +48,15 @@ export interface OfferFeature {
   label: string;
   /** Walking minutes for location features. */
   minutes?: number;
+  /** Number of reviews for `viele_bewertungen`. */
+  count?: number;
+}
+
+const count = new Intl.NumberFormat('de-DE');
+
+function reviewFeature(hotel: FeatureHotel): OfferFeature[] {
+  const total = hotel.reviewCount ?? 0;
+  return hasManyReviews(hotel.effectiveReviews ?? total) ? [{ code: 'viele_bewertungen', label: `${count.format(total)} Bewertungen`, count: total }] : [];
 }
 
 interface FacilityFeature {
@@ -85,8 +98,8 @@ const LEADING_FACILITIES: readonly string[] = ['sauna_wellness', 'schwimmbad'];
 
 /**
  * Everything an offer brings, most decisive first (the finale shows the first
- * few): meals, free cancellation, sauna and pool, location, praise labels, the
- * other facilities.
+ * few): meals, free cancellation, sauna and pool, many reviews, location,
+ * praise labels, the other facilities.
  */
 export function offerFeatures(
   hotel: FeatureHotel,
@@ -101,6 +114,7 @@ export function offerFeatures(
   if (HALF_BOARD.includes(offer.boardType)) features.push({ code: 'halbpension', label: 'Halbpension' });
   if (offer.refundable) features.push({ code: 'kostenlos_stornierbar', label: 'kostenlos stornierbar' });
   features.push(...facilities.filter((f) => LEADING_FACILITIES.includes(f.code)));
+  features.push(...reviewFeature(hotel));
   features.push(...locationFeatures(hotel));
   for (const topic of labels) features.push({ code: `lob_${topic}`, label: PRAISE_LABELS[topic].label });
   features.push(...facilities.filter((f) => !LEADING_FACILITIES.includes(f.code)));

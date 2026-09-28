@@ -19,6 +19,7 @@ export * from './scoring';
 export * from './bargains';
 export * from './ranking';
 export * from './features';
+export * from './comparison';
 export * from './preselect';
 export * from './finale';
 export * from './location';

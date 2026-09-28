@@ -40,7 +40,19 @@ export const THEME_MIN_STRENGTH = 2;
 export const DEFAULT_SEARCH_RADIUS_KM = 10;
 
 export const SCORE_PRIOR_MEAN = 7.5;
-export const SCORE_PRIOR_WEIGHT = 50;
+/**
+ * From this many reviews the rating counts as it is (Ben, 2026-09-28: 69
+ * reviews with 8.3 are solid); below, it is pulled towards SCORE_PRIOR_MEAN
+ * by the missing reviews, so 3 reviews with 10.0 do not beat everything.
+ */
+export const SCORE_FULL_WEIGHT_REVIEWS = 30;
+/**
+ * Older reviews count less towards SCORE_FULL_WEIGHT_REVIEWS (Ben, 2026-09-28):
+ * a review older than REVIEW_FRESH_MONTHS counts REVIEW_OLD_WEIGHT. Ages are
+ * known for houses with a review check; reviews it did not load count as old.
+ */
+export const REVIEW_FRESH_MONTHS = 36;
+export const REVIEW_OLD_WEIGHT = 1 / 3;
 export const SCORE_RECENCY_WEIGHT = 0.5;
 export const SCORE_RECENCY_MIN_COUNT = 5;
 export const SCORE_RECENCY_DAMPING = 10;
@@ -51,14 +63,13 @@ export const SCORE_MAX_PENALTY = 2.0;
 export const SEVERITY_WEIGHTS = { low: 0.3, medium: 0.6, high: 1.0 } as const;
 export const RECENT_REVIEW_MONTHS = 12;
 
-export const BARGAIN_VALUE_FACTOR = 1.3;
-export const BARGAIN_VALUE_MIN_OFFERS = 10;
-export const BARGAIN_VALUE_MIN_QUALITY = 7.0;
+/**
+ * Bargains only by date (Ben, 2026-09-28): the same house clearly cheaper on
+ * this date than on the traveller's other dates. The value and place marks
+ * were dropped: with real prices nearly every offer carried one.
+ */
 export const BARGAIN_DATE_FACTOR = 0.8;
 export const BARGAIN_DATE_MIN_DATES = 3;
-export const BARGAIN_PLACE_FACTOR = 0.75;
-export const BARGAIN_PLACE_MIN_OFFERS = 5;
-export const BARGAIN_PLACE_MAX_QUALITY_GAP = 1.0;
 /** Calibration target (umsetzungsplan S6.4): bargain share per type of F. */
 export const CALIBRATION_BARGAIN_RATE_MIN = 0.05;
 export const CALIBRATION_BARGAIN_RATE_MAX = 0.2;
@@ -67,6 +78,18 @@ export const RANK_W_QUALITY = 0.6;
 export const RANK_W_PRICE = 0.4;
 export const RANK_BARGAIN_BONUS = 0.05;
 export const RANK_UNRATED_QUALITY_NORM = 0.5;
+
+// Comparison price (Ben, 2026-09-28): lists and the finale go by price; the
+// recommendation is the house with the lowest price / (1 + bonus), a bonus
+// only for what is proven: many reviews, a better score, extras (komfort).
+/** "Viele Bewertungen": a plus like a sauna; worth MANY_REVIEWS_BONUS of the price. */
+export const MANY_REVIEWS_MIN = 500;
+export const MANY_REVIEWS_BONUS = 0.05;
+/** Worth of one quality point above the goal's floor, as a share of the price. */
+export const GOAL_QUALITY_BONUS_PER_POINT = { sparen: 0.02, ausgewogen: 0.05, komfort: 0.1 } as const;
+/** Only for "komfort": each extra (breakfast, half board, sauna, pool), capped. */
+export const KOMFORT_EXTRA_BONUS = 0.03;
+export const KOMFORT_EXTRAS_BONUS_MAX = 0.12;
 
 // Decision aid (konzept.md 9.9–9.11): values decided with Ben on 2026-09-28,
 // to be calibrated with real data in the Testbetrieb.

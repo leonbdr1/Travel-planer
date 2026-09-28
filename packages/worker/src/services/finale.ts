@@ -61,6 +61,7 @@ export async function buildFinale(
     other_dates: e.otherDates,
     center_distance_km: e.centerDistanceKm,
     location: e.location,
+    recommended: e.offer.hotelId === selection.recommendedHotelId,
   }));
   return {
     search: { id: search.id, status: search.status },

@@ -13,10 +13,16 @@ import {
 } from '@reiseplaner/contracts';
 import { getSearch, loadEvaluationData, saveEvaluation, setSearchStatus, type EvaluationHotelRow, type Queryable } from '@reiseplaner/db';
 import {
+  admissibleHotelIds,
   buildMatrix,
+  byComparison,
+  comparisonOf,
   evaluateOffers,
   hotelList,
+  offerFeatures,
+  recommendedIndex,
   type BoardType,
+  type Goal,
   type EvalHotel,
   type EvaluatedOffer,
   type FilterSettings,
@@ -113,7 +119,13 @@ export function preselectHotels(hotels: readonly EvaluationHotelRow[], facts?: R
   );
 }
 
+/** Houses that pass the goal's rules; lists and the matrix show only these. */
+export function admissibleFor(goal: Goal, evaluated: readonly EvaluatedOffer[], hotels: readonly EvaluationHotelRow[], reviews: ReviewData): Set<string> {
+  return admissibleHotelIds({ goal, evaluated, hotels: preselectHotels(hotels), evidence: reviews.evidence ?? new Map() });
+}
+
 type SummaryHotel = Pick<EvaluationHotelRow, 'id' | 'name' | 'stars' | 'rating' | 'reviewCount' | 'hotelType' | 'city' | 'mainPhotoUrl'>;
+type ListHotel = SummaryHotel & Pick<EvaluationHotelRow, 'facilityIds'>;
 
 export function hotelSummary(hotelId: string, hotels: ReadonlyMap<string, SummaryHotel>): ResultItem['hotel'] {
   const h = hotels.get(hotelId);
@@ -160,8 +172,9 @@ export function offerDto(o: EvaluatedOffer & { nights?: number }): OfferDto {
 export function matrixCells(
   combinations: ReadonlyArray<{ placeId: string; checkin: string; checkout: string; state: 'pending' | 'done' | 'cached' | 'failed' }>,
   evaluated: readonly EvaluatedOffer[],
+  admissible: ReadonlySet<string> | null = null,
 ): MatrixCellDto[] {
-  return buildMatrix(combinations, evaluated).map((c) => ({
+  return buildMatrix(combinations, evaluated, admissible).map((c) => ({
     place_id: c.placeId,
     checkin: c.checkin,
     checkout: c.checkout,
@@ -174,8 +187,32 @@ export function matrixCells(
   }));
 }
 
-export function resultItems(evaluated: readonly EvaluatedOffer[], hotels: ReadonlyMap<string, SummaryHotel>, sort: SortKey, reviews: ReviewData): ResultItem[] {
-  return hotelList(evaluated, sort).map(({ offer, otherDatesCount }) => ({
+/**
+ * The list: every admissible house once with its cheapest passing offer,
+ * cheapest first (or by comparison price or quality). The house with the
+ * lowest comparison price among the listed ones is the recommendation.
+ */
+export function resultItems(
+  evaluated: readonly EvaluatedOffer[],
+  hotels: ReadonlyMap<string, ListHotel>,
+  sort: SortKey,
+  reviews: ReviewData,
+  scope: { goal: Goal; admissible: ReadonlySet<string> | null },
+): ResultItem[] {
+  const listed = hotelList(
+    evaluated.filter((o) => !scope.admissible || scope.admissible.has(o.hotelId)),
+    'price',
+  ).map((entry) => {
+    const h = hotels.get(entry.offer.hotelId);
+    const hotel = { facilityIds: h?.facilityIds ?? [], hotelType: h?.hotelType ?? null, reviewCount: entry.offer.breakdown.reviewCount, effectiveReviews: entry.offer.breakdown.effectiveReviews };
+    const features = offerFeatures(hotel, entry.offer, reviews.evidence?.get(entry.offer.hotelId)?.labels ?? []).map((f) => f.code);
+    return { ...entry, comparison: comparisonOf(entry.offer, features) };
+  });
+  const cmp = byComparison(scope.goal);
+  if (sort === 'best') listed.sort((a, b) => cmp(a.comparison, b.comparison));
+  if (sort === 'quality') listed.sort((a, b) => (b.offer.quality ?? -1) - (a.offer.quality ?? -1) || a.offer.totalCents - b.offer.totalCents);
+  const recommended = recommendedIndex(listed.map((x) => x.comparison), scope.goal);
+  return listed.map(({ offer, otherDatesCount }, i) => ({
     hotel: hotelSummary(offer.hotelId, hotels),
     best_offer: offerDto(offer),
     other_dates_count: otherDatesCount,
@@ -184,6 +221,7 @@ export function resultItems(evaluated: readonly EvaluatedOffer[], hotels: Readon
     review_status: reviews.status.get(offer.hotelId) ?? 'none',
     reviews_checked: reviews.checked?.get(offer.hotelId) ?? null,
     labels: reviews.labels?.get(offer.hotelId) ?? [],
+    recommended: i === recommended,
   }));
 }
 

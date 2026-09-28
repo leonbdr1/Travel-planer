@@ -4,7 +4,10 @@ import { goalSchema } from './searches';
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 export const resultsQuerySchema = z.object({
-  sort: z.enum(['best', 'price', 'quality']).default('best'),
+  /** price: cheapest first (default); best: by comparison price; quality: best score first. */
+  sort: z.enum(['best', 'price', 'quality']).default('price'),
+  /** The goal whose rules decide which houses the list and the matrix show (default: the search's goal). */
+  goal: goalSchema.optional(),
   budget: z.string().optional(),
   min_stars: z.string().optional(),
   min_rating: z.string().optional(),
@@ -110,6 +113,8 @@ export const resultItemSchema = z.object({
   reviews_checked: z.number().int().nullable(),
   /** Praise labels, the most praised first (the list shows the first few). */
   labels: z.array(praiseLabelSchema),
+  /** Lowest comparison price among the listed houses (cheapest unless a little more buys proven advantages). */
+  recommended: z.boolean(),
 });
 export type ResultItem = z.infer<typeof resultItemSchema>;
 
@@ -141,14 +146,27 @@ export const searchResultsResponseSchema = z.object({
     cells: z.array(matrixCellSchema),
   }),
   items: z.array(resultItemSchema),
-  counts: z.object({ offers: z.number().int(), passing: z.number().int(), hotels: z.number().int(), bargains: z.number().int() }),
-  meta: z.object({ prices_fetched_at: z.string().nullable(), sort: z.enum(['best', 'price', 'quality']), cell: z.object({ place_id: z.string(), checkin: isoDate }).nullable() }),
+  counts: z.object({
+    offers: z.number().int(),
+    passing: z.number().int(),
+    hotels: z.number().int(),
+    bargains: z.number().int(),
+    /** Houses passing the filters that the goal's rules sort out; the list and the matrix leave them out. */
+    hidden: z.number().int(),
+  }),
+  meta: z.object({
+    prices_fetched_at: z.string().nullable(),
+    sort: z.enum(['best', 'price', 'quality']),
+    goal: goalSchema,
+    cell: z.object({ place_id: z.string(), checkin: isoDate }).nullable(),
+  }),
 });
 export type SearchResultsResponse = z.infer<typeof searchResultsResponseSchema>;
 
 export const scoreBreakdownSchema = z.object({
   rating: z.number().nullable(),
   reviewCount: z.number(),
+  effectiveReviews: z.number(),
   priorMean: z.number(),
   priorWeight: z.number(),
   s0: z.number().nullable(),
@@ -184,11 +202,19 @@ export type HotelDetailResponse = z.infer<typeof hotelDetailResponseSchema>;
  * 6.15): the same filter parameters as the results, plus the goal. Without a
  * goal the search's own goal applies.
  */
-export const finaleQuerySchema = resultsQuerySchema
-  .pick({ budget: true, min_stars: true, min_rating: true, min_reviews: true, refundable: true, board: true, types: true, chips: true })
-  .extend({ goal: goalSchema.optional() });
+export const finaleQuerySchema = resultsQuerySchema.pick({
+  budget: true,
+  min_stars: true,
+  min_rating: true,
+  min_reviews: true,
+  refundable: true,
+  board: true,
+  types: true,
+  chips: true,
+  goal: true,
+});
 
-export const offerFeatureSchema = z.object({ code: z.string(), label: z.string(), minutes: z.number().int().optional() });
+export const offerFeatureSchema = z.object({ code: z.string(), label: z.string(), minutes: z.number().int().optional(), count: z.number().int().optional() });
 export type OfferFeatureDto = z.infer<typeof offerFeatureSchema>;
 
 export const exclusionReasonSchema = z.enum(['filters', 'no_reviews', 'red_flag', 'star_trap', 'low_quality', 'too_expensive', 'dominated']);
@@ -215,6 +241,8 @@ export const finalistSchema = z.object({
   other_dates: z.boolean(),
   center_distance_km: z.number().nullable(),
   location: z.enum(['kern', 'ort', 'ausserhalb']).nullable(),
+  /** Lowest comparison price of the finalists: the recommendation; the order stays by price. */
+  recommended: z.boolean(),
 });
 export type FinalistDto = z.infer<typeof finalistSchema>;
 
@@ -222,7 +250,7 @@ export const finaleResponseSchema = z.object({
   search: z.object({ id: z.string(), status: z.enum(['queued', 'running', 'reviewing', 'done', 'partial', 'failed']) }),
   goal: goalSchema,
   filters: effectiveFiltersSchema,
-  /** At most four, one offer per house, the cheapest first. No recommendation. */
+  /** At most five, one offer per house, the cheapest first; one of them marked as recommendation. */
   finalists: z.array(finalistSchema),
   /** Houses the program sorted out, per reason (a house counts for its first reason). */
   excluded: z.record(exclusionReasonSchema, z.number().int()),

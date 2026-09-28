@@ -163,6 +163,8 @@ export async function runReviewsFetch(deps: ReviewRunDeps, searchId: string, rou
         hotelId,
         scan: {
           analyzed: scan.analyzed,
+          loaded: scan.loaded,
+          freshCount: scan.freshCount,
           latestReviewDate: scan.latestReviewDate,
           recentRating: scan.recentRating,
           recentCount: scan.recentCount,
@@ -179,6 +181,8 @@ export async function runReviewsFetch(deps: ReviewRunDeps, searchId: string, rou
       hotelId,
       status: scan.analyzed === 0 ? 'no_reviews' : 'ok',
       reviewsAnalyzed: scan.analyzed,
+      reviewsLoaded: scan.loaded,
+      freshCount: scan.freshCount,
       latestReviewDate: scan.latestReviewDate,
       recentRating: scan.recentRating,
       recentCount: scan.recentCount,
@@ -226,6 +230,8 @@ export async function runReviewsVerify(deps: ReviewRunDeps, searchId: string): P
       hotelId: p.hotelId,
       status: verified ? 'ok' : 'skipped_budget',
       reviewsAnalyzed: p.scan.analyzed,
+      reviewsLoaded: p.scan.loaded,
+      freshCount: p.scan.freshCount,
       latestReviewDate: p.scan.latestReviewDate,
       recentRating: p.scan.recentRating,
       recentCount: p.scan.recentCount,
@@ -309,6 +315,8 @@ export async function loadReviewData(db: Queryable, searchId: string, _chips: re
     signals.set(check.hotelId, {
       recentRating: check.recentRating,
       recentCount: check.recentCount,
+      loaded: check.reviewsLoaded,
+      freshCount: check.freshCount,
       cleanliness: cleanlinessOf(check),
       // Only confirmed warnings reduce the score; unverified hints never do.
       warnings: check.status === 'ok' ? check.topics.flatMap((t) => (t.confirmed_count > 0 && t.severity ? [{ topic: t.topic, severity: t.severity }] : [])) : [],

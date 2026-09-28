@@ -1,12 +1,14 @@
-// Quality score (architektur.md 6.7, konzept.md 9.3). Stage 1: Bayesian mean
-// of rating and review count. Stage 2 (hotels with a valid review check):
-// recency, cleanliness and warning penalties.
+// Quality score (architektur.md 6.7, konzept.md 9.3). Stage 1: the rating,
+// pulled towards the prior mean only below SCORE_FULL_WEIGHT_REVIEWS reviews
+// (weight of the prior = the reviews missing to it). Stage 2 (hotels with a
+// valid review check): recency, cleanliness and warning penalties.
 import {
   SCORE_CLEANLINESS_WEIGHT,
   SCORE_CLEANLINESS_WEIGHT_CHIP,
   SCORE_MAX_PENALTY,
+  REVIEW_OLD_WEIGHT,
+  SCORE_FULL_WEIGHT_REVIEWS,
   SCORE_PRIOR_MEAN,
-  SCORE_PRIOR_WEIGHT,
   SCORE_RECENCY_DAMPING,
   SCORE_RECENCY_MAX_DELTA,
   SCORE_RECENCY_MIN_COUNT,
@@ -19,6 +21,9 @@ export type Severity = keyof typeof SEVERITY_WEIGHTS;
 export interface ReviewSignals {
   recentRating: number | null;
   recentCount: number;
+  /** Reviews the check loaded, and those not older than REVIEW_FRESH_MONTHS; null for checks stored before. */
+  loaded?: number | null | undefined;
+  freshCount?: number | null | undefined;
   cleanliness: number | null;
   /** Confirmed warnings (topic with its highest severity). */
   warnings: Array<{ topic: string; severity: Severity }>;
@@ -35,6 +40,8 @@ export interface ScoreInput {
 export interface ScoreBreakdown {
   rating: number | null;
   reviewCount: number;
+  /** Reviews as they count: older ones with REVIEW_OLD_WEIGHT when their ages are known. */
+  effectiveReviews: number;
   priorMean: number;
   priorWeight: number;
   s0: number | null;
@@ -47,13 +54,28 @@ export interface ScoreBreakdown {
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 const r3 = (v: number) => Math.round(v * 1000) / 1000;
 
+/**
+ * The review count as it weighs: with a review check, the fresh reviews it
+ * loaded count fully and every other one (older, or not loaded) with
+ * REVIEW_OLD_WEIGHT; without a check the ages are unknown and all count.
+ */
+export function effectiveReviewCount(reviewCount: number | null, review: ReviewSignals | null): number {
+  const loaded = review?.loaded ?? null;
+  const fresh = review?.freshCount ?? null;
+  if (loaded === null || fresh === null) return reviewCount ?? 0;
+  const total = Math.max(reviewCount ?? loaded, loaded);
+  return Math.round((fresh + REVIEW_OLD_WEIGHT * (total - fresh)) * 10) / 10;
+}
+
 export function qualityScore(input: ScoreInput): ScoreBreakdown {
-  const n = input.reviewCount ?? 0;
+  const n = effectiveReviewCount(input.reviewCount, input.review);
+  const priorWeight = Math.max(0, SCORE_FULL_WEIGHT_REVIEWS - n);
   const base: ScoreBreakdown = {
     rating: input.rating,
-    reviewCount: n,
+    reviewCount: input.reviewCount ?? 0,
+    effectiveReviews: n,
     priorMean: SCORE_PRIOR_MEAN,
-    priorWeight: SCORE_PRIOR_WEIGHT,
+    priorWeight,
     s0: null,
     recency: { checked: input.review !== null, applied: false, delta: 0, s1: null },
     cleanliness: { applied: false, value: null, weight: 0, s2: null },
@@ -61,7 +83,7 @@ export function qualityScore(input: ScoreInput): ScoreBreakdown {
     quality: null,
   };
   if (input.rating === null || n <= 0) return base;
-  const s0 = (n * input.rating + SCORE_PRIOR_WEIGHT * SCORE_PRIOR_MEAN) / (n + SCORE_PRIOR_WEIGHT);
+  const s0 = (n * input.rating + priorWeight * SCORE_PRIOR_MEAN) / (n + priorWeight);
   let s1 = s0;
   let s2 = s0;
   let penaltyTotal = 0;

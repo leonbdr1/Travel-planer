@@ -1,7 +1,7 @@
 // Finale (konzept.md 9.10, architektur.md 6.15): the finalists side by side,
 // the cheapest first. For every other finalist the surcharge against the
-// cheapest and what it brings or costs. No recommendation: whether 10 € are
-// worth the sauna is the traveller's decision.
+// cheapest and what it brings or costs. The recommendation (lowest comparison
+// price, comparison.ts) is only marked; the order stays by price.
 import { CENTER_DISTANCE_CORE_KM, CENTER_DISTANCE_TOWN_KM, FINALE_QUALITY_DELTA_MIN } from './constants';
 import { offerFeatures, type FeatureHotel, type OfferFeature } from './features';
 import { haversineKm, type LatLng } from './geo';
@@ -47,11 +47,12 @@ function centerDistance(f: FinalistInput): number | null {
   return Math.round(haversineKm(f.hotel.location, f.place) * 10) / 10;
 }
 
-/** `finalists` cheapest first (as `preselect` returns them). */
 function featuresOf(f: FinalistInput, km: number | null): OfferFeature[] {
-  return offerFeatures({ ...f.hotel, inCore: locationClass(km) === 'kern' }, f.offer, f.labels);
+  const reviews = { reviewCount: f.offer.breakdown.reviewCount, effectiveReviews: f.offer.breakdown.effectiveReviews };
+  return offerFeatures({ ...f.hotel, ...reviews, inCore: locationClass(km) === 'kern' }, f.offer, f.labels);
 }
 
+/** `finalists` cheapest first (as `preselect` returns them). */
 export function compareFinalists(finalists: readonly FinalistInput[]): FinaleEntry[] {
   const base = finalists[0];
   if (!base) return [];

@@ -7,6 +7,7 @@
 // e-mail addresses and phone numbers are masked before snippets are cut.
 import {
   RECENT_REVIEW_MONTHS,
+  REVIEW_FRESH_MONTHS,
   REVIEW_MAX_AGE_MONTHS,
   REVIEW_MAX_SNIPPETS_PER_TOPIC,
   REVIEW_MAX_SNIPPETS_TOTAL,
@@ -40,6 +41,9 @@ export interface ReviewSnippet {
 export interface ReviewScan {
   /** Reviews within REVIEW_MAX_AGE_MONTHS that were searched. */
   analyzed: number;
+  /** Reviews loaded, and those of them not older than REVIEW_FRESH_MONTHS (weight of the review count). */
+  loaded: number;
+  freshCount: number;
   latestReviewDate: IsoDate | null;
   /** Mean score (0–10) of the reviews of the last RECENT_REVIEW_MONTHS. */
   recentRating: number | null;
@@ -188,8 +192,11 @@ export function scanReviews(reviews: readonly GuestReview[], today: IsoDate, key
   const byPriority = (a: Candidate, b: Candidate) => Number(a.negated) - Number(b.negated) || b.date.localeCompare(a.date) || a.reviewIndex - b.reviewIndex;
   const perTopicCapped = REVIEW_TOPICS.flatMap((topic) => candidates.filter((c) => c.topicHint === topic).sort(byPriority).slice(0, REVIEW_MAX_SNIPPETS_PER_TOPIC));
   const selected = perTopicCapped.sort(byPriority).slice(0, REVIEW_MAX_SNIPPETS_TOTAL);
+  const freshFrom = addMonths(today, -REVIEW_FRESH_MONTHS);
   return {
     analyzed: usable.length,
+    loaded: reviews.length,
+    freshCount: reviews.filter((r) => r.date !== null && r.date >= freshFrom && r.date <= today).length,
     latestReviewDate: usable.reduce<IsoDate | null>((max, r) => (max === null || r.date > max ? r.date : max), null),
     recentRating,
     recentCount: recent.length,

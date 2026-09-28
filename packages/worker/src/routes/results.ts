@@ -17,6 +17,7 @@ import {
   type SearchResultsResponse,
 } from '@reiseplaner/contracts';
 import { productConfig } from '@reiseplaner/config';
+import { DEFAULT_GOAL } from '@reiseplaner/domain';
 import { getSearchOffer, searchPlaces } from '@reiseplaner/db';
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import type { AppEnv } from '../app';
@@ -24,7 +25,7 @@ import { ApiError } from '../http/errors';
 import { rateLimit } from '../http/rate-limit';
 import { parseQuery } from '../http/validate';
 import { cachedHotelDetails, fetchHotelDetails } from '../services/hotel-content';
-import { effectiveFilters, evaluateSearch, filtersFromQuery, filtersFromRequest, matrixCells, offerDto, resultItems } from '../services/results';
+import { admissibleFor, effectiveFilters, evaluateSearch, filtersFromQuery, filtersFromRequest, matrixCells, offerDto, resultItems } from '../services/results';
 import { buildFinale } from '../services/finale';
 import { referencePriceFor } from '../services/reference-price';
 import { loadReviewData, NO_REVIEW_DATA } from '../services/reviews';
@@ -41,6 +42,8 @@ export const resultRoutes = new Hono<AppEnv>()
     const filters = filtersFromQuery(query, filtersFromRequest(request));
     const reviews = await loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA);
     const data = await evaluateSearch(db, search.id, filters, reviews);
+    const goal = query.goal ?? request.goal ?? DEFAULT_GOAL;
+    const admissible = admissibleFor(goal, data.evaluated, data.hotels, reviews);
     const cell = query.place_id && query.checkin ? { place_id: query.place_id, checkin: query.checkin } : null;
     const scoped = cell ? data.evaluated.filter((o) => o.placeId === cell.place_id && o.checkin === cell.checkin) : data.evaluated;
     const places = await searchPlaces(db, search.id);
@@ -61,16 +64,17 @@ export const resultRoutes = new Hono<AppEnv>()
       matrix: {
         places: places.map((p) => ({ id: p.placeId, name: p.name, drive_minutes: p.driveMinutes })),
         dates,
-        cells: matrixCells(data.combinations, data.evaluated),
+        cells: matrixCells(data.combinations, data.evaluated, admissible),
       },
-      items: resultItems(scoped, data.hotelsById, query.sort, reviews),
+      items: resultItems(scoped, data.hotelsById, query.sort, reviews, { goal, admissible }),
       counts: {
         offers: data.evaluated.length,
         passing: passing.length,
         hotels: new Set(passing.map((o) => o.hotelId)).size,
-        bargains: passing.filter((o) => o.bargain).length,
+        bargains: passing.filter((o) => o.bargain && admissible.has(o.hotelId)).length,
+        hidden: new Set(passing.filter((o) => !admissible.has(o.hotelId)).map((o) => o.hotelId)).size,
       },
-      meta: { prices_fetched_at: fetched, sort: query.sort, cell },
+      meta: { prices_fetched_at: fetched, sort: query.sort, goal, cell },
     };
     return c.json(body);
   })

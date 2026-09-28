@@ -76,7 +76,7 @@ export function evaluateOffers(
 
 export function compareOffers(sort: SortKey) {
   return (a: EvaluatedOffer, b: EvaluatedOffer): number => {
-    if (sort === 'price') return a.totalCents - b.totalCents || b.rankScore - a.rankScore;
+    if (sort === 'price') return a.totalCents - b.totalCents || (b.quality ?? -1) - (a.quality ?? -1) || Number(b.refundable) - Number(a.refundable);
     if (sort === 'quality') return (b.quality ?? -1) - (a.quality ?? -1) || b.rankScore - a.rankScore || a.totalCents - b.totalCents;
     return b.rankScore - a.rankScore || a.totalCents - b.totalCents;
   };
@@ -114,15 +114,21 @@ export interface MatrixCell {
   priceBucket: number | null;
 }
 
-/** Matrix: per place × date the passing offer with the highest rank score; price buckets 1–5 by quintile. */
+/**
+ * Matrix: per place × date the cheapest passing offer of a house that passes
+ * the goal's rules (`admissible`, see admissibleHotelIds), so a cell never
+ * shows the price of a house the program sorted out; price buckets 1–5 by
+ * quintile.
+ */
 export function buildMatrix(
   combinations: ReadonlyArray<{ placeId: string; checkin: string; checkout: string; state: CombinationState }>,
   evaluated: readonly EvaluatedOffer[],
+  admissible: ReadonlySet<string> | null = null,
 ): MatrixCell[] {
   const bestByCell = new Map<string, EvaluatedOffer>();
-  const cmp = compareOffers('best');
+  const cmp = compareOffers('price');
   for (const o of evaluated) {
-    if (!o.passes) continue;
+    if (!o.passes || (admissible && !admissible.has(o.hotelId))) continue;
     const key = `${o.placeId}|${o.checkin}`;
     const current = bestByCell.get(key);
     if (!current || cmp(o, current) < 0) bestByCell.set(key, o);

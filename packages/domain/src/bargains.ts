@@ -1,19 +1,11 @@
 // Bargains (architektur.md 6.8, konzept.md 9.4): every mark carries a
-// reason computed from the offers of this search. The three text templates
-// are the only allowed savings statements (claims rule, 6.13).
-import {
-  BARGAIN_DATE_FACTOR,
-  BARGAIN_DATE_MIN_DATES,
-  BARGAIN_PLACE_FACTOR,
-  BARGAIN_PLACE_MAX_QUALITY_GAP,
-  BARGAIN_PLACE_MIN_OFFERS,
-  BARGAIN_VALUE_FACTOR,
-  BARGAIN_VALUE_MIN_OFFERS,
-  BARGAIN_VALUE_MIN_QUALITY,
-} from './constants';
-import { bargainReasonDate, bargainReasonPlace, bargainReasonValue } from './texts';
+// reason computed from the offers of this search; the text template is the
+// only allowed savings statement (claims rule, 6.13). Since 2026-09-28 only
+// the date mark (Ben): the value and place marks hit nearly every real offer.
+import { BARGAIN_DATE_FACTOR, BARGAIN_DATE_MIN_DATES } from './constants';
+import { bargainReasonDate } from './texts';
 
-export type BargainType = 'value' | 'date' | 'place';
+export type BargainType = 'date';
 
 export interface BargainCandidate {
   id: string;
@@ -50,18 +42,6 @@ export function detectBargains(F: readonly BargainCandidate[]): Map<string, Barg
     out.set(id, b);
   };
 
-  // value: quality per euro per night against the median of the search.
-  if (F.length >= BARGAIN_VALUE_MIN_OFFERS) {
-    const values = F.map((o) => o.quality / (o.pricePerNightCents / 100));
-    const med = median(values);
-    F.forEach((o, i) => {
-      const v = values[i] as number;
-      if (med > 0 && v >= BARGAIN_VALUE_FACTOR * med && o.quality >= BARGAIN_VALUE_MIN_QUALITY) {
-        add(o.id, 'value', bargainReasonValue(pct(v / med - 1)));
-      }
-    });
-  }
-
   // date: the same hotel on its other dates (one price per date: the cheapest).
   const byHotel = new Map<string, Map<string, number>>();
   for (const o of F) {
@@ -77,14 +57,5 @@ export function detectBargains(F: readonly BargainCandidate[]): Map<string, Barg
     if (o.pricePerNightCents <= BARGAIN_DATE_FACTOR * med) add(o.id, 'date', bargainReasonDate(pct(1 - o.pricePerNightCents / med)));
   }
 
-  // place: comparable offers in the same place on the same date.
-  for (const o of F) {
-    const peers = F.filter(
-      (x) => x.placeId === o.placeId && x.checkin === o.checkin && Math.abs(x.quality - o.quality) <= BARGAIN_PLACE_MAX_QUALITY_GAP,
-    );
-    if (peers.length < BARGAIN_PLACE_MIN_OFFERS) continue;
-    const med = median(peers.map((x) => x.pricePerNightCents));
-    if (o.pricePerNightCents <= BARGAIN_PLACE_FACTOR * med) add(o.id, 'place', bargainReasonPlace(pct(1 - o.pricePerNightCents / med), o.placeName));
-  }
   return out;
 }

@@ -1,0 +1,5 @@
+-- Verification for 20261013a_review_age: both columns exist, are nullable
+-- integers, and row security is still enabled on review_checks.
+SELECT column_name, data_type, is_nullable FROM information_schema.columns
+ WHERE table_schema = 'app' AND table_name = 'review_checks' AND column_name IN ('reviews_loaded', 'fresh_count');
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'review_checks';
