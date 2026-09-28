@@ -561,25 +561,29 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **Voraussetzungen:** keine neuen BEN-GATEs außer ⛔ BG-20 für S11.5.
 
 **S11.1 Ziel und automatische Vorauswahl** (Fleet-Lane)
-- [ ] `goal` im SearchRequest (optional, ohne Angabe „Preis-Leistung“); `packages/domain/src/preselect.ts` mit den Regeln aus 6.15 und Zählung je Grund; Kandidaten des Rezensionschecks nach Ziel statt nach Rang; `GET /searches/{id}/finale` mit denselben Filtern wie `/results` und `goal`.
+- [x] `goal` im SearchRequest (optional, ohne Angabe „Preis-Leistung“); `packages/domain/src/preselect.ts` mit den Regeln aus 6.15 und Zählung je Grund; Kandidaten des Rezensionschecks nach Ziel statt nach Rang; `GET /searches/{id}/finale` mit denselben Filtern wie `/results` und `goal`. (da775cf, 2026-09-28)
+  - ⟂ drift (2026-09-28): Die Demo zeigte ungeprüfte Häuser im Finale anderer Ziele, darunter eines mit Schimmel. Deshalb prüft der Check zuerst die wahrscheinlichen Finalisten aller drei Ziele, danach bis zu zwei Nachprüfrunden (je höchstens 4 Häuser, `REVIEW_FOLLOWUP_*`); geprüfte Häuser haben im Finale Vorrang, das Preisfenster beginnt beim günstigsten geprüften Haus, ein ungeprüftes verdrängt kein geprüftes (`architektur.md` 6.15, `HANDOFF.md` Drift 29). Warnsignal-Schwellen je Thema (Drift 31).
   - Wiring: Workflow-Schritt `reviews-fetch` → `reviewCandidateIds` → Rezensionscheck; Route `/finale` → `loadReviewData` (Belege je Haus) → `preselect` → `compareFinalists` → Antwort.
   - Demo: `npm run demo -- s11.1` → Suche „Günstig und sauber“ über drei Orte: Aussortierte je Grund, Finalisten günstigste zuerst, alle Finalisten geprüft, 4-Sterne-Häuser mit schwacher Bewertung nicht im Finale; Gründe + Finalisten + Nachrücker = Unterkünfte.
   - STATUS: „Ziel und Vorauswahl“ → `demonstrated`.
 
 **S11.2 Lob-Labels** (Fleet-Lane)
-- [ ] `praise-lexicon.yaml` in fünf Sprachen → `generated/praise-lexicon.ts`; `countPraise` und `praiseLabels` in `packages/domain/src/praise.ts`; Migration `20261011a_review_praise` mit pgTAP; Zählung im Schritt `reviews-fetch`; Labels in Liste, Finale und Detailansicht („Was Gäste loben“ mit Zahlen); simulierte Welt mit Stärken je Haus und heruntergekommenen 4-Sterne-Häusern zum Billigpreis.
+- [x] `praise-lexicon.yaml` in fünf Sprachen → `generated/praise-lexicon.ts`; `countPraise` und `praiseLabels` in `packages/domain/src/praise.ts`; Migration `20261011a_review_praise` mit pgTAP; Zählung im Schritt `reviews-fetch`; Labels in Liste, Finale und Detailansicht („Was Gäste loben“ mit Zahlen); simulierte Welt mit Stärken je Haus und heruntergekommenen 4-Sterne-Häusern zum Billigpreis. (da775cf, 2026-09-28)
+  - ⟂ drift (2026-09-28): Die Detailansicht nennt nur Themen, die mindestens einmal gelobt wurden (Kritik ohne Lob war reines Rauschen; Beschwerden stehen als Warnhinweise darüber). Die simulierte Welt verändert dadurch ältere Demo-Ergebnisse (Drift 30).
   - Wiring: `reviews-fetch` → `countPraise` → `review_checks.praise` → `loadReviewData` → `/results`, `/finale`, Detailansicht → `PraiseLabels`.
   - Demo: `npm run demo -- s11.2` → Füssen: Unterkünfte mit Labels, Detail mit „× gelobt, × kritisiert“, Hotel Schwanen (Schimmel) ohne „Besonders sauber“.
   - STATUS: „Lob-Labels“ → `live-verified` (Walkthrough `finale`).
 
 **S11.3 Finale mit Aufpreis-Vergleich** (Fleet-Lane)
-- [ ] `packages/domain/src/finale.ts` und `features.ts`; Ergebnisseite oben „Deine Auswahl“: Zielwechsel ohne neue Suche, Aussortiertes mit Gründen (aufklappbar), bis zu vier Karten, die günstigste zuerst, mit Aufpreis, „Dafür“ und „Dafür nicht“, Qualitätsabstand, Lage zur Ortsmitte, anderer Ort oder Termin; keine Empfehlung.
+- [x] `packages/domain/src/finale.ts` und `features.ts`; Ergebnisseite oben „Deine Auswahl“: Zielwechsel ohne neue Suche, Aussortiertes mit Gründen (aufklappbar), bis zu vier Karten, die günstigste zuerst, mit Aufpreis, „Dafür“ und „Dafür nicht“, Qualitätsabstand, Lage zur Ortsmitte, anderer Ort oder Termin; keine Empfehlung. (da775cf, 2026-09-28)
+  - ⟂ drift (2026-09-28): Nach dem Screen-Read: je Seite höchstens `FINALE_FEATURES_SHOWN` = 3 Unterschiede mit „+ N weitere“, Reihenfolge Verpflegung, Stornierung, Sauna/Schwimmbad, Lob, übrige Ausstattung; vier Finalisten im 2 × 2-Raster; „etwa gleicher Preis wie …“ statt „+0 €“.
   - Wiring: `ResultsView` → `FinaleView` → `GET /finale` mit den angewandten Filtern der Liste.
   - Demo: `npm run demo -- s11.3` → je Ziel die Finalisten mit Vergleichszeilen; `npm run dogfood -- --mode P --flow finale`.
   - STATUS: „Finale“ → `live-verified`.
 
 **S11.4 Einfaches Suchformular, Doku und Walkthrough** (Fleet-Lane)
-- [ ] Ziel als ein Tipp im Suchformular; Sterne und Mindestbewertung nur noch als „Weitere Filter“ im Ergebnis; `architektur.md` 6.15; Walkthrough-Ablauf `finale`; bestehende Abläufe angepasst.
+- [x] Ziel als ein Tipp im Suchformular; Sterne und Mindestbewertung nur noch als „Weitere Filter“ im Ergebnis; `architektur.md` 6.15; Walkthrough-Ablauf `finale`; bestehende Abläufe angepasst. (da775cf, 2026-09-28)
+  - ⟂ drift (2026-09-28): `architektur.md` additiv ergänzt (BEN-GATE „Änderungen an architektur.md“, von Ben beauftragt, Bestätigung offen: `HANDOFF.md` Drift 28). Zusätzlich erklärt „So berechnen wir die Rangliste“ die Vorauswahl und die Lob-Labels (Transparenz der Auswahlkriterien).
   - Wiring: `StepFrame` → `WizardState.goal` → `toSearchRequest` → `POST /searches` → Workflow und `/finale`.
   - Demo: `npm run demo -- s11.4` → Ziel „Komfort“ gespeichert und im Finale wirksam, ohne Ziel „Preis-Leistung“, unbekanntes Ziel 400, Sterne als Ergebnisfilter.
   - STATUS: „Suchformular mit Ziel“ → `live-verified`.
