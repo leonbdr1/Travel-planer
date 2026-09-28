@@ -50,6 +50,11 @@ export function ResultList({
                   </Link>
                   {item.hotel.stars ? <span className="text-sm text-amber-600">{'★'.repeat(Math.round(item.hotel.stars))}</span> : null}
                   <QualityBadge score={item.quality.score} reviews={item.hotel.review_count} />
+                  {item.recommended ? (
+                    <Badge tone="brand" data-testid="recommended">
+                      {t.recommended}
+                    </Badge>
+                  ) : null}
                 </div>
                 <p className="text-sm text-zinc-600">
                   {o.place_name} · {formatStay(o.checkin, o.checkout)}

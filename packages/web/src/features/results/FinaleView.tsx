@@ -1,8 +1,10 @@
 // Finale (F15, F16, S11.7): the goal switch, what the program sorted out and
 // why, and the finalists as a price ladder, the cheapest first. Every row
 // shows price, surcharge and short badges (green: has it additionally, struck
-// through: lacks it, plain: same as the cheapest), no sentences. No
-// recommendation: whether the sauna is worth 10 € is the traveller's call.
+// through: lacks it, plain: same as the cheapest), no sentences. The
+// recommendation (lowest comparison price, domain/comparison.ts) is marked
+// "Unsere Wahl"; the order stays by price. The goal switch is owned by the
+// results page, so the matrix and the list follow it too.
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { exclusionReasonSchema, type ExclusionReasonCode, type FinaleResponse, type FinalistDto, type OfferFeatureDto } from '@reiseplaner/contracts';
@@ -115,9 +117,16 @@ function Row({ f, isBase, href }: { f: FinalistDto; isBase: boolean; href: strin
       </div>
       <div className="min-w-0 space-y-1.5">
         <div className="flex items-start justify-between gap-2">
-          <Link to={href} className="font-semibold text-zinc-950 hover:underline" data-testid="finalist-name">
-            {f.hotel.name}
-          </Link>
+          <span className="flex flex-wrap items-center gap-1.5">
+            <Link to={href} className="font-semibold text-zinc-950 hover:underline" data-testid="finalist-name">
+              {f.hotel.name}
+            </Link>
+            {f.recommended ? (
+              <Badge tone="brand" data-testid="recommended">
+                {t.recommended}
+              </Badge>
+            ) : null}
+          </span>
           {f.quality.score === null ? (
             <Badge tone="warning" data-testid="unrated">
               {t.unrated}
@@ -179,15 +188,18 @@ export function FinaleView({
   token,
   filters,
   detailHref,
+  goal,
+  onGoalChange,
 }: {
   searchId: string;
   token: string;
   /** The applied filters of the list (memoised by the caller). */
   filters: ResultsParams;
   detailHref: (hotelId: string) => string;
+  /** null: the goal chosen in the search form. */
+  goal: Goal | null;
+  onGoalChange: (goal: Goal) => void;
 }) {
-  // null: the goal chosen in the search form.
-  const [goal, setGoal] = useState<Goal | null>(null);
   const [data, setData] = useState<FinaleResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -217,7 +229,7 @@ export function FinaleView({
           <Heading level={2}>{t.title}</Heading>
           <Text className="text-sm">{t.lead}</Text>
         </div>
-        <GoalSwitch value={goal ?? data?.goal ?? DEFAULT_GOAL} onChange={setGoal} />
+        <GoalSwitch value={goal ?? data?.goal ?? DEFAULT_GOAL} onChange={onGoalChange} />
       </div>
       {error ? <Alert tone="error">{de.status.apiUnreachable}</Alert> : null}
       {!data && loading ? <Spinner label={de.common.loading} /> : null}

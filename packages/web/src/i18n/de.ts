@@ -207,7 +207,8 @@ export const de = {
     fetchedAt: (time: string) => `Preise abgerufen um ${time} Uhr. Preise können sich bis zur Buchung ändern.`,
     counts: (hotels: number, offers: number) => `${hotels} Unterkünfte, ${offers} passende Angebote`,
     sortLabel: 'Sortierung',
-    sort: { best: 'Bestes Angebot', price: 'Preis', quality: 'Bewertung' },
+    sort: { best: 'Unsere Wahl zuerst', price: 'Preis', quality: 'Bewertung' },
+    recommended: 'Unsere Wahl',
     rankingLink: 'So berechnen wir die Rangliste',
     filters: 'Filter',
     budget: 'Budget gesamt (€)',
@@ -257,7 +258,9 @@ export const de = {
   finale: {
     title: 'Deine Auswahl',
     lead: 'Wir haben aussortiert, was nicht zu deinem Ziel passt. Zwischen diesen Unterkünften entscheidest du.',
-    decide: 'Ob dir ein Aufpreis das wert ist, entscheidest du. Wir empfehlen keinen Favoriten.',
+    decide:
+      'Ob dir ein Aufpreis das wert ist, entscheidest du. „Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile (Bewertung, viele Bewertungen, bei Komfort Extras) den Preis am besten aufwiegen.',
+    recommended: 'Unsere Wahl',
     base: 'Günstigste deiner Auswahl',
     surcharge: (eur: string) => `+${eur}`,
     surchargeAgainst: (name: string) => `gegenüber ${name}`,

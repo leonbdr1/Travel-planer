@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import type { EffectiveFilters, MatrixCellDto, SearchResultsResponse } from '@reiseplaner/contracts';
+import type { Goal } from '@reiseplaner/domain';
 import { Alert, Button, Card, Checkbox, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDay, formatTime } from '../../lib/format';
@@ -51,13 +52,21 @@ function filterParamsFrom(form: FilterForm | null): Record<string, string> {
   };
 }
 
-function paramsFrom(filters: Record<string, string>, sort: Sort, cell: { place_id: string; checkin: string } | null): Record<string, string> {
-  return { sort, ...filters, ...(cell ? { place_id: cell.place_id, checkin: cell.checkin } : {}) };
+function paramsFrom(
+  filters: Record<string, string>,
+  sort: Sort,
+  cell: { place_id: string; checkin: string } | null,
+  goal: Goal | null,
+): Record<string, string> {
+  return { sort, ...filters, ...(cell ? { place_id: cell.place_id, checkin: cell.checkin } : {}), ...(goal ? { goal } : {}) };
 }
 
 export function ResultsView({ searchId, token }: { searchId: string; token: string }) {
   const meta = useMeta();
-  const [sort, setSort] = useState<Sort>('best');
+  // Price first (Ben, 2026-09-28): the cheapest acceptable house leads.
+  const [sort, setSort] = useState<Sort>('price');
+  // The finale's goal switch; null = the search's own goal. Matrix and list follow it.
+  const [goal, setGoal] = useState<Goal | null>(null);
   const [form, setForm] = useState<FilterForm | null>(null);
   const [applied, setApplied] = useState<FilterForm | null>(null);
   const [cell, setCell] = useState<{ place_id: string; checkin: string } | null>(null);
@@ -71,7 +80,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
-    fetchResults(searchId, token, paramsFrom(filterParams, sort, cell), controller.signal)
+    fetchResults(searchId, token, paramsFrom(filterParams, sort, cell, goal), controller.signal)
       .then((r) => {
         setData(r);
         setError(null);
@@ -87,7 +96,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, [searchId, token, sort, filterParams, cell]);
+  }, [searchId, token, sort, filterParams, cell, goal]);
 
   const placeName = useMemo(() => new Map(data?.matrix.places.map((p) => [p.id, p.name]) ?? []), [data]);
   const aiLabel = meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : '';
@@ -100,7 +109,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
 
   return (
     <section className="space-y-10" data-testid="results">
-      <FinaleView searchId={searchId} token={token} filters={filterParams} detailHref={detailHref} />
+      <FinaleView searchId={searchId} token={token} filters={filterParams} detailHref={detailHref} goal={goal} onGoalChange={setGoal} />
 
       <section className="space-y-6" data-testid="all-offers">
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -121,7 +130,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
               {t.sortLabel}
             </Label>
             <div role="radiogroup" aria-label={t.sortLabel} className="inline-flex rounded-lg bg-white p-1 shadow-sm ring-1 ring-zinc-200" data-testid="sort">
-              {(['best', 'price', 'quality'] as const).map((key) => (
+              {(['price', 'best', 'quality'] as const).map((key) => (
                 <button
                   key={key}
                   type="button"
