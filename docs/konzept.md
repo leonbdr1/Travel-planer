@@ -207,7 +207,7 @@ Grundsatz: Das Programm sortiert aus, was offensichtlich nicht passt. Zwischen d
 
 ### 9.11 Lob-Labels
 - Aus den Rezensionen der geprüften Unterkünfte zählt das Produkt Lob und Kritik je Thema: Frühstück, Sauberkeit, Ruhe, Personal, Betten, Aussicht, Lage (Erwähnungen in den Feldern „Positiv“ und „Negativ“ der Bewertungen, Stichwortliste in fünf Sprachen, die letzten 24 Monate).
-- Ein Label wie „Gutes Frühstück“ oder „Besonders sauber“ erscheint, wenn genug Gäste im Verhältnis zu allen Bewertungen das Thema loben (mindestens 3 und mindestens 5 % der Bewertungen; von 1000 Gästen sagen 3 nichts aus, von 40 schon), Bewertungen der letzten 6 Monate doppelt zählen, das Lob mindestens 80 % der Erwähnungen ausmacht und keine Warnung zum passenden Beschwerdethema vorliegt. Die Detailansicht nennt die Zahlen, etwa „Frühstück: 23× gelobt, 2× kritisiert“.
+- Ein Label wie „Gutes Frühstück“ oder „Besonders sauber“ erscheint, wenn genug Gäste im Verhältnis zu allen Bewertungen das Thema loben (mindestens 3 und mindestens 5 % der Bewertungen; von 1000 Gästen sagen 3 nichts aus, von 40 schon; Bewertungen in Sprachen, die das Programm nicht auswertet, etwa Japanisch, zählen dabei nicht mit), Bewertungen der letzten 6 Monate doppelt zählen, das Lob mindestens 80 % der Erwähnungen ausmacht und keine Warnung zum passenden Beschwerdethema vorliegt. Die Detailansicht nennt die Zahlen, etwa „Frühstück: 23× gelobt, 2× kritisiert“.
 - Labels erscheinen ohne Zutun des Nutzers in Liste, Finale und Detailansicht.
 
 ## 10. MVP-Features als User Stories

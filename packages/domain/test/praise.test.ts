@@ -48,6 +48,22 @@ describe('countPraise', () => {
     expect(count([review('Great breakfast, tolle Lage.', null, null)])).toEqual({ fruehstueck: [1, 0], lage: [1, 0] });
   });
 
+  it('leaves reviews in languages the lexicon cannot read out of counts and base', () => {
+    // Real houses get reviews in many languages (Füssen: Japanese, Chinese, Russian …);
+    // unreadable ones must not dilute the share of the readable ones.
+    const [c] = countPraise(
+      [
+        review('Tolles Frühstück.', null, 'de'),
+        review('Great breakfast.', null, 'en-gb'),
+        review('朝食が美味しかった。', null, 'ja'),
+        review('Отличный завтрак, breakfast.', null, 'ru'),
+        review('Desayuno excelente.', null, 'es'),
+      ],
+      today,
+    );
+    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, reviewsWeighted: 2 * constants.PRAISE_RECENT_WEIGHT });
+  });
+
   it('weights reviews of the last months up, for the praise and for the base', () => {
     const [c] = countPraise([review('Tolles Frühstück.', null, 'de', '2026-09-01'), review('Tolles Frühstück.', null, 'de', '2025-06-01'), review('Schönes Zimmer.', null, 'de', '2025-06-01')], today);
     expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, praisedWeighted: constants.PRAISE_RECENT_WEIGHT + 1, reviewsWeighted: constants.PRAISE_RECENT_WEIGHT + 2 });

@@ -3,9 +3,11 @@
 // many criticise it (in the "negative" field), over the last
 // PRAISE_MAX_AGE_MONTHS. One count per review and field. A label such as
 // "Gutes Frühstück" appears relative to the house's review volume (see
-// constants: praising guests, share of all reviews with recent ones weighted
-// up, praise share of the mentions) and without a warning on the matching
-// complaint topics. Only counts leave this module, never review texts.
+// constants: praising guests, share of the readable reviews with recent ones
+// weighted up, praise share of the mentions) and without a warning on the
+// matching complaint topics. Reviews in a language the lexicon does not read
+// (e.g. Japanese) neither praise nor count in the base. Only counts leave
+// this module, never review texts.
 import {
   PRAISE_MAX_AGE_MONTHS,
   PRAISE_MIN_MENTIONS,
@@ -32,7 +34,7 @@ export interface PraiseCount {
   /** The same with recent reviews weighted up (PRAISE_RECENT_WEIGHT). */
   praisedWeighted: number;
   criticizedWeighted: number;
-  /** All reviews of the period, weighted the same way: the base of the review share. */
+  /** Readable reviews of the period, weighted the same way: the base of the review share. */
   reviewsWeighted: number;
 }
 
@@ -68,6 +70,12 @@ function languagesOf(language: string | null): readonly LexiconLanguage[] {
   return (REVIEW_LEXICON_LANGUAGES as readonly string[]).includes(lang) ? [lang as LexiconLanguage] : REVIEW_LEXICON_LANGUAGES;
 }
 
+/** A review the lexicon can read: its language is one of the lexicon's, or unknown. */
+function readable(language: string | null): boolean {
+  const lang = language?.slice(0, 2).toLowerCase() ?? '';
+  return lang === '' || (REVIEW_LEXICON_LANGUAGES as readonly string[]).includes(lang);
+}
+
 const normalize = (s: string) => s.replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
 
 /** "Nichts zu bemängeln. Das WLAN war langsam." → only the second sentence counts. */
@@ -92,7 +100,7 @@ export function countPraise(reviews: readonly GuestReview[], today: IsoDate, com
   const counts = new Map<PraiseTopic, PraiseCount>();
   let reviewsWeighted = 0;
   for (const review of reviews) {
-    if (review.date === null || review.date < cutoff || review.date > today) continue;
+    if (review.date === null || review.date < cutoff || review.date > today || !readable(review.language)) continue;
     const weight = review.date >= recent ? PRAISE_RECENT_WEIGHT : 1;
     reviewsWeighted += weight;
     const langs = languagesOf(review.language);
