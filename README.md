@@ -17,7 +17,7 @@ Dann <http://localhost:5173> öffnen. `npm run dev` startet die lokale Datenbank
 
 ## Ausprobieren
 
-> **Mit echten Hotels testen:** [`docs/runbooks/testbetrieb.md`](docs/runbooks/testbetrieb.md) (eigene Schlüssel für LiteAPI, optional openrouteservice und Anthropic; E-Mails simuliert, Buchen aus).
+> **Mit echten Hotels testen:** [`docs/runbooks/testbetrieb.md`](docs/runbooks/testbetrieb.md) (eigene Schlüssel für LiteAPI, optional openrouteservice und Anthropic; E-Mails simuliert, Buchen aus). Die Schwellen der Vorauswahl zum Bewerten: [`docs/startwerte.md`](docs/startwerte.md).
 
 1. **Suche starten:** Startort (z. B. Stuttgart), maximale Fahrzeit, Themen oder ein Freitextwunsch (z. B. „sauber, ruhig und Blick auf den See“), Zeitfenster, Nächte, Anreisetag und das Ziel („Günstig und sauber“, „Preis-Leistung“, „Komfort“). Die Seite zeigt live, wie viele Termine entstehen.
 2. **Orte bestätigen:** Regionsvorschläge mit Begründung, Ortsliste mit Fahrzeiten; eigene Orte lassen sich ergänzen (z. B. Füssen).

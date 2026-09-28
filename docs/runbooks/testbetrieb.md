@@ -83,3 +83,7 @@ Nach `einrichten` oder `aus` einen laufenden `npm run dev` neu starten.
 - Die Seite zeigt „keine Daten“ in der Matrix: meist Zeitüberschreitung oder Tageskontingent; nach einer Minute erneut suchen.
 - Port 5173 belegt: den anderen Dienst beenden oder `PORT=5174 npm run dev`.
 - Alles zurücksetzen: `npm run dev` stoppen, Ordner `.data` löschen, neu starten.
+
+## Beim Testen notieren
+
+Die Vorauswahl arbeitet mit Startwerten (Mindestnote je Ziel, Preisfenster, Sterne-Falle, Warnsignale, Lob-Labels). Die Liste mit einer Spalte für deine Einschätzung steht in [`../startwerte.md`](../startwerte.md). Am meisten hilft ein konkreter Fall: Suche (Orte, Termin, Ziel) und welche Unterkunft zu Unrecht aussortiert oder durchgelassen wurde.
