@@ -17,6 +17,8 @@ Dann <http://localhost:5173> öffnen. `npm run dev` startet die lokale Datenbank
 
 ## Ausprobieren
 
+> **Mit echten Hotels testen:** [`docs/runbooks/testbetrieb.md`](docs/runbooks/testbetrieb.md) (eigene Schlüssel für LiteAPI, optional openrouteservice und Anthropic; E-Mails simuliert, Buchen aus).
+
 1. **Suche starten:** Startort (z. B. Stuttgart), maximale Fahrzeit, Themen oder ein Freitextwunsch (z. B. „sauber, ruhig und Blick auf den See“), Zeitfenster, Nächte und Anreisetag. Die Seite zeigt live, wie viele Termine entstehen.
 2. **Orte bestätigen:** Regionsvorschläge mit Begründung, Ortsliste mit Fahrzeiten; eigene Orte lassen sich ergänzen (z. B. Füssen).
 3. **Ergebnisse:** Preis-Matrix über alle Orte und Termine, Rangliste nach bestem Angebot, Preis oder Bewertung, Filter ohne neue Suche, Schnäppchen mit Begründung. In der simulierten Welt hat etwa „Hotel Schwanen“ in Füssen einen Warnhinweis „Schimmel“ aus dem Rezensionscheck.
@@ -38,6 +40,7 @@ Es entstehen weder Kosten noch echte E-Mails; der gelbe Balken oben erinnert dar
 | `npm run dogfood -- --mode R\|P [--flow <name>]` | Browser-Walkthrough mit Screen-Report |
 | `npm run cli -- <befehl>` | Katalog, GeoNames, Validierung, Kostenbericht (`cost-report --days 7`) … |
 | `npm run smoke -- --base-url <url> [--expect-env staging\|production]` | nur lesender Smoke-Test nach einem Deploy |
+| `npm run cli -- testbetrieb einrichten\|pruefen\|aus` | Testbetrieb mit echten Hotels (eigene Schlüssel), siehe [`docs/runbooks/testbetrieb.md`](docs/runbooks/testbetrieb.md) |
 | `npm run build && npx tsx scripts/dev.ts preview --port 4173 --strictPort` | Produktions-Build lokal (mit Security-Headern und CSP) |
 
 ## Dokumente

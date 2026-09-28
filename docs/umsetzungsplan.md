@@ -191,6 +191,7 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 **S2.1 Provider-Ports und Fakes** (Fleet-Lane)
 - [x] Typisierte Ports `LiteApiPort`, `RoutingPort`, `LlmPort`, `MailPort`; Fakes lesen die Fixtures und erlauben Fehlerinjektion (429, 5xx, Timeout, fehlerhafte Antwort). (c0c6d78, 2026-09-27)
   - ⟂ drift (2026-09-27): Ohne Sandbox gibt es keine aufgezeichneten Fixtures (O2.2 blockiert). Die Fakes simulieren die Anbieter auf HTTP-Ebene mit einer deterministischen synthetischen Welt; `packages/providers/fixtures/` enthält synthetische Beispiele, die gegen die zod-Schemas geprüft werden. `LlmPort` kam mit S3.2 (169e31b).
+  - ⟂ drift (2026-09-28): Auf Bens Wunsch (Testbetrieb mit echten Hotels, lokal) lässt sich jeder Anbieter zusätzlich einzeln auf `fake` oder `real` stellen (`LITEAPI_SOURCE`, `ROUTING_SOURCE`, `LLM_SOURCE`, `MAIL_SOURCE`); ohne diese Variablen gilt `PROVIDERS_MODE` wie in `architektur.md` 3.5, in Produktion ist `fake` verboten. Einrichtung über `npm run cli -- testbetrieb`, siehe `docs/runbooks/testbetrieb.md` und `HANDOFF.md` Drift 27.
   - Wiring: `PROVIDERS_MODE` → Factory in `packages/providers` → Worker-Kontext → Konsumenten ab S2.2.
   - Demo: `npm run demo -- s2.1` → Fake-Tarife für Oberstdorf liefern die Anzahl Hotels aus der Fixture; mit `--inject 429` → zwei Wiederholungen, dann Erfolg.
   - STATUS: „Provider-Ports und Fakes“ → `demonstrated`.
