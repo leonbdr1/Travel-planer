@@ -157,7 +157,7 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - [x] **F15** – Europa-Erweiterung: Ortsdaten, Datenbank, Katalog
 - [x] **F16** – Fahrzeiten in groben Blöcken, Flug-Hinweis ab 30 Stunden
 - [x] **F17** – Regionsname: bei nur einem Highlight-Ort der Ortsname
-- [ ] **F18** – Rezensionen: Stichwörter in weiteren Sprachen
+- [x] **F18** – Rezensionen: Stichwörter in weiteren Sprachen
 
 ### F14 – erledigt
 - Reiseart: „Städte und Kultur“ heißt jetzt **„Kultur und Sehenswürdigkeiten“** (Altstädte, Museen, schöne Bauwerke); neu **„Shopping und Großstadt“** (Einkaufsstraßen, Kaufhäuser) und **„Strand und Meer“** (für Europa). Der Code `staedte_kultur` bleibt, damit alte Suchen gültig bleiben.
@@ -190,3 +190,12 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - Die Stufe auf so einer Karte ist die des Orts (Bozen „Top-Urlaubsort 8,7“ statt Regionsmittel 7,7).
 - Ohne Themenwahl tragen 39 von 109 Regionen den Namen ihres einzigen Top-Orts (Liste in `docs/demos/F17/demo-output.txt`). **Zur Prüfung:** Bei Regionen, die selbst ein bekanntes Ziel sind, liest sich das teils ungewohnt (Mallorca → „Palma“, Algarve → „Lagos“, Irland → „Dublin“, Zillertal → „Mayrhofen“). Die Unterzeile „Region Mallorca“ bleibt sichtbar; falls gewünscht, kann eine Region im Katalog vom Umbenennen ausgenommen werden.
 - Beleg: `npm run demo -- f17` → `docs/demos/F17/demo-output.txt`; Walkthrough `regionsname` in `docs/demos/F17/walkthrough-P/`, Screenshots gelesen.
+
+### F18 – erledigt
+- Bewertungen werden **nicht übersetzt**; die Wörter, die zu unseren Kriterien passen, werden direkt in der Sprache des Gasts erkannt. Neu: Spanisch, Portugiesisch, Polnisch, Tschechisch, Kroatisch, Ungarisch, Dänisch, Schwedisch, Norwegisch, Griechisch (vorher Deutsch, Englisch, Französisch, Italienisch, Niederländisch).
+- Das gilt für die Beschwerden (Sauberkeit, Schimmel, Ungeziefer, Lärm, Geruch, Zustand, „anders als auf den Fotos“) mit Verneinungen („No había ruido“ → keine Beschwerde) und für das Lob („Desayuno excelente“ → Frühstück gelobt).
+- Wörter, die in deutschen Texten etwas anderes heißen, sind bewusst nicht in den Listen (polnisch „kurz“ = Staub, schwedisch „damm“, kroatisch „mir“); ein Test prüft, dass typische deutsche Sätze keine neuen Treffer auslösen.
+- Der KI-Prüfschritt `review-verify` (Version 1.1.0) liest die Ausschnitte in ihrer Sprache; 52 Evals bestanden.
+- Simulierte Unterkünfte in Europa schreiben einen Teil ihrer Bewertungen und alle Mängel-Beschwerden in der Landessprache.
+- Beleg: `npm run demo -- f18` → `docs/demos/F18/demo-output.txt` (Suche über acht europäische Orte: Beschwerden auf Griechisch, Ungarisch und Portugiesisch erkannt und bestätigt); Walkthrough `rezensionen` in `docs/demos/F18/walkthrough-P/` (Chania: griechische Schimmel-Beschwerden als Hinweis „Schimmel: 3 (3 in 6 Mon.)“), Screenshot gelesen.
+- „A und B“ aus Bens Nachricht: dazu gab es in dieser Sitzung keine Frage von mir; nichts umgesetzt, bitte bei Bedarf noch einmal beschreiben.

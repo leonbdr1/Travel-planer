@@ -1,6 +1,6 @@
 // Keyword stage of the review check (architektur.md 6.10, steps 3–7): drop
 // old reviews, derive recent rating and count, find complaint keywords per
-// topic (whole words, case-insensitive, five languages), cut snippets of
+// topic (whole words, case-insensitive, 15 languages since F18), cut snippets of
 // ±REVIEW_SNIPPET_RADIUS characters, cap them per topic and in total, and
 // aggregate the skill's findings (or, without AI, the unverified hits).
 // Author names never reach this module: the provider adapter drops them;
@@ -136,14 +136,23 @@ function isLexiconLanguage(value: string): value is LexiconLanguage {
   return (REVIEW_LEXICON_LANGUAGES as readonly string[]).includes(value);
 }
 
+/**
+ * Two-letter lexicon code of a review language ("es-ES" → "es"); Norwegian
+ * Bokmål and Nynorsk (nb, nn) read as "no". Empty when unknown.
+ */
+export function lexiconLanguageCode(language: string | null): string {
+  const lang = language?.slice(0, 2).toLowerCase() ?? '';
+  return lang === 'nb' || lang === 'nn' ? 'no' : lang;
+}
+
 /** A review the lexicons can read: its language is one of theirs, or unknown. */
 export function readableLanguage(language: string | null): boolean {
-  const lang = language?.slice(0, 2).toLowerCase() ?? '';
+  const lang = lexiconLanguageCode(language);
   return lang === '' || isLexiconLanguage(lang);
 }
 
 function negationSet(language: string | null, lexicon: ReviewLexicon): Set<string> {
-  const lang = language?.slice(0, 2).toLowerCase() ?? '';
+  const lang = lexiconLanguageCode(language);
   // Only the review's own language: "mai" is a negation in Italian but a
   // month in German. Unknown languages use all lists.
   const lists = isLexiconLanguage(lang) ? [lexicon.negations[lang]] : REVIEW_LEXICON_LANGUAGES.map((l) => lexicon.negations[l]);

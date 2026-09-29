@@ -1185,11 +1185,11 @@ return errors === 0;
 }
 
 export const reviewVerifyInput = validate14;
-const schema15 = {"$id":"reiseplaner.review-verify/1.0.0/input","type":"object","additionalProperties":false,"required":["hotelName","snippets"],"properties":{"hotelName":{"type":"string","minLength":1,"maxLength":200},"snippets":{"type":"array","minItems":1,"maxItems":25,"items":{"type":"object","additionalProperties":false,"required":["id","topicHint","date","lang","text"],"properties":{"id":{"type":"string","minLength":1,"maxLength":40},"topicHint":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]},"date":{"type":"string","pattern":"^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},"lang":{"type":"string","minLength":2,"maxLength":8},"text":{"type":"string","minLength":1,"maxLength":400}}}}}};
+const schema15 = {"$id":"reiseplaner.review-verify/1.1.0/input","type":"object","additionalProperties":false,"required":["hotelName","snippets"],"properties":{"hotelName":{"type":"string","minLength":1,"maxLength":200},"snippets":{"type":"array","minItems":1,"maxItems":25,"items":{"type":"object","additionalProperties":false,"required":["id","topicHint","date","lang","text"],"properties":{"id":{"type":"string","minLength":1,"maxLength":40},"topicHint":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]},"date":{"type":"string","pattern":"^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},"lang":{"type":"string","minLength":2,"maxLength":8},"text":{"type":"string","minLength":1,"maxLength":400}}}}}};
 const pattern0 = new RegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "u");
 
 function validate14(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.review-verify/1.0.0/input" */;
+/*# sourceURL="reiseplaner.review-verify/1.1.0/input" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -1542,10 +1542,10 @@ return errors === 0;
 }
 
 export const reviewVerifyOutput = validate15;
-const schema16 = {"$id":"reiseplaner.review-verify/1.0.0/output","type":"object","additionalProperties":false,"required":["findings"],"properties":{"findings":{"type":"array","maxItems":25,"items":{"type":"object","additionalProperties":false,"required":["snippetId","topic","isComplaint","severity"],"properties":{"snippetId":{"type":"string","minLength":1,"maxLength":40},"topic":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]},"isComplaint":{"type":"boolean"},"severity":{"type":"string","enum":["low","medium","high"]}}}}}};
+const schema16 = {"$id":"reiseplaner.review-verify/1.1.0/output","type":"object","additionalProperties":false,"required":["findings"],"properties":{"findings":{"type":"array","maxItems":25,"items":{"type":"object","additionalProperties":false,"required":["snippetId","topic","isComplaint","severity"],"properties":{"snippetId":{"type":"string","minLength":1,"maxLength":40},"topic":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]},"isComplaint":{"type":"boolean"},"severity":{"type":"string","enum":["low","medium","high"]}}}}}};
 
 function validate15(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.review-verify/1.0.0/output" */;
+/*# sourceURL="reiseplaner.review-verify/1.1.0/output" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){

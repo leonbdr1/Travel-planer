@@ -12,7 +12,7 @@ import { PRAISE_MAX_AGE_MONTHS, PRAISE_MIN_MENTIONS, PRAISE_MIN_REVIEW_SHARE, PR
 import { addMonths } from './dates';
 import { PRAISE_LEXICON, type PraiseLexicon } from './generated/praise-lexicon';
 import { REVIEW_LEXICON_LANGUAGES, type LexiconLanguage } from './generated/review-lexicon';
-import { keywordRegex, mentionWeight, readableLanguage } from './review-keywords';
+import { keywordRegex, lexiconLanguageCode, mentionWeight, readableLanguage } from './review-keywords';
 import type { GuestReview, IsoDate } from './types';
 import { PRAISE_BLOCKED_BY, PRAISE_TOPICS, isPraiseTopic, type PraiseTopic } from './vocabulary';
 
@@ -59,7 +59,7 @@ const DEFAULT_COMPILED = compilePraiseLexicon();
 
 /** The review's own language; unknown languages use all lists. */
 function languagesOf(language: string | null): readonly LexiconLanguage[] {
-  const lang = language?.slice(0, 2).toLowerCase() ?? '';
+  const lang = lexiconLanguageCode(language);
   return (REVIEW_LEXICON_LANGUAGES as readonly string[]).includes(lang) ? [lang as LexiconLanguage] : REVIEW_LEXICON_LANGUAGES;
 }
 

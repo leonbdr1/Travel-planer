@@ -61,3 +61,9 @@
 ## 6.2 Regionsvorschläge, 7.x Vertrag (Aufgabe F17)
 
 - `RegionSuggestionDto` zusätzlich `title` (Kartentitel) und `highlight_place` (additiv, Standard leer bzw. `null`): genau ein Top-Urlaubsort unter den zur Suche passenden Orten → Titel = dieser Ort, Stufe und Wert der Karte = die des Orts; sonst Regionsname und Regionswert. Details: `docs/logik/orts-attraktivitaet.md`.
+
+## 6.10 Rezensionscheck, 6.15 Lob-Labels, 9.x Skills (Aufgabe F18)
+
+- Stichwortlisten (`review-lexicon.yaml`, `praise-lexicon.yaml`) zusätzlich in Spanisch, Portugiesisch, Polnisch, Tschechisch, Kroatisch, Ungarisch, Dänisch, Schwedisch, Norwegisch und Griechisch (15 Sprachen), jeweils mit Verneinungen bzw. „nichts zu bemängeln“-Wörtern. Bewertungen werden nicht übersetzt; die für unsere Kriterien wichtigen Wörter werden direkt erkannt. Norwegisch `nb`/`nn` gilt als `no` (`lexiconLanguageCode`).
+- Skill `reiseplaner.review-verify` Version 1.1.0: Prompt nennt die 15 Sprachen, 52 Evals (8 neue in sechs Sprachen).
+- Simulierte Welt: Häuser außerhalb des DACH-Ausschnitts bekommen 40 % ihrer Bewertungen und alle Beschwerden zu ihrem Mangel in der Landessprache (`packages/providers/src/fake/local-reviews.ts`).

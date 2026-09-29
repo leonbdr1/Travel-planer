@@ -33,6 +33,39 @@ export const PRAISE_LEXICON: PraiseLexicon = {
       ],
       "nl": [
         "ontbijt*"
+      ],
+      "es": [
+        "desayun*"
+      ],
+      "pt": [
+        "pequeno-almoço*",
+        "pequeno almoço*",
+        "café da manhã"
+      ],
+      "pl": [
+        "śniadani*"
+      ],
+      "cs": [
+        "snídan*"
+      ],
+      "hr": [
+        "doručak*",
+        "doručk*"
+      ],
+      "hu": [
+        "reggeli*"
+      ],
+      "da": [
+        "morgenmad*"
+      ],
+      "sv": [
+        "frukost*"
+      ],
+      "no": [
+        "frokost*"
+      ],
+      "el": [
+        "πρωινό*"
       ]
     },
     "sauberkeit": {
@@ -88,6 +121,79 @@ export const PRAISE_LEXICON: PraiseLexicon = {
         "stoffig*",
         "vlek*",
         "hygiën*"
+      ],
+      "es": [
+        "limpi*",
+        "sucio",
+        "sucia",
+        "suciedad",
+        "polvo",
+        "higien*",
+        "impecable"
+      ],
+      "pt": [
+        "limp*",
+        "sujo",
+        "suja",
+        "sujidade",
+        "sujeira",
+        "poeira",
+        "higien*",
+        "impecável"
+      ],
+      "pl": [
+        "czyst*",
+        "brud*",
+        "kurzu",
+        "higien*"
+      ],
+      "cs": [
+        "čist*",
+        "špinav*",
+        "prach*",
+        "hygien*"
+      ],
+      "hr": [
+        "čist*",
+        "prljav*",
+        "prašin*",
+        "higijen*"
+      ],
+      "hu": [
+        "tiszta*",
+        "tisztaság*",
+        "koszos*",
+        "piszkos*",
+        "poros*"
+      ],
+      "da": [
+        "ren",
+        "rent",
+        "rene",
+        "renlig*",
+        "beskidt*",
+        "snavset*",
+        "støvet*"
+      ],
+      "sv": [
+        "ren",
+        "rent",
+        "rena",
+        "städ*",
+        "smuts*",
+        "dammig*"
+      ],
+      "no": [
+        "ren",
+        "rent",
+        "rene",
+        "skitten*",
+        "støvete"
+      ],
+      "el": [
+        "καθαρ*",
+        "βρώμικ*",
+        "σκόνη"
       ]
     },
     "ruhe": {
@@ -143,6 +249,70 @@ export const PRAISE_LEXICON: PraiseLexicon = {
         "herrie",
         "geluid*",
         "dunne muren"
+      ],
+      "es": [
+        "tranquil*",
+        "silencio*",
+        "ruido*"
+      ],
+      "pt": [
+        "tranquil*",
+        "silencio*",
+        "sossego",
+        "barulh*",
+        "ruído*"
+      ],
+      "pl": [
+        "cich*",
+        "spokoj*",
+        "hałas*",
+        "głośn*"
+      ],
+      "cs": [
+        "klid*",
+        "tich*",
+        "hluk*",
+        "hlučn*"
+      ],
+      "hr": [
+        "mirno",
+        "mirna",
+        "mirni",
+        "tišin*",
+        "tih*",
+        "buk*",
+        "bučn*"
+      ],
+      "hu": [
+        "csend*",
+        "nyugodt*",
+        "nyugalom",
+        "zaj*",
+        "hangos*"
+      ],
+      "da": [
+        "rolig*",
+        "stille",
+        "larm",
+        "støj*"
+      ],
+      "sv": [
+        "lugn*",
+        "tyst*",
+        "buller",
+        "oljud",
+        "lyhört"
+      ],
+      "no": [
+        "rolig*",
+        "stille",
+        "støy*",
+        "bråk"
+      ],
+      "el": [
+        "ήσυχ*",
+        "ησυχία",
+        "θόρυβ*"
       ]
     },
     "personal": {
@@ -220,6 +390,101 @@ export const PRAISE_LEXICON: PraiseLexicon = {
         "service",
         "vriendelijk*",
         "behulpzaam*"
+      ],
+      "es": [
+        "personal",
+        "anfitrion*",
+        "anfitriona",
+        "recepción",
+        "servicio",
+        "dueñ*",
+        "propietari*",
+        "amable*",
+        "atent*",
+        "simpátic*"
+      ],
+      "pt": [
+        "pessoal",
+        "funcionári*",
+        "anfitri*",
+        "recepção",
+        "serviço",
+        "dono",
+        "dona",
+        "proprietári*",
+        "simpátic*",
+        "prestáve*",
+        "atencios*"
+      ],
+      "pl": [
+        "personel*",
+        "obsług*",
+        "gospodarz*",
+        "gospodyni",
+        "właściciel*",
+        "recepcj*",
+        "uprzejm*",
+        "pomocn*"
+      ],
+      "cs": [
+        "personál*",
+        "obsluh*",
+        "hostitel*",
+        "majitel*",
+        "recepc*",
+        "ochotn*",
+        "přátelsk*"
+      ],
+      "hr": [
+        "osoblje",
+        "domaćin*",
+        "vlasni*",
+        "recepcij*",
+        "ljubazn*",
+        "susretljiv*"
+      ],
+      "hu": [
+        "személyzet*",
+        "házigazd*",
+        "tulajdonos*",
+        "recepció*",
+        "kedves*",
+        "segítőkész*"
+      ],
+      "da": [
+        "personale*",
+        "vært*",
+        "ejer*",
+        "reception*",
+        "venlig*",
+        "hjælpsom*",
+        "service"
+      ],
+      "sv": [
+        "personal*",
+        "värd*",
+        "ägare*",
+        "reception*",
+        "trevlig*",
+        "hjälpsam*",
+        "service"
+      ],
+      "no": [
+        "personale*",
+        "vert*",
+        "eier*",
+        "resepsjon*",
+        "vennlig*",
+        "hjelpsom*",
+        "service"
+      ],
+      "el": [
+        "προσωπικό*",
+        "οικοδεσπότ*",
+        "ιδιοκτήτ*",
+        "ρεσεψιόν",
+        "ευγενικ*",
+        "εξυπηρετικ*"
       ]
     },
     "betten": {
@@ -260,6 +525,71 @@ export const PRAISE_LEXICON: PraiseLexicon = {
         "*bedden",
         "matras*",
         "kussen*"
+      ],
+      "es": [
+        "cama",
+        "camas",
+        "colchón",
+        "colchones",
+        "almohada*"
+      ],
+      "pt": [
+        "cama",
+        "camas",
+        "colchão",
+        "colchões",
+        "almofada*",
+        "travesseiro*"
+      ],
+      "pl": [
+        "łóżk*",
+        "materac*",
+        "poduszk*"
+      ],
+      "cs": [
+        "postel*",
+        "matrac*",
+        "polštář*"
+      ],
+      "hr": [
+        "krevet*",
+        "madrac*",
+        "jastu*"
+      ],
+      "hu": [
+        "ágy",
+        "ágyak",
+        "ágyat",
+        "matrac*",
+        "párn*"
+      ],
+      "da": [
+        "seng",
+        "senge",
+        "sengen",
+        "sengene",
+        "madras*",
+        "pude*"
+      ],
+      "sv": [
+        "säng",
+        "sängar",
+        "sängen",
+        "madrass*",
+        "kudd*"
+      ],
+      "no": [
+        "seng",
+        "senger",
+        "sengen",
+        "sengene",
+        "madrass*",
+        "pute*"
+      ],
+      "el": [
+        "κρεβάτ*",
+        "στρώμα*",
+        "μαξιλάρ*"
       ]
     },
     "aussicht": {
@@ -298,6 +628,50 @@ export const PRAISE_LEXICON: PraiseLexicon = {
       "nl": [
         "*uitzicht*",
         "panorama*"
+      ],
+      "es": [
+        "vista",
+        "vistas",
+        "panorám*",
+        "paisaje*"
+      ],
+      "pt": [
+        "vista",
+        "vistas",
+        "panorâmic*",
+        "paisage*"
+      ],
+      "pl": [
+        "widok*",
+        "panoram*"
+      ],
+      "cs": [
+        "výhled*",
+        "panoram*"
+      ],
+      "hr": [
+        "pogled*",
+        "panoram*"
+      ],
+      "hu": [
+        "kilátás*",
+        "panorám*"
+      ],
+      "da": [
+        "udsigt*",
+        "panorama*"
+      ],
+      "sv": [
+        "utsikt*",
+        "panorama*"
+      ],
+      "no": [
+        "utsikt*",
+        "panorama*"
+      ],
+      "el": [
+        "θέα",
+        "πανοραμικ*"
       ]
     },
     "lage": {
@@ -361,6 +735,75 @@ export const PRAISE_LEXICON: PraiseLexicon = {
         "loopafstand",
         "dichtbij",
         "vlakbij"
+      ],
+      "es": [
+        "ubicación",
+        "situado",
+        "situada",
+        "céntric*",
+        "cerca de",
+        "a pocos pasos",
+        "centro histórico"
+      ],
+      "pt": [
+        "localização",
+        "localizado",
+        "localizada",
+        "central",
+        "perto de",
+        "centro histórico"
+      ],
+      "pl": [
+        "lokalizacj*",
+        "położeni*",
+        "blisko do",
+        "w centrum"
+      ],
+      "cs": [
+        "poloh*",
+        "lokalit*",
+        "v centru",
+        "blízko"
+      ],
+      "hr": [
+        "lokacij*",
+        "položaj*",
+        "u centru",
+        "blizu"
+      ],
+      "hu": [
+        "elhelyezkedés*",
+        "fekvés*",
+        "központ*",
+        "közel"
+      ],
+      "da": [
+        "beliggenhed*",
+        "placering*",
+        "central*",
+        "tæt på",
+        "centrum"
+      ],
+      "sv": [
+        "läge",
+        "läget",
+        "beläget",
+        "centralt",
+        "nära till",
+        "centrum"
+      ],
+      "no": [
+        "beliggenhet*",
+        "plassering*",
+        "sentral*",
+        "nær",
+        "sentrum"
+      ],
+      "el": [
+        "τοποθεσία",
+        "κεντρικ*",
+        "κοντά σε",
+        "κέντρο"
       ]
     }
   },
@@ -383,6 +826,39 @@ export const PRAISE_LEXICON: PraiseLexicon = {
     "nl": [
       "niets",
       "niks"
+    ],
+    "es": [
+      "nada"
+    ],
+    "pt": [
+      "nada"
+    ],
+    "pl": [
+      "nic"
+    ],
+    "cs": [
+      "nic"
+    ],
+    "hr": [
+      "ništa"
+    ],
+    "hu": [
+      "semmi"
+    ],
+    "da": [
+      "intet",
+      "ingenting"
+    ],
+    "sv": [
+      "inget",
+      "ingenting"
+    ],
+    "no": [
+      "ingenting",
+      "intet"
+    ],
+    "el": [
+      "τίποτα"
     ]
   }
 };

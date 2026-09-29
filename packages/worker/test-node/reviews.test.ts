@@ -114,7 +114,7 @@ describe('review check steps (architektur.md 6.10)', () => {
 
     const [check] = await getReviewChecks(test.db, [await schwanenId(test.db)]);
     expect(check?.status).toBe('ok');
-    expect(check?.skillVersion).toBe('1.0.0');
+    expect(check?.skillVersion).toBe('1.1.0');
     expect(check?.topics.find((t) => t.topic === 'schimmel')).toMatchObject({ confirmed_count: 3, recent_count: 3, severity: 'high' });
 
     const final = await runFinalize(d, id);

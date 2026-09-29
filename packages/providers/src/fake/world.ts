@@ -7,6 +7,7 @@
 // (review check), better-rated ones have strengths their guests keep praising
 // (praise labels), and some places have a run-down 4-star hotel at a budget
 // price (star trap). All data is synthetic – no real hotels.
+import { LOCAL_TEXTS, localLanguageAt } from './local-reviews';
 import { base64UrlDecode, base64UrlEncode, between, hashString, intBetween, pick, seeded } from './random';
 
 export type HotelKind = 'Hotel' | 'Gasthof' | 'Pension' | 'Landhotel' | 'Apartments' | 'Boutique-Hotel' | 'Ferienwohnung';
@@ -567,6 +568,9 @@ const ISSUE_CONS: Record<Exclude<IssueProfile, 'none'>, string[]> = {
   photos: ['Das Zimmer sah ganz anders aus als auf den Fotos.', 'Die Bilder im Internet sind deutlich älter als die Realität.'],
 };
 
+/** Share of reviews in the local language for houses outside the DACH frame (Aufgabe F18); complaints about an issue always are. */
+const LOCAL_REVIEW_SHARE = 0.4;
+
 const FIRST_NAMES = ['Anna', 'Jonas', 'Mia', 'Lukas', 'Lea', 'Paul', 'Sophie', 'Felix', 'Emma', 'Max'];
 
 /**
@@ -586,6 +590,9 @@ export function reviewsFor(hotel: FakeHotel, today: string, limit: number): Fake
   const weaknesses = (Object.keys(WEAK_CONS) as Array<keyof typeof WEAK_CONS>).filter((t) => t !== 'fruehstueck' || hotel.boards.includes('BB'));
   const reviews: FakeReview[] = [];
   const issueSlots = hotel.issue === 'none' ? new Set<number>() : hotel.issue === 'mold' ? new Set([0, 2, 4]) : new Set([0, 2, 4, 9]);
+  // Local guests in the European destinations write in their language; own random stream, DACH houses unchanged.
+  const local = localLanguageAt(hotel.lat, hotel.lng);
+  const l = seeded('local-reviews', hotel.id);
   for (let i = 0; i < count; i += 1) {
     // Newest first: spread over roughly 24 months, denser in recent months.
     const ageDays = Math.round(Math.pow(i / Math.max(count, 1), 1.3) * 700 + between(r, 1, 12));
@@ -604,6 +611,20 @@ export function reviewsFor(hotel: FakeHotel, today: string, limit: number): Fake
     const neutralPros = english ? pick(r, PROS_EN) : pick(r, PROS_DE);
     const praised = strengths.length > 0 && p() < STRENGTH_PRAISE_SHARE ? pick(p, strengths) : null;
     const weakness = !issueHere && p() < WEAKNESS_SHARE ? pick(p, weaknesses) : null;
+    const localDraw = l();
+    if (local !== null && (issueHere || localDraw < LOCAL_REVIEW_SHARE)) {
+      const texts = LOCAL_TEXTS[local];
+      reviews.push({
+        averageScore: score,
+        date: `${date} 10:00:00`,
+        language: local,
+        name,
+        headline: score >= 8.5 ? texts.headline.good : score >= 7 ? texts.headline.ok : texts.headline.bad,
+        pros: pick(l, texts.pros),
+        cons: issueHere ? texts.issues[hotel.issue as Exclude<IssueProfile, 'none'>] : pick(l, texts.cons),
+      });
+      continue;
+    }
     reviews.push({
       averageScore: score,
       date: `${date} 10:00:00`,

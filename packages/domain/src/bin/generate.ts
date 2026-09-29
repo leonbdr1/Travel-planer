@@ -14,7 +14,8 @@ import { PRAISE_TOPICS, REVIEW_TOPICS } from '../vocabulary';
 const here = dirname(fileURLToPath(import.meta.url));
 const src = resolve(here, '..');
 
-const LANGUAGES = ['de', 'en', 'fr', 'it', 'nl'] as const;
+// Since F18 also the languages of the European destinations (reviews from local guests).
+const LANGUAGES = ['de', 'en', 'fr', 'it', 'nl', 'es', 'pt', 'pl', 'cs', 'hr', 'hu', 'da', 'sv', 'no', 'el'] as const;
 type Language = (typeof LANGUAGES)[number];
 const keyword = z
   .string()
