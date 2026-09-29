@@ -14,8 +14,8 @@ export type CombinationStatus = 'pending' | 'done' | 'cached' | 'failed';
 export interface NewSearch {
   tokenHash: string;
   request: unknown;
-  originLat: number;
-  originLng: number;
+  originLat: number | null;
+  originLng: number | null;
   ipHash: string | null;
   places: Array<{ placeId: string; driveMinutes: number | null; source: 'suggested' | 'user' }>;
   dates: Array<{ checkin: string; checkout: string }>;
@@ -56,8 +56,8 @@ export interface SearchRow {
   tokenHash: string;
   status: SearchStatus;
   request: unknown;
-  originLat: number;
-  originLng: number;
+  originLat: number | null;
+  originLng: number | null;
   combosTotal: number;
   combosDone: number;
   combosFailed: number;
@@ -73,8 +73,8 @@ type SearchDbRow = {
   token_hash: string;
   status: SearchStatus;
   request: string;
-  origin_lat: number;
-  origin_lng: number;
+  origin_lat: number | null;
+  origin_lng: number | null;
   combos_total: number;
   combos_done: number;
   combos_failed: number;
@@ -100,8 +100,8 @@ export async function getSearch(db: Queryable, id: string): Promise<SearchRow | 
     tokenHash: r.token_hash,
     status: r.status,
     request: JSON.parse(r.request) as unknown,
-    originLat: Number(r.origin_lat),
-    originLng: Number(r.origin_lng),
+    originLat: r.origin_lat === null ? null : Number(r.origin_lat),
+    originLng: r.origin_lng === null ? null : Number(r.origin_lng),
     combosTotal: Number(r.combos_total),
     combosDone: Number(r.combos_done),
     combosFailed: Number(r.combos_failed),

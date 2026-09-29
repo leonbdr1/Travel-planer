@@ -6,7 +6,7 @@ import { getSetting, incrementRateLimit, setSettingIfAbsent } from '@reiseplaner
 import { createTestDb, type TestDb } from '@reiseplaner/db/testing';
 import { z } from 'zod';
 import type { Env } from '../src/env';
-import { GATE_COOKIE, GATE_LOGIN_MAX_ATTEMPTS, GATE_PASSWORD_MIN_LENGTH, gateRole, handleGate, type GateCredentials, type GateOptions } from '../src/gate';
+import { hashPassword, GATE_COOKIE, GATE_LOGIN_MAX_ATTEMPTS, GATE_PASSWORD_MIN_LENGTH, gateRole, handleGate, type GateCredentials, type GateOptions } from '../src/gate';
 
 const ADMIN = 'admin correct horse battery';
 const USER = 'tester correct horse battery';
@@ -132,6 +132,16 @@ describe('first setup', () => {
     expect(again?.headers.get('set-cookie')).toBeNull();
     expect(await signIn(ADMIN)).not.toBe('');
     expect(await signIn('another password 1')).toBe('');
+  });
+
+  it('accepts additional user passwords from GATE_EXTRA_USER_HASHES as role user', async () => {
+    const extra = { ...base, GATE_EXTRA_USER_HASHES: JSON.stringify([await hashPassword('second tester pass')]) } as Env;
+    await setUp(extra);
+    expect(await gateRole(get('/', await signIn('second tester pass', extra)), extra, T0)).toBe('user');
+    expect(await gateRole(get('/', await signIn(USER, extra)), extra, T0)).toBe('user');
+    expect(await signIn('second tester pass', base)).toBe('');
+    const broken = { ...base, GATE_EXTRA_USER_HASHES: 'not json' } as Env;
+    expect(await signIn('second tester pass', broken)).toBe('');
   });
 
   it('stores the passwords once when two setups race', async () => {

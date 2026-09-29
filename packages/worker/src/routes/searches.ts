@@ -127,24 +127,29 @@ export const searchRoutes = new Hono<AppEnv>()
         return c.json({ reason: 'quota' as const, cta: true, message: 'Heute sind keine weiteren Suchen möglich. Bitte versuche es morgen erneut.' }, 402);
       }
 
-      const { times } = await getTravelTimes(
-        {
-          db,
-          routing: deps.providers().routing,
-          routingSource: deps.providers().sources.routing,
-          now: deps.now(),
-          orsDailyCap: productConfig.limits.daily_quotas.ors_calls,
-        },
-        request.origin,
-        places,
-      );
+      // Without a start location (own places only) there are no drive times.
+      const times = request.origin
+        ? (
+            await getTravelTimes(
+              {
+                db,
+                routing: deps.providers().routing,
+                routingSource: deps.providers().sources.routing,
+                now: deps.now(),
+                orsDailyCap: productConfig.limits.daily_quotas.ors_calls,
+              },
+              request.origin,
+              places,
+            )
+          ).times
+        : new Map<string, { durationMin: number }>();
       const byId = new Map(places.map((p) => [p.id, p]));
       const token = randomToken();
       const created = await createSearch(db, {
         tokenHash: await sha256Hex(token),
         request,
-        originLat: request.origin.lat,
-        originLng: request.origin.lng,
+        originLat: request.origin?.lat ?? null,
+        originLng: request.origin?.lng ?? null,
         ipHash: await clientHash(c),
         places: placeIds.map((id) => ({
           placeId: id,

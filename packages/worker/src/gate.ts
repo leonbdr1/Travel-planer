@@ -14,6 +14,7 @@
 // Wrong attempts are limited per client through `limitAttempts` (database
 // counter, fail-closed): 10 per 15 minutes, for the login and the setup alike.
 import { productConfig } from '@reiseplaner/config';
+import { z } from 'zod';
 import type { Env } from './env';
 import { hashClient } from './http/client';
 import { baseSecurityHeaders } from './http/security-headers';
@@ -55,6 +56,22 @@ export interface GateOptions {
   /** Counts one login attempt of `key`; `failed` when the counter is unreachable. */
   limitAttempts: (key: string, max: number, windowS: number) => Promise<AttemptResult>;
   store: GateStore;
+}
+
+const extraUserHashes = z.array(z.object({ salt: z.string(), hash: z.string(), iterations: z.number().int().positive() }));
+
+/**
+ * Additional user passwords (role `user`) from `GATE_EXTRA_USER_HASHES`, a JSON array of salted PBKDF2
+ * records (make one with `hashPassword`). They work next to the stored user password, also after the
+ * first setup. Malformed values are ignored, never opened up.
+ */
+function extraUserRecords(env: Env): PasswordRecord[] {
+  if (!env.GATE_EXTRA_USER_HASHES) return [];
+  try {
+    return extraUserHashes.parse(JSON.parse(env.GATE_EXTRA_USER_HASHES));
+  } catch {
+    return [];
+  }
 }
 
 const enc = new TextEncoder();
@@ -238,7 +255,8 @@ async function login(request: Request, env: Env, options: GateOptions): Promise<
   const form = await request.formData().catch(() => null);
   const given = form?.get('password');
   if (typeof given !== 'string' || given.length > GATE_PASSWORD_MAX_LENGTH) return page(401, TEXTS.wrong);
-  const [isAdmin, isUser] = await Promise.all([verifyPassword(given, credentials.admin), verifyPassword(given, credentials.user)]);
+  const [isAdmin, ...userChecks] = await Promise.all([verifyPassword(given, credentials.admin), verifyPassword(given, credentials.user), ...extraUserRecords(env).map((r) => verifyPassword(given, r))]);
+  const isUser = userChecks.some(Boolean);
   const role: GateRole | null = isAdmin ? 'admin' : isUser ? 'user' : null;
   if (!role) return page(401, TEXTS.wrong);
   return redirect('/', sessionCookie(new URL(request.url), await sessionValue(env, role, now)));

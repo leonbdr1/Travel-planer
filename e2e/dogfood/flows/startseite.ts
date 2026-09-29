@@ -1,23 +1,36 @@
 import type { Flow } from '../types';
 
-// Aufgabe 1: search bar in the style of booking sites on the home page and in
-// step 1; arrival and departure with two clicks in one calendar popover.
+// Aufgabe 1: calendar in the style of booking sites; arrival and departure with
+// two clicks in one popover. The home page has one button to the search; the
+// frame (where, when, who) is filled in on /suche.
 export const startseiteFlow: Flow = {
   name: 'startseite',
   mode: 'P',
   description:
-    'Startseite mit Suchleiste wie bei Buchungsportalen: Startort, Fahrzeit, Kalender mit zwei Klicks (Anreise, dann Abreise), Reisende im Aufklappfeld, weiter zur Suche mit denselben Angaben.',
+    'Startseite mit einem Button „Suche starten“; auf der Suchseite „Wohin soll es gehen?“ oben (Vorschläge ab Startort und/oder eigene Orte), darunter verbunden die Leiste mit Kalender (zwei Klicks: Anreise, dann Abreise) und Reisenden im Aufklappfeld.',
   async run({ page, baseUrl, step, note }) {
     await page.setViewportSize({ width: 1280, height: 900 });
     await step(
-      'Startseite mit Suchleiste',
+      'Startseite: nur ein Button, keine Eingabefelder',
       async () => {
         await page.goto(`${baseUrl}/`);
         await page.evaluate(() => sessionStorage.clear());
         await page.goto(`${baseUrl}/`);
+        await page.getByTestId('hero-search').waitFor();
+      },
+      { expectText: ['Suche starten', 'Flexibel reisen, besser wohnen.'], rejectText: ['Anreise frühestens', 'Fahrzeit (Auto)'], expectSelector: ['[data-testid="hero-search"]'] },
+    );
+    await step(
+      'Klick auf „Suche starten“: oben „Wohin soll es gehen?“, darunter verbunden Datum und Reisende',
+      async () => {
+        await page.getByTestId('hero-search').click();
+        await page.getByTestId('where').waitFor();
         await page.getByTestId('search-bar').waitFor();
       },
-      { expectText: ['Anreise frühestens', 'Abreise spätestens', 'Reisende', '2 Erwachsene · 1 Zimmer', 'Suchen'] },
+      {
+        expectText: ['Wohin soll es gehen?', 'Orte vorschlagen lassen', 'Orte selbst wählen', 'Startort', 'Fahrzeit (Auto)', 'Wann und mit wem?', 'Anreise frühestens', 'Abreise spätestens', '2 Erwachsene · 1 Zimmer'],
+        expectSelector: ['[data-testid="where"] [data-testid="search-bar"]', '[data-testid="way-suggest"] [data-testid="origin-fields"]'],
+      },
     );
     await step(
       'Startort „Stutt“ → Stuttgart',
@@ -68,10 +81,8 @@ export const startseiteFlow: Flow = {
     );
     await page.getByRole('button', { name: 'Fertig' }).click();
     await step(
-      'Suchen → Schritt 1 mit denselben Angaben und Terminvorschau',
+      'Terminvorschau und Startort passen zu den Angaben',
       async () => {
-        await page.getByTestId('hero-search').click();
-        await page.getByRole('heading', { name: 'Deine Suche' }).waitFor();
         await page.getByTestId('date-count').filter({ hasText: 'Termine' }).waitFor();
       },
       {

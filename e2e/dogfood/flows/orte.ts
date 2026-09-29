@@ -35,12 +35,17 @@ export const orteFlow: Flow = {
         }
         await page.getByTestId('own-place-chip').nth(2).waitFor();
       },
-      { expectText: ['Köln', 'Frankfurt am Main', 'Berlin', 'Nur in diesen 3 Orten suchen', 'Weiter zu den Regionen'] },
+      { expectText: ['Köln', 'Frankfurt am Main', 'Berlin', 'Weiter zu den Regionen'] },
     );
     await step(
-      '„Nur in diesen 3 Orten suchen“ → Ortsliste mit genau diesen Orten',
+      'Häkchen „Orte vorschlagen lassen“ raus → Startort nur noch optional, Fahrzeiten bleiben an den Orten, Ortsliste mit genau diesen Orten',
       async () => {
-        await page.getByTestId('own-only').click();
+        await page.getByTestId('toggle-suggest').uncheck();
+        // Only the optional start location stays (for the drive times); no drive time field.
+        await page.getByTestId('origin-fields').waitFor({ state: 'detached' });
+        await page.getByTestId('origin-optional').waitFor();
+        await page.getByTestId('own-place-chip').filter({ hasText: /\d+ h|\d+ min/ }).first().waitFor();
+        await page.getByTestId('frame-next').click();
         await page.getByTestId('combination-count').filter({ hasText: '3 Orte × 2 Termine = 6 Kombinationen' }).waitFor();
       },
       { expectText: ['Deine Orte', 'Köln', 'Frankfurt am Main', 'Berlin', '3 von 10 Orten ausgewählt'], fullPage: true },
@@ -49,6 +54,7 @@ export const orteFlow: Flow = {
       'Zurück, Frankfurt entfernen, Wandern, Weiter zu den Regionen: eigene Orte und Vorschläge zusammen',
       async () => {
         await page.getByRole('button', { name: 'Zurück' }).click();
+        await page.getByTestId('toggle-suggest').check();
         await page.getByRole('button', { name: 'Frankfurt am Main entfernen' }).click();
         await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();
         await page.getByTestId('frame-next').click();

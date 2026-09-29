@@ -16,8 +16,8 @@ export const naechteFlow: Flow = {
         await page.goto(`${baseUrl}/suche`);
         await page.evaluate(() => sessionStorage.clear());
         await page.goto(`${baseUrl}/suche`);
-        await page.getByTestId('origin-input').fill('Stutt');
-        await page.getByRole('option', { name: /^Stuttgart, Baden-Württemberg, DE/ }).click();
+        // Only own places: no suggestions, so no start location is needed.
+        await page.getByTestId('toggle-suggest').uncheck();
         await pickWindow(page, '2026-10-01', '2026-10-19');
         await page.locator('#nights').selectOption('2');
         await page.locator('#nights-max').selectOption('3');
@@ -31,7 +31,7 @@ export const naechteFlow: Flow = {
       async () => {
         await page.getByTestId('own-places-input').fill('Füssen');
         await page.getByRole('option', { name: /^Füssen/ }).first().click();
-        await page.getByTestId('own-only').click();
+        await page.getByTestId('frame-next').click();
         await page.getByTestId('combination-count').filter({ hasText: '1 Ort × 6 Termine = 6 Kombinationen' }).waitFor();
         await page.getByTestId('places-confirm').click();
         await page.getByTestId('start-search').click();

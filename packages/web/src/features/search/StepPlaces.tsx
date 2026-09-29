@@ -11,7 +11,7 @@ import { AttractivenessBadge } from './AttractivenessBadge';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchPlaces, resolvePlace, searchPlaces } from './api';
 import { catalogLabel, formatMinutes } from './labels';
-import { keepOwnSelection, stayDates, toggle, type WizardState } from './state';
+import { activeOrigin, keepOwnSelection, stayDates, toggle, type WizardState } from './state';
 
 const t = de.wizard.places;
 
@@ -92,7 +92,7 @@ export function StepPlaces({
   const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState(false);
   const max = meta.limits.max_places;
-  const origin = state.origin;
+  const origin = activeOrigin(state);
   const needsLoad = !state.direct && state.places.length === 0 && state.selectedRegionIds.length > 0;
 
   useEffect(() => {
