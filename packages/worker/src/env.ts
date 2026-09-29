@@ -45,6 +45,12 @@ export interface Env {
   /** Emergency brake for the booking flow. */
   BOOKING_ENABLED?: string;
   /**
+   * `password`: the whole site (SPA and API) is behind a shared password until it goes public
+   * (src/gate.ts). Unset or `off`: open. Set in staging and production; with `password` a missing
+   * secret closes the site instead of opening it.
+   */
+  SITE_GATE?: string;
+  /**
    * Testbetrieb (local, real data): pin single providers to `fake` or `real`
    * regardless of PROVIDERS_MODE. Not allowed to be `fake` in production.
    */
@@ -61,6 +67,8 @@ export interface Env {
   ORS_API_KEY?: string;
   RESEND_API_KEY?: string;
   SIGNING_KEY?: string;
+  /** Password of the site gate (secret; `wrangler secret put SITE_PASSWORD`). */
+  SITE_PASSWORD?: string;
   IP_HASH_SALT?: string;
   ALTCHA_HMAC_KEY?: string;
   OPS_HB_TOKEN?: string;

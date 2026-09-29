@@ -49,8 +49,12 @@
       "name": "__REISEPLANER_WORKER_NAME__-staging",
       "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "__REISEPLANER_HYPERDRIVE_ID_STAGING__" }],
       "workflows": [{ "name": "__REISEPLANER_WORKER_NAME__-staging-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
+      // The site gate (src/gate.ts) must see every request, so the Worker runs before the assets.
+      "assets": { "not_found_handling": "single-page-application", "run_worker_first": true },
       "vars": {
         "APP_ENV": "staging",
+        // Password gate until the product goes public (BEN-GATE to switch off).
+        "SITE_GATE": "password",
         "PROVIDERS_MODE": "sandbox",
         "LLM_ENABLED": "true",
         "LITEAPI_BASE_URL": "https://api.liteapi.travel/v3.0",
@@ -65,8 +69,12 @@
       "name": "__REISEPLANER_WORKER_NAME__",
       "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "__REISEPLANER_HYPERDRIVE_ID_PRODUCTION__" }],
       "workflows": [{ "name": "__REISEPLANER_WORKER_NAME__-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
+      // The site gate (src/gate.ts) must see every request, so the Worker runs before the assets.
+      "assets": { "not_found_handling": "single-page-application", "run_worker_first": true },
       "vars": {
         "APP_ENV": "production",
+        // Password gate until the product goes public (BEN-GATE to switch off).
+        "SITE_GATE": "password",
         "PROVIDERS_MODE": "live",
         "LLM_ENABLED": "true",
         "LITEAPI_BASE_URL": "https://api.liteapi.travel/v3.0",
