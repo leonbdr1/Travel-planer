@@ -66,7 +66,7 @@ describe('acceptance examples (konzept.md 5.1)', () => {
     ]);
   });
 
-  const stay = { hotelId: 'X', placeId: 'P', placeName: 'Ort', quality: 8, roomName: 'Doppelzimmer', boardType: 'BB', refundable: true };
+  const stay = { hotelId: 'X', placeId: 'P', placeName: 'Ort', quality: 8, nights: 2, roomName: 'Doppelzimmer', boardType: 'BB', refundable: true };
 
   it('example 3: 30 % below the median of its dates → date bargain with the text template', () => {
     const bargains = detectBargains([
@@ -75,13 +75,13 @@ describe('acceptance examples (konzept.md 5.1)', () => {
       { ...stay, id: '3', checkin: '2026-10-16', pricePerNightCents: 10_000 },
       { ...stay, id: '4', checkin: '2026-10-23', pricePerNightCents: 7_000 },
     ]);
-    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 70 € pro Nacht, an deinen Terminen im Mittel 100 € pro Nacht)' });
+    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 140 € gesamt, an deinen anderen Terminen im Mittel 200 € gesamt)' });
     expect(bargains.size).toBe(1);
   });
 });
 
 describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
-  const stay = { hotelId: 'X', placeId: 'P', placeName: 'Ort', quality: 8, roomName: 'Doppelzimmer', boardType: 'BB', refundable: true };
+  const stay = { hotelId: 'X', placeId: 'P', placeName: 'Ort', quality: 8, nights: 2, roomName: 'Doppelzimmer', boardType: 'BB', refundable: true };
 
   it('a double room free on one date is no bargain against the suite left on the others', () => {
     const bargains = detectBargains([
@@ -103,7 +103,7 @@ describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
     // Doppelzimmer on three dates: 120 €, 135.40 €, 90 € → median 120 € → 25 % below.
     expect(bargains.get('4')).toEqual({
       types: ['date'],
-      reason: '25 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 90 € pro Nacht, an deinen Terminen im Mittel 120 € pro Nacht)',
+      reason: '25 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 180 € gesamt, an deinen anderen Terminen im Mittel 240 € gesamt)',
     });
     expect(bargains.size).toBe(1);
   });

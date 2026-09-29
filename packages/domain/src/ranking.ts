@@ -61,7 +61,7 @@ export function evaluateOffers(
     return { ...o, passes: hotel ? passesFilters(o, hotel, filters) : false, quality: breakdown.quality, breakdown, bargain: null as Bargain | null, rankScore: 0 };
   });
   const F = base.filter((o) => o.passes && o.quality !== null);
-  const bargains = detectBargains(F.map((o) => ({ ...o, quality: o.quality as number })));
+  const bargains = detectBargains(F.map((o) => ({ ...o, quality: o.quality as number, nights: Math.max(1, Math.round(o.totalCents / o.pricePerNightCents)) })));
   const prices = F.map((o) => o.pricePerNightCents);
   const min = prices.length ? Math.min(...prices) : 0;
   const max = prices.length ? Math.max(...prices) : 0;

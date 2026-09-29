@@ -38,8 +38,8 @@ const wholeEuro = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
  * compared (the same room) and the median it is measured against, so the
  * percentage can be checked.
  */
-export function bargainReasonDate(percent: number, medianCents: number, priceCents: number): string {
-  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier ${wholeEuro.format(Math.round(priceCents / 100))} € pro Nacht, an deinen Terminen im Mittel ${wholeEuro.format(Math.round(medianCents / 100))} € pro Nacht)`;
+export function bargainReasonDate(percent: number, medianTotalCents: number, totalCents: number): string {
+  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier ${wholeEuro.format(Math.round(totalCents / 100))} € gesamt, an deinen anderen Terminen im Mittel ${wholeEuro.format(Math.round(medianTotalCents / 100))} € gesamt)`;
 }
 
 /** Board labels for e-mails and server texts (the SPA has the same in i18n/de.ts). */
