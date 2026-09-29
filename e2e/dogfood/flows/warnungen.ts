@@ -1,10 +1,14 @@
+import { hotelsAt } from '@reiseplaner/providers';
 import type { Flow } from '../types';
+
+// Füssen as the own place of the search; the simulated LiteAPI answers per place.
+const FUESSEN = { lat: 47.57143, lng: 10.70171 };
 
 export const warnungenFlow: Flow = {
   name: 'warnungen',
   mode: 'P',
   description:
-    'Rezensionscheck (F8, Akzeptanzbeispiel 4): Suche Stuttgart → Füssen × 2 Freitage; die Rezensionen der Top 10 werden geprüft. „Hotel Schwanen“ zeigt in Liste und Detailansicht „Schimmel: 3 Erwähnungen, davon 3 in den letzten 6 Monaten“ mit KI-Kennzeichnung; eine geprüfte Unterkunft ohne Treffer zeigt „keine Auffälligkeiten“.',
+    'Rezensionscheck (F8, Akzeptanzbeispiel 4): Suche Stuttgart → Füssen × 2 Freitage; die Rezensionen der wahrscheinlichen Finalisten werden geprüft. „Hotel Schwanen“ (Schimmel) ist seit dem 28.09. aus Liste und Matrix aussortiert („mit Warnsignalen“); seine Detailansicht zeigt „Schimmel: 3 Erwähnungen, davon 3 in den letzten 6 Monaten“ mit KI-Kennzeichnung; Warnhinweise anderer Häuser stehen mit KI-Kennzeichnung in der Liste; eine geprüfte Unterkunft ohne Treffer zeigt „keine Auffälligkeiten“.',
   async run({ page, baseUrl, step, note }) {
     await step(
       'Suchrahmen gesetzt und eigener Ort Füssen gewählt',
@@ -54,27 +58,33 @@ export const warnungenFlow: Flow = {
       { expectText: ['Suche abgeschlossen', '2 von 2 Kombinationen', 'Alle Angebote'], expectSelector: ['[data-testid="result-warnings"]'] },
     );
 
-    const schwanen = page.getByTestId('result-list').locator('li').filter({ has: page.getByTestId('result-name').filter({ hasText: 'Hotel Schwanen' }) });
     await step(
-      'Liste: Warnhinweis mit KI-Kennzeichnung',
+      'Liste: „Hotel Schwanen“ (Schimmel) aussortiert, andere Warnhinweise mit KI-Kennzeichnung',
       async () => {
-        await schwanen.getByTestId('result-warnings').scrollIntoViewIfNeeded();
-        const text = await schwanen.getByTestId('result-warnings').innerText();
-        if (!text.includes('Schimmel: 3 (3 in 6 Mon.)')) throw new Error(`unexpected warnings: ${text}`);
+        const names = await page.getByTestId('result-list').getByTestId('result-name').allInnerTexts();
+        if (names.includes('Hotel Schwanen')) throw new Error('Hotel Schwanen with mould is in the list');
+        await page.getByTestId('excluded').locator('summary').click();
+        const reasons = await page.getByTestId('excluded').locator('li').allInnerTexts();
+        await page.getByTestId('result-warnings').first().scrollIntoViewIfNeeded();
         const withWarnings = await page.getByTestId('result-warnings').count();
         const noIssues = await page.getByTestId('result-review-ok').count();
-        note(`Liste: ${withWarnings} Unterkünfte mit Warnhinweisen, ${noIssues} geprüft ohne Auffälligkeiten.`);
+        note(`Aussortiert: ${reasons.join(' | ')}`);
+        note(`Liste: ${names.length} Unterkünfte, ${withWarnings} davon mit Warnhinweisen, ${noIssues} geprüft ohne Auffälligkeiten; „Hotel Schwanen“ nicht dabei.`);
       },
       {
-        expectText: ['Schimmel: 3 (3 in 6 Mon.)', 'KI-gestützte Auswertung von Gästebewertungen'],
-        expectSelector: ['[data-testid="result-warnings"] [data-ai-provenance="ai_assisted"]', '[data-testid="result-review-ok"]'],
+        expectText: ['mit Warnsignalen: Gäste berichten von Schimmel', 'KI-gestützte Auswertung von Gästebewertungen'],
+        expectSelector: ['[data-testid="excluded"] li[data-reason="red_flag"]', '[data-testid="result-warnings"] [data-ai-provenance="ai_assisted"]', '[data-testid="result-review-ok"]'],
       },
     );
 
     await step(
-      'Detailansicht: Schimmel 3 von 3 in den letzten 6 Monaten, KI-gestützt',
+      'Detailansicht „Hotel Schwanen“: Schimmel 3 von 3 in den letzten 6 Monaten, KI-gestützt (Akzeptanzbeispiel 4)',
       async () => {
-        await schwanen.getByTestId('result-name').click();
+        // Sorted out, so not linked from the list: open its page of this search directly.
+        const schwanen = hotelsAt(FUESSEN.lat, FUESSEN.lng).find((h) => h.name === 'Hotel Schwanen');
+        if (!schwanen) throw new Error('Hotel Schwanen not in the simulated world at Füssen');
+        const current = new URL(page.url());
+        await page.goto(`${baseUrl}${current.pathname}/unterkunft/${encodeURIComponent(schwanen.id)}${current.hash}`);
         await page.getByTestId('review-check').waitFor({ timeout: 15_000 });
         await page.getByTestId('review-check').scrollIntoViewIfNeeded();
       },

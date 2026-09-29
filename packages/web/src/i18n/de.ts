@@ -207,7 +207,7 @@ export const de = {
     fetchedAt: (time: string) => `Preise abgerufen um ${time} Uhr. Preise können sich bis zur Buchung ändern.`,
     counts: (listed: number, hidden: number) =>
       `${listed === 1 ? '1 Unterkunft passt' : `${listed} Unterkünfte passen`} zu deinem Ziel${hidden > 0 ? `, ${hidden === 1 ? '1 weitere haben' : `${hidden} weitere haben`} wir aussortiert` : ''}.`,
-    countsUnrated: (n: number) => (n === 1 ? 'Die aussortierte ohne Bewertungen steht ganz unten.' : `Die ${n} aussortierten ohne Bewertungen stehen ganz unten.`),
+    countsUnrated: (n: number) => (n === 1 ? 'Eine davon hat keine Bewertungen und steht ganz unten.' : `${n} davon haben keine Bewertungen und stehen ganz unten.`),
     sortLabel: 'Sortierung',
     sort: { best: 'Unsere Wahl zuerst', price: 'Preis', quality: 'Bewertung' },
     recommended: 'Unsere Wahl',
@@ -359,6 +359,7 @@ export const de = {
     scoreRating: (r: string, n: number) => `Durchschnitt ${r} aus ${n} Bewertungen`,
     scorePrior: (mean: string, weight: number) =>
       `Wenige Bewertungen werden zum Gesamtmittel ${mean} gezogen (Gewicht wie ${weight} Bewertungen)`,
+    scoreFullWeight: (full: number) => `Ab ${full} Bewertungen zählt der Durchschnitt voll`,
     scoreBase: 'Basiswert',
     scoreRecency: 'Aktualität',
     scoreRecencyNotChecked: 'Aktualität nicht geprüft',
@@ -394,7 +395,7 @@ export const de = {
       `„Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile den Preis am besten aufwiegen. Dafür rechnen wir jeden Preis in einen Vergleichspreis um: Jeder Punkt Bewertung über der Mindestnote deines Ziels ist ${points.sparen} % („Günstig und sauber“), ${points.ausgewogen} % („Preis-Leistung“) oder ${points.komfort} % („Komfort“) des Preises wert, ab ${reviews} Bewertungen kommen ${reviewsBonus} % hinzu, bei „Komfort“ je Extra wie Frühstück, Halbpension, Sauna oder Pool ${extra} % (höchstens ${extraMax} %). Das Angebot mit dem niedrigsten Vergleichspreis ist unsere Wahl; die Reihenfolge bleibt nach Preis. Unterkünfte ohne Bewertungen sind nie unsere Wahl.`,
     bargainTitle: 'Schnäppchen (★)',
     bargain: (percent: number, dates: number) =>
-      `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem mittleren Preis (Median) an deinen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit den Preisen der anderen Termine; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
+      `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem mittleren Preis (Median) an deinen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit dem mittleren Preis dieses Zimmers an deinen Terminen; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
     otherTitle: 'Was nicht einfließt',
     other: 'Unterkünfte können sich keine bessere Platzierung kaufen. Provisionen oder Margen haben keinen Einfluss auf die Reihenfolge.',
     sortTitle: 'Sortierungen',

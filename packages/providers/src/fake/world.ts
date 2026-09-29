@@ -282,21 +282,66 @@ export function generateFallenHotel(latE2: number, lngE2: number, index: number)
   };
 }
 
+// A listing without reviews that looks too good to be true: the price of a
+// cheap room with sauna and pool (konzept.md 9.9: sorted out, but listed apart
+// so the traveller can still decide, Ben 2026-09-29). Own random streams: every
+// other house of the place stays unchanged.
+const DOUBTFUL_LISTING_SHARE = 0.5;
+const DOUBTFUL_NAMES = ['Ferienwohnung Traumblick', 'Chalet Sonnenglück', 'Apartment Wellness Deluxe', 'Ferienhaus Panorama Spa', 'Luxus-Suite am Wald'];
+
+export function hasDoubtfulListing(latE2: number, lngE2: number): boolean {
+  return seeded('doubtful', latE2, lngE2)() < DOUBTFUL_LISTING_SHARE;
+}
+
+export function generateDoubtfulListing(latE2: number, lngE2: number, index: number): FakeHotel {
+  const r = seeded('doubtful-listing', latE2, lngE2);
+  const offsetKm = between(r, 0.5, 5);
+  const angle = between(r, 0, Math.PI * 2);
+  const lat = latE2 / 100 + (offsetKm / 111) * Math.cos(angle);
+  const lng = lngE2 / 100 + (offsetKm / (111 * Math.cos((latE2 / 100) * (Math.PI / 180)))) * Math.sin(angle);
+  return {
+    id: hotelId(latE2, lngE2, index),
+    name: pick(r, DOUBTFUL_NAMES),
+    kind: 'Ferienwohnung',
+    stars: null,
+    rating: null,
+    reviewCount: 0,
+    lat: Math.round(lat * 1e5) / 1e5,
+    lng: Math.round(lng * 1e5) / 1e5,
+    address: `${pick(r, STREETS)} ${intBetween(r, 1, 48)}`,
+    // About half the price of a regular holiday flat (78–150 €), with sauna, wellness and pool.
+    basePerNightCents: Math.round(between(r, 38, 52) * 100),
+    cityTaxCentsPerPersonNight: 0,
+    taxesKnown: false,
+    facilityIds: [1, 2, 4, 5, 6, 18],
+    photo: `/fake/hotel-${intBetween(r, 1, 8)}.svg`,
+    rooms: roomsFor('Ferienwohnung', r),
+    boards: ['RO'],
+    nonRefundableOffered: false,
+    issue: 'none',
+    availability: between(r, 0.85, 0.97),
+  };
+}
+
 export function hotelsAt(lat: number, lng: number): FakeHotel[] {
   const { latE2, lngE2 } = anchorOf(lat, lng);
   const count = hotelCountAt(latE2, lngE2);
   const hotels = Array.from({ length: count }, (_, i) => generateHotel(latE2, lngE2, i));
   if (hasFallenHotel(latE2, lngE2)) hotels.push(generateFallenHotel(latE2, lngE2, count));
+  if (hasDoubtfulListing(latE2, lngE2)) hotels.push(generateDoubtfulListing(latE2, lngE2, hotels.length));
   return hotels;
 }
 
 export function hotelById(id: string): FakeHotel | null {
   const parsed = parseHotelId(id);
   if (!parsed) return null;
-  const count = hotelCountAt(parsed.latE2, parsed.lngE2);
-  if (parsed.index === count && hasFallenHotel(parsed.latE2, parsed.lngE2)) return generateFallenHotel(parsed.latE2, parsed.lngE2, count);
-  if (parsed.index >= count) return null;
-  return generateHotel(parsed.latE2, parsed.lngE2, parsed.index);
+  const { latE2, lngE2, index } = parsed;
+  const count = hotelCountAt(latE2, lngE2);
+  if (index < count) return generateHotel(latE2, lngE2, index);
+  const fallen = hasFallenHotel(latE2, lngE2);
+  if (index === count && fallen) return generateFallenHotel(latE2, lngE2, count);
+  if (index === count + (fallen ? 1 : 0) && hasDoubtfulListing(latE2, lngE2)) return generateDoubtfulListing(latE2, lngE2, index);
+  return null;
 }
 
 // ---------------------------------------------------------------- prices --

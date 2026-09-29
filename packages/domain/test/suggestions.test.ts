@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { candidatePlaces, rankPlaces, rankRegions, reachablePlaces, type CatalogPlace } from '../src/suggestions';
+import { candidatePlaces, placeLimit, preselectPlaceIds, rankPlaces, rankRegions, reachablePlaces, type CatalogPlace } from '../src/suggestions';
 import { formatDuration, formatList, regionReason } from '../src/texts';
 import { fitsThemes, matchingThemes, themeScore } from '../src/themes';
 
@@ -70,6 +70,26 @@ describe('suggestions (architektur.md 6.2)', () => {
     ]);
     const regions = rankRegions(reachable, ['wandern'], (c) => labels[c] ?? c);
     expect(regions[0]?.reason).toContain('geschätzt');
+  });
+});
+
+describe('places ticked in advance (Ben, 2026-09-28: 7 of 10, Oberstaufen missing)', () => {
+  const region = (name: string, n: number) => ({ places: Array.from({ length: n }, (_, i) => ({ id: `${name}${i + 1}` })) });
+
+  it('fills the free slots of a small region with the next places of the others', () => {
+    const ids = preselectPlaceIds([region('A', 5), region('B', 1), region('C', 5)], 10);
+    expect(ids).toEqual(['A1', 'B1', 'C1', 'A2', 'C2', 'A3', 'C3', 'A4', 'C4', 'A5']);
+    // Before: an equal share of floor(10 / 3) = 3 per region left 7 ticked.
+    expect(preselectPlaceIds([region('A', 2), region('B', 2)], 10)).toEqual(['A1', 'B1', 'A2', 'B2']);
+    expect(preselectPlaceIds([], 10)).toEqual([]);
+  });
+
+  it('never ticks more places than the combinations allow for the dates', () => {
+    expect(placeLimit(10, 120, 9)).toBe(10);
+    expect(placeLimit(10, 120, 12)).toBe(10);
+    expect(placeLimit(10, 120, 13)).toBe(9);
+    expect(placeLimit(10, 120, 0)).toBe(10);
+    expect(placeLimit(10, 120, 200)).toBe(1);
   });
 });
 

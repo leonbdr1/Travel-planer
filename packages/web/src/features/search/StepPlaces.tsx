@@ -3,7 +3,7 @@
 // explicit confirmation before the search starts.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { LocalityDto, MetaConfigResponse, PlaceDto } from '@reiseplaner/contracts';
-import { checkCombinations } from '@reiseplaner/domain';
+import { checkCombinations, placeLimit, preselectPlaceIds } from '@reiseplaner/domain';
 import { AiLabel, Alert, Badge, Button, Card, Heading, Label, Spinner, Text, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
@@ -105,10 +105,10 @@ export function StepPlaces({
       .then((res) => {
         if (cancelled) return;
         const places = res.regions.flatMap((r) => r.places);
-        // Preselect the best places of every region, at most `max` in total.
-        const perRegion = Math.max(1, Math.floor(max / Math.max(1, res.regions.length)));
-        const preselected = res.regions.flatMap((r) => r.places.slice(0, perRegion).map((p) => p.id)).slice(0, max);
-        update({ places, selectedPlaceIds: preselected });
+        // Round by round the next best place of every region, as many as the limits allow.
+        const frame = stayDates(state, meta);
+        const limit = placeLimit(max, meta.limits.max_combinations, frame.ok ? frame.dates.length : 0);
+        update({ places, selectedPlaceIds: preselectPlaceIds(res.regions, limit) });
       })
       .catch((err: unknown) => {
         if (!cancelled) setError(err instanceof ApiRequestError ? err.message : de.status.apiUnreachable);

@@ -5,7 +5,7 @@ export const ergebnisseFlow: Flow = {
   name: 'ergebnisse',
   mode: 'P',
   description:
-    'Ergebnisse (F5, F7, F9, F10, Akzeptanzbeispiel 1): Suche Stuttgart, 5 Orte × 9 Freitage; Matrix mit Farbstufen, Liste mit Schnäppchen-Begründung, Sortierung, Zellfilter, Filter ohne neue Suche, Detailansicht mit Score-Aufschlüsselung, Seite zur Rangliste.',
+    'Ergebnisse (F5, F7, F9, F10, Akzeptanzbeispiel 1): Suche Stuttgart, 5 Orte × 9 Freitage; Matrix mit Farbstufen und Hinweis beim Draufhalten (Unterkunft, Zimmer, Schnäppchen-Begründung), Liste mit Schnäppchen-Begründung, Sortierung, Zellfilter, Filter ohne neue Suche, aussortierte Unterkünfte ohne Bewertungen unten, Detailansicht mit Score-Aufschlüsselung und lesbaren deutschen Texten, Seite zur Rangliste.',
   async run({ page, baseUrl, step, note }) {
     await step(
       'Suche 5 Orte × 9 Termine gestartet und abgeschlossen',
@@ -17,25 +17,51 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('result-list').waitFor({ timeout: 30_000 });
       },
       {
-        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise abgerufen um', 'Bestes Angebot', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen'],
+        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise abgerufen um', 'Unsere Wahl zuerst', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen', 'dasselbe Zimmer'],
         expectSelector: ['[data-testid="result-matrix"]', '[data-testid="bargain-reason"]', '[data-testid="result-filters"]'],
         fullPage: true,
       },
     );
+
+    await step(
+      'Maus auf einen ★-Preis der Matrix: Unterkunft, Zimmer und Begründung',
+      async () => {
+        const cell = page.locator('[data-testid="result-matrix"] td[data-bargain] button').first();
+        await cell.scrollIntoViewIfNeeded();
+        await page.mouse.wheel(0, -200);
+        await cell.hover();
+        const tip = page.getByTestId('tooltip');
+        await tip.waitFor({ timeout: 5_000 });
+        note(`Hinweis beim Draufhalten: ${(await tip.innerText()).replace(/\n/g, ' | ')}`);
+        note(`Beschriftung für Screenreader: ${await cell.getAttribute('aria-label')}`);
+      },
+      {
+        expectText: ['günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer, im Mittel deiner Termine', 'pro Nacht', 'Klick: nur diese Kombination'],
+        expectSelector: ['[data-testid="tooltip"] [data-testid="matrix-bargain-reason"]'],
+        fullPage: false,
+      },
+    );
+    await page.mouse.move(0, 0);
     const cells = await page.locator('[data-testid="result-matrix"] td[data-state]').count();
     const hrefs = await page.getByTestId('result-name').evaluateAll((els) => els.map((el) => el.getAttribute('href')));
     if (new Set(hrefs).size !== hrefs.length) throw new Error('result list shows a hotel more than once');
     note(`Matrix mit ${cells} Zellen; Liste mit ${hrefs.length} Einträgen, jede Unterkunft genau einmal (${new Set(hrefs).size} verschiedene Unterkünfte).`);
 
     await step(
-      'Sortierung nach Preis',
+      'Sortierung „Unsere Wahl zuerst“ (Standard: Preis)',
       async () => {
-        await page.getByTestId('sort').getByRole('radio', { name: 'Preis' }).click();
-        await page.getByTestId('sort').getByRole('radio', { name: 'Preis', checked: true }).waitFor();
+        const totals = await page.getByTestId('result-list').getByTestId('result-total').evaluateAll((els) => els.map((el) => Number(el.getAttribute('data-total-eur'))));
+        if (totals.some((v, i) => i > 0 && v < (totals[i - 1] ?? 0))) throw new Error(`default order is not by price: ${totals.join(', ')}`);
+        await page.getByTestId('sort').getByRole('radio', { name: 'Unsere Wahl zuerst' }).click();
+        await page.getByTestId('sort').getByRole('radio', { name: 'Unsere Wahl zuerst', checked: true }).waitFor();
         await page.waitForTimeout(800);
+        const first = page.getByTestId('result-list').locator('li').first();
+        note(`Standard nach Preis: ${totals.length} Unterkünfte, aufsteigend. Oben bei „Unsere Wahl zuerst“: ${await first.getByTestId('result-name').innerText()}.`);
       },
-      { expectSelector: ['[data-testid="sort"] [aria-checked="true"]'] },
+      { expectSelector: ['[data-testid="sort"] [aria-checked="true"]', '[data-testid="result-list"] li:first-child [data-testid="recommended"]'] },
     );
+    await page.getByTestId('sort').getByRole('radio', { name: 'Preis' }).click();
+    await page.getByTestId('sort').getByRole('radio', { name: 'Preis', checked: true }).waitFor();
 
     await step(
       'Klick auf eine Matrix-Zelle filtert die Liste',
@@ -81,6 +107,24 @@ export const ergebnisseFlow: Flow = {
     await page.getByTestId('result-list').waitFor();
 
     await step(
+      'Aussortierte Unterkünfte ohne Bewertungen stehen unten, mit Grund',
+      async () => {
+        const section = page.getByTestId('unrated-section');
+        await section.scrollIntoViewIfNeeded();
+        const names = await section.getByTestId('result-name').allInnerTexts();
+        const doubts = await section.getByTestId('unrated-doubt').allInnerTexts();
+        note(`${names.length} Unterkünfte ohne Bewertungen unten: ${names.map((n, i) => `${n} („${doubts[i] ?? ''}“)`).join(' | ')}`);
+        note(`Zähler: ${await page.getByTestId('results-counts').innerText()}`);
+        if ((await section.getByTestId('recommended').count()) > 0) throw new Error('a house without reviews is marked as recommendation');
+      },
+      {
+        expectText: ['Ohne Bewertungen, nicht in unserer Auswahl', 'nicht zwingend schlecht', 'noch keine Bewertungen'],
+        expectSelector: ['[data-testid="unrated-section"] [data-testid="unrated-doubt"]'],
+        fullPage: false,
+      },
+    );
+
+    await step(
       'Detailansicht mit allen Terminen und Score-Aufschlüsselung',
       async () => {
         // The review check covers the likely finalists of every goal (architektur.md 6.15),
@@ -94,8 +138,10 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('detail-offers').waitFor({ timeout: 15_000 });
       },
       {
-        expectText: ['Alle Termine und Tarife', 'So setzt sich der Qualitätswert zusammen', 'Aktualität', 'Rezensionscheck', 'Bewertungen geprüft am', 'Buchen'],
-        expectSelector: ['[data-testid="score-breakdown"]', '[data-testid="book-offer"]'],
+        expectText: ['Alle Termine und Tarife', 'So setzt sich der Qualitätswert zusammen', 'Aktualität', 'Rezensionscheck', 'Bewertungen geprüft am', 'Buchen', 'Beschreibung', 'Wichtige Hinweise der Unterkunft', 'Junggesellenabschiede'],
+        expectSelector: ['[data-testid="score-breakdown"]', '[data-testid="book-offer"]', '[data-testid="hotel-description"] h3', '[data-testid="important-information"]'],
+        // Provider markup never shows, and the texts came in German.
+        rejectText: ['<p>', '<strong>', '&amp;', 'This property', 'nur auf Englisch'],
         fullPage: true,
       },
     );
@@ -120,7 +166,10 @@ export const ergebnisseFlow: Flow = {
         await page.goto(`${baseUrl}/ranking`);
         await page.getByRole('heading', { name: 'So berechnen wir die Rangliste' }).waitFor();
       },
-      { expectText: ['Qualitätswert', 'Preis', 'Schnäppchen', 'Provisionen oder Margen haben keinen Einfluss'] },
+      {
+        expectText: ['Qualitätswert', 'Preis', 'Unsere Wahl', 'Schnäppchen (★)', 'dasselbe Zimmer', 'mittleren Preis dieses Zimmers', 'ganz unten', 'Provisionen oder Margen haben keinen Einfluss'],
+        rejectText: ['Wir empfehlen keinen Favoriten', 'gegenüber dem Durchschnitt aller Treffer', 'Rangwert'],
+      },
     );
   },
 };

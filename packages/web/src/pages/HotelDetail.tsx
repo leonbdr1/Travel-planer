@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
 import type { HotelDetailResponse, TextBlockDto } from '@reiseplaner/contracts';
+import { constants } from '@reiseplaner/domain';
 import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { fetchHotelDetail } from '../features/results/api';
 import { ReferencePrice } from '../features/results/ReferencePrice';
@@ -22,7 +23,10 @@ function ScoreBreakdown({ score }: { score: HotelDetailResponse['score'] }) {
   if (score.quality === null) return <Text>{t.noScore}</Text>;
   const rows: Array<[string, string]> = [
     [t.scoreRating(formatScore(score.rating ?? 0), score.reviewCount), ''],
-    [t.scorePrior(formatScore(score.priorMean), score.priorWeight), score.s0 === null ? '' : formatScore(score.s0)],
+    [
+      score.priorWeight > 0 ? t.scorePrior(formatScore(score.priorMean), Math.round(score.priorWeight)) : t.scoreFullWeight(constants.SCORE_FULL_WEIGHT_REVIEWS),
+      score.s0 === null ? '' : formatScore(score.s0),
+    ],
     [
       score.recency.checked ? t.scoreRecency : t.scoreRecencyNotChecked,
       score.recency.applied && score.recency.s1 !== null ? formatScore(score.recency.s1) : '–',

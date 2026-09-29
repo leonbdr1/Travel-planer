@@ -30,7 +30,7 @@ export { createResendClient, type MailMessage, type MailPort } from './mail/clie
 export { createProviders, type FakeTuning, type ProviderHooks, type Providers, type ProvidersConfig } from './factory';
 export { createFakeLiteApiFetch, type FakeFault } from './fake/liteapi-fetch';
 export { fakeMailbox } from './fake/resend-fetch';
-export { FAKE_FACILITIES, hasFallenHotel, hotelCountAt, strengthsOf } from './fake/world';
+export { FAKE_FACILITIES, hasDoubtfulListing, hasFallenHotel, hotelCountAt, hotelsAt, strengthsOf } from './fake/world';
 export { createFakeAnthropicFetch, type FakeLlmRequest, type FakeLlmResponder } from './fake/anthropic-fetch';
 export { createAnthropicClient } from './llm/anthropic';
 export { createFakeReferencePrice } from './fake/reference-price';

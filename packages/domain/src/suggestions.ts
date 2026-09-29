@@ -108,3 +108,29 @@ export function rankPlaces<P extends CatalogPlace>(
     .sort((a, b) => b.score - a.score || a.minutes - b.minutes || a.place.name.localeCompare(b.place.name, 'de'))
     .slice(0, maxPlaces);
 }
+
+/**
+ * Places ticked in advance in step 3: round by round the next best place of
+ * every region, until `limit`. A region with few places leaves its slots to
+ * the others (Ben's test, 2026-09-28: 7 of 10 were ticked and Oberstaufen was
+ * missing, because every region got the same share).
+ */
+export function preselectPlaceIds(regions: ReadonlyArray<{ places: ReadonlyArray<{ id: string }> }>, limit: number): string[] {
+  const picked: string[] = [];
+  for (let round = 0; picked.length < limit; round += 1) {
+    let added = false;
+    for (const region of regions) {
+      const place = region.places[round];
+      if (!place || picked.length >= limit) continue;
+      added = true;
+      if (!picked.includes(place.id)) picked.push(place.id);
+    }
+    if (!added) break;
+  }
+  return picked;
+}
+
+/** How many places may be ticked in advance: `maxPlaces`, and no more than the combinations allow for the dates. */
+export function placeLimit(maxPlaces: number, maxCombinations: number, dateCount: number): number {
+  return dateCount > 0 ? Math.max(1, Math.min(maxPlaces, Math.floor(maxCombinations / dateCount))) : maxPlaces;
+}

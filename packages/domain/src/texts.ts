@@ -34,13 +34,12 @@ const wholeEuro = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
 
 /**
  * Bargain reasons (architektur.md 6.8): the only allowed savings statements.
- * The prices per night of the same room on the other dates make it checkable.
+ * The wording of konzept.md 5.1 (example 3); the parenthesis names what was
+ * compared (the same room) and the median it is measured against, so the
+ * percentage can be checked.
  */
-export function bargainReasonDate(percent: number, otherMinCents: number, otherMaxCents: number): string {
-  const min = wholeEuro.format(Math.round(otherMinCents / 100));
-  const max = wholeEuro.format(Math.round(otherMaxCents / 100));
-  const span = min === max ? min : `${min}–${max}`;
-  return `${percent} % günstiger als dasselbe Zimmer an deinen anderen Terminen (dort ${span} € pro Nacht)`;
+export function bargainReasonDate(percent: number, medianCents: number): string {
+  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer, im Mittel deiner Termine ${wholeEuro.format(Math.round(medianCents / 100))} € pro Nacht)`;
 }
 
 /** Board labels for e-mails and server texts (the SPA has the same in i18n/de.ts). */

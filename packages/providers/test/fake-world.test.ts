@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import { countPraise, praiseLabels, scanReviews } from '@reiseplaner/domain';
 import { createProviders, type ProvidersConfig } from '../src';
-import { generateFallenHotel, hasFallenHotel, hotelById, hotelCountAt, hotelsAt, strengthsOf } from '../src/fake/world';
+import { generateDoubtfulListing, generateFallenHotel, hasDoubtfulListing, hasFallenHotel, hotelById, hotelCountAt, hotelsAt, strengthsOf } from '../src/fake/world';
 
 const config: ProvidersConfig = {
   mode: 'fake',
@@ -72,7 +72,7 @@ describe('run-down 4-star houses (star trap)', () => {
     for (const [latE2, lngE2] of fallen.slice(0, 20)) {
       const hotels = hotelsAt(latE2 / 100, lngE2 / 100);
       const count = hotelCountAt(latE2, lngE2);
-      expect(hotels).toHaveLength(count + 1);
+      expect(hotels).toHaveLength(count + 1 + (hasDoubtfulListing(latE2, lngE2) ? 1 : 0));
       const house = hotels[count];
       expect(house).toEqual(generateFallenHotel(latE2, lngE2, count));
       expect(house?.stars).toBe(4);
@@ -83,8 +83,31 @@ describe('run-down 4-star houses (star trap)', () => {
         if (other.stars === 4 && hotelLike) expect(house?.basePerNightCents).toBeLessThan(other.basePerNightCents);
       }
     }
-    const [latE2, lngE2] = anchors.find(([a, b]) => !hasFallenHotel(a, b)) ?? [0, 0];
+    const [latE2, lngE2] = anchors.find(([a, b]) => !hasFallenHotel(a, b) && !hasDoubtfulListing(a, b)) ?? [0, 0];
     expect(hotelById(`lpf-${latE2}-${lngE2}-${hotelCountAt(latE2, lngE2)}`)).toBeNull();
+  });
+
+  it('adds a listing without reviews that looks too good at some places, after the regular and the run-down house', () => {
+    const doubtful = anchors.filter(([latE2, lngE2]) => hasDoubtfulListing(latE2, lngE2));
+    expect(doubtful.length / anchors.length).toBeGreaterThan(0.35);
+    expect(doubtful.length / anchors.length).toBeLessThan(0.65);
+    for (const [latE2, lngE2] of doubtful.slice(0, 20)) {
+      const hotels = hotelsAt(latE2 / 100, lngE2 / 100);
+      const index = hotelCountAt(latE2, lngE2) + (hasFallenHotel(latE2, lngE2) ? 1 : 0);
+      expect(hotels).toHaveLength(index + 1);
+      const house = hotels[index];
+      expect(house).toEqual(generateDoubtfulListing(latE2, lngE2, index));
+      expect(house).toMatchObject({ rating: null, reviewCount: 0, stars: null });
+      expect(house?.facilityIds).toEqual(expect.arrayContaining([4, 18]));
+      expect(hotelById(house?.id ?? '')).toEqual(house);
+      const flats = hotels.filter((h) => h !== house && h.kind === 'Ferienwohnung' && h.rating !== null);
+      for (const flat of flats) expect(house?.basePerNightCents).toBeLessThan(flat.basePerNightCents);
+    }
+    // The regular houses of a place do not change.
+    const [latE2, lngE2] = doubtful[0] ?? [0, 0];
+    expect(hotelsAt(latE2 / 100, lngE2 / 100).slice(0, hotelCountAt(latE2, lngE2))).toEqual(
+      Array.from({ length: hotelCountAt(latE2, lngE2) }, (_, i) => hotelById(`lpf-${latE2}-${lngE2}-${i}`)),
+    );
   });
 
   it('collect complaints about wear or dirt in recent reviews', async () => {
