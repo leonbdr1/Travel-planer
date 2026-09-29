@@ -350,6 +350,8 @@ export const de = {
     offers: 'Alle Termine und Tarife',
     date: 'Termin',
     room: 'Zimmer und Tarif',
+    boardAndRate: 'Verpflegung',
+    fromPrice: (price: string) => `ab ${price}`,
     cancellation: 'Stornierung',
     price: 'Preis',
     book: 'Buchen',
@@ -399,7 +401,7 @@ export const de = {
       `„Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile den Preis am besten aufwiegen. Dafür rechnen wir jeden Preis in einen Vergleichspreis um: Jeder Punkt Bewertung über der Mindestnote deines Ziels ist ${points.sparen} % („Günstig und sauber“), ${points.ausgewogen} % („Preis-Leistung“) oder ${points.komfort} % („Komfort“) des Preises wert, ab ${reviews} Bewertungen kommen ${reviewsBonus} % hinzu, bei „Komfort“ je Extra wie Frühstück, Halbpension, Sauna oder Pool ${extra} % (höchstens ${extraMax} %). Das Angebot mit dem niedrigsten Vergleichspreis ist unsere Wahl; die Reihenfolge bleibt nach Preis. Unterkünfte ohne Bewertungen sind nie unsere Wahl.`,
     bargainTitle: 'Schnäppchen (★)',
     bargain: (percent: number, dates: number) =>
-      `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem mittleren Preis (Median) an deinen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit dem mittleren Preis dieses Zimmers an deinen Terminen; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
+      `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem mittleren Preis (Median) an deinen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit dem Nachtpreis dieses Angebots und dem mittleren Nachtpreis desselben Zimmers an deinen Terminen (die Listen zeigen den Gesamtpreis, darunter den Nachtpreis); in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
     otherTitle: 'Was nicht einfließt',
     other: 'Unterkünfte können sich keine bessere Platzierung kaufen. Provisionen oder Margen haben keinen Einfluss auf die Reihenfolge.',
     sortTitle: 'Sortierungen',

@@ -63,7 +63,7 @@ export function detectBargains(F: readonly BargainCandidate[]): Map<string, Barg
     if (dates.get(o.checkin) !== o.pricePerNightCents) continue;
     const med = median([...dates.values()]);
     if (o.pricePerNightCents > BARGAIN_DATE_FACTOR * med) continue;
-    out.set(o.id, { types: ['date'], reason: bargainReasonDate(pct(1 - o.pricePerNightCents / med), med) });
+    out.set(o.id, { types: ['date'], reason: bargainReasonDate(pct(1 - o.pricePerNightCents / med), med, o.pricePerNightCents) });
   }
 
   return out;

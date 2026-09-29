@@ -10,6 +10,7 @@ import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@
 import { fetchHotelDetail } from '../features/results/api';
 import { ReferencePrice } from '../features/results/ReferencePrice';
 import { cancellationText, QualityBadge } from '../features/results/ResultList';
+import { groupOffersByRoom } from '../lib/room-groups';
 import { ReviewCheckPanel } from '../features/results/ReviewCheckPanel';
 import { de } from '../i18n/de';
 import { formatEuro, formatEuroCents, formatScore, formatStay } from '../lib/format';
@@ -113,6 +114,7 @@ export function HotelDetail() {
   const bookingEnabled = meta.status !== 'ready' || meta.meta.booking_enabled;
   // Testbetrieb books nothing; the map search leads to the property's own site and phone.
   const testbetrieb = meta.status === 'ready' && isTestbetrieb(meta.meta);
+  const roomGroups = groupOffersByRoom(data.offers);
   const town = h.city ?? data.offers[0]?.place_name ?? null;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([h.name, h.address, town].filter(Boolean).join(', '))}`;
   return (
@@ -149,26 +151,30 @@ export function HotelDetail() {
 
       <Card className="space-y-3">
         <Heading level={2}>{t.offers}</Heading>
-        <div className="overflow-x-auto">
+        {roomGroups.map((group) => (
+          <div key={group.key} className="space-y-2">
+            <h3 className="text-base font-semibold text-zinc-950" data-testid="detail-room-name">
+              {group.name} <span className="text-sm font-normal text-zinc-500">· {t.fromPrice(formatEuro(group.minTotalEur))}</span>
+            </h3>
+        <div className="overflow-x-auto" data-testid="detail-room-group" data-room={group.name}>
           <table className="min-w-full text-sm" data-testid="detail-offers">
             <thead>
               <tr className="text-left text-zinc-500">
                 <th className="py-2 pr-4 font-medium">{t.date}</th>
-                <th className="py-2 pr-4 font-medium">{t.room}</th>
+                <th className="py-2 pr-4 font-medium">{t.boardAndRate}</th>
                 <th className="py-2 pr-4 font-medium">{t.cancellation}</th>
                 <th className="py-2 pr-4 text-right font-medium">{t.price}</th>
                 <th className="py-2" />
               </tr>
             </thead>
             <tbody>
-              {data.offers.map((o) => (
+              {group.offers.map((o) => (
                 <tr key={o.id} className={cx('border-t border-zinc-100 align-top', !o.passes_filters && 'text-zinc-400')}>
                   <td className="whitespace-nowrap py-2 pr-4">
                     <div className="font-medium">{formatStay(o.checkin, o.checkout)}</div>
                     <div className="text-xs text-zinc-500">{o.place_name}</div>
                   </td>
                   <td className="py-2 pr-4">
-                    <div>{o.room_name}</div>
                     <div className="text-xs text-zinc-500">{r.boardNames[o.board_type]}</div>
                     {o.bargain ? (
                       <div className="mt-1 text-xs font-medium text-emerald-800">
@@ -210,6 +216,8 @@ export function HotelDetail() {
             </tbody>
           </table>
         </div>
+          </div>
+        ))}
       </Card>
 
       <div className="grid gap-6 md:grid-cols-2">

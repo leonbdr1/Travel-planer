@@ -75,7 +75,7 @@ describe('acceptance examples (konzept.md 5.1)', () => {
       { ...stay, id: '3', checkin: '2026-10-16', pricePerNightCents: 10_000 },
       { ...stay, id: '4', checkin: '2026-10-23', pricePerNightCents: 7_000 },
     ]);
-    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer, im Mittel deiner Termine 100 € pro Nacht)' });
+    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 70 € pro Nacht, an deinen Terminen im Mittel 100 € pro Nacht)' });
     expect(bargains.size).toBe(1);
   });
 });
@@ -103,7 +103,7 @@ describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
     // Doppelzimmer on three dates: 120 €, 135.40 €, 90 € → median 120 € → 25 % below.
     expect(bargains.get('4')).toEqual({
       types: ['date'],
-      reason: '25 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer, im Mittel deiner Termine 120 € pro Nacht)',
+      reason: '25 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 90 € pro Nacht, an deinen Terminen im Mittel 120 € pro Nacht)',
     });
     expect(bargains.size).toBe(1);
   });
