@@ -14,6 +14,7 @@ export * from './texts';
 export * from './themes';
 export * from './suggestions';
 export * from './pricing';
+export * from './rooms';
 export * from './occupancy';
 export * from './filters';
 export * from './scoring';

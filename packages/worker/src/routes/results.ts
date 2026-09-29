@@ -34,6 +34,7 @@ import {
   matrixCells,
   nightsSummary,
   offerDto,
+  oversizedItems,
   resultItems,
   unratedFor,
   unratedItems,
@@ -84,6 +85,7 @@ export const resultRoutes = new Hono<AppEnv>()
       },
       items,
       unrated: unratedItems(scoped, data.hotelsById, doubts),
+      oversized: oversizedItems(scoped, data.hotelsById),
       counts: {
         offers: data.evaluated.length,
         passing: passing.length,

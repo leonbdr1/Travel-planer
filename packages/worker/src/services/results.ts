@@ -178,6 +178,9 @@ export function offerDto(o: EvaluatedOffer & { nights?: number }): OfferDto {
     passes_filters: o.passes,
     bargain: o.bargain,
     rank_score: o.rankScore,
+    room_fit: o.roomFit ?? 'fits',
+    room_capacity: o.roomCapacity ?? null,
+    room_options: (o.roomOptions ?? []).map((r) => ({ room_name: r.roomName, total_eur: r.totalCents / 100, capacity: r.capacity, fit: r.fit })),
   };
 }
 
@@ -288,6 +291,36 @@ export function resultItems(
     recommended: i === recommended,
     extra_night: steps.get(offer.id) ?? null,
   }));
+}
+
+/**
+ * Houses that offer only rooms clearly larger than the party (Aufgabe 5):
+ * each once with its cheapest such offer, cheapest first; never in the list,
+ * the matrix or the recommendation.
+ */
+export function oversizedItems(evaluated: readonly EvaluatedOffer[], hotels: ReadonlyMap<string, SummaryHotel>): ResultItem[] {
+  const withFitting = new Set(evaluated.filter((o) => o.passes).map((o) => o.hotelId));
+  const best = new Map<string, { offer: EvaluatedOffer; count: number }>();
+  for (const o of evaluated) {
+    if (!o.oversized || withFitting.has(o.hotelId)) continue;
+    const cur = best.get(o.hotelId);
+    if (!cur) best.set(o.hotelId, { offer: o, count: 1 });
+    else best.set(o.hotelId, { offer: o.totalCents < cur.offer.totalCents ? o : cur.offer, count: cur.count + 1 });
+  }
+  return [...best.values()]
+    .sort((a, b) => a.offer.totalCents - b.offer.totalCents)
+    .map(({ offer, count }) => ({
+      hotel: hotelSummary(offer.hotelId, hotels),
+      best_offer: offerDto(offer),
+      other_dates_count: count - 1,
+      quality: qualityDto(offer),
+      warnings: [],
+      review_status: 'none',
+      reviews_checked: null,
+      labels: [],
+      recommended: false,
+      extra_night: null,
+    }));
 }
 
 /** The sorted-out houses without reviews in the list's scope: each once with its cheapest passing offer, cheapest first. */

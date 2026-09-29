@@ -116,6 +116,18 @@ export function HotelDetail() {
   // Testbetrieb books nothing; the map search leads to the property's own site and phone.
   const testbetrieb = meta.status === 'ready' && isTestbetrieb(meta.meta);
   const roomGroups = groupOffersByRoom(data.offers);
+  // Every room of the house on the searched dates (Aufgabe 5): fitting ones first, each with its lowest price.
+  const roomOverview = (() => {
+    const rooms = new Map<string, { name: string; minEur: number; capacity: number | null; fit: 'fits' | 'oversized' }>();
+    for (const o of data.offers) {
+      for (const room of o.room_options) {
+        const key = room.room_name.toLocaleLowerCase('de-DE').trim();
+        const cur = rooms.get(key);
+        if (!cur || room.total_eur < cur.minEur) rooms.set(key, { name: room.room_name, minEur: room.total_eur, capacity: room.capacity, fit: room.fit });
+      }
+    }
+    return [...rooms.values()].sort((a, b) => (a.fit === b.fit ? a.minEur - b.minEur : a.fit === 'fits' ? -1 : 1));
+  })();
   // One night more of the same stay (Aufgabe 4), shown at the shorter stay.
   const nightSteps = extraNights(
     data.offers
@@ -158,6 +170,22 @@ export function HotelDetail() {
 
       <Card className="space-y-3">
         <Heading level={2}>{t.offers}</Heading>
+        {roomOverview.length > 0 ? (
+          <div className="rounded-lg bg-zinc-50 p-3 text-sm ring-1 ring-zinc-200" data-testid="room-overview">
+            <p className="font-medium text-zinc-900">{t.roomOverviewTitle(data.occupancy.adults + data.occupancy.children, data.occupancy.rooms)}</p>
+            <ul className="mt-1 space-y-0.5">
+              {roomOverview.map((room) => (
+                <li key={room.name} className={cx('flex flex-wrap gap-x-2', room.fit === 'oversized' ? 'text-zinc-500' : 'text-zinc-800')} data-fit={room.fit}>
+                  <span className="font-medium">{room.name}</span>
+                  <span>{t.fromPrice(formatEuro(room.minEur))}</span>
+                  {room.capacity !== null ? <span className="text-zinc-500">· {t.roomCapacity(room.capacity)}</span> : null}
+                  {room.fit === 'oversized' ? <span className="text-zinc-500">· {t.roomOversizedShort}</span> : null}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-1 text-xs text-zinc-500">{t.roomOverviewNote}</p>
+          </div>
+        ) : null}
         {roomGroups.map((group) => (
           <div key={group.key} className="space-y-2">
             <h3 className="text-base font-semibold text-zinc-950" data-testid="detail-room-name">
@@ -188,7 +216,13 @@ export function HotelDetail() {
                         <Badge tone="bargain">{r.bargain}</Badge> {o.bargain.reason}
                       </div>
                     ) : null}
-                    {!o.passes_filters ? <div className="text-xs">{t.filteredOut}</div> : null}
+                    {o.room_fit === 'oversized' ? (
+                      <div className="text-xs" data-testid="detail-room-oversized">
+                        {r.roomOversized(o.room_capacity)}
+                      </div>
+                    ) : !o.passes_filters ? (
+                      <div className="text-xs">{t.filteredOut}</div>
+                    ) : null}
                     {(() => {
                       const step = nightSteps.get(o.id);
                       return step && step.fromNights === o.nights ? (

@@ -312,6 +312,11 @@ export const de = {
     allOffersLead: 'Jede Unterkunft mit ihrem besten Angebot, mit Filtern, Sortierung und Preis-Matrix.',
     moreFilters: 'Weitere Filter: Sterne und Bewertungen',
     moreFiltersHint: 'Sterne sagen wenig über Sauberkeit und Zustand. Deine Auswahl oben stützt sich auf die Bewertungen der Gäste.',
+    oversizedTitle: (n: number) => `Nur größere Unterkünfte frei (${n})`,
+    oversizedLead:
+      'Diese Unterkünfte haben an deinen Terminen nur Wohnungen oder Zimmer frei, die deutlich mehr Platz bieten, als du brauchst – etwa die große Ferienwohnung für die ganze Familie. Du kannst sie ansehen und buchen; in den Preisvergleich, die Preis-Matrix und „Deine Auswahl“ nehmen wir sie nicht auf.',
+    roomOversized: (capacity: number | null) =>
+      capacity === null ? 'Größer als nötig – nicht im Preisvergleich' : `Für bis zu ${capacity} Personen, größer als nötig – nicht im Preisvergleich`,
     unratedTitle: (n: number) => `Ohne Bewertungen, nicht in unserer Auswahl (${n})`,
     unratedLead:
       'Diese Unterkünfte haben noch keine Bewertungen, und ihr Preis oder ihre Ausstattung passt nicht ins Bild der bewerteten Unterkünfte deiner Suche. Ohne Bewertungen ist eine Unterkunft nicht zwingend schlecht, wir können ihre Qualität nur nicht einschätzen. Deshalb stehen sie nicht in „Deine Auswahl“ und sind nie „Unsere Wahl“. Sieh sie dir an und entscheide selbst.',
@@ -412,6 +417,11 @@ export const de = {
     room: 'Zimmer und Tarif',
     boardAndRate: 'Verpflegung',
     fromPrice: (price: string) => `ab ${price}`,
+    roomOverviewTitle: (persons: number, rooms: number) =>
+      `Zimmer dieser Unterkunft an deinen Terminen (du suchst für ${persons} ${persons === 1 ? 'Person' : 'Personen'}${rooms > 1 ? ` in ${rooms} Zimmern` : ''}):`,
+    roomCapacity: (n: number) => (n === 1 ? 'für 1 Person' : `für bis zu ${n} Personen`),
+    roomOversizedShort: 'größer als nötig',
+    roomOverviewNote: 'Preise für den ganzen Aufenthalt. Zimmer, die deutlich größer sind als nötig, zeigen wir, rechnen sie aber nicht in Preisvergleich und Auswahl ein.',
     cancellation: 'Stornierung',
     price: 'Preis',
     book: 'Buchen',

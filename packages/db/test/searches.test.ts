@@ -51,6 +51,9 @@ const offer = (hotelId: string, totalCents: number): NormalizedOffer => ({
   currency: 'EUR',
   nights: 2,
   pricePerNightCents: totalCents / 2,
+  roomFit: 'fits',
+  roomCapacity: 2,
+  roomOptions: [{ roomName: 'Doppelzimmer', totalCents, capacity: 2, fit: 'fits' }],
 });
 
 describe('search repositories', () => {

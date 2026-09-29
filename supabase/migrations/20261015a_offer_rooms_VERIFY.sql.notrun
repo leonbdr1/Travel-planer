@@ -1,0 +1,5 @@
+-- Verification for 20261015a_offer_rooms: the three columns exist with their
+-- defaults, and row security is still enabled on offers.
+SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns
+ WHERE table_schema = 'app' AND table_name = 'offers' AND column_name IN ('room_fit', 'room_capacity', 'room_options');
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'offers';

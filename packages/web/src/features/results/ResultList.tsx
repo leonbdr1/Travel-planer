@@ -80,6 +80,11 @@ export function ResultList({
                   {o.room_name} · {t.boardNames[o.board_type]} · {cancellationText(o.refundable, o.free_cancel_until)}
                 </p>
                 {item.extra_night ? <ExtraNightNote extra={item.extra_night} /> : null}
+                {o.room_fit === 'oversized' ? (
+                  <p className="text-sm text-zinc-600" data-testid="room-oversized">
+                    {t.roomOversized(o.room_capacity)}
+                  </p>
+                ) : null}
                 <PraiseLabels labels={item.labels} max={constants.PRAISE_MAX_LABELS_LIST} />
                 {item.doubt ? (
                   <p className="text-sm text-amber-800" data-testid="unrated-doubt" data-code={item.doubt.code}>

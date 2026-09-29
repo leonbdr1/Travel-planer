@@ -88,6 +88,13 @@ export const offerDtoSchema = z.object({
   passes_filters: z.boolean(),
   bargain: z.object({ types: z.array(z.enum(['value', 'date', 'place'])), reason: z.string() }).nullable(),
   rank_score: z.number(),
+  /** Aufgabe 5: the room fits the party, or it is clearly larger than needed (shown, outside the price formation). */
+  room_fit: z.enum(['fits', 'oversized']).default('fits'),
+  room_capacity: z.number().int().nullable().default(null),
+  /** Every room of the house on this date with its cheapest price (on the cheapest offer of a date). */
+  room_options: z
+    .array(z.object({ room_name: z.string(), total_eur: z.number(), capacity: z.number().int().nullable(), fit: z.enum(['fits', 'oversized']) }))
+    .default([]),
 });
 export type OfferDto = z.infer<typeof offerDtoSchema>;
 
@@ -188,6 +195,8 @@ export const searchResultsResponseSchema = z.object({
   items: z.array(resultItemSchema),
   /** Sorted-out houses without reviews, cheapest first, in the same scope as `items`. */
   unrated: z.array(unratedItemSchema),
+  /** Houses with only rooms clearly larger than the party (Aufgabe 5): shown apart, outside the price formation. */
+  oversized: z.array(resultItemSchema).default([]),
   counts: z.object({
     offers: z.number().int(),
     passing: z.number().int(),

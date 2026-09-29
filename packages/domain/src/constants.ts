@@ -86,6 +86,15 @@ export const RECENT_REVIEW_MONTHS = 12;
 export const BARGAIN_DATE_FACTOR = 0.8;
 export const BARGAIN_DATE_MIN_DATES = 3;
 /**
+ * Rooms and party (Aufgabe 5, docs/logik/zimmer-und-personen.md): a room fits
+ * up to this many places more than the largest group in one room; a bigger one
+ * is shown but stays out of the price formation.
+ */
+export const ROOM_OVERSIZE_EXTRA = 2;
+/** Prepared for "Komfort" (not wired): weight of the cheapest fitting room against the median of all fitting rooms. */
+export const COMFORT_CHEAPEST_WEIGHT = 0.5;
+
+/**
  * Flexible nights (Aufgabe 4, docs/logik/flexible-naechte.md): the extra night
  * of the same stay is "cheap" at most at this share of the nightly price of the
  * shorter stay, "expensive" from this share on.

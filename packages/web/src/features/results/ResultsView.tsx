@@ -268,6 +268,14 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         {loading ? <Spinner label={de.common.loading} /> : null}
         {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} />}
 
+        {data.oversized.length > 0 ? (
+          <section className="space-y-3 border-t border-zinc-200 pt-6" data-testid="oversized-section">
+            <Heading level={3}>{t.oversizedTitle(data.oversized.length)}</Heading>
+            <Text className="max-w-3xl text-sm">{t.oversizedLead}</Text>
+            <ResultList items={data.oversized} detailHref={detailHref} aiLabel={aiLabel} testId="oversized-list" />
+          </section>
+        ) : null}
+
         {data.unrated.length > 0 ? (
           <section id={UNRATED_SECTION_ID} className="space-y-3 border-t border-zinc-200 pt-6" data-testid="unrated-section">
             <Heading level={3}>{t.unratedTitle(data.unrated.length)}</Heading>

@@ -11,7 +11,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 2** – Rechenfehler „Alle Termine und Tarife“ (Vergleich nur über dasselbe Zimmer)
 - [x] **Aufgabe 3** – Standortsuche: Postleitzahlen, fehlende Orte, manuelle Mehrfachauswahl von Orten
 - [x] **Aufgabe 4** – Flexible Übernachtungsanzahl (z. B. 2 bis 3 Nächte)
-- [ ] **Aufgabe 5** – Personenzahl und Zimmerlogik
+- [x] **Aufgabe 5** – Personenzahl und Zimmerlogik
 - [ ] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
 - [ ] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
 - [ ] **Aufgabe 8** – Attraktivität von Regionen und Orten
@@ -66,3 +66,13 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Simulierte Unterkünfte: ab der 3. Nacht gibt jedes vierte Haus Rabatt, jedes vierte verlangt deutlich mehr (nur Aufenthalte ab 3 Nächten betroffen), damit alle drei Fälle vorführbar sind.
 - Beleg: Walkthrough `naechte` in `docs/demos/F4/walkthrough-P/` (6 Termine, 8 Hinweise: 2 günstig, 5 normal, 1 teuer), Screenshots gelesen; Unit-Tests `packages/domain/test/nights.test.ts`, `dates.test.ts`, `scoring.test.ts`; `npm test` 419 grün.
 - Offen/bekannte Grenze: Vorauswahl und Finale nehmen je Haus das günstigste Angebot nach Gesamtpreis (meist die kürzere Variante); Nachtrag für `architektur.md` in `docs/architektur-nachtrag.md` wartet auf Freigabe.
+
+### Aufgabe 5 – erledigt
+- Ansatz: `docs/logik/zimmer-und-personen.md`.
+- Zimmergröße aus der Belegung des Anbieters, sonst aus dem Namen („für 6 Personen“, „Einzelzimmer“, „Familienzimmer“ …), sonst unbekannt (= passt). Ein Zimmer passt bis 2 Plätze über der Gruppengröße pro Zimmer; größer = „größer als nötig“.
+- Preisbildung: je Haus und Termin das günstigste (und günstigste stornierbare) Angebot **nur unter passenden Zimmern** – bei mehreren passenden Zimmern sind alle Kandidaten, für „Günstig und sauber“ zählt nur das günstigste. Größere Zimmer fließen nicht in Liste, Matrix, Schnäppchen, Vorauswahl, Finale und „Unsere Wahl“ ein, werden aber gezeigt: Häuser mit nur größeren Wohnungen unten unter „Nur größere Unterkünfte frei“ (buchbar), in der Detailansicht grau mit Hinweis.
+- Detailansicht: „Zimmer dieser Unterkunft an deinen Terminen“ – alle Zimmer mit „ab“-Preis und Größe, passende zuerst.
+- „Komfort“: nur vorbereitet (`comfortRoomPrice` in `packages/domain/src/rooms.ts`, 50 % günstigstes + 50 % Median der passenden Zimmer), nicht verdrahtet (Aufgabe 0).
+- Datenbank: Migration `supabase/migrations/20261015a_offer_rooms.sql` (additiv, nur lokal), pgTAP-Test `offer_rooms.sql`.
+- Beleg: Walkthrough `zimmer` in `docs/demos/F5/walkthrough-P/` (1 Erwachsener: 4 Ferienwohnungen nur mit Wohnungen für 4 → unten, 11 Häuser in der Liste; Zimmerübersicht gelesen); Unit-Tests `packages/domain/test/rooms.test.ts`; `npm test` 426 grün, `npm run db:test` grün.
+- Offen: Migration gegen Staging/Produktion (Ben); Schwelle `ROOM_OVERSIZE_EXTRA` = 2 ggf. mit echten Daten nachjustieren.
