@@ -43,5 +43,6 @@ export function cliProvidersConfig(mode: ProvidersMode): ProvidersConfig {
     overpass: { baseUrl: env.OVERPASS_BASE_URL ?? OVERPASS_PUBLIC_URL },
     resend: { apiKey: env.RESEND_API_KEY },
     anthropic: { apiKey: env.ANTHROPIC_API_KEY },
+    tripadvisor: { apiKey: env.TRIPADVISOR_API_KEY },
   };
 }

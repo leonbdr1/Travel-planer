@@ -57,3 +57,4 @@ export {
   type RatingLookupResult,
   type RatingSourcePort,
 } from './rating-source/port';
+export { createTripadvisorRatingSource, nameSimilarity, TRIPADVISOR_CALLS_PER_LOOKUP } from './rating-source/tripadvisor';

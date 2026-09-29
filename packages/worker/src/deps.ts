@@ -40,6 +40,7 @@ export const envProviders: ProvidersFactory = (config, env, usage, now) =>
       overpass: { baseUrl: config.OVERPASS_BASE_URL },
       resend: { apiKey: env.RESEND_API_KEY },
       anthropic: { apiKey: env.ANTHROPIC_API_KEY },
+      tripadvisor: { apiKey: env.TRIPADVISOR_API_KEY },
     },
     {
       onCall: (provider, endpoint) => usage.record(provider, endpoint),

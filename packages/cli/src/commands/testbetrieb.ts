@@ -22,12 +22,14 @@ export const KEY_ENV = {
   liteapi: 'REISEPLANER_LITEAPI_API_KEY',
   ors: 'REISEPLANER_ORS_API_KEY',
   anthropic: 'REISEPLANER_ANTHROPIC_API_KEY',
+  tripadvisor: 'REISEPLANER_TRIPADVISOR_API_KEY',
 } as const;
 
 export interface TestbetriebKeys {
   liteapi: string;
   ors?: string;
   anthropic?: string;
+  tripadvisor?: string;
 }
 
 /** The .dev.vars block for the Testbetrieb (worker variables; see packages/worker/src/env.ts). */
@@ -43,6 +45,7 @@ export function testbetriebVars(keys: TestbetriebKeys): Record<string, string> {
     LITEAPI_API_KEY: keys.liteapi,
     ...(keys.ors ? { ORS_API_KEY: keys.ors } : {}),
     ...(keys.anthropic ? { ANTHROPIC_API_KEY: keys.anthropic } : {}),
+    ...(keys.tripadvisor ? { TRIPADVISOR_API_KEY: keys.tripadvisor } : {}),
   };
 }
 
@@ -115,27 +118,30 @@ async function setup(args: string[], log: (line: string) => void): Promise<numbe
   let liteapi: string | undefined;
   let ors: string | undefined;
   let anthropic: string | undefined;
+  let tripadvisor: string | undefined;
   if (fromEnv) {
     liteapi = cleanKey(process.env[KEY_ENV.liteapi]);
     ors = cleanKey(process.env[KEY_ENV.ors]);
     anthropic = cleanKey(process.env[KEY_ENV.anthropic]);
+    tripadvisor = cleanKey(process.env[KEY_ENV.tripadvisor]);
   } else {
     log('Testbetrieb einrichten: Die Schlüssel werden nicht angezeigt, auch nicht beim Einfügen. Enter übernimmt.');
     liteapi = cleanKey(await askHidden('LiteAPI-Schlüssel (Pflicht): '));
     ors = cleanKey(await askHidden('openrouteservice-Schlüssel (optional, Enter = ohne, dann Luftlinie): '));
     anthropic = cleanKey(await askHidden('Anthropic-Schlüssel (optional, Enter = ohne, dann KI-Prüfung aus): '));
+    tripadvisor = cleanKey(await askHidden('Tripadvisor-Schlüssel (optional, Enter = ohne, dann keine zweite Bewertungsquelle): '));
   }
   if (!liteapi) {
     log(fromEnv ? `Abbruch: ${KEY_ENV.liteapi} ist nicht gesetzt.` : 'Abbruch: Ohne LiteAPI-Schlüssel gibt es keine echten Unterkünfte.');
     return 1;
   }
-  for (const [name, value] of Object.entries({ LiteAPI: liteapi, openrouteservice: ors, Anthropic: anthropic })) {
+  for (const [name, value] of Object.entries({ LiteAPI: liteapi, openrouteservice: ors, Anthropic: anthropic, Tripadvisor: tripadvisor })) {
     if (value && !looksLikeKey(value)) {
       log(`Abbruch: Der ${name}-Schlüssel sieht nicht wie ein API-Schlüssel aus (Leerzeichen oder Sonderzeichen?).`);
       return 1;
     }
   }
-  const keys: TestbetriebKeys = { liteapi, ...(ors ? { ors } : {}), ...(anthropic ? { anthropic } : {}) };
+  const keys: TestbetriebKeys = { liteapi, ...(ors ? { ors } : {}), ...(anthropic ? { anthropic } : {}), ...(tripadvisor ? { tripadvisor } : {}) };
   updateDevVars(testbetriebVars(keys));
   log(`Gespeichert in ${relative(repoRoot, devVarsPath)} (Werte werden nicht angezeigt):`);
   log(`  Unterkünfte und Preise: echt über LiteAPI${keyKind(liteapi)}`);

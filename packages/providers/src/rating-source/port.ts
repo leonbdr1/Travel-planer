@@ -7,10 +7,9 @@
 // (not viable in production). The planned real source is the Tripadvisor
 // Content API (free tier, attribution duty).
 //
-// ⟂ Contract status: the Tripadvisor documentation could not be verified in the
-// build session (host blocked, no key, account with credit card is a BEN-GATE).
-// The live adapter therefore makes no call and answers `contract_unverified`;
-// the fake adapter answers from the simulated world.
+// The live adapter (`tripadvisor.ts`) is used when a key is configured; without
+// one the port answers `contract_unverified` and makes no call. The fake
+// adapter answers from the simulated world.
 
 export interface RatingLookup {
   hotelId: string;
@@ -28,12 +27,15 @@ export type RatingLookupResult =
 export interface RatingSourcePort {
   /** false while the live contract is unverified; callers skip budgets then. */
   readonly configured: boolean;
+  /** API calls one lookup can use; the caller reserves this many `rating_calls`. */
+  readonly callsPerLookup: number;
   lookup(request: RatingLookup): Promise<RatingLookupResult>;
 }
 
 export function createUnverifiedRatingSource(): RatingSourcePort {
   return {
     configured: false,
+    callsPerLookup: 0,
     lookup: async () => ({ status: 'unavailable', reason: 'contract_unverified' }),
   };
 }

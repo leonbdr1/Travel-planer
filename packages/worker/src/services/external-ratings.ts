@@ -50,7 +50,7 @@ export async function runExternalRatings(deps: ExternalRatingsDeps, searchId: st
         const house = houses[next];
         next += 1;
         if (!house) break;
-        if (Date.now() > stopAt || !(await budgetReserve(deps.db, 'rating_calls', 1, deps.ratingDailyCap))) {
+        if (Date.now() > stopAt || !(await budgetReserve(deps.db, 'rating_calls', deps.ratings.callsPerLookup, deps.ratingDailyCap))) {
           result.skipped += 1;
           continue;
         }
@@ -68,7 +68,7 @@ export async function runExternalRatings(deps: ExternalRatingsDeps, searchId: st
           // A failed lookup stays unanswered and is asked again by the next search.
           result.failed += 1;
         } finally {
-          await budgetSettle(deps.db, 'rating_calls', 1, 1).catch(() => {
+          await budgetSettle(deps.db, 'rating_calls', deps.ratings.callsPerLookup, deps.ratings.callsPerLookup).catch(() => {
             // An unsettled reservation keeps counting against the cap (fail-safe).
           });
         }

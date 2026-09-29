@@ -16,6 +16,7 @@ import { createFakeOverpassFetch } from './fake/overpass-fetch';
 import { createFakeRatingSource } from './fake/rating-source';
 import { createFakeReferencePrice } from './fake/reference-price';
 import { createFakeResendFetch } from './fake/resend-fetch';
+import { createTripadvisorRatingSource } from './rating-source/tripadvisor';
 import { createUnverifiedRatingSource, type RatingSourcePort } from './rating-source/port';
 import { createUnverifiedReferencePrice, type ReferencePricePort } from './reference-price/port';
 import { providerSources, type ProviderSources, type ProvidersMode } from './mode';
@@ -30,6 +31,8 @@ export interface ProvidersConfig {
   overpass?: { baseUrl: string };
   resend: { apiKey?: string | undefined };
   anthropic: { apiKey?: string | undefined };
+  /** Tripadvisor Content API (additional rating source); without a key the source stays off. */
+  tripadvisor?: { apiKey?: string | undefined; baseUrl?: string };
 }
 
 export interface FakeTuning {
@@ -110,7 +113,14 @@ export function createProviders(config: ProvidersConfig, hooks: ProviderHooks = 
           onCall: count('ratings'),
           ...(tuning.latencyMs !== undefined ? { latencyMs: tuning.latencyMs } : {}),
         })
-      : createUnverifiedRatingSource(),
+      : config.tripadvisor?.apiKey
+        ? createTripadvisorRatingSource({
+            apiKey: config.tripadvisor.apiKey,
+            ...(config.tripadvisor.baseUrl ? { baseUrl: config.tripadvisor.baseUrl } : {}),
+            fetch: realFetch,
+            onCall: count('tripadvisor'),
+          })
+        : createUnverifiedRatingSource(),
     routing: createOrsClient({
       apiKey: fakeRouting ? 'fake-key' : config.ors.apiKey,
       baseUrl: config.ors.baseUrl,

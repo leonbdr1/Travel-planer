@@ -11,6 +11,7 @@ export const FAKE_RATING_SOURCE = 'Tripadvisor';
 export function createFakeRatingSource(options: { onCall?: (endpoint: string) => void; latencyMs?: number } = {}): RatingSourcePort {
   return {
     configured: true,
+    callsPerLookup: 1,
     async lookup(request: RatingLookup): Promise<RatingLookupResult> {
       options.onCall?.('rating-lookup');
       if (options.latencyMs) await new Promise((r) => setTimeout(r, options.latencyMs));

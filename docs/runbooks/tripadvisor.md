@@ -1,6 +1,6 @@
 # Tripadvisor als zweite Bewertungsquelle: Anleitung
 
-Ziel: Unterkünfte, die bei LiteAPI keine oder kaum Bewertungen haben, bekommen zusätzlich Note und Anzahl von Tripadvisor. Der Score rechnet beide Quellen zusammen (`fuseRatings`, Tripadvisor-Bewertungen zählen halb). Stand: Port, Workflow-Schritt, Fusion und Anzeige sind gebaut und mit simulierten Daten getestet (`HANDOFF.md`, Drift 44). **Es fehlt nur der echte Adapter.** Ohne Schlüssel bleibt alles beim Alten.
+Ziel: Unterkünfte, die bei LiteAPI keine oder kaum Bewertungen haben, bekommen zusätzlich Note und Anzahl von Tripadvisor. Der Score rechnet beide Quellen zusammen (`fuseRatings`, Tripadvisor-Bewertungen zählen halb). Stand: Port, Workflow-Schritt, Fusion und Anzeige sind gebaut und mit simulierten Daten getestet (`HANDOFF.md`, Drift 44). Der echte Adapter ist gebaut (`packages/providers/src/rating-source/tripadvisor.ts`, mit Tests, 2026-09-29). Der erste Live-Aufruf mit dem Schlüssel lieferte HTTP 403 („explicit deny in an identity-based policy“): Schlüssel im Portal prüfen (Content API aktiv? IP-/Domain-Beschränkung?). Ohne Schlüssel bleibt alles beim Alten. Schlüssel lokal: `TRIPADVISOR_API_KEY` in `packages/worker/.dev.vars`.
 
 Warum Tripadvisor: kein Google Places (kostet), kein SerpApi und kein Scraping (im Betrieb nicht möglich). Tripadvisor hat eine offizielle API mit freiem Kontingent. Ob sie bei kleinen Häusern wirklich hilft, wissen wir erst nach dem Messen (Schritt 5).
 

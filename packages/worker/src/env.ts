@@ -66,6 +66,7 @@ export interface Env {
   ANTHROPIC_API_KEY?: string;
   ORS_API_KEY?: string;
   RESEND_API_KEY?: string;
+  TRIPADVISOR_API_KEY?: string;
   SIGNING_KEY?: string;
   IP_HASH_SALT?: string;
   ALTCHA_HMAC_KEY?: string;

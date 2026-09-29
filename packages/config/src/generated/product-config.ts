@@ -142,7 +142,7 @@ export const productConfig: ProductConfig = {
       "searches": 500,
       "liteapi_calls": 60000,
       "ors_calls": 450,
-      "rating_calls": 3000
+      "rating_calls": 1000
     },
     "llm_daily_budget_usd": 5
   },
