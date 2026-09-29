@@ -165,7 +165,7 @@ function reasonText(reason: ExclusionReasonCode, n: number, goal: Goal): string 
   return t.excluded[reason](n);
 }
 
-function Excluded({ excluded, goal }: { excluded: FinaleResponse['excluded']; goal: Goal }) {
+function Excluded({ excluded, goal, onShowUnrated }: { excluded: FinaleResponse['excluded']; goal: Goal; onShowUnrated: (() => void) | undefined }) {
   const reasons = exclusionReasonSchema.options.filter((r) => excluded[r] > 0);
   const total = reasons.reduce((sum, r) => sum + excluded[r], 0);
   if (total === 0) return <p className="text-sm text-zinc-500">{t.excludedNone}</p>;
@@ -176,6 +176,14 @@ function Excluded({ excluded, goal }: { excluded: FinaleResponse['excluded']; go
         {reasons.map((r) => (
           <li key={r} data-reason={r}>
             {reasonText(r, excluded[r], goal)}
+            {r === 'no_reviews' && onShowUnrated ? (
+              <>
+                {' · '}
+                <button type="button" className="font-medium text-brand-700 hover:underline" onClick={onShowUnrated} data-testid="show-unrated">
+                  {t.showUnrated} ↓
+                </button>
+              </>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -190,6 +198,7 @@ export function FinaleView({
   detailHref,
   goal,
   onGoalChange,
+  onShowUnrated,
 }: {
   searchId: string;
   token: string;
@@ -199,6 +208,8 @@ export function FinaleView({
   /** null: the goal chosen in the search form. */
   goal: Goal | null;
   onGoalChange: (goal: Goal) => void;
+  /** Scrolls to the sorted-out houses without reviews below all offers, when there are any. */
+  onShowUnrated?: (() => void) | undefined;
 }) {
   const [data, setData] = useState<FinaleResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -235,7 +246,7 @@ export function FinaleView({
       {!data && loading ? <Spinner label={de.common.loading} /> : null}
       {data ? (
         <>
-          <Excluded excluded={data.excluded} goal={data.goal} />
+          <Excluded excluded={data.excluded} goal={data.goal} onShowUnrated={onShowUnrated} />
           {data.finalists.length === 0 ? (
             <Alert tone="info">{t.empty}</Alert>
           ) : (

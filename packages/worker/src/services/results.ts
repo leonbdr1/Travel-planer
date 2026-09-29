@@ -9,6 +9,7 @@ import {
   type PraiseLabelDto,
   type ResultItem,
   type SearchRequest,
+  type UnratedItem,
   type WarningDto,
 } from '@reiseplaner/contracts';
 import { getSearch, loadEvaluationData, saveEvaluation, setSearchStatus, type EvaluationHotelRow, type Queryable } from '@reiseplaner/db';
@@ -21,6 +22,7 @@ import {
   hotelList,
   offerFeatures,
   recommendedIndex,
+  unratedDoubts,
   type BoardType,
   type Goal,
   type EvalHotel,
@@ -31,6 +33,7 @@ import {
   type PreselectHotel,
   type ReviewSignals,
   type SortKey,
+  type UnratedDoubt,
 } from '@reiseplaner/domain';
 
 export async function loadSearchRequest(db: Queryable, searchId: string): Promise<SearchRequest> {
@@ -124,6 +127,11 @@ export function admissibleFor(goal: Goal, evaluated: readonly EvaluatedOffer[], 
   return admissibleHotelIds({ goal, evaluated, hotels: preselectHotels(hotels), evidence: reviews.evidence ?? new Map() });
 }
 
+/** Houses without reviews the goal's rules sort out, with the doubt; listed apart (Ben, 2026-09-29). */
+export function unratedFor(goal: Goal, evaluated: readonly EvaluatedOffer[], hotels: readonly EvaluationHotelRow[], reviews: ReviewData): Map<string, UnratedDoubt> {
+  return unratedDoubts({ goal, evaluated, hotels: preselectHotels(hotels), evidence: reviews.evidence ?? new Map() });
+}
+
 type SummaryHotel = Pick<EvaluationHotelRow, 'id' | 'name' | 'stars' | 'rating' | 'reviewCount' | 'hotelType' | 'city' | 'mainPhotoUrl'>;
 type ListHotel = SummaryHotel & Pick<EvaluationHotelRow, 'facilityIds'>;
 
@@ -173,6 +181,7 @@ export function matrixCells(
   combinations: ReadonlyArray<{ placeId: string; checkin: string; checkout: string; state: 'pending' | 'done' | 'cached' | 'failed' }>,
   evaluated: readonly EvaluatedOffer[],
   admissible: ReadonlySet<string> | null = null,
+  hotels: ReadonlyMap<string, Pick<EvaluationHotelRow, 'name'>> = new Map(),
 ): MatrixCellDto[] {
   return buildMatrix(combinations, evaluated, admissible).map((c) => ({
     place_id: c.placeId,
@@ -184,6 +193,10 @@ export function matrixCells(
     total_price_eur: c.offer ? c.offer.totalCents / 100 : null,
     price_bucket: c.priceBucket,
     bargain: Boolean(c.offer?.bargain),
+    hotel_name: c.offer ? (hotels.get(c.offer.hotelId)?.name ?? null) : null,
+    room_name: c.offer?.roomName ?? null,
+    board_type: c.offer?.boardType ?? null,
+    bargain_reason: c.offer?.bargain?.reason ?? null,
   }));
 }
 
@@ -223,6 +236,31 @@ export function resultItems(
     labels: reviews.labels?.get(offer.hotelId) ?? [],
     recommended: i === recommended,
   }));
+}
+
+/** The sorted-out houses without reviews in the list's scope: each once with its cheapest passing offer, cheapest first. */
+export function unratedItems(evaluated: readonly EvaluatedOffer[], hotels: ReadonlyMap<string, SummaryHotel>, doubts: ReadonlyMap<string, UnratedDoubt>): UnratedItem[] {
+  return hotelList(
+    evaluated.filter((o) => doubts.has(o.hotelId)),
+    'price',
+  ).map(({ offer, otherDatesCount }) => {
+    const doubt = doubts.get(offer.hotelId) as UnratedDoubt;
+    return {
+      hotel: hotelSummary(offer.hotelId, hotels),
+      best_offer: offerDto(offer),
+      other_dates_count: otherDatesCount,
+      quality: qualityDto(offer),
+      warnings: [],
+      review_status: 'none',
+      reviews_checked: null,
+      labels: [],
+      recommended: false,
+      doubt: {
+        code: doubt.code,
+        reference_per_night_eur: doubt.referencePerNightCents === null ? null : Math.round(doubt.referencePerNightCents) / 100,
+      },
+    };
+  });
 }
 
 /** Workflow step `score-1`: evaluation for the search's own filters, stored with the offers. */

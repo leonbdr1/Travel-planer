@@ -193,9 +193,15 @@ describe('finale (architektur.md 6.15)', () => {
     // search with budget prices but never make it into the finale.
     expect(finale.excluded.too_expensive).toBeGreaterThan(0);
     expect(finale.excluded.star_trap + finale.excluded.low_quality).toBeGreaterThan(0);
-    const results = searchResultsResponseSchema.parse((await get(providers, `/searches/${id}/results?sort=price`)).body);
-    expect(results.items.some((i) => FALLEN_IDS.includes(i.hotel.id))).toBe(true);
     expect(finale.finalists.filter((f) => FALLEN_IDS.includes(f.hotel.id))).toEqual([]);
+    // The list shows only houses that pass the goal's rules (Ben, 2026-09-28): the
+    // run-down houses stay out of it too, not only out of the finale. Sorted-out houses
+    // without reviews come apart below it (Ben, 2026-09-29).
+    const results = searchResultsResponseSchema.parse((await get(providers, `/searches/${id}/results?sort=price`)).body);
+    expect(results.items.some((i) => FALLEN_IDS.includes(i.hotel.id))).toBe(false);
+    expect(results.unrated.some((i) => FALLEN_IDS.includes(i.hotel.id))).toBe(false);
+    expect(results.counts.unrated_hidden).toBe(finale.excluded.no_reviews);
+    expect(results.counts.hidden).toBe(finale.excluded.no_reviews + finale.excluded.red_flag + finale.excluded.star_trap + finale.excluded.low_quality);
   });
 
   it('switches the goal without a new search: "Komfort" drops the price window', async () => {

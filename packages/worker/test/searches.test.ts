@@ -98,11 +98,17 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
     );
     expect(results.matrix.cells).toHaveLength(10);
     expect(results.matrix.cells.every((c) => ['offer', 'empty', 'failed'].includes(c.state))).toBe(true);
-    const hotelIds = results.items.map((i) => i.hotel.id);
+    const hotelIds = [...results.items, ...results.unrated].map((i) => i.hotel.id);
     expect(new Set(hotelIds).size).toBe(hotelIds.length);
-    expect(results.items.length).toBe(results.counts.hotels);
-    const ranks = results.items.map((i) => i.best_offer.rank_score);
-    expect([...ranks].sort((a, b) => b - a)).toEqual(ranks);
+    // The list holds the houses that pass the goal's rules; houses without reviews the
+    // rules sort out come apart; the rest (warning signs, star traps, too weak) stay out.
+    expect(results.items.length).toBe(results.counts.listed);
+    expect(results.unrated.length).toBe(results.counts.unrated_hidden);
+    expect(results.counts.listed + results.counts.hidden).toBe(results.counts.hotels);
+    expect(results.unrated.every((i) => i.quality.score === null && !i.recommended)).toBe(true);
+    expect(results.meta.sort).toBe('price');
+    const cellsWithHover = results.matrix.cells.filter((c) => c.state === 'offer');
+    expect(cellsWithHover.every((c) => c.hotel_name && c.room_name && (c.bargain ? c.bargain_reason : c.bargain_reason === null))).toBe(true);
     const byPrice = searchResultsResponseSchema.parse(
       await (await api(`/searches/${created.search_id}/results?token=${created.token}&sort=price`)).json(),
     );
@@ -127,7 +133,7 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
     );
     expect(detail.offers.length).toBeGreaterThanOrEqual(1);
     expect(detail.offers.every((o) => o.hotel_id === top?.hotel.id)).toBe(true);
-    expect(detail.score.priorWeight).toBe(50);
+    expect(detail.score.priorWeight).toBe(Math.max(0, 30 - detail.score.effectiveReviews));
     expect(detail.hotel.description).toBeTruthy();
 
     // Reference price per offer: token required, offer must belong to the

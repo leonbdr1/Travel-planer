@@ -30,9 +30,17 @@ export function regionReason(args: { places: number; themeLabels: readonly strin
 export const WISH_FALLBACK_NOTICE =
   'Die automatische Übersetzung deiner Wünsche ist gerade nicht verfügbar. Bitte wähle die passenden Chips direkt aus.';
 
-/** Bargain reasons (architektur.md 6.8): the only allowed savings statements. */
-export function bargainReasonDate(percent: number): string {
-  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen`;
+const wholeEuro = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
+
+/**
+ * Bargain reasons (architektur.md 6.8): the only allowed savings statements.
+ * The prices per night of the same room on the other dates make it checkable.
+ */
+export function bargainReasonDate(percent: number, otherMinCents: number, otherMaxCents: number): string {
+  const min = wholeEuro.format(Math.round(otherMinCents / 100));
+  const max = wholeEuro.format(Math.round(otherMaxCents / 100));
+  const span = min === max ? min : `${min}–${max}`;
+  return `${percent} % günstiger als dasselbe Zimmer an deinen anderen Terminen (dort ${span} € pro Nacht)`;
 }
 
 /** Board labels for e-mails and server texts (the SPA has the same in i18n/de.ts). */

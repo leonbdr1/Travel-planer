@@ -1,5 +1,5 @@
 {
-  "description": "Suche mit 2 Orten × 4 Terminen; erwartete Scores (Stufe 1), Schnäppchen, Rangfolge und Matrix (architektur.md 6.6–6.9).",
+  "description": "Suche mit 2 Orten × 4 Terminen; erwartete Scores (Stufe 1, volle Gewichtung ab 30 Bewertungen), Schnäppchen (gleiches Zimmer an anderen Terminen), Rangfolge und Matrix (günstigstes Angebot je Zelle) (architektur.md 6.6–6.9, Stand 29.09.2026).",
   "hotels": [
     {
       "id": "H1",
@@ -326,19 +326,18 @@
   ],
   "expected": {
     "quality": {
-      "H1": 8.8,
-      "H2": 7.6,
-      "H3": 7.9,
+      "H1": 9.0,
+      "H2": 7.7,
+      "H3": 8.0,
       "H4": null,
-      "H5": 8.4
+      "H5": 8.6
     },
     "bargains": {
       "o4": {
         "types": [
-          "value",
           "date"
         ],
-        "reason": "Preis-Leistung 61 % besser als der Durchschnitt deiner Suche · 30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen"
+        "reason": "30 % günstiger als dasselbe Zimmer an deinen anderen Terminen (dort 100 € pro Nacht)"
       }
     },
     "list_best": [
@@ -380,7 +379,7 @@
         "P1",
         "2026-10-02",
         "offer",
-        "o1",
+        "o5",
         2
       ],
       [
@@ -388,14 +387,14 @@
         "2026-10-09",
         "offer",
         "o2",
-        2
+        3
       ],
       [
         "P1",
         "2026-10-16",
         "offer",
         "o3",
-        2
+        3
       ],
       [
         "P1",

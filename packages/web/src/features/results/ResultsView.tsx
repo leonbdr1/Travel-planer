@@ -2,7 +2,9 @@
 // goal, then all offers with filters prefilled from the search and
 // changeable without a new search (the finale follows them), sort switch,
 // matrix and list. Stars and rating minimums are "Weitere Filter": the
-// pre-selection already judges quality from the reviews.
+// pre-selection already judges quality from the reviews. Below the list the
+// houses without reviews the goal's rules sort out, so the traveller can
+// still pick one (Ben, 2026-09-29).
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import type { EffectiveFilters, MatrixCellDto, SearchResultsResponse } from '@reiseplaner/contracts';
@@ -18,6 +20,7 @@ import { ResultList } from './ResultList';
 
 const t = de.results;
 type Sort = 'best' | 'price' | 'quality';
+const UNRATED_SECTION_ID = 'ohne-bewertungen';
 
 interface FilterForm {
   budget: string;
@@ -109,7 +112,16 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
 
   return (
     <section className="space-y-10" data-testid="results">
-      <FinaleView searchId={searchId} token={token} filters={filterParams} detailHref={detailHref} goal={goal} onGoalChange={setGoal} />
+      <FinaleView
+        searchId={searchId}
+        token={token}
+        filters={filterParams}
+        detailHref={detailHref}
+        goal={goal}
+        onGoalChange={setGoal}
+        // Not a hash link: the hash carries the search token.
+        onShowUnrated={data.unrated.length > 0 ? () => document.getElementById(UNRATED_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' }) : undefined}
+      />
 
       <section className="space-y-6" data-testid="all-offers">
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -117,7 +129,8 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
             <Heading level={2}>{t.allOffers}</Heading>
             <Text className="text-sm">{t.allOffersLead}</Text>
             <Text className="text-sm" data-testid="results-counts">
-              {t.counts(data.counts.hotels, data.counts.passing)}
+              {t.counts(data.counts.listed, data.counts.hidden)}
+              {data.counts.unrated_hidden > 0 ? ` ${t.countsUnrated(data.counts.unrated_hidden)}` : ''}
             </Text>
             {data.meta.prices_fetched_at ? (
               <p className="text-xs text-zinc-500" data-testid="fetched-at">
@@ -238,6 +251,14 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
 
         {loading ? <Spinner label={de.common.loading} /> : null}
         {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} />}
+
+        {data.unrated.length > 0 ? (
+          <section id={UNRATED_SECTION_ID} className="space-y-3 border-t border-zinc-200 pt-6" data-testid="unrated-section">
+            <Heading level={3}>{t.unratedTitle(data.unrated.length)}</Heading>
+            <Text className="max-w-3xl text-sm">{t.unratedLead}</Text>
+            <ResultList items={data.unrated} detailHref={detailHref} aiLabel={aiLabel} testId="unrated-list" />
+          </section>
+        ) : null}
       </section>
     </section>
   );

@@ -1,6 +1,8 @@
 // "So berechnen wir die Rangliste" (konzept.md 9.5, legal transparency of
-// the main ranking criteria), including the pre-selection of "Deine Auswahl"
-// and the praise labels (9.9–9.11). Weights come from packages/domain constants.
+// the main ranking criteria): quality score, price order, the recommendation
+// "Unsere Wahl" (comparison price), bargains, the pre-selection of "Deine
+// Auswahl" and the praise labels (9.9–9.11). Values come from packages/domain
+// constants, so the page always states the rules in force.
 import { constants } from '@reiseplaner/domain';
 import { Card, Heading, Text } from '@reiseplaner/ui';
 import { de } from '../i18n/de';
@@ -8,12 +10,24 @@ import { de } from '../i18n/de';
 const t = de.ranking;
 
 export function Ranking() {
+  const pct = (share: number) => Math.round(share * 100);
+  const points = constants.GOAL_QUALITY_BONUS_PER_POINT;
   const sections: Array<[string, string]> = [
-    [t.qualityTitle, t.quality],
-    [t.priceTitle, `${t.price} ${t.weights(Math.round(constants.RANK_W_QUALITY * 100), Math.round(constants.RANK_W_PRICE * 100), Math.round(constants.RANK_BARGAIN_BONUS * 100))}`],
-    [t.bargainTitle, t.bargain],
+    [t.qualityTitle, t.quality(constants.SCORE_FULL_WEIGHT_REVIEWS, constants.REVIEW_FRESH_MONTHS)],
+    [t.priceTitle, t.price],
+    [
+      t.recommendTitle,
+      t.recommend(
+        { sparen: pct(points.sparen), ausgewogen: pct(points.ausgewogen), komfort: pct(points.komfort) },
+        constants.MANY_REVIEWS_MIN,
+        pct(constants.MANY_REVIEWS_BONUS),
+        pct(constants.KOMFORT_EXTRA_BONUS),
+        pct(constants.KOMFORT_EXTRAS_BONUS_MAX),
+      ),
+    ],
+    [t.bargainTitle, t.bargain(pct(1 - constants.BARGAIN_DATE_FACTOR), constants.BARGAIN_DATE_MIN_DATES)],
     [t.finaleTitle, t.finale(constants.STAR_TRAP_MIN_STARS, constants.FINALISTS_MAX)],
-    [t.praiseTitle, t.praise(constants.PRAISE_MIN_MENTIONS, Math.round(constants.PRAISE_MIN_SHARE * 100))],
+    [t.praiseTitle, t.praise(constants.PRAISE_MIN_MENTIONS, pct(constants.PRAISE_MIN_SHARE))],
     [t.sortTitle, t.sort],
     [t.otherTitle, t.other],
   ];

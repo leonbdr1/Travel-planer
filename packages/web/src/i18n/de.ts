@@ -205,7 +205,9 @@ export const de = {
   results: {
     title: 'Ergebnisse',
     fetchedAt: (time: string) => `Preise abgerufen um ${time} Uhr. Preise können sich bis zur Buchung ändern.`,
-    counts: (hotels: number, offers: number) => `${hotels} Unterkünfte, ${offers} passende Angebote`,
+    counts: (listed: number, hidden: number) =>
+      `${listed === 1 ? '1 Unterkunft passt' : `${listed} Unterkünfte passen`} zu deinem Ziel${hidden > 0 ? `, ${hidden === 1 ? '1 weitere haben' : `${hidden} weitere haben`} wir aussortiert` : ''}.`,
+    countsUnrated: (n: number) => (n === 1 ? 'Die aussortierte ohne Bewertungen steht ganz unten.' : `Die ${n} aussortierten ohne Bewertungen stehen ganz unten.`),
     sortLabel: 'Sortierung',
     sort: { best: 'Unsere Wahl zuerst', price: 'Preis', quality: 'Bewertung' },
     recommended: 'Unsere Wahl',
@@ -236,7 +238,10 @@ export const de = {
     otherDates: (n: number) => (n === 1 ? '1 weiterer Termin' : `${n} weitere Termine`),
     details: 'Details und alle Termine',
     bargain: 'Schnäppchen',
-    matrixHint: 'Klicke auf eine Zelle, um nur diese Kombination zu sehen. Grün = günstig, Orange = teuer.',
+    matrixHint:
+      'Jede Zelle zeigt die günstigste passende Unterkunft. Zeig mit der Maus auf einen Preis für Unterkunft, Zimmer und Begründung; ein Klick zeigt nur diese Kombination. Grün = günstig, Orange = teuer.',
+    matrixCellHint: 'Klick: nur diese Kombination in der Liste zeigen',
+    legendBargain: 'Schnäppchen: dasselbe Zimmer ist an diesem Termin deutlich günstiger als an deinen anderen Terminen',
     legendEmpty: 'kein passendes Angebot',
     legendFailed: 'keine Daten',
     legendFailedHint: 'für diese Kombination kam keine Antwort',
@@ -245,6 +250,16 @@ export const de = {
     allOffersLead: 'Jede Unterkunft mit ihrem besten Angebot, mit Filtern, Sortierung und Preis-Matrix.',
     moreFilters: 'Weitere Filter: Sterne und Bewertungen',
     moreFiltersHint: 'Sterne sagen wenig über Sauberkeit und Zustand. Deine Auswahl oben stützt sich auf die Bewertungen der Gäste.',
+    unratedTitle: (n: number) => `Ohne Bewertungen, nicht in unserer Auswahl (${n})`,
+    unratedLead:
+      'Diese Unterkünfte haben noch keine Bewertungen, und ihr Preis oder ihre Ausstattung passt nicht ins Bild der bewerteten Unterkünfte deiner Suche. Ohne Bewertungen ist eine Unterkunft nicht zwingend schlecht, wir können ihre Qualität nur nicht einschätzen. Deshalb stehen sie nicht in „Deine Auswahl“ und sind nie „Unsere Wahl“. Sieh sie dir an und entscheide selbst.',
+    doubt: {
+      goal: 'Für dein Ziel „Komfort“ zählen nur bestätigte Bewertungen.',
+      no_reference: 'Zu wenige bewertete Unterkünfte in deiner Suche, um den Preis einzuordnen.',
+      cheap: (reference: string) => `Auffällig günstig: Vergleichbare bewertete Unterkünfte kosten in deiner Suche im Mittel ${reference} pro Nacht.`,
+      extras: (reference: string) =>
+        `Auffällig gut ausgestattet für den Preis: mehr Extras wie Frühstück, Sauna oder Pool als die meisten bewerteten Unterkünfte, die im Mittel ${reference} pro Nacht kosten.`,
+    },
   },
   goals: {
     label: 'Worauf legst du Wert?',
@@ -279,6 +294,7 @@ export const de = {
     empty: 'Keine Unterkunft passt zu deinem Ziel und deinen Filtern. Probiere ein anderes Ziel oder sieh dir alle Angebote an.',
     excludedTitle: (n: number) => (n === 1 ? '1 Unterkunft aussortiert' : `${n} Unterkünfte aussortiert`),
     excludedNone: 'Nichts aussortiert.',
+    showUnrated: 'ansehen',
     excluded: {
       filters: (n: number) => `${n} erfüllen deine Filter oder dein Budget nicht`,
       no_reviews: (n: number) => `${n} ohne Bewertungen und auffällig billig, auffällig gut ausgestattet oder für dein Ziel nicht einschätzbar`,
@@ -365,24 +381,26 @@ export const de = {
   ranking: {
     title: 'So berechnen wir die Rangliste',
     intro:
-      'Die Standardsortierung „Bestes Angebot“ verbindet Qualität und Preis. Wir erklären hier die Hauptkriterien, damit du nachvollziehen kannst, warum ein Angebot oben steht.',
+      'Wir erklären hier die Hauptkriterien, nach denen wir Angebote ordnen, aussortieren und markieren, damit du nachvollziehen kannst, warum ein Angebot oben steht.',
     qualityTitle: 'Qualitätswert',
-    quality:
-      'Grundlage ist der Durchschnitt der Gästebewertungen. Unterkünfte mit wenigen Bewertungen werden zum Gesamtmittel gezogen, damit eine 5,0 aus drei Bewertungen nicht vor einer 9,0 aus 400 Bewertungen landet. Wo verfügbar, fließen die Aktualität der Bewertungen, ein gesonderter Sauberkeitswert und Warnhinweise aus dem Rezensionscheck ein.',
+    quality: (full: number, oldMonths: number) =>
+      `Grundlage ist der Durchschnitt der Gästebewertungen. Ab ${full} Bewertungen zählt er so, wie er ist; darunter ziehen wir ihn zum Gesamtmittel, damit eine 10 aus drei Bewertungen nicht vor einer 9,0 aus 400 Bewertungen landet. Bewertungen, die älter als ${oldMonths} Monate sind, zählen dabei ein Drittel, sobald wir ihr Datum kennen. Wo wir die Rezensionen geprüft haben, fließen die Aktualität der Bewertungen und Warnhinweise ein. Sterne fließen nie in den Qualitätswert ein.`,
     priceTitle: 'Preis',
-    price: 'Verglichen wird der Gesamtpreis des Aufenthalts inklusive aller im Voraus zu zahlenden Steuern und Gebühren, umgerechnet auf den Preis pro Nacht.',
-    weights: (q: number, p: number, b: number) =>
-      `Der Rangwert gewichtet Qualität mit ${q} % und den Preis mit ${p} %. Schnäppchen erhalten einen Bonus von ${b} Prozentpunkten.`,
-    bargainTitle: 'Schnäppchen',
-    bargain:
-      'Ein Angebot gilt als Schnäppchen, wenn es im Vergleich innerhalb deiner Suche deutlich günstiger ist: gegenüber dem Durchschnitt aller Treffer, gegenüber derselben Unterkunft an deinen anderen Terminen oder gegenüber vergleichbaren Unterkünften im selben Ort. Jede Markierung nennt ihre Begründung.',
+    price:
+      'Verglichen wird der Gesamtpreis des Aufenthalts inklusive aller im Voraus zu zahlenden Steuern und Gebühren. Die Liste zeigt jede Unterkunft einmal mit ihrem günstigsten passenden Angebot, standardmäßig die günstigste zuerst.',
+    recommendTitle: '„Unsere Wahl“',
+    recommend: (points: { sparen: number; ausgewogen: number; komfort: number }, reviews: number, reviewsBonus: number, extra: number, extraMax: number) =>
+      `„Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile den Preis am besten aufwiegen. Dafür rechnen wir jeden Preis in einen Vergleichspreis um: Jeder Punkt Bewertung über der Mindestnote deines Ziels ist ${points.sparen} % („Günstig und sauber“), ${points.ausgewogen} % („Preis-Leistung“) oder ${points.komfort} % („Komfort“) des Preises wert, ab ${reviews} Bewertungen kommen ${reviewsBonus} % hinzu, bei „Komfort“ je Extra wie Frühstück, Halbpension, Sauna oder Pool ${extra} % (höchstens ${extraMax} %). Das Angebot mit dem niedrigsten Vergleichspreis ist unsere Wahl; die Reihenfolge bleibt nach Preis. Unterkünfte ohne Bewertungen sind nie unsere Wahl.`,
+    bargainTitle: 'Schnäppchen (★)',
+    bargain: (percent: number, dates: number) =>
+      `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem mittleren Preis (Median) an deinen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit den Preisen der anderen Termine; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
     otherTitle: 'Was nicht einfließt',
     other: 'Unterkünfte können sich keine bessere Platzierung kaufen. Provisionen oder Margen haben keinen Einfluss auf die Reihenfolge.',
-    sortTitle: 'Andere Sortierungen',
-    sort: 'Du kannst die Liste auch nach Preis (aufsteigend) oder nach Bewertung (absteigend) sortieren.',
+    sortTitle: 'Sortierungen',
+    sort: 'Standard ist der Preis, die günstigste Unterkunft zuerst. Du kannst die Liste auch nach „Unsere Wahl zuerst“ (Vergleichspreis) oder nach Bewertung (absteigend) sortieren.',
     finaleTitle: '„Deine Auswahl“: So sortieren wir vor',
     finale: (stars: number, max: number) =>
-      `Je nach deinem Ziel sortieren wir Unterkünfte aus, die deine Filter nicht erfüllen, keine Bewertungen haben, bei denen Gäste von Schimmel, Ungeziefer oder Schmutz berichten, die ${stars} oder mehr Sterne zum Preis eines einfachen Hauses haben, aber keine geprüften guten Bewertungen, die für dein Ziel zu schwach bewertet oder zu teuer sind, oder für die es ein Angebot gibt, das nicht teurer, mindestens gleich gut bewertet ist und alles bietet, was dieses bietet. Von den übrigen zeigen wir höchstens ${max}, die günstigste zuerst, und nennen bei den anderen den Aufpreis und was er bringt. Wir empfehlen keinen Favoriten. Sterne fließen nie in den Qualitätswert ein. Alle Angebote bleiben unter „Alle Angebote“ sichtbar.`,
+      `Je nach deinem Ziel sortieren wir Unterkünfte aus, die deine Filter nicht erfüllen, die keine Bewertungen haben und dabei auffällig billig oder auffällig gut ausgestattet oder für dein Ziel nicht einschätzbar sind, bei denen Gäste von Schimmel, Ungeziefer oder Schmutz berichten, die ${stars} oder mehr Sterne zum Preis eines einfachen Hauses haben, aber keine geprüften guten Bewertungen, die für dein Ziel zu schwach bewertet oder zu teuer sind, oder für die es ein Angebot gibt, das nicht teurer, mindestens gleich gut bewertet ist und alles bietet, was dieses bietet. Von den übrigen zeigen wir höchstens ${max}, die günstigste zuerst, und nennen bei den anderen den Aufpreis und was er bringt. Unter „Alle Angebote“ stehen alle Unterkünfte, die zu deinem Ziel passen. Aussortierte Unterkünfte ohne Bewertungen findest du dort ganz unten: Ohne Bewertungen ist eine Unterkunft nicht zwingend schlecht, die Entscheidung liegt bei dir.`,
     praiseTitle: 'Lob-Labels',
     praise: (min: number, share: number) =>
       `Labels wie „Gutes Frühstück“ oder „Besonders sauber“ zählen wir ohne KI aus den Feldern „Positiv“ und „Negativ“ der Gästebewertungen. Ein Label erscheint ab ${min} lobenden Gästen, wenn mindestens ${share} % der Erwähnungen Lob sind und keine passende Warnung vorliegt. Die Zahlen stehen in der Detailansicht.`,

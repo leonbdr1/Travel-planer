@@ -14,3 +14,4 @@ export { Checkbox, Description, ErrorMessage, Fieldset, Input, Label, Select, Te
 export { ProgressBar } from './ProgressBar';
 export { Spinner } from './Spinner';
 export { Heading, Small, Text } from './Typography';
+export { Tooltip } from './Tooltip';

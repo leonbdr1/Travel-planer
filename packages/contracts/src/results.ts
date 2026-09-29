@@ -118,6 +118,23 @@ export const resultItemSchema = z.object({
 });
 export type ResultItem = z.infer<typeof resultItemSchema>;
 
+/**
+ * A house without reviews the goal's rules sort out (Ben, 2026-09-29): listed
+ * apart below all offers so the traveller can decide; never in the finale or
+ * the recommendation. `goal`: the goal needs confirmed quality; `no_reference`:
+ * too few rated houses to compare; `cheap`: far below the rated houses of its
+ * kind; `extras`: more extras than most at a lower price.
+ */
+export const unratedDoubtSchema = z.object({
+  code: z.enum(['goal', 'no_reference', 'cheap', 'extras']),
+  /** Median price per night of the rated houses it was compared with. */
+  reference_per_night_eur: z.number().nullable(),
+});
+export type UnratedDoubtDto = z.infer<typeof unratedDoubtSchema>;
+
+export const unratedItemSchema = resultItemSchema.extend({ doubt: unratedDoubtSchema });
+export type UnratedItem = z.infer<typeof unratedItemSchema>;
+
 export const matrixCellSchema = z.object({
   place_id: z.string(),
   checkin: isoDate,
@@ -128,6 +145,12 @@ export const matrixCellSchema = z.object({
   total_price_eur: z.number().nullable(),
   price_bucket: z.number().int().nullable(),
   bargain: z.boolean(),
+  /** The house and room behind the price, for the hover text of the cell. */
+  hotel_name: z.string().nullable(),
+  room_name: z.string().nullable(),
+  board_type: z.enum(['RO', 'BB', 'HB', 'FB', 'AI', 'OTHER']).nullable(),
+  /** Why the offer is a bargain (the text template of 6.8), null without one. */
+  bargain_reason: z.string().nullable(),
 });
 export type MatrixCellDto = z.infer<typeof matrixCellSchema>;
 
@@ -146,13 +169,19 @@ export const searchResultsResponseSchema = z.object({
     cells: z.array(matrixCellSchema),
   }),
   items: z.array(resultItemSchema),
+  /** Sorted-out houses without reviews, cheapest first, in the same scope as `items`. */
+  unrated: z.array(unratedItemSchema),
   counts: z.object({
     offers: z.number().int(),
     passing: z.number().int(),
     hotels: z.number().int(),
     bargains: z.number().int(),
+    /** Houses that pass the goal's rules: the list (without a cell filter) and the matrix. */
+    listed: z.number().int(),
     /** Houses passing the filters that the goal's rules sort out; the list and the matrix leave them out. */
     hidden: z.number().int(),
+    /** Of these, houses without reviews (listed apart in `unrated`). */
+    unrated_hidden: z.number().int(),
   }),
   meta: z.object({
     prices_fetched_at: z.string().nullable(),

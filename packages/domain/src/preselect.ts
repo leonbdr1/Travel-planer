@@ -40,6 +40,19 @@ export interface HotelEvidence {
 
 export const NO_EVIDENCE: HotelEvidence = { checked: false, warnings: [], labels: [] };
 
+/**
+ * Why a house without reviews is sorted out: the goal needs confirmed quality
+ * ("komfort"), too few rated houses to compare its price, a price far below
+ * the rated houses of its kind, or more extras than most at a lower price.
+ */
+export type UnratedDoubtCode = 'goal' | 'no_reference' | 'cheap' | 'extras';
+
+export interface UnratedDoubt {
+  code: UnratedDoubtCode;
+  /** Median price per night of the rated houses it was compared with; null without a comparison. */
+  referencePerNightCents: number | null;
+}
+
 /** In rule order: a house counts for the first rule it fails. */
 export const EXCLUSION_REASONS = ['filters', 'no_reviews', 'red_flag', 'star_trap', 'low_quality', 'too_expensive', 'dominated'] as const;
 export type ExclusionReason = (typeof EXCLUSION_REASONS)[number];
@@ -139,9 +152,9 @@ function dominates(b: Entry, a: Entry): boolean {
  * houses somewhat below a quality threshold stay in: the check can clear a
  * star-trap suspect or lift a score with good recent reviews.
  */
-function failedRule(e: Entry, goal: Goal, stage: Stage, budgetMedian: number | null, unratedFits: (e: Entry) => boolean): ExclusionReason | null {
+function failedRule(e: Entry, goal: Goal, stage: Stage, budgetMedian: number | null, doubt: UnratedDoubt | null): ExclusionReason | null {
   const q = e.offer.quality;
-  if (q === null) return unratedFits(e) ? null : 'no_reviews';
+  if (q === null) return doubt ? 'no_reviews' : null;
   if (stage === 'final' && hasRedFlag(e.evidence)) return 'red_flag';
   const margin = stage === 'final' ? 0 : CANDIDATE_QUALITY_MARGIN;
   const suspect = (e.stars ?? 0) >= STAR_TRAP_MIN_STARS && budgetMedian !== null && e.offer.pricePerNightCents < STAR_TRAP_PRICE_RATIO * budgetMedian;
@@ -160,29 +173,36 @@ function exceptionEligible(e: Entry, goal: Goal, stage: Stage): boolean {
 }
 
 /**
- * Houses without reviews fit when their price and extras look like the rated
- * houses around them: not far below the usual price for their stars, and not
- * cheaper while promising more extras than most. Never for "komfort", whose
- * promise is quality nobody has confirmed yet.
+ * Houses without reviews fit (no doubt) when their price and extras look like
+ * the rated houses around them: not far below the usual price for their
+ * stars, and not cheaper while promising more extras than most. Never for
+ * "komfort", whose promise is quality nobody has confirmed yet.
  */
-function unratedCheck(entries: readonly Entry[], goal: Goal): (e: Entry) => boolean {
+function unratedCheck(entries: readonly Entry[], goal: Goal): (e: Entry) => UnratedDoubt | null {
   const rated = entries.filter(isRated);
   const extras = rated.map(premiumCount);
   const prices = (list: readonly Entry[]) => list.map((e) => e.offer.pricePerNightCents);
   return (e) => {
-    if (goal === 'komfort') return false;
+    if (goal === 'komfort') return { code: 'goal', referencePerNightCents: null };
     const reference =
       median(prices(rated.filter((r) => (r.stars ?? 0) === (e.stars ?? 0))), STAR_TRAP_MIN_REFERENCE) ?? median(prices(rated), STAR_TRAP_MIN_REFERENCE);
-    if (reference === null) return false;
+    if (reference === null) return { code: 'no_reference', referencePerNightCents: null };
     const price = e.offer.pricePerNightCents;
-    if (price < UNRATED_MIN_PRICE_RATIO * reference) return false;
+    if (price < UNRATED_MIN_PRICE_RATIO * reference) return { code: 'cheap', referencePerNightCents: reference };
     const own = premiumCount(e);
     const reaching = extras.filter((c) => c >= own).length / extras.length;
-    return !(price < reference && own > 0 && reaching < UNRATED_MAX_EXTRAS_SHARE);
+    return price < reference && own > 0 && reaching < UNRATED_MAX_EXTRAS_SHARE ? { code: 'extras', referencePerNightCents: reference } : null;
   };
 }
 
-function applyRules(input: PreselectInput, stage: Stage): { remaining: Entry[]; excluded: Record<ExclusionReason, number> } {
+interface RuleOutcome {
+  remaining: Entry[];
+  excluded: Record<ExclusionReason, number>;
+  /** Houses without reviews counted under `no_reviews`, with the doubt. */
+  unrated: Map<string, UnratedDoubt>;
+}
+
+function applyRules(input: PreselectInput, stage: Stage): RuleOutcome {
   const excluded = Object.fromEntries(EXCLUSION_REASONS.map((r) => [r, 0])) as Record<ExclusionReason, number>;
   const byHotel = new Map<string, EvaluatedOffer[]>();
   for (const o of input.evaluated) {
@@ -210,9 +230,12 @@ function applyRules(input: PreselectInput, stage: Stage): { remaining: Entry[]; 
   );
   const remaining: Entry[] = [];
   const belowFloor: Entry[] = [];
-  const unratedFits = unratedCheck(entries, input.goal);
+  const unrated = new Map<string, UnratedDoubt>();
+  const doubtOf = unratedCheck(entries, input.goal);
   for (const e of entries) {
-    const reason = failedRule(e, input.goal, stage, budgetMedian, unratedFits);
+    const doubt = isRated(e) ? null : doubtOf(e);
+    const reason = failedRule(e, input.goal, stage, budgetMedian, doubt);
+    if (reason === 'no_reviews' && doubt) unrated.set(e.offer.hotelId, doubt);
     if (reason === 'low_quality' && exceptionEligible(e, input.goal, stage)) belowFloor.push(e);
     else if (reason) excluded[reason] += 1;
     else remaining.push(e);
@@ -225,7 +248,7 @@ function applyRules(input: PreselectInput, stage: Stage): { remaining: Entry[]; 
     if (cheapestNormal === null || e.offer.totalCents <= LOW_QUALITY_EXCEPTION_PRICE_RATIO * cheapestNormal) remaining.push({ ...e, exception: true });
     else excluded.low_quality += 1;
   }
-  return { remaining, excluded };
+  return { remaining, excluded, unrated };
 }
 
 export function preselect(input: PreselectInput): Preselection {
@@ -276,6 +299,15 @@ export function preselect(input: PreselectInput): Preselection {
  */
 export function admissibleHotelIds(input: PreselectInput): Set<string> {
   return new Set(applyRules(input, 'final').remaining.map((e) => e.offer.hotelId));
+}
+
+/**
+ * Houses without reviews the goal's rules sort out, with the doubt (Ben,
+ * 2026-09-29): no reviews does not mean bad, so the list shows them apart and
+ * the traveller decides. The finale and the recommendation stay without them.
+ */
+export function unratedDoubts(input: PreselectInput): Map<string, UnratedDoubt> {
+  return applyRules(input, 'final').unrated;
 }
 
 /**

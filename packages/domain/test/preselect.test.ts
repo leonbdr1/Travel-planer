@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { CANDIDATE_QUALITY_MARGIN, GOAL_QUALITY_FLOOR } from '../src/constants';
 import { compareFinalists, locationClass, type FinalistInput } from '../src/finale';
-import { finalistIdsAcrossGoals, preselect, reviewCandidateIds, type HotelEvidence, type PreselectHotel } from '../src/preselect';
+import { finalistIdsAcrossGoals, preselect, reviewCandidateIds, unratedDoubts, type HotelEvidence, type PreselectHotel } from '../src/preselect';
 import type { EvaluatedOffer } from '../src/ranking';
 import { qualityScore } from '../src/scoring';
 import type { Goal } from '../src/vocabulary';
@@ -197,6 +197,28 @@ describe('preselect', () => {
     // At most one, and never for "Komfort".
     expect(ids('sparen', [fresh('NEW1', 104), fresh('NEW2', 106)])).toHaveLength(3);
     expect(ids('komfort', [fresh('NEW1', 104)])).not.toContain('NEW1');
+  });
+
+  it('names why a house without reviews is sorted out, so the list can show it apart (Ben, 2026-09-29)', () => {
+    const fresh = (id: string, eur: number) => offer(id, eur, null);
+    const hotelsN = new Map(hotels).set('NEW1', house('NEW1', null, [16])).set('SPA', house('SPA', null, [4, 18]));
+    const doubts = (goal: Goal, extra: EvaluatedOffer[], only?: EvaluatedOffer[]) =>
+      Object.fromEntries(unratedDoubts({ goal, evaluated: only ?? [...offers, ...extra], hotels: hotelsN, evidence }));
+    // Rated flats W1, W2, DIRTY, DOM without stars: median 52.50 € per night.
+    expect(doubts('sparen', [fresh('NEW1', 80), fresh('SPA', 100)])).toEqual({
+      NOREV: { code: 'cheap', referencePerNightCents: 5250 },
+      NEW1: { code: 'cheap', referencePerNightCents: 5250 },
+      SPA: { code: 'extras', referencePerNightCents: 5250 },
+    });
+    // A plausible one is in the normal list (and may reach the finale), not among the doubts.
+    expect(doubts('sparen', [fresh('NEW1', 104)])).not.toHaveProperty('NEW1');
+    expect(doubts('komfort', [fresh('NEW1', 104)]).NEW1).toEqual({ code: 'goal', referencePerNightCents: null });
+    // Without enough rated houses nothing can be compared.
+    expect(doubts('sparen', [], [offer('W1', 100, 8.4), fresh('NEW1', 104)])).toEqual({ NEW1: { code: 'no_reference', referencePerNightCents: null } });
+    // Doubts never change the finale or the recommendation.
+    const result = preselect({ goal: 'sparen', evaluated: [...offers, fresh('NEW1', 80), fresh('SPA', 100)], hotels: hotelsN, evidence });
+    expect(result.finalists.map((o) => o.hotelId)).toEqual(['W1', 'W2']);
+    expect(result.excluded.no_reviews).toBe(3);
   });
 
   it('lists the finalists of every goal once, for the follow-up round of the review check', () => {

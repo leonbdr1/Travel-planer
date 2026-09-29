@@ -59,22 +59,59 @@ describe('acceptance examples (konzept.md 5.1)', () => {
       pricePerNightCents: 10_000,
     });
     const list = hotelList(evaluateOffers([offer('a', 'A'), offer('b', 'B')], new Map([['A', a], ['B', b]]), NO_FILTERS), 'best');
+    // B counts fully (≥ 30 reviews); A is pulled towards 7.5 by the 27 missing: (3·10 + 27·7.5)/30 = 7.75.
     expect(list.map((e) => [e.offer.hotelId, e.offer.quality])).toEqual([
-      ['B', 8.8],
-      ['A', 7.6],
+      ['B', 9],
+      ['A', 7.8],
     ]);
   });
 
+  const stay = { hotelId: 'X', placeId: 'P', placeName: 'Ort', quality: 8, roomName: 'Doppelzimmer', boardType: 'BB', refundable: true };
+
   it('example 3: 30 % below the median of its dates → date bargain with the text template', () => {
-    const base = { hotelId: 'X', placeId: 'P', placeName: 'Ort', quality: 8 };
     const bargains = detectBargains([
-      { ...base, id: '1', checkin: '2026-10-02', pricePerNightCents: 10_000 },
-      { ...base, id: '2', checkin: '2026-10-09', pricePerNightCents: 10_000 },
-      { ...base, id: '3', checkin: '2026-10-16', pricePerNightCents: 10_000 },
-      { ...base, id: '4', checkin: '2026-10-23', pricePerNightCents: 7_000 },
+      { ...stay, id: '1', checkin: '2026-10-02', pricePerNightCents: 10_000 },
+      { ...stay, id: '2', checkin: '2026-10-09', pricePerNightCents: 10_000 },
+      { ...stay, id: '3', checkin: '2026-10-16', pricePerNightCents: 10_000 },
+      { ...stay, id: '4', checkin: '2026-10-23', pricePerNightCents: 7_000 },
     ]);
-    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen' });
+    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dasselbe Zimmer an deinen anderen Terminen (dort 100 € pro Nacht)' });
     expect(bargains.size).toBe(1);
+  });
+});
+
+describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
+  const stay = { hotelId: 'X', placeId: 'P', placeName: 'Ort', quality: 8, roomName: 'Doppelzimmer', boardType: 'BB', refundable: true };
+
+  it('a double room free on one date is no bargain against the suite left on the others', () => {
+    const bargains = detectBargains([
+      { ...stay, id: '1', checkin: '2026-10-02', roomName: 'Suite', pricePerNightCents: 20_000 },
+      { ...stay, id: '2', checkin: '2026-10-09', roomName: 'Suite', pricePerNightCents: 20_000 },
+      { ...stay, id: '3', checkin: '2026-10-16', roomName: 'Suite', pricePerNightCents: 21_000 },
+      { ...stay, id: '4', checkin: '2026-10-23', pricePerNightCents: 9_000 },
+    ]);
+    expect(bargains.size).toBe(0);
+  });
+
+  it('compares the room across its dates even when another room is the cheapest on some of them', () => {
+    const bargains = detectBargains([
+      { ...stay, id: '1', checkin: '2026-10-02', pricePerNightCents: 12_000 },
+      { ...stay, id: '2', checkin: '2026-10-09', pricePerNightCents: 13_540 },
+      { ...stay, id: '3', checkin: '2026-10-16', roomName: 'Suite', pricePerNightCents: 25_000 },
+      { ...stay, id: '4', checkin: '2026-10-23', roomName: ' doppelzimmer ', pricePerNightCents: 9_000 },
+    ]);
+    // Doppelzimmer on three dates: 120 €, 135.40 €, 90 € → median 120 € → 25 % below.
+    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '25 % günstiger als dasselbe Zimmer an deinen anderen Terminen (dort 120–135 € pro Nacht)' });
+    expect(bargains.size).toBe(1);
+  });
+
+  it('treats another board or other cancellation terms as another kind of stay', () => {
+    const three = (patch: Partial<typeof stay>, prefix: string) =>
+      ['2026-10-02', '2026-10-09', '2026-10-16'].map((checkin, i) => ({ ...stay, ...patch, id: `${prefix}${i}`, checkin, pricePerNightCents: 10_000 }));
+    const cheapWithoutBreakfast = { ...stay, id: 'ro', checkin: '2026-10-23', boardType: 'RO', pricePerNightCents: 7_000 };
+    const cheapNonRefundable = { ...stay, id: 'nr', checkin: '2026-10-23', refundable: false, pricePerNightCents: 7_000 };
+    expect(detectBargains([...three({}, 'bb'), cheapWithoutBreakfast, cheapNonRefundable]).size).toBe(0);
+    expect(detectBargains([...three({ boardType: 'RO' }, 'ro'), cheapWithoutBreakfast]).get('ro')?.types).toEqual(['date']);
   });
 });
 
@@ -86,9 +123,9 @@ describe('scoring stage 2 and filters', () => {
       chips: ['sauber', 'ruhig'],
       review: { recentRating: 9.5, recentCount: 10, cleanliness: 9, warnings: [{ topic: 'laerm', severity: 'medium' }] },
     });
-    // S0 = (200·8 + 50·7.5)/250 = 7.9; Δ = 1.5 → S1 = 7.9 + 0.5·1.5·10/20 = 8.275
-    // S2 = 0.65·8.275 + 0.35·9 = 8.52875; penalty = 0.6·2 = 1.2 → 7.32875 → 7.3
-    expect(s).toMatchObject({ s0: 7.9, recency: { applied: true, delta: 1.5, s1: 8.275 }, penalty: { total: 1.2 }, quality: 7.3 });
+    // S0 = 8 (200 ≥ 30 reviews count fully); Δ = 1.5 → S1 = 8 + 0.5·1.5·10/20 = 8.375
+    // S2 = 0.65·8.375 + 0.35·9 = 8.59375; penalty = 0.6·2 = 1.2 → 7.39375 → 7.4
+    expect(s).toMatchObject({ s0: 8, recency: { applied: true, delta: 1.5, s1: 8.375 }, penalty: { total: 1.2 }, quality: 7.4 });
     expect(qualityScore({ rating: null, reviewCount: 10, review: null, chips: [] }).quality).toBeNull();
   });
 

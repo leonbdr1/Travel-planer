@@ -1,8 +1,9 @@
-// Result matrix (F9): places × dates, best passing offer per cell, colour by
-// price quintile, bargains marked, empty and failed cells distinct; a click
-// scopes the list to that combination.
+// Result matrix (F9): places × dates, cheapest acceptable offer per cell,
+// colour by price quintile, bargains marked, empty and failed cells distinct;
+// a click scopes the list to that combination. Hovering or focusing a price
+// names the house and room behind it and, for a bargain (★), why it is one.
 import type { MatrixCellDto } from '@reiseplaner/contracts';
-import { cx } from '@reiseplaner/ui';
+import { Tooltip, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDay, formatEuro } from '../../lib/format';
 
@@ -15,6 +16,32 @@ const BUCKET = [
   'bg-amber-50 text-amber-900',
   'bg-orange-100 text-orange-950',
 ];
+
+function roomLine(cell: MatrixCellDto): string {
+  return [cell.room_name, cell.board_type ? t.boardNames[cell.board_type] : null].filter(Boolean).join(' · ');
+}
+
+/** The same text for screen readers as the hover panel shows. */
+function cellLabel(cell: MatrixCellDto, place: string): string {
+  const parts = [`${place}, ${formatDay(cell.checkin)}: ${formatEuro(cell.total_price_eur ?? 0)}`, cell.hotel_name, roomLine(cell)];
+  if (cell.bargain_reason) parts.push(`${t.bargain}: ${cell.bargain_reason}`);
+  return parts.filter(Boolean).join('. ');
+}
+
+function CellHint({ cell }: { cell: MatrixCellDto }) {
+  return (
+    <>
+      {cell.hotel_name ? <span className="block font-semibold">{cell.hotel_name}</span> : null}
+      {roomLine(cell) ? <span className="block text-zinc-300">{roomLine(cell)}</span> : null}
+      {cell.bargain_reason ? (
+        <span className="mt-1.5 block text-emerald-300" data-testid="matrix-bargain-reason">
+          ★ {t.bargain}: {cell.bargain_reason}
+        </span>
+      ) : null}
+      <span className="mt-1.5 block text-zinc-400">{t.matrixCellHint}</span>
+    </>
+  );
+}
 
 export function PriceMatrix({
   places,
@@ -63,21 +90,23 @@ export function PriceMatrix({
                     );
                   }
                   return (
-                    <td key={d.checkin} data-state="offer" className={cx('p-0 text-right', BUCKET[cell.price_bucket ?? 3])}>
-                      <button
-                        type="button"
-                        aria-pressed={isSelected}
-                        onClick={() => onSelect(isSelected ? null : cell)}
-                        className={cx(
-                          'w-full whitespace-nowrap px-3 py-2 tabular-nums hover:underline',
-                          isSelected && 'ring-2 ring-inset ring-brand-600',
-                          cell.bargain && 'font-semibold',
-                        )}
-                        title={cell.bargain ? t.bargain : undefined}
-                      >
-                        {cell.bargain ? '★ ' : ''}
-                        {formatEuro(cell.total_price_eur)}
-                      </button>
+                    <td key={d.checkin} data-state="offer" data-bargain={cell.bargain || undefined} className={cx('p-0 text-right', BUCKET[cell.price_bucket ?? 3])}>
+                      <Tooltip content={<CellHint cell={cell} />}>
+                        <button
+                          type="button"
+                          aria-pressed={isSelected}
+                          aria-label={cellLabel(cell, p.name)}
+                          onClick={() => onSelect(isSelected ? null : cell)}
+                          className={cx(
+                            'w-full whitespace-nowrap px-3 py-2 text-right tabular-nums hover:underline',
+                            isSelected && 'ring-2 ring-inset ring-brand-600',
+                            cell.bargain && 'font-semibold',
+                          )}
+                        >
+                          {cell.bargain ? '★ ' : ''}
+                          {formatEuro(cell.total_price_eur)}
+                        </button>
+                      </Tooltip>
                     </td>
                   );
                 })}
@@ -86,8 +115,8 @@ export function PriceMatrix({
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-zinc-500">
-        {t.matrixHint} ★ = {t.bargain} · – = {t.legendEmpty} · „{t.legendFailed}“ = {t.legendFailedHint}
+      <p className="text-xs text-zinc-500" data-testid="matrix-legend">
+        {t.matrixHint} ★ = {t.legendBargain} · – = {t.legendEmpty} · „{t.legendFailed}“ = {t.legendFailedHint}
       </p>
     </div>
   );

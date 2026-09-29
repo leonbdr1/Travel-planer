@@ -1,8 +1,9 @@
 // Result list (F10, F17): every hotel once with its best offer: name, place,
 // dates, total price, quality, praise labels, bargain reason, warnings,
-// cancellation.
+// cancellation. Houses without reviews that the goal's rules sort out come in
+// a second list with the doubt (why they are not in our selection).
 import { Link } from 'react-router';
-import type { ResultItem } from '@reiseplaner/contracts';
+import type { ResultItem, UnratedDoubtDto } from '@reiseplaner/contracts';
 import { constants } from '@reiseplaner/domain';
 import { AiLabel, Badge, Card, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
@@ -27,17 +28,26 @@ export function QualityBadge({ score, reviews }: { score: number | null; reviews
   );
 }
 
+export function doubtText(doubt: UnratedDoubtDto): string {
+  const reference = doubt.reference_per_night_eur === null ? '' : formatEuro(doubt.reference_per_night_eur);
+  if (doubt.code === 'cheap') return t.doubt.cheap(reference);
+  if (doubt.code === 'extras') return t.doubt.extras(reference);
+  return t.doubt[doubt.code];
+}
+
 export function ResultList({
   items,
   detailHref,
   aiLabel,
+  testId = 'result-list',
 }: {
-  items: ResultItem[];
+  items: Array<ResultItem & { doubt?: UnratedDoubtDto }>;
   detailHref: (hotelId: string) => string;
   aiLabel: string;
+  testId?: string;
 }) {
   return (
-    <ol className="space-y-3" data-testid="result-list">
+    <ol className="space-y-3" data-testid={testId}>
       {items.map((item) => {
         const o = item.best_offer;
         return (
@@ -64,6 +74,11 @@ export function ResultList({
                   {o.room_name} · {t.boardNames[o.board_type]} · {cancellationText(o.refundable, o.free_cancel_until)}
                 </p>
                 <PraiseLabels labels={item.labels} max={constants.PRAISE_MAX_LABELS_LIST} />
+                {item.doubt ? (
+                  <p className="text-sm text-amber-800" data-testid="unrated-doubt" data-code={item.doubt.code}>
+                    {doubtText(item.doubt)}
+                  </p>
+                ) : null}
                 {o.bargain ? (
                   <p className="text-sm" data-testid="bargain-reason">
                     <Badge tone="bargain">{t.bargain}</Badge> <span className="font-medium text-emerald-800">{o.bargain.reason}</span>
