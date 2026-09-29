@@ -42,7 +42,7 @@ function FeatureBadge({ f, kind }: { f: OfferFeatureDto; kind: BadgeKind }) {
   return (
     <span
       className={cx(
-        'inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs leading-none ring-1 ring-inset whitespace-nowrap',
+        'inline-flex max-w-full items-center gap-1 rounded-full px-2 py-1 text-xs leading-tight ring-1 ring-inset',
         praise && kind !== 'minus' ? PRAISE_CLASS : BADGE_CLASS[kind],
       )}
       title={f.minutes !== undefined ? t.walkTitle(f.label) : f.label}
@@ -86,7 +86,7 @@ function Badges({ f, isBase }: { f: FinalistDto; isBase: boolean }) {
       {f.warnings.map((w) => (
         <span
           key={w.topic}
-          className={cx('inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs leading-none whitespace-nowrap ring-1 ring-inset', CRITIQUE_CLASS)}
+          className={cx('inline-flex max-w-full items-center gap-1 rounded-full px-2 py-1 text-xs leading-tight ring-1 ring-inset', CRITIQUE_CLASS)}
           title={`${t.critiqueTitle}: ${de.reviewCheck.mentionsShort(w.count, w.recent_count, constants.REVIEW_RECENT_MONTHS_LABEL)}`}
           data-testid="warning-badge"
           data-verified={w.verified}

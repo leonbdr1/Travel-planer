@@ -185,7 +185,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByRole('heading', { name: 'So berechnen wir die Rangliste' }).waitFor();
       },
       {
-        expectText: ['Qualitätswert', 'Preis', 'Unsere Wahl', 'Schnäppchen (★)', 'dasselbe Zimmer', 'mittleren Preis dieses Zimmers', 'ganz unten', 'Provisionen oder Margen haben keinen Einfluss'],
+        expectText: ['Qualitätswert', 'Preis', 'Unsere Wahl', 'Schnäppchen (★)', 'dasselbe Zimmer', 'Durchschnittspreis an deinen anderen Terminen', 'ganz unten', 'Provisionen oder Margen haben keinen Einfluss'],
         rejectText: ['Wir empfehlen keinen Favoriten', 'gegenüber dem Durchschnitt aller Treffer', 'Rangwert'],
       },
     );
