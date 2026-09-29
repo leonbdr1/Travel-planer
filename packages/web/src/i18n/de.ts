@@ -496,7 +496,7 @@ export const de = {
       reviewsTitle: 'Aus Gästebewertungen',
       praiseChip: 'Ruhig',
       praise: 'Lob',
-      critiqueChip: 'Lärm',
+      critiqueChip: 'Lautstärke',
       critique: 'Kritik',
       reviewsNote: 'Lob und Kritik stammen aus Bewertungen von Gästen, nicht von der Unterkunft.',
     },

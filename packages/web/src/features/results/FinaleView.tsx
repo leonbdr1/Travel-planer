@@ -305,7 +305,7 @@ export function FinaleView({
             <Alert tone="info">{t.empty}</Alert>
           ) : (
             <>
-              <ol className="max-w-3xl divide-y divide-zinc-200 overflow-hidden rounded-xl bg-white ring-1 ring-zinc-200" data-testid="finalists">
+              <ol className="max-w-3xl divide-y divide-zinc-200 rounded-xl bg-white ring-1 ring-zinc-200" data-testid="finalists">
                 {data.finalists.map((f) => (
                   <Row key={f.hotel.id} f={f} isBase={f === base} href={detailHref(f.hotel.id)} littleToOffer={placeLevels?.get(f.offer.place_id)?.level === 'wenig'} />
                 ))}

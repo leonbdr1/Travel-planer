@@ -140,6 +140,7 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - **Passende Regionen:** das große Übersichtsbild ist raus, die kleinen Karten je Region bleiben.
 - Technik: Zustand `suggest` und `pickOwn`; der Startort ist in der Anfrage leer, wenn nur eigene Orte gewählt sind (`origin` im Vertrag optional, Migration `20261017a_search_origin_optional.sql` mit pgTAP-Test `supabase/tests/search_origin_optional.sql`, nur lokal ausgeführt, Staging/Produktion bleibt BEN-GATE).
 - **Korrektur (Ben, 29.09.):** Bei „nur eigene Orte“ fehlten die Fahrzeiten, weil ich den Startort ausgeblendet hatte. Jetzt gibt es dort ein optionales Feld „Startort (optional)“; mit Startort stehen die Fahrzeiten wieder neben den Orten (auch bei Vorschlägen und gemischt).
+- **Korrektur 2 (Ben, 29.09.):** In „Deine Auswahl“ hieß die Kritik zur Sauberkeit nur „Sauberkeit“ (wirkte wie Lob) → jetzt „Nicht sauber“; „Lärm“ heißt jetzt „Lautstärke“ (auch in der Legende). Das Infofeld „i“ neben „Unser Wert“ wurde von der Liste abgeschnitten (`overflow-hidden`) → behoben, der Walkthrough `finale` prüft es jetzt.
 - Beleg: Walkthroughs `startseite`, `orte`, `karte`, `naechte`, `zimmer` angepasst und Screenshots gelesen; `npm test` 448 grün, `npm run db:test` grün.
 
 ## Stand nach allen Aufgaben (29.09.2026)
