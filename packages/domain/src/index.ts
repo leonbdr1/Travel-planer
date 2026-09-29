@@ -7,6 +7,7 @@ export * from './text';
 export * from './rich-text';
 export * from './admin-areas';
 export * from './countries';
+export * from './drive-bands';
 export * from './typography';
 export * from './vocabulary';
 export * from './chips';

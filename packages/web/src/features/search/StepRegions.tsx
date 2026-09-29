@@ -6,6 +6,7 @@ import { AiLabel, Alert, Button, Card, Heading, Spinner, Text, cx } from '@reise
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
 import { AttractivenessBadge } from './AttractivenessBadge';
+import { FlightBadge } from './FlightBadge';
 import { OverviewMap } from './OverviewMap';
 import { fetchRegions } from './api';
 import { catalogLabel } from './labels';
@@ -120,6 +121,10 @@ export function StepRegions({
                 <p className="mt-2 text-sm font-medium text-brand-800" data-testid="region-reason">
                   {region.reason}
                 </p>
+                {/* The whole region lies beyond 30 hours by car. */}
+                <div className="mt-2 empty:hidden">
+                  <FlightBadge minutes={region.min_minutes} />
+                </div>
                 <p className="mt-2 text-sm text-zinc-600">{region.description}</p>
                 {region.ai_assisted ? <AiLabel className="mt-3" text={catalogLabel(meta, region.verified)} /> : null}
               </button>

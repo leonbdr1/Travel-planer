@@ -10,6 +10,7 @@ import { de } from '../../i18n/de';
 import { AttractivenessBadge } from './AttractivenessBadge';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchPlaces, resolvePlace, searchPlaces } from './api';
+import { FlightBadge } from './FlightBadge';
 import { catalogLabel, formatMinutes } from './labels';
 import { activeOrigin, keepOwnSelection, stayDates, toggle, type WizardState } from './state';
 
@@ -59,6 +60,7 @@ function PlaceRow({
                 ? t.noDrive
                 : `${t.drive} ${formatMinutes(place.minutes)}${place.estimated ? ` (${t.estimated})` : ''}`}
             </span>
+            <FlightBadge minutes={place.minutes} />
           </div>
           {place.description ? <p className="text-sm text-zinc-600">{place.description}</p> : null}
           <div className="flex flex-wrap items-center gap-1.5">

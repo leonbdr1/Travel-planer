@@ -34,6 +34,24 @@ export const ORS_PER_MIN_CAP = 35;
 /** Straight-line fallback: road factor and average speed for estimates. */
 export const ESTIMATE_ROAD_FACTOR = 1.3;
 export const ESTIMATE_AVG_SPEED_KMH = 70;
+/**
+ * Drive-time bands (Aufgabe F15/F16, docs/logik/fahrzeit-bloecke.md): the
+ * nearer, the more exact. Under DRIVE_EXACT_MAX_MIN the routed minutes, up to
+ * DRIVE_HOURS_MAX_MIN the full hours ("ca. 8 h"), beyond that coarse blocks
+ * ("über 10 h", "über 20 h"); from DRIVE_FLIGHT_MIN "über 30 h" with a plane
+ * (a hint only, no flights are sold).
+ */
+export const DRIVE_EXACT_MAX_MIN = 420;
+export const DRIVE_HOURS_MAX_MIN = 600;
+export const DRIVE_BLOCK_MIN = [600, 1200] as const;
+export const DRIVE_FLIGHT_MIN = 1800;
+/** Places whose long-distance estimate exceeds this are not routed: the coarse estimate is enough for a block. */
+export const DRIVE_ROUTE_MAX_MIN = 540;
+/** Long-distance estimate (motorways): road factor and average speed incl. breaks. */
+export const LONG_DRIVE_ROAD_FACTOR = 1.2;
+export const LONG_DRIVE_SPEED_KMH = 95;
+/** Largest selectable maximum drive time (30 h); "egal" means no limit. */
+export const MAX_DRIVE_MINUTES = 1800;
 
 export const SUGGEST_MIN_REGIONS = 2;
 export const SUGGEST_MAX_REGIONS = 5;

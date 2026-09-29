@@ -20,3 +20,13 @@ describe('overview map frame', () => {
     for (const code of ['276', '380', '724']) expect(codes).toContain(code);
   });
 });
+
+describe('drive time options (Aufgabe F16)', () => {
+  it('offers up to 30 hours, and the API accepts exactly that (drift check)', async () => {
+    const { MAX_DRIVE_MINUTES: api } = await import('@reiseplaner/contracts');
+    const { constants } = await import('@reiseplaner/domain');
+    const domain = constants.MAX_DRIVE_MINUTES;
+    expect(api).toBe(domain);
+    expect(api).toBe(1800);
+  });
+});

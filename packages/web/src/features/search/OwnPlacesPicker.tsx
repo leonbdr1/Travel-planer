@@ -9,6 +9,7 @@ import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
 import { AsyncCombobox } from './AsyncCombobox';
 import { resolvePlace, searchPlaces } from './api';
+import { FlightBadge } from './FlightBadge';
 import { formatMinutes } from './labels';
 
 const t = de.wizard.ownPlaces;
@@ -86,7 +87,8 @@ export function OwnPlacesPicker({
             <li key={p.id} data-testid="own-place-chip">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 py-1 pr-1 pl-3 text-sm font-medium text-brand-900 ring-1 ring-brand-200">
                 {p.name}
-                {p.minutes !== null ? <span className="font-normal text-brand-700">· {formatMinutes(p.minutes)}</span> : null}
+                {p.minutes !== null ? <span className="font-normal whitespace-nowrap text-brand-700">· {formatMinutes(p.minutes)}</span> : null}
+                <FlightBadge minutes={p.minutes} />
                 <button
                   type="button"
                   aria-label={t.remove(p.name)}

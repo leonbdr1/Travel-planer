@@ -1,13 +1,8 @@
 // German text templates produced by the domain (reasons, durations). They
 // are checked by `npm run check:claims` like the UI texts.
+import { formatDriveRange, formatDuration } from './drive-bands';
 
-export function formatDuration(minutes: number): string {
-  const m = Math.max(0, Math.round(minutes));
-  if (m < 60) return `${m} min`;
-  const h = Math.floor(m / 60);
-  const rest = m % 60;
-  return rest === 0 ? `${h} h` : `${h} h ${rest} min`;
-}
+export { formatDuration };
 
 /** "Wandern", "Wandern und Seen", "Wandern, Seen und Wellness". */
 export function formatList(items: readonly string[]): string {
@@ -19,10 +14,8 @@ export function formatList(items: readonly string[]): string {
 export function regionReason(args: { places: number; themeLabels: readonly string[]; minMinutes: number; maxMinutes: number; estimated: boolean }): string {
   const count = args.places === 1 ? '1 passender Ort' : `${args.places} passende Orte`;
   const themes = args.themeLabels.length > 0 ? ` für ${formatList(args.themeLabels)}` : '';
-  const span =
-    args.minMinutes === args.maxMinutes
-      ? formatDuration(args.minMinutes)
-      : `${formatDuration(args.minMinutes)}–${formatDuration(args.maxMinutes)}`;
+  // Exact up to 7 h, coarser beyond (Aufgabe F16): "4 h 6 min–4 h 48 min", "über 20 h".
+  const span = formatDriveRange(args.minMinutes, args.maxMinutes);
   return `${count}${themes}, ${args.estimated ? 'geschätzt ' : ''}${span} Fahrt`;
 }
 

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { MAX_DRIVE_MINUTES } from './suggestions';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const themeCode = z.string().regex(/^[a-z][a-z_]*$/).max(40);
@@ -13,7 +14,7 @@ export const searchRequestSchema = z.object({
   goal: goalSchema.optional(),
   /** Empty when the traveller picked the places themselves: then there are no drive times. */
   origin: z.object({ geonameid: z.number().int().positive(), label: z.string().max(120), lat: z.number(), lng: z.number() }).nullable().default(null),
-  max_drive_minutes: z.number().int().min(15).max(720).nullable(),
+  max_drive_minutes: z.number().int().min(15).max(MAX_DRIVE_MINUTES).nullable(),
   themes: z.array(themeCode).max(12),
   window: z.object({ start: isoDate, end: isoDate }),
   nights: z.number().int().min(1).max(30),

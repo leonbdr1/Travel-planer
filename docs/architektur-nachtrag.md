@@ -51,3 +51,9 @@
 - Katalog: 53 Regionen und 195 Orte in 18 Ländern (KI-Entwurf, BG-11); Entwicklungsauszug `EU-cities3000.tsv`. Skills `catalog-regions`, `catalog-places`, `wish-parse` in Version 1.2.0 mit den neuen Ländern.
 - Orientierungskarte: zweiter Ausschnitt Europa (Umrisse Natural Earth, gemeinfrei, fest eingebaut), gewählt, sobald ein Punkt außerhalb von DACH liegt.
 - Orts-Attraktivität, Kriterium W: zählt jetzt auch „Kultur und Sehenswürdigkeiten“ (Venedig war sonst nur „Beliebter Urlaubsort“).
+
+## 6.2 Vorschläge, Fahrzeiten (Aufgabe F16)
+
+- Anzeige in Blöcken: unter 7 h genau, bis 10 h volle Stunden („ca. 8 h“), dann „über 10 h“, „über 20 h“, ab 30 h „über 30 h“ mit Flugzeug-Hinweis „Flug empfohlen“ (nur Anzeige). `packages/domain/src/drive-bands.ts`, Details `docs/logik/fahrzeit-bloecke.md`.
+- `getTravelTimes` fragt den Routendienst nur für Ziele, deren Autobahn-Schätzung (Luftlinie × 1,2 bei 95 km/h) höchstens 9 h beträgt; fernere bekommen diese Schätzung ohne Routing und ohne Cache-Eintrag (`stats.coarse`), nicht als Rückfall markiert.
+- Verträge: `max_drive_minutes` bis 1800 (`MAX_DRIVE_MINUTES`) statt 720; Auswahl bis 7, 10, 20, 30 Stunden und „egal (ganz Europa)“.

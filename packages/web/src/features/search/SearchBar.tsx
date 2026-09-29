@@ -14,7 +14,8 @@ import { resetSuggestions, todayIso, type WizardState } from './state';
 import { TravellersPicker } from './TravellersPicker';
 
 const t = de.wizard.frame;
-export const DRIVE_OPTIONS = [60, 90, 120, 150, 180, 240, 300, 360];
+// Up to 7 h in fine steps, then the coarse blocks of Aufgabe F16 (10, 20, 30 h); "egal" = all of Europe.
+export const DRIVE_OPTIONS = [60, 90, 120, 150, 180, 240, 300, 360, 420, 600, 1200, 1800];
 
 type Update = (patch: Partial<WizardState>) => void;
 
@@ -93,7 +94,7 @@ export function OriginFields({ state, update, touched, optional = false }: { sta
 /** Arrival, departure and travellers as one bar, valid for suggested and own places alike. */
 export function DateTravellersBar({ state, update, meta }: { state: WizardState; update: Update; meta: MetaConfigResponse }) {
   return (
-    <div className="grid gap-1 rounded-xl bg-accent-500 p-1 shadow-sm md:grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)]" data-testid="search-bar">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-1 rounded-xl bg-accent-500 p-1 shadow-sm md:grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)]" data-testid="search-bar">
       <DateRangePicker
         start={state.windowStart}
         end={state.windowEnd}

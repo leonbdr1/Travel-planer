@@ -155,7 +155,7 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 
 - [x] **F14** – Themen: Kultur und Shopping getrennt, dazu Strand
 - [x] **F15** – Europa-Erweiterung: Ortsdaten, Datenbank, Katalog
-- [ ] **F16** – Fahrzeiten in groben Blöcken, Flug-Hinweis ab 30 Stunden
+- [x] **F16** – Fahrzeiten in groben Blöcken, Flug-Hinweis ab 30 Stunden
 - [ ] **F17** – Regionsname: bei nur einem Highlight-Ort der Ortsname
 - [ ] **F18** – Rezensionen: Stichwörter in weiteren Sprachen
 
@@ -174,4 +174,12 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - **Karte:** Die Mini-Karte an jeder Region zeigt für Ziele außerhalb von Deutschland, Österreich und der Schweiz einen groben Europa-Ausschnitt.
 - **KI-Skills** Version 1.2.0 (Länderliste, Hinweis auf Flugziele), Evals im Fake-Modus bestanden.
 - Beleg: `npm run demo -- f15` → `docs/demos/F15/demo-output.txt` (Startorte Venedig/Lissabon/Krakau, eigene Orte Venedig/Rovinj/Paris, Gardasee ab München bei „Seen“ bis 6 h, Strandregionen in Kroatien und Frankreich); Walkthrough `europa` in `docs/demos/F15/walkthrough-P/` (Strand ab München mit Europa-Mini-Karten, Suche über Venedig bis „Suche abgeschlossen“), Screenshots gelesen.
-- Offen: Die Fahrzeiten zu fernen Zielen sind noch minutengenau (z. B. „7 h 37 min–12 h 17 min“) → F16. Echte Ortsdaten kommen mit dem GeoNames-Produktivimport (O3.1).
+- Offen: Echte Ortsdaten kommen mit dem GeoNames-Produktivimport (O3.1).
+
+### F16 – erledigt
+- Ansatz: `docs/logik/fahrzeit-bloecke.md`.
+- **Je näher, desto genauer:** unter 7 h minutengenau („4 h 17 min“), 7 bis 10 h auf die Stunde („ca. 9 h“), dann Blöcke „über 10 h“ und „über 20 h“, ab 30 h „über 30 h“ mit Flugzeug „Flug empfohlen“ (nur ein Hinweis, Flüge buchen wir nicht). Das gilt an Orten, eigenen Orten und in den Begründungen der Regionen („ca. 8 h bis über 10 h Fahrt“).
+- Ferne Ziele (Schätzung über 9 h) fragen den Routendienst nicht mehr ab, die grobe Autobahn-Schätzung reicht; das spart Kontingent.
+- Fahrzeit-Auswahl: zusätzlich „bis 7 / 10 / 20 / 30 Stunden“, „egal“ heißt jetzt „egal (ganz Europa)“.
+- Nebenbei behoben: Auf dem Handy ragte die Leiste „Wann und mit wem?“ über den Rand, und die Daten waren abgeschnitten.
+- Beleg: `npm run demo -- f16` → `docs/demos/F16/demo-output.txt` (ab München: Venedig 4 h 17 min, Split ca. 9 h, Barcelona über 10 h, Lissabon über 20 h, Teneriffa über 30 h mit Flugzeug; bis 20 h keine Kanaren, kein Madeira, keine Algarve); Walkthrough `fahrzeit` in `docs/demos/F16/walkthrough-P/`, Screenshots gelesen (auch 390 px).
