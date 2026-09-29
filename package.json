@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "dev": "tsx scripts/dev.ts",
+    "serve": "tsx scripts/serve.ts",
     "db:local": "tsx packages/cli/src/bin/db-local.ts",
     "db:test": "tsx packages/db/src/bin/pgtap.ts",
     "test": "npm run gen && vitest run",

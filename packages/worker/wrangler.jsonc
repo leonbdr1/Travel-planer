@@ -45,6 +45,41 @@
     "BOOKING_ENABLED": "true"
   },
   "env": {
+    // `npm run serve` (scripts/serve.ts): built SPA and Worker on one local port behind the site
+    // gate, meant to be put on the internet through a tunnel from the developer's machine.
+    // Providers follow packages/worker/.dev.vars (Testbetrieb) as in `npm run dev`.
+    "serve": {
+      "name": "app-serve",
+      "assets": {
+        "directory": "../web/dist/client",
+        "not_found_handling": "single-page-application",
+        "run_worker_first": true,
+        "binding": "ASSETS"
+      },
+      "hyperdrive": [
+        {
+          "binding": "HYPERDRIVE",
+          "id": "00000000000000000000000000000000",
+          "localConnectionString": "postgres://postgres:postgres@127.0.0.1:54329/postgres"
+        }
+      ],
+      "workflows": [{ "name": "app-serve-search", "binding": "SEARCH_WORKFLOW", "class_name": "SearchWorkflow" }],
+      "vars": {
+        "APP_ENV": "dev",
+        "PROVIDERS_MODE": "fake",
+        "LLM_ENABLED": "true",
+        "SITE_GATE": "password",
+        "LITEAPI_BASE_URL": "https://api.liteapi.travel/v3.0",
+        "LITEAPI_BOOK_BASE_URL": "https://book.liteapi.travel/v3.0",
+        "LITEAPI_PAYMENT_MODE": "sandbox",
+        "ORS_BASE_URL": "https://api.heigit.org/openrouteservice",
+        "OVERPASS_BASE_URL": "https://overpass-api.de/api/interpreter",
+        "FAKE_LATENCY_MS": "150",
+        "FAKE_FAIL_EVERY": "40",
+        "CATALOG_ALLOW_DRAFTS": "true",
+        "BOOKING_ENABLED": "true"
+      }
+    },
     "staging": {
       "name": "__REISEPLANER_WORKER_NAME__-staging",
       "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "__REISEPLANER_HYPERDRIVE_ID_STAGING__" }],
