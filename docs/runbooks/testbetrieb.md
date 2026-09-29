@@ -77,12 +77,15 @@ Die Schwellen der Vorauswahl hast du am 28.09.2026 festgelegt (Mindestnote 7,0 /
 | `npm run cli -- testbetrieb einrichten --from-env` | dasselbe aus den `REISEPLANER_*`-Umgebungsvariablen |
 | `npm run cli -- testbetrieb pruefen [--aufzeichnen]` | je ein echter Aufruf pro Anbieter mit verständlichem Ergebnis; die Ausgabe enthält keine Schlüssel und darf weitergegeben werden. `--aufzeichnen` speichert die Rohantworten unter `.data/testbetrieb-aufnahmen/` |
 | `npm run cli -- testbetrieb aus` | zurück zur vollständigen Simulation, Schlüssel werden entfernt |
+| `REISEPLANER_FAKE_LATENCY_MS=4000 npm run dev` | nur Simulation: die simulierten Anbieter antworten so langsam wie die echte LiteAPI (zum Ausprobieren ohne Schlüssel) |
 
 Nach `einrichten` oder `aus` einen laufenden `npm run dev` neu starten.
 
 ## Wenn etwas hakt
 
 - `testbetrieb pruefen` meldet ✗: die Zeile in den Chat kopieren (enthält keine Schlüssel).
+- „LiteAPI Texte (language=de)“ meldet ✗: LiteAPI liefert Beschreibung und Hinweise nicht auf Deutsch; die Detailseite kennzeichnet sie dann als englisch. Bescheid geben (Übersetzung per KI wäre möglich, kostet aber).
+- Im Terminal erscheint `CONNECT_TIMEOUT …hyperdrive.local`: seit dem 29.09.2026 behoben (die lokale Datenbank blockierte, während eine Suche auf LiteAPI wartete). Tritt es nach `git pull` noch auf, die Zeilen in den Chat kopieren.
 - `HTTP 401`/`403` bei LiteAPI: Schlüssel falsch kopiert oder nicht freigeschaltet; `testbetrieb einrichten` erneut ausführen.
 - Die Seite zeigt „keine Daten“ in der Matrix: meist Zeitüberschreitung oder Tageskontingent; nach einer Minute erneut suchen.
 - Port 5173 belegt: den anderen Dienst beenden oder `PORT=5174 npm run dev`.

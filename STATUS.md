@@ -3,7 +3,7 @@
 Einzige Wahrheit über den Baustand (`CLAUDE.md`, `docs/umsetzungsplan.md`). Reifegrade:
 `spec'd` (nur beschrieben) · `built` (Code da, nicht verdrahtet) · `wired` · `demonstrated` (über den realen Einstiegspunkt vorgeführt) · `live-verified` (im laufenden Stack gesehen, Report gelesen) · `blocked` (wartet auf ⛔ BEN-GATE oder externe Ressource).
 
-Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schlüssel). Stand: 28.09.2026.
+Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schlüssel). Stand: 29.09.2026.
 
 ## M1 Grundgerüst
 
@@ -119,3 +119,5 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | S11.6 | Beschlüsse vom 28.09. | `demonstrated` | `docs/demos/S11.6/` | Werte laut Ben; fünf Orte, drei Ziele: höchstens 5 Finalisten, höchstens eines ohne Bewertungen, schwächere nur deutlich günstiger und nie bei Komfort, keine Warnsignale im Finale, Labels nach Anteil. Die simulierte Welt hat keinen plausiblen Fall „ohne Bewertungen“ im Finale; abgedeckt durch Unit-Tests. |
 | S11.7 | Preisleiter | `live-verified` | `docs/demos/S11.7/` | Bens Entwurf A: Zeile je Finalist, Badges grün/durchgestrichen/neutral, Gehminuten, Legende und OSM-Quellenangabe; auf 390 px ohne Querscrollen (Kopfzeile dafür angepasst). Alle Pfad-Walkthroughs 191/191, Lesen 30/30, keine Konsolenfehler; Screenshots gelesen. |
 | S11.8 | Entwicklerseite | `live-verified` | `docs/demos/S11.8/` | KI-Schalter (echte KI standardmäßig aus, simulierte an), heutiger KI-Verbrauch, lokale Suchgrenzen 60/200; ausgeschaltet prüft der Rezensionscheck nur per Stichwort. Nur `dev`/`test`, sonst 404. |
+| S11.9 | Bewertung nach dem ersten Test | `live-verified` | `docs/demos/S11.10/walkthrough-P/` | Note ab 30 Bewertungen voll, ältere als 36 Monate ein Drittel; „Unsere Wahl“ nach Vergleichspreis; Liste und Matrix nach Preis, nur Häuser, die die Regeln des Ziels bestehen; Schnäppchen nur nach Termin. Tests am 29.09. nachgezogen; `architektur.md` 6.7, 6.8, 6.15 noch alt (BEN-GATE). |
+| S11.10 | Rückmeldungen vom 29.09. | `live-verified` | `docs/demos/S11.10/` | Schnäppchen nur beim selben Zimmer, Begründung beim Draufhalten in der Matrix; Häuser ohne Bewertungen unter „Alle Angebote“; Beschreibung und Hinweise lesbar, Deutsch angefordert (`language=de` gegen die echte LiteAPI ungeprüft); lokale Datenbank: vorher 8 × HTTP 500 bei 4 s Anbieterlatenz, nachher 0; Orte-Vorauswahl füllt auf. |

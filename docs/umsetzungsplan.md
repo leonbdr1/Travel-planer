@@ -613,6 +613,20 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
   - Demo: `npm run demo -- s11.8` → Suche mit KI an, Schalter aus, Suche nur mit Stichworten, Schalter an.
   - STATUS: „Entwicklerseite“ → `live-verified`.
 
+**S11.9 Bewertung nach dem ersten Test mit echten Hotels** (Fleet-Lane, Ben am 28.09.2026 abends)
+- [x] Note zählt ab 30 Bewertungen voll, Bewertungen älter als 36 Monate zählen ein Drittel (Migration `20261013a_review_age` mit pgTAP); Vergleichspreis `comparison.ts` für „Unsere Wahl“ in Finale und Liste; Liste und Matrix nach Preis und nur mit Häusern, die die Regeln des Ziels bestehen; Schnäppchen nur noch nach Termin. (05c586b, 933a24a; Tests nachgezogen in 176f995, 2026-09-29)
+  - ⟂ drift (2026-09-28): `architektur.md` 6.7, 6.8 und 6.15 beschreiben noch das alte System (Vorwahlgewicht 50, drei Schnäppchentypen, keine Empfehlung); die Anpassung ist ein ⛔ BEN-GATE (`HANDOFF.md` Drift 37).
+  - Wiring: `comparison.ts` → `preselect`, `resultItems` → `/finale`, `/results` → `FinaleView`, `ResultList` („Unsere Wahl“), Zielschalter für Finale, Matrix und Liste.
+  - Demo: `npm run dogfood -- --mode P --flow ergebnisse` (Standard nach Preis, „Unsere Wahl zuerst“) und `--flow finale`.
+  - STATUS: „Bewertung nach dem ersten Test“ → `live-verified`.
+
+**S11.10 Rückmeldungen vom 29.09.2026** (Fleet-Lane, Ben im Chat)
+- [x] Schnäppchen nur beim selben Zimmer mit derselben Verpflegung und denselben Stornobedingungen, Begründung mit den Preisen der anderen Termine; Hinweis beim Draufhalten in der Preis-Matrix (Unterkunft, Zimmer, Begründung); aussortierte Unterkünfte ohne Bewertungen stehen mit Grund unter „Alle Angebote“, nie im Finale und nie „Unsere Wahl“; Beschreibung und Hinweise der Unterkunft als lesbare Blöcke statt HTML, bei LiteAPI auf Deutsch angefordert; lokale Datenbank ohne Verbindungs-Timeouts während der Suche; Orte-Vorauswahl füllt freie Plätze reihum auf (offen aus S11.9); Seite „So berechnen wir die Rangliste“ auf dem Stand der Regeln; simulierte Welt mit einem Inserat ohne Bewertungen zum halben Preis mit Sauna und Pool an etwa der Hälfte der Orte. (176f995, fa77254, d884e92, 4e2aba9, 2026-09-29)
+  - ⟂ drift (2026-09-29): `language` bei `GET /data/hotel` ist gegen die echte LiteAPI ungeprüft (`HANDOFF.md` Drift 38, Prüfung über `testbetrieb pruefen`); `architektur.md` 2 und 13 nennen für die lokale Datenbank noch `pglite-socket`, ersetzt durch einen eigenen Wire-Server (Drift 41, ⛔ BEN-GATE für die Textänderung).
+  - Wiring: `detectBargains` (Zimmerart) → `matrixCells` (Unterkunft, Zimmer, Begründung) → `PriceMatrix` mit `Tooltip`; `unratedDoubts` → `/results` (`unrated`, `counts.unrated_hidden`) → Abschnitt unter der Liste, Link aus „aussortiert“; `getHotel(…, { language })` → `textBlocks` → Detailseite; `startPgliteWireServer` → `npm run dev`, Walkthroughs und Tests; `preselectPlaceIds`/`placeLimit` → Schritt 3 des Assistenten.
+  - Demo: `npm run dogfood -- --mode P --flow ergebnisse`; `REISEPLANER_FAKE_LATENCY_MS=4000 npm run dogfood -- --mode P --flow langsam` vorher und nachher (`docs/demos/S11.10/`).
+  - STATUS: „Rückmeldungen vom 29.09.“ → `live-verified`.
+
 **Abnahme M11:** F15 bis F17 erfüllt; jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund; Sterne-Fallen und Warnsignale erreichen das Finale nicht; Walkthrough `finale` gelesen.
 **Rollback:** Die Liste „Alle Angebote“ bleibt vollständig; das Finale ist eine zusätzliche Sicht und lässt sich in `ResultsView` ausblenden.
 
@@ -630,3 +644,4 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
 | 2026-09-26 | 2 | Neufassung auf der Firmenplattform (Cloudflare, Supabase, Claude-Skills) im fi-deck-Plan-Format mit Operator- und Fleet-Lane |
 | 2026-09-28 | 2 (Ergänzung) | M11 Entscheidungshilfe (Ziel, Vorauswahl, Finale, Lob-Labels) nach Bens Vorgabe; BG-20 für OpenStreetMap |
 | 2026-09-28 | 2 (Ergänzung) | Bens Entscheidungen im Chat: Werte der Vorauswahl (S11.6), BG-20 freigegeben (S11.5), Preisleiter nach Entwurf A (S11.7), Entwicklerseite mit KI-Schalter und lokalen Suchgrenzen (S11.8) |
+| 2026-09-29 | 2 (Ergänzung) | Bens Rückmeldungen aus dem Testbetrieb: Bewertung nach dem ersten echten Test (S11.9), Schnäppchen je Zimmer, Häuser ohne Bewertungen, deutsche Texte, lokale Datenbank (S11.10) |
