@@ -1,0 +1,30 @@
+$ npm run demo -- f15
+# recorded 2026-09-29T21:39:28.541Z
+
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, IT 3031, FR 3258, ES 1728, PT 587, NL 760, BE 508, LU 29, DK 212, CZ 448, PL 1055, HU 499, HR 140, SI 71, SK 134, GR 351, GB 2131, IE 189, NO 133, SE 404, Postleitzahlen 17081)
+seed: Katalog-Entwurf importiert (109 Regionen, 520 Orte)
+Startort-Suche in Europa (GET /api/v1/geo/localities):
+  ok     „Venedig“ → Venedig, Italien | Neukirchen am Großvenediger, Salzburg, AT
+  ok     „Lissabon“ → Lissabon, Portugal
+  ok     „Krakau“ → Krakau, Polen | Krakaudorf, Steiermark, AT | Krakauhintermühlen, Steiermark, AT
+  ok     „Stuttg“ → Stuttgart, Baden-Württemberg, DE | Stuttgart-Ost, Baden-Württemberg, DE | Stuttgart Feuerbach, Baden-Württemberg, DE
+Eigene Orte (GET /api/v1/places/search, Startort München):
+  ok     „Venedig“ → Venedig (Venedig und Obere Adria, IT), ? min
+  ok     „Rovinj“ → Rovinj (Istrien und Kvarner, HR), ? min
+  ok     „Paris“ → Paris (Paris und Versailles, FR), ? min
+Regionen ab München, bis 6 h, Thema Seen:
+    Bodensee – 8 passende Orte für Seen, 2 h 14 min–3 h 5 min Fahrt
+    Gardasee – 6 passende Orte für Seen, 3 h 43 min–4 h 35 min Fahrt
+    Berner Oberland – 5 passende Orte für Seen, 4 h 12 min–5 h 18 min Fahrt
+    Comer See und Lago Maggiore – 5 passende Orte für Seen, 4 h 18 min–4 h 52 min Fahrt
+    Fünfseenland – 5 passende Orte für Seen, 29 min–47 min Fahrt
+  ok     Gardasee ist unter den Vorschlägen
+Regionen ab München, Fahrzeit egal, Thema Strand und Meer:
+    Ostseeküste Mecklenburg-Vorpommern – 6 passende Orte für Strand und Meer, 9 h 3 min–10 h 41 min Fahrt
+    Côte d’Azur – 5 passende Orte für Strand und Meer, 8 h 20 min–10 h 13 min Fahrt
+    Nordseeküste – 5 passende Orte für Strand und Meer, 9 h 49 min–11 h 56 min Fahrt
+    Istrien und Kvarner – 5 passende Orte für Strand und Meer, 4 h 35 min–5 h 55 min Fahrt
+    Dalmatien – 5 passende Orte für Strand und Meer, 7 h 37 min–12 h 17 min Fahrt
+  ok     Strandregionen werden vorgeschlagen
+  ok     darunter Regionen außerhalb Deutschlands
+Ergebnis: alle Prüfungen ok

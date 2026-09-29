@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: polnische-ostsee
+places:
+  - name: Danzig
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+      strand: 1
+    description_de: Hansestadt mit Langem Markt, Krantor und Marienkirche.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3099434
+  - name: Zoppot
+    themes:
+      strand: 3
+      wellness: 1
+    description_de: Seebad mit langer Seebrücke und Strandpromenade.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3085151
+  - name: Kolberg
+    themes:
+      strand: 3
+      wellness: 2
+    description_de: Kurort an der Ostsee mit Leuchtturm und Seebrücke.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3095795
+  - name: Swinemünde
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Seebad auf Usedom mit breitem Sandstrand.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3083955

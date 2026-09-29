@@ -1,0 +1,43 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: mallorca
+places:
+  - name: Palma
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+      strand: 2
+    description_de: Inselhauptstadt mit Kathedrale La Seu, Altstadt und Stadtstrand.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2512989
+  - name: Alcúdia
+    themes:
+      strand: 3
+      familie: 3
+      staedte_kultur: 1
+    description_de: Ort im Norden mit Stadtmauer und langem Sandstrand.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2522091
+  - name: Sóller
+    themes:
+      wandern: 3
+      bergpanorama: 2
+      staedte_kultur: 1
+    description_de: Tal in der Tramuntana mit Orangengärten, Hafen und historischer Bahn.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2510821
+  - name: Pollença
+    themes:
+      wandern: 2
+      strand: 2
+      staedte_kultur: 1
+    description_de: Städtchen mit Kalvarienberg und Buchten bei Formentor.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2512432

@@ -1,0 +1,22 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: madeira
+places:
+  - name: Funchal
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      staedte_kultur: 2
+    description_de: Inselhauptstadt mit Gärten, Markthalle und Seilbahn nach Monte.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2267827
+  - name: Machico
+    themes:
+      wandern: 2
+      strand: 1
+    description_de: Ort im Osten der Insel mit Sandbucht und Wegen zur Ponta de São Lourenço.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2266895

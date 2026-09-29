@@ -1,0 +1,45 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: dolomiten-trentino
+places:
+  - name: Cortina d’Ampezzo
+    match_name: Cortina d'Ampezzo
+    themes:
+      wintersport: 3
+      wandern: 3
+      bergpanorama: 3
+      wellness: 1
+    description_de: Bergort im Ampezzotal unter Tofane und Cristallo, Ausgangspunkt für Dolomitentouren.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3177952
+  - name: Canazei
+    themes:
+      wintersport: 3
+      wandern: 3
+      bergpanorama: 3
+    description_de: Hauptort des Fassatals an der Sellaronda mit Blick auf die Marmolada.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3180883
+  - name: Trient
+    themes:
+      staedte_kultur: 2
+      shopping: 1
+      radfahren: 2
+    description_de: Stadt an der Etsch mit Domplatz, Castello del Buonconsiglio und Radweg am Fluss.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3165243
+  - name: Arco
+    themes:
+      radfahren: 3
+      wandern: 2
+      seen: 1
+    description_de: Städtchen im Sarcatal mit Burgfelsen, Kletterrevier und Radwegen zum Gardasee.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3182910

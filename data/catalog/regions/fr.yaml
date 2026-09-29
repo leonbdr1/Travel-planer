@@ -1,0 +1,36 @@
+# Regionen in Frankreich – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: paris
+  name: Paris und Versailles
+  country: FR
+  description_de: Hauptstadt mit Eiffelturm, Louvre, Montmartre und großen Kaufhäusern, dazu das Schloss Versailles.
+  themes: [staedte_kultur, shopping]
+- slug: elsass
+  name: Elsass
+  country: FR
+  description_de: Fachwerkdörfer an der Weinstraße, Straßburg und Colmar zwischen Vogesen und Rhein.
+  themes: [staedte_kultur, wein_kulinarik, wandern, radfahren]
+- slug: cote-d-azur
+  name: Côte d’Azur
+  country: FR
+  description_de: Mittelmeerküste zwischen Saint-Tropez und Menton mit Promenaden, Buchten und Bergdörfern.
+  themes: [strand, staedte_kultur, shopping]
+- slug: provence
+  name: Provence
+  country: FR
+  description_de: Lavendelfelder, römische Bauten und Dörfer im Luberon zwischen Avignon und Marseille.
+  themes: [staedte_kultur, wein_kulinarik, natur_ruhe]
+- slug: savoyen
+  name: Chamonix und Savoyen
+  country: FR
+  description_de: Französische Alpen am Mont Blanc mit Chamonix, dem Lac d’Annecy und dem Genfersee-Ufer.
+  themes: [bergpanorama, wandern, wintersport, seen]
+- slug: bretagne-normandie
+  name: Bretagne und Normandie
+  country: FR
+  description_de: Atlantikküste mit Gezeiten, Klippen, Korsarenstadt Saint-Malo und Mont-Saint-Michel.
+  themes: [strand, staedte_kultur, natur_ruhe, wandern]
+- slug: loire
+  name: Loiretal
+  country: FR
+  description_de: Schlösser der Loire, Weinberge und Radwege zwischen Blois und Saumur.
+  themes: [staedte_kultur, wein_kulinarik, radfahren]

@@ -1,0 +1,28 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: madrid
+places:
+  - name: Madrid
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+    description_de: Hauptstadt mit Prado, Retiro-Park, Plaza Mayor und Gran Vía.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3117735
+  - name: Toledo
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt auf einem Felsen über dem Tajo mit Kathedrale und Alcázar.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2510409
+  - name: Segovia
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit römischem Aquädukt und Alcázar.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3109256

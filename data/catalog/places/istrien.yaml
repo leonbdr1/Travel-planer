@@ -1,0 +1,48 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: istrien
+places:
+  - name: Rovinj
+    themes:
+      staedte_kultur: 3
+      strand: 2
+    description_de: Hafenstadt mit Altstadt auf einer Halbinsel und Kirche der heiligen Euphemia.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3191518
+  - name: Poreč
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Stadt mit Euphrasius-Basilika und Badebuchten.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3192699
+  - name: Pula
+    themes:
+      staedte_kultur: 2
+      strand: 2
+    description_de: Stadt mit römischem Amphitheater und Buchten am Kap Kamenjak.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3192224
+  - name: Opatija
+    themes:
+      strand: 2
+      wellness: 2
+    description_de: Kurort an der Kvarner Bucht mit Villen und Uferweg.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3194099
+  - name: Umag
+    themes:
+      strand: 2
+      familie: 2
+    description_de: Küstenort im Nordwesten Istriens mit Kiesstränden.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3188498

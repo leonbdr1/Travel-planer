@@ -1,0 +1,49 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: dalmatien
+places:
+  - name: Split
+    themes:
+      staedte_kultur: 3
+      strand: 2
+      shopping: 1
+    description_de: Stadt im Diokletianpalast mit Riva und Fähren auf die Inseln.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3190261
+  - name: Dubrovnik
+    themes:
+      staedte_kultur: 3
+      strand: 2
+    description_de: Ummauerte Altstadt mit Stradun und Stadtmauerrundgang.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3201047
+  - name: Trogir
+    themes:
+      staedte_kultur: 2
+      strand: 2
+    description_de: Altstadt auf einer Insel mit Kathedrale und Festung.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3188763
+  - name: Makarska
+    themes:
+      strand: 3
+      wandern: 2
+    description_de: Badeort mit Kiesstrand unter dem Biokovo-Gebirge.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3195890
+  - name: Zadar
+    themes:
+      staedte_kultur: 2
+      strand: 2
+    description_de: Stadt mit Meeresorgel, römischem Forum und Blick auf die Inseln.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3186952

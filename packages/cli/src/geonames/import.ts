@@ -5,16 +5,21 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Queryable } from '@reiseplaner/db';
-import { catalogCountry, haversineKm, searchNames, searchText, stripDiacritics } from '@reiseplaner/domain';
+import { CATALOG_COUNTRIES, catalogCountry, haversineKm, type CatalogCountry, searchNames, searchText, stripDiacritics } from '@reiseplaner/domain';
 import { inMarket, parseAlternateNameLine, parseDumpLine, parsePostalLine, type GeoNamesRow } from './parse';
 
 export interface ImportStats {
-  byCountry: Record<'DE' | 'AT' | 'CH' | 'IT-BZ', number>;
+  byCountry: Partial<Record<CatalogCountry, number>>;
   postalCodesAssigned: number;
   postalCodesUnmatched: number;
 }
 
 const BATCH = 400;
+
+/** "DE 11884, AT 3047, …" in the order of CATALOG_COUNTRIES, countries without localities left out. */
+export function formatCountryCounts(counts: Partial<Record<string, number>>): string {
+  return CATALOG_COUNTRIES.filter((c) => counts[c]).map((c) => `${c} ${counts[c]}`).join(', ');
+}
 
 function lines(path: string): string[] {
   return readFileSync(path, 'utf8').split('\n').filter((l) => l && !l.startsWith('#'));
@@ -91,7 +96,7 @@ export function readGeoNamesDir(dir: string): { rows: GeoNamesRow[]; germanNames
 
 export async function importGeoNames(db: Queryable, dir: string): Promise<ImportStats> {
   const { rows, germanNames, postal, unmatchedPostal } = readGeoNamesDir(dir);
-  const stats: ImportStats = { byCountry: { DE: 0, AT: 0, CH: 0, 'IT-BZ': 0 }, postalCodesAssigned: 0, postalCodesUnmatched: unmatchedPostal };
+  const stats: ImportStats = { byCountry: {}, postalCodesAssigned: 0, postalCodesUnmatched: unmatchedPostal };
   for (let i = 0; i < rows.length; i += BATCH) {
     const batch = rows.slice(i, i + BATCH);
     const params: Array<string | number | readonly string[]> = [];
@@ -100,7 +105,7 @@ export async function importGeoNames(db: Queryable, dir: string): Promise<Import
       const codes = [...(postal.get(row.geonameid) ?? [])].sort();
       stats.postalCodesAssigned += codes.length;
       const country = catalogCountry(row.countryCode, row.admin2);
-      if (country) stats.byCountry[country] += 1;
+      if (country) stats.byCountry[country] = (stats.byCountry[country] ?? 0) + 1;
       params.push(
         row.geonameid,
         row.name,

@@ -10,11 +10,11 @@ function __ucs2length(str) {
 }
 
 export const catalogPlacesInput = validate10;
-const schema11 = {"$id":"reiseplaner.catalog-places/1.1.0/input","type":"object","additionalProperties":false,"required":["region","themes"],"properties":{"region":{"type":"object","additionalProperties":false,"required":["name","countryCode"],"properties":{"name":{"type":"string","minLength":2,"maxLength":80},"countryCode":{"type":"string","enum":["DE","AT","CH","IT-BZ"]},"descriptionDe":{"type":"string","maxLength":200}}},"themes":{"type":"array","minItems":1,"maxItems":12,"uniqueItems":true,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}}}};
+const schema11 = {"$id":"reiseplaner.catalog-places/1.2.0/input","type":"object","additionalProperties":false,"required":["region","themes"],"properties":{"region":{"type":"object","additionalProperties":false,"required":["name","countryCode"],"properties":{"name":{"type":"string","minLength":2,"maxLength":80},"countryCode":{"type":"string","enum":["DE","AT","CH","IT-BZ","IT","FR","ES","PT","NL","BE","LU","DK","CZ","PL","HU","HR","SI","SK","GR","GB","IE","NO","SE"]},"descriptionDe":{"type":"string","maxLength":200}}},"themes":{"type":"array","minItems":1,"maxItems":12,"uniqueItems":true,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}}}};
 const func2 = __ucs2length;
 
 function validate10(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.catalog-places/1.1.0/input" */;
+/*# sourceURL="reiseplaner.catalog-places/1.2.0/input" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -132,7 +132,7 @@ vErrors.push(err9);
 }
 errors++;
 }
-if(!((((data2 === "DE") || (data2 === "AT")) || (data2 === "CH")) || (data2 === "IT-BZ"))){
+if(!(((((((((((((((((((((((data2 === "DE") || (data2 === "AT")) || (data2 === "CH")) || (data2 === "IT-BZ")) || (data2 === "IT")) || (data2 === "FR")) || (data2 === "ES")) || (data2 === "PT")) || (data2 === "NL")) || (data2 === "BE")) || (data2 === "LU")) || (data2 === "DK")) || (data2 === "CZ")) || (data2 === "PL")) || (data2 === "HU")) || (data2 === "HR")) || (data2 === "SI")) || (data2 === "SK")) || (data2 === "GR")) || (data2 === "GB")) || (data2 === "IE")) || (data2 === "NO")) || (data2 === "SE"))){
 const err10 = {instancePath:instancePath+"/region/countryCode",schemaPath:"#/properties/region/properties/countryCode/enum",keyword:"enum",params:{allowedValues: schema11.properties.region.properties.countryCode.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err10];
@@ -279,10 +279,10 @@ return errors === 0;
 }
 
 export const catalogPlacesOutput = validate11;
-const schema12 = {"$id":"reiseplaner.catalog-places/1.1.0/output","type":"object","additionalProperties":false,"required":["places"],"properties":{"places":{"type":"array","maxItems":15,"items":{"type":"object","additionalProperties":false,"required":["name","subdivision","themes","descriptionDe","searchRadiusKm"],"properties":{"name":{"type":"string","minLength":2,"maxLength":80},"subdivision":{"type":"string","minLength":2,"maxLength":60},"themes":{"type":"array","minItems":1,"maxItems":6,"items":{"type":"object","additionalProperties":false,"required":["code","strength"],"properties":{"code":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]},"strength":{"type":"integer","minimum":1,"maximum":3}}}},"descriptionDe":{"type":"string","minLength":10,"maxLength":160},"searchRadiusKm":{"type":"number","minimum":3,"maximum":25}}}}}};
+const schema12 = {"$id":"reiseplaner.catalog-places/1.2.0/output","type":"object","additionalProperties":false,"required":["places"],"properties":{"places":{"type":"array","maxItems":15,"items":{"type":"object","additionalProperties":false,"required":["name","subdivision","themes","descriptionDe","searchRadiusKm"],"properties":{"name":{"type":"string","minLength":2,"maxLength":80},"subdivision":{"type":"string","minLength":2,"maxLength":60},"themes":{"type":"array","minItems":1,"maxItems":6,"items":{"type":"object","additionalProperties":false,"required":["code","strength"],"properties":{"code":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]},"strength":{"type":"integer","minimum":1,"maximum":3}}}},"descriptionDe":{"type":"string","minLength":10,"maxLength":160},"searchRadiusKm":{"type":"number","minimum":3,"maximum":25}}}}}};
 
 function validate11(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.catalog-places/1.1.0/output" */;
+/*# sourceURL="reiseplaner.catalog-places/1.2.0/output" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -708,10 +708,10 @@ return errors === 0;
 }
 
 export const catalogRegionsInput = validate12;
-const schema13 = {"$id":"reiseplaner.catalog-regions/1.1.0/input","type":"object","additionalProperties":false,"required":["countryCode","themes"],"properties":{"countryCode":{"type":"string","enum":["DE","AT","CH","IT-BZ"]},"subdivision":{"type":"string","minLength":1,"maxLength":80},"themes":{"type":"array","minItems":1,"maxItems":12,"uniqueItems":true,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}}}};
+const schema13 = {"$id":"reiseplaner.catalog-regions/1.2.0/input","type":"object","additionalProperties":false,"required":["countryCode","themes"],"properties":{"countryCode":{"type":"string","enum":["DE","AT","CH","IT-BZ","IT","FR","ES","PT","NL","BE","LU","DK","CZ","PL","HU","HR","SI","SK","GR","GB","IE","NO","SE"]},"subdivision":{"type":"string","minLength":1,"maxLength":80},"themes":{"type":"array","minItems":1,"maxItems":12,"uniqueItems":true,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}}}};
 
 function validate12(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.catalog-regions/1.1.0/input" */;
+/*# sourceURL="reiseplaner.catalog-regions/1.2.0/input" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -759,7 +759,7 @@ vErrors.push(err3);
 }
 errors++;
 }
-if(!((((data0 === "DE") || (data0 === "AT")) || (data0 === "CH")) || (data0 === "IT-BZ"))){
+if(!(((((((((((((((((((((((data0 === "DE") || (data0 === "AT")) || (data0 === "CH")) || (data0 === "IT-BZ")) || (data0 === "IT")) || (data0 === "FR")) || (data0 === "ES")) || (data0 === "PT")) || (data0 === "NL")) || (data0 === "BE")) || (data0 === "LU")) || (data0 === "DK")) || (data0 === "CZ")) || (data0 === "PL")) || (data0 === "HU")) || (data0 === "HR")) || (data0 === "SI")) || (data0 === "SK")) || (data0 === "GR")) || (data0 === "GB")) || (data0 === "IE")) || (data0 === "NO")) || (data0 === "SE"))){
 const err4 = {instancePath:instancePath+"/countryCode",schemaPath:"#/properties/countryCode/enum",keyword:"enum",params:{allowedValues: schema13.properties.countryCode.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err4];
@@ -904,10 +904,10 @@ return errors === 0;
 }
 
 export const catalogRegionsOutput = validate13;
-const schema14 = {"$id":"reiseplaner.catalog-regions/1.1.0/output","type":"object","additionalProperties":false,"required":["regions"],"properties":{"regions":{"type":"array","maxItems":30,"items":{"type":"object","additionalProperties":false,"required":["name","descriptionDe","themes"],"properties":{"name":{"type":"string","minLength":2,"maxLength":80},"descriptionDe":{"type":"string","minLength":10,"maxLength":160},"themes":{"type":"array","minItems":1,"maxItems":5,"uniqueItems":true,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}}}}}}};
+const schema14 = {"$id":"reiseplaner.catalog-regions/1.2.0/output","type":"object","additionalProperties":false,"required":["regions"],"properties":{"regions":{"type":"array","maxItems":30,"items":{"type":"object","additionalProperties":false,"required":["name","descriptionDe","themes"],"properties":{"name":{"type":"string","minLength":2,"maxLength":80},"descriptionDe":{"type":"string","minLength":10,"maxLength":160},"themes":{"type":"array","minItems":1,"maxItems":5,"uniqueItems":true,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}}}}}}};
 
 function validate13(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.catalog-regions/1.1.0/output" */;
+/*# sourceURL="reiseplaner.catalog-regions/1.2.0/output" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -1773,10 +1773,10 @@ return errors === 0;
 }
 
 export const wishParseInput = validate16;
-const schema17 = {"$id":"reiseplaner.wish-parse/1.1.0/input","type":"object","additionalProperties":false,"required":["text"],"properties":{"text":{"type":"string","minLength":1,"maxLength":300}}};
+const schema17 = {"$id":"reiseplaner.wish-parse/1.2.0/input","type":"object","additionalProperties":false,"required":["text"],"properties":{"text":{"type":"string","minLength":1,"maxLength":300}}};
 
 function validate16(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.wish-parse/1.1.0/input" */;
+/*# sourceURL="reiseplaner.wish-parse/1.2.0/input" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -1853,10 +1853,10 @@ return errors === 0;
 }
 
 export const wishParseOutput = validate17;
-const schema18 = {"$id":"reiseplaner.wish-parse/1.1.0/output","type":"object","additionalProperties":false,"required":["chips","themes","review_topics","unmatched"],"properties":{"chips":{"type":"array","uniqueItems":true,"maxItems":11,"items":{"type":"string","enum":["sauber","ruhig","fruehstueck","kostenlos_stornierbar","parkplatz","hund_erlaubt","sauna_wellness","wlan","kueche","barrierefrei","familienzimmer"]}},"themes":{"type":"array","uniqueItems":true,"maxItems":12,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}},"review_topics":{"type":"array","uniqueItems":true,"maxItems":7,"items":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]}},"unmatched":{"type":"array","maxItems":10,"items":{"type":"string","minLength":1,"maxLength":300}}}};
+const schema18 = {"$id":"reiseplaner.wish-parse/1.2.0/output","type":"object","additionalProperties":false,"required":["chips","themes","review_topics","unmatched"],"properties":{"chips":{"type":"array","uniqueItems":true,"maxItems":11,"items":{"type":"string","enum":["sauber","ruhig","fruehstueck","kostenlos_stornierbar","parkplatz","hund_erlaubt","sauna_wellness","wlan","kueche","barrierefrei","familienzimmer"]}},"themes":{"type":"array","uniqueItems":true,"maxItems":12,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}},"review_topics":{"type":"array","uniqueItems":true,"maxItems":7,"items":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]}},"unmatched":{"type":"array","maxItems":10,"items":{"type":"string","minLength":1,"maxLength":300}}}};
 
 function validate17(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.wish-parse/1.1.0/output" */;
+/*# sourceURL="reiseplaner.wish-parse/1.2.0/output" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){

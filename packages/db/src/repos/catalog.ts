@@ -3,6 +3,7 @@
 import {
   ATTRACTIVENESS_NEIGHBOUR_KM,
   catalogAttractiveness,
+  catalogCountry,
   haversineKm,
   slugify,
   userPlaceAttractiveness,
@@ -205,7 +206,7 @@ export async function ensureUserPlace(db: Queryable, locality: Locality, v: Cata
     [v.includeDrafts, locality.geonameid],
   );
   if (existing[0]) return toPlace(existing[0]);
-  const country = locality.countryCode === 'IT' ? 'IT-BZ' : locality.countryCode;
+  const country = catalogCountry(locality.countryCode, locality.admin2) ?? locality.countryCode;
   await db.query(
     `INSERT INTO app.places (slug, name, geonameid, country_code, lat, lng, kind, verified)
      VALUES ($1, $2, $3, $4, $5, $6, 'user', false)

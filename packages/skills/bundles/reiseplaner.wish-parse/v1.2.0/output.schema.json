@@ -1,0 +1,82 @@
+{
+  "$id": "reiseplaner.wish-parse/1.2.0/output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "chips",
+    "themes",
+    "review_topics",
+    "unmatched"
+  ],
+  "properties": {
+    "chips": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 11,
+      "items": {
+        "type": "string",
+        "enum": [
+          "sauber",
+          "ruhig",
+          "fruehstueck",
+          "kostenlos_stornierbar",
+          "parkplatz",
+          "hund_erlaubt",
+          "sauna_wellness",
+          "wlan",
+          "kueche",
+          "barrierefrei",
+          "familienzimmer"
+        ]
+      }
+    },
+    "themes": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 12,
+      "items": {
+        "type": "string",
+        "enum": [
+          "wandern",
+          "bergpanorama",
+          "seen",
+          "natur_ruhe",
+          "radfahren",
+          "wellness",
+          "wintersport",
+          "staedte_kultur",
+          "wein_kulinarik",
+          "familie",
+          "shopping",
+          "strand"
+        ]
+      }
+    },
+    "review_topics": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 7,
+      "items": {
+        "type": "string",
+        "enum": [
+          "sauberkeit",
+          "schimmel",
+          "ungeziefer",
+          "laerm",
+          "geruch",
+          "zustand",
+          "abweichung_beschreibung"
+        ]
+      }
+    },
+    "unmatched": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      }
+    }
+  }
+}

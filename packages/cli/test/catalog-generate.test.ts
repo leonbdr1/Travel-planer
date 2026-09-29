@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { productConfig } from '@reiseplaner/config';
 import { repoRoot } from '@reiseplaner/db/node';
+import { CATALOG_COUNTRIES } from '@reiseplaner/domain';
 import { createTestDb, type TestDb } from '@reiseplaner/db/testing';
 import { createProviders } from '@reiseplaner/providers';
 import { fakeResponders, memorySkillHooks } from '@reiseplaner/skills';
@@ -40,8 +41,13 @@ describe('catalog generate (fake model)', () => {
   it('parses country lists', () => {
     expect(parseCountries('DE')).toEqual(['DE']);
     expect(parseCountries('de,it-bz')).toEqual(['DE', 'IT-BZ']);
-    expect(parseCountries(undefined)).toEqual(['DE', 'AT', 'CH', 'IT-BZ']);
-    expect(parseCountries('FR')).toBeNull();
+    expect(parseCountries(undefined)).toEqual([...CATALOG_COUNTRIES]);
+    expect(parseCountries('fr,it')).toEqual(['FR', 'IT']);
+    expect(parseCountries('US')).toBeNull();
+  });
+
+  it('knows the same catalog countries as product.config.yaml allows (drift check)', () => {
+    for (const c of productConfig.markets.catalog_countries) expect(CATALOG_COUNTRIES).toContain(c);
   });
 
   it('writes validated drafts and reports unmatched places, outliers and duplicates', async () => {

@@ -22,12 +22,13 @@ describe('GeoNames import', () => {
 
   it('imports the market only, idempotently, with German names and postal codes', async () => {
     const first = await importGeoNames(test.db, sample);
-    expect(first.byCountry).toEqual({ DE: 3, AT: 2, CH: 1, 'IT-BZ': 2 });
+    // Since F15 all of Italy (Trento) counts, a country outside the market (US) does not.
+    expect(first.byCountry).toEqual({ DE: 3, AT: 2, CH: 1, 'IT-BZ': 2, IT: 1 });
     expect(first.postalCodesAssigned).toBe(3);
     expect(first.postalCodesUnmatched).toBe(1);
     const second = await importGeoNames(test.db, sample);
     expect(second.byCountry).toEqual(first.byCountry);
-    expect(await countLocalities(test.db)).toEqual({ AT: 2, CH: 1, DE: 3, 'IT-BZ': 2 });
+    expect(await countLocalities(test.db)).toEqual({ AT: 2, CH: 1, DE: 3, IT: 1, 'IT-BZ': 2 });
   });
 
   it('finds localities by prefix, German name, umlaut variants and postal code', async () => {
@@ -42,12 +43,16 @@ describe('GeoNames import', () => {
     expect((await searchLocalities(test.db, 'fussen', 5))[0]?.name).toBe('Füssen');
     expect((await searchLocalities(test.db, '87561', 5))[0]?.name).toBe('Oberstdorf');
     expect(await searchLocalities(test.db, 'x', 5)).toEqual([]);
-    expect(await searchLocalities(test.db, 'Trento', 5)).toEqual([]);
+    expect((await searchLocalities(test.db, 'Trento', 5))[0]).toMatchObject({ name: 'Trento', countryCode: 'IT', adminName: null });
+    expect(await searchLocalities(test.db, 'New York', 5)).toEqual([]);
   });
 
   it('matches catalog names deterministically within country and state', async () => {
     expect((await matchLocality(test.db, 'Oberstdorf', 'DE', '02'))?.exact).toBe(true);
     expect((await matchLocality(test.db, 'Bozen', 'IT-BZ', null))?.locality.name).toBe('Bolzano');
+    expect((await matchLocality(test.db, 'Trento', 'IT', null))?.locality.name).toBe('Trento');
+    expect(await matchLocality(test.db, 'Trento', 'IT-BZ', null)).toBeNull();
+    expect(await matchLocality(test.db, 'Bolzano', 'IT', null)).toBeNull();
     expect(await matchLocality(test.db, 'Oberstdorf', 'AT', null)).toBeNull();
     expect((await matchLocality(test.db, 'Oberstorf', 'DE', null))?.exact).toBe(false);
   });

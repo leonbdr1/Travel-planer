@@ -1,0 +1,41 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: niederlaendische-kueste
+places:
+  - name: Den Haag
+    themes:
+      staedte_kultur: 2
+      shopping: 2
+      strand: 2
+    description_de: Regierungssitz mit Mauritshuis und dem Seebad Scheveningen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2747373
+  - name: Noordwijk
+    themes:
+      strand: 3
+      familie: 2
+      radfahren: 2
+    description_de: Seebad mit breitem Strand und Dünen nahe dem Keukenhof.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2749812
+  - name: Domburg
+    themes:
+      strand: 3
+      natur_ruhe: 2
+    description_de: Seebad auf Walcheren mit Dünen und Waldrand.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2756746
+  - name: Vlissingen
+    themes:
+      strand: 2
+      staedte_kultur: 1
+    description_de: Hafenstadt an der Scheldemündung mit Boulevard und Strand.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2745392

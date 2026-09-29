@@ -1,0 +1,21 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: stockholm
+places:
+  - name: Stockholm
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      natur_ruhe: 1
+    description_de: Stadt mit Gamla Stan, Vasamuseum, Djurgården und Einkaufsstraßen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2673730
+  - name: Uppsala
+    themes:
+      staedte_kultur: 2
+    description_de: Universitätsstadt mit Dom und Schloss nördlich von Stockholm.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2666199

@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: loire
+places:
+  - name: Amboise
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+      radfahren: 2
+    description_de: Städtchen mit Königsschloss und dem Clos Lucé von Leonardo da Vinci.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3037902
+  - name: Blois
+    themes:
+      staedte_kultur: 3
+      radfahren: 2
+    description_de: Stadt mit Renaissanceschloss, nahe Chambord und Cheverny.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3032213
+  - name: Tours
+    themes:
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Stadt an der Loire mit Altstadt um die Place Plumereau.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2972191
+  - name: Saumur
+    themes:
+      wein_kulinarik: 3
+      staedte_kultur: 2
+    description_de: Weinstadt mit Schloss, Reitschule und Kellern im Tuffstein.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2975758

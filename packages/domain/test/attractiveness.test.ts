@@ -62,3 +62,11 @@ describe('F14: cities and beach resorts by their main activity', () => {
     expect(binz.parts.trails).toBe(3);
   });
 });
+
+describe('F15: a city of sights is a top place', () => {
+  it('counts sightseeing as the main activity', () => {
+    const venedig = catalogAttractiveness({ fame: 3, attractions: 3, themes: { staedte_kultur: 3, shopping: 1 }, population: 51_298 });
+    expect(venedig.parts.trails).toBe(3);
+    expect(venedig.level).toBe('top');
+  });
+});

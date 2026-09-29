@@ -1,0 +1,50 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: slowenien
+places:
+  - name: Bled
+    themes:
+      seen: 3
+      wandern: 2
+      bergpanorama: 2
+    description_de: Ort am See mit Kircheninsel und Burg auf dem Felsen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3203925
+  - name: Kranjska Gora
+    themes:
+      wintersport: 3
+      wandern: 3
+      bergpanorama: 2
+    description_de: Bergort am Fuß des Triglav-Nationalparks.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3197373
+  - name: Bovec
+    themes:
+      wandern: 2
+      natur_ruhe: 3
+    description_de: Ort im Soča-Tal mit smaragdgrünem Fluss und Schluchten.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3203611
+  - name: Laibach
+    themes:
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Hauptstadt mit Drei Brücken, Burg und Markt an der Ljubljanica.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3196359
+  - name: Piran
+    themes:
+      staedte_kultur: 2
+      strand: 2
+    description_de: Venezianisch geprägte Hafenstadt auf einer Landspitze.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3193341

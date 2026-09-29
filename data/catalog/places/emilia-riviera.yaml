@@ -1,0 +1,33 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: emilia-riviera
+places:
+  - name: Bologna
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+      shopping: 2
+    description_de: Stadt mit Arkaden, Geschlechtertürmen und berühmter Küche.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3181928
+  - name: Rimini
+    themes:
+      strand: 3
+      familie: 3
+      staedte_kultur: 1
+    description_de: Badeort mit langem Sandstrand, Strandbädern und römischer Altstadt.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3169361
+  - name: Riccione
+    themes:
+      strand: 3
+      familie: 3
+      shopping: 1
+    description_de: Badeort mit Strandpromenade, Wasserparks und Einkaufsstraße.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3169424

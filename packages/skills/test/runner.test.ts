@@ -23,7 +23,7 @@ describe('runSkill', () => {
     expect(result.output.unmatched).toEqual(['Blick auf den See']);
     expect(hooks.runs).toHaveLength(1);
     const run = hooks.runs[0];
-    expect(run).toMatchObject({ skill: 'reiseplaner.wish-parse', version: '1.1.0', outcome: 'ok', batch: false, costUsd: 0 });
+    expect(run).toMatchObject({ skill: 'reiseplaner.wish-parse', version: '1.2.0', outcome: 'ok', batch: false, costUsd: 0 });
     expect(run?.inputHash).toMatch(/^[0-9a-f]{64}$/);
     expect(run?.outputHash).toMatch(/^[0-9a-f]{64}$/);
     expect(JSON.stringify(run)).not.toContain('Blick auf den See');

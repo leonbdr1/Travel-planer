@@ -1,0 +1,8 @@
+-- Verification for 20261018a_europe_countries: the country checks list the
+-- European destination countries, the South Tyrol-only rule for Italy is gone,
+-- and row security is still enabled on the three tables.
+SELECT conrelid::regclass AS tbl, conname, pg_get_constraintdef(oid) AS def
+  FROM pg_constraint
+ WHERE conrelid IN ('app.geo_localities'::regclass, 'app.regions'::regclass, 'app.places'::regclass) AND contype = 'c'
+ ORDER BY 1, 2;
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename IN ('geo_localities', 'regions', 'places');

@@ -1,0 +1,30 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: cornwall
+places:
+  - name: St Ives
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Hafenort mit Stränden, Tate-Galerie und Künstlerkolonie.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2638778
+  - name: Newquay
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Badeort mit Surfstränden an der Atlantikküste.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2641589
+  - name: Falmouth
+    themes:
+      strand: 2
+      staedte_kultur: 1
+    description_de: Hafenstadt mit Burg und Naturhafen.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2649715

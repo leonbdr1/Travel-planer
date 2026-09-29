@@ -1,0 +1,32 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: amsterdam
+places:
+  - name: Amsterdam
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      radfahren: 2
+    description_de: Stadt mit Grachtengürtel, Rijksmuseum, Anne-Frank-Haus und Kalverstraat.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2759794
+  - name: Haarlem
+    themes:
+      staedte_kultur: 2
+      shopping: 2
+      radfahren: 2
+    description_de: Stadt mit Grote Markt, Frans-Hals-Museum und Blumenfeldern in der Nähe.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2755003
+  - name: Zandvoort
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Badeort an der Nordsee mit Dünen und Strandpavillons.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2744042

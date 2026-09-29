@@ -23,12 +23,6 @@ export function adminAreaName(countryCode: string, admin1: string, admin2 = ''):
   return table?.[admin1] ?? null;
 }
 
-/** Catalog country key: DE, AT, CH or IT-BZ (South Tyrol). */
-export function catalogCountry(countryCode: string, admin2 = ''): 'DE' | 'AT' | 'CH' | 'IT-BZ' | null {
-  if (countryCode === 'DE' || countryCode === 'AT' || countryCode === 'CH') return countryCode;
-  return countryCode === 'IT' && admin2 === 'BZ' ? 'IT-BZ' : null;
-}
-
 /**
  * Preferred German display name: the first (preferred) German alternative
  * name if the importer found one (Bozen, München, Wien …), else the GeoNames name.

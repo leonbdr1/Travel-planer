@@ -42,3 +42,12 @@
 - Verträge: `themes` in Vorschlags- und Suchanfragen höchstens 12 statt 10.
 - Katalog: sieben Großstadt-Regionen in Deutschland (Berlin und Potsdam, Hamburg und Lübeck, München, Frankfurt und Rhein-Main, Köln und Düsseldorf, Dresden und Elbland, Stuttgart); Shopping bei größeren Städten, Strand an Nord- und Ostsee.
 - Orts-Attraktivität, Kriterium W: höchste Stärke von Wandern, Radfahren, Strand oder Shopping (vorher nur Wandern und Radfahren), damit Großstädte und Badeorte nicht als „Ruhiger Ort“ erscheinen.
+
+## 5.1 Ortsdatenbank, 5.2 Katalog, 6.2 Vorschläge (Aufgabe F15, Europa-Erweiterung)
+
+- Länder: `GEO_COUNTRIES` (Ortsdatenbank: DE, AT, CH, IT, FR, ES, PT, NL, BE, LU, DK, CZ, PL, HU, HR, SI, SK, GR, GB, IE, NO, SE) und `CATALOG_COUNTRIES` (dieselben, Südtirol weiter als `IT-BZ`, übriges Italien `IT`) in `packages/domain/src/countries.ts`; `product.config.yaml` `markets.catalog_countries` entsprechend.
+- Migration `20261018a_europe_countries` (nur lokal ausgeführt): Länderlisten in `geo_localities`, `regions`, `places`; die Regel „Italien nur mit admin2 = BZ“ entfällt. pgTAP `supabase/tests/europe_countries.sql`.
+- Katalogabgleich unterscheidet `IT-BZ` (admin2 = BZ) und `IT` (sonst). Ortsbeschriftung außerhalb von DACH mit deutschem Ländernamen („Venedig, Italien“).
+- Katalog: 53 Regionen und 195 Orte in 18 Ländern (KI-Entwurf, BG-11); Entwicklungsauszug `EU-cities3000.tsv`. Skills `catalog-regions`, `catalog-places`, `wish-parse` in Version 1.2.0 mit den neuen Ländern.
+- Orientierungskarte: zweiter Ausschnitt Europa (Umrisse Natural Earth, gemeinfrei, fest eingebaut), gewählt, sobald ein Punkt außerhalb von DACH liegt.
+- Orts-Attraktivität, Kriterium W: zählt jetzt auch „Kultur und Sehenswürdigkeiten“ (Venedig war sonst nur „Beliebter Urlaubsort“).

@@ -1,0 +1,21 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: budapest
+places:
+  - name: Budapest
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      wellness: 3
+    description_de: Stadt an der Donau mit Parlament, Burgviertel, Kettenbrücke und Thermalbädern.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3054643
+  - name: Szentendre
+    themes:
+      staedte_kultur: 2
+    description_de: Künstlerstädtchen am Donauknie mit Museen und bunten Häusern.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3044681

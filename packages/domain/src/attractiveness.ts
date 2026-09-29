@@ -11,7 +11,7 @@ export interface AttractivenessParts {
   fame: number;
   /** A: lifts, ski area or major sights. */
   attractions: number;
-  /** W: the main outdoor or city activity: hiking, cycling, beach or shopping (F14). */
+  /** W: the main activity: hiking, cycling, beach, shopping or sightseeing (F14, F15). */
   trails: number;
   /** V: variety of activities. */
   variety: number;
@@ -35,10 +35,10 @@ export interface CatalogAttractivenessInput {
 }
 
 /**
- * Themes that count for W. Since F14 a big city or a beach resort is judged by
- * its shopping streets or beaches, not only by hiking trails.
+ * Themes that count for W. Since F14/F15 a city, an old town or a beach resort
+ * is judged by its sights, shopping streets or beaches, not only by hiking trails.
  */
-export const ACTIVITY_THEMES = ['wandern', 'radfahren', 'strand', 'shopping'] as const;
+export const ACTIVITY_THEMES = ['wandern', 'radfahren', 'strand', 'shopping', 'staedte_kultur'] as const;
 
 const clamp3 = (v: number) => Math.max(0, Math.min(3, Math.round(v)));
 

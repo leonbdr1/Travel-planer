@@ -1,0 +1,21 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: paris
+places:
+  - name: Paris
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      familie: 1
+    description_de: Stadt mit Eiffelturm, Louvre, Notre-Dame, Montmartre und den Galeries Lafayette.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2988507
+  - name: Versailles
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt vor Paris mit Schloss und Park der französischen Könige.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2969679

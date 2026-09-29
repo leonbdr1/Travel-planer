@@ -154,7 +154,7 @@ Alle 14 Aufgaben (0–13) erledigt, committet und auf `claude/hopeful-fermat-jec
 Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), Europa-Erweiterung komplett mit groben Fahrzeitblöcken und Flug-Hinweis ab 30 Stunden (nur Anzeige), Rezensionen in anderen Sprachen erkennen, Kultur und Shopping trennen. Branch: `claude/inspiring-knuth-tmiduy` (entspricht `main`). Nichts davon ist deployt.
 
 - [x] **F14** – Themen: Kultur und Shopping getrennt, dazu Strand
-- [ ] **F15** – Europa-Erweiterung: Ortsdaten, Datenbank, Katalog
+- [x] **F15** – Europa-Erweiterung: Ortsdaten, Datenbank, Katalog
 - [ ] **F16** – Fahrzeiten in groben Blöcken, Flug-Hinweis ab 30 Stunden
 - [ ] **F17** – Regionsname: bei nur einem Highlight-Ort der Ortsname
 - [ ] **F18** – Rezensionen: Stichwörter in weiteren Sprachen
@@ -166,3 +166,12 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - Orts-Attraktivität: Kriterium W zählt jetzt Wandern, Radfahren, Strand **oder** Shopping; vorher landete Stuttgart als „Ruhiger Ort“ (5,8), jetzt 6,8, die Region Frankfurt 7,4 statt 6,1.
 - KI-Skills `wish-parse`, `catalog-regions`, `catalog-places` als Version 1.1.0 mit dem neuen Vokabular („Städtetrip mit Shopping“ → Kultur und Shopping); Evals im Fake-Modus 38/10/10 bestanden.
 - Beleg: `npm run demo -- f14` → `docs/demos/F14/demo-output.txt` (ab Stuttgart, 6 h: Shopping → Köln/Düsseldorf, Frankfurt, Stuttgart, München, Bodensee; Allgäu nicht dabei; Kultur → Romantische Straße, Bodensee, Mittelrhein …); Walkthrough `themen` in `docs/demos/F14/walkthrough-P/`, Screenshots gelesen.
+
+### F15 – erledigt
+- **Ortsdaten:** 15.668 Orte in 19 weiteren Ländern (Italien, Frankreich, Spanien, Portugal, Benelux, Dänemark, Tschechien, Polen, Ungarn, Kroatien, Slowenien, Slowakei, Griechenland, Großbritannien, Irland, Norwegen, Schweden) ab 3.000 Einwohnern plus kleine Katalogorte wie Vernazza, mit deutschen Namen (Venedig, Rom, Lissabon, Krakau …). Startort und eigene Orte können jetzt überall dort liegen; die Beschriftung lautet z. B. „Venedig, Italien“.
+- **Katalog:** 53 neue Regionen mit 195 Orten, u. a. Gardasee, Venedig und Obere Adria, Dolomiten, Comer See und Lago Maggiore, Cinque Terre, Toskana, Rom, Amalfiküste, Sizilien, Sardinien, Paris, Elsass, Côte d’Azur, Provence, Chamonix, Bretagne/Normandie, Loire, Barcelona/Costa Brava, Mallorca, Madrid, Andalusien, Costa Blanca, Kanaren, Lissabon, Porto, Algarve, Madeira, Amsterdam, niederländische Küste, Flandern, Luxemburg, Kopenhagen, dänische Nordsee, Prag, Böhmen, Krakau/Tatra, polnische Ostsee, Budapest, Plattensee, Istrien, Dalmatien, Slowenien, Athen, Kreta, Korfu, London, Schottland, Cornwall, Irland, Fjordnorwegen, Stockholm. KI-Entwurf mit Attraktivitätswerten, redaktionelle Prüfung ausstehend (BG-11). Katalog gesamt: 109 Regionen, 520 Orte, 0 Fehler in `catalog validate`.
+- **Datenbank:** Migration `20261018a_europe_countries.sql` (nur lokal; Staging/Produktion ist BEN-GATE) mit pgTAP-Test.
+- **Karte:** Die Mini-Karte an jeder Region zeigt für Ziele außerhalb von Deutschland, Österreich und der Schweiz einen groben Europa-Ausschnitt.
+- **KI-Skills** Version 1.2.0 (Länderliste, Hinweis auf Flugziele), Evals im Fake-Modus bestanden.
+- Beleg: `npm run demo -- f15` → `docs/demos/F15/demo-output.txt` (Startorte Venedig/Lissabon/Krakau, eigene Orte Venedig/Rovinj/Paris, Gardasee ab München bei „Seen“ bis 6 h, Strandregionen in Kroatien und Frankreich); Walkthrough `europa` in `docs/demos/F15/walkthrough-P/` (Strand ab München mit Europa-Mini-Karten, Suche über Venedig bis „Suche abgeschlossen“), Screenshots gelesen.
+- Offen: Die Fahrzeiten zu fernen Zielen sind noch minutengenau (z. B. „7 h 37 min–12 h 17 min“) → F16. Echte Ortsdaten kommen mit dem GeoNames-Produktivimport (O3.1).

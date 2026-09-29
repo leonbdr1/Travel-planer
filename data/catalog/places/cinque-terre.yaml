@@ -1,0 +1,50 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: cinque-terre
+places:
+  - name: Monterosso al Mare
+    themes:
+      strand: 3
+      wandern: 3
+      staedte_kultur: 2
+    description_de: Größtes Dorf der Cinque Terre mit Sandstrand und Beginn des Küstenwegs.
+    search_radius_km: 4
+    ai_assisted: true
+    verified: false
+    geonameid: 3172769
+  - name: Vernazza
+    themes:
+      staedte_kultur: 3
+      wandern: 3
+      strand: 1
+    description_de: Dorf mit kleinem Hafen, Turm und bunten Häusern an der Steilküste.
+    search_radius_km: 3
+    ai_assisted: true
+    verified: false
+    geonameid: 3164535
+  - name: Riomaggiore
+    themes:
+      staedte_kultur: 2
+      wandern: 3
+    description_de: Südlichstes Dorf der Cinque Terre mit Häusern am Felsen und Weinterrassen.
+    search_radius_km: 3
+    ai_assisted: true
+    verified: false
+    geonameid: 3169333
+  - name: Levanto
+    themes:
+      strand: 3
+      wandern: 2
+    description_de: Badeort nördlich der Cinque Terre mit Strand und Bahnverbindung in die Dörfer.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3174793
+  - name: Santa Margherita Ligure
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Hafenort mit Villen und Promenade, Ausgangspunkt nach Portofino.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3167595

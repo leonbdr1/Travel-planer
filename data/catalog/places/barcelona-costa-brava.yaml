@@ -1,0 +1,48 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: barcelona-costa-brava
+places:
+  - name: Barcelona
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      strand: 2
+    description_de: Stadt mit Sagrada Família, Ramblas, Passeig de Gràcia und Stadtstrand.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3128760
+  - name: Girona
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit bunten Häusern am Onyar, Kathedrale und jüdischem Viertel.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3121456
+  - name: Lloret de Mar
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Badeort mit Sandstränden und Gärten von Santa Clotilde.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3118212
+  - name: Tossa de Mar
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Badeort mit ummauerter Altstadt auf der Landspitze.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3107661
+  - name: Sitges
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Badeort südlich von Barcelona mit Altstadt und vielen Stränden.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3108877

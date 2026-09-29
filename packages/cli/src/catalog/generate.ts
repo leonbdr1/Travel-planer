@@ -63,7 +63,8 @@ export interface GenerateReport {
   files: string[];
 }
 
-const COUNTRY_FILE: Record<CatalogCountry, string> = { DE: 'de', AT: 'at', CH: 'ch', 'IT-BZ': 'it-bz' };
+/** regions/<file>.yaml per catalog country: de, at, …, it-bz. */
+const countryFile = (country: CatalogCountry) => country.toLowerCase();
 
 function textProblems(text: string): string[] {
   return findClaimViolations(text, productConfig.compliance.forbidden_claims).map((v) => `verbotene Aussage „${v.claim}“`);
@@ -261,7 +262,7 @@ export async function generateCatalog(db: Queryable, deps: SkillRunnerDeps, opti
     report.files.push(`places/${region.slug}.yaml`);
     report.placesWritten += accepted.length;
 
-    const regionFile = join(options.outDir, 'regions', `${COUNTRY_FILE[region.country]}.yaml`);
+    const regionFile = join(options.outDir, 'regions', `${countryFile(region.country)}.yaml`);
     let doc = regionDocs.get(region.country);
     if (!doc) {
       doc = existsSync(regionFile) ? parseDocument(readFileSync(regionFile, 'utf8')) : new Document([]);
@@ -282,8 +283,8 @@ export async function generateCatalog(db: Queryable, deps: SkillRunnerDeps, opti
     report.regionsCreated.push(region.name);
   }
   for (const [country, doc] of regionDocs) {
-    writeFileSync(join(options.outDir, 'regions', `${COUNTRY_FILE[country]}.yaml`), doc.toString({ lineWidth: 200 }));
-    report.files.push(`regions/${COUNTRY_FILE[country]}.yaml`);
+    writeFileSync(join(options.outDir, 'regions', `${countryFile(country)}.yaml`), doc.toString({ lineWidth: 200 }));
+    report.files.push(`regions/${countryFile(country)}.yaml`);
   }
   return report;
 }

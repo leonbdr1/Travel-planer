@@ -2,7 +2,7 @@
 import { resolve } from 'node:path';
 import { countLocalities, searchLocalities } from '@reiseplaner/db';
 import { repoRoot } from '@reiseplaner/db/node';
-import { importGeoNames } from '../geonames/import';
+import { formatCountryCounts, importGeoNames } from '../geonames/import';
 import { openCliDb } from '../lib/db';
 
 export async function geonamesCommand(args: string[], log: (line: string) => void): Promise<number> {
@@ -17,8 +17,7 @@ export async function geonamesCommand(args: string[], log: (line: string) => voi
       const dir = resolve(process.env.INIT_CWD ?? repoRoot, value);
       const started = Date.now();
       const stats = await importGeoNames(db, dir);
-      const b = stats.byCountry;
-      log(`Importiert: DE ${b.DE}, AT ${b.AT}, CH ${b.CH}, IT-BZ ${b['IT-BZ']} (${Date.now() - started} ms, Datenbank ${via})`);
+      log(`Importiert: ${formatCountryCounts(stats.byCountry)} (${Date.now() - started} ms, Datenbank ${via})`);
       log(`Postleitzahlen: ${stats.postalCodesAssigned} zugeordnet, ${stats.postalCodesUnmatched} ohne passenden Ort`);
       log(`Bestand: ${JSON.stringify(await countLocalities(db))}`);
       return 0;

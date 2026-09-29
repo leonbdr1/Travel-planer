@@ -46,7 +46,8 @@ markets:
   currency: EUR
   guest_nationality: DE
   timezone: Europe/Berlin
-  catalog_countries: [DE, AT, CH, IT-BZ]
+  # Europa-Erweiterung (F15): Südtirol als IT-BZ, übriges Italien als IT.
+  catalog_countries: [DE, AT, CH, IT-BZ, IT, FR, ES, PT, NL, BE, LU, DK, CZ, PL, HU, HR, SI, GR, GB, IE, NO, SE]
 
 support:
   email: support@reiseplaner.example

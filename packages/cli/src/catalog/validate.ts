@@ -2,15 +2,36 @@
 // matching status, coordinates inside the country and duplicates.
 import { productConfig } from '@reiseplaner/config';
 import type { Queryable } from '@reiseplaner/db';
-import { constants, findClaimViolations, haversineKm, normalizeGermanTypography, slugify, stripDiacritics } from '@reiseplaner/domain';
+import { catalogCountry, constants, findClaimViolations, haversineKm, normalizeGermanTypography, slugify, stripDiacritics } from '@reiseplaner/domain';
 import type { LoadedCatalog } from './load';
 import type { CatalogCountry } from './schema';
 
+// Rough boxes around each country, islands included (Canaries, Madeira, Crete);
+// a plausibility check only, the country itself comes from GeoNames.
 export const BOUNDS: Record<CatalogCountry, { lat: [number, number]; lng: [number, number] }> = {
   DE: { lat: [47.2, 55.1], lng: [5.8, 15.1] },
   AT: { lat: [46.3, 49.1], lng: [9.5, 17.2] },
   CH: { lat: [45.8, 47.9], lng: [5.9, 10.6] },
   'IT-BZ': { lat: [46.2, 47.1], lng: [10.3, 12.5] },
+  IT: { lat: [35.4, 47.1], lng: [6.6, 18.6] },
+  FR: { lat: [41.3, 51.2], lng: [-5.2, 9.6] },
+  ES: { lat: [27.6, 43.8], lng: [-18.2, 4.4] },
+  PT: { lat: [32.6, 42.2], lng: [-17.3, -6.1] },
+  NL: { lat: [50.7, 53.6], lng: [3.3, 7.3] },
+  BE: { lat: [49.5, 51.6], lng: [2.5, 6.5] },
+  LU: { lat: [49.4, 50.2], lng: [5.7, 6.6] },
+  DK: { lat: [54.5, 57.8], lng: [8.0, 15.2] },
+  CZ: { lat: [48.5, 51.1], lng: [12.0, 18.9] },
+  PL: { lat: [49.0, 54.9], lng: [14.1, 24.2] },
+  HU: { lat: [45.7, 48.6], lng: [16.1, 22.9] },
+  HR: { lat: [42.3, 46.6], lng: [13.4, 19.5] },
+  SI: { lat: [45.4, 46.9], lng: [13.3, 16.7] },
+  SK: { lat: [47.7, 49.7], lng: [16.8, 22.6] },
+  GR: { lat: [34.8, 41.8], lng: [19.3, 29.7] },
+  GB: { lat: [49.8, 60.9], lng: [-8.7, 1.8] },
+  IE: { lat: [51.4, 55.5], lng: [-10.7, -5.9] },
+  NO: { lat: [57.9, 71.3], lng: [4.5, 31.2] },
+  SE: { lat: [55.3, 69.1], lng: [10.9, 24.2] },
 };
 const DUPLICATE_KM = constants.CATALOG_DUPLICATE_KM;
 
@@ -74,7 +95,7 @@ export async function validateCatalog(db: Queryable, catalog: LoadedCatalog): Pr
       continue;
     }
     matched += 1;
-    const country = (loc.country_code === 'IT' && loc.admin2 === 'BZ' ? 'IT-BZ' : loc.country_code) as CatalogCountry;
+    const country = catalogCountry(loc.country_code, loc.admin2) ?? (loc.country_code as CatalogCountry);
     if (reg && country !== reg.country) errors.push(`${label}: Ort liegt in ${country}, Region in ${reg.country}`);
     const bounds = BOUNDS[country];
     if (!bounds || loc.lat < bounds.lat[0] || loc.lat > bounds.lat[1] || loc.lng < bounds.lng[0] || loc.lng > bounds.lng[1]) {

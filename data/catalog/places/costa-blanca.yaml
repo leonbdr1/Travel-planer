@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: costa-blanca
+places:
+  - name: Valencia
+    themes:
+      staedte_kultur: 2
+      shopping: 2
+      strand: 2
+    description_de: Stadt mit Kathedrale, Markthalle, Stadt der Künste und Stadtstrand.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2509954
+  - name: Benidorm
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Badeort mit zwei langen Sandstränden und vielen Hochhaushotels.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2521088
+  - name: Altea
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Weißer Ort auf einem Hügel mit Kirche und Kiesstrand.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2521804
+  - name: Dénia
+    themes:
+      strand: 2
+      staedte_kultur: 1
+    description_de: Hafenstadt mit Burg, Sandstränden im Norden und Fähren zu den Balearen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2518878

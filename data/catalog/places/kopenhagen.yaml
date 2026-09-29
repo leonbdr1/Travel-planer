@@ -1,0 +1,22 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: kopenhagen
+places:
+  - name: Kopenhagen
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      radfahren: 3
+    description_de: Stadt mit Nyhavn, Tivoli, Strøget und Radwegen überall.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2618425
+  - name: Helsingør
+    themes:
+      staedte_kultur: 2
+      strand: 1
+    description_de: Hafenstadt am Öresund mit Schloss Kronborg.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2620473

@@ -12,7 +12,7 @@ Ein Nebenort ohne Bergbahn, ohne Wanderwege und ohne Touristen ist deutlich bill
 |---|---|---|
 | **B – Bekanntheit** (Tourismus, Ruf als Urlaubsort) | von Hand eingeschätzt (`data/catalog/attraktivitaet.yaml`) | Großstadt ab 100.000 Einwohnern 3, Stadt ab 20.000 2, sonst 1; liegt ein Katalogort höchstens 8 km entfernt, mindestens dessen Wert − 1 |
 | **A – Bergbahnen, Skigebiet, große Sehenswürdigkeiten** | von Hand eingeschätzt | Metropole ab 500.000 Einwohnern 3, Großstadt 2; Katalogort in 8 km: dessen Wert − 1; sonst 0 |
-| **W – Wander- und Radwege, Strand oder Shopping** | höchste Themenstärke von „Wandern“, „Radfahren“, „Strand und Meer“ und „Shopping und Großstadt“ im Katalog (seit F14: Großstädte und Badeorte werden an ihrer Hauptaktivität gemessen, nicht nur an Wanderwegen) | Katalogort in 8 km: dessen Wert − 1; sonst 1 |
+| **W – Hauptaktivität: Wander- und Radwege, Strand, Shopping oder Kultur** | höchste Themenstärke von „Wandern“, „Radfahren“, „Strand und Meer“, „Shopping und Großstadt“ und „Kultur und Sehenswürdigkeiten“ im Katalog (seit F14/F15: Städte und Badeorte werden an ihrer Hauptaktivität gemessen, nicht nur an Wanderwegen; Venedig war vorher nur „Beliebter Urlaubsort“) | Katalogort in 8 km: dessen Wert − 1; sonst 1 |
 | **V – Vielfalt der Aktivitäten** | Zahl der Themen mit Stärke ≥ 2: 0 → 0, 1 → 1, 2–3 → 2, ab 4 → 3 | Großstadt 3; Katalogort in 8 km: dessen Wert − 1; sonst 0 |
 | **I – Infrastruktur** (Restaurants, Läden, Gästeinformation) | Einwohner: unter 1.500 → 1, unter 10.000 → 2, sonst 3; bekannte Urlaubsorte (B = 3) mindestens 3 | wie Katalogort |
 

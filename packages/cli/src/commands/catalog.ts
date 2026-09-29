@@ -15,7 +15,7 @@ export async function catalogCommand(args: string[], log: (line: string) => void
     return catalogGenerateCommand(args.slice(1), log);
   }
   if (sub !== 'match' && sub !== 'validate' && sub !== 'import') {
-    log('usage: catalog match | validate | import [--include-drafts] | generate --country <DE|AT|CH|IT-BZ> [--fake]');
+    log('usage: catalog match | validate | import [--include-drafts] | generate --country <DE|AT|CH|IT-BZ|IT|FR|…> [--fake]');
     return 2;
   }
   const dir = resolve(repoRoot, flag(args, 'dir') ?? 'data/catalog');

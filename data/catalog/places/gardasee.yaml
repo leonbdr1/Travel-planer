@@ -1,0 +1,63 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: gardasee
+places:
+  - name: Riva del Garda
+    themes:
+      seen: 3
+      radfahren: 3
+      wandern: 2
+      familie: 2
+    description_de: Städtchen am Nordufer mit Hafen, Bastione und Rad- und Kletterrevier um Arco.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3169272
+  - name: Malcesine
+    themes:
+      seen: 3
+      bergpanorama: 2
+      wandern: 2
+    description_de: Ort am Ostufer mit Skaligerburg und Seilbahn auf den Monte Baldo.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3174188
+  - name: Limone sul Garda
+    themes:
+      seen: 3
+      staedte_kultur: 2
+    description_de: Steiler Ort am Westufer mit historischen Zitronengärten und Seepromenade.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3174710
+  - name: Sirmione
+    themes:
+      seen: 3
+      staedte_kultur: 3
+      wellness: 2
+    description_de: Halbinsel am Südufer mit Wasserburg, römischen Grotten und Thermalquellen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3166499
+  - name: Bardolino
+    themes:
+      seen: 2
+      wein_kulinarik: 3
+      radfahren: 2
+    description_de: Weinort am Ostufer mit Seepromenade und Weinbergen im Hinterland.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3182364
+  - name: Lazise
+    themes:
+      seen: 2
+      familie: 3
+      staedte_kultur: 1
+    description_de: Mittelalterlicher Ort mit Stadtmauer, nahe den Freizeitparks am Ostufer.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3174975

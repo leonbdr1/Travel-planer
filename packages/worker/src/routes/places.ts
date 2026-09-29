@@ -6,6 +6,7 @@ import { Hono } from 'hono';
 import { productConfig } from '@reiseplaner/config';
 import { placeSearchQuerySchema, type PlaceResolveResponse, type PlaceSearchResponse } from '@reiseplaner/contracts';
 import { ensureUserPlace, getLocality, searchCatalogPlaces, searchLocalities } from '@reiseplaner/db';
+import { catalogCountry } from '@reiseplaner/domain';
 import type { AppEnv } from '../app';
 import { ApiError } from '../http/errors';
 import { rateLimit } from '../http/rate-limit';
@@ -28,7 +29,7 @@ export const placeRoutes = new Hono<AppEnv>().get(
 
     if ('geonameid' in query) {
       const locality = await getLocality(deps.db, query.geonameid);
-      if (!locality || (locality.countryCode === 'IT' && locality.admin2 !== 'BZ')) {
+      if (!locality || !catalogCountry(locality.countryCode, locality.admin2)) {
         throw new ApiError(404, 'unknown_place', 'Diesen Ort kennen wir nicht.');
       }
       const place = await ensureUserPlace(deps.db, locality, visibility);

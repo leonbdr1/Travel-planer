@@ -1,0 +1,16 @@
+# Regionen in Großbritannien – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: london
+  name: London
+  country: GB
+  description_de: Hauptstadt mit Museen, Themse, Oxford Street und Parks, dazu Schloss Windsor.
+  themes: [staedte_kultur, shopping]
+- slug: schottland
+  name: Schottland
+  country: GB
+  description_de: Edinburgh mit Burg und Royal Mile, dazu die Highlands um Inverness und Fort William.
+  themes: [staedte_kultur, bergpanorama, wandern, natur_ruhe]
+- slug: cornwall
+  name: Cornwall
+  country: GB
+  description_de: Südwestspitze Englands mit Klippen, Buchten und Fischerorten.
+  themes: [strand, natur_ruhe, wandern]

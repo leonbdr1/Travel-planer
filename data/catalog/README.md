@@ -3,7 +3,7 @@
 Regionen und Orte für die Vorschläge (konzept.md 9.7, architektur.md 5.2 und S3.4/S3.5).
 
 - `themes.yaml`: Themenvokabular.
-- `regions/<land>.yaml`: Regionen je Land (`de`, `at`, `ch`, `it-bz`).
+- `regions/<land>.yaml`: Regionen je Land (`de`, `at`, `ch`, `it-bz`, seit der Europa-Erweiterung F15 auch `it` für Italien ohne Südtirol, `fr`, `es`, `pt`, `nl`, `be`, `lu`, `dk`, `cz`, `pl`, `hu`, `hr`, `si`, `gr`, `gb`, `ie`, `no`, `se`).
 - `places/<region-slug>.yaml`: Orte je Region.
 
 **Status: KI-Entwurf.** Alle Einträge sind KI-gestützt erstellt (`ai_assisted: true`) und noch **nicht redaktionell freigegeben** (`verified: false`, ⛔ BG-11). Der Entwurf entstand in der autonomen Bau-Sitzung an Stelle des Batch-Laufs `catalog generate`, der einen Anthropic-Schlüssel braucht.

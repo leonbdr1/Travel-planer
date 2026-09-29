@@ -1,0 +1,11 @@
+# Regionen in Ungarn – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: budapest
+  name: Budapest
+  country: HU
+  description_de: Hauptstadt an der Donau mit Thermalbädern, Parlament und Burgviertel.
+  themes: [staedte_kultur, shopping, wellness]
+- slug: balaton
+  name: Plattensee
+  country: HU
+  description_de: Größter See Mitteleuropas mit Badeorten, Weinbergen am Nordufer und dem Thermalsee Hévíz.
+  themes: [seen, wellness, wein_kulinarik, familie]

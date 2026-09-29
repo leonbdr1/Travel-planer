@@ -1,0 +1,58 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: toskana
+places:
+  - name: Florenz
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+      wein_kulinarik: 2
+    description_de: Renaissancestadt mit Dom, Uffizien, Ponte Vecchio und Ledermärkten.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3176959
+  - name: Siena
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+    description_de: Mittelalterliche Stadt mit Piazza del Campo und gotischem Dom.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3166548
+  - name: Pisa
+    themes:
+      staedte_kultur: 2
+      shopping: 1
+    description_de: Stadt am Arno mit Schiefem Turm und Dom auf der Piazza dei Miracoli.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3170647
+  - name: Lucca
+    themes:
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Stadt mit begehbarer Stadtmauer, Türmen und Radweg auf dem Wall.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3174530
+  - name: San Gimignano
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+    description_de: Dorf mit mittelalterlichen Geschlechtertürmen inmitten von Weinbergen.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3168320
+  - name: Montepulciano
+    themes:
+      wein_kulinarik: 3
+      staedte_kultur: 2
+    description_de: Weinstadt auf einem Hügel mit Renaissancepalästen und Kellern.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3172794

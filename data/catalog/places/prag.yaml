@@ -1,0 +1,20 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: prag
+places:
+  - name: Prag
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Hauptstadt mit Karlsbrücke, Prager Burg, Altstädter Ring und Astronomischer Uhr.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3067696
+  - name: Kutná Hora
+    themes:
+      staedte_kultur: 2
+    description_de: Silberstadt mit der Barbarakirche und dem Beinhaus Sedlec.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3072463

@@ -1,0 +1,21 @@
+# Regionen in Portugal – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: lissabon
+  name: Lissabon und Sintra
+  country: PT
+  description_de: Hauptstadt auf sieben Hügeln mit Straßenbahnen, dazu Sintra und die Strände von Cascais.
+  themes: [staedte_kultur, shopping, strand]
+- slug: porto-douro
+  name: Porto und Douro
+  country: PT
+  description_de: Porto mit Ribeira und Portweinkellern, dazu die Weinterrassen des Douro-Tals.
+  themes: [staedte_kultur, wein_kulinarik, shopping]
+- slug: algarve
+  name: Algarve
+  country: PT
+  description_de: Südküste Portugals mit Felsbuchten, Sandstränden und Fischerorten.
+  themes: [strand, familie, natur_ruhe]
+- slug: madeira
+  name: Madeira
+  country: PT
+  description_de: Atlantikinsel mit Levadas, Steilküsten und Gärten, nur mit Flug oder Fähre erreichbar.
+  themes: [wandern, bergpanorama, natur_ruhe]

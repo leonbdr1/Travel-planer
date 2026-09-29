@@ -1,0 +1,46 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: bretagne-normandie
+places:
+  - name: Saint-Malo
+    themes:
+      staedte_kultur: 3
+      strand: 3
+    description_de: Ummauerte Korsarenstadt mit Stränden und starkem Tidenhub.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2978640
+  - name: Dinard
+    themes:
+      strand: 3
+      staedte_kultur: 1
+    description_de: Seebad gegenüber von Saint-Malo mit Villen und Küstenweg.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3021351
+  - name: Honfleur
+    themes:
+      staedte_kultur: 3
+    description_de: Hafenstadt mit altem Hafenbecken und Malern des Impressionismus.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3013173
+  - name: Étretat
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Badeort mit Kreidefelsen und Felsentoren an der Alabasterküste.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3019355
+  - name: Bayeux
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit dem Teppich von Bayeux und Nähe zu den Landungsstränden.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3034483

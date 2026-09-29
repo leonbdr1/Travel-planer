@@ -1,0 +1,48 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: provence
+places:
+  - name: Avignon
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+    description_de: Stadt am Rhône mit Papstpalast und der Brücke Saint-Bénézet.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3035681
+  - name: Aix-en-Provence
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Stadt mit Cours Mirabeau, Brunnen und Märkten.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3038354
+  - name: Arles
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit römischem Amphitheater, Van-Gogh-Orten und Zugang zur Camargue.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3036938
+  - name: Gordes
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 2
+    description_de: Dorf auf einem Felsen im Luberon, nahe der Abtei Sénanque mit Lavendel.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3015661
+  - name: Marseille
+    themes:
+      staedte_kultur: 2
+      shopping: 3
+      strand: 2
+    description_de: Hafenstadt mit Vieux-Port, Notre-Dame-de-la-Garde und den Calanques.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2995469

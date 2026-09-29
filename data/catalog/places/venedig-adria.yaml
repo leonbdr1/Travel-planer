@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: venedig-adria
+places:
+  - name: Venedig
+    themes:
+      staedte_kultur: 3
+      shopping: 1
+    description_de: Lagunenstadt mit Markusplatz, Canal Grande, Rialtobrücke und Glasinsel Murano.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3164603
+  - name: Jesolo
+    themes:
+      strand: 3
+      familie: 3
+    description_de: Badeort mit langem Sandstrand, Strandpromenade und Wassersportangeboten.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3174742
+  - name: Caorle
+    themes:
+      strand: 3
+      staedte_kultur: 2
+      familie: 2
+    description_de: Fischerort mit bunter Altstadt, Dom am Meer und Sandstränden.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3180749
+  - name: Chioggia
+    themes:
+      staedte_kultur: 2
+      strand: 1
+    description_de: Kleine Lagunenstadt mit Kanälen und Fischmarkt, der Strand von Sottomarina liegt nebenan.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3178784

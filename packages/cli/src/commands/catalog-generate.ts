@@ -1,4 +1,4 @@
-// `npm run cli -- catalog generate --country <DE|AT|CH|IT-BZ|all> [--fake] [--out <dir>]`
+// `npm run cli -- catalog generate --country <DE|AT|CH|IT-BZ|IT|FR|…|all> [--fake] [--out <dir>]`
 // Catalog drafts from the catalog skills (Batch API). --fake uses the
 // simulated model; real runs need ANTHROPIC_API_KEY (⛔ BG-07) and write to
 // data/catalog unless --out is given. Costs are settled into skill_runs.
@@ -17,7 +17,7 @@ import { cliEnv, cliProvidersConfig } from '../lib/env';
 export async function catalogGenerateCommand(args: string[], log: (line: string) => void): Promise<number> {
   const countries = parseCountries(flag(args, 'country'));
   if (!countries) {
-    log('usage: catalog generate --country <DE|AT|CH|IT-BZ|all>[,…] [--fake] [--out <dir>]');
+    log('usage: catalog generate --country <DE|AT|CH|IT-BZ|IT|FR|…|all>[,…] [--fake] [--out <dir>]');
     return 2;
   }
   const fake = args.includes('--fake');
