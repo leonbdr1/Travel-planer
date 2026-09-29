@@ -128,3 +128,13 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | S11.13 | Passwort-Schutz der Entwicklerseite | `demonstrated` | `docs/demos/S11.13/` | Gate im Worker (`SITE_GATE=password`), öffentlich nur Passwortseite, Health und robots.txt; Lauf über den echten Worker und 11 Tests. Nicht deployt (Konten, Secrets, Deploy sind BEN-GATE), Anleitung `docs/runbooks/entwicklerseite-online.md`. |
 | S11.14 | Lokal rechnen, online erreichbar | `demonstrated` | `docs/demos/S11.14/` | `npm run serve` (Worker mit Passwort-Schutz auf Port 8787) und Tunnel-Anleitung (`docs/runbooks/von-ueberall.md`); Lauf mit `curl` über den echten Serve-Modus. Der Tunnel (Tailscale Funnel) ist nicht geprüft, er braucht Bens Konto. |
 | S11.15 | Passwort-Ersteinrichtung, Admin- und Nutzer-Passwort | `demonstrated` | `docs/demos/S11.15/` | Erster Besuch legt zwei Passwörter fest; Nutzer sehen die Endkunden-Ansicht ohne Entwicklerwerkzeuge. Browser-Screenshot der Endkunden-Ansicht steht aus. |
+
+## Aufgabenliste vom 29.09.2026, spät (F14–F18, `FORTSCHRITT.md`)
+
+| ID | Zeile | Reifegrad | Beleg | Anmerkung |
+|---|---|---|---|---|
+| F14 | Kultur und Shopping getrennt, Strand | `live-verified` | `docs/demos/F14/` | Neue Themen, Großstadt-Regionen DE, Skills 1.1.0. |
+| F15 | Europa-Erweiterung | `live-verified` | `docs/demos/F15/` | 19 weitere Länder in der Ortsdatenbank, 53 Regionen, Europa-Karte, Migration `20261018a` nur lokal (Staging/Produktion: BEN-GATE), KI-Entwurf (BG-11). |
+| F16 | Fahrzeit-Blöcke, Flug-Hinweis ab 30 h | `live-verified` | `docs/demos/F16/` | Kein Routing für ferne Ziele. |
+| F17 | Regionsname nach einzigem Highlight-Ort | `live-verified` | `docs/demos/F17/` | Liste der umbenannten Regionen zur Prüfung in `docs/demos/F17/demo-output.txt`. |
+| F18 | Rezensionen in 15 Sprachen | `live-verified` | `docs/demos/F18/` | `review-verify` 1.1.0; echte Eval-Läufe brauchen BG-07. |

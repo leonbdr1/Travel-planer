@@ -199,3 +199,8 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - Simulierte Unterkünfte in Europa schreiben einen Teil ihrer Bewertungen und alle Mängel-Beschwerden in der Landessprache.
 - Beleg: `npm run demo -- f18` → `docs/demos/F18/demo-output.txt` (Suche über acht europäische Orte: Beschwerden auf Griechisch, Ungarisch und Portugiesisch erkannt und bestätigt); Walkthrough `rezensionen` in `docs/demos/F18/walkthrough-P/` (Chania: griechische Schimmel-Beschwerden als Hinweis „Schimmel: 3 (3 in 6 Mon.)“), Screenshot gelesen.
 - „A und B“ aus Bens Nachricht: dazu gab es in dieser Sitzung keine Frage von mir; nichts umgesetzt, bitte bei Bedarf noch einmal beschreiben.
+
+### Abschlussprüfung F14–F18
+- Alle Pfad-Walkthroughs zusammen (`npm run dogfood -- --mode P`, 25 Flows inkl. der neuen `themen`, `europa`, `fahrzeit`, `regionsname`, `rezensionen`): **405/405 Prüfungen bestanden**, keine Konsolenfehler; Bericht `docs/demos/Aufgaben-F14-F18/report-P-all.md`.
+- Dabei behoben: Im Gesamtlauf liefen die letzten Flows in das Stundenlimit für Abfragen (HTTP 429), weil alle Flows als derselbe Besucher zählen. Das Walkthrough-Werkzeug setzt die Zähler jetzt vor jedem Flow zurück; die Limits im Produkt sind unverändert.
+- `npm test` 478 grün, `npm run db:test` grün, Typecheck und Claims-Prüfung grün.

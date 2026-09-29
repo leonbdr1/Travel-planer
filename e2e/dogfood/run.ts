@@ -151,6 +151,7 @@ try {
   const counter = { n: 0 };
   try {
     for (const flow of selected) {
+      await stack?.resetRateLimits();
       const context = await browser.newContext({ locale: 'de-DE', timezoneId: 'Europe/Berlin', viewport: { width: 1280, height: 900 } });
       const page = await context.newPage();
       summary.flows.push(await runFlow(flow, page, baseUrl, counter));
