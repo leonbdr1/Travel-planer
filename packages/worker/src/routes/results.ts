@@ -17,8 +17,8 @@ import {
   type SearchResultsResponse,
 } from '@reiseplaner/contracts';
 import { productConfig } from '@reiseplaner/config';
-import { blocksLanguage, DEFAULT_GOAL, textBlocks } from '@reiseplaner/domain';
-import { getSearchOffer, searchPlaces } from '@reiseplaner/db';
+import { blocksLanguage, DEFAULT_GOAL, facilitiesDe, textBlocks } from '@reiseplaner/domain';
+import { getSearchOffer, placesByIds, searchPlaces } from '@reiseplaner/db';
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import type { AppEnv } from '../app';
 import { ApiError } from '../http/errors';
@@ -32,7 +32,9 @@ import {
   filtersFromQuery,
   filtersFromRequest,
   matrixCells,
+  nightsSummary,
   offerDto,
+  oversizedItems,
   resultItems,
   unratedFor,
   unratedItems,
@@ -56,12 +58,16 @@ export const resultRoutes = new Hono<AppEnv>()
     const goal = query.goal ?? request.goal ?? DEFAULT_GOAL;
     const admissible = admissibleFor(goal, data.evaluated, data.hotels, reviews);
     const doubts = unratedFor(goal, data.evaluated, data.hotels, reviews);
-    const cell = query.place_id && query.checkin ? { place_id: query.place_id, checkin: query.checkin } : null;
-    const scoped = cell ? data.evaluated.filter((o) => o.placeId === cell.place_id && o.checkin === cell.checkin) : data.evaluated;
+    const cell = query.place_id && query.checkin ? { place_id: query.place_id, checkin: query.checkin, checkout: query.checkout ?? null } : null;
+    const scoped = cell
+      ? data.evaluated.filter((o) => o.placeId === cell.place_id && o.checkin === cell.checkin && (cell.checkout === null || o.checkout === cell.checkout))
+      : data.evaluated;
     const places = await searchPlaces(db, search.id);
-    const dates = [...new Map(data.combinations.map((x) => [x.checkin, { checkin: x.checkin, checkout: x.checkout }])).values()].sort((a, b) =>
-      a.checkin.localeCompare(b.checkin),
+    const placeRows = new Map((await placesByIds(db, places.map((p) => p.placeId))).map((p) => [p.id, p]));
+    const dates = [...new Map(data.combinations.map((x) => [`${x.checkin}|${x.checkout}`, { checkin: x.checkin, checkout: x.checkout }])).values()].sort(
+      (a, b) => a.checkin.localeCompare(b.checkin) || a.checkout.localeCompare(b.checkout),
     );
+    const items = resultItems(scoped, data.hotelsById, query.sort, reviews, { goal, admissible });
     const passing = data.evaluated.filter((o) => o.passes);
     const fetched = data.combinations.map((x) => x.updatedAt).sort().at(-1) ?? null;
     const body: SearchResultsResponse = {
@@ -74,12 +80,13 @@ export const resultRoutes = new Hono<AppEnv>()
       },
       filters: effectiveFilters(filters),
       matrix: {
-        places: places.map((p) => ({ id: p.placeId, name: p.name, drive_minutes: p.driveMinutes })),
+        places: places.map((p) => ({ id: p.placeId, name: p.name, drive_minutes: p.driveMinutes, attractiveness: placeRows.get(p.placeId)?.attractiveness ?? null })),
         dates,
         cells: matrixCells(data.combinations, data.evaluated, admissible, data.hotelsById),
       },
-      items: resultItems(scoped, data.hotelsById, query.sort, reviews, { goal, admissible }),
+      items,
       unrated: unratedItems(scoped, data.hotelsById, doubts),
+      oversized: oversizedItems(scoped, data.hotelsById),
       counts: {
         offers: data.evaluated.length,
         passing: passing.length,
@@ -90,6 +97,7 @@ export const resultRoutes = new Hono<AppEnv>()
         unrated_hidden: doubts.size,
       },
       meta: { prices_fetched_at: fetched, sort: query.sort, goal, cell },
+      nights_summary: nightsSummary(items),
     };
     return c.json(body);
   })
@@ -120,6 +128,9 @@ export const resultRoutes = new Hono<AppEnv>()
     const first = offers[0];
     // Provider texts come as HTML or lines; the SPA gets plain blocks.
     const description = textBlocks(details?.description);
+    // Facilities in German (Aufgabe 12); unknown English names are logged so the table can grow (no personal data).
+    const facilities = facilitiesDe(details?.facilities.slice(0, 60) ?? []);
+    if (facilities.unknown.length > 0) console.log(JSON.stringify({ level: 'info', msg: 'facility untranslated', names: facilities.unknown }));
     const important = textBlocks(details?.importantInformation);
     const body: HotelDetailResponse = {
       hotel: {
@@ -136,7 +147,9 @@ export const resultRoutes = new Hono<AppEnv>()
         description,
         description_language: blocksLanguage(description),
         photos: details?.photos.slice(0, 12) ?? [],
-        facilities: details?.facilities.slice(0, 40) ?? [],
+        facilities: facilities.groups.flatMap((g) => g.labels),
+        facility_groups: facilities.groups,
+        facilities_untranslated: facilities.unknown.length,
         checkin_time: details?.checkinTime ?? null,
         checkout_time: details?.checkoutTime ?? null,
         important_information: important,

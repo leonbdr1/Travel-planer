@@ -62,6 +62,12 @@ export const EXTERNAL_RATING_STEP_BUDGET_S = 30;
  */
 export const SCORE_FULL_WEIGHT_REVIEWS = 30;
 /**
+ * The same by kind (Aufgabe 6, docs/logik/unterkunftsarten.md): a holiday flat
+ * with 17 reviews has had many guests for its kind, a hotel with 17 hardly
+ * any. The hotel keeps SCORE_FULL_WEIGHT_REVIEWS.
+ */
+export const SCORE_FULL_WEIGHT_REVIEWS_BY_KIND = { hotel: SCORE_FULL_WEIGHT_REVIEWS, pension: 25, ferienwohnung: 20 } as const;
+/**
  * Older reviews count less towards SCORE_FULL_WEIGHT_REVIEWS (Ben, 2026-09-28):
  * a review older than REVIEW_FRESH_MONTHS counts REVIEW_OLD_WEIGHT. Ages are
  * known for houses with a review check; reviews it did not load count as old.
@@ -75,6 +81,14 @@ export const SCORE_RECENCY_MAX_DELTA = 1.5;
 export const SCORE_CLEANLINESS_WEIGHT = 0.2;
 export const SCORE_CLEANLINESS_WEIGHT_CHIP = 0.35;
 export const SCORE_MAX_PENALTY = 2.0;
+/**
+ * Defects bound to one unit (Aufgabe 6): mould in one of many hotel rooms
+ * weighs less than in the only flat one books. The warning penalty of these
+ * topics is multiplied by the kind's factor; a holiday flat may lose more.
+ */
+export const UNIT_DEFECT_TOPICS = ['schimmel', 'ungeziefer', 'sauberkeit', 'zustand', 'geruch'] as const;
+export const UNIT_DEFECT_PENALTY_FACTOR = { hotel: 0.6, pension: 1, ferienwohnung: 1.6 } as const;
+export const SCORE_MAX_PENALTY_BY_KIND = { hotel: SCORE_MAX_PENALTY, pension: SCORE_MAX_PENALTY, ferienwohnung: 3.0 } as const;
 export const SEVERITY_WEIGHTS = { low: 0.3, medium: 0.6, high: 1.0 } as const;
 export const RECENT_REVIEW_MONTHS = 12;
 
@@ -85,6 +99,31 @@ export const RECENT_REVIEW_MONTHS = 12;
  */
 export const BARGAIN_DATE_FACTOR = 0.8;
 export const BARGAIN_DATE_MIN_DATES = 3;
+/**
+ * Rooms and party (Aufgabe 5, docs/logik/zimmer-und-personen.md): a room fits
+ * up to this many places more than the largest group in one room; a bigger one
+ * is shown but stays out of the price formation.
+ */
+export const ROOM_OVERSIZE_EXTRA = 2;
+/** Prepared for "Komfort" (not wired): weight of the cheapest fitting room against the median of all fitting rooms. */
+export const COMFORT_CHEAPEST_WEIGHT = 0.5;
+
+/**
+ * Attractiveness of places (Aufgabe 8, docs/logik/orts-attraktivitaet.md):
+ * five criteria 0–3, fame and attractions count double; levels from the score.
+ */
+export const ATTRACTIVENESS_WEIGHTS = { fame: 2, attractions: 2, trails: 1.5, variety: 1, infrastructure: 1 } as const;
+export const ATTRACTIVENESS_LEVELS = { top: 8, beliebt: 6, ruhig: 4 } as const;
+/** A place outside the catalog borrows from a catalog place at most this far away. */
+export const ATTRACTIVENESS_NEIGHBOUR_KM = 8;
+
+/**
+ * Flexible nights (Aufgabe 4, docs/logik/flexible-naechte.md): the extra night
+ * of the same stay is "cheap" at most at this share of the nightly price of the
+ * shorter stay, "expensive" from this share on.
+ */
+export const EXTRA_NIGHT_CHEAP_RATIO = 0.7;
+export const EXTRA_NIGHT_EXPENSIVE_RATIO = 1.3;
 /** Calibration target (umsetzungsplan S6.4): bargain share per type of F. */
 export const CALIBRATION_BARGAIN_RATE_MIN = 0.05;
 export const CALIBRATION_BARGAIN_RATE_MAX = 0.2;
@@ -99,6 +138,8 @@ export const RANK_UNRATED_QUALITY_NORM = 0.5;
 // only for what is proven: many reviews, a better score, extras (komfort).
 /** "Viele Bewertungen": a plus like a sauna; worth MANY_REVIEWS_BONUS of the price. */
 export const MANY_REVIEWS_MIN = 500;
+/** Relative to the kind (Aufgabe 6): many reviews are normal for a hotel, 60 are many for a holiday flat. */
+export const MANY_REVIEWS_MIN_BY_KIND = { hotel: MANY_REVIEWS_MIN, pension: 150, ferienwohnung: 60 } as const;
 export const MANY_REVIEWS_BONUS = 0.05;
 /** Worth of one quality point above the goal's floor, as a share of the price. */
 export const GOAL_QUALITY_BONUS_PER_POINT = { sparen: 0.02, ausgewogen: 0.05, komfort: 0.1 } as const;
@@ -156,6 +197,20 @@ export const RED_FLAG_THRESHOLDS = {
   schimmel: { guests: 3, guestsUnverified: 4, share: 0.1 },
   ungeziefer: { guests: 3, guestsUnverified: 4, share: 0.1 },
   sauberkeit: { guests: 4, guestsUnverified: 5, share: 0.15 },
+} as const;
+/** By kind (Aufgabe 6): fewer units, fewer reports needed. The hotel keeps RED_FLAG_THRESHOLDS. */
+export const RED_FLAG_THRESHOLDS_BY_KIND = {
+  hotel: RED_FLAG_THRESHOLDS,
+  pension: {
+    schimmel: { guests: 2, guestsUnverified: 3, share: 0.07 },
+    ungeziefer: { guests: 2, guestsUnverified: 3, share: 0.07 },
+    sauberkeit: { guests: 3, guestsUnverified: 4, share: 0.1 },
+  },
+  ferienwohnung: {
+    schimmel: { guests: 2, guestsUnverified: 3, share: 0.05 },
+    ungeziefer: { guests: 2, guestsUnverified: 3, share: 0.05 },
+    sauberkeit: { guests: 3, guestsUnverified: 4, share: 0.08 },
+  },
 } as const;
 /** Complaint topics that keep a star-trap suspect out (any warning shown on them). */
 export const STAR_TRAP_WARNING_TOPICS = ['zustand', 'sauberkeit'] as const;

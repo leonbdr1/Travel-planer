@@ -36,7 +36,7 @@ export const ergebnisseFlow: Flow = {
         note(`Beschriftung für Screenreader: ${await cell.getAttribute('aria-label')}`);
       },
       {
-        expectText: ['günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer, im Mittel deiner Termine', 'pro Nacht', 'Klick: nur diese Kombination'],
+        expectText: ['günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier', 'pro Nacht', 'Klick: nur diese Kombination'],
         expectSelector: ['[data-testid="tooltip"] [data-testid="matrix-bargain-reason"]'],
         fullPage: false,
       },
@@ -185,7 +185,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByRole('heading', { name: 'So berechnen wir die Rangliste' }).waitFor();
       },
       {
-        expectText: ['Qualitätswert', 'Preis', 'Unsere Wahl', 'Schnäppchen (★)', 'dasselbe Zimmer', 'mittleren Preis dieses Zimmers', 'ganz unten', 'Provisionen oder Margen haben keinen Einfluss'],
+        expectText: ['Qualitätswert', 'Preis', 'Unsere Wahl', 'Schnäppchen (★)', 'dasselbe Zimmer', 'Durchschnittspreis an deinen anderen Terminen', 'ganz unten', 'Provisionen oder Margen haben keinen Einfluss'],
         rejectText: ['Wir empfehlen keinen Favoriten', 'gegenüber dem Durchschnitt aller Treffer', 'Rangwert'],
       },
     );

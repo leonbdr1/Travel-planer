@@ -31,6 +31,7 @@ function offer(hotelId: string, totalEur: number, quality: number | null, extra:
     payAtPropertyKnown: true,
     currency: 'EUR',
     passes: true,
+    oversized: false,
     quality,
     breakdown: qualityScore({ rating: quality, reviewCount: quality === null ? 0 : 200, review: null, chips: [] }),
     bargain: null,

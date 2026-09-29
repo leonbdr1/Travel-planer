@@ -1,0 +1,24 @@
+$ npm run demo -- f6
+# recorded 2026-09-29T17:06:36.684Z
+
+Teil 1 – 8,7 aus 17 Bewertungen je Art:
+  hotel          voll ab 30 → Qualitätswert 8.2
+  pension        voll ab 25 → Qualitätswert 8.3
+  ferienwohnung  voll ab 20 → Qualitätswert 8.5
+Schimmel (bestätigt, schwer) bei 9,0 aus 200 Bewertungen:
+  hotel          Abzug 0.6 → 8.4; 2 Gäste / 6 % Schimmel: Warnhinweis, bleibt
+  pension        Abzug 1 → 8; 2 Gäste / 6 % Schimmel: Warnhinweis, bleibt
+  ferienwohnung  Abzug 1.6 → 7.4; 2 Gäste / 6 % Schimmel: aussortiert
+
+Teil 2 – echte Suche über den lokalen Stack (Füssen, Oberstdorf, 01.10.–30.11.):
+  Pension Waldesruh            pension        Gäste 9.3 aus 114 (voll ab 25) → unser Wert 8.6, Abzug 0.6
+  Pension Fischerhaus          pension        Gäste 9.06 aus 610 (voll ab 25) → unser Wert 8.4, Abzug 0.6
+  Pension Kaiserblick          pension        Gäste 8.7 aus 128 (voll ab 25) → unser Wert 8.7
+  Gasthof Waldesruh            pension        Gäste 8.9 aus 44 (voll ab 25) → unser Wert 8.9
+  Landhotel Bären              hotel          Gäste 10 aus 2 (voll ab 30) → unser Wert 7.7
+  Boutique-Hotel Panorama      hotel          Gäste – aus 0 (voll ab 30) → unser Wert –
+  Landhotel Lindenhof          hotel          Gäste 7.9 aus 264 (voll ab 30) → unser Wert 7.9
+  Hotel Alte Mühle             hotel          Gäste – aus 0 (voll ab 30) → unser Wert –
+  Hotel Schwanen               hotel          Gäste 9.1 aus 334 (voll ab 30) → unser Wert 9.1
+  Hotel Zur Post               hotel          Gäste – aus 0 (voll ab 30) → unser Wert –
+Arten in der Liste: pension 4, hotel 6

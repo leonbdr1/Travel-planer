@@ -85,3 +85,16 @@ places:
     ai_assisted: true
     verified: false
     geonameid: 2772798
+  - name: St. Anton am Arlberg
+    match_name: St Anton am Arlberg
+    admin1: '07'
+    themes:
+      wintersport: 3
+      wandern: 3
+      bergpanorama: 3
+      wellness: 2
+    description_de: Tiroler Wintersportort am Arlberg mit großem Skigebiet, im Sommer Bergbahnen und Hochgebirgswanderwege.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2766757

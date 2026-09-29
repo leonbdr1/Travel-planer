@@ -35,11 +35,11 @@ const wholeEuro = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
 /**
  * Bargain reasons (architektur.md 6.8): the only allowed savings statements.
  * The wording of konzept.md 5.1 (example 3); the parenthesis names what was
- * compared (the same room) and the median it is measured against, so the
- * percentage can be checked.
+ * compared (the same room) and the mean of its other dates it is measured
+ * against, so the percentage can be checked.
  */
-export function bargainReasonDate(percent: number, medianTotalCents: number, totalCents: number): string {
-  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier ${wholeEuro.format(Math.round(totalCents / 100))} € gesamt, an deinen anderen Terminen im Mittel ${wholeEuro.format(Math.round(medianTotalCents / 100))} € gesamt)`;
+export function bargainReasonDate(percent: number, othersMeanTotalCents: number, totalCents: number): string {
+  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier ${wholeEuro.format(Math.round(totalCents / 100))} € gesamt, an deinen anderen Terminen im Mittel ${wholeEuro.format(Math.round(othersMeanTotalCents / 100))} € gesamt)`;
 }
 
 /** Board labels for e-mails and server texts (the SPA has the same in i18n/de.ts). */

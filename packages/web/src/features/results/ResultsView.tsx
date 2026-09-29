@@ -11,7 +11,7 @@ import type { EffectiveFilters, MatrixCellDto, SearchResultsResponse } from '@re
 import type { Goal } from '@reiseplaner/domain';
 import { Alert, Button, Card, Checkbox, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
-import { formatDay, formatTime } from '../../lib/format';
+import { formatDay, formatEuro, formatStay, formatTime } from '../../lib/format';
 import { useMeta } from '../../lib/meta';
 import { fetchResults } from './api';
 import { FinaleView } from './FinaleView';
@@ -58,10 +58,10 @@ function filterParamsFrom(form: FilterForm | null): Record<string, string> {
 function paramsFrom(
   filters: Record<string, string>,
   sort: Sort,
-  cell: { place_id: string; checkin: string } | null,
+  cell: { place_id: string; checkin: string; checkout: string | null } | null,
   goal: Goal | null,
 ): Record<string, string> {
-  return { sort, ...filters, ...(cell ? { place_id: cell.place_id, checkin: cell.checkin } : {}), ...(goal ? { goal } : {}) };
+  return { sort, ...filters, ...(cell ? { place_id: cell.place_id, checkin: cell.checkin, ...(cell.checkout ? { checkout: cell.checkout } : {}) } : {}), ...(goal ? { goal } : {}) };
 }
 
 export function ResultsView({ searchId, token }: { searchId: string; token: string }) {
@@ -72,7 +72,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
   const [goal, setGoal] = useState<Goal | null>(null);
   const [form, setForm] = useState<FilterForm | null>(null);
   const [applied, setApplied] = useState<FilterForm | null>(null);
-  const [cell, setCell] = useState<{ place_id: string; checkin: string } | null>(null);
+  const [cell, setCell] = useState<{ place_id: string; checkin: string; checkout: string | null } | null>(null);
   const [data, setData] = useState<SearchResultsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -102,13 +102,17 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
   }, [searchId, token, sort, filterParams, cell, goal]);
 
   const placeName = useMemo(() => new Map(data?.matrix.places.map((p) => [p.id, p.name]) ?? []), [data]);
+  const placeLevels = useMemo(
+    () => new Map((data?.matrix.places ?? []).flatMap((p) => (p.attractiveness ? [[p.id, p.attractiveness] as const] : []))),
+    [data],
+  );
   const aiLabel = meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : '';
   const detailHref = (hotelId: string) => `/suche/${searchId}/unterkunft/${encodeURIComponent(hotelId)}#t=${token}`;
 
   if (!data) return loading ? <Spinner label={de.common.loading} /> : <Alert tone="error">{error ?? de.status.apiUnreachable}</Alert>;
 
   const update = (patch: Partial<FilterForm>) => setForm((f) => (f ? { ...f, ...patch } : f));
-  const selectCell = (c: MatrixCellDto | null) => setCell(c ? { place_id: c.place_id, checkin: c.checkin } : null);
+  const selectCell = (c: MatrixCellDto | null) => setCell(c ? { place_id: c.place_id, checkin: c.checkin, checkout: c.checkout } : null);
 
   return (
     <section className="space-y-10" data-testid="results">
@@ -119,6 +123,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         detailHref={detailHref}
         goal={goal}
         onGoalChange={setGoal}
+        placeLevels={placeLevels}
         // Not a hash link: the hash carries the search token.
         onShowUnrated={data.unrated.length > 0 ? () => document.getElementById(UNRATED_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' }) : undefined}
       />
@@ -241,7 +246,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         {cell ? (
           <div className="flex flex-wrap items-center gap-3" data-testid="cell-filter">
             <span className="rounded-full bg-brand-50 px-3 py-1 text-sm font-medium text-brand-800">
-              {t.cellFilter(placeName.get(cell.place_id) ?? '', formatDay(cell.checkin))}
+              {t.cellFilter(placeName.get(cell.place_id) ?? '', cell.checkout ? formatStay(cell.checkin, cell.checkout) : formatDay(cell.checkin))}
             </span>
             <Button variant="ghost" size="sm" onClick={() => setCell(null)}>
               {t.clearCell}
@@ -249,14 +254,38 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
           </div>
         ) : null}
 
+        {data.nights_summary ? (
+          <Alert tone="info">
+            <span data-testid="nights-summary">
+              <strong>{t.nightsSummaryTitle(data.nights_summary.from_nights, data.nights_summary.to_nights)}</strong>{' '}
+              {t.nightsSummary(
+                data.nights_summary.houses,
+                data.nights_summary.cheap,
+                data.nights_summary.expensive,
+                formatEuro(data.nights_summary.median_extra_eur),
+                formatEuro(data.nights_summary.median_nightly_eur),
+                data.nights_summary.to_nights,
+              )}
+            </span>
+          </Alert>
+        ) : null}
+
         {loading ? <Spinner label={de.common.loading} /> : null}
-        {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} />}
+        {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} places={placeLevels} />}
+
+        {data.oversized.length > 0 ? (
+          <section className="space-y-3 border-t border-zinc-200 pt-6" data-testid="oversized-section">
+            <Heading level={3}>{t.oversizedTitle(data.oversized.length)}</Heading>
+            <Text className="max-w-3xl text-sm">{t.oversizedLead}</Text>
+            <ResultList items={data.oversized} detailHref={detailHref} aiLabel={aiLabel} testId="oversized-list" places={placeLevels} />
+          </section>
+        ) : null}
 
         {data.unrated.length > 0 ? (
           <section id={UNRATED_SECTION_ID} className="space-y-3 border-t border-zinc-200 pt-6" data-testid="unrated-section">
             <Heading level={3}>{t.unratedTitle(data.unrated.length)}</Heading>
             <Text className="max-w-3xl text-sm">{t.unratedLead}</Text>
-            <ResultList items={data.unrated} detailHref={detailHref} aiLabel={aiLabel} testId="unrated-list" />
+            <ResultList items={data.unrated} detailHref={detailHref} aiLabel={aiLabel} testId="unrated-list" places={placeLevels} />
           </section>
         ) : null}
       </section>

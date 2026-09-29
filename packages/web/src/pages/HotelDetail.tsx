@@ -4,12 +4,28 @@
 // German where the provider has them; an English one says so.
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
+import {
+  BuildingStorefrontIcon,
+  CheckIcon,
+  FaceSmileIcon,
+  FireIcon,
+  HomeModernIcon,
+  MapIcon,
+  SparklesIcon,
+  SunIcon,
+  TruckIcon,
+  UserGroupIcon,
+  WifiIcon,
+} from '@heroicons/react/20/solid';
+import type { ComponentType, SVGProps } from 'react';
 import type { HotelDetailResponse, TextBlockDto } from '@reiseplaner/contracts';
-import { constants } from '@reiseplaner/domain';
-import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
+import { constants, extraNights } from '@reiseplaner/domain';
+import { Alert, Badge, buttonClasses, Card, Heading, Lightbox, Spinner, Text, cx } from '@reiseplaner/ui';
 import { fetchHotelDetail } from '../features/results/api';
+import { ExtraNightNote } from '../features/results/ExtraNightNote';
 import { ReferencePrice } from '../features/results/ReferencePrice';
-import { cancellationText, QualityBadge } from '../features/results/ResultList';
+import { cancellationText } from '../features/results/ResultList';
+import { RatingPair } from '../features/results/RatingPair';
 import { groupOffersByRoom } from '../lib/room-groups';
 import { ReviewCheckPanel } from '../features/results/ReviewCheckPanel';
 import { de } from '../i18n/de';
@@ -18,6 +34,20 @@ import { isTestbetrieb, useMeta } from '../lib/meta';
 import { tokenFromHash } from './SearchRun';
 
 const t = de.detail;
+
+/** An icon per facility group (Aufgabe 12). */
+const FACILITY_ICONS: Record<HotelDetailResponse['hotel']['facility_groups'][number]['group'], ComponentType<SVGProps<SVGSVGElement>>> = {
+  internet: WifiIcon,
+  parken: TruckIcon,
+  essen: FireIcon,
+  wellness: SparklesIcon,
+  draussen: SunIcon,
+  aktivitaeten: MapIcon,
+  zimmer: HomeModernIcon,
+  familie: FaceSmileIcon,
+  barrierefrei: UserGroupIcon,
+  service: BuildingStorefrontIcon,
+};
 const r = de.results;
 
 function ScoreBreakdown({ score, sources }: { score: HotelDetailResponse['score']; sources: readonly string[] }) {
@@ -25,7 +55,9 @@ function ScoreBreakdown({ score, sources }: { score: HotelDetailResponse['score'
   const rows: Array<[string, string]> = [
     [t.scoreRating(formatScore(score.rating ?? 0), score.reviewCount), ''],
     [
-      score.priorWeight > 0 ? t.scorePrior(formatScore(score.priorMean), Math.round(score.priorWeight)) : t.scoreFullWeight(constants.SCORE_FULL_WEIGHT_REVIEWS),
+      score.priorWeight > 0
+        ? t.scorePrior(formatScore(score.priorMean), Math.round(score.priorWeight), t.kindNames[score.propertyKind], score.fullWeightReviews)
+        : t.scoreFullWeight(score.fullWeightReviews, t.kindNames[score.propertyKind]),
       score.s0 === null ? '' : formatScore(score.s0),
     ],
     [
@@ -34,6 +66,7 @@ function ScoreBreakdown({ score, sources }: { score: HotelDetailResponse['score'
     ],
     [t.scoreCleanliness, score.cleanliness.applied && score.cleanliness.value !== null ? formatScore(score.cleanliness.value) : t.scoreCleanlinessNone],
     [t.scorePenalty, score.penalty.total > 0 ? `− ${formatScore(score.penalty.total)}` : '–'],
+    ...(score.penalty.total > 0 && t.scorePenaltyUnit(t.kindNames[score.propertyKind]) ? ([[t.scorePenaltyUnit(t.kindNames[score.propertyKind]), '']] as Array<[string, string]>) : []),
   ];
   return (
     <dl className="divide-y divide-zinc-100 text-sm" data-testid="score-breakdown">
@@ -96,6 +129,7 @@ export function HotelDetail() {
   const meta = useMeta();
   const [data, setData] = useState<HotelDetailResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<number | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -115,6 +149,24 @@ export function HotelDetail() {
   // Testbetrieb books nothing; the map search leads to the property's own site and phone.
   const testbetrieb = meta.status === 'ready' && isTestbetrieb(meta.meta);
   const roomGroups = groupOffersByRoom(data.offers);
+  // Every room of the house on the searched dates (Aufgabe 5): fitting ones first, each with its lowest price.
+  const roomOverview = (() => {
+    const rooms = new Map<string, { name: string; minEur: number; capacity: number | null; fit: 'fits' | 'oversized' }>();
+    for (const o of data.offers) {
+      for (const room of o.room_options) {
+        const key = room.room_name.toLocaleLowerCase('de-DE').trim();
+        const cur = rooms.get(key);
+        if (!cur || room.total_eur < cur.minEur) rooms.set(key, { name: room.room_name, minEur: room.total_eur, capacity: room.capacity, fit: room.fit });
+      }
+    }
+    return [...rooms.values()].sort((a, b) => (a.fit === b.fit ? a.minEur - b.minEur : a.fit === 'fits' ? -1 : 1));
+  })();
+  // One night more of the same stay (Aufgabe 4), shown at the shorter stay.
+  const nightSteps = extraNights(
+    data.offers
+      .filter((o) => o.passes_filters)
+      .map((o) => ({ id: o.id, hotelId: o.hotel_id, roomName: o.room_name, boardType: o.board_type, refundable: o.refundable, checkin: o.checkin, nights: o.nights, totalCents: Math.round(o.total_price_eur * 100) })),
+  );
   const town = h.city ?? data.offers[0]?.place_name ?? null;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([h.name, h.address, town].filter(Boolean).join(', '))}`;
   return (
@@ -139,18 +191,73 @@ export function HotelDetail() {
             </p>
           ) : null}
         </div>
-        <QualityBadge score={data.score.quality} reviews={h.review_count} sources={h.rating_sources} />
+        <RatingPair
+          quality={{
+            score: data.score.quality,
+            checked: data.score.recency.checked,
+            no_reviews: data.score.quality === null,
+            property_kind: data.score.propertyKind,
+            full_weight_reviews: data.score.fullWeightReviews,
+            prior_applied: data.score.priorWeight > 0,
+            recency_delta: data.score.s0 !== null && data.score.recency.applied && data.score.recency.s1 !== null ? data.score.recency.s1 - data.score.s0 : 0,
+            cleanliness_delta:
+              data.score.cleanliness.applied && data.score.cleanliness.s2 !== null && data.score.recency.s1 !== null ? data.score.cleanliness.s2 - data.score.recency.s1 : 0,
+            penalty: data.score.penalty.total,
+          }}
+          rating={h.rating}
+          reviews={h.review_count}
+          sources={h.rating_sources}
+        />
       </div>
       {h.photos.length > 0 ? (
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {h.photos.slice(0, 4).map((src) => (
-            <img key={src} src={src} alt="" loading="lazy" className="aspect-[4/3] w-full rounded-lg object-cover" />
-          ))}
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4" data-testid="detail-photos">
+          {h.photos.slice(0, 4).map((src, i) => {
+            const more = i === 3 ? h.photos.length - 4 : 0;
+            return (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setPhoto(i)}
+                aria-label={t.photoOpen(i + 1)}
+                className="group relative overflow-hidden rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+                data-testid="detail-photo"
+              >
+                <img src={src} alt="" loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                {more > 0 ? (
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/45 text-sm font-semibold text-white">{t.photosMore(more)}</span>
+                ) : null}
+              </button>
+            );
+          })}
         </div>
       ) : null}
+      <Lightbox
+        photos={h.photos}
+        index={photo}
+        onIndex={setPhoto}
+        onClose={() => setPhoto(null)}
+        title={h.name}
+        labels={{ close: t.photoClose, prev: t.photoPrev, next: t.photoNext, counter: t.photoCounter, photo: t.photoOpen }}
+      />
 
       <Card className="space-y-3">
         <Heading level={2}>{t.offers}</Heading>
+        {roomOverview.length > 0 ? (
+          <div className="rounded-lg bg-zinc-50 p-3 text-sm ring-1 ring-zinc-200" data-testid="room-overview">
+            <p className="font-medium text-zinc-900">{t.roomOverviewTitle(data.occupancy.adults + data.occupancy.children, data.occupancy.rooms)}</p>
+            <ul className="mt-1 space-y-0.5">
+              {roomOverview.map((room) => (
+                <li key={room.name} className={cx('flex flex-wrap gap-x-2', room.fit === 'oversized' ? 'text-zinc-500' : 'text-zinc-800')} data-fit={room.fit}>
+                  <span className="font-medium">{room.name}</span>
+                  <span>{t.fromPrice(formatEuro(room.minEur))}</span>
+                  {room.capacity !== null ? <span className="text-zinc-500">· {t.roomCapacity(room.capacity)}</span> : null}
+                  {room.fit === 'oversized' ? <span className="text-zinc-500">· {t.roomOversizedShort}</span> : null}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-1 text-xs text-zinc-500">{t.roomOverviewNote}</p>
+          </div>
+        ) : null}
         {roomGroups.map((group) => (
           <div key={group.key} className="space-y-2">
             <h3 className="text-base font-semibold text-zinc-950" data-testid="detail-room-name">
@@ -181,7 +288,29 @@ export function HotelDetail() {
                         <Badge tone="bargain">{r.bargain}</Badge> {o.bargain.reason}
                       </div>
                     ) : null}
-                    {!o.passes_filters ? <div className="text-xs">{t.filteredOut}</div> : null}
+                    {o.room_fit === 'oversized' ? (
+                      <div className="text-xs" data-testid="detail-room-oversized">
+                        {r.roomOversized(o.room_capacity)}
+                      </div>
+                    ) : !o.passes_filters ? (
+                      <div className="text-xs">{t.filteredOut}</div>
+                    ) : null}
+                    {(() => {
+                      const step = nightSteps.get(o.id);
+                      return step && step.fromNights === o.nights ? (
+                        <ExtraNightNote
+                          className="mt-1 text-xs"
+                          extra={{
+                            from_nights: step.fromNights,
+                            to_nights: step.toNights,
+                            longer_offer_id: step.longerOfferId,
+                            extra_eur: step.extraCents / 100,
+                            nightly_eur: step.nightlyCents / 100,
+                            verdict: step.verdict,
+                          }}
+                        />
+                      ) : null;
+                    })()}
                   </td>
                   <td className="py-2 pr-4 text-xs">{cancellationText(o.refundable, o.free_cancel_until)}</td>
                   <td className="whitespace-nowrap py-2 pr-4 text-right">
@@ -238,16 +367,31 @@ export function HotelDetail() {
           {h.checkin_time && h.checkout_time ? <Text className="text-sm">{t.checkinTimes(h.checkin_time, h.checkout_time)}</Text> : null}
         </Card>
       ) : null}
-      {h.facilities.length > 0 ? (
-        <Card className="space-y-2">
+      {h.facility_groups.length > 0 ? (
+        <Card className="space-y-4" data-testid="facilities">
           <Heading level={2}>{t.facilities}</Heading>
-          <ul className="flex flex-wrap gap-1.5">
-            {h.facilities.map((f) => (
-              <li key={f}>
-                <Badge>{f}</Badge>
-              </li>
-            ))}
-          </ul>
+          <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            {h.facility_groups.map((g) => {
+              const Icon = FACILITY_ICONS[g.group];
+              return (
+                <section key={g.group} data-testid="facility-group" data-group={g.group}>
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                    <Icon aria-hidden="true" className="size-5 text-brand-600" />
+                    {t.facilityGroups[g.group]}
+                  </h3>
+                  <ul className="mt-1.5 space-y-1 pl-7 text-sm text-zinc-700">
+                    {g.labels.map((label) => (
+                      <li key={label} className="flex items-center gap-1.5">
+                        <CheckIcon aria-hidden="true" className="size-4 shrink-0 text-brand-600" />
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              );
+            })}
+          </div>
+          {h.facilities_untranslated > 0 ? <p className="text-xs text-zinc-500">{t.facilitiesMore(h.facilities_untranslated)}</p> : null}
         </Card>
       ) : null}
       {h.important_information.length > 0 ? (

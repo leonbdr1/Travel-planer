@@ -1,5 +1,5 @@
 // Loads and schema-checks the YAML catalog.
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 import { z } from 'zod';
@@ -10,8 +10,12 @@ export interface LoadedCatalog {
   themes: CatalogTheme[];
   regions: CatalogRegion[];
   places: Array<{ region: string; file: string; index: number; place: CatalogPlace }>;
+  /** Hand-rated [fame, attractions] per "region|name" (Aufgabe 8, attraktivitaet.yaml). */
+  attractiveness: Map<string, [number, number]>;
   errors: string[];
 }
+
+const attractivenessSchema = z.record(z.string(), z.record(z.string(), z.tuple([z.number().int().min(0).max(3), z.number().int().min(0).max(3)])));
 
 export function loadCatalog(dir: string): LoadedCatalog {
   const errors: string[] = [];
@@ -36,5 +40,18 @@ export function loadCatalog(dir: string): LoadedCatalog {
     if (`${doc.region}.yaml` !== file) errors.push(`places/${file}: region "${doc.region}" does not match the file name`);
     doc.places.forEach((place, index) => places.push({ region: doc.region, file: path, index, place }));
   }
-  return { dir, themes, regions, places, errors };
+  // Attractiveness (Aufgabe 8): optional file; every entry must name a catalog place.
+  const attractiveness = new Map<string, [number, number]>();
+  const attractivenessFile = join(dir, 'attraktivitaet.yaml');
+  if (existsSync(attractivenessFile)) {
+    const known = new Set(places.map((p) => `${p.region}|${p.place.name}`));
+    for (const [region, entries] of Object.entries(read(attractivenessFile, attractivenessSchema) ?? {})) {
+      for (const [name, value] of Object.entries(entries)) {
+        const key = `${region}|${name}`;
+        if (!known.has(key)) errors.push(`attraktivitaet.yaml: ${key} is not a catalog place`);
+        else attractiveness.set(key, value);
+      }
+    }
+  }
+  return { dir, themes, regions, places, attractiveness, errors };
 }

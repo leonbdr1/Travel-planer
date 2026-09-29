@@ -42,3 +42,13 @@ export function formatDateTime(iso: string): string {
 export function formatDate(iso: string): string {
   return `${iso.slice(8, 10)}.${iso.slice(5, 7)}.${iso.slice(0, 4)}`;
 }
+
+/** Nights between two ISO dates. */
+export function nightsBetween(checkin: string, checkout: string): number {
+  return Math.round((Date.parse(`${checkout}T00:00:00Z`) - Date.parse(`${checkin}T00:00:00Z`)) / 86_400_000);
+}
+
+/** true when the dates hold several stays with the same arrival (night range, Aufgabe 4). */
+export function hasNightVariants(dates: ReadonlyArray<{ checkin: string }>): boolean {
+  return new Set(dates.map((d) => d.checkin)).size < dates.length;
+}

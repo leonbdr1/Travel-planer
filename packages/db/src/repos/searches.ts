@@ -1,7 +1,12 @@
 // Searches, combinations, hotels, offers and the provider cache
 // (architektur.md 5.3, 5.4). Writes from workflow steps are idempotent.
-import { fuseRatings, type NormalizedOffer, type OfferKind, type RatingEvidence } from '@reiseplaner/domain';
+import { z } from 'zod';
+import { fuseRatings, type NormalizedOffer, type OfferKind, type RatingEvidence, type RoomFit, type RoomOption } from '@reiseplaner/domain';
 import { json, type Db, type Queryable } from '../db';
+
+const roomOptionsSchema = z.array(
+  z.object({ roomName: z.string(), totalCents: z.number().int(), capacity: z.number().int().nullable(), fit: z.enum(['fits', 'oversized']) }),
+);
 
 export type SearchStatus = 'queued' | 'running' | 'reviewing' | 'done' | 'partial' | 'failed';
 export type CombinationStatus = 'pending' | 'done' | 'cached' | 'failed';
@@ -336,18 +341,20 @@ export async function upsertOffers(db: Queryable, searchId: string, combinationI
   await db.query(
     `INSERT INTO app.offers (search_id, combination_id, hotel_id, offer_kind, liteapi_offer_id, room_name, board_type, refundable,
                              free_cancel_until, total_price_cents, pay_at_property_cents, pay_at_property_known, currency, nights,
-                             price_per_night_cents)
+                             price_per_night_cents, room_fit, room_capacity, room_options)
      SELECT $1::uuid, $2::bigint, o.hotel_id, o.kind, o.offer_id, o.room_name, o.board_type, o.refundable,
-            o.free_cancel_until::timestamptz, o.total_cents, o.pay_cents, o.pay_known, o.currency, o.nights, o.per_night
+            o.free_cancel_until::timestamptz, o.total_cents, o.pay_cents, o.pay_known, o.currency, o.nights, o.per_night,
+            coalesce(o.room_fit, 'fits'), o.room_capacity, coalesce(o.room_options, '[]'::jsonb)
        FROM jsonb_to_recordset($3::text::jsonb) AS o(hotel_id text, kind text, offer_id text, room_name text, board_type text,
             refundable boolean, free_cancel_until text, total_cents int, pay_cents int, pay_known boolean, currency text, nights int,
-            per_night int)
+            per_night int, room_fit text, room_capacity int, room_options jsonb)
      ON CONFLICT (combination_id, hotel_id, offer_kind) DO UPDATE SET
        liteapi_offer_id = excluded.liteapi_offer_id, room_name = excluded.room_name, board_type = excluded.board_type,
        refundable = excluded.refundable, free_cancel_until = excluded.free_cancel_until,
        total_price_cents = excluded.total_price_cents, pay_at_property_cents = excluded.pay_at_property_cents,
        pay_at_property_known = excluded.pay_at_property_known, currency = excluded.currency, nights = excluded.nights,
-       price_per_night_cents = excluded.price_per_night_cents`,
+       price_per_night_cents = excluded.price_per_night_cents, room_fit = excluded.room_fit,
+       room_capacity = excluded.room_capacity, room_options = excluded.room_options`,
     [
       searchId,
       combinationId,
@@ -366,6 +373,9 @@ export async function upsertOffers(db: Queryable, searchId: string, combinationI
           currency: o.currency,
           nights: o.nights,
           per_night: o.pricePerNightCents,
+          room_fit: o.roomFit,
+          room_capacity: o.roomCapacity,
+          room_options: o.roomOptions,
         })),
       ),
     ],
@@ -478,6 +488,10 @@ export interface EvaluationOfferRow {
   payAtPropertyKnown: boolean;
   currency: string;
   nights: number;
+  /** Aufgabe 5: fits the party or clearly larger than needed; every room of the house on this date. */
+  roomFit: RoomFit;
+  roomCapacity: number | null;
+  roomOptions: RoomOption[];
 }
 
 export interface EvaluationHotelRow {
@@ -641,11 +655,15 @@ export async function loadEvaluationData(db: Queryable, searchId: string) {
     pay_at_property_known: boolean;
     currency: string;
     nights: number;
+    room_fit: RoomFit;
+    room_capacity: number | null;
+    room_options: string;
   }>(
     `SELECT o.id, o.hotel_id, c.place_id::text AS place_id, p.name AS place_name, c.checkin::text AS checkin, c.checkout::text AS checkout,
             o.offer_kind, o.liteapi_offer_id, o.room_name, o.board_type, o.refundable,
             to_char(o.free_cancel_until AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS free_cancel_until,
-            o.total_price_cents, o.price_per_night_cents, o.pay_at_property_cents, o.pay_at_property_known, o.currency, o.nights
+            o.total_price_cents, o.price_per_night_cents, o.pay_at_property_cents, o.pay_at_property_known, o.currency, o.nights,
+            o.room_fit, o.room_capacity, o.room_options::text AS room_options
        FROM app.offers o
        JOIN app.search_combinations c ON c.id = o.combination_id
        JOIN app.places p ON p.id = c.place_id
@@ -700,6 +718,9 @@ export async function loadEvaluationData(db: Queryable, searchId: string) {
         payAtPropertyKnown: o.pay_at_property_known,
         currency: o.currency,
         nights: Number(o.nights),
+        roomFit: o.room_fit,
+        roomCapacity: o.room_capacity === null ? null : Number(o.room_capacity),
+        roomOptions: roomOptionsSchema.parse(JSON.parse(o.room_options)),
       }),
     ),
     hotels: hotels.map((h): EvaluationHotelRow => {

@@ -128,6 +128,8 @@ export async function runRatesBlock(deps: SearchRunDeps, searchId: string, index
   }
   const occupancies = splitOccupancy(request.occupancy.rooms, request.occupancy.adults, request.occupancy.children_ages);
   if (!occupancies) throw new Error('invalid occupancy');
+  // Rooms are mapped to the largest group in one room (Aufgabe 5).
+  const persons = Math.max(...occupancies.map((o) => o.adults + o.childrenAges.length));
   const block = (await combinationBlock(deps.db, searchId, index, constants.SEARCH_BLOCK_SIZE)).filter((c) => c.status === 'pending');
   let reserved = 0;
 
@@ -168,7 +170,7 @@ export async function runRatesBlock(deps: SearchRunDeps, searchId: string, index
         limit: constants.LITEAPI_RATES_LIMIT,
         ...(deps.marginPercent === undefined ? {} : { marginPercent: deps.marginPercent }),
       });
-      const offers = normalizeOffers(rates.rates, nightsBetween(c.checkin, c.checkout));
+      const offers = normalizeOffers(rates.rates, nightsBetween(c.checkin, c.checkout), persons);
       const withOffers = new Set(offers.map((o) => o.hotelId));
       const hotels = rates.hotels.filter((h) => withOffers.has(h.id)).map(hotelUpsert);
       await upsertHotels(deps.db, hotels);

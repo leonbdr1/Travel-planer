@@ -3,12 +3,14 @@
 // cancellation. Houses without reviews that the goal's rules sort out come in
 // a second list with the doubt (why they are not in our selection).
 import { Link } from 'react-router';
-import type { ResultItem, UnratedDoubtDto } from '@reiseplaner/contracts';
+import type { AttractivenessDto, ResultItem, UnratedDoubtDto } from '@reiseplaner/contracts';
 import { constants } from '@reiseplaner/domain';
 import { AiLabel, Badge, Card, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDateTime, formatEuro, formatEuroCents, formatScore, formatStay } from '../../lib/format';
+import { ExtraNightNote } from './ExtraNightNote';
 import { PraiseLabels } from './PraiseLabels';
+import { RatingPair } from './RatingPair';
 
 const t = de.results;
 const rc = de.reviewCheck;
@@ -45,11 +47,14 @@ export function ResultList({
   detailHref,
   aiLabel,
   testId = 'result-list',
+  places,
 }: {
   items: Array<ResultItem & { doubt?: UnratedDoubtDto }>;
   detailHref: (hotelId: string) => string;
   aiLabel: string;
   testId?: string;
+  /** What the places of the search offer (Aufgabe 8), by place id. */
+  places?: ReadonlyMap<string, AttractivenessDto>;
 }) {
   return (
     <ol className="space-y-3" data-testid={testId}>
@@ -64,20 +69,33 @@ export function ResultList({
                     {item.hotel.name}
                   </Link>
                   {item.hotel.stars ? <span className="text-sm text-amber-600">{'★'.repeat(Math.round(item.hotel.stars))}</span> : null}
-                  <QualityBadge score={item.quality.score} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} />
+                  <RatingPair quality={item.quality} rating={item.hotel.rating} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} />
                   {item.recommended ? (
                     <Badge tone="brand" data-testid="recommended">
                       {t.recommended}
                     </Badge>
                   ) : null}
                 </div>
+                {places?.get(o.place_id)?.level === 'wenig' ? (
+                  <p className="text-sm font-medium text-orange-800" data-testid="place-little-to-offer">
+                    {de.attractiveness.listNote(o.place_name)}
+                  </p>
+                ) : null}
                 <p className="text-sm text-zinc-600">
-                  {o.place_name} · {formatStay(o.checkin, o.checkout)}
+                  {o.place_name}
+                  {places?.get(o.place_id)?.level === 'top' ? <span className="text-emerald-700"> ({de.attractiveness.levels.top})</span> : null} ·{' '}
+                  {formatStay(o.checkin, o.checkout)}
                   {item.other_dates_count > 0 ? ` · ${t.otherDates(item.other_dates_count)}` : ''}
                 </p>
                 <p className="text-sm text-zinc-600">
                   {o.room_name} · {t.boardNames[o.board_type]} · {cancellationText(o.refundable, o.free_cancel_until)}
                 </p>
+                {item.extra_night ? <ExtraNightNote extra={item.extra_night} /> : null}
+                {o.room_fit === 'oversized' ? (
+                  <p className="text-sm text-zinc-600" data-testid="room-oversized">
+                    {t.roomOversized(o.room_capacity)}
+                  </p>
+                ) : null}
                 <PraiseLabels labels={item.labels} max={constants.PRAISE_MAX_LABELS_LIST} />
                 {item.doubt ? (
                   <p className="text-sm text-amber-800" data-testid="unrated-doubt" data-code={item.doubt.code}>

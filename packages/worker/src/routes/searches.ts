@@ -93,7 +93,7 @@ export const searchRoutes = new Hono<AppEnv>()
       const limits = productConfig.limits.search;
 
       const dates = generateStayDates(
-        { window: request.window, nights: request.nights, arrivalWeekdays: request.arrival_weekdays, today: formatIsoDate(Date.parse(deps.now().toISOString().slice(0, 10))) },
+        { window: request.window, nights: request.nights, nightsMax: request.nights_max ?? null, arrivalWeekdays: request.arrival_weekdays, today: formatIsoDate(Date.parse(deps.now().toISOString().slice(0, 10))) },
         { maxDates: limits.max_dates, maxNights: limits.max_nights, maxWindowDays: limits.max_window_days },
       );
       if (!dates.ok) {
@@ -165,8 +165,8 @@ export const searchRoutes = new Hono<AppEnv>()
     const search = await authorizedSearch(c, c.req.param('id'));
     const db = c.get('deps').db();
     const [places, cells, offers] = await Promise.all([searchPlaces(db, search.id), progressCells(db, search.id), countOffers(db, search.id)]);
-    const dates = [...new Map(cells.map((x) => [x.checkin, { checkin: x.checkin, checkout: x.checkout }])).values()].sort((a, b) =>
-      a.checkin.localeCompare(b.checkin),
+    const dates = [...new Map(cells.map((x) => [`${x.checkin}|${x.checkout}`, { checkin: x.checkin, checkout: x.checkout }])).values()].sort((a, b) =>
+      a.checkin.localeCompare(b.checkin) || a.checkout.localeCompare(b.checkout),
     );
     const body: SearchProgressResponse = {
       search: {

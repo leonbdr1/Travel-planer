@@ -12,8 +12,9 @@ import {
   KOMFORT_EXTRA_BONUS,
   KOMFORT_EXTRAS_BONUS_MAX,
   MANY_REVIEWS_BONUS,
-  MANY_REVIEWS_MIN,
+  MANY_REVIEWS_MIN_BY_KIND,
 } from './constants';
+import type { PropertyKind } from './property-kind';
 import type { Goal } from './vocabulary';
 
 /** Extras a traveller pays for (and a fake listing likes to promise). */
@@ -24,9 +25,9 @@ export function premiumExtras(featureCodes: Iterable<string>): number {
   return PREMIUM_FEATURES.filter((f) => codes.has(f)).length;
 }
 
-/** Reviews as they count (older ones weigh less, see effectiveReviewCount). */
-export function hasManyReviews(effectiveReviews: number | null | undefined): boolean {
-  return (effectiveReviews ?? 0) >= MANY_REVIEWS_MIN;
+/** Reviews as they count (older ones weigh less, see effectiveReviewCount), relative to the kind (Aufgabe 6). */
+export function hasManyReviews(effectiveReviews: number | null | undefined, kind: PropertyKind = 'hotel'): boolean {
+  return (effectiveReviews ?? 0) >= MANY_REVIEWS_MIN_BY_KIND[kind];
 }
 
 export interface ComparisonInput {
@@ -36,11 +37,13 @@ export interface ComparisonInput {
   reviews: number;
   /** Number of PREMIUM_FEATURES the offer brings. */
   extras: number;
+  /** Kind of accommodation (missing: hotel). */
+  kind?: PropertyKind;
 }
 
 export function comparisonBonus(x: ComparisonInput, goal: Goal): number {
   const quality = x.quality === null ? 0 : Math.max(0, x.quality - GOAL_QUALITY_FLOOR[goal]) * GOAL_QUALITY_BONUS_PER_POINT[goal];
-  const reviews = hasManyReviews(x.reviews) ? MANY_REVIEWS_BONUS : 0;
+  const reviews = hasManyReviews(x.reviews, x.kind) ? MANY_REVIEWS_BONUS : 0;
   const extras = goal === 'komfort' ? Math.min(KOMFORT_EXTRAS_BONUS_MAX, x.extras * KOMFORT_EXTRA_BONUS) : 0;
   return quality + reviews + extras;
 }

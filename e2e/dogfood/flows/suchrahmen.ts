@@ -1,4 +1,5 @@
 import type { Flow } from '../types';
+import { pickWindow } from './helpers';
 
 export const suchrahmenFlow: Flow = {
   name: 'suchrahmen',
@@ -12,7 +13,7 @@ export const suchrahmenFlow: Flow = {
         await page.goto(`${baseUrl}/suche`);
         await page.getByRole('heading', { name: 'Deine Suche' }).waitFor();
       },
-      { expectText: ['Schritt', 'Suchrahmen', 'Regionen', 'Orte', 'Startort', 'Reiseart', 'Zeitfenster'] },
+      { expectText: ['Schritt', 'Suchrahmen', 'Regionen', 'Orte', 'Startort', 'Reiseart', 'Anreise frühestens', 'Abreise spätestens'] },
     );
 
     await step(
@@ -27,8 +28,7 @@ export const suchrahmenFlow: Flow = {
     await step(
       'Zeitfenster 01.10.–30.11.2026, 2 Nächte, Anreise Freitag, Wandern',
       async () => {
-        await page.locator('#window-start').fill('2026-10-01');
-        await page.locator('#window-end').fill('2026-11-30');
+        await pickWindow(page, '2026-10-01', '2026-11-30');
         await page.locator('#nights').selectOption('2');
         await page.locator('#max-drive').selectOption('180');
         await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();

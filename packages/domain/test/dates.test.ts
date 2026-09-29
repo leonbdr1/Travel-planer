@@ -31,6 +31,26 @@ describe('generateStayDates (architektur.md 6.1)', () => {
     expect(result.ok && result.dates.map((d) => d.checkin)).toEqual(['2026-10-04']);
   });
 
+  it('2 to 3 nights: every Friday as Fr–So and Fr–Mo (Aufgabe 4)', () => {
+    const result = generateStayDates({ ...base, window: { start: '2026-10-01', end: '2026-10-19' }, nightsMax: 3 }, limits);
+    expect(result.ok && result.dates).toEqual([
+      { checkin: '2026-10-02', checkout: '2026-10-04' },
+      { checkin: '2026-10-02', checkout: '2026-10-05' },
+      { checkin: '2026-10-09', checkout: '2026-10-11' },
+      { checkin: '2026-10-09', checkout: '2026-10-12' },
+      { checkin: '2026-10-16', checkout: '2026-10-18' },
+      { checkin: '2026-10-16', checkout: '2026-10-19' },
+    ]);
+    // The longer stay must fit into the window as well.
+    const tight = generateStayDates({ ...base, window: { start: '2026-10-01', end: '2026-10-04' }, nightsMax: 3 }, limits);
+    expect(tight.ok && tight.dates).toEqual([{ checkin: '2026-10-02', checkout: '2026-10-04' }]);
+    // Every variant counts towards the date limit.
+    expect(generateStayDates({ ...base, nightsMax: 3 }, limits)).toEqual({ ok: false, error: 'too_many_dates', count: 18 });
+    expect(generateStayDates({ ...base, nightsMax: 1 }, limits)).toMatchObject({ error: 'invalid_nights' });
+    expect(generateStayDates({ ...base, nightsMax: 15 }, limits)).toMatchObject({ error: 'invalid_nights' });
+    expect(generateStayDates({ ...base, nightsMax: null }, limits)).toMatchObject({ ok: true });
+  });
+
   it('rejects invalid input with a precise error', () => {
     expect(generateStayDates({ ...base, nights: 0 }, limits)).toMatchObject({ error: 'invalid_nights' });
     expect(generateStayDates({ ...base, nights: 15 }, limits)).toMatchObject({ error: 'invalid_nights' });

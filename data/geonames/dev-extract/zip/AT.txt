@@ -1,0 +1,2171 @@
+AT	1000	Vienna							48.20849	16.37208	
+AT	1004	Vienna							48.20849	16.37208	
+AT	1006	Vienna							48.20849	16.37208	
+AT	1010	Vienna							48.20849	16.37208	
+AT	1011	Vienna							48.20849	16.37208	
+AT	1015	Vienna							48.20849	16.37208	
+AT	1016	Vienna							48.20849	16.37208	
+AT	1017	Vienna							48.20849	16.37208	
+AT	1018	Vienna							48.20849	16.37208	
+AT	1020	Vienna							48.20849	16.37208	
+AT	1021	Vienna							48.20849	16.37208	
+AT	1022	Vienna							48.20849	16.37208	
+AT	1023	Vienna							48.20849	16.37208	
+AT	1024	Vienna							48.20849	16.37208	
+AT	1025	Vienna							48.20849	16.37208	
+AT	1026	Vienna							48.20849	16.37208	
+AT	1029	Vienna							48.20849	16.37208	
+AT	1030	Vienna							48.20849	16.37208	
+AT	1031	Vienna							48.20849	16.37208	
+AT	1032	Vienna							48.20849	16.37208	
+AT	1033	Vienna							48.20849	16.37208	
+AT	1035	Vienna							48.20849	16.37208	
+AT	1037	Vienna							48.20849	16.37208	
+AT	1038	Vienna							48.20849	16.37208	
+AT	1039	Vienna							48.20849	16.37208	
+AT	1040	Vienna							48.20849	16.37208	
+AT	1041	Vienna							48.20849	16.37208	
+AT	1042	Vienna							48.20849	16.37208	
+AT	1043	Vienna							48.20849	16.37208	
+AT	1045	Vienna							48.20849	16.37208	
+AT	1047	Vienna							48.20849	16.37208	
+AT	1050	Vienna							48.20849	16.37208	
+AT	1051	Vienna							48.20849	16.37208	
+AT	1052	Vienna							48.20849	16.37208	
+AT	1053	Vienna							48.20849	16.37208	
+AT	1060	Vienna							48.20849	16.37208	
+AT	1061	Vienna							48.20849	16.37208	
+AT	1062	Vienna							48.20849	16.37208	
+AT	1063	Vienna							48.20849	16.37208	
+AT	1064	Vienna							48.20849	16.37208	
+AT	1065	Vienna							48.20849	16.37208	
+AT	1070	Vienna							48.20849	16.37208	
+AT	1071	Vienna							48.20849	16.37208	
+AT	1072	Vienna							48.20849	16.37208	
+AT	1075	Vienna							48.20849	16.37208	
+AT	1080	Vienna							48.20849	16.37208	
+AT	1081	Vienna							48.20849	16.37208	
+AT	1082	Vienna							48.20849	16.37208	
+AT	1090	Vienna							48.20849	16.37208	
+AT	1091	Vienna							48.20849	16.37208	
+AT	1092	Vienna							48.20849	16.37208	
+AT	1094	Vienna							48.20849	16.37208	
+AT	1095	Vienna							48.20849	16.37208	
+AT	1097	Vienna							48.20849	16.37208	
+AT	1100	Vienna							48.20849	16.37208	
+AT	1101	Vienna							48.20849	16.37208	
+AT	1102	Vienna							48.20849	16.37208	
+AT	1103	Vienna							48.20849	16.37208	
+AT	1104	Vienna							48.20849	16.37208	
+AT	1105	Vienna							48.20849	16.37208	
+AT	1106	Vienna							48.20849	16.37208	
+AT	1107	Vienna							48.20849	16.37208	
+AT	1108	Vienna							48.20849	16.37208	
+AT	1109	Vienna							48.20849	16.37208	
+AT	1110	Vienna							48.20849	16.37208	
+AT	1111	Vienna							48.20849	16.37208	
+AT	1113	Vienna							48.20849	16.37208	
+AT	1114	Vienna							48.20849	16.37208	
+AT	1115	Vienna							48.20849	16.37208	
+AT	1120	Vienna							48.20849	16.37208	
+AT	1121	Vienna							48.20849	16.37208	
+AT	1122	Vienna							48.20849	16.37208	
+AT	1124	Vienna							48.20849	16.37208	
+AT	1125	Vienna							48.20849	16.37208	
+AT	1127	Vienna							48.20849	16.37208	
+AT	1128	Vienna							48.20849	16.37208	
+AT	1130	Vienna							48.20849	16.37208	
+AT	1131	Vienna							48.20849	16.37208	
+AT	1132	Vienna							48.20849	16.37208	
+AT	1133	Vienna							48.20849	16.37208	
+AT	1134	Vienna							48.20849	16.37208	
+AT	1136	Vienna							48.20849	16.37208	
+AT	1140	Vienna							48.20849	16.37208	
+AT	1141	Vienna							48.20849	16.37208	
+AT	1142	Vienna							48.20849	16.37208	
+AT	1143	Vienna							48.20849	16.37208	
+AT	1146	Vienna							48.20849	16.37208	
+AT	1147	Vienna							48.20849	16.37208	
+AT	1148	Vienna							48.20849	16.37208	
+AT	1150	Vienna							48.20849	16.37208	
+AT	1151	Vienna							48.20849	16.37208	
+AT	1152	Vienna							48.20849	16.37208	
+AT	1153	Vienna							48.20849	16.37208	
+AT	1155	Vienna							48.20849	16.37208	
+AT	1156	Vienna							48.20849	16.37208	
+AT	1160	Vienna							48.20849	16.37208	
+AT	1161	Vienna							48.20849	16.37208	
+AT	1163	Vienna							48.20849	16.37208	
+AT	1165	Vienna							48.20849	16.37208	
+AT	1166	Vienna							48.20849	16.37208	
+AT	1170	Vienna							48.20849	16.37208	
+AT	1171	Vienna							48.20849	16.37208	
+AT	1172	Vienna							48.20849	16.37208	
+AT	1174	Vienna							48.20849	16.37208	
+AT	1180	Vienna							48.20849	16.37208	
+AT	1181	Vienna							48.20849	16.37208	
+AT	1182	Vienna							48.20849	16.37208	
+AT	1183	Vienna							48.20849	16.37208	
+AT	1190	Vienna							48.20849	16.37208	
+AT	1191	Vienna							48.20849	16.37208	
+AT	1192	Vienna							48.20849	16.37208	
+AT	1193	Vienna							48.20849	16.37208	
+AT	1194	Vienna							48.20849	16.37208	
+AT	1195	Vienna							48.20849	16.37208	
+AT	1196	Vienna							48.20849	16.37208	
+AT	1200	Vienna							48.20849	16.37208	
+AT	1201	Vienna							48.20849	16.37208	
+AT	1203	Vienna							48.20849	16.37208	
+AT	1205	Vienna							48.20849	16.37208	
+AT	1208	Vienna							48.20849	16.37208	
+AT	1210	Vienna							48.20849	16.37208	
+AT	1211	Vienna							48.20849	16.37208	
+AT	1212	Vienna							48.20849	16.37208	
+AT	1213	Vienna							48.20849	16.37208	
+AT	1215	Vienna							48.20849	16.37208	
+AT	1217	Vienna							48.20849	16.37208	
+AT	1218	Vienna							48.20849	16.37208	
+AT	1219	Vienna							48.20849	16.37208	
+AT	1220	Vienna							48.20849	16.37208	
+AT	1221	Vienna							48.20849	16.37208	
+AT	1222	Vienna							48.20849	16.37208	
+AT	1223	Vienna							48.20849	16.37208	
+AT	1224	Vienna							48.20849	16.37208	
+AT	1225	Vienna							48.20849	16.37208	
+AT	1228	Vienna							48.20849	16.37208	
+AT	1229	Vienna							48.20849	16.37208	
+AT	1230	Vienna							48.20849	16.37208	
+AT	1231	Vienna							48.20849	16.37208	
+AT	1233	Vienna							48.20849	16.37208	
+AT	1235	Vienna							48.20849	16.37208	
+AT	1236	Vienna							48.20849	16.37208	
+AT	1238	Vienna							48.20849	16.37208	
+AT	1239	Vienna							48.20849	16.37208	
+AT	1251	Vienna							48.20849	16.37208	
+AT	1252	Vienna							48.20849	16.37208	
+AT	1254	Vienna							48.20849	16.37208	
+AT	1255	Vienna							48.20849	16.37208	
+AT	1300	Vienna							48.20849	16.37208	
+AT	1310	Vienna							48.20849	16.37208	
+AT	1321	Vienna							48.20849	16.37208	
+AT	1400	Vienna							48.20849	16.37208	
+AT	1402	Vienna							48.20849	16.37208	
+AT	1423	Vienna							48.20849	16.37208	
+AT	1600	Vienna							48.20849	16.37208	
+AT	1601	Vienna							48.20849	16.37208	
+AT	1810	Vienna							48.20849	16.37208	
+AT	2000	Stockerau							48.38333	16.21667	
+AT	2002	Großmugl							48.49917	16.23056	
+AT	2003	Leitzersdorf							48.41918	16.24513	
+AT	2004	Niederhollabrunn							48.43333	16.30000	
+AT	2011	Sierndorf							48.43024	16.16658	
+AT	2013	Göllersdorf							48.49357	16.11943	
+AT	2014	Breitenwaida							48.51564	16.07210	
+AT	2020	Hollabrunn							48.55000	16.08333	
+AT	2024	Mailberg							48.67379	16.18132	
+AT	2034	Großharras							48.66389	16.24556	
+AT	2041	Wullersdorf							48.62792	16.10089	
+AT	2042	Guntersdorf							48.65000	16.05000	
+AT	2051	Zellerndorf							48.69657	15.95841	
+AT	2052	Pernersdorf							48.70000	16.01667	
+AT	2054	Haugsdorf							48.70762	16.07656	
+AT	2061	Hadres							48.70965	16.13038	
+AT	2064	Wulzeshofen							48.71667	16.30000	
+AT	2070	Retz							48.75712	15.95485	
+AT	2073	Schrattenthal							48.70000	15.90000	
+AT	2074	Unterretzbach							48.76667	16.00000	
+AT	2082	Hardegg							48.85000	15.85000	
+AT	2084	Weitersfeld							48.78097	15.81345	
+AT	2091	Langau							48.83207	15.71560	
+AT	2092	Riegersburg							47.00000	15.93028	
+AT	2093	Geras							48.79725	15.67268	
+AT	2095	Drosendorf							48.86756	15.62124	
+AT	2100	Korneuburg							48.35000	16.33333	
+AT	2102	Bisamberg							48.33333	16.35000	
+AT	2103	Langenzersdorf							48.30432	16.36143	
+AT	2104	Spillern							48.38333	16.25000	
+AT	2105	Oberrohrbach							48.40000	16.30000	
+AT	2106	Klein-Engersdorf							48.33306	16.38306	
+AT	2111	Rückersdorf							48.39282	16.37006	
+AT	2112	Würnitz							48.43075	16.42312	
+AT	2114	Großrußbach							48.47412	16.41649	
+AT	2115	Ernstbrunn							48.53333	16.35000	
+AT	2116	Niederleis							48.55000	16.40000	
+AT	2120	Wolkersdorf im Weinviertel							48.38333	16.51667	
+AT	2122	Ulrichskirchen							48.40000	16.48333	
+AT	2123	Schleinbach							48.41992	16.47809	
+AT	2124	Niederkreuzstetten							48.47719	16.47799	
+AT	2125	Neubau							48.20172	16.34715	
+AT	2126	Ladendorf							48.53333	16.48333	
+AT	2127	Hautzendorf							48.43900	16.49200	
+AT	2128	Wolfpassing							48.31346	16.17874	
+AT	2130	Mistelbach							48.57000	16.57667	
+AT	2133	Loosdorf							48.20000	15.40000	
+AT	2134	Staatz							48.67617	16.48726	
+AT	2135	Neudorf bei Staatz							48.72083	16.49139	
+AT	2136	Laa an der Thaya							48.71667	16.38333	
+AT	2137	Eibesthal							48.58333	16.60000	
+AT	2143	Großkrut							48.64389	16.72361	
+AT	2144	Altlichtenwarth							48.64442	16.79664	
+AT	2145	Hausbrunn							48.62602	16.82844	
+AT	2151	Asparn an der Zaya							48.58333	16.50000	
+AT	2152	Gnadendorf							48.61667	16.40000	
+AT	2153	Stronsdorf							48.65157	16.29890	
+AT	2154	Unterstinkenbrunn							48.66770	16.34607	
+AT	2162	Falkenstein							48.71667	16.58333	
+AT	2163	Ottenthal							48.76100	16.57914	
+AT	2164	Wildendürnbach							48.75651	16.50312	
+AT	2165	Drasenhofen							48.75000	16.65000	
+AT	2170	Poysdorf							48.66667	16.63333	
+AT	2171	Herrnbaumgarten							48.69606	16.68283	
+AT	2172	Schrattenberg							48.72359	16.72201	
+AT	2181	Dobermannsdorf							48.60000	16.81667	
+AT	2182	Palterndorf							48.58333	16.81667	
+AT	2183	Neusiedl an der Zaya							48.59920	16.77990	
+AT	2184	Hauskirchen							48.60000	16.76667	
+AT	2191	Gaweinstal							48.48003	16.58790	
+AT	2192	Kettlasbrunn							48.55000	16.65000	
+AT	2193	Wilfersdorf							48.58333	16.63333	
+AT	2202	Enzersfeld							48.36338	16.42387	
+AT	2203	Großebersdorf							48.36405	16.47076	
+AT	2211	Pillichsdorf							48.35000	16.53333	
+AT	2213	Bockfließ							48.36000	16.60389	
+AT	2214	Auersthal							48.37373	16.63596	
+AT	2215	Raggendorf							48.39411	16.65819	
+AT	2222	Bad Pirawarth							48.45194	16.59833	
+AT	2223	Hohenruppersdorf							48.46439	16.65244	
+AT	2224	Obersulz							48.50000	16.66667	
+AT	2225	Zistersdorf							48.54252	16.76136	
+AT	2230	Gänserndorf							48.33925	16.72016	
+AT	2231	Strasshof an der Nordbahn							48.31667	16.66667	
+AT	2242	Prottes							48.38680	16.73890	
+AT	2243	Matzen							48.40000	16.70000	
+AT	2244	Spannberg							48.46393	16.73647	
+AT	2245	Velm							48.03333	16.43333	
+AT	2251	Ebenthal							48.43333	16.78333	
+AT	2252	Ollersdorf							48.40000	16.80000	
+AT	2253	Weikendorf							48.34438	16.76651	
+AT	2261	Angern an der March							48.37778	16.82806	
+AT	2263	Dürnkrut							48.47315	16.85062	
+AT	2264	Jedenspeigen							48.49807	16.87225	
+AT	2265	Drösing							48.53900	16.90264	
+AT	2272	Niederabsdorf							48.56667	16.85000	
+AT	2273	Hohenau							48.60420	16.90470	
+AT	2274	Rabensburg							48.65000	16.90000	
+AT	2275	Bernhardsthal							48.69158	16.86951	
+AT	2281	Raasdorf							48.24657	16.56532	
+AT	2282	Markgrafneusiedl							48.26667	16.63333	
+AT	2283	Obersiebenbrunn							48.26537	16.71076	
+AT	2284	Untersiebenbrunn							48.25000	16.73333	
+AT	2285	Leopoldsdorf im Marchfelde							48.22261	16.68858	
+AT	2286	Haringsee							48.19270	16.78741	
+AT	2291	Lassee							48.22479	16.82230	
+AT	2292	Engelhartstetten							48.18160	16.88367	
+AT	2301	Groß-Enzersdorf							48.20278	16.55083	
+AT	2304	Orth an der Donau							48.14524	16.70089	
+AT	2305	Eckartsau							48.14507	16.79737	
+AT	2320	Schwechat							48.13333	16.46667	
+AT	2322	Zwölfaxing							48.10990	16.46267	
+AT	2324	Schwechat							48.13333	16.46667	
+AT	2325	Himberg							48.08333	16.43333	
+AT	2326	Maria Lanzendorf							48.09923	16.41984	
+AT	2331	Vösendorf							48.12107	16.34036	
+AT	2332	Hennersdorf							48.11173	16.36311	
+AT	2333	Leopoldsdorf							48.11557	16.39126	
+AT	2334	Vösendorf							48.12107	16.34036	
+AT	2340	Mödling							48.08605	16.28921	
+AT	2344	Maria Enzersdorf							48.10000	16.28333	
+AT	2345	Brunn am Gebirge							48.10697	16.28466	
+AT	2346	Maria Enzersdorf							48.10000	16.28333	
+AT	2348	Mödling							48.08605	16.28921	
+AT	2349	Mödling							48.08605	16.28921	
+AT	2351	Wiener Neudorf							48.08278	16.31384	
+AT	2352	Gumpoldskirchen							48.04538	16.27710	
+AT	2353	Guntramsdorf							48.04687	16.31384	
+AT	2355	Wiener Neudorf							48.08278	16.31384	
+AT	2356	Wiener Neudorf							48.08278	16.31384	
+AT	2361	Laxenburg							48.06833	16.35607	
+AT	2362	Biedermannsdorf							48.08393	16.34542	
+AT	2371	Hinterbrühl							48.08611	16.24809	
+AT	2372	Gießhübl							48.09780	16.23479	
+AT	2380	Perchtoldsdorf							48.11935	16.26607	
+AT	2381	Laab im Walde							48.15486	16.17359	
+AT	2382	Perchtoldsdorf							48.11935	16.26607	
+AT	2384	Breitenfurt bei Wien							48.13333	16.15000	
+AT	2391	Kaltenleutgeben							48.11646	16.19956	
+AT	2392	Sulz im Wienerwald							48.10038	16.13746	
+AT	2393	Sittendorf							48.07561	16.16269	
+AT	2401	Fischamend							48.11843	16.61211	
+AT	2402	Maria Ellend							48.10000	16.68333	
+AT	2406	Haslau an der Donau							48.11667	16.71667	
+AT	2410	Hainburg an der Donau							48.14627	16.94504	
+AT	2412	Wolfsthal							48.13333	17.00000	
+AT	2413	Berg							48.10147	17.03842	
+AT	2421	Kittsee							48.09250	17.06389	
+AT	2422	Pama							48.05000	17.03333	
+AT	2423	Deutsch Jahrndorf							48.01667	17.10000	
+AT	2424	Zurndorf							47.98314	17.00315	
+AT	2425	Nickelsdorf							47.94056	17.06944	
+AT	2432	Schwadorf							48.06936	16.57957	
+AT	2433	Margarethen am Moos							48.03333	16.60000	
+AT	2434	Götzendorf an der Leitha							48.01667	16.58333	
+AT	2435	Ebergassing							48.04567	16.51709	
+AT	2440	Gramatneusiedl							48.03040	16.48936	
+AT	2441	Mitterndorf an der Fischa							47.99739	16.47357	
+AT	2442	Unterwaltersdorf							47.95000	16.41667	
+AT	2444	Seibersdorf							47.95858	16.51842	
+AT	2445	Leithaprodersdorf							47.93348	16.47915	
+AT	2451	Hof am Leithaberge							47.95000	16.58333	
+AT	2452	Mannersdorf am Leithagebirge							47.96667	16.60000	
+AT	2453	Sommerein							47.98333	16.65000	
+AT	2454	Trautmannsdorf an der Leitha							48.02357	16.63266	
+AT	2460	Bruck an der Leitha							48.01667	16.76667	
+AT	2462	Wilfleinsdorf							48.01667	16.71667	
+AT	2463	Stixneusiedl							48.04509	16.67581	
+AT	2464	Göttlesbrunn							48.05000	16.73333	
+AT	2465	Höflein							48.06667	16.78333	
+AT	2471	Rohrau							48.06667	16.85000	
+AT	2472	Prellenkirchen							48.07401	16.95233	
+AT	2473	Potzneusiedl							48.04504	16.94770	
+AT	2474	Gattendorf							48.01667	16.98333	
+AT	2481	Achau							48.08026	16.38611	
+AT	2482	Münchendorf							48.03333	16.38333	
+AT	2483	Ebreichsdorf							47.95579	16.40705	
+AT	2484	Weigelsdorf							47.95000	16.40000	
+AT	2485	Wampersdorf							47.91667	16.41667	
+AT	2486	Pottendorf							47.90000	16.38333	
+AT	2490	Ebenfurth							47.87738	16.36731	
+AT	2491	Neufeld an der Leitha							47.86558	16.37856	
+AT	2492	Eggendorf							47.85809	16.32182	
+AT	2493	Lichtenwörth							47.82756	16.29873	
+AT	2500	Baden							48.00543	16.23264	
+AT	2502	Baden							48.00543	16.23264	
+AT	2504	Sooss							47.98464	16.21737	
+AT	2505	Baden							48.00543	16.23264	
+AT	2511	Pfaffstätten							48.01737	16.26354	
+AT	2512	Tribuswinkel							48.00623	16.27075	
+AT	2513	Traiskirchen							48.01485	16.29324	
+AT	2514	Traiskirchen							48.01485	16.29324	
+AT	2521	Trumau							47.99348	16.34268	
+AT	2522	Oberwaltersdorf							47.97567	16.32191	
+AT	2523	Tattendorf							47.95000	16.30000	
+AT	2524	Teesdorf							47.95000	16.28333	
+AT	2525	Günselsdorf							47.94395	16.26062	
+AT	2531	Gaaden							48.05364	16.20003	
+AT	2532	Heiligenkreuz							48.05559	16.12493	
+AT	2533	Klausen-Leopoldsdorf							48.08771	16.01686	
+AT	2534	Alland							48.05829	16.07901	
+AT	2540	Bad Vöslau							47.96533	16.21359	
+AT	2542	Kottingbrunn							47.95096	16.22715	
+AT	2544	Leobersdorf							47.92796	16.21651	
+AT	2552	Hirtenberg							47.93095	16.17908	
+AT	2560	Berndorf							47.94567	16.10973	
+AT	2563	Pottenstein							47.95820	16.09480	
+AT	2564	Weissenbach an der Triesting							47.98211	16.03935	
+AT	2565	Neuhaus							47.99521	16.04588	
+AT	2572	Kaumberg							48.02415	15.89842	
+AT	2601	Sollenau							47.89834	16.24833	
+AT	2602	Blumau							47.91634	16.28860	
+AT	2603	Felixdorf							47.88159	16.24208	
+AT	2604	Theresienfeld							47.85000	16.23333	
+AT	2620	Neunkirchen							47.72096	16.08107	
+AT	2624	Breitenau							47.73355	16.14338	
+AT	2630	Ternitz							47.71565	16.03575	
+AT	2632	Wimpassing im Schwarzatale							47.70295	16.03334	
+AT	2640	Gloggnitz							47.67487	15.93893	
+AT	2641	Schottwien							47.65683	15.87250	
+AT	2650	Payerbach							47.69209	15.86340	
+AT	2651	Reichenau an der Rax							47.69509	15.84572	
+AT	2662	Schwarzau im Gebirge							47.81223	15.70581	
+AT	2663	Rohr im Gebirge							47.89471	15.73603	
+AT	2680	Semmering							47.63347	15.82993	
+AT	2700	Wiener Neustadt							47.80485	16.23196	
+AT	2702	Wiener Neustadt							47.80485	16.23196	
+AT	2703	Wiener Neustadt							47.80485	16.23196	
+AT	2705	Wiener Neustadt							47.80485	16.23196	
+AT	2706	Wiener Neustadt							47.80485	16.23196	
+AT	2707	Wiener Neustadt							47.80485	16.23196	
+AT	2721	Bad Fischau							47.83137	16.16707	
+AT	2722	Winzendorf							47.81154	16.11300	
+AT	2723	Muthmannsdorf							47.83793	16.10991	
+AT	2733	Grünbach am Schneeberg							47.79747	15.98785	
+AT	2734	Puchberg am Schneeberg							47.78709	15.91352	
+AT	2751	Steinabrückl							47.87053	16.20277	
+AT	2752	Wöllersdorf							47.86500	16.17119	
+AT	2753	Markt Piesting							47.87358	16.12510	
+AT	2754	Waldegg							47.86852	16.05154	
+AT	2755	Oed							48.18333	14.88333	
+AT	2761	Miesenbach							47.84035	15.98236	
+AT	2763	Pernitz							47.89759	15.96022	
+AT	2770	Gutenstein							47.87600	15.88881	
+AT	2801	Katzelsdorf							47.78055	16.26985	
+AT	2802	Hochwolkersdorf							47.66127	16.28072	
+AT	2803	Schwarzenbach							47.63547	16.35109	
+AT	2811	Wiesmath							47.61667	16.28333	
+AT	2812	Hollenthon							47.58938	16.26131	
+AT	2813	Lichtenegg							47.60000	16.20000	
+AT	2821	Lanzenkirchen							47.73621	16.21985	
+AT	2822	Bad Erlach							47.72722	16.21444	
+AT	2823	Pitten							47.71667	16.18333	
+AT	2824	Seebenstein							47.69936	16.14484	
+AT	2831	Warth							47.65000	16.11667	
+AT	2832	Thernberg							47.65000	16.18333	
+AT	2833	Bromberg							47.66539	16.20990	
+AT	2840	Grimmenstein							47.61635	16.12724	
+AT	2842	Edlitz							47.59797	16.14052	
+AT	2851	Krumbach							47.48306	9.93583	
+AT	2853	Bad Schönau							47.49473	16.23410	
+AT	2860	Kirchschlag in der Buckligen Welt							47.50000	16.28333	
+AT	2871	Zöbern							47.51459	16.13111	
+AT	2872	Mönichkirchen							47.51062	16.03425	
+AT	2873	Feistritz am Wechsel							47.60000	16.05000	
+AT	2880	Kirchberg am Wechsel							47.60738	15.99103	
+AT	2881	Trattenbach							47.60000	15.86667	
+AT	3001	Mauerbach							48.24514	16.16793	
+AT	3002	Purkersdorf							48.20769	16.17539	
+AT	3003	Gablitz							48.22856	16.15437	
+AT	3012	Wolfsgraben							48.15870	16.12098	
+AT	3013	Tullnerbach-Lawies							48.18912	16.09117	
+AT	3021	Pressbaum							48.18333	16.08333	
+AT	3031	Rekawinkel							48.17936	16.02433	
+AT	3032	Eichgraben							48.17204	15.98391	
+AT	3033	Altlengbach							48.15355	15.92606	
+AT	3040	Neulengbach							48.19745	15.90219	
+AT	3041	Asperhofen							48.24583	15.92606	
+AT	3042	Würmla							48.25497	15.86031	
+AT	3052	Innermanzing							48.13402	15.91352	
+AT	3061	Ollersbach							48.18669	15.84400	
+AT	3062	Kirchstetten							48.18333	15.81667	
+AT	3071	Böheimkirchen							48.19779	15.76178	
+AT	3072	Kasten bei Böheimkirchen							48.15320	15.77946	
+AT	3073	Stössing							48.12267	15.81379	
+AT	3100	Sankt Pölten							48.20000	15.63333	
+AT	3101	Sankt Pölten							48.20000	15.63333	
+AT	3103	Sankt Pölten							48.20000	15.63333	
+AT	3104	Sankt Pölten							48.20000	15.63333	
+AT	3105	Sankt Pölten							48.20000	15.63333	
+AT	3106	Sankt Pölten							48.20000	15.63333	
+AT	3107	Sankt Pölten							48.20000	15.63333	
+AT	3108	Sankt Pölten							48.20000	15.63333	
+AT	3109	Sankt Pölten							48.20000	15.63333	
+AT	3110	Neidling							48.24005	15.55591	
+AT	3111	Sankt Pölten							48.20000	15.63333	
+AT	3121	Karlstetten							48.25920	15.56544	
+AT	3122	Gansbach							48.30581	15.47235	
+AT	3124	Oberwölbling							48.31719	15.59166	
+AT	3125	Statzendorf							48.30752	15.64127	
+AT	3130	Herzogenburg							48.28137	15.69431	
+AT	3131	Getzersdorf							48.32818	15.69551	
+AT	3133	Traismauer							48.35000	15.73333	
+AT	3134	Nußdorf							46.83333	12.80000	
+AT	3140	Pottenbrunn							48.23333	15.70000	
+AT	3141	Kapelln							48.25817	15.75731	
+AT	3143	Pyhra							48.15910	15.68624	
+AT	3144	Wald							47.20000	10.76667	
+AT	3150	Wilhelmsburg							48.10571	15.60539	
+AT	3153	Eschenau							48.04825	15.56694	
+AT	3160	Traisen							48.03333	15.60000	
+AT	3161	Sankt Veit an der Gölsen							48.04320	15.66942	
+AT	3162	Rainfeld							48.04745	15.71079	
+AT	3170	Hainfeld							48.03390	15.77414	
+AT	3171	Kleinzell							47.97993	15.73620	
+AT	3172	Ramsau							48.00313	15.80332	
+AT	3180	Lilienfeld							48.01312	15.59664	
+AT	3182	Marktl							48.02346	15.60282	
+AT	3184	Türnitz							47.93095	15.49295	
+AT	3192	Hohenberg							47.90679	15.61998	
+AT	3193	Sankt Aegyd am Neuwalde							47.85383	15.56969	
+AT	3200	Ober-Grafendorf							48.15040	15.54531	
+AT	3202	Hofstetten							48.09711	15.51149	
+AT	3203	Rabenstein an der Pielach							48.06535	15.46772	
+AT	3204	Kirchberg an der Pielach							48.02690	15.42875	
+AT	3205	Weinburg							48.11351	15.53295	
+AT	3211	Loich							47.99578	15.40163	
+AT	3212	Schwarzenbach an der Pielach							47.93333	15.38333	
+AT	3213	Frankenfels							47.98234	15.32593	
+AT	3214	Puchenstuben							47.92819	15.28748	
+AT	3222	Annaberg							47.87134	15.37648	
+AT	3231	Sankt Margarethen an der Sierning							48.15910	15.49055	
+AT	3232	Bischofstetten							48.12222	15.46909	
+AT	3233	Kilb							48.10101	15.40850	
+AT	3240	Mank							48.11024	15.33915	
+AT	3241	Kirnberg an der Mank							48.07246	15.32232	
+AT	3243	Sankt Leonhard am Forst							48.14232	15.28464	
+AT	3244	Ruprechtshofen							48.13648	15.27675	
+AT	3250	Wieselburg							48.13333	15.13333	
+AT	3251	Purgstall							48.05841	15.13478	
+AT	3252	Petzenkirchen							48.14693	15.15465	
+AT	3253	Erlauf							48.18333	15.18333	
+AT	3254	Bergland							48.15595	15.18553	
+AT	3261	Steinakirchen am Forst							48.06965	15.04801	
+AT	3262	Wang							48.04538	15.02672	
+AT	3263	Randegg							48.01198	14.97334	
+AT	3264	Gresten							47.98521	15.02552	
+AT	3270	Scheibbs							48.00474	15.16817	
+AT	3281	Oberndorf an der Melk							48.06386	15.22430	
+AT	3282	Sankt Georgen an der Leys							48.03149	15.22722	
+AT	3292	Gaming							47.92900	15.08818	
+AT	3293	Lunz am See							47.86120	15.02998	
+AT	3294	Langau							48.83207	15.71560	
+AT	3300	Amstetten							48.12290	14.87206	
+AT	3304	Sankt Georgen am Ybbsfelde							48.12892	14.95364	
+AT	3305	Amstetten							48.12290	14.87206	
+AT	3311	Zeillern							48.13029	14.80760	
+AT	3312	Oed							48.18333	14.88333	
+AT	3313	Wallsee							48.16667	14.71667	
+AT	3314	Strengberg							48.14685	14.65147	
+AT	3322	Viehdorf							48.15074	14.89257	
+AT	3324	Euratsfeld							48.08181	14.93154	
+AT	3325	Ferschnitz							48.09419	14.98454	
+AT	3332	Rosenau am Sonntagberg							48.00778	14.73927	
+AT	3333	Böhlerwerk							47.98498	14.74794	
+AT	3334	Gaflenz							47.89511	14.72477	
+AT	3335	Weyer							47.85717	14.66409	
+AT	3340	Waidhofen an der Ybbs							47.96004	14.77361	
+AT	3341	Ybbsitz							47.94745	14.89180	
+AT	3342	Opponitz							47.87776	14.82283	
+AT	3343	Hollenstein an der Ybbs							47.80305	14.77312	
+AT	3345	Göstling an der Ybbs							47.80664	14.93797	
+AT	3350	Haag							48.11362	14.56753	
+AT	3351	Weistrach							48.05000	14.58333	
+AT	3354	Wolfsbach							48.06667	14.66667	
+AT	3355	Ertl							47.97704	14.63134	
+AT	3356	Biberbach							48.03006	14.70795	
+AT	3361	Aschbach Markt							48.07234	14.75395	
+AT	3362	Mauer							46.74104	14.22937	
+AT	3363	Ulmerfeld							48.07647	14.81867	
+AT	3364	Neuhofen an der Ybbs							48.05795	14.85489	
+AT	3365	Allhartsberg							48.02633	14.79009	
+AT	3370	Ybbs an der Donau							48.16667	15.08333	
+AT	3371	Neumarkt an der Ybbs							48.14103	15.05758	
+AT	3372	Blindenmarkt							48.12749	14.98647	
+AT	3376	Sankt Martin							48.23091	14.26781	
+AT	3380	Pöchlarn							48.20000	15.20000	
+AT	3381	Golling							48.20000	15.18333	
+AT	3382	Loosdorf							48.20000	15.40000	
+AT	3383	Hürm							48.15601	15.41262	
+AT	3384	Groß Sierning							48.19295	15.45842	
+AT	3385	Prinzersdorf							48.20000	15.51667	
+AT	3386	Hafnerbach							48.21667	15.48333	
+AT	3387	Groß Sierning							48.19295	15.45842	
+AT	3390	Melk							48.22737	15.33186	
+AT	3393	Matzleinsdorf							48.20000	15.26667	
+AT	3400	Klosterneuburg							48.30521	16.32522	
+AT	3402	Klosterneuburg							48.30521	16.32522	
+AT	3404	Klosterneuburg							48.30521	16.32522	
+AT	3413	Hintersdorf							48.30000	16.21667	
+AT	3420	Kritzendorf							48.32932	16.30011	
+AT	3421	Höflein an der Donau							48.34975	16.27470	
+AT	3424	Zeiselmauer							48.32852	16.17565	
+AT	3430	Tulln							48.32829	16.05858	
+AT	3433	Königstetten							48.30198	16.14492	
+AT	3434	Tulbing							48.29336	16.12226	
+AT	3435	Zwentendorf							48.34530	15.91026	
+AT	3441	Judenau							48.28468	16.00897	
+AT	3442	Langenrohr							48.30489	16.01034	
+AT	3443	Sieghartskirchen							48.25531	16.01223	
+AT	3451	Michelhausen							48.29085	15.93893	
+AT	3452	Atzenbrugg							48.29119	15.90614	
+AT	3455	Heiligeneich							48.29964	15.89413	
+AT	3462	Absdorf							48.40021	15.97874	
+AT	3463	Stetteldorf am Wagram							48.40815	16.01862	
+AT	3464	Hausleiten							48.38333	16.10000	
+AT	3470	Kirchberg am Wagram							48.43182	15.89692	
+AT	3471	Großriedenthal							48.48333	15.86667	
+AT	3481	Fels am Wagram							48.43333	15.81667	
+AT	3483	Feuersbrunn							48.43333	15.78333	
+AT	3484	Grafenwörth							48.40790	15.77826	
+AT	3491	Strass							48.46667	15.73333	
+AT	3492	Etsdorf am Kamp							48.44468	15.74107	
+AT	3493	Hadersdorf am Kamp							48.45000	15.71667	
+AT	3494	Gedersdorf							48.43319	15.68865	
+AT	3495	Rohrendorf bei Krems							48.41935	15.65772	
+AT	3500	Krems an der Donau							48.40921	15.61415	
+AT	3508	Paudorf							48.35416	15.61853	
+AT	3511	Furth bei Göttweig							48.37385	15.61408	
+AT	3512	Mautern							48.39319	15.57793	
+AT	3525	Sallingberg							48.46667	15.23333	
+AT	3532	Rastenfeld							48.57348	15.33176	
+AT	3541	Senftenberg							48.45222	15.54452	
+AT	3542	Gföhl							48.51667	15.48333	
+AT	3543	Krumau am Kamp							48.58879	15.44914	
+AT	3550	Langenlois							48.46667	15.66667	
+AT	3552	Lengenfeld							48.47187	15.59870	
+AT	3553	Schiltern							48.51667	15.61667	
+AT	3561	Zöbing							48.49100	15.69200	
+AT	3562	Schönberg							48.51667	15.70000	
+AT	3571	Gars am Kamp							48.58899	15.65363	
+AT	3572	Sankt Leonhard am Hornerwald							48.60000	15.53333	
+AT	3580	Horn							48.66274	15.65663	
+AT	3591	Altenburg							48.64765	15.59295	
+AT	3592	Röhrenbach							48.65000	15.50000	
+AT	3595	Brunn an der Wild							48.69425	15.52008	
+AT	3601	Dürnstein							48.39582	15.51973	
+AT	3610	Weißenkirchen in der Wachau							48.39790	15.46931	
+AT	3620	Spitz							48.36560	15.41416	
+AT	3622	Mühldorf							48.37432	15.34672	
+AT	3631	Ottenschlag							48.42393	15.21924	
+AT	3632	Bad Traunstein							48.43850	15.11712	
+AT	3633	Schönbach							48.45000	15.03333	
+AT	3643	Maria Laach am Jauerling							48.30412	15.34472	
+AT	3644	Emmersdorf an der Donau							48.24140	15.33721	
+AT	3650	Pöggstall							48.31734	15.20405	
+AT	3652	Leiben							48.24628	15.27460	
+AT	3653	Weiten							48.29564	15.26010	
+AT	3654	Raxendorf							48.34108	15.27666	
+AT	3660	Klein-Pöchlarn							48.21667	15.21667	
+AT	3663	Laimbach am Ostrong							48.31667	15.11667	
+AT	3664	Martinsberg							48.37549	15.14997	
+AT	3665	Gutenbrunn							48.36520	15.11899	
+AT	3671	Marbach an der Donau							48.21667	15.15000	
+AT	3672	Maria Taferl							48.22702	15.15954	
+AT	3680	Persenbeug							48.18733	15.08809	
+AT	3681	Hofamt Priel							48.19581	15.07746	
+AT	3691	Nöchling							48.22433	14.98123	
+AT	3701	Großweikersdorf							48.47123	15.98251	
+AT	3702	Niederrußbach							48.45000	16.03333	
+AT	3710	Ziersdorf							48.53030	15.92691	
+AT	3712	Maissau							48.57300	15.83005	
+AT	3713	Harmannsdorf							48.39724	16.37220	
+AT	3714	Sitzendorf an der Schmida							48.59841	15.94254	
+AT	3720	Ravelsbach							48.55000	15.85000	
+AT	3730	Eggenburg							48.63892	15.81903	
+AT	3741	Pulkau							48.70484	15.86031	
+AT	3743	Röschitz							48.64312	15.81774	
+AT	3751	Sigmundsherberg							48.68333	15.75000	
+AT	3763	Japons							48.79250	15.56831	
+AT	3800	Göpfritz an der Wild							48.72497	15.40236	
+AT	3804	Allentsteig							48.69725	15.32756	
+AT	3813	Dietmanns							48.73333	14.93333	
+AT	3814	Aigen							47.70000	13.53333	
+AT	3820	Raabs an der Thaya							48.85000	15.50000	
+AT	3822	Karlstein							48.88333	15.40000	
+AT	3824	Großau							47.95567	16.16810	
+AT	3830	Waidhofen an der Thaya							48.81667	15.28333	
+AT	3841	Windigsteig							48.76667	15.28333	
+AT	3842	Thaya							48.85489	15.28902	
+AT	3843	Dobersberg							48.91510	15.32188	
+AT	3844	Waldkirchen an der Thaya							48.93333	15.35000	
+AT	3851	Kautzen							48.93000	15.23932	
+AT	3852	Gastern							48.89446	15.22027	
+AT	3860	Heidenreichstein							48.86667	15.11667	
+AT	3861	Eggern							48.90829	15.14877	
+AT	3862	Eisgarn							48.91675	15.10320	
+AT	3863	Reingers							48.96667	15.13333	
+AT	3873	Brand							47.10083	9.73722	
+AT	3874	Litschau							48.94409	15.04483	
+AT	3900	Schwarzenau							48.74436	15.25838	
+AT	3902	Vitis							48.75964	15.18259	
+AT	3903	Echsenbach							48.71667	15.21667	
+AT	3911	Rappottenstein							48.52161	15.07925	
+AT	3912	Grafenschlag							48.50000	15.16667	
+AT	3914	Waldhausen							48.52183	15.26250	
+AT	3921	Langschlag							48.57448	14.88459	
+AT	3925	Arbesbach							48.49337	14.95308	
+AT	3931	Schweiggers							48.66667	15.06667	
+AT	3932	Kirchberg am Walde							48.72477	15.08826	
+AT	3942	Hirschbach							48.74329	15.12521	
+AT	3943	Schrems							48.78333	15.06667	
+AT	3945	Hoheneich							48.77195	15.02857	
+AT	3950	Gmünd							48.76830	14.98080	
+AT	3961	Waldenstein							48.72845	15.01419	
+AT	3970	Weitra							48.70000	14.88333	
+AT	4000	Allhaming							48.15246	14.17022	
+AT	4010	Linz							48.30639	14.28611	
+AT	4013	Linz							48.30639	14.28611	
+AT	4016	Linz							48.30639	14.28611	
+AT	4018	Linz							48.30639	14.28611	
+AT	4020	Linz							48.30639	14.28611	
+AT	4021	Linz							48.30639	14.28611	
+AT	4023	Linz							48.30639	14.28611	
+AT	4024	Linz							48.30639	14.28611	
+AT	4025	Linz							48.30639	14.28611	
+AT	4026	Linz							48.30639	14.28611	
+AT	4027	Linz							48.30639	14.28611	
+AT	4030	Linz							48.30639	14.28611	
+AT	4031	Linz							48.30639	14.28611	
+AT	4032	Linz							48.30639	14.28611	
+AT	4033	Linz							48.30639	14.28611	
+AT	4036	Linz							48.30639	14.28611	
+AT	4040	Linz							48.30639	14.28611	
+AT	4041	Linz							48.30639	14.28611	
+AT	4046	Linz							48.30639	14.28611	
+AT	4048	Puchenau							48.31214	14.23614	
+AT	4050	Traun							48.22086	14.23833	
+AT	4052	Ansfelden							48.20969	14.29004	
+AT	4053	Haid							48.20477	14.25107	
+AT	4055	Pucking							48.18886	14.18824	
+AT	4056	Sankt Martin							48.23091	14.26781	
+AT	4059	Leonding							48.27965	14.25330	
+AT	4060	Leonding							48.27965	14.25330	
+AT	4061	Pasching							48.25931	14.20369	
+AT	4062	Thening							48.25526	14.16790	
+AT	4063	Hörsching							48.22627	14.17786	
+AT	4064	Oftering							48.23399	14.13571	
+AT	4066	Pasching							48.25931	14.20369	
+AT	4070	Eferding							48.30866	14.02233	
+AT	4072	Alkoven							48.28753	14.10748	
+AT	4076	Sankt Marienkirchen an der Polsenz							48.26526	13.93161	
+AT	4077	Strassham							48.28348	14.14524	
+AT	4078	Fraham							48.28371	14.03057	
+AT	4081	Hartkirchen							48.36349	14.00422	
+AT	4082	Aschach an der Donau							48.36458	14.02044	
+AT	4084	Sankt Agatha							48.38658	13.87779	
+AT	4092	Esternberg							48.54333	13.57083	
+AT	4100	Ottensheim							48.33246	14.17425	
+AT	4101	Feldkirchen an der Donau							48.34524	14.05134	
+AT	4102	Goldwörth							48.32664	14.10112	
+AT	4111	Walding							48.35209	14.15760	
+AT	4113	Sankt Martin im Mühlkreis							48.41553	14.03821	
+AT	4115	Kleinzell							47.97993	15.73620	
+AT	4120	Neufelden							48.48333	13.99650	
+AT	4121	Altenfelden							48.48555	13.96980	
+AT	4122	Arnreit							48.52513	13.99487	
+AT	4131	Kirchberg ob der Donau							48.44440	13.93805	
+AT	4132	Lembach im Mühlkreis							48.49517	13.89513	
+AT	4134	Putzleinsdorf							48.51587	13.87324	
+AT	4142	Hofkirchen im Mühlkreis							48.48339	13.80956	
+AT	4143	Neustift im Mühlkreis							48.52883	13.75643	
+AT	4150	Rohrbach in Oberösterreich							48.57275	13.98834	
+AT	4151	Oepping							48.60284	13.94586	
+AT	4152	Sarleinsbach							48.54525	13.90491	
+AT	4153	Peilstein im Mühlviertel							48.61736	13.89513	
+AT	4154	Kollerschlag							48.60511	13.84080	
+AT	4155	Nebelberg							48.62854	13.84629	
+AT	4160	Aigen							47.70000	13.53333	
+AT	4161	Ulrichsberg							48.67498	13.91049	
+AT	4162	Julbach							48.66087	13.86518	
+AT	4163	Klaffer am Hochficht							48.69544	13.88131	
+AT	4164	Schwarzenberg							47.41415	9.85154	
+AT	4170	Haslach an der Mühl							48.57570	14.03984	
+AT	4171	Sankt Peter am Wimberg							48.50233	14.07821	
+AT	4172	Sankt Johann am Wimberg							48.48823	14.13039	
+AT	4173	Sankt Veit im Mühlkreis							48.46814	14.16352	
+AT	4174	Niederwaldkirchen							48.45044	14.08550	
+AT	4175	Herzogsdorf							48.43011	14.11280	
+AT	4180	Zwettl an der Rodl							48.46552	14.27133	
+AT	4181	Oberneukirchen							48.46404	14.22275	
+AT	4190	Bad Leonfelden							48.52047	14.29459	
+AT	4191	Vorderweissenbach							48.55207	14.21794	
+AT	4192	Schenkenfelden							48.50273	14.36188	
+AT	4193	Reichenthal							48.54286	14.38471	
+AT	4201	Gramastetten							48.38028	14.19185	
+AT	4202	Hellmonsödt							48.43333	14.30000	
+AT	4203	Altenberg bei Linz							48.37284	14.35029	
+AT	4204	Reichenau im Mühlkreis							48.45704	14.34875	
+AT	4205	Kirchschlag bei Linz							48.41149	14.27656	
+AT	4209	Engerwitzdorf							48.34507	14.44204	
+AT	4210	Gallneukirchen							48.35363	14.41604	
+AT	4211	Alberndorf in der Riedmark							48.40607	14.41441	
+AT	4212	Neumarkt im Mühlkreis							48.42818	14.48444	
+AT	4213	Unterweitersdorf							48.36743	14.46779	
+AT	4221	Steyregg							48.28513	14.36995	
+AT	4222	Sankt Georgen an der Gusen							48.27183	14.44951	
+AT	4223	Katsdorf							48.31791	14.47432	
+AT	4224	Wartberg ob der Aist							48.34792	14.50796	
+AT	4226	Langenstein							48.25200	14.47655	
+AT	4230	Pregarten							48.35488	14.53217	
+AT	4232	Hagenberg im Mühlkreis							48.36788	14.51689	
+AT	4240	Freistadt							48.51103	14.50453	
+AT	4242	Hirschbach							48.74329	15.12521	
+AT	4251	Sandl							48.56087	14.64220	
+AT	4252	Liebenau							47.03333	15.46667	
+AT	4261	Rainbach im Mühlkreis							48.55758	14.47449	
+AT	4263	Windhaag bei Freistadt							48.58774	14.56186	
+AT	4264	Grünbach							48.53815	14.53560	
+AT	4271	Sankt Oswald bei Freistadt							48.50000	14.58333	
+AT	4272	Weitersfelden							48.47730	14.72546	
+AT	4273	Unterweissenbach							48.43507	14.78228	
+AT	4274	Schönau im Mühlkreis							48.39456	14.73018	
+AT	4280	Königswiesen							48.40453	14.83824	
+AT	4281	Mönchdorf							48.36047	14.79429	
+AT	4282	Pierbach							48.34815	14.75575	
+AT	4283	Bad Zell							48.34906	14.66945	
+AT	4284	Tragwein							48.33314	14.62237	
+AT	4291	Lasberg							48.47121	14.54023	
+AT	4292	Kefermarkt							48.44264	14.53877	
+AT	4293	Gutau							48.41724	14.61285	
+AT	4294	Sankt Leonhard bei Freistadt							48.44412	14.67816	
+AT	4300	Sankt Valentin							48.16667	14.51667	
+AT	4303	Sankt Pantaleon							48.21058	14.56804	
+AT	4310	Mauthausen							48.24114	14.51963	
+AT	4311	Schwertberg							48.27340	14.58474	
+AT	4312	Ried in der Riedmark							48.27114	14.52796	
+AT	4320	Perg							48.25000	14.63333	
+AT	4322	Windhaag bei Perg							48.28582	14.68091	
+AT	4323	Münzbach							48.26737	14.71009	
+AT	4332	Au an der Donau							48.22879	14.58323	
+AT	4341	Arbing							48.22908	14.70297	
+AT	4342	Baumgartenberg							48.20866	14.74365	
+AT	4351	Saxen							48.20826	14.79052	
+AT	4360	Grein							48.22862	14.85884	
+AT	4362	Bad Kreuzen							48.26737	14.80648	
+AT	4363	Pabneukirchen							48.32367	14.81747	
+AT	4372	Sankt Georgen am Walde							48.35979	14.90235	
+AT	4391	Waldhausen im Strudengau							48.27377	14.94750	
+AT	4392	Dorfstetten							48.32573	14.98218	
+AT	4400	Steyr							48.04274	14.42127	
+AT	4401	Steyr							48.04274	14.42127	
+AT	4403	Steyr							48.04274	14.42127	
+AT	4405	Steyr							48.04274	14.42127	
+AT	4407	Steyr							48.04274	14.42127	
+AT	4410	Steyr							48.04274	14.42127	
+AT	4421	Aschach an der Steyr							48.01312	14.33544	
+AT	4431	Haidershofen							48.07579	14.46131	
+AT	4432	Ernsthofen							48.12915	14.48058	
+AT	4441	Behamberg							48.01667	14.48333	
+AT	4442	Kleinraming							48.00000	14.48333	
+AT	4443	Maria Neustift							47.93333	14.60000	
+AT	4451	Garsten							48.02240	14.40747	
+AT	4452	Ternberg							47.94518	14.35870	
+AT	4453	Trattenbach							47.60000	15.86667	
+AT	4460	Losenstein							47.92428	14.43672	
+AT	4461	Laussa							47.95000	14.45000	
+AT	4462	Reichraming							47.88333	14.45000	
+AT	4463	Grossraming							47.88333	14.55000	
+AT	4464	Kleinreifling							47.81667	14.63333	
+AT	4470	Enns							48.21346	14.47612	
+AT	4481	Asten							48.21941	14.41784	
+AT	4482	Ennsdorf							48.21181	14.50290	
+AT	4484	Kronstorf							48.14324	14.46307	
+AT	4490	Sankt Florian							48.20568	14.37836	
+AT	4491	Niederneukirchen							48.16093	14.33965	
+AT	4492	Hofkirchen im Traunkreis							48.14312	14.37776	
+AT	4493	Wolfern							48.08278	14.37201	
+AT	4501	Neuhofen an der Krems							48.13866	14.22764	
+AT	4502	Sankt Marien							48.14805	14.27759	
+AT	4511	Allhaming							48.15246	14.17022	
+AT	4522	Sierning							48.04343	14.30935	
+AT	4523	Neuzeug							48.05000	14.33333	
+AT	4531	Kematen an der Krems							48.11150	14.19391	
+AT	4532	Rohr im Kremstal							48.06864	14.19306	
+AT	4533	Piberbach							48.11511	14.22644	
+AT	4540	Bad Hall							48.03832	14.20773	
+AT	4541	Adlwang							47.99245	14.21742	
+AT	4542	Nussbach							47.97246	14.16387	
+AT	4550	Kremsmünster							48.05290	14.12919	
+AT	4551	Ried im Traunkreis							48.02581	14.07452	
+AT	4552	Wartberg an der Krems							47.98909	14.11863	
+AT	4553	Schlierbach							47.93636	14.12018	
+AT	4560	Kirchdorf an der Krems							47.90558	14.12228	
+AT	4562	Steinbach am Ziehberg							47.89264	14.03040	
+AT	4563	Micheldorf							46.91667	14.41667	
+AT	4565	Inzersdorf im Kremstal							47.92808	14.08104	
+AT	4571	Steyrling							47.80578	14.13082	
+AT	4580	Windischgarsten							47.72223	14.32755	
+AT	4582	Spital am Pyhrn							47.66487	14.34014	
+AT	4591	Molln							47.88723	14.25819	
+AT	4592	Leonstein							47.89666	14.23124	
+AT	4593	Obergrünburg							47.95122	14.25493	
+AT	4594	Grünburg							47.97234	14.26472	
+AT	4595	Waldneukirchen							47.99854	14.25879	
+AT	4596	Steinbach an der Steyr							47.97079	14.26935	
+AT	4600	Wels							48.16667	14.03333	
+AT	4601	Wels							48.16667	14.03333	
+AT	4602	Wels							48.16667	14.03333	
+AT	4603	Wels							48.16667	14.03333	
+AT	4605	Wels							48.16667	14.03333	
+AT	4606	Wels							48.16667	14.03333	
+AT	4609	Thalheim bei Wels							48.15000	14.03333	
+AT	4610	Wels							48.16667	14.03333	
+AT	4611	Buchkirchen							48.22427	14.02242	
+AT	4613	Mistelbach							48.57000	16.57667	
+AT	4614	Marchtrenk							48.19022	14.10908	
+AT	4615	Holzhausen							48.22296	14.09683	
+AT	4619	Wels							48.16667	14.03333	
+AT	4621	Sipbachzell							48.09723	14.11108	
+AT	4622	Eggendorf im Traunkreis							48.13069	14.14412	
+AT	4623	Gunskirchen							48.13333	13.95000	
+AT	4624	Pennewang							48.13333	13.85000	
+AT	4625	Offenhausen							48.15000	13.83333	
+AT	4631	Krenglbach							48.20540	13.95590	
+AT	4632	Pichl bei Wels							48.18515	13.89882	
+AT	4633	Kematen am Innbach							48.17645	13.85874	
+AT	4641	Steinhaus							48.11614	14.01890	
+AT	4642	Sattledt							48.07372	14.05478	
+AT	4643	Pettenbach							47.96016	14.01692	
+AT	4644	Scharnstein							47.90426	13.96135	
+AT	4645	Grünau im Almtal							47.85493	13.95573	
+AT	4650	Lambach							48.09276	13.87453	
+AT	4651	Stadl-Paura							48.08333	13.86667	
+AT	4652	Steinerkirchen an der Traun							48.07911	13.95796	
+AT	4653	Eberstalzell							48.04392	13.98319	
+AT	4655	Vorchdorf							48.00388	13.92122	
+AT	4656	Kirchham							47.97067	13.89848	
+AT	4659	Edt bei Lambach							48.11667	13.88333	
+AT	4661	Roitham							48.02432	13.82166	
+AT	4663	Laakirchen							47.98188	13.82166	
+AT	4671	Neukirchen bei Lambach							48.10000	13.81667	
+AT	4672	Bachmanning							48.13104	13.79436	
+AT	4673	Gaspoltshofen							48.14324	13.73643	
+AT	4674	Altenhof am Hausruck							48.13333	13.68333	
+AT	4675	Weibern							48.18333	13.70000	
+AT	4676	Aistersheim							48.18680	13.74175	
+AT	4680	Haag am Hausruck							48.18423	13.64373	
+AT	4682	Geboltskirchen							48.15338	13.63360	
+AT	4690	Schwanenstadt							48.05537	13.77505	
+AT	4692	Niederthalheim							48.09901	13.76870	
+AT	4693	Desselbrunn							48.02145	13.77027	
+AT	4694	Ohlsdorf							47.96073	13.79145	
+AT	4701	Bad Schallerbach							48.22999	13.91925	
+AT	4702	Wallern an der Trattnach							48.23296	13.94620	
+AT	4707	Schlüsslberg							48.21861	13.87161	
+AT	4710	Grieskirchen							48.23333	13.83333	
+AT	4712	Michaelnbach							48.28788	13.83144	
+AT	4713	Gallspach							48.20992	13.80981	
+AT	4714	Meggenhofen							48.18017	13.79582	
+AT	4715	Taufkirchen an der Trattnach							48.24731	13.74767	
+AT	4716	Hofkirchen an der Trattnach							48.21981	13.73943	
+AT	4720	Neumarkt im Hausruckkreis							48.27280	13.72836	
+AT	4722	Peuerbach							48.34530	13.77205	
+AT	4723	Natternbach							48.39730	13.74965	
+AT	4724	Neukirchen am Walde							48.40584	13.78158	
+AT	4725	Sankt Aegidi							48.47929	13.73737	
+AT	4730	Waizenkirchen							48.33018	13.85754	
+AT	4731	Prambachkirchen							48.31711	13.90449	
+AT	4741	Wendling							48.23182	13.66622	
+AT	4742	Pram							48.23536	13.60579	
+AT	4751	Dorf							47.90161	13.94534	
+AT	4753	Taiskirchen im Innkreis							48.26468	13.57318	
+AT	4755	Zell an der Pram							48.31625	13.62923	
+AT	4760	Raab							48.35243	13.64691	
+AT	4761	Enzenkirchen							48.38812	13.64828	
+AT	4770	Andorf							48.37130	13.57412	
+AT	4771	Sigharting							48.39650	13.59798	
+AT	4774	Sankt Marienkirchen bei Schärding							48.38710	13.45078	
+AT	4775	Taufkirchen an der Pram							48.41097	13.53953	
+AT	4780	Schärding							48.45294	13.43722	
+AT	4782	Sankt Florian							48.20568	14.37836	
+AT	4783	Wernstein am Inn							48.50802	13.46100	
+AT	4784	Schardenberg							48.52058	13.49791	
+AT	4792	Münzkirchen							48.48333	13.56667	
+AT	4793	Sankt Roman							48.48183	13.61056	
+AT	4794	Kopfing im Innkreis							48.43991	13.65841	
+AT	4800	Attnang-Puchheim							48.00833	13.71667	
+AT	4801	Traunkirchen							47.84462	13.78939	
+AT	4802	Ebensee							47.80716	13.77900	
+AT	4810	Gmunden							47.91839	13.79933	
+AT	4812	Pinsdorf							47.92980	13.77068	
+AT	4813	Altmünster							47.90219	13.76415	
+AT	4814	Neukirchen							47.87502	13.71111	
+AT	4816	Gschwandt							47.93515	13.84569	
+AT	4817	Sankt Konrad							47.91283	13.88818	
+AT	4820	Bad Ischl							47.71109	13.61893	
+AT	4822	Bad Goisern							47.64252	13.61609	
+AT	4823	Steeg							47.24393	10.29436	
+AT	4824	Gosau							47.58417	13.53447	
+AT	4825	Gosau							47.58417	13.53447	
+AT	4829	Bad Ischl							47.71109	13.61893	
+AT	4830	Hallstatt							47.56231	13.64912	
+AT	4831	Obertraun							47.55741	13.68650	
+AT	4839	Vöcklabruck							48.00279	13.65652	
+AT	4840	Vöcklabruck							48.00279	13.65652	
+AT	4841	Ungenach							48.04756	13.61472	
+AT	4842	Zell am Pettenfirst							48.08009	13.59936	
+AT	4843	Ampflwang							48.08333	13.56667	
+AT	4844	Regau							47.99078	13.68811	
+AT	4845	Rutzenmoos							47.97384	13.70828	
+AT	4846	Redlham							48.02443	13.74738	
+AT	4847	Vöcklabruck							48.00279	13.65652	
+AT	4850	Timelkam							48.00394	13.60760	
+AT	4851	Gampern							47.98877	13.55430	
+AT	4852	Weyregg							47.90294	13.57193	
+AT	4853	Steinbach am Attersee							47.83087	13.54613	
+AT	4854	Weissenbach							47.70000	13.50000	
+AT	4860	Lenzing							47.97326	13.60846	
+AT	4861	Schörfling							47.94544	13.60408	
+AT	4863	Seewalchen							47.95246	13.58382	
+AT	4864	Attersee							47.91646	13.53953	
+AT	4865	Nussdorf am Attersee							47.88333	13.51667	
+AT	4870	Vöcklamarkt							48.00250	13.48383	
+AT	4872	Neukirchen an der Vöckla							48.04053	13.53760	
+AT	4873	Frankenburg							48.06844	13.49065	
+AT	4874	Pramet							48.14295	13.48752	
+AT	4875	Redleiten							48.08138	13.46894	
+AT	4880	Sankt Georgen im Attergau							47.93595	13.48306	
+AT	4881	Strass							48.46667	15.73333	
+AT	4882	Oberwang							47.86667	13.43333	
+AT	4890	Frankenmarkt							47.98333	13.41667	
+AT	4892	Fornach							48.02277	13.42941	
+AT	4893	Zell am Moos							47.90000	13.31667	
+AT	4894	Oberhofen am Irrsee							47.95000	13.30000	
+AT	4902	Wolfsegg am Hausruck							48.10669	13.67274	
+AT	4903	Manning							48.08851	13.66682	
+AT	4904	Atzbach							48.08364	13.70347	
+AT	4906	Eberschwang							48.15504	13.56194	
+AT	4910	Ried im Innkreis							48.21123	13.48855	
+AT	4911	Tumeltsham							48.23193	13.49739	
+AT	4912	Neuhofen im Innkreis							48.19052	13.47250	
+AT	4920	Schildorn							48.14564	13.46314	
+AT	4923	Lohnsburg							48.14393	13.40521	
+AT	4924	Waldzell							48.13562	13.42701	
+AT	4925	Pramet							48.14295	13.48752	
+AT	4933	Wildenau							48.20620	13.31723	
+AT	4941	Mehrnbach							48.20809	13.43525	
+AT	4942	Gurten							48.24137	13.34435	
+AT	4943	Geinberg							48.26383	13.29414	
+AT	4950	Altheim							48.25154	13.23406	
+AT	4951	Polling im Innkreis							48.23119	13.27998	
+AT	4952	Weng im Innkreis							48.23508	13.17801	
+AT	4962	Mining							48.27651	13.16179	
+AT	4963	Sankt Peter am Hart							48.25268	13.09613	
+AT	4970	Eitzing							48.23788	13.43001	
+AT	4971	Aurolzmünster							48.24834	13.45533	
+AT	4972	Utzenaich							48.27622	13.46091	
+AT	4974	Ort im Innkreis							48.31654	13.43362	
+AT	4975	Suben							48.41183	13.43036	
+AT	4980	Antiesenhofen							48.34484	13.39954	
+AT	4981	Reichersberg							48.33617	13.35963	
+AT	4982	Obernberg am Inn							48.32133	13.33427	
+AT	4983	Sankt Georgen bei Obernberg am Inn							48.29193	13.33320	
+AT	4984	Weilbach							48.27725	13.37165	
+AT	5000	Wals							47.78333	12.96667	
+AT	5010	Salzburg							47.79941	13.04399	
+AT	5012	Salzburg							47.79941	13.04399	
+AT	5013	Salzburg							47.79941	13.04399	
+AT	5014	Salzburg							47.79941	13.04399	
+AT	5015	Salzburg							47.79941	13.04399	
+AT	5016	Salzburg							47.79941	13.04399	
+AT	5017	Salzburg							47.79941	13.04399	
+AT	5018	Salzburg							47.79941	13.04399	
+AT	5020	Salzburg							47.79941	13.04399	
+AT	5021	Salzburg							47.79941	13.04399	
+AT	5022	Salzburg							47.79941	13.04399	
+AT	5023	Salzburg							47.79941	13.04399	
+AT	5024	Salzburg							47.79941	13.04399	
+AT	5025	Salzburg							47.79941	13.04399	
+AT	5026	Salzburg							47.79941	13.04399	
+AT	5027	Salzburg							47.79941	13.04399	
+AT	5032	Salzburg							47.79941	13.04399	
+AT	5033	Salzburg							47.79941	13.04399	
+AT	5061	Elsbethen							47.76464	13.08104	
+AT	5071	Wals							47.78333	12.96667	
+AT	5072	Siezenheim							47.81529	12.99039	
+AT	5081	Anif							47.75000	13.06667	
+AT	5082	Grödig							47.73833	13.03730	
+AT	5084	Grossgmain							47.72416	12.90851	
+AT	5089	Niederalm							47.72872	13.06223	
+AT	5090	Lofer							47.58475	12.69333	
+AT	5091	Unken							47.64966	12.72946	
+AT	5092	Sankt Martin bei Lofer							47.56667	12.70000	
+AT	5101	Bergheim							47.83333	13.03333	
+AT	5102	Anthering							47.88333	13.01667	
+AT	5110	Oberndorf bei Salzburg							47.95000	12.93333	
+AT	5111	Bürmoos							47.98343	12.91786	
+AT	5112	Lamprechtshausen							47.99098	12.95481	
+AT	5113	Sankt Georgen bei Salzburg							47.99078	12.88499	
+AT	5120	Sankt Pantaleon							48.00761	12.89417	
+AT	5121	Ostermiething							48.04636	12.82937	
+AT	5141	Moosdorf							48.04492	12.98902	
+AT	5142	Eggelsberg							48.07911	12.99047	
+AT	5144	Handenberg							48.13356	13.00751	
+AT	5145	Neukirchen							47.87502	13.71111	
+AT	5151	Nußdorf am Haunsberg							47.95944	13.00917	
+AT	5161	Elixhausen							47.86667	13.06667	
+AT	5162	Obertrum am See							47.93722	13.07722	
+AT	5163	Mattsee							47.96667	13.10000	
+AT	5164	Seeham							47.96746	13.07699	
+AT	5165	Berndorf bei Salzburg							47.99532	13.06146	
+AT	5166	Perwang am Grabensee							48.00692	13.08300	
+AT	5202	Neumarkt am Wallersee							47.95000	13.23333	
+AT	5203	Köstendorf							47.95000	13.20000	
+AT	5204	Strasswalchen							47.97947	13.25535	
+AT	5205	Schleedorf							47.95000	13.15000	
+AT	5211	Friedburg							48.01667	13.25000	
+AT	5212	Schneegattern							48.02415	13.29414	
+AT	5221	Lochen							48.00796	13.17982	
+AT	5222	Munderfing							48.07039	13.18162	
+AT	5223	Pfaffstätt							48.07676	13.14385	
+AT	5230	Mattighofen							48.10732	13.15081	
+AT	5231	Schalchen							48.11924	13.15716	
+AT	5233	Pischelsdorf							48.00000	16.56667	
+AT	5241	Maria Schmolln							48.13820	13.21981	
+AT	5242	Sankt Johann							46.81667	14.86667	
+AT	5252	Aspach							48.18566	13.30444	
+AT	5261	Uttendorf							48.15887	13.12180	
+AT	5270	Mauerkirchen							48.19173	13.13338	
+AT	5272	Treubach							48.19562	13.21140	
+AT	5274	Burgkirchen							48.20443	13.09991	
+AT	5280	Braunau am Inn							48.25628	13.04343	
+AT	5283	Braunau am Inn							48.25628	13.04343	
+AT	5300	Hallwang							47.85000	13.08333	
+AT	5301	Eugendorf							47.86765	13.12609	
+AT	5302	Henndorf am Wallersee							47.90000	13.18333	
+AT	5303	Thalgau							47.84142	13.25325	
+AT	5310	Mondsee							47.85648	13.34908	
+AT	5321	Koppl							47.80808	13.15561	
+AT	5322	Hof bei Salzburg							47.81929	13.21488	
+AT	5323	Ebenau							47.79073	13.17527	
+AT	5324	Faistenau							47.77767	13.23393	
+AT	5325	Plainfeld							47.83333	13.18333	
+AT	5330	Fuschl am See							47.80000	13.30000	
+AT	5340	Sankt Gilgen							47.76667	13.36667	
+AT	5350	Strobl							47.71667	13.48333	
+AT	5351	Aigen							47.70000	13.53333	
+AT	5360	Sankt Wolfgang im Salzkammergut							47.73932	13.44666	
+AT	5400	Hallein							47.68333	13.10000	
+AT	5411	Oberalm							47.70000	13.10000	
+AT	5412	Puch bei Hallein							47.71536	13.09296	
+AT	5421	Adnet							47.69746	13.13115	
+AT	5425	Krispl							47.71667	13.18333	
+AT	5431	Kuchl							47.62647	13.14480	
+AT	5440	Golling an der Salzach							47.60000	13.16667	
+AT	5441	Abtenau							47.56373	13.34599	
+AT	5450	Werfen							47.47585	13.19020	
+AT	5452	Pfarrwerfen							47.45729	13.20531	
+AT	5453	Werfenweng							47.46204	13.25582	
+AT	5500	Bischofshofen							47.41667	13.21667	
+AT	5505	Mühlbach am Hochkönig							47.37746	13.12926	
+AT	5511	Hüttau							47.41610	13.30775	
+AT	5522	Sankt Martin							47.10000	13.65000	
+AT	5524	Annaberg							47.87134	15.37648	
+AT	5531	Eben im Pongau							47.40000	13.40000	
+AT	5532	Filzmoos							47.43333	13.51667	
+AT	5541	Altenmarkt im Pongau							47.38333	13.41667	
+AT	5542	Flachau							47.34406	13.39148	
+AT	5550	Radstadt							47.38333	13.45000	
+AT	5552	Forstau							47.37842	13.55558	
+AT	5561	Untertauern							47.30000	13.50000	
+AT	5563	Tweng							47.18333	13.60000	
+AT	5570	Mauterndorf							47.13451	13.67884	
+AT	5571	Mariapfarr							47.15000	13.75000	
+AT	5572	Sankt Andrä im Lungau							47.15000	13.78333	
+AT	5580	Tamsweg							47.12808	13.81102	
+AT	5581	Sankt Margarethen im Lungau							47.07927	13.69613	
+AT	5582	Sankt Michael im Lungau							47.10000	13.63333	
+AT	5583	Muhr							47.09893	13.49756	
+AT	5584	Zederhaus							47.15570	13.50576	
+AT	5585	Unternberg							47.11269	13.74261	
+AT	5591	Ramingstein							47.07462	13.83642	
+AT	5592	Thomatal							47.06667	13.75000	
+AT	5600	Sankt Johann im Pongau							47.35000	13.20000	
+AT	5602	Wagrain							47.33528	13.29889	
+AT	5603	Kleinarl							47.27725	13.31955	
+AT	5611	Grossarl							47.23333	13.20000	
+AT	5612	Hüttschlag							47.17635	13.23239	
+AT	5620	Schwarzach im Pongau							47.32048	13.15171	
+AT	5621	Sankt Veit im Pongau							47.33333	13.15000	
+AT	5622	Goldegg							47.31875	13.09922	
+AT	5623	Schwarzach im Pongau							47.32048	13.15171	
+AT	5630	Bad Hofgastein							47.17274	13.09871	
+AT	5632	Dorfgastein							47.24172	13.10223	
+AT	5640	Bad Gastein							47.11547	13.13467	
+AT	5651	Lend							47.29856	13.05176	
+AT	5652	Dienten am Hochkönig							47.38324	13.00369	
+AT	5660	Taxenbach							47.29116	12.96215	
+AT	5661	Rauris							47.22656	12.99459	
+AT	5671	Bruck an der Großglocknerstraße							47.28494	12.82310	
+AT	5700	Zell am See							47.32306	12.79839	
+AT	5702	Zell							47.58333	12.15000	
+AT	5710	Kaprun							47.27239	12.75985	
+AT	5721	Piesendorf							47.29077	12.71839	
+AT	5722	Niedernsill							47.28333	12.65000	
+AT	5723	Uttendorf							47.28333	12.56667	
+AT	5724	Stuhlfelden							47.28761	12.52755	
+AT	5730	Mittersill							47.28333	12.48333	
+AT	5731	Hollersbach im Pinzgau							47.27658	12.42326	
+AT	5733	Bramberg am Wildkogel							47.26979	12.33850	
+AT	5741	Neukirchen am Großvenediger							47.25046	12.27585	
+AT	5742	Wald im Pinzgau							47.25000	12.23333	
+AT	5743	Krimml							47.21799	12.17487	
+AT	5751	Maishofen							47.36667	12.80000	
+AT	5752	Viehhofen							47.36667	12.73333	
+AT	5753	Saalbach							47.39138	12.63642	
+AT	5754	Hinterglemm							47.37685	12.59583	
+AT	5760	Saalfelden am Steinernen Meer							47.42681	12.84800	
+AT	5761	Maria Alm am Steinernen Meer							47.40579	12.90121	
+AT	5771	Leogang							47.43906	12.76109	
+AT	6000	Hall in Tirol							47.28333	11.51667	
+AT	6010	Innsbruck							47.26266	11.39454	
+AT	6013	Innsbruck							47.26266	11.39454	
+AT	6018	Innsbruck							47.26266	11.39454	
+AT	6019	Innsbruck							47.26266	11.39454	
+AT	6020	Innsbruck							47.26266	11.39454	
+AT	6021	Innsbruck							47.26266	11.39454	
+AT	6022	Innsbruck							47.26266	11.39454	
+AT	6023	Innsbruck							47.26266	11.39454	
+AT	6027	Innsbruck							47.26266	11.39454	
+AT	6029	Innsbruck							47.26266	11.39454	
+AT	6031	Innsbruck							47.26266	11.39454	
+AT	6033	Innsbruck							47.26266	11.39454	
+AT	6034	Innsbruck							47.26266	11.39454	
+AT	6050	Hall in Tirol							47.28333	11.51667	
+AT	6060	Hall in Tirol							47.28333	11.51667	
+AT	6063	Rum							47.28333	11.45000	
+AT	6065	Thaur							47.29476	11.47529	
+AT	6067	Absam							47.29572	11.50593	
+AT	6069	Gnadenwald							47.31667	11.56667	
+AT	6070	Ampass							47.26251	11.46226	
+AT	6071	Aldrans							47.25000	11.45000	
+AT	6072	Lans							47.23833	11.43139	
+AT	6073	Sistrans							47.23333	11.45000	
+AT	6074	Rinn							47.25000	11.50000	
+AT	6075	Tulfes							47.25806	11.53333	
+AT	6080	Innsbruck							47.26266	11.39454	
+AT	6082	Patsch							47.20527	11.41510	
+AT	6083	Ellbögen							47.16667	11.45000	
+AT	6091	Götzens							47.23606	11.31154	
+AT	6092	Birgitz							47.23536	11.29922	
+AT	6094	Axams							47.23111	11.27892	
+AT	6095	Grinzens							47.22927	11.25318	
+AT	6100	Seefeld in Tirol							47.33016	11.18786	
+AT	6103	Reith bei Seefeld							47.30000	11.20000	
+AT	6105	Leutasch							47.36890	11.14404	
+AT	6108	Scharnitz							47.38899	11.26455	
+AT	6111	Volders							47.28333	11.56667	
+AT	6112	Wattens							47.29419	11.59070	
+AT	6113	Wattenberg							47.28333	11.60000	
+AT	6114	Kolsass							47.30000	11.63333	
+AT	6115	Kolsassberg							47.28150	11.65289	
+AT	6116	Weer							47.30375	11.64498	
+AT	6121	Baumkirchen							47.30000	11.56667	
+AT	6122	Fritzens							47.30535	11.58950	
+AT	6123	Terfens							47.32355	11.64388	
+AT	6130	Schwaz							47.35169	11.71014	
+AT	6133	Weerberg							47.29841	11.66592	
+AT	6134	Vomp							47.33333	11.68333	
+AT	6135	Stans							47.36667	11.71667	
+AT	6136	Pill							47.32352	11.68018	
+AT	6141	Schönberg im Stubaital							47.18333	11.41667	
+AT	6142	Mieders							47.16667	11.38333	
+AT	6143	Matrei am Brenner							47.12794	11.45176	
+AT	6145	Navis							47.54030	11.13070	
+AT	6150	Steinach am Brenner							47.08333	11.46667	
+AT	6152	Trins							47.08333	11.41667	
+AT	6156	Gries am Brenner							47.03849	11.48131	
+AT	6157	Obernberg am Brenner							47.01667	11.41667	
+AT	6161	Natters							47.23414	11.37342	
+AT	6162	Mutters							47.23333	11.38333	
+AT	6165	Telfes im Stubai							47.16667	11.36667	
+AT	6166	Fulpmes							47.15202	11.34922	
+AT	6167	Neustift im Stubaital							47.11667	11.31667	
+AT	6170	Zirl							47.27410	11.23961	
+AT	6173	Oberperfuss							47.24451	11.24755	
+AT	6175	Kematen in Tirol							47.25000	11.26667	
+AT	6176	Völs							47.25000	11.33333	
+AT	6177	Völs							47.25000	11.33333	
+AT	6178	Unterperfuss							47.26667	11.25000	
+AT	6179	Ranggen							47.25727	11.21120	
+AT	6181	Sellrain							47.21667	11.21667	
+AT	6182	Gries im Sellrain							47.19554	11.15619	
+AT	6200	Jenbach							47.39173	11.77245	
+AT	6202	Buch							47.48569	9.82118	
+AT	6210	Wiesing							47.40486	11.79708	
+AT	6212	Maurach							47.42124	11.75305	
+AT	6213	Pertisau							47.44060	11.69230	
+AT	6215	Achenkirch							47.52659	11.70559	
+AT	6220	Buch in Tirol							47.37447	11.75400	
+AT	6222	Gallzein							47.36807	11.77159	
+AT	6230	Brixlegg							47.42942	11.87794	
+AT	6232	Münster							47.42164	11.83356	
+AT	6233	Kramsach							47.44312	11.87545	
+AT	6234	Brandenberg							47.49053	11.89459	
+AT	6235	Reith im Alpbachtal							47.41694	11.87785	
+AT	6236	Alpbach							47.39878	11.94373	
+AT	6240	Rattenberg							47.43941	11.89407	
+AT	6241	Radfeld							47.44806	11.91424	
+AT	6250	Kundl							47.46667	11.98333	
+AT	6252	Breitenbach am Inn							47.47829	11.97372	
+AT	6260	Bruck am Ziller							47.38998	11.85124	
+AT	6261	Strass im Zillertal							47.39556	11.81966	
+AT	6262	Schlitters							47.38045	11.83888	
+AT	6263	Fügen							47.34700	11.84939	
+AT	6264	Fügenberg							47.35210	11.84173	
+AT	6265	Hart im Zillertal							47.35106	11.86476	
+AT	6271	Uderns							47.31667	11.86667	
+AT	6272	Kaltenbach							47.28333	11.86667	
+AT	6273	Ried im Zillertal							47.30000	11.86667	
+AT	6274	Aschau							47.26667	11.90000	
+AT	6275	Stumm							47.29052	11.88755	
+AT	6276	Stummerberg							47.28333	11.91667	
+AT	6277	Zellberg							47.23333	11.85000	
+AT	6278	Hainzenberg							47.21788	11.90034	
+AT	6280	Zell am Ziller							47.23333	11.88333	
+AT	6281	Gerlos							47.22464	12.03012	
+AT	6283	Hippach							47.20435	11.86523	
+AT	6284	Ramsau im Zillertal							47.20383	11.87545	
+AT	6290	Mayrhofen							47.16667	11.86667	
+AT	6292	Finkenberg							47.15279	11.82212	
+AT	6293	Tux							47.15559	11.72872	
+AT	6300	Wörgl							47.48906	12.06174	
+AT	6305	Itter							47.46667	12.13333	
+AT	6306	Söll							47.50378	12.19221	
+AT	6311	Wildschönau							47.40619	12.03784	
+AT	6313	Wildschönau							47.40619	12.03784	
+AT	6314	Wildschönau							47.40619	12.03784	
+AT	6320	Angerberg							47.50563	12.03119	
+AT	6321	Angath							47.50758	12.06513	
+AT	6322	Kirchbichl							47.51743	12.09629	
+AT	6323	Bad Häring							47.51071	12.11912	
+AT	6324	Mariastein							47.52772	12.05479	
+AT	6330	Kufstein							47.58333	12.16667	
+AT	6331	Kufstein							47.58333	12.16667	
+AT	6332	Kufstein							47.58333	12.16667	
+AT	6333	Kufstein							47.58333	12.16667	
+AT	6334	Schwoich							47.54600	12.14049	
+AT	6335	Thiersee							47.59424	12.11758	
+AT	6336	Langkampfen							47.54878	12.10127	
+AT	6341	Ebbs							47.63333	12.21667	
+AT	6342	Niederndorf							47.65000	12.21667	
+AT	6343	Erl							47.68333	12.18333	
+AT	6344	Walchsee							47.65163	12.31868	
+AT	6345	Kössen							47.66990	12.40545	
+AT	6347	Rettenschöss							47.65718	12.26872	
+AT	6351	Scheffau am Wilden Kaiser							47.52943	12.25139	
+AT	6352	Ellmau							47.51378	12.29937	
+AT	6353	Going							47.51332	12.33164	
+AT	6362	Kelchsau							47.38333	12.13333	
+AT	6363	Westendorf							47.43208	12.21406	
+AT	6364	Brixen im Thale							47.45000	12.25000	
+AT	6365	Kirchberg in Tirol							47.44539	12.31602	
+AT	6370	Kitzbühel							47.44637	12.39215	
+AT	6371	Aurach							47.41223	12.42734	
+AT	6372	Oberndorf in Tirol							47.50000	12.38333	
+AT	6373	Jochberg							47.37920	12.41807	
+AT	6380	Sankt Johann in Tirol							47.52330	12.42320	
+AT	6382	Kirchdorf in Tirol							47.55626	12.44511	
+AT	6383	Erpfendorf							47.58333	12.46667	
+AT	6384	Waidring							47.58333	12.56667	
+AT	6385	Schwendt							47.63182	12.39266	
+AT	6391	Fieberbrunn							47.47626	12.54347	
+AT	6392	Sankt Jakob in Haus							47.50000	12.55000	
+AT	6393	Sankt Ulrich am Pillersee							47.52740	12.57239	
+AT	6395	Hochfilzen							47.46667	12.61667	
+AT	6401	Inzing							47.27370	11.19751	
+AT	6402	Hatting							47.27870	11.16838	
+AT	6403	Flaurling							47.29143	11.12319	
+AT	6405	Pfaffenhofen							47.30000	11.08333	
+AT	6406	Oberhofen im Inntal							47.30000	11.08333	
+AT	6408	Pettnau							47.29204	11.15962	
+AT	6410	Telfs							47.30707	11.06817	
+AT	6412	Telfs							47.30707	11.06817	
+AT	6413	Wildermieming							47.31667	11.01667	
+AT	6414	Mieming							47.30000	10.98333	
+AT	6416	Obsteig							47.30000	10.93333	
+AT	6421	Rietz							47.28593	11.03075	
+AT	6422	Stams							47.27603	10.98315	
+AT	6423	Mötz							47.28333	10.95000	
+AT	6424	Silz							47.26667	10.93333	
+AT	6425	Haiming							47.25000	10.88333	
+AT	6426	Roppen							47.21667	10.81667	
+AT	6432	Sautens							47.20000	10.86667	
+AT	6433	Oetz							47.20000	10.90000	
+AT	6441	Umhausen							47.13503	10.92826	
+AT	6444	Längenfeld							47.07398	10.96951	
+AT	6450	Sölden							46.96667	11.00000	
+AT	6460	Imst							47.24504	10.73974	
+AT	6462	Karres							47.21667	10.78333	
+AT	6463	Karrösten							47.22540	10.76561	
+AT	6464	Tarrenz							47.26667	10.76667	
+AT	6465	Nassereith							47.31667	10.83333	
+AT	6471	Arzl im Pitztal							47.20712	10.76261	
+AT	6473	Wenns							47.16667	10.73333	
+AT	6474	Jerzens							47.15120	10.74686	
+AT	6481	Sankt Leonhard im Pitztal							47.06667	10.85000	
+AT	6491	Schönwies							47.19665	10.65742	
+AT	6492	Imsterberg							47.20517	10.69605	
+AT	6500	Landeck							47.13988	10.56593	
+AT	6511	Zams							47.15844	10.58970	
+AT	6521	Fliess							47.11667	10.61667	
+AT	6522	Prutz							47.08333	10.66667	
+AT	6526	Kauns							47.07822	10.69219	
+AT	6528	Fendels							47.05390	10.67777	
+AT	6531	Ried im Oberinntal							47.05000	10.65000	
+AT	6532	Ladis							47.07459	10.64949	
+AT	6533	Fiss							47.05714	10.61747	
+AT	6534	Serfaus							47.04018	10.60339	
+AT	6541	Tösens							47.01810	10.60678	
+AT	6542	Pfunds							46.96667	10.55000	
+AT	6543	Nauders							46.88859	10.50126	
+AT	6551	Pians							47.13486	10.51237	
+AT	6552	Tobadill							47.12513	10.51404	
+AT	6553	See							47.08333	10.46667	
+AT	6555	Kappl							47.06667	10.38333	
+AT	6561	Ischgl							47.01257	10.29179	
+AT	6563	Galtür							46.96667	10.18333	
+AT	6571	Strengen							47.12589	10.46199	
+AT	6572	Flirsch							47.15000	10.40000	
+AT	6574	Pettneu							47.14595	10.33655	
+AT	6580	St Anton am Arlberg							47.12750	10.26372	
+AT	6591	Grins							47.14034	10.51409	
+AT	6600	Reutte							47.48333	10.71667	
+AT	6604	Höfen							47.46667	10.68333	
+AT	6610	Wängle							47.48658	10.68995	
+AT	6611	Heiterwang							47.45000	10.75000	
+AT	6621	Bichlbach							47.42033	10.79042	
+AT	6622	Berwang							47.40807	10.74735	
+AT	6623	Namlos							47.35000	10.66667	
+AT	6631	Lermoos							47.40358	10.88070	
+AT	6632	Ehrwald							47.40000	10.91667	
+AT	6633	Biberwier							47.38333	10.90000	
+AT	6642	Stanzach							47.38333	10.56667	
+AT	6644	Elmen							47.34039	10.54318	
+AT	6645	Vorderhornbach							47.37009	10.53947	
+AT	6650	Gramais							47.26667	10.53333	
+AT	6651	Häselgehr							47.31667	10.50000	
+AT	6652	Elbigenalp							47.29041	10.43607	
+AT	6654	Holzgau							47.26045	10.34419	
+AT	6655	Steeg							47.24393	10.29436	
+AT	6670	Forchach							47.41667	10.58333	
+AT	6671	Weissenbach am Lech							47.44162	10.64071	
+AT	6672	Nesselwängle							47.48333	10.61667	
+AT	6673	Grän							47.50000	10.55000	
+AT	6675	Tannheim							47.49934	10.51641	
+AT	6677	Schattwald							47.51427	10.46143	
+AT	6682	Vils							47.55000	10.63333	
+AT	6691	Jungholz							47.57409	10.44723	
+AT	6700	Bludenz							47.15476	9.82255	
+AT	6701	Bludenz							47.15476	9.82255	
+AT	6706	Bürs							47.14972	9.80000	
+AT	6707	Bürserberg							47.14644	9.77736	
+AT	6708	Brand							47.10083	9.73722	
+AT	6710	Nenzing							47.18436	9.70539	
+AT	6712	Thüringen							47.20000	9.76667	
+AT	6713	Ludesch							47.20000	9.78306	
+AT	6714	Nüziders							47.16667	9.80000	
+AT	6719	Bludesch							47.20000	9.73306	
+AT	6721	Thüringerberg							47.21437	9.78499	
+AT	6723	Blons							47.22327	9.83414	
+AT	6731	Sonntag							47.23857	9.89765	
+AT	6741	Raggal							47.21082	9.83688	
+AT	6752	Dalaas							47.12446	9.99104	
+AT	6754	Klösterle							47.13333	10.08333	
+AT	6764	Lech							47.20797	10.14184	
+AT	6767	Warth							47.25000	10.18333	
+AT	6771	Sankt Anton im Montafon							47.11667	9.86667	
+AT	6773	Vandans							47.09569	9.86525	
+AT	6774	Tschagguns							47.08333	9.90000	
+AT	6780	Schruns							47.08028	9.91917	
+AT	6781	Bartholomäberg							47.08333	9.90000	
+AT	6782	Silbertal							47.09368	9.98314	
+AT	6791	Sankt Gallenkirch							47.02102	9.97335	
+AT	6793	Gaschurn							46.98584	10.02702	
+AT	6800	Feldkirch							47.23306	9.60000	
+AT	6801	Feldkirch							47.23306	9.60000	
+AT	6805	Feldkirch							47.23306	9.60000	
+AT	6806	Feldkirch							47.23306	9.60000	
+AT	6807	Feldkirch							47.23306	9.60000	
+AT	6808	Feldkirch							47.23306	9.60000	
+AT	6811	Göfis							47.23356	9.63458	
+AT	6812	Meiningen							47.29891	9.57862	
+AT	6820	Frastanz							47.21735	9.62995	
+AT	6822	Satteins							47.21667	9.66667	
+AT	6824	Schlins							47.20000	9.70000	
+AT	6830	Rankweil							47.27108	9.64308	
+AT	6832	Sulz							47.28721	9.65183	
+AT	6833	Klaus							47.30913	9.64678	
+AT	6834	Übersaxen							47.25284	9.67080	
+AT	6836	Viktorsberg							47.30092	9.67484	
+AT	6837	Weiler							47.29972	9.65000	
+AT	6840	Götzis							47.33306	9.63306	
+AT	6841	Mäder							47.35000	9.61667	
+AT	6842	Koblach							47.33306	9.60000	
+AT	6844	Altach							47.35000	9.65000	
+AT	6845	Hohenems							47.36667	9.68306	
+AT	6850	Dornbirn							47.41427	9.74195	
+AT	6851	Dornbirn							47.41427	9.74195	
+AT	6853	Dornbirn							47.41427	9.74195	
+AT	6854	Dornbirn							47.41427	9.74195	
+AT	6855	Dornbirn							47.41427	9.74195	
+AT	6857	Dornbirn							47.41427	9.74195	
+AT	6858	Schwarzach							47.44904	9.76213	
+AT	6861	Alberschwende							47.45025	9.83152	
+AT	6863	Egg							47.43154	9.89762	
+AT	6866	Andelsbuch							47.41167	9.89326	
+AT	6867	Schwarzenberg							47.41415	9.85154	
+AT	6870	Bezau							47.38478	9.90139	
+AT	6874	Bizau							47.36906	9.92839	
+AT	6881	Mellau							47.35034	9.88149	
+AT	6882	Schnepfau							47.35206	9.94520	
+AT	6883	Au							47.32176	9.98067	
+AT	6884	Damüls							47.28034	9.89164	
+AT	6886	Schoppernau							47.31205	10.01646	
+AT	6888	Schröcken							47.25755	10.09197	
+AT	6890	Lustenau							47.42642	9.65851	
+AT	6893	Lustenau							47.42642	9.65851	
+AT	6900	Bregenz							47.50311	9.74710	
+AT	6901	Bregenz							47.50311	9.74710	
+AT	6902	Bregenz							47.50311	9.74710	
+AT	6904	Bregenz							47.50311	9.74710	
+AT	6905	Bregenz							47.50311	9.74710	
+AT	6911	Lochau							47.53333	9.75000	
+AT	6912	Hörbranz							47.55000	9.75000	
+AT	6914	Hohenweiler							47.58333	9.78333	
+AT	6921	Kennelbach							47.48306	9.76667	
+AT	6922	Wolfurt							47.46667	9.75000	
+AT	6923	Lauterach							47.47572	9.72941	
+AT	6932	Langen							47.51667	9.81667	
+AT	6933	Doren							47.49278	9.87972	
+AT	6934	Sulzberg							47.52178	9.91353	
+AT	6941	Langenegg							47.46922	9.89744	
+AT	6942	Krumbach							47.48306	9.93583	
+AT	6943	Riefensberg							47.50137	9.95838	
+AT	6951	Lingenau							47.45033	9.92166	
+AT	6952	Hittisau							47.45781	9.95962	
+AT	6953	Sibratsgfäll							47.42667	10.03806	
+AT	6960	Wolfurt							47.46667	9.75000	
+AT	6961	Wolfurt							47.46667	9.75000	
+AT	6971	Hard							47.48306	9.68306	
+AT	6972	Fußach							47.47933	9.66278	
+AT	6973	Höchst							47.45934	9.64050	
+AT	6974	Gaißau							47.46667	9.60000	
+AT	6991	Riezlern							47.35778	10.18759	
+AT	6992	Hirschegg							47.34813	10.17137	
+AT	6993	Mittelberg							47.20584	9.64273	
+AT	7000	Eisenstadt							47.84565	16.52327	
+AT	7001	Eisenstadt							47.84565	16.52327	
+AT	7002	Eisenstadt							47.84565	16.52327	
+AT	7012	Zagersdorf							47.76471	16.51382	
+AT	7013	Klingenbach							47.75202	16.54069	
+AT	7020	Loipersbach im Burgenland							47.69656	16.47919	
+AT	7021	Drassburg							47.74645	16.48679	
+AT	7022	Schattendorf							47.70973	16.50979	
+AT	7023	Zemendorf							47.76275	16.45108	
+AT	7024	Hirm							47.78652	16.45460	
+AT	7031	Krensdorf							47.78552	16.41495	
+AT	7032	Sigless							47.77533	16.39503	
+AT	7033	Pöttsching							47.80445	16.37109	
+AT	7034	Zillingtal							47.81442	16.40928	
+AT	7035	Steinbrunn							47.83333	16.41667	
+AT	7041	Wulkaprodersdorf							47.79753	16.50447	
+AT	7042	Antau							47.77377	16.47984	
+AT	7051	Grosshöflein							47.83586	16.48035	
+AT	7052	Müllendorf							47.83943	16.46258	
+AT	7053	Hornstein							47.88049	16.44447	
+AT	7061	Trausdorf an der Wulka							47.81350	16.55760	
+AT	7062	Sankt Margarethen im Burgenland							47.80335	16.60875	
+AT	7063	Oggau							47.83333	16.66667	
+AT	7064	Oslip							47.82906	16.61957	
+AT	7071	Rust							47.80122	16.67158	
+AT	7072	Mörbisch am See							47.75000	16.66667	
+AT	7073	Rust							47.80122	16.67158	
+AT	7081	Schützen am Gebirge							47.85233	16.62334	
+AT	7082	Donnerskirchen							47.89425	16.64635	
+AT	7083	Purbach am Neusiedler See							47.91289	16.69561	
+AT	7091	Breitenbrunn							47.94452	16.73149	
+AT	7092	Winden am See							47.95000	16.75000	
+AT	7093	Jois							47.96165	16.79604	
+AT	7100	Neusiedl am See							47.94901	16.84170	
+AT	7111	Parndorf							47.99963	16.86049	
+AT	7121	Weiden am See							47.92532	16.86899	
+AT	7122	Gols							47.89689	16.91113	
+AT	7123	Mönchhof							47.88020	16.94126	
+AT	7131	Halbturn							47.87019	16.97542	
+AT	7132	Frauenkirchen							47.83678	16.92581	
+AT	7141	Podersdorf am See							47.85412	16.83706	
+AT	7142	Illmitz							47.76148	16.80024	
+AT	7143	Apetlon							47.74394	16.83020	
+AT	7151	Wallern im Burgenland							47.72847	16.93706	
+AT	7152	Pamhagen							47.70092	16.90779	
+AT	7161	Sankt Andrä am Zicksee							47.78410	16.94195	
+AT	7162	Tadten							47.76667	16.98333	
+AT	7163	Andau							47.77441	17.03293	
+AT	7201	Neudörfl							47.79655	16.29770	
+AT	7202	Bad Sauerbrunn							47.77439	16.32841	
+AT	7203	Wiesen							47.73776	16.33798	
+AT	7210	Mattersburg							47.73333	16.40000	
+AT	7212	Forchtenstein							47.71161	16.34525	
+AT	7221	Marz							47.71667	16.41667	
+AT	7222	Rohrbach bei Mattersburg							47.70520	16.43005	
+AT	7223	Sieggraben							47.65128	16.37993	
+AT	7301	Deutschkreutz							47.60000	16.63333	
+AT	7302	Nikitsch							47.53615	16.66017	
+AT	7304	Grosswarasdorf							47.53906	16.55305	
+AT	7311	Neckenmarkt							47.59964	16.54670	
+AT	7312	Horitschon							47.58729	16.54696	
+AT	7321	Lackendorf							47.58996	16.50404	
+AT	7322	Lackenbach							47.59042	16.46533	
+AT	7323	Ritzing							47.61316	16.49546	
+AT	7331	Weppersdorf							47.57954	16.42679	
+AT	7332	Kobersdorf							47.59572	16.39173	
+AT	7341	Markt Sankt Martin							47.56205	16.42508	
+AT	7342	Kaisersdorf							47.53741	16.39198	
+AT	7343	Neutal							47.54548	16.44619	
+AT	7344	Stoob							47.52845	16.47760	
+AT	7350	Oberpullendorf							47.50352	16.50447	
+AT	7361	Lutzmannsburg							47.46373	16.63665	
+AT	7371	Unterrabnitz							47.45392	16.37684	
+AT	7372	Drassmarkt							47.51667	16.40000	
+AT	7373	Piringsdorf							47.44826	16.41516	
+AT	7374	Weingraben							47.51393	16.36375	
+AT	7400	Oberwart							47.28971	16.20595	
+AT	7411	Markt Allhau							47.28333	16.08333	
+AT	7412	Wolfau							47.25000	16.10000	
+AT	7413	Buchschachen							47.31667	16.10000	
+AT	7422	Riedlingsdorf							47.35000	16.13333	
+AT	7423	Pinkafeld							47.36667	16.11667	
+AT	7424	Grafenschachen							47.36667	16.06667	
+AT	7431	Bad Tatzmannsdorf							47.33126	16.23067	
+AT	7432	Oberschützen							47.35138	16.20732	
+AT	7433	Mariasdorf							47.36580	16.23136	
+AT	7434	Bernstein							47.40000	16.25000	
+AT	7435	Unterkohlstätten							47.38333	16.31667	
+AT	7441	Pilgersdorf							47.44106	16.34920	
+AT	7442	Lockenhaus							47.40753	16.41623	
+AT	7444	Mannersdorf an der Rabnitz							47.42815	16.52678	
+AT	7451	Oberloisdorf							47.44736	16.50764	
+AT	7453	Steinberg							47.06667	15.31667	
+AT	7461	Stadtschlaining							47.31667	16.28333	
+AT	7463	Weiden bei Rechnitz							47.30000	16.35000	
+AT	7464	Markt Neuhodis							47.29565	16.39564	
+AT	7471	Rechnitz							47.30467	16.44095	
+AT	7472	Schachendorf							47.26667	16.43333	
+AT	7473	Hannersdorf							47.22895	16.38250	
+AT	7501	Rotenturm an der Pinka							47.25000	16.25000	
+AT	7503	Grosspetersdorf							47.23895	16.31783	
+AT	7504	Jabing							47.23880	16.27659	
+AT	7511	Mischendorf							47.19277	16.31444	
+AT	7512	Kohfidisch							47.17472	16.35701	
+AT	7521	Eberau							47.10764	16.46044	
+AT	7522	Strem							47.04498	16.41426	
+AT	7531	Kemeten							47.24859	16.15213	
+AT	7532	Litzelsdorf							47.20826	16.17170	
+AT	7533	Ollersdorf im Burgenland							47.18333	16.16667	
+AT	7534	Olbendorf							47.18333	16.20000	
+AT	7535	Sankt Michael im Burgenland							47.12852	16.27148	
+AT	7536	Güttenbach							47.15710	16.29230	
+AT	7537	Neuberg im Burgenland							47.16894	16.26054	
+AT	7540	Güssing							47.05936	16.32431	
+AT	7542	Gerersdorf							48.20088	15.55613	
+AT	7543	Kukmirn							47.07544	16.21033	
+AT	7544	Tobaj							47.08333	16.30000	
+AT	7551	Stegersbach							47.16667	16.16667	
+AT	7552	Stinatz							47.20266	16.13312	
+AT	7561	Heiligenkreuz im Lafnitztal							46.98917	16.26083	
+AT	7562	Eltendorf							47.00870	16.20239	
+AT	7563	Königsdorf							47.00000	16.16667	
+AT	7571	Rudersdorf							47.05000	16.11667	
+AT	7572	Deutsch Kaltenbrunn							47.09455	16.13145	
+AT	8000	Graz							47.06667	15.45000	
+AT	8006	Graz							47.06667	15.45000	
+AT	8007	Graz							47.06667	15.45000	
+AT	8008	Graz							47.06667	15.45000	
+AT	8010	Graz							47.06667	15.45000	
+AT	8011	Graz							47.06667	15.45000	
+AT	8012	Graz							47.06667	15.45000	
+AT	8015	Graz							47.06667	15.45000	
+AT	8016	Graz							47.06667	15.45000	
+AT	8017	Graz							47.06667	15.45000	
+AT	8018	Graz							47.06667	15.45000	
+AT	8019	Graz							47.06667	15.45000	
+AT	8020	Graz							47.06667	15.45000	
+AT	8021	Graz							47.06667	15.45000	
+AT	8022	Graz							47.06667	15.45000	
+AT	8023	Graz							47.06667	15.45000	
+AT	8024	Graz							47.06667	15.45000	
+AT	8025	Graz							47.06667	15.45000	
+AT	8026	Graz							47.06667	15.45000	
+AT	8028	Graz							47.06667	15.45000	
+AT	8035	Graz							47.06667	15.45000	
+AT	8036	Graz							47.06667	15.45000	
+AT	8040	Graz							47.06667	15.45000	
+AT	8041	Graz							47.06667	15.45000	
+AT	8042	Graz							47.06667	15.45000	
+AT	8043	Graz							47.06667	15.45000	
+AT	8044	Graz							47.06667	15.45000	
+AT	8045	Graz							47.06667	15.45000	
+AT	8046	Graz							47.06667	15.45000	
+AT	8047	Graz							47.06667	15.45000	
+AT	8049	Graz							47.06667	15.45000	
+AT	8051	Graz							47.06667	15.45000	
+AT	8052	Graz							47.06667	15.45000	
+AT	8053	Graz							47.06667	15.45000	
+AT	8054	Graz							47.06667	15.45000	
+AT	8055	Graz							47.06667	15.45000	
+AT	8056	Graz							47.06667	15.45000	
+AT	8057	Graz							47.06667	15.45000	
+AT	8061	Sankt Radegund bei Graz							47.18172	15.49192	
+AT	8062	Kumberg							47.16422	15.53261	
+AT	8063	Eggersdorf bei Graz							47.12338	15.60084	
+AT	8071	Hausmannstätten							46.99111	15.51139	
+AT	8072	Fernitz							46.97389	15.50111	
+AT	8073	Feldkirchen bei Graz							47.01667	15.45000	
+AT	8074	Raaba							47.03333	15.50000	
+AT	8075	Hart bei Graz							47.04311	15.51527	
+AT	8076	Vasoldsberg							47.01634	15.55835	
+AT	8077	Gössendorf							46.99826	15.48556	
+AT	8081	Heiligenkreuz am Waasen							46.95583	15.58806	
+AT	8082	Kirchbach in Steiermark							46.93167	15.66194	
+AT	8083	Sankt Stefan im Rosental							46.90389	15.71000	
+AT	8091	Jagerberg							46.85361	15.73806	
+AT	8092	Mettersdorf am Saßbach							46.80583	15.71111	
+AT	8093	Sankt Peter am Ottersbach							46.79778	15.75917	
+AT	8101	Gratkorn							47.13333	15.35000	
+AT	8102	Semriach							47.21667	15.40000	
+AT	8103	Rein							47.13333	15.28333	
+AT	8111	Judendorf							47.11667	15.35000	
+AT	8112	Gratwein							47.11667	15.31667	
+AT	8113	Sankt Oswald bei Plankenwarth							47.08701	15.27703	
+AT	8120	Peggau							47.20000	15.35000	
+AT	8121	Deutschfeistritz							47.19852	15.33623	
+AT	8124	Übelbach							47.22534	15.23615	
+AT	8130	Frohnleiten							47.26667	15.31667	
+AT	8132	Pernegg an der Mur							47.35979	15.34236	
+AT	8141	Unterpremstätten							46.96472	15.40417	
+AT	8142	Wundschuh							46.92639	15.45111	
+AT	8151	Hitzendorf							47.03333	15.30000	
+AT	8152	Stallhofen							47.05000	15.21667	
+AT	8153	Geistthal							47.16667	15.16667	
+AT	8160	Weiz							47.21667	15.61667	
+AT	8162	Passail							47.28333	15.51667	
+AT	8163	Fladnitz an der Teichalm							47.28541	15.47765	
+AT	8171	Sankt Kathrein am Offenegg							47.30000	15.58333	
+AT	8181	Sankt Ruprecht an der Raab							47.15336	15.66256	
+AT	8182	Puch bei Weiz							47.21667	15.71667	
+AT	8183	Floing							47.26356	15.74650	
+AT	8184	Anger							47.27422	15.69139	
+AT	8190	Birkfeld							47.35000	15.68333	
+AT	8192	Strallegg							47.41165	15.72534	
+AT	8194	Waisenegg							47.39425	15.68388	
+AT	8200	Gleisdorf							47.10559	15.71011	
+AT	8201	Gleisdorf							47.10559	15.71011	
+AT	8212	Pischelsdorf							48.00000	16.56667	
+AT	8221	Hirnsdorf							47.19167	15.82868	
+AT	8222	Sankt Johann bei Herberstein							47.20000	15.80000	
+AT	8223	Stubenberg							47.24460	15.80027	
+AT	8224	Kaindorf							47.22537	15.91125	
+AT	8225	Pöllau							47.30000	15.83333	
+AT	8226	Obersaifen							47.31667	15.78333	
+AT	8230	Hartberg							47.28333	15.96667	
+AT	8232	Grafendorf bei Hartberg							47.34028	15.99060	
+AT	8233	Lafnitz							47.36792	16.01103	
+AT	8234	Rohrbach an der Lafnitz							47.38333	16.00000	
+AT	8240	Friedberg							47.43333	16.05000	
+AT	8241	Dechantskirchen							47.41667	16.01667	
+AT	8242	Sankt Lorenzen am Wechsel							47.44153	15.95498	
+AT	8243	Pinggau							47.44232	16.06713	
+AT	8244	Schäffern							47.47771	16.10956	
+AT	8250	Vorau							47.40548	15.88754	
+AT	8252	Mönichwald							47.44655	15.88275	
+AT	8261	Sinabelkirchen							47.10200	15.82795	
+AT	8262	Ilz							47.08649	15.92676	
+AT	8263	Grosswilfersdorf							47.08333	15.98333	
+AT	8264	Hainersdorf							47.11506	15.94374	
+AT	8265	Grosssteinbach							47.15000	15.88333	
+AT	8271	Bad Waltersdorf							47.16960	16.00870	
+AT	8272	Sebersdorf							47.18650	15.99360	
+AT	8273	Ebersdorf							47.19852	15.96219	
+AT	8274	Buch							47.48569	9.82118	
+AT	8280	Fürstenfeld							47.05000	16.08333	
+AT	8282	Loipersdorf bei Fürstenfeld							47.00000	16.10000	
+AT	8283	Bad Blumau							47.11667	16.05000	
+AT	8291	Burgau							47.14268	16.09643	
+AT	8292	Neudau							47.17554	16.10184	
+AT	8293	Wörth an der Lafnitz							47.21368	16.08081	
+AT	8294	Unterrohr							47.25000	16.05000	
+AT	8295	Sankt Johann in der Haide							47.28080	16.02579	
+AT	8301	Lassnitzhöhe							47.06667	15.58333	
+AT	8302	Nestelbach bei Graz							47.06053	15.61140	
+AT	8312	Ottendorf an der Rittschein							47.04775	15.89745	
+AT	8313	Breitenfeld an der Rittschein							47.03333	15.95000	
+AT	8321	Sankt Margarethen an der Raab							47.05000	15.75000	
+AT	8322	Studenzen							47.00583	15.75417	
+AT	8323	Sankt Marein bei Graz							47.01583	15.68389	
+AT	8324	Kirchberg an der Raab							46.98583	15.76694	
+AT	8330	Feldbach							46.95306	15.88833	
+AT	8331	Gossendorf							46.91076	15.93043	
+AT	8332	Edelsbach bei Feldbach							46.98944	15.83694	
+AT	8333	Riegersburg							47.00000	15.93028	
+AT	8334	Lödersdorf							46.95861	15.94333	
+AT	8335	Gniebing							46.96252	15.85645	
+AT	8341	Paldau							46.94222	15.79583	
+AT	8342	Gnas							46.87306	15.82528	
+AT	8343	Trautmannsdorf in Oststeiermark							46.87530	15.88451	
+AT	8344	Bad Gleichenberg							46.87556	15.90861	
+AT	8345	Straden							46.80917	15.86806	
+AT	8350	Fehring							46.94000	16.00806	
+AT	8352	Unterlamm							46.97694	16.06389	
+AT	8353	Kapfenstein							46.88611	15.97167	
+AT	8354	Sankt Anna am Aigen							46.83111	15.97139	
+AT	8355	Tieschen							46.78611	15.94222	
+AT	8361	Hatzendorf							46.97686	16.00107	
+AT	8362	Söchau							47.03333	16.01667	
+AT	8363	Übersbach							47.02318	16.05517	
+AT	8380	Jennersdorf							46.93848	16.14158	
+AT	8382	Mogersdorf							46.94917	16.23222	
+AT	8383	Sankt Martin an der Raab							46.92250	16.13611	
+AT	8385	Neuhaus am Klausenbach							46.86667	16.03333	
+AT	8401	Kalsdorf bei Graz							46.96528	15.48028	
+AT	8402	Werndorf							46.92417	15.49083	
+AT	8403	Lebring							46.85222	15.53833	
+AT	8404	Kalsdorf bei Graz							46.96528	15.48028	
+AT	8410	Wildon							46.88333	15.51667	
+AT	8411	Hengsberg							46.86667	15.43333	
+AT	8412	Allerheiligen bei Wildon							46.91417	15.55444	
+AT	8413	Sankt Georgen an der Stiefing							46.87333	15.57972	
+AT	8421	Wolfsberg im Schwarzautal							46.84389	15.65889	
+AT	8422	Sankt Nikolai ob Draßling							46.80889	15.65083	
+AT	8423	Sankt Veit am Vogau							46.74048	15.64217	
+AT	8424	Gabersdorf							46.77722	15.58417	
+AT	8430	Leibnitz							46.78161	15.53836	
+AT	8431	Gralla							46.81404	15.55510	
+AT	8432	Kaindorf an der Sulm							46.79248	15.53879	
+AT	8434	Tillmitsch Links der Laßnitz							46.80955	15.52394	
+AT	8435	Wagna							46.76682	15.55906	
+AT	8442	Kitzeck im Sausal							46.78072	15.45384	
+AT	8443	Gleinstätten							46.75361	15.36972	
+AT	8444	Sankt Andrä							46.76829	14.81991	
+AT	8451	Heimschuh							46.76000	15.49306	
+AT	8452	Großklein							46.73611	15.44444	
+AT	8453	Sankt Johann im Saggautal							46.70389	15.40278	
+AT	8454	Arnfels							46.67639	15.40306	
+AT	8455	Oberhaag							46.68690	15.33202	
+AT	8461	Ehrenhausen							46.72417	15.58667	
+AT	8462	Gamlitz							46.72028	15.55333	
+AT	8463	Leutschach							46.66722	15.46889	
+AT	8471	Spielfeld							46.70556	15.63722	
+AT	8472	Straß in Steiermark							46.72722	15.62444	
+AT	8473	Weitersfeld an der Mur							46.70000	15.71667	
+AT	8480	Mureck							46.70806	15.77472	
+AT	8481	Weinburg am Saßbach							46.75361	15.72111	
+AT	8482	Gosdorf							46.72778	15.79250	
+AT	8483	Deutsch Goritz							46.75083	15.82944	
+AT	8490	Bad Radkersburg							46.68806	15.98806	
+AT	8492	Halbenrain							46.72194	15.94667	
+AT	8493	Klöch							46.76472	15.96556	
+AT	8501	Lieboch							46.97417	15.33750	
+AT	8502	Lannach							46.94611	15.33722	
+AT	8504	Preding							46.85861	15.40972	
+AT	8505	Sankt Nikolai im Sausal							46.82111	15.45194	
+AT	8510	Stainz							46.89444	15.26722	
+AT	8511	Sankt Stefan ob Stainz							46.92861	15.25889	
+AT	8521	Wettmannstätten							46.83056	15.38722	
+AT	8522	Groß Sankt Florian							46.82444	15.31861	
+AT	8524	Bad Gams							46.87111	15.22472	
+AT	8530	Deutschlandsberg							46.81528	15.22222	
+AT	8541	Schwanberg							46.75833	15.20833	
+AT	8542	Sankt Peter im Sulmtal							46.75000	15.25000	
+AT	8543	Sankt Martin im Sulmtal							46.75611	15.29722	
+AT	8551	Wies							46.72028	15.27194	
+AT	8552	Eibiswald							46.68667	15.24722	
+AT	8553	Sankt Oswald ob Eibiswald							46.70833	15.14667	
+AT	8554	Soboth							46.68139	15.07833	
+AT	8555	Wernersdorf							46.71592	15.20718	
+AT	8562	Mooskirchen							46.98167	15.27889	
+AT	8563	Ligist							46.99389	15.21083	
+AT	8564	Krottendorf							47.20000	15.63333	
+AT	8570	Voitsberg							47.04445	15.15313	
+AT	8571	Bärnbach							47.07141	15.12792	
+AT	8572	Bärnbach							47.07141	15.12792	
+AT	8573	Kainach bei Voitsberg							47.13637	15.09530	
+AT	8580	Köflach							47.06667	15.08333	
+AT	8582	Rosental an der Kainach							47.05192	15.12200	
+AT	8583	Edelschrott							47.02156	15.05266	
+AT	8584	Hirschegg							47.02105	14.95574	
+AT	8591	Maria Lankowitz							47.06220	15.06525	
+AT	8592	Salla							47.10000	14.96667	
+AT	8600	Bruck an der Mur							47.41667	15.28333	
+AT	8605	Kapfenberg							47.44458	15.29331	
+AT	8606	Kapfenberg							47.44458	15.29331	
+AT	8607	Kapfenberg							47.44458	15.29331	
+AT	8611	Sankt Katharein an der Laming							47.47069	15.16319	
+AT	8614	Breitenau							47.73355	16.14338	
+AT	8616	Gasen							47.38333	15.56667	
+AT	8621	Thörl							47.51952	15.22276	
+AT	8623	Aflenz Kurort							47.54211	15.23898	
+AT	8625	Turnau							47.55776	15.33739	
+AT	8630	Mariazell							47.77306	15.31639	
+AT	8632	Gusswerk							47.74169	15.30533	
+AT	8641	Sankt Marein im Mürztal							47.46667	15.36667	
+AT	8642	Sankt Lorenzen im Mürztal							47.48333	15.36667	
+AT	8643	Allerheiligen im Mürztal							47.46667	15.40000	
+AT	8644	Mürzhofen							47.48333	15.38333	
+AT	8650	Kindberg							47.50000	15.45000	
+AT	8652	Kindberg							47.50000	15.45000	
+AT	8654	Fischbach							47.44234	15.64972	
+AT	8661	Wartberg							47.52717	15.48095	
+AT	8662	Mitterdorf im Mürztal							47.53333	15.51667	
+AT	8664	Grossveitsch							47.58834	15.47184	
+AT	8665	Langenwang							47.56667	15.61667	
+AT	8670	Krieglach							47.54728	15.56248	
+AT	8671	Alpl							47.68333	15.56667	
+AT	8672	Sankt Kathrein am Hauenstein							47.48943	15.69414	
+AT	8673	Ratten							47.48333	15.71667	
+AT	8674	Rettenegg							47.52694	15.78104	
+AT	8680	Mürzzuschlag							47.60660	15.67226	
+AT	8682	Mürzzuschlag							47.60660	15.67226	
+AT	8684	Spital am Semmering							47.61345	15.75096	
+AT	8685	Steinhaus am Semmering							47.61667	15.80000	
+AT	8691	Kapellen							47.64784	15.62863	
+AT	8692	Neuberg an der Mürz							47.66423	15.57226	
+AT	8693	Mürzsteg							47.67556	15.49145	
+AT	8700	Leoben							47.37650	15.09144	
+AT	8703	Hinterberg							47.36066	15.06951	
+AT	8704	Leoben							47.37650	15.09144	
+AT	8707	Leoben							47.37650	15.09144	
+AT	8709	Leoben							47.37650	15.09144	
+AT	8712	Niklasdorf							47.38333	15.15000	
+AT	8713	Sankt Stefan ob Leoben							47.31672	14.97831	
+AT	8714	Kraubath an der Mur							47.30000	14.93333	
+AT	8715	Sankt Lorenzen bei Knittelfeld							47.25078	14.89549	
+AT	8720	Knittelfeld							47.21667	14.81667	
+AT	8722	Knittelfeld							47.21667	14.81667	
+AT	8723	Kobenz							47.25000	14.85000	
+AT	8732	Seckau							47.26667	14.78333	
+AT	8733	Sankt Marein bei Knittelfeld							47.27396	14.86085	
+AT	8734	Großlobming							47.18333	14.80000	
+AT	8740	Zeltweg							47.18333	14.75000	
+AT	8741	Weißkirchen in Steiermark							47.15000	14.73333	
+AT	8742	Obdach							47.06667	14.68333	
+AT	8743	Eppenstein							47.12833	14.73750	
+AT	8750	Judenburg							47.16667	14.66667	
+AT	8751	Judenburg							47.16667	14.66667	
+AT	8753	Fohnsdorf							47.20000	14.68333	
+AT	8755	Sankt Peter ob Judenburg							47.18417	14.58639	
+AT	8756	Sankt Georgen ob Judenburg							47.20744	14.49736	
+AT	8761	Pöls							47.21667	14.58333	
+AT	8762	Oberzeiring							47.25000	14.48333	
+AT	8763	Möderbrugg							47.27611	14.48389	
+AT	8764	Pusterwald							47.30611	14.37556	
+AT	8765	Sankt Johann am Tauern							47.35000	14.46667	
+AT	8766	Bretstein							47.33333	14.41667	
+AT	8770	Sankt Michael in Obersteiermark							47.33839	15.01784	
+AT	8772	Timmersdorf							47.37784	14.97620	
+AT	8773	Kammern im Liesingtal							47.39245	14.90407	
+AT	8774	Mautern in Steiermark							47.40000	14.83333	
+AT	8775	Kalwang							47.42678	14.75442	
+AT	8781	Wald am Schoberpaß							47.44936	14.67567	
+AT	8782	Treglwang							47.47458	14.59083	
+AT	8783	Gaishorn							47.49087	14.54801	
+AT	8784	Trieben							47.48574	14.48744	
+AT	8785	Hohentauern							47.43333	14.48333	
+AT	8786	Rottenmann							47.51667	14.35000	
+AT	8790	Eisenerz							47.53333	14.88333	
+AT	8792	Sankt Peter-Freienstein							47.38333	15.01667	
+AT	8793	Trofaiach							47.42524	15.00681	
+AT	8794	Vordernberg							47.48809	14.99436	
+AT	8800	Unzmarkt							47.20000	14.45000	
+AT	8811	Scheifling							47.15044	14.41278	
+AT	8812	Mariahof							47.10000	14.40000	
+AT	8813	Sankt Lambrecht							47.06667	14.30000	
+AT	8820	Neumarkt in Steiermark							47.07398	14.42728	
+AT	8822	Mühlen							47.03071	14.50848	
+AT	8831	Niederwölz							47.15126	14.37479	
+AT	8833	Teufenbach							47.12870	14.35913	
+AT	8841	Frojach							47.13083	14.30861	
+AT	8842	Katsch an der Mur							47.14694	14.27833	
+AT	8843	Sankt Peter am Kammersberg							47.18706	14.18464	
+AT	8844	Schöder							47.18333	14.10000	
+AT	8850	Murau							47.11056	14.16944	
+AT	8853	Ranten							47.15949	14.08349	
+AT	8854	Krakaudorf							47.18131	14.02061	
+AT	8861	Sankt Georgen ob Murau							47.10000	14.10000	
+AT	8862	Stadl an der Mur							47.08333	13.96667	
+AT	8900	Selzthal							47.54988	14.31201	
+AT	8903	Lassing							47.53374	14.25808	
+AT	8904	Ardning							47.59120	14.36372	
+AT	8911	Admont							47.57537	14.46075	
+AT	8912	Johnsbach							47.53333	14.58333	
+AT	8920	Hieflau							47.60639	14.74503	
+AT	8922	Gams bei Hieflau							47.66667	14.78333	
+AT	8923	Palfau							47.70000	14.80000	
+AT	8924	Wildalpen							47.65000	14.98333	
+AT	8931	Landl							47.65666	14.73189	
+AT	8933	Sankt Gallen							47.68631	14.61705	
+AT	8934	Altenmarkt bei Sankt Gallen							47.72327	14.64838	
+AT	8940	Liezen							47.56667	14.23333	
+AT	8941	Weißenbach bei Liezen							47.56667	14.21667	
+AT	8942	Wörschach							47.55000	14.15000	
+AT	8943	Aigen im Ennstal							47.51667	14.13333	
+AT	8950	Stainach							47.53343	14.10872	
+AT	8952	Irdning							47.50529	14.10155	
+AT	8953	Donnersbach							47.46139	14.12972	
+AT	8954	Sankt Martin am Grimming							47.48873	13.98105	
+AT	8960	Öblarn							47.45938	13.99023	
+AT	8962	Gröbming							47.44272	13.90122	
+AT	8963	Sankt Nikolai im Sölktal							47.31667	14.05000	
+AT	8965	Pruggern							47.42370	13.87625	
+AT	8966	Aich							47.42280	13.82145	
+AT	8967	Haus							47.40997	13.76724	
+AT	8970	Schladming							47.39289	13.68699	
+AT	8971	Rohrmoos							47.38353	13.66995	
+AT	8973	Pichl							47.38798	13.61124	
+AT	8982	Tauplitz							47.56005	14.01293	
+AT	8990	Bad Aussee							47.60998	13.78243	
+AT	8992	Altaussee							47.63844	13.76278	
+AT	9000	Villach							46.61028	13.85583	
+AT	9010	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9020	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9023	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9024	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9025	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9026	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9027	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9028	Klagenfurt am Wörthersee							46.62472	14.30528	
+AT	9062	Moosburg							46.65750	14.17472	
+AT	9063	Maria Saal							46.68083	14.34861	
+AT	9064	Pischeldorf							46.68333	14.45000	
+AT	9065	Ebenthal							46.60806	14.36417	
+AT	9071	Köttmannsdorf							46.56139	14.23389	
+AT	9072	Ludmannsdorf							46.54139	14.13425	
+AT	9081	Reifnitz							46.60722	14.18167	
+AT	9082	Maria Wörth							46.61639	14.16306	
+AT	9100	Völkermarkt							46.66222	14.63444	
+AT	9103	Diex							46.75000	14.60000	
+AT	9112	Griffen							46.70444	14.73278	
+AT	9113	Ruden							46.65833	14.77639	
+AT	9121	Tainach							46.63333	14.53333	
+AT	9125	Kühnsdorf							46.62194	14.63639	
+AT	9130	Poggersdorf							46.65000	14.45000	
+AT	9131	Grafenstein							46.61393	14.46719	
+AT	9132	Gallizien							46.55000	14.51667	
+AT	9133	Sittersdorf							46.54444	14.60583	
+AT	9135	Bad Eisenkappel							46.48841	14.59139	
+AT	9141	Eberndorf							46.59139	14.64361	
+AT	9142	Globasnitz							46.55694	14.70278	
+AT	9143	Sankt Michael ob Bleiburg							46.57889	14.74333	
+AT	9155	Neuhaus							46.63333	14.88333	
+AT	9161	Maria Rain							46.55389	14.29556	
+AT	9170	Ferlach							46.52694	14.30194	
+AT	9171	Ferlach							46.52694	14.30194	
+AT	9172	Zell							47.58333	12.15000	
+AT	9173	Sankt Margareten im Rosental							46.54417	14.42444	
+AT	9181	Feistritz im Rosental							46.51667	14.16667	
+AT	9182	Maria Elend							46.53222	14.08583	
+AT	9184	Sankt Jakob							46.54778	14.05722	
+AT	9201	Krumpendorf							46.63333	14.21667	
+AT	9232	Rosegg							46.58833	14.01718	
+AT	9241	Wernberg							46.61667	13.93333	
+AT	9300	Sankt Veit an der Glan							46.76806	14.36028	
+AT	9302	Sankt Veit an der Glan							46.76806	14.36028	
+AT	9311	Kraig							46.81306	14.36861	
+AT	9313	St. Georgen am Längsee							46.78061	14.43033	
+AT	9314	Launsdorf							46.77056	14.45194	
+AT	9321	Kappel am Krappfeld							46.83861	14.48639	
+AT	9322	Micheldorf							46.91667	14.41667	
+AT	9330	Treibach							46.86667	14.46667	
+AT	9334	Guttaring							46.88536	14.51071	
+AT	9342	Gurk							46.87389	14.29167	
+AT	9344	Weitensfeld							46.84743	14.19213	
+AT	9346	Glödnitz							46.87398	14.11915	
+AT	9360	Friesach							46.95528	14.40583	
+AT	9361	Sankt Salvator							46.97000	14.35694	
+AT	9363	Metnitz							46.98056	14.21667	
+AT	9371	Brückl							46.75167	14.53667	
+AT	9372	Eberstein							46.80806	14.56000	
+AT	9373	Klein Sankt Paul							46.83611	14.54139	
+AT	9375	Hüttenberg							46.94139	14.55000	
+AT	9400	Wolfsberg							46.84056	14.84417	
+AT	9402	Wolfsberg							46.84056	14.84417	
+AT	9411	Sankt Michael							46.83472	14.80056	
+AT	9412	Sankt Margarethen im Lavanttal							46.85500	14.80372	
+AT	9421	Eitweg							46.76667	14.88333	
+AT	9423	Sankt Georgen							46.71861	14.91639	
+AT	9431	Sankt Stefan							46.80750	14.85167	
+AT	9433	Sankt Andrä							46.76829	14.81991	
+AT	9451	Preitenegg							46.94000	14.92583	
+AT	9462	Bad Sankt Leonhard im Lavanttal							46.96278	14.79167	
+AT	9463	Reichenfels							47.00718	14.74425	
+AT	9473	Lavamünd							46.64019	14.94733	
+AT	9500	Villach							46.61028	13.85583	
+AT	9501	Villach							46.61028	13.85583	
+AT	9502	Villach							46.61028	13.85583	
+AT	9503	Villach							46.61028	13.85583	
+AT	9504	Villach							46.61028	13.85583	
+AT	9507	Villach							46.61028	13.85583	
+AT	9508	Villach							46.61028	13.85583	
+AT	9510	Villach							46.61028	13.85583	
+AT	9521	Treffen							46.67028	13.85861	
+AT	9523	Villach							46.61028	13.85583	
+AT	9524	Villach							46.61028	13.85583	
+AT	9543	Arriach							46.72921	13.85046	
+AT	9544	Feld am See							46.77639	13.74778	
+AT	9545	Radenthein							46.80056	13.71167	
+AT	9546	Bad Kleinkirchheim							46.81556	13.78056	
+AT	9551	Bodensdorf							46.69111	13.97111	
+AT	9552	Steindorf am Ossiacher See							46.69833	14.00917	
+AT	9555	Glanegg							46.72259	14.19893	
+AT	9556	Liebenfels							46.73778	14.28667	
+AT	9560	Feldkirchen in Kärnten							46.72368	14.09580	
+AT	9562	Himmelberg							46.75667	14.03056	
+AT	9563	Gnesau							46.77544	13.96251	
+AT	9570	Ossiach							46.67435	13.98358	
+AT	9572	Deutsch Griffen							46.85606	14.07501	
+AT	9580	Villach							46.61028	13.85583	
+AT	9581	Ledenitzen							46.56639	13.96139	
+AT	9583	Faak am See							46.56806	13.90972	
+AT	9584	Finkenstein							46.56155	13.87086	
+AT	9586	Fürnitz							46.56188	13.81732	
+AT	9587	Riegersdorf							46.54992	13.78116	
+AT	9601	Arnoldstein							46.54611	13.71000	
+AT	9602	Thörl							47.51952	15.22276	
+AT	9611	Nötsch							46.58333	13.61667	
+AT	9612	Sankt Georgen							46.63333	13.80000	
+AT	9613	Feistritz an der Gail							46.57750	13.60667	
+AT	9620	Hermagor							46.62722	13.36722	
+AT	9622	Weissbriach							46.68410	13.25277	
+AT	9623	Sankt Stefan							46.80750	14.85167	
+AT	9624	Egg							47.43154	9.89762	
+AT	9632	Kirchbach							46.64160	13.18454	
+AT	9635	Dellach							46.66175	13.07965	
+AT	9640	Kötschach							46.68167	13.00694	
+AT	9651	Sankt Jakob							46.54778	14.05722	
+AT	9702	Ferndorf							46.73651	13.62661	
+AT	9710	Feistritz an der Drau							46.70157	13.66479	
+AT	9711	Paternion							46.71417	13.63611	
+AT	9712	Fresach							46.71556	13.69083	
+AT	9714	Stockenboi							46.72611	13.52306	
+AT	9721	Weissenstein							46.68583	13.73028	
+AT	9751	Sachsenburg							46.82917	13.35500	
+AT	9753	Lind							46.76889	13.36028	
+AT	9754	Steinfeld							46.75812	13.24934	
+AT	9761	Greifenburg							46.75027	13.17982	
+AT	9771	Berg im Drautal							46.74915	13.13536	
+AT	9772	Dellach							46.66175	13.07965	
+AT	9773	Irschen							46.75694	13.02528	
+AT	9781	Oberdrauburg							46.74306	12.97028	
+AT	9782	Nikolsdorf							46.78583	12.91333	
+AT	9800	Spittal an der Drau							46.80000	13.50000	
+AT	9802	Spittal an der Drau							46.80000	13.50000	
+AT	9803	Spittal an der Drau							46.80000	13.50000	
+AT	9805	Baldramsdorf							46.80111	13.45333	
+AT	9811	Lendorf							46.83528	13.43028	
+AT	9812	Pusarnitz							46.83333	13.40000	
+AT	9813	Möllbrücke							46.83639	13.37278	
+AT	9814	Mühldorf							46.86028	13.35361	
+AT	9821	Obervellach							46.93667	13.20417	
+AT	9822	Mallnitz							46.99173	13.16780	
+AT	9831	Flattach							46.93861	13.13444	
+AT	9832	Stall							46.89056	13.03694	
+AT	9833	Rangersdorf							46.86001	12.94923	
+AT	9841	Winklern							46.87361	12.87472	
+AT	9842	Mörtschach							46.92389	12.91778	
+AT	9843	Großkirchheim							46.97270	12.89589	
+AT	9844	Heiligenblut							47.03979	12.84345	
+AT	9851	Lieserbrücke							46.83333	13.48333	
+AT	9852	Trebesing							46.88639	13.51028	
+AT	9853	Gmünd							46.90722	13.52944	
+AT	9854	Malta							46.95422	13.50748	
+AT	9871	Seeboden							46.81909	13.51430	
+AT	9872	Millstatt							46.80417	13.58056	
+AT	9873	Döbriach							46.78049	13.65738	
+AT	9900	Lienz							46.82890	12.76903	
+AT	9903	Oberlienz							46.84722	12.73139	
+AT	9904	Thurn							46.85056	12.76861	
+AT	9906	Lavant							46.79889	12.83806	
+AT	9907	Tristach							46.81611	12.78972	
+AT	9908	Amlach							46.81639	12.76361	
+AT	9909	Leisach							46.81250	12.74861	
+AT	9911	Assling							46.78663	12.63951	
+AT	9912	Anras							46.77389	12.56083	
+AT	9913	Abfaltersbach							46.75715	12.52828	
+AT	9918	Strassen							46.75389	12.48417	
+AT	9919	Heinfels							46.75000	12.45000	
+AT	9920	Sillian							46.75278	12.42111	
+AT	9922	Strassen							46.75389	12.48417	
+AT	9931	Außervillgraten							46.78750	12.43139	
+AT	9932	Innervillgraten							46.81194	12.37472	
+AT	9941	Kartitsch							46.72889	12.50083	
+AT	9942	Obertilliach							46.71056	12.61444	
+AT	9943	Untertilliach							46.70346	12.67758	
+AT	9951	Ainet							46.86603	12.68968	
+AT	9952	Sankt Johann							46.81667	14.86667	
+AT	9954	Schlaiten							46.87944	12.65417	
+AT	9961	Hopfgarten in Defereggen							46.91917	12.53639	
+AT	9962	Sankt Veit in Defereggen							46.92722	12.42972	
+AT	9963	Sankt Jakob in Defereggen							46.91972	12.33139	
+AT	9971	Matrei in Osttirol							47.00000	12.53333	
+AT	9972	Virgen							47.00159	12.45661	
+AT	9974	Prägraten							47.01667	12.38333	
+AT	9990	Nußdorf							46.83333	12.80000	
+AT	9991	Dölsach							46.82833	12.84528	

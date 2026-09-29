@@ -1,6 +1,13 @@
 // Catalog reads for suggestions and place search (architektur.md 5.2, 6.2)
 // and user places created from the locality database (kind = user).
-import { slugify } from '@reiseplaner/domain';
+import {
+  ATTRACTIVENESS_NEIGHBOUR_KM,
+  catalogAttractiveness,
+  haversineKm,
+  slugify,
+  userPlaceAttractiveness,
+  type Attractiveness,
+} from '@reiseplaner/domain';
 import type { Queryable } from '../db';
 import type { Locality } from './geo';
 
@@ -21,6 +28,8 @@ export interface CatalogPlace {
   aiAssisted: boolean;
   verified: boolean;
   themes: Record<string, number>;
+  /** What a traveller can do there (Aufgabe 8): catalog places from their ratings, user places from size and a catalog place nearby. */
+  attractiveness: Attractiveness;
 }
 
 type PlaceRow = {
@@ -40,15 +49,37 @@ type PlaceRow = {
   ai_assisted: boolean;
   verified: boolean;
   themes: string;
+  fame: number | null;
+  attractions: number | null;
+  population: number | null;
+  nb_fame: number | null;
+  nb_attractions: number | null;
+  nb_population: number | null;
+  nb_themes: string | null;
+  nb_lat: number | null;
+  nb_lng: number | null;
 };
 
 const SELECT_PLACES = `
   SELECT p.id::text AS id, p.slug, p.name, p.kind, p.region_id::text AS region_id, r.slug AS region_slug, r.name AS region_name,
          p.country_code, p.geonameid, p.lat, p.lng, p.search_radius_km::float8 AS search_radius_km,
          p.description_de, p.ai_assisted, p.verified,
-         coalesce((SELECT jsonb_object_agg(pt.theme_code, pt.strength) FROM app.place_themes pt WHERE pt.place_id = p.id), '{}'::jsonb)::text AS themes
+         coalesce((SELECT jsonb_object_agg(pt.theme_code, pt.strength) FROM app.place_themes pt WHERE pt.place_id = p.id), '{}'::jsonb)::text AS themes,
+         p.fame, p.attractions, (SELECT g.population FROM app.geo_localities g WHERE g.geonameid = p.geonameid) AS population,
+         nb.nb_fame, nb.nb_attractions, nb.nb_population, nb.nb_themes, nb.nb_lat, nb.nb_lng
     FROM app.places p
-    LEFT JOIN app.regions r ON r.id = p.region_id`;
+    LEFT JOIN app.regions r ON r.id = p.region_id
+    LEFT JOIN LATERAL (
+      -- User places borrow from the nearest catalog place (Aufgabe 8); the box is a little larger than ATTRACTIVENESS_NEIGHBOUR_KM.
+      SELECT c.fame AS nb_fame, c.attractions AS nb_attractions, c.lat::float8 AS nb_lat, c.lng::float8 AS nb_lng,
+             (SELECT g.population FROM app.geo_localities g WHERE g.geonameid = c.geonameid) AS nb_population,
+             coalesce((SELECT jsonb_object_agg(pt.theme_code, pt.strength) FROM app.place_themes pt WHERE pt.place_id = c.id), '{}'::jsonb)::text AS nb_themes
+        FROM app.places c
+       WHERE p.kind = 'user' AND c.kind = 'catalog' AND c.active
+         AND abs(c.lat - p.lat) < 0.08 AND abs(c.lng - p.lng) < 0.12
+       ORDER BY (c.lat - p.lat) ^ 2 + ((c.lng - p.lng) * 0.68) ^ 2
+       LIMIT 1
+    ) nb ON true`;
 
 /** Catalog entries visible to users: approved, or drafts when allowed (dev only, BG-11). */
 const VISIBLE = `p.active AND (p.kind = 'user' OR (p.kind = 'catalog' AND ($1::boolean OR (p.verified AND r.verified)) AND r.active))`;
@@ -71,7 +102,33 @@ function toPlace(r: PlaceRow): CatalogPlace {
     aiAssisted: r.ai_assisted,
     verified: r.verified,
     themes: JSON.parse(r.themes) as Record<string, number>,
+    attractiveness: attractivenessOfRow(r),
   };
+}
+
+const num = (v: number | null) => (v === null ? null : Number(v));
+
+function attractivenessOfRow(r: PlaceRow): Attractiveness {
+  const themes = JSON.parse(r.themes) as Record<string, number>;
+  if (r.kind === 'catalog') return catalogAttractiveness({ fame: num(r.fame), attractions: num(r.attractions), themes, population: num(r.population) });
+  const near =
+    r.nb_lat !== null && r.nb_lng !== null && haversineKm({ lat: Number(r.lat), lng: Number(r.lng) }, { lat: Number(r.nb_lat), lng: Number(r.nb_lng) }) <= ATTRACTIVENESS_NEIGHBOUR_KM;
+  const neighbour = near
+    ? catalogAttractiveness({
+        fame: num(r.nb_fame),
+        attractions: num(r.nb_attractions),
+        themes: JSON.parse(r.nb_themes ?? '{}') as Record<string, number>,
+        population: num(r.nb_population),
+      }).parts
+    : null;
+  return userPlaceAttractiveness({ population: num(r.population), neighbour });
+}
+
+/** Places by id, whatever their visibility (the places of a search, Aufgabe 8). */
+export async function placesByIds(db: Queryable, ids: readonly string[]): Promise<CatalogPlace[]> {
+  if (ids.length === 0) return [];
+  const rows = await db.query<PlaceRow>(`${SELECT_PLACES} WHERE p.id = ANY($1::uuid[])`, [ids]);
+  return rows.map(toPlace);
 }
 
 export interface CatalogVisibility {

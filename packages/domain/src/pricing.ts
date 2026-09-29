@@ -1,6 +1,9 @@
 // Offer normalization (architektur.md 6.5): per hotel and combination at most
 // two offers, the cheapest overall and the cheapest refundable one (if it is
-// a different offer). Money in integer cents.
+// a different offer). Money in integer cents. Since Aufgabe 5 both are chosen
+// among the rooms that fit the party; a house with only rooms clearly larger
+// than needed keeps its cheapest one, marked `oversized` (display only).
+import { roomCapacity, roomFit, type RoomFit, type RoomOption } from './rooms';
 import type { BoardType, CancelPolicyStep, HotelRates, HotelSummary, IsoTimestamp, RateOption } from './types';
 
 export type OfferKind = 'cheapest' | 'cheapest_refundable';
@@ -19,6 +22,11 @@ export interface NormalizedOffer {
   currency: string;
   nights: number;
   pricePerNightCents: number;
+  /** Fits the party or clearly larger than needed (Aufgabe 5). */
+  roomFit: RoomFit;
+  roomCapacity: number | null;
+  /** Every room of the house on this date with its cheapest offer (on the `cheapest` offer only). */
+  roomOptions: RoomOption[];
 }
 
 /** End of free cancellation: the first policy step with a penalty (null = none known). */
@@ -36,8 +44,9 @@ export function payAtProperty(option: Pick<RateOption, 'taxes'>): { cents: numbe
   return { cents: option.taxes.filter((t) => !t.included).reduce((s, t) => s + t.amountCents, 0), known: true };
 }
 
-export function toOffer(hotelId: string, kind: OfferKind, option: RateOption, nights: number): NormalizedOffer {
+export function toOffer(hotelId: string, kind: OfferKind, option: RateOption, nights: number, persons: number | null = null): NormalizedOffer {
   const pay = payAtProperty(option);
+  const capacity = roomCapacity(option.roomName, option.maxOccupancy);
   return {
     hotelId,
     kind,
@@ -52,20 +61,43 @@ export function toOffer(hotelId: string, kind: OfferKind, option: RateOption, ni
     currency: option.currency,
     nights,
     pricePerNightCents: Math.round(option.totalCents / nights),
+    roomFit: persons === null ? 'fits' : roomFit(capacity, persons),
+    roomCapacity: capacity,
+    roomOptions: [],
   };
 }
 
-export function normalizeOffers(rates: readonly HotelRates[], nights: number): NormalizedOffer[] {
+/** Every room once with its cheapest offer: fitting rooms first, each group cheapest first. */
+function roomOptionsOf(sorted: readonly RateOption[], persons: number | null): RoomOption[] {
+  const byRoom = new Map<string, RoomOption>();
+  for (const o of sorted) {
+    const key = o.roomName.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
+    if (byRoom.has(key)) continue;
+    const capacity = roomCapacity(o.roomName, o.maxOccupancy);
+    byRoom.set(key, { roomName: o.roomName, totalCents: o.totalCents, capacity, fit: persons === null ? 'fits' : roomFit(capacity, persons) });
+  }
+  const rooms = [...byRoom.values()];
+  return [...rooms.filter((r) => r.fit === 'fits'), ...rooms.filter((r) => r.fit === 'oversized')];
+}
+
+/**
+ * `persons`: the largest group in one room of the request (null: every room
+ * counts, as before Aufgabe 5).
+ */
+export function normalizeOffers(rates: readonly HotelRates[], nights: number, persons: number | null = null): NormalizedOffer[] {
   const out: NormalizedOffer[] = [];
   for (const hotel of rates) {
     const valid = hotel.options.filter((o) => Number.isInteger(o.totalCents) && o.totalCents > 0);
     if (valid.length === 0) continue;
     const sorted = [...valid].sort((a, b) => a.totalCents - b.totalCents || a.offerId.localeCompare(b.offerId));
-    const cheapest = sorted[0] as RateOption;
-    out.push(toOffer(hotel.hotelId, 'cheapest', cheapest, nights));
-    const refundable = sorted.find((o) => o.refundable);
+    const fitting = sorted.filter((o) => persons === null || roomFit(roomCapacity(o.roomName, o.maxOccupancy), persons) === 'fits');
+    // Only rooms larger than needed: the cheapest one stays visible, outside the price formation.
+    const candidates = fitting.length > 0 ? fitting : sorted.slice(0, 1);
+    const cheapest = candidates[0] as RateOption;
+    out.push({ ...toOffer(hotel.hotelId, 'cheapest', cheapest, nights, persons), roomOptions: roomOptionsOf(sorted, persons) });
+    const refundable = candidates.find((o) => o.refundable);
     if (refundable && refundable.offerId !== cheapest.offerId) {
-      out.push(toOffer(hotel.hotelId, 'cheapest_refundable', refundable, nights));
+      out.push(toOffer(hotel.hotelId, 'cheapest_refundable', refundable, nights, persons));
     }
   }
   return out;

@@ -5,16 +5,19 @@
 import {
   SCORE_CLEANLINESS_WEIGHT,
   SCORE_CLEANLINESS_WEIGHT_CHIP,
-  SCORE_MAX_PENALTY,
+  SCORE_MAX_PENALTY_BY_KIND,
   REVIEW_OLD_WEIGHT,
-  SCORE_FULL_WEIGHT_REVIEWS,
+  SCORE_FULL_WEIGHT_REVIEWS_BY_KIND,
   SCORE_PRIOR_MEAN,
+  UNIT_DEFECT_PENALTY_FACTOR,
+  UNIT_DEFECT_TOPICS,
   SCORE_RECENCY_DAMPING,
   SCORE_RECENCY_MAX_DELTA,
   SCORE_RECENCY_MIN_COUNT,
   SCORE_RECENCY_WEIGHT,
   SEVERITY_WEIGHTS,
 } from './constants';
+import type { PropertyKind } from './property-kind';
 
 export type Severity = keyof typeof SEVERITY_WEIGHTS;
 
@@ -35,9 +38,14 @@ export interface ScoreInput {
   reviewCount: number | null;
   review: ReviewSignals | null;
   chips: readonly string[];
+  /** Kind of accommodation (Aufgabe 6); missing: hotel, the former rule. */
+  kind?: PropertyKind;
 }
 
 export interface ScoreBreakdown {
+  /** Kind of accommodation and the review count from which its rating counts fully (Aufgabe 6). */
+  propertyKind: PropertyKind;
+  fullWeightReviews: number;
   rating: number | null;
   reviewCount: number;
   /** Reviews as they count: older ones with REVIEW_OLD_WEIGHT when their ages are known. */
@@ -69,8 +77,12 @@ export function effectiveReviewCount(reviewCount: number | null, review: ReviewS
 
 export function qualityScore(input: ScoreInput): ScoreBreakdown {
   const n = effectiveReviewCount(input.reviewCount, input.review);
-  const priorWeight = Math.max(0, SCORE_FULL_WEIGHT_REVIEWS - n);
+  const kind = input.kind ?? 'hotel';
+  const fullWeight = SCORE_FULL_WEIGHT_REVIEWS_BY_KIND[kind];
+  const priorWeight = Math.max(0, fullWeight - n);
   const base: ScoreBreakdown = {
+    propertyKind: kind,
+    fullWeightReviews: fullWeight,
     rating: input.rating,
     reviewCount: input.reviewCount ?? 0,
     effectiveReviews: n,
@@ -106,12 +118,13 @@ export function qualityScore(input: ScoreInput): ScoreBreakdown {
       base.cleanliness = { applied: false, value: null, weight: 0, s2: r3(s2) };
     }
     for (const warning of review.warnings) {
-      const factor = warning.topic === 'laerm' && input.chips.includes('ruhig') ? 2 : 1;
-      const weight = SEVERITY_WEIGHTS[warning.severity] * factor;
+      const noise = warning.topic === 'laerm' && input.chips.includes('ruhig') ? 2 : 1;
+      const unit = (UNIT_DEFECT_TOPICS as readonly string[]).includes(warning.topic) ? UNIT_DEFECT_PENALTY_FACTOR[kind] : 1;
+      const weight = r3(SEVERITY_WEIGHTS[warning.severity] * noise * unit);
       items.push({ topic: warning.topic, severity: warning.severity, weight });
       penaltyTotal += weight;
     }
-    penaltyTotal = Math.min(SCORE_MAX_PENALTY, penaltyTotal);
+    penaltyTotal = Math.min(SCORE_MAX_PENALTY_BY_KIND[kind], penaltyTotal);
   }
   const quality = Math.round(clamp(s2 - penaltyTotal, 0, 10) * 10) / 10;
   return { ...base, s0: r3(s0), penalty: { total: r3(penaltyTotal), items }, quality };

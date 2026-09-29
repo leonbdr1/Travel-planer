@@ -1,5 +1,6 @@
 import { hotelsAt } from '@reiseplaner/providers';
 import type { Flow } from '../types';
+import { pickWindow } from './helpers';
 
 // Own places of the search; the simulated LiteAPI answers per place.
 const HOEFEN = { lat: 47.46667, lng: 10.68333 };
@@ -28,8 +29,7 @@ export const warnungenFlow: Flow = {
         await page.goto(`${baseUrl}/suche`);
         await page.getByTestId('origin-input').fill('Stutt');
         await page.getByRole('option', { name: /^Stuttgart, Baden-Württemberg, DE/ }).click();
-        await page.locator('#window-start').fill('2026-10-01');
-        await page.locator('#window-end').fill('2026-10-12');
+        await pickWindow(page, '2026-10-01', '2026-10-12');
         await page.locator('#nights').selectOption('2');
         await page.locator('#max-drive').selectOption('240');
         await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();

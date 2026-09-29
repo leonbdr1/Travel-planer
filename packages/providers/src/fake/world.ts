@@ -42,27 +42,31 @@ export interface FakeHotel {
   availability: number;
 }
 
+// English names like the real LiteAPI sends them (Aufgabe 12: the SPA shows them in German).
 export const FAKE_FACILITIES: ReadonlyArray<{ id: number; name: string }> = [
-  { id: 1, name: 'Parkplatz' },
-  { id: 2, name: 'Kostenloses WLAN' },
-  { id: 3, name: 'Haustiere erlaubt' },
+  { id: 1, name: 'Parking' },
+  { id: 2, name: 'Free WiFi' },
+  { id: 3, name: 'Pets allowed' },
   { id: 4, name: 'Sauna' },
-  { id: 5, name: 'Wellnessbereich' },
-  { id: 6, name: 'Küche' },
-  { id: 7, name: 'Barrierefrei' },
-  { id: 8, name: 'Familienzimmer' },
+  { id: 5, name: 'Spa and wellness centre' },
+  { id: 6, name: 'Kitchen' },
+  { id: 7, name: 'Facilities for disabled guests' },
+  { id: 8, name: 'Family rooms' },
   { id: 9, name: 'Restaurant' },
   { id: 10, name: 'Bar' },
-  { id: 11, name: 'Fahrradverleih' },
-  { id: 12, name: 'Skiraum' },
-  { id: 13, name: 'Terrasse' },
-  { id: 14, name: 'Garten' },
-  { id: 15, name: 'Aufzug' },
-  { id: 16, name: 'E-Ladestation' },
-  { id: 17, name: 'Frühstücksbuffet' },
-  { id: 18, name: 'Hallenbad' },
-  { id: 19, name: 'Rezeption 24 h' },
-  { id: 20, name: 'Nichtraucherzimmer' },
+  { id: 11, name: 'Bicycle rental' },
+  { id: 12, name: 'Ski storage' },
+  { id: 13, name: 'Terrace' },
+  { id: 14, name: 'Garden' },
+  { id: 15, name: 'Elevator' },
+  { id: 16, name: 'Electric vehicle charging station' },
+  { id: 17, name: 'Breakfast buffet' },
+  { id: 18, name: 'Indoor pool' },
+  { id: 19, name: '24-hour front desk' },
+  { id: 20, name: 'Non-smoking rooms' },
+  { id: 21, name: 'Hiking' },
+  { id: 22, name: 'Tour desk' },
+  { id: 23, name: 'Heating' },
 ];
 
 const NAME_WORDS = [
@@ -204,11 +208,15 @@ export function generateHotel(latE2: number, lngE2: number, index: number): Fake
           ['photos', 0.03],
           ['bugs', 0.02],
         ] as const);
-  const facilityIds = FAKE_FACILITIES.filter((f) => {
+  // Ids 21–23 came later (Aufgabe 12); they draw no random number, so the rest of the world stays as it was.
+  const facilityIds = FAKE_FACILITIES.filter((f) => f.id <= 20).filter((f) => {
     const base = { 1: 0.8, 2: 0.9, 3: 0.35, 4: 0.3, 5: 0.25, 6: 0.1, 7: 0.2, 8: 0.35, 17: 0.6 }[f.id] ?? 0.3;
     const boost = (kind === 'Apartments' || kind === 'Ferienwohnung') && f.id === 6 ? 1 : 0;
     return r() < base + boost;
   }).map((f) => f.id);
+  facilityIds.push(23);
+  if (facilityIds.includes(14)) facilityIds.push(21);
+  if (facilityIds.includes(19)) facilityIds.push(22);
   const rooms = roomsFor(kind, r);
   if (rooms.some((room) => room.code === 'FAM') && !facilityIds.includes(8)) facilityIds.push(8);
   facilityIds.sort((a, b) => a - b);
@@ -377,6 +385,18 @@ function occupancyFactor(o: FakeOccupancy): number {
   return adults + o.children.filter((age) => age >= 6).length * 0.15;
 }
 
+/**
+ * Length-of-stay pricing (Aufgabe 4): from the third night on, a quarter of the
+ * houses give a clear discount (holiday flats with a cleaning fee spread over
+ * the stay), a quarter charge clearly more (the extra weekday night is sold
+ * dear). Stays of one or two nights are unchanged.
+ */
+function lengthOfStayFactor(hotel: FakeHotel, nightIndex: number, nights: number): number {
+  if (nights < 3 || nightIndex < 2) return 1;
+  const kind = hashString(`los|${hotel.id}`) % 4;
+  return kind === 0 ? 0.55 : kind === 1 ? 1.75 : 1;
+}
+
 /** Deal dates: this hotel is markedly cheaper on this check-in date. */
 export function isDealDate(hotel: FakeHotel, checkin: string): boolean {
   return hashString(`deal|${hotel.id}|${checkin}`) % 9 === 0;
@@ -435,7 +455,7 @@ export function offersFor(
       const date = addDays(checkin, i);
       const noise = between(seeded('noise', hotel.id, date), 0.92, 1.08);
       const occ = occupancies.reduce((sum, o) => sum + occupancyFactor(o), 0);
-      return Math.round(hotel.basePerNightCents * room.factor * nightFactor(date) * noise * occ * deal);
+      return Math.round(hotel.basePerNightCents * room.factor * nightFactor(date) * noise * occ * deal * lengthOfStayFactor(hotel, i, nights));
     });
     const persons = occupancies.reduce((s, o) => s + o.adults, 0);
     for (const board of hotel.boards) {

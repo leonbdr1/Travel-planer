@@ -6,6 +6,9 @@
 // (by name) with the same board and cancellation terms on the other dates. A
 // double room that is free only on one date is not a bargain against the
 // suite that is left on the others.
+// Since 2026-09-29 evening (Ben, Aufgabe 2) the reference is the mean of the
+// same room on the OTHER dates only: the old median over all dates counted
+// the bargain date itself ("im Mittel 182 €" instead of (182 + 184) / 2).
 import { BARGAIN_DATE_FACTOR, BARGAIN_DATE_MIN_DATES } from './constants';
 import { bargainReasonDate } from './texts';
 
@@ -40,10 +43,20 @@ export function median(values: readonly number[]): number {
 /** Commercial rounding to whole percent. */
 const pct = (value: number) => Math.round(value * 100 + Number.EPSILON);
 
-/** The same kind of stay: house, room (by name, case and spacing ignored), board and cancellation terms. */
-export function stayKind(o: Pick<BargainCandidate, 'hotelId' | 'roomName' | 'boardType' | 'refundable'>): string {
+/**
+ * The same kind of stay: house, room (by name, case and spacing ignored),
+ * board, cancellation terms and, with a night range (Aufgabe 4), the number
+ * of nights.
+ */
+export function stayKind(o: Pick<BargainCandidate, 'hotelId' | 'roomName' | 'boardType' | 'refundable'> & { nights?: number }): string {
   const room = o.roomName.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
-  return [o.hotelId, room, o.boardType, o.refundable ? 'refundable' : 'fixed'].join('|');
+  return [o.hotelId, room, o.boardType, o.refundable ? 'refundable' : 'fixed', ...(o.nights === undefined ? [] : [String(o.nights)])].join('|');
+}
+
+/** Mean price per night of the same kind of stay on the other dates (null without any). */
+export function otherDatesMean(pricesByDate: ReadonlyMap<string, number>, checkin: string): number | null {
+  const others = [...pricesByDate].filter(([date]) => date !== checkin).map(([, price]) => price);
+  return others.length === 0 ? null : others.reduce((sum, p) => sum + p, 0) / others.length;
 }
 
 /** `F` = offers passing the filters with a quality score (6.8). */
@@ -62,9 +75,12 @@ export function detectBargains(F: readonly BargainCandidate[]): Map<string, Barg
     const dates = byKind.get(stayKind(o));
     if (!dates || dates.size < BARGAIN_DATE_MIN_DATES) continue;
     if (dates.get(o.checkin) !== o.pricePerNightCents) continue;
-    const med = median([...dates.values()]);
-    if (o.pricePerNightCents > BARGAIN_DATE_FACTOR * med) continue;
-    out.set(o.id, { types: ['date'], reason: bargainReasonDate(pct(1 - o.pricePerNightCents / med), med * o.nights, o.pricePerNightCents * o.nights) });
+    const reference = otherDatesMean(dates, o.checkin);
+    if (reference === null || o.pricePerNightCents > BARGAIN_DATE_FACTOR * reference) continue;
+    out.set(o.id, {
+      types: ['date'],
+      reason: bargainReasonDate(pct(1 - o.pricePerNightCents / reference), reference * o.nights, o.pricePerNightCents * o.nights),
+    });
   }
 
   return out;

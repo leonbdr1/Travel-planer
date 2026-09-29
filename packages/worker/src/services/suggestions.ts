@@ -6,6 +6,7 @@ import {
   rankPlaces,
   rankRegions,
   reachablePlaces,
+  regionAttractiveness,
   themeLabel,
   type CatalogPlace as DomainPlace,
   type TravelTime as DomainTravelTime,
@@ -42,6 +43,7 @@ export function placeDto(
     id: row.id,
     name: row.name,
     kind: row.kind,
+    geonameid: row.geonameid,
     region_id: row.regionId,
     region_name: row.regionName,
     country_code: row.countryCode,
@@ -54,7 +56,22 @@ export function placeDto(
     matched_themes: [...matched].filter((t) => selectedThemes.includes(t)),
     minutes: time ? Math.round(time.minutes) : null,
     estimated: time?.estimated ?? false,
+    attractiveness: row.attractiveness,
   };
+}
+
+/** Mean position of a region's places (Aufgabe 13); null without places. */
+function regionCenter(places: readonly { lat: number; lng: number }[]): RegionSuggestionDto['center'] {
+  if (places.length === 0) return null;
+  const round = (v: number) => Math.round(v * 1000) / 1000;
+  return { lat: round(places.reduce((s, p) => s + p.lat, 0) / places.length), lng: round(places.reduce((s, p) => s + p.lng, 0) / places.length) };
+}
+
+/** A region by its best places (Aufgabe 8): score and level, and the names of those places. */
+function regionAttractivenessDto(rows: readonly CatalogPlace[]): RegionSuggestionDto['attractiveness'] {
+  const best = [...rows].sort((a, b) => b.attractiveness.score - a.attractiveness.score).slice(0, 3);
+  const region = regionAttractiveness(best.map((p) => p.attractiveness.score));
+  return region ? { ...region, top_places: best.map((p) => p.name) } : null;
 }
 
 export async function resolveOrigin(db: Queryable, geonameid: number): Promise<Locality | null> {
@@ -104,6 +121,8 @@ export async function suggestRegions(
       min_minutes: Math.round(r.minMinutes),
       max_minutes: Math.round(r.maxMinutes),
       estimated: r.estimated,
+      attractiveness: regionAttractivenessDto(all.filter((p) => p.regionId === r.regionId).map((p) => p.row)),
+      center: regionCenter(all.filter((p) => p.regionId === r.regionId)),
     });
   }
   return { regions, stats: publicStats(stats) };

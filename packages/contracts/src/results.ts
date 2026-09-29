@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { goalSchema } from './searches';
+import { attractivenessSchema } from './suggestions';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -18,6 +19,8 @@ export const resultsQuerySchema = z.object({
   chips: z.string().optional(),
   place_id: z.string().optional(),
   checkin: isoDate.optional(),
+  /** With a night range the cell is (place, arrival, departure). */
+  checkout: isoDate.optional(),
 });
 
 export const effectiveFiltersSchema = z.object({
@@ -86,6 +89,13 @@ export const offerDtoSchema = z.object({
   passes_filters: z.boolean(),
   bargain: z.object({ types: z.array(z.enum(['value', 'date', 'place'])), reason: z.string() }).nullable(),
   rank_score: z.number(),
+  /** Aufgabe 5: the room fits the party, or it is clearly larger than needed (shown, outside the price formation). */
+  room_fit: z.enum(['fits', 'oversized']).default('fits'),
+  room_capacity: z.number().int().nullable().default(null),
+  /** Every room of the house on this date with its cheapest price (on the cheapest offer of a date). */
+  room_options: z
+    .array(z.object({ room_name: z.string(), total_eur: z.number(), capacity: z.number().int().nullable(), fit: z.enum(['fits', 'oversized']) }))
+    .default([]),
 });
 export type OfferDto = z.infer<typeof offerDtoSchema>;
 
@@ -102,7 +112,33 @@ export const hotelSummarySchema = z.object({
   photo_url: z.string().nullable(),
 });
 
-export const qualityDtoSchema = z.object({ score: z.number().nullable(), checked: z.boolean(), no_reviews: z.boolean() });
+export const qualityDtoSchema = z.object({
+  score: z.number().nullable(),
+  checked: z.boolean(),
+  no_reviews: z.boolean(),
+  /** Why our score differs from the guest rating (Aufgabe 7): kind, the review count from which the rating counts fully, and the steps. */
+  property_kind: z.enum(['hotel', 'pension', 'ferienwohnung']).default('hotel'),
+  full_weight_reviews: z.number().default(30),
+  /** Effective reviews below full_weight_reviews: the rating was pulled towards the overall mean. */
+  prior_applied: z.boolean().default(false),
+  /** Change by recent reviews (s1 − s0), 0 without. */
+  recency_delta: z.number().default(0),
+  /** Change by the cleanliness value (s2 − s1), 0 without. */
+  cleanliness_delta: z.number().default(0),
+  /** Deduction for confirmed complaints. */
+  penalty: z.number().default(0),
+});
+
+/** One night more of the same stay (Aufgabe 4, docs/logik/flexible-naechte.md). */
+export const extraNightSchema = z.object({
+  from_nights: z.number().int(),
+  to_nights: z.number().int(),
+  longer_offer_id: z.string(),
+  extra_eur: z.number(),
+  nightly_eur: z.number(),
+  verdict: z.enum(['cheap', 'normal', 'expensive']),
+});
+export type ExtraNightDto = z.infer<typeof extraNightSchema>;
 
 export const resultItemSchema = z.object({
   hotel: hotelSummarySchema,
@@ -117,6 +153,8 @@ export const resultItemSchema = z.object({
   labels: z.array(praiseLabelSchema),
   /** Lowest comparison price among the listed houses (cheapest unless a little more buys proven advantages). */
   recommended: z.boolean(),
+  /** What one night more of the shown offer costs (only with a night range and a longer offer of the same kind). */
+  extra_night: extraNightSchema.nullable().default(null),
 });
 export type ResultItem = z.infer<typeof resultItemSchema>;
 
@@ -166,13 +204,17 @@ export const searchResultsResponseSchema = z.object({
   }),
   filters: effectiveFiltersSchema,
   matrix: z.object({
-    places: z.array(z.object({ id: z.string(), name: z.string(), drive_minutes: z.number().int().nullable() })),
+    places: z.array(
+      z.object({ id: z.string(), name: z.string(), drive_minutes: z.number().int().nullable(), attractiveness: attractivenessSchema.nullable().default(null) }),
+    ),
     dates: z.array(z.object({ checkin: isoDate, checkout: isoDate })),
     cells: z.array(matrixCellSchema),
   }),
   items: z.array(resultItemSchema),
   /** Sorted-out houses without reviews, cheapest first, in the same scope as `items`. */
   unrated: z.array(unratedItemSchema),
+  /** Houses with only rooms clearly larger than the party (Aufgabe 5): shown apart, outside the price formation. */
+  oversized: z.array(resultItemSchema).default([]),
   counts: z.object({
     offers: z.number().int(),
     passing: z.number().int(),
@@ -189,12 +231,29 @@ export const searchResultsResponseSchema = z.object({
     prices_fetched_at: z.string().nullable(),
     sort: z.enum(['best', 'price', 'quality']),
     goal: goalSchema,
-    cell: z.object({ place_id: z.string(), checkin: isoDate }).nullable(),
+    cell: z.object({ place_id: z.string(), checkin: isoDate, checkout: isoDate.nullable().default(null) }).nullable(),
   }),
+  /** With a night range: how the extra nights of the listed houses compare (null without one). */
+  nights_summary: z
+    .object({
+      from_nights: z.number().int(),
+      to_nights: z.number().int(),
+      houses: z.number().int(),
+      cheap: z.number().int(),
+      normal: z.number().int(),
+      expensive: z.number().int(),
+      median_extra_eur: z.number(),
+      median_nightly_eur: z.number(),
+    })
+    .nullable()
+    .default(null),
 });
 export type SearchResultsResponse = z.infer<typeof searchResultsResponseSchema>;
 
 export const scoreBreakdownSchema = z.object({
+  /** Kind of accommodation and the review count from which its rating counts fully (Aufgabe 6). */
+  propertyKind: z.enum(['hotel', 'pension', 'ferienwohnung']).default('hotel'),
+  fullWeightReviews: z.number().default(30),
   rating: z.number().nullable(),
   reviewCount: z.number(),
   effectiveReviews: z.number(),
@@ -227,7 +286,17 @@ export const hotelDetailResponseSchema = z.object({
     description: z.array(textBlockSchema),
     description_language: textLanguageSchema,
     photos: z.array(z.string()),
+    /** Facilities in German (Aufgabe 12), flat and in groups; names we cannot translate are only counted. */
     facilities: z.array(z.string()),
+    facility_groups: z
+      .array(
+        z.object({
+          group: z.enum(['internet', 'parken', 'essen', 'wellness', 'draussen', 'aktivitaeten', 'zimmer', 'service', 'familie', 'barrierefrei']),
+          labels: z.array(z.string()),
+        }),
+      )
+      .default([]),
+    facilities_untranslated: z.number().int().default(0),
     checkin_time: z.string().nullable(),
     checkout_time: z.string().nullable(),
     important_information: z.array(textBlockSchema),

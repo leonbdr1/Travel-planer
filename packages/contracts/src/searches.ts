@@ -16,6 +16,8 @@ export const searchRequestSchema = z.object({
   themes: z.array(themeCode).max(10),
   window: z.object({ start: isoDate, end: isoDate }),
   nights: z.number().int().min(1).max(30),
+  /** Longest stay of a night range ("2 bis 3 Nächte", Aufgabe 4); missing or null: exactly `nights`. */
+  nights_max: z.number().int().min(1).max(30).nullable().optional(),
   arrival_weekdays: z.array(z.number().int().min(1).max(7)).min(1).max(7),
   occupancy: z.object({
     rooms: z.number().int().min(1).max(10),

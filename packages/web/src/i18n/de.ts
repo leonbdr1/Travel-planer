@@ -3,6 +3,8 @@
 // Product values (name, e-mails, operator) are never written here; they are
 // passed in from @reiseplaner/config.
 
+const formatNumber = (n: number) => n.toLocaleString('de-DE');
+
 export const de = {
   common: {
     loading: 'Wird geladen …',
@@ -23,6 +25,7 @@ export const de = {
     heroLead:
       'Gib deinen Rahmen an – Startort, Fahrzeit, Zeitfenster und Reisemuster. Wir durchsuchen alle passenden Orte und Termine gleichzeitig und zeigen dir die besten Angebote innerhalb deines Rahmens.',
     cta: 'Suche starten',
+    search: 'Suchen',
     stepsTitle: 'In drei Schritten zum passenden Angebot',
     steps: [
       { title: 'Rahmen angeben', text: 'Startort, maximale Fahrzeit, Zeitfenster, Nächte und Wünsche.' },
@@ -77,6 +80,7 @@ export const de = {
     contact: 'Kontakt',
     howItWorks: "So funktioniert's",
     ranking: 'So berechnen wir die Rangliste',
+    filter: 'So filtern wir',
     sources: 'Datenquellen',
     intermediary: 'Wir vermitteln Unterkünfte; Vertragspartner ist die jeweilige Unterkunft.',
   },
@@ -91,11 +95,22 @@ export const de = {
       originNoResults: 'Kein passender Ort gefunden.',
       originRequired: 'Bitte wähle einen Startort aus der Liste.',
       maxDrive: 'Maximale Fahrzeit (Auto)',
-      noLimit: 'Keine Begrenzung',
+      maxDriveShort: 'Fahrzeit (Auto)',
+      noLimit: 'egal',
+      driveUpTo: (m: number) => `bis ${m === 60 ? '1 Stunde' : m % 60 === 0 ? `${m / 60} Stunden` : `${Math.floor(m / 60)} h ${m % 60} min`}`,
       minutes: (m: number) => (m === 60 ? '1 Stunde' : m % 60 === 0 ? `${m / 60} Stunden` : `${Math.floor(m / 60)} h ${m % 60} min`),
       themes: 'Reiseart',
       themesHint: 'Was möchtest du vor Ort machen? Mehrfachauswahl möglich.',
       window: 'Zeitfenster',
+      pattern: 'Wie lange und ab welchem Wochentag?',
+      patternHint: 'Wir suchen jeden passenden Termin zwischen Anreise und Abreise und vergleichen die Preise.',
+      nightsOption: (n: number) => (n === 1 ? '1 Nacht' : `${n} Nächte`),
+      nightsFrom: 'Nächte mindestens',
+      nightsTo: 'bis',
+      nightsUpTo: 'Nächte höchstens',
+      nightsFixedHint: 'Flexibel? Stell rechts mehr Nächte ein, dann vergleichen wir, was jede weitere Nacht kostet.',
+      nightsRangeHint: (from: number, to: number) =>
+        `Wir suchen jede Anreise mit ${from} bis ${to} Nächten und zeigen dir, ob sich eine Nacht mehr lohnt.`,
       windowStart: 'Früheste Anreise',
       windowEnd: 'Späteste Abreise',
       nights: 'Nächte',
@@ -109,6 +124,18 @@ export const de = {
       childAge: (n: number) => `Alter Kind ${n}`,
       removeChild: 'Entfernen',
       rooms: 'Zimmer',
+      travellersSummary: (adults: number, children: number, rooms: number) =>
+        [
+          adults === 1 ? '1 Erwachsener' : `${adults} Erwachsene`,
+          children === 0 ? null : children === 1 ? '1 Kind' : `${children} Kinder`,
+          rooms === 1 ? '1 Zimmer' : `${rooms} Zimmer`,
+        ]
+          .filter(Boolean)
+          .join(' · '),
+      less: (label: string) => `${label}: eins weniger`,
+      more: (label: string) => `${label}: eins mehr`,
+      years: (n: number) => (n === 1 ? '1 Jahr' : `${n} Jahre`),
+      done: 'Fertig',
       budget: 'Budget in € (optional)',
       budgetHint: 'Gilt für den gesamten Aufenthalt inklusive Steuern und Gebühren.',
       goalHint:
@@ -142,12 +169,44 @@ export const de = {
         adults: 'Bitte gib mindestens eine erwachsene Person an.',
       },
     },
+    ownPlaces: {
+      title: 'Wohin soll es gehen?',
+      suggestTitle: 'Orte vorschlagen lassen',
+      suggestText:
+        'Wir suchen Regionen und Orte, die du ab deinem Startort in der gewählten Fahrzeit erreichst und die zu deiner Reiseart passen. Das ist der nächste Schritt.',
+      pickTitle: 'Orte selbst wählen',
+      pickText: 'Mehrere möglich, z. B. Köln, Frankfurt und Berlin. Wir durchsuchen sie zusätzlich zu den Vorschlägen.',
+      placeholder: 'Ort oder Postleitzahl eingeben',
+      full: (max: number) => `Höchstens ${max} Orte pro Suche.`,
+      chosen: 'Deine Orte',
+      remove: (name: string) => `${name} entfernen`,
+      onlyMine: (n: number) => (n === 1 ? 'Nur in diesem Ort suchen' : `Nur in diesen ${n} Orten suchen`),
+      section: 'Deine Orte',
+    },
+    calendar: {
+      arrival: 'Anreise frühestens',
+      departure: 'Abreise spätestens',
+      choose: 'Datum wählen',
+      pickArrival: 'Wann kannst du frühestens anreisen?',
+      pickDeparture: 'Und wann musst du spätestens zurück sein?',
+      span: (days: number) => (days === 1 ? '1 Tag Zeitraum' : `${days} Tage Zeitraum`),
+      prev: 'Vorheriger Monat',
+      next: 'Nächster Monat',
+      months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+      weekdaysShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      weekdaysLong: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
+    },
     regions: {
       title: 'Passende Regionen',
       lead: 'Aus unserem Ortskatalog, erreichbar in deiner maximalen Fahrzeit. Wähle eine oder mehrere Regionen.',
       loading: 'Regionen werden gesucht …',
       empty: 'Für diese Auswahl haben wir keine Region gefunden. Erhöhe die Fahrzeit, wähle andere Themen oder gib Orte direkt ein.',
       estimated: 'Fahrzeiten teilweise geschätzt (Luftlinie), weil der Routendienst gerade nicht verfügbar ist.',
+      mapTitle: 'Wo liegen die Regionen?',
+      mapLead: 'Zur groben Orientierung. Zeig mit der Maus auf eine Region, um sie auf der Karte zu sehen.',
+      mapStart: (origin: string) => `Dein Startort${origin ? `: ${origin}` : ''}`,
+      mapRegions: 'Regionen, ausgewählte hervorgehoben',
+      miniMap: (region: string) => `Lage von ${region}`,
       next: 'Weiter zu den Orten',
       skip: 'Überspringen und Orte selbst eingeben',
       selectAtLeastOne: 'Bitte wähle mindestens eine Region.',
@@ -195,12 +254,87 @@ export const de = {
     failed: 'Für diese Suche kamen keine Daten zurück. Bitte versuche es später erneut.',
     notFound: 'Diese Suche gibt es nicht oder der Link ist ungültig.',
     matrixTitle: 'Preis-Matrix (Gesamtpreis ab)',
+    matrixFilterLabel: 'Was ist vorgefiltert?',
+    matrixFilterTitle: 'Vorgefiltert',
+    matrixFilterText:
+      'Die „ab“-Preise zeigen die günstigste Unterkunft, die zu deinem Ziel passt. Nicht eingerechnet: Unterkünfte mit gehäuften Beschwerden über Schimmel, Ungeziefer oder Schmutz, zu schwach bewertete, auffällig billige Häuser mit vielen Sternen oder ohne Bewertungen und Wohnungen, die viel größer sind als nötig.',
+    matrixFilterMore: 'Mehr Details hier',
     place: 'Ort',
     from: (eur: string) => `ab ${eur}`,
     noOffer: 'kein Angebot',
     noData: 'keine Daten',
     pending: 'wird gesucht',
     newSearch: 'Neue Suche',
+  },
+  attractiveness: {
+    levels: { top: 'Top-Urlaubsort', beliebt: 'Beliebter Urlaubsort', ruhig: 'Ruhiger Ort', wenig: 'Wenig los' },
+    short: { top: 'Top-Ort', beliebt: 'beliebt', ruhig: 'ruhig', wenig: 'wenig los' },
+    infoLabel: (name: string) => `Was bietet ${name}?`,
+    intro: 'So viel kannst du hier im Urlaub unternehmen. Je Punkt ein Drittel:',
+    regionIntro: 'Eine Region zählt so viel wie ihre besten Orte.',
+    parts: {
+      fame: 'Bekanntheit als Urlaubsort',
+      attractions: 'Bergbahnen, Skigebiet, Sehenswürdigkeiten',
+      trails: 'Wander- und Radwege',
+      variety: 'Vielfalt der Aktivitäten',
+      infrastructure: 'Restaurants, Läden, Gästeinfo',
+    },
+    outOf: (n: number) => `${n} von 3`,
+    topPlaces: (names: string) => `Die besten Orte: ${names}.`,
+    cheapNote: 'Hier ist es oft günstiger, du hast aber auch weniger vom Urlaub.',
+    listNote: (place: string) => `${place}: günstiger, hat aber wenig zu bieten`,
+    matrixHint: (place: string, level: string) => `${place}: ${level}`,
+    more: 'So bewerten wir Orte',
+  },
+  filterPage: {
+    title: 'So filtern wir',
+    intro:
+      'Die Preis-Matrix und die Liste zeigen „ab“-Preise: den günstigsten Preis einer Unterkunft, die zu deiner Suche passt. Extrem billige Angebote, die sich im Urlaub als Reinfall entpuppen würden, rechnen wir vorher heraus. Hier steht, was wir herausnehmen und warum.',
+    wishesTitle: 'Deine Wünsche',
+    wishes:
+      'Was du angegeben hast, gilt streng: Budget, Hund, Parkplatz, Verpflegung, kostenlose Stornierung, Sterne und Mindestbewertung. Angebote, die das nicht erfüllen, zählen nicht.',
+    roomsTitle: 'Passende Zimmer',
+    rooms: (extra: number) =>
+      `Wir vergleichen nur Zimmer und Wohnungen, die zu deiner Personenzahl passen. Ist eine Wohnung um mehr als ${extra} Plätze größer als nötig – etwa die Ferienwohnung für sechs, wenn ihr zu zweit reist –, zeigen wir sie weiter unten, rechnen sie aber nicht in die Preise ein.`,
+    redFlagsTitle: 'Schimmel, Ungeziefer, Schmutz',
+    redFlags: (hotel: { guests: number; share: number }, flat: { guests: number; share: number }, dirt: { guests: number; share: number }) =>
+      `Wir lesen die Bewertungen der aussichtsreichsten Unterkünfte. Häufen sich Beschwerden, fliegt die Unterkunft raus: bei einem Hotel ab ${hotel.guests} Gästen und ${hotel.share} % der geprüften Bewertungen mit Schimmel oder Ungeziefer (Schmutz ab ${dirt.guests} Gästen und ${dirt.share} %), bei einer Ferienwohnung schon ab ${flat.guests} Gästen und ${flat.share} %, weil es dort genau die Wohnung trifft, die du buchst. Einzelne Meldungen zeigen wir als Hinweis bei der Unterkunft und ziehen sie vom Qualitätswert ab.`,
+    weakTitle: 'Zu schwach bewertet',
+    weak: (floors: string, min: string, cheaper: number) =>
+      `Jedes Ziel hat eine Mindestbewertung (unser Wert): ${floors}. Darunter zählt eine Unterkunft nicht – außer bei „Günstig und sauber“ und „Preis-Leistung“, wenn sie geprüft ist, keine Warnsignale hat, mindestens ${min} erreicht und mindestens ${cheaper} % günstiger ist als die günstigste Unterkunft über der Mindestbewertung.`,
+    starTrapTitle: 'Viele Sterne zum Billigpreis',
+    starTrap: (stars: number, cheaper: number, min: string) =>
+      `Ein Haus mit ${stars} oder mehr Sternen, das mindestens ${cheaper} % billiger ist als die einfachen Häuser deiner Suche, ist oft in die Jahre gekommen. Es zählt nur, wenn wir seine Bewertungen geprüft haben, es mindestens ${min} erreicht und niemand über Zustand oder Sauberkeit klagt.`,
+    unratedTitle: 'Ohne Bewertungen und auffällig',
+    unrated: (cheaper: number) =>
+      `Unterkünfte ohne Bewertungen zählen, wenn Preis und Ausstattung zu den bewerteten Unterkünften passen. Sind sie mehr als ${cheaper} % billiger als vergleichbare oder versprechen sie für weniger Geld mehr Extras als fast alle anderen, nehmen wir sie heraus. Du findest sie ganz unten in der Liste und kannst selbst entscheiden.`,
+    keptTitle: 'Was nicht herausfällt',
+    kept:
+      'Unterkünfte mit wenigen Beschwerden, ohne geprüfte Rezensionen oder in ruhigen Orten bleiben drin; wir kennzeichnen sie. Orte mit wenig Angebot markieren wir als „wenig los“, statt sie zu verstecken.',
+    finaleTitle: '„Deine Auswahl“',
+    finale: (max: number) =>
+      `Für „Deine Auswahl“ sortieren wir zusätzlich aus, was für dein Ziel zu teuer ist oder von einer anderen Unterkunft in allem übertroffen wird, und zeigen höchstens ${max} Unterkünfte.`,
+    moreBefore: 'Wie wir Bewertungen, Schnäppchen und „Unsere Wahl“ berechnen, steht unter',
+  },
+  rating: {
+    guestTitle: 'Durchschnitt der Gästebewertungen',
+    guests: (n: number) => (n === 1 ? '1 Gästebewertung' : `${n} Gästebewertungen`),
+    ours: 'Unser Wert',
+    infoLabel: 'Was bedeutet „Unser Wert“?',
+    sameTitle: 'Unser Wert entspricht der Gästebewertung',
+    diffTitle: (ours: string, guests: string) => `Warum ${ours} statt ${guests}?`,
+    intro: 'Die Gästebewertung ist der reine Durchschnitt. Für unseren Wert zählen außerdem die Zahl der Bewertungen, wie aktuell sie sind und welche Mängel Gäste melden.',
+    kindPlural: { hotel: 'Bei Hotels', pension: 'Bei Pensionen und Gasthöfen', ferienwohnung: 'Bei Ferienwohnungen' } as Record<'hotel' | 'pension' | 'ferienwohnung', string>,
+    fewReviews: (kinds: string, full: number, n: number, mean: string) =>
+      n >= full
+        ? `Bewertungen, die älter als drei Jahre sind, zählen weniger. ${kinds} zählt die Note ab ${full} aktuellen Bewertungen voll, darunter gleichen wir sie etwas an den Durchschnitt aller Unterkünfte (${mean}) an.`
+        : `${kinds} zählt die Note ab ${full} Bewertungen voll. Bei ${n} gleichen wir sie etwas an den Durchschnitt aller Unterkünfte (${mean}) an.`,
+    recentWorse: (d: string) => `Neuere Bewertungen fallen schlechter aus (${d}).`,
+    recentBetter: (d: string) => `Neuere Bewertungen fallen besser aus (${d}).`,
+    cleanliness: (d: string) => `Sauberkeit laut Gästen (${d}).`,
+    penalty: (d: string) => `Abzug für gemeldete Mängel (${d}).`,
+    enough: 'Genug Bewertungen und keine Auffälligkeiten – hier zählt der Durchschnitt, wie er ist.',
+    more: 'So berechnen wir unseren Wert',
   },
   results: {
     title: 'Ergebnisse',
@@ -223,6 +357,15 @@ export const de = {
     apply: 'Filter anwenden',
     reset: 'Filter der Suche',
     cellFilter: (place: string, date: string) => `Nur ${place} am ${date}`,
+    nightsColumn: (n: number) => (n === 1 ? '1 Nacht' : `${n} Nächte`),
+    extraNight: {
+      cheap: (night: number, extra: string, nightly: string) => `${night}. Nacht nur +${extra} – lohnt sich (sonst ${nightly} pro Nacht)`,
+      normal: (night: number, extra: string, nightly: string) => `${night}. Nacht +${extra}, etwa wie die Nächte davor (${nightly})`,
+      expensive: (night: number, extra: string, nightly: string) => `${night}. Nacht +${extra} – deutlich teurer als die Nächte davor (${nightly})`,
+    },
+    nightsSummaryTitle: (from: number, to: number) => `${to} statt ${from} Nächte?`,
+    nightsSummary: (houses: number, cheap: number, expensive: number, extra: string, nightly: string, to: number) =>
+      `Bei ${houses} ${houses === 1 ? 'Unterkunft' : 'Unterkünften'} gibt es dasselbe Zimmer auch mit einer Nacht mehr. Die ${to}. Nacht kostet im Mittel +${extra} (die Nächte davor im Mittel ${nightly}). Deutlich günstiger als die Nächte davor ist sie bei ${cheap} von ${houses}, deutlich teurer bei ${expensive}. Den Hinweis findest du bei jeder Unterkunft.`,
     clearCell: 'Alle Orte und Termine zeigen',
     empty: 'Keine Unterkunft erfüllt diese Filter. Lockere die Filter, um mehr Ergebnisse zu sehen.',
     perNight: (eur: string) => `${eur} pro Nacht`,
@@ -252,6 +395,11 @@ export const de = {
     allOffersLead: 'Jede Unterkunft mit ihrem besten Angebot, mit Filtern, Sortierung und Preis-Matrix.',
     moreFilters: 'Weitere Filter: Sterne und Bewertungen',
     moreFiltersHint: 'Sterne sagen wenig über Sauberkeit und Zustand. Deine Auswahl oben stützt sich auf die Bewertungen der Gäste.',
+    oversizedTitle: (n: number) => `Nur größere Unterkünfte frei (${n})`,
+    oversizedLead:
+      'Diese Unterkünfte haben an deinen Terminen nur Wohnungen oder Zimmer frei, die deutlich mehr Platz bieten, als du brauchst – etwa die große Ferienwohnung für die ganze Familie. Du kannst sie ansehen und buchen; in den Preisvergleich, die Preis-Matrix und „Deine Auswahl“ nehmen wir sie nicht auf.',
+    roomOversized: (capacity: number | null) =>
+      capacity === null ? 'Größer als nötig – nicht im Preisvergleich' : `Für bis zu ${capacity} Personen, größer als nötig – nicht im Preisvergleich`,
     unratedTitle: (n: number) => `Ohne Bewertungen, nicht in unserer Auswahl (${n})`,
     unratedLead:
       'Diese Unterkünfte haben noch keine Bewertungen, und ihr Preis oder ihre Ausstattung passt nicht ins Bild der bewerteten Unterkünfte deiner Suche. Ohne Bewertungen ist eine Unterkunft nicht zwingend schlecht, wir können ihre Qualität nur nicht einschätzen. Deshalb stehen sie nicht in „Deine Auswahl“ und sind nie „Unsere Wahl“. Sieh sie dir an und entscheide selbst.',
@@ -275,8 +423,7 @@ export const de = {
   finale: {
     title: 'Deine Auswahl',
     lead: 'Wir haben aussortiert, was nicht zu deinem Ziel passt. Zwischen diesen Unterkünften entscheidest du.',
-    decide:
-      'Ob dir ein Aufpreis das wert ist, entscheidest du. „Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile (Bewertung, viele Bewertungen, bei Komfort Extras) den Preis am besten aufwiegen.',
+    decide: 'Links steht der Preis, darunter der Aufpreis zur günstigsten Unterkunft.',
     recommended: 'Unsere Wahl',
     base: 'Günstigste deiner Auswahl',
     surcharge: (eur: string) => `+${eur}`,
@@ -336,7 +483,24 @@ export const de = {
     } as Record<string, (min: number) => string>,
     walkTitle: (label: string) => `${label} zu Fuß`,
     moreBadges: (n: number) => `+${n}`,
-    legend: { plus: 'hat es zusätzlich', minus: 'fehlt', same: 'wie beim günstigsten' },
+    legend: {
+      title: 'Legende',
+      compareTitle: 'Verglichen mit der günstigsten Unterkunft',
+      plusChip: 'Sauna',
+      plus: 'zusätzlich',
+      sameChip: 'Bus 5 min',
+      same: 'gleich',
+      minusChip: 'Pool',
+      minus: 'fehlt',
+      recommended: 'bestes Verhältnis aus Preis und Bewertung',
+      reviewsTitle: 'Aus Gästebewertungen',
+      praiseChip: 'Ruhig',
+      praise: 'Lob',
+      critiqueChip: 'Lärm',
+      critique: 'Kritik',
+      reviewsNote: 'Lob und Kritik stammen aus Bewertungen von Gästen, nicht von der Unterkunft.',
+    },
+    critiqueTitle: 'Kritik von Gästen',
     osm: 'Gehminuten: Kartendaten © OpenStreetMap-Mitwirkende',
     open: 'Details',
     runnersUp: (n: number) => (n === 1 ? '1 weitere passende Unterkunft steht unter „Alle Angebote“.' : `${n} weitere passende Unterkünfte stehen unter „Alle Angebote“.`),
@@ -352,6 +516,30 @@ export const de = {
     room: 'Zimmer und Tarif',
     boardAndRate: 'Verpflegung',
     fromPrice: (price: string) => `ab ${price}`,
+    facilityGroups: {
+      internet: 'Internet',
+      parken: 'Parken und Mobilität',
+      essen: 'Essen und Trinken',
+      wellness: 'Wellness und Sport',
+      draussen: 'Draußen',
+      aktivitaeten: 'Aktivitäten',
+      zimmer: 'Zimmer und Wohnung',
+      familie: 'Familie und Haustiere',
+      barrierefrei: 'Barrierefreiheit',
+      service: 'Service',
+    } as Record<'internet' | 'parken' | 'essen' | 'wellness' | 'draussen' | 'aktivitaeten' | 'zimmer' | 'service' | 'familie' | 'barrierefrei', string>,
+    facilitiesMore: (n: number) => (n === 1 ? 'Dazu 1 weitere Angabe des Anbieters, die wir noch nicht übersetzen.' : `Dazu ${n} weitere Angaben des Anbieters, die wir noch nicht übersetzen.`),
+    photoOpen: (n: number) => `Foto ${n} vergrößern`,
+    photosMore: (n: number) => `+${n} Fotos`,
+    photoClose: 'Schließen',
+    photoPrev: 'Vorheriges Foto',
+    photoNext: 'Nächstes Foto',
+    photoCounter: (n: number, total: number) => `${n} / ${total}`,
+    roomOverviewTitle: (persons: number, rooms: number) =>
+      `Zimmer dieser Unterkunft an deinen Terminen (du suchst für ${persons} ${persons === 1 ? 'Person' : 'Personen'}${rooms > 1 ? ` in ${rooms} Zimmern` : ''}):`,
+    roomCapacity: (n: number) => (n === 1 ? 'für 1 Person' : `für bis zu ${n} Personen`),
+    roomOversizedShort: 'größer als nötig',
+    roomOverviewNote: 'Preise für den ganzen Aufenthalt. Zimmer, die deutlich größer sind als nötig, zeigen wir, rechnen sie aber nicht in Preisvergleich und Auswahl ein.',
     cancellation: 'Stornierung',
     price: 'Preis',
     book: 'Buchen',
@@ -361,9 +549,16 @@ export const de = {
     checkinTimes: (ci: string, co: string) => `Anreise ab ${ci}, Abreise bis ${co}`,
     scoreTitle: 'So setzt sich der Qualitätswert zusammen',
     scoreRating: (r: string, n: number) => `Durchschnitt ${r} aus ${n} Bewertungen`,
-    scorePrior: (mean: string, weight: number) =>
-      `Wenige Bewertungen werden zum Gesamtmittel ${mean} gezogen (Gewicht wie ${weight} Bewertungen)`,
-    scoreFullWeight: (full: number) => `Ab ${full} Bewertungen zählt der Durchschnitt voll`,
+    scorePrior: (mean: string, weight: number, kind: string, full: number) =>
+      `${kind}: Der Durchschnitt zählt ab ${full} Bewertungen voll, darunter gleichen wir ihn etwas an das Gesamtmittel ${mean} an (Gewicht wie ${weight} Bewertungen)`,
+    scoreFullWeight: (full: number, kind: string) => `${kind}: ab ${full} Bewertungen zählt der Durchschnitt voll`,
+    kindNames: { hotel: 'Hotel', pension: 'Pension oder Gasthof', ferienwohnung: 'Ferienwohnung' } as Record<'hotel' | 'pension' | 'ferienwohnung', string>,
+    scorePenaltyUnit: (kind: string) =>
+      kind === 'Ferienwohnung'
+        ? 'Mängel wie Schimmel betreffen hier die eine Wohnung, die du buchst: Sie zählen stärker.'
+        : kind === 'Hotel'
+          ? 'Mängel wie Schimmel betreffen in einem Hotel meist einzelne von vielen Zimmern: Sie zählen schwächer.'
+          : '',
     scoreBase: 'Basiswert',
     scoreRecency: 'Aktualität',
     scoreRecencyNotChecked: 'Aktualität nicht geprüft',
@@ -391,27 +586,41 @@ export const de = {
     intro:
       'Wir erklären hier die Hauptkriterien, nach denen wir Angebote ordnen, aussortieren und markieren, damit du nachvollziehen kannst, warum ein Angebot oben steht.',
     qualityTitle: 'Qualitätswert',
-    quality: (full: number, oldMonths: number) =>
-      `Grundlage ist der Durchschnitt der Gästebewertungen. Ab ${full} Bewertungen zählt er so, wie er ist; darunter ziehen wir ihn zum Gesamtmittel, damit eine 10 aus drei Bewertungen nicht vor einer 9,0 aus 400 Bewertungen landet. Bewertungen, die älter als ${oldMonths} Monate sind, zählen dabei ein Drittel, sobald wir ihr Datum kennen. Wo wir die Rezensionen geprüft haben, fließen die Aktualität der Bewertungen und Warnhinweise ein. Sterne fließen nie in den Qualitätswert ein.`,
+    quality: (full: { hotel: number; pension: number; ferienwohnung: number }, oldMonths: number) =>
+      `Grundlage ist der Durchschnitt der Gästebewertungen. Ab einer gewissen Zahl von Bewertungen zählt er so, wie er ist; darunter ziehen wir ihn zum Gesamtmittel, damit eine 10 aus drei Bewertungen nicht vor einer 9,0 aus 400 Bewertungen landet. Die Zahl hängt von der Art der Unterkunft ab, weil ein Hotel mit vielen Zimmern naturgemäß viel mehr Bewertungen sammelt als eine einzelne Ferienwohnung: bei Hotels ${full.hotel}, bei Pensionen und Gasthöfen ${full.pension}, bei Ferienwohnungen ${full.ferienwohnung} Bewertungen. Umgekehrt wiegen Mängel wie Schimmel, Ungeziefer oder Schmutz bei einer Ferienwohnung schwerer als bei einem großen Hotel, denn sie betreffen genau die Wohnung, die du buchst; eine Ferienwohnung fliegt deshalb schon bei weniger Meldungen aus unserer Auswahl. Bewertungen, die älter als ${oldMonths} Monate sind, zählen dabei ein Drittel, sobald wir ihr Datum kennen. Wo wir die Rezensionen geprüft haben, fließen die Aktualität der Bewertungen und Warnhinweise ein. Sterne fließen nie in den Qualitätswert ein.`,
     priceTitle: 'Preis',
     price:
       'Verglichen wird der Gesamtpreis des Aufenthalts inklusive aller im Voraus zu zahlenden Steuern und Gebühren. Die Liste zeigt jede Unterkunft einmal mit ihrem günstigsten passenden Angebot, standardmäßig die günstigste zuerst.',
     recommendTitle: '„Unsere Wahl“',
-    recommend: (points: { sparen: number; ausgewogen: number; komfort: number }, reviews: number, reviewsBonus: number, extra: number, extraMax: number) =>
-      `„Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile den Preis am besten aufwiegen. Dafür rechnen wir jeden Preis in einen Vergleichspreis um: Jeder Punkt Bewertung über der Mindestnote deines Ziels ist ${points.sparen} % („Günstig und sauber“), ${points.ausgewogen} % („Preis-Leistung“) oder ${points.komfort} % („Komfort“) des Preises wert, ab ${reviews} Bewertungen kommen ${reviewsBonus} % hinzu, bei „Komfort“ je Extra wie Frühstück, Halbpension, Sauna oder Pool ${extra} % (höchstens ${extraMax} %). Das Angebot mit dem niedrigsten Vergleichspreis ist unsere Wahl; die Reihenfolge bleibt nach Preis. Unterkünfte ohne Bewertungen sind nie unsere Wahl.`,
+    recommend: (
+      points: { sparen: number; ausgewogen: number; komfort: number },
+      reviews: { hotel: number; pension: number; ferienwohnung: number },
+      reviewsBonus: number,
+      extra: number,
+      extraMax: number,
+    ) =>
+      `„Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile den Preis am besten aufwiegen. Dafür rechnen wir jeden Preis in einen Vergleichspreis um: Jeder Punkt Bewertung über der Mindestnote deines Ziels ist ${points.sparen} % („Günstig und sauber“), ${points.ausgewogen} % („Preis-Leistung“) oder ${points.komfort} % („Komfort“) des Preises wert, bei vielen Bewertungen kommen ${reviewsBonus} % hinzu (Hotels ab ${reviews.hotel}, Pensionen ab ${reviews.pension}, Ferienwohnungen ab ${reviews.ferienwohnung}, weil kleine Unterkünfte naturgemäß weniger Gäste haben), bei „Komfort“ je Extra wie Frühstück, Halbpension, Sauna oder Pool ${extra} % (höchstens ${extraMax} %). Das Angebot mit dem niedrigsten Vergleichspreis ist unsere Wahl; die Reihenfolge bleibt nach Preis. Unterkünfte ohne Bewertungen sind nie unsere Wahl.`,
     bargainTitle: 'Schnäppchen (★)',
     bargain: (percent: number, dates: number) =>
-      `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem mittleren Preis (Median) an deinen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit dem Gesamtpreis dieses Angebots und dem mittleren Gesamtpreis desselben Zimmers an deinen anderen Terminen, also den Zahlen, die auch in der Liste und der Preis-Matrix stehen; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
+      `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem Durchschnittspreis an deinen anderen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Der Termin selbst und andere Zimmer zählen beim Durchschnitt nicht mit. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit dem Gesamtpreis dieses Angebots und dem durchschnittlichen Gesamtpreis desselben Zimmers an deinen anderen Terminen, also den Zahlen, die auch in der Liste und der Preis-Matrix stehen; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
     otherTitle: 'Was nicht einfließt',
     other: 'Unterkünfte können sich keine bessere Platzierung kaufen. Provisionen oder Margen haben keinen Einfluss auf die Reihenfolge.',
+    placesTitle: 'So bewerten wir Orte und Regionen',
+    places: (top: number, beliebt: number, ruhig: number) =>
+      `Ein abgelegener Nebenort ohne Bergbahn und Wanderwege ist oft deutlich günstiger als ein bekannter Urlaubsort – im Urlaub hat man dort aber weniger davon. Deshalb zeigen wir bei jedem Ort, wie viel er bietet, und markieren Orte, in denen wenig los ist; aussortiert wird dadurch nichts. Wir schauen auf fünf Punkte: Bekanntheit als Urlaubsort, Bergbahnen, Skigebiet oder große Sehenswürdigkeiten, Wander- und Radwege, die Vielfalt der Aktivitäten und die Versorgung vor Ort (Restaurants, Läden, Gästeinformation). Bekanntheit und Attraktionen zählen doppelt. Daraus entsteht ein Wert von 0 bis 10: ab ${formatNumber(top)} „Top-Urlaubsort“, ab ${formatNumber(beliebt)} „Beliebter Urlaubsort“, ab ${formatNumber(ruhig)} „Ruhiger Ort“, darunter „Wenig los“. Orte, die du selbst eingibst, schätzen wir aus ihrer Größe und bekannten Urlaubsorten in der Nähe. Eine Region zählt so viel wie ihre drei besten Orte.`,
     sortTitle: 'Sortierungen',
     sort: 'Standard ist der Preis, die günstigste Unterkunft zuerst. Du kannst die Liste auch nach „Unsere Wahl zuerst“ (Vergleichspreis) oder nach Bewertung (absteigend) sortieren.',
     finaleTitle: '„Deine Auswahl“: So sortieren wir vor',
     finale: (stars: number, max: number) =>
       `Je nach deinem Ziel sortieren wir Unterkünfte aus, die deine Filter nicht erfüllen, die keine Bewertungen haben und dabei auffällig billig oder auffällig gut ausgestattet oder für dein Ziel nicht einschätzbar sind, bei denen sich Beschwerden über Schimmel, Ungeziefer oder Schmutz häufen (siehe „Warnsignale“), die ${stars} oder mehr Sterne zum Preis eines einfachen Hauses haben, aber keine geprüften guten Bewertungen, die für dein Ziel zu schwach bewertet oder zu teuer sind, oder für die es ein Angebot gibt, das nicht teurer, mindestens gleich gut bewertet ist und alles bietet, was dieses bietet. Von den übrigen zeigen wir höchstens ${max}, die günstigste zuerst, und nennen bei den anderen den Aufpreis und was er bringt. Unter „Alle Angebote“ stehen alle Unterkünfte, die zu deinem Ziel passen. Aussortierte Unterkünfte ohne Bewertungen findest du dort ganz unten: Ohne Bewertungen ist eine Unterkunft nicht zwingend schlecht, die Entscheidung liegt bei dir.`,
     redFlagTitle: 'Warnsignale',
-    redFlag: (limits: Record<'schimmel' | 'ungeziefer' | 'sauberkeit', { guests: number; share: number }>, months: number, weight: number) =>
-      `Bei den Unterkünften, die am besten zu deinem Ziel passen, prüfen wir die Rezensionen auf Beschwerden, etwa über Schimmel, Ungeziefer, Schmutz oder Lärm. Einzelne Beschwerden zeigen wir als Warnhinweis und ziehen sie vom Qualitätswert ab; die Unterkunft bleibt in der Liste, denn wenige Meldungen bei vielen Gästen machen ein Haus nicht unbewohnbar. Aussortiert wird sie erst, wenn sich Beschwerden häufen: bei Schimmel ab ${limits.schimmel.guests} Gästen und ${limits.schimmel.share} % der geprüften Bewertungen, bei Ungeziefer ab ${limits.ungeziefer.guests} Gästen und ${limits.ungeziefer.share} %, bei Schmutz ab ${limits.sauberkeit.guests} Gästen und ${limits.sauberkeit.share} %. Bewertungen der letzten ${months} Monate zählen dabei ${weight === 2 ? 'doppelt' : `${weight}-fach`}, ältere also weniger, genau wie beim Lob.`,
+    redFlag: (
+      limits: Record<'schimmel' | 'ungeziefer' | 'sauberkeit', { guests: number; share: number }>,
+      months: number,
+      weight: number,
+      flat: Record<'schimmel' | 'ungeziefer' | 'sauberkeit', { guests: number; share: number }>,
+    ) =>
+      `Bei den Unterkünften, die am besten zu deinem Ziel passen, prüfen wir die Rezensionen auf Beschwerden, etwa über Schimmel, Ungeziefer, Schmutz oder Lärm. Einzelne Beschwerden zeigen wir als Warnhinweis und ziehen sie vom Qualitätswert ab; die Unterkunft bleibt in der Liste, denn wenige Meldungen bei vielen Gästen machen ein Haus nicht unbewohnbar. Aussortiert wird sie erst, wenn sich Beschwerden häufen: bei Schimmel ab ${limits.schimmel.guests} Gästen und ${limits.schimmel.share} % der geprüften Bewertungen, bei Ungeziefer ab ${limits.ungeziefer.guests} Gästen und ${limits.ungeziefer.share} %, bei Schmutz ab ${limits.sauberkeit.guests} Gästen und ${limits.sauberkeit.share} %. Das gilt für Hotels. Pensionen, Gasthöfe und besonders Ferienwohnungen haben nur wenige Zimmer oder eine einzige Wohnung, da betrifft eine Meldung genau das, was du buchst: Bei einer Ferienwohnung reichen deshalb schon ${flat.schimmel.guests} Gäste und ${flat.schimmel.share} % bei Schimmel oder Ungeziefer und ${flat.sauberkeit.guests} Gäste und ${flat.sauberkeit.share} % bei Schmutz. Bewertungen der letzten ${months} Monate zählen dabei ${weight === 2 ? 'doppelt' : `${weight}-fach`}, ältere also weniger, genau wie beim Lob.`,
     praiseTitle: 'Lob-Labels',
     praise: (min: number, share: number) =>
       `Labels wie „Gutes Frühstück“ oder „Besonders sauber“ zählen wir ohne KI aus den Feldern „Positiv“ und „Negativ“ der Gästebewertungen. Ein Label erscheint ab ${min} lobenden Gästen, wenn mindestens ${share} % der Erwähnungen Lob sind und keine passende Warnung vorliegt. Die Zahlen stehen in der Detailansicht.`,

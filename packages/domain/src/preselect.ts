@@ -11,7 +11,7 @@ import {
   GOAL_QUALITY_FLOOR,
   LOW_QUALITY_EXCEPTION_MIN,
   LOW_QUALITY_EXCEPTION_PRICE_RATIO,
-  RED_FLAG_THRESHOLDS,
+  RED_FLAG_THRESHOLDS_BY_KIND,
   STAR_TRAP_MIN_QUALITY,
   STAR_TRAP_MIN_REFERENCE,
   STAR_TRAP_MIN_STARS,
@@ -23,6 +23,7 @@ import {
 } from './constants';
 import { byComparison, premiumExtras, recommendedIndex, type ComparisonInput } from './comparison';
 import { offerFeatures, type FeatureHotel } from './features';
+import type { PropertyKind } from './property-kind';
 import type { EvaluatedOffer } from './ranking';
 import { GOALS, type Goal, type PraiseTopic } from './vocabulary';
 
@@ -101,7 +102,13 @@ const premiumCount = (e: Entry) => premiumExtras(e.features);
 const isRated = (e: Entry) => e.offer.quality !== null;
 
 export function comparisonOf(offer: EvaluatedOffer, featureCodes: Iterable<string>): ComparisonInput {
-  return { totalCents: offer.totalCents, quality: offer.quality, reviews: offer.breakdown.effectiveReviews, extras: premiumExtras(featureCodes) };
+  return {
+    totalCents: offer.totalCents,
+    quality: offer.quality,
+    reviews: offer.breakdown.effectiveReviews,
+    extras: premiumExtras(featureCodes),
+    kind: offer.breakdown.propertyKind,
+  };
 }
 const comparisonEntry = (e: Entry) => comparisonOf(e.offer, e.features);
 
@@ -131,9 +138,9 @@ type RedFlagThreshold = { guests: number; guestsUnverified: number; share: numbe
  * enough guests and a large enough share of the checked reviews. A few
  * complaints among many guests stay a warning; the house is ranked normally.
  */
-export function hasRedFlag(e: HotelEvidence): boolean {
+export function hasRedFlag(e: HotelEvidence, kind: PropertyKind = 'hotel'): boolean {
   return e.warnings.some((w) => {
-    const t = (RED_FLAG_THRESHOLDS as Record<string, RedFlagThreshold | undefined>)[w.topic];
+    const t = (RED_FLAG_THRESHOLDS_BY_KIND[kind] as Record<string, RedFlagThreshold | undefined>)[w.topic];
     if (!t || (w.confirmed === 0 && w.unverified === 0)) return false;
     return w.guests >= (w.confirmed > 0 ? t.guests : t.guestsUnverified) && w.share >= t.share;
   });
@@ -173,7 +180,7 @@ function dominates(b: Entry, a: Entry): boolean {
 function failedRule(e: Entry, goal: Goal, stage: Stage, budgetMedian: number | null, doubt: UnratedDoubt | null): ExclusionReason | null {
   const q = e.offer.quality;
   if (q === null) return doubt ? 'no_reviews' : null;
-  if (stage === 'final' && hasRedFlag(e.evidence)) return 'red_flag';
+  if (stage === 'final' && hasRedFlag(e.evidence, e.offer.breakdown.propertyKind)) return 'red_flag';
   const margin = stage === 'final' ? 0 : CANDIDATE_QUALITY_MARGIN;
   const suspect = (e.stars ?? 0) >= STAR_TRAP_MIN_STARS && budgetMedian !== null && e.offer.pricePerNightCents < STAR_TRAP_PRICE_RATIO * budgetMedian;
   if (suspect) {
@@ -237,7 +244,7 @@ function applyRules(input: PreselectInput, stage: Stage): RuleOutcome {
     }
     const hotel = input.hotels.get(hotelId);
     const evidence = input.evidence.get(hotelId) ?? NO_EVIDENCE;
-    const reviews = { reviewCount: offer.breakdown.reviewCount, effectiveReviews: offer.breakdown.effectiveReviews };
+    const reviews = { reviewCount: offer.breakdown.reviewCount, effectiveReviews: offer.breakdown.effectiveReviews, propertyKind: offer.breakdown.propertyKind };
     const features = offerFeatures({ ...(hotel ?? { facilityIds: [], hotelType: null }), ...reviews }, offer, evidence.labels);
     entries.push({ offer, stars: hotel?.stars ?? null, evidence, features: new Set(features.map((f) => f.code)), exception: false });
   }
