@@ -14,6 +14,7 @@ const meta = {
   payment_mode: 'sandbox',
   booking_enabled: true,
   provider_sources: { liteapi: 'real', routing: 'real', llm: 'real', mail: 'real', poi: 'real' },
+  end_user_view: false,
   dev_settings: false,
   catalog_drafts: false,
   chips: [],

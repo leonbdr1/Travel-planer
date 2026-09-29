@@ -35,7 +35,7 @@ Ich kann das nicht selbst machen, weil ich keine Konten, Secrets und Deploys ohn
 | 1 | Cloudflare-Konto (Free) anlegen, `workers.dev`-Subdomain wählen | ca. 10 min |
 | 2 | Supabase-Konto und ein Projekt in einer EU-Region (Frankfurt) im Free-Tarif anlegen, Verbindungsadresse notieren | ca. 10 min |
 | 3 | Hyperdrive-Konfiguration in Cloudflare auf diese Datenbank anlegen (ID notieren) | ca. 5 min |
-| 4 | Passwort wählen (lang, zufällig, im Passwortmanager), als Secret `SITE_PASSWORD` setzen; dazu `SIGNING_KEY` und `IP_HASH_SALT` (zufällige Werte) | ca. 5 min |
+| 4 | Secrets `SIGNING_KEY` und `IP_HASH_SALT` (zufällige Werte) setzen; die Passwörter (Admin und Nutzer) legst du beim ersten Besuch der Seite im Formular fest (kein Secret mehr, `SITE_PASSWORD` entfällt) | ca. 5 min |
 | 5 | In einer neuen Claude-Sitzung: Migrationen einspielen, Deploy nach **Staging** (Fake-Modus, `PROVIDERS_MODE=sandbox` erst mit Schlüsseln), Rauchtest | eine Sitzung |
 | 6 | URL prüfen: `https://<worker>.<subdomain>.workers.dev` zeigt die Passwortseite; die URL bei Tripadvisor eintragen | ca. 5 min |
 

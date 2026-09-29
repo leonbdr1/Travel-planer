@@ -67,8 +67,6 @@ export interface Env {
   ORS_API_KEY?: string;
   RESEND_API_KEY?: string;
   SIGNING_KEY?: string;
-  /** Password of the site gate (secret; `wrangler secret put SITE_PASSWORD`). */
-  SITE_PASSWORD?: string;
   IP_HASH_SALT?: string;
   ALTCHA_HMAC_KEY?: string;
   OPS_HB_TOKEN?: string;

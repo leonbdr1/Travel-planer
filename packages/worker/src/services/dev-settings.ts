@@ -11,6 +11,11 @@ export function devSettingsAllowed(config: RuntimeConfig): boolean {
   return config.APP_ENV === 'dev' || config.APP_ENV === 'test';
 }
 
+/** Testers with the user password (site gate) see the site as an end customer: no developer tools. */
+export function endUserView(role: string | undefined): boolean {
+  return role === 'user';
+}
+
 export interface AiSwitchState {
   /** The AI may run at all (LLM_ENABLED). */
   available: boolean;

@@ -15,6 +15,8 @@ export const metaConfigResponseSchema = z.object({
     mail: z.enum(['fake', 'real']),
     poi: z.enum(['fake', 'real']),
   }),
+  /** A tester with the user password: the site as an end customer sees it, without developer banner and tools. */
+  end_user_view: z.boolean(),
   /** The developer page (/entwickler) is available: local dev only. */
   dev_settings: z.boolean(),
   catalog_drafts: z.boolean(),

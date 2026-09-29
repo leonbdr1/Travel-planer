@@ -8,7 +8,8 @@ import { CHIPS, THEME_CODES, THEME_LABELS, constants } from '@reiseplaner/domain
 import type { AppEnv } from '../app';
 import { ConfigurationError, configuredSources } from '../env';
 import { newChallenge } from '../services/altcha';
-import { devSettingsAllowed, effectiveLlmEnabled } from '../services/dev-settings';
+import { ROLE_HEADER } from '../gate';
+import { devSettingsAllowed, effectiveLlmEnabled, endUserView } from '../services/dev-settings';
 import { effectiveMaxCombinations } from '../services/maintenance';
 
 export const metaRoutes = new Hono<AppEnv>()
@@ -35,7 +36,8 @@ export const metaRoutes = new Hono<AppEnv>()
     payment_mode: config.LITEAPI_PAYMENT_MODE,
     booking_enabled: config.BOOKING_ENABLED,
     provider_sources: configuredSources(config),
-    dev_settings: devSettingsAllowed(config),
+    end_user_view: endUserView(c.req.header(ROLE_HEADER)),
+    dev_settings: devSettingsAllowed(config) && !endUserView(c.req.header(ROLE_HEADER)),
     catalog_drafts: config.CATALOG_ALLOW_DRAFTS,
     chips: CHIPS.map((chip) => ({ code: chip.code, label: chip.label })),
     themes: THEME_CODES.map((code) => ({ code, label: THEME_LABELS[code] })),

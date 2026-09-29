@@ -23,3 +23,13 @@ export async function setSetting(db: Queryable, key: string, value: unknown): Pr
 export async function deleteSetting(db: Queryable, key: string): Promise<void> {
   await db.query('DELETE FROM app.meta_kv WHERE key = $1', [key]);
 }
+
+/** Writes the value only if the key does not exist yet; false when it already did (atomic first write). */
+export async function setSettingIfAbsent(db: Queryable, key: string, value: unknown): Promise<boolean> {
+  const rows = await db.query<{ key: string }>(
+    `INSERT INTO app.meta_kv (key, value, updated_at) VALUES ($1, $2::text::jsonb, now())
+     ON CONFLICT (key) DO NOTHING RETURNING key`,
+    [key, json(value)],
+  );
+  return rows.length > 0;
+}

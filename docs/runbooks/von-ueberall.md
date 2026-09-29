@@ -20,7 +20,7 @@ Stand meiner Recherche, nicht aus den Anbieter-Preisseiten bestätigt.
 1. **Repository auf dem MacBook** aktualisieren und installieren (wie in `docs/runbooks/testbetrieb.md`, Schritt 4).
 2. **Tailscale installieren:** tailscale.com/download (Mac-App) oder `brew install --cask tailscale`, anmelden.
 3. **Funnel freischalten:** In der Tailscale-Verwaltung (login.tailscale.com) unter *Access controls* Funnel für dein Gerät erlauben (die Verwaltung bietet dafür einen Knopf oder Hinweis) und unter *DNS* MagicDNS sowie HTTPS-Zertifikate aktivieren.
-4. **Passwort festlegen:** `npm run serve` starten (siehe unten); beim ersten Start erzeugt es eine Zeile `SITE_PASSWORD=…` in `packages/worker/.dev.vars`. Öffne die Datei und ersetze den Wert durch ein langes eigenes Passwort. Das Passwort steht nirgends sonst und wird nie ausgegeben.
+4. **Passwörter festlegen:** `npm run serve` starten (siehe unten) und die Adresse öffnen. Der erste Besuch zeigt ein Formular für zwei Passwörter: das **Admin-Passwort** (für dich: Entwicklerseite, KI-Schalter, Hinweisbalken) und das **Nutzer-Passwort** (für Tester: sie sehen die Seite wie Endkunden, ohne Entwicklerwerkzeuge). Mindestens 10 Zeichen, beide verschieden. Danach fragt die Seite nur noch nach einem Passwort; das Formular erscheint nicht wieder. Die Passwörter liegen als gesalzene Hashes in der lokalen Datenbank (`app.meta_kv`, Schlüssel `gate.credentials`), in keiner Datei. **Richte sie sofort nach dem ersten Start ein:** solange sie fehlen, kann jeder, der die Adresse kennt, sie festlegen. Zurücksetzen (Passwort vergessen): `psql postgres://postgres:postgres@127.0.0.1:54329/postgres -c "DELETE FROM app.meta_kv WHERE key='gate.credentials'"`, dann erscheint das Formular neu.
 
 ## Jeden Tag
 

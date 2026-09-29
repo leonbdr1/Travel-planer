@@ -79,3 +79,22 @@ describe('AI switch', () => {
     expect(body.limits.searches_per_hour).toBeGreaterThan(productConfig.limits.rate_limits.searches_per_hour);
   });
 });
+
+describe('end-user view (tester with the user password of the site gate)', () => {
+  const asUser = { headers: { 'x-site-role': 'user' } };
+  const asAdmin = { headers: { 'x-site-role': 'admin' } };
+  const metaAs = async (init: RequestInit) => metaConfigResponseSchema.parse(await (await app().request('/api/v1/meta/config', init, env() as never)).json());
+
+  it('hides the developer page and its settings from the user role, not from the admin', async () => {
+    expect((await settings(env(), asUser)).status).toBe(404);
+    expect((await settings(env(), { ...put(true), headers: { 'content-type': 'application/json', 'x-site-role': 'user' } })).status).toBe(404);
+    expect((await settings(env(), asAdmin)).status).toBe(200);
+    expect((await settings(env())).status).toBe(200);
+  });
+
+  it('reports the end-user view in /meta/config: no developer tools', async () => {
+    expect(await metaAs(asUser)).toMatchObject({ end_user_view: true, dev_settings: false });
+    expect(await metaAs(asAdmin)).toMatchObject({ end_user_view: false, dev_settings: true });
+    expect(await metaAs({})).toMatchObject({ end_user_view: false, dev_settings: true });
+  });
+});

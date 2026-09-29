@@ -9,6 +9,7 @@ function DevBanner() {
   const meta = useMeta();
   if (meta.status !== 'ready') return null;
   const m = meta.meta;
+  if (m.end_user_view) return null;
   const s = m.provider_sources;
   const allFake = Object.values(s).every((source) => source === 'fake');
   if (!allFake && !isTestbetrieb(m)) return null;

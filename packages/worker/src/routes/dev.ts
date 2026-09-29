@@ -6,9 +6,10 @@ import { productConfig } from '@reiseplaner/config';
 import { devSettingsUpdateSchema, type DevSettingsResponse } from '@reiseplaner/contracts';
 import { budgetStatus } from '@reiseplaner/db';
 import type { AppEnv } from '../app';
+import { ROLE_HEADER } from '../gate';
 import { ApiError } from '../http/errors';
 import { parseJsonBody } from '../http/validate';
-import { aiSwitchState, devSettingsAllowed, setAiSwitch } from '../services/dev-settings';
+import { aiSwitchState, devSettingsAllowed, endUserView, setAiSwitch } from '../services/dev-settings';
 import type { RequestDeps } from '../deps';
 
 async function settings(deps: RequestDeps): Promise<DevSettingsResponse> {
@@ -28,7 +29,7 @@ async function settings(deps: RequestDeps): Promise<DevSettingsResponse> {
 
 export const devRoutes = new Hono<AppEnv>()
   .use('*', async (c, next) => {
-    if (!devSettingsAllowed(c.get('deps').config)) throw new ApiError(404, 'not_found', 'Nicht gefunden.');
+    if (!devSettingsAllowed(c.get('deps').config) || endUserView(c.req.header(ROLE_HEADER))) throw new ApiError(404, 'not_found', 'Nicht gefunden.');
     c.header('Cache-Control', 'no-store');
     await next();
   })
