@@ -62,6 +62,22 @@ Die Schwellen der Vorauswahl hast du am 28.09.2026 festgelegt (Mindestnote 7,0 /
 
 **Gehminuten** (Bushaltestelle, Bahnhof, Lift, Supermarkt, Restaurants in der Nähe) kommen aus OpenStreetMap, ohne Konto und ohne Schlüssel. `testbetrieb pruefen` fragt die Punkte rund um Füssen einmal ab („Lage (OpenStreetMap)“).
 
+## Sandbox-Buchung testen (Buchen und wieder stornieren)
+
+Mit einem LiteAPI-Sandbox-Schlüssel (`sand_…`) lässt sich der ganze Buchungsablauf durchspielen, ohne Geld: echte Tarife, echtes Zahlungsformular (Stripe im Testmodus), Buchung und Stornierung bei LiteAPI. E-Mails bleiben simuliert.
+
+```bash
+npm run cli -- testbetrieb buchen an     # nur mit sand_-Schlüssel möglich; dann npm run dev neu starten
+npm run dev
+```
+
+1. Suchen, ein Ergebnis öffnen, beim Angebot „Buchen“ (nimm eines mit kostenloser Stornierung).
+2. Namen und E-Mail eintragen, Zahlung: Testkarte `4242 4242 4242 4242`, beliebiges künftiges Ablaufdatum, beliebige drei Ziffern.
+3. Nach der Zahlung erscheint die Bestätigung mit Buchungsnummer. Über „Meine Buchung“ stornieren.
+4. Fertig? `npm run cli -- testbetrieb buchen aus`.
+
+Lässt sich die Buchung nicht stornieren, steht sie im LiteAPI-Dashboard unter Bookings (Sandbox), dort ebenfalls stornierbar.
+
 ## Grenzen im Testbetrieb
 
 - Ortsdaten (Startort, eigene Orte) decken **Deutschland, Österreich, Schweiz und Südtirol** ab, Fahrzeit höchstens 6 Stunden. Andere Ziele (z. B. Gardasee, Elsass, Holland) lassen sich ergänzen: Claude Bescheid geben.
@@ -76,6 +92,7 @@ Die Schwellen der Vorauswahl hast du am 28.09.2026 festgelegt (Mindestnote 7,0 /
 | `npm run cli -- testbetrieb einrichten` | Schlüssel abfragen und in `packages/worker/.dev.vars` speichern (nur dort, gitignored) |
 | `npm run cli -- testbetrieb einrichten --from-env` | dasselbe aus den `REISEPLANER_*`-Umgebungsvariablen |
 | `npm run cli -- testbetrieb pruefen [--aufzeichnen]` | je ein echter Aufruf pro Anbieter mit verständlichem Ergebnis; die Ausgabe enthält keine Schlüssel und darf weitergegeben werden. `--aufzeichnen` speichert die Rohantworten unter `.data/testbetrieb-aufnahmen/` |
+| `npm run cli -- testbetrieb buchen an\|aus` | Buchen im Testbetrieb ein- oder ausschalten (`an` nur mit Sandbox-Schlüssel) |
 | `npm run cli -- testbetrieb aus` | zurück zur vollständigen Simulation, Schlüssel werden entfernt |
 | `REISEPLANER_FAKE_LATENCY_MS=4000 npm run dev` | nur Simulation: die simulierten Anbieter antworten so langsam wie die echte LiteAPI (zum Ausprobieren ohne Schlüssel) |
 

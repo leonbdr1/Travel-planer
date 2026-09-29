@@ -27,7 +27,7 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | S2.1 | Provider-Ports und Fakes | `demonstrated` | `docs/demos/S2.1/` | Fakes auf HTTP-Ebene mit synthetischer Welt; Fehlerinjektion 429/5xx/Timeout. |
 | S2.2 | LiteAPI-Client | `demonstrated` | `docs/demos/S2.2/` | Nur Fake-Modus; Contract gegen die Live-Doku ungeprüft (BG-05). |
 | S2.3 | ORS-Client und Cache | `demonstrated` | `docs/demos/S2.3/` | Zweiter Aufruf: 0 neue ORS-Anfragen. |
-| S2.4 | Sandbox-Buchung (Testseite) | `blocked` | – | Braucht Sandbox-Konto und Zahlungs-SDK (BG-05). |
+| S2.4 | Sandbox-Buchung (Testseite) | `blocked` | – | Ersetzt durch O8.1 im Testbetrieb (`testbetrieb buchen an`). |
 | S2.5 | Validierungsbericht | `blocked` | – | Messwerte nur mit Sandbox (BG-05, BG-06); BG-10 offen. |
 
 ## M3 Ortsdaten und Katalog
@@ -87,7 +87,7 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | S8.2 | Buchungs-Endpunkte | `demonstrated` | `docs/demos/S8.2/` | Ablauf bis `cancelled`; doppeltes `complete` gleicher Stand; fremdes Token → 403. |
 | S8.3 | E-Mail-Versand | `demonstrated` | `docs/demos/S8.3/` | Bestätigung gerendert; Fehlversand, zweiter Versuch per Cron. |
 | S8.4 | Buchungsablauf | `live-verified` | `docs/demos/S8.4/` | Walkthrough 36/36, Akzeptanzbeispiel 5 im Screenshot gelesen; Zahlung simuliert. |
-| O8.1 | Buchung Sandbox Ende zu Ende | `blocked` | – | BG-05, BG-08 |
+| O8.1 | Buchung Sandbox Ende zu Ende | `wired` | – | Zahlungsformular (LiteAPI-SDK) eingebunden, CSP ergänzt, Prebook gegen echte Sandbox belegt (`prebookId`, `transactionId`, `secretKey`). Offen: Zahlung mit Testkarte, Buchung, Stornierung im Browser (Ben), danach `demonstrated`. Anleitung `docs/runbooks/testbetrieb.md`. |
 
 ## M9 Vertrauen, Recht und Schutz
 
