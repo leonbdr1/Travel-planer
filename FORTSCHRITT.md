@@ -8,7 +8,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 
 - [x] **Aufgabe 0** – Priorisierung vermerkt: „Günstig und sauber“ zuerst, „Preis-Leistung“ und „Komfort“ aktuell unfertig
 - [x] **Aufgabe 1** – Startseite im Stil üblicher Buchungsseiten (Ortssuche, Kalender mit zwei Klicks)
-- [ ] **Aufgabe 2** – Rechenfehler „Alle Termine und Tarife“ (Vergleich nur über dasselbe Zimmer)
+- [x] **Aufgabe 2** – Rechenfehler „Alle Termine und Tarife“ (Vergleich nur über dasselbe Zimmer)
 - [ ] **Aufgabe 3** – Standortsuche: Postleitzahlen, fehlende Orte, manuelle Mehrfachauswahl von Orten
 - [ ] **Aufgabe 4** – Flexible Übernachtungsanzahl (z. B. 2 bis 3 Nächte)
 - [ ] **Aufgabe 5** – Personenzahl und Zimmerlogik
@@ -33,3 +33,11 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Nächte und Anreise-Wochentage stehen darunter in „Wie lange und ab welchem Wochentag?“ mit Terminvorschau.
 - Beleg: Walkthrough `startseite` (neu) in `docs/demos/F1/walkthrough-P/` (Screenshots gelesen, 390 px ohne Querscrollen); `suchrahmen` und `suche` weiterhin grün; `npm test` 408 grün.
 - Offen: Ortssuche selbst (PLZ, Mehrfachauswahl) folgt in Aufgabe 3; flexible Nächte in Aufgabe 4.
+
+### Aufgabe 2 – erledigt
+- **Ursache:** Andere Zimmer flossen nicht ein (der Vergleich lief schon nach Zimmer, Verpflegung und Stornobedingungen). Der Fehler war, dass der Vergleichswert der **Median über alle Termine desselben Zimmers inklusive des Schnäppchen-Termins selbst** war: Median von 182 €, 184 €, 128 € = 182 € (dass das zufällig dem Gartenblick-Preis entsprach, ließ es wie ein Mischen der Zimmer aussehen).
+- **Behoben** in `packages/domain/src/bargains.ts` (`otherDatesMean`): Vergleichswert ist jetzt der **Durchschnitt desselben Zimmers (gleiche Verpflegung, gleiche Stornobedingungen) nur an den anderen Terminen**. Bens Beispiel: (182 + 184) / 2 = 183 € → 30 % günstiger (vorher 182 € / 29 %). Auch die Schwelle für die Markierung (höchstens 80 % des Vergleichswerts) nutzt jetzt diesen Wert.
+- **Andere Stellen geprüft:** Plausibilitätsprüfung für Häuser ohne Bewertungen (Median bewerteter Häuser – das geprüfte Haus ist unbewertet, zählt also nicht mit), Sterne-Falle (Median der Häuser mit weniger Sternen – das geprüfte Haus hat mehr Sterne, zählt nicht mit), Zimmergruppen in der Detailansicht (je Zimmer „ab“-Preis, korrekt), Aufpreis im Finale (Differenz zum günstigsten Finalisten, gewollt verschiedene Häuser). Kein weiterer Fall derselben Fehlerquelle gefunden.
+- Texte: Seite „So berechnen wir die Rangliste“ nennt jetzt den Durchschnitt der anderen Termine.
+- Beleg: `npm run demo -- f2` → `docs/demos/F2/demo-output.txt` (Bens Beispiel ok; echte Suche über den lokalen Stack: 28 Schnäppchen-Begründungen gegen die Angebote der Detailansicht nachgerechnet, 0 abweichend); `npm test` 410 grün.
+- Offen: `architektur.md` 6.8 nennt noch den Median – Nachtrag in `docs/architektur-nachtrag.md`, Übernahme braucht Bens Freigabe.

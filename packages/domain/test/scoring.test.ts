@@ -100,12 +100,42 @@ describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
       { ...stay, id: '3', checkin: '2026-10-16', roomName: 'Suite', pricePerNightCents: 25_000 },
       { ...stay, id: '4', checkin: '2026-10-23', roomName: ' doppelzimmer ', pricePerNightCents: 9_000 },
     ]);
-    // Doppelzimmer on three dates: 120 €, 135.40 €, 90 € → median 120 € → 25 % below.
+    // Doppelzimmer on its other dates: 120 € and 135.40 € → mean 127.70 € → 90 € is 30 % below.
     expect(bargains.get('4')).toEqual({
       types: ['date'],
-      reason: '25 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 180 € gesamt, an deinen anderen Terminen im Mittel 240 € gesamt)',
+      reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 180 € gesamt, an deinen anderen Terminen im Mittel 255 € gesamt)',
     });
     expect(bargains.size).toBe(1);
+  });
+
+  it('averages only the same room on the other dates, never this date or other rooms (Ben, Aufgabe 2)', () => {
+    // Ben's example: "Die Kleine" 182 €, 184.08 €, 128.42 € (2 nights); the
+    // other flats of the house cost 178 € and 182 € on other dates.
+    const bargains = detectBargains([
+      { ...stay, id: 'k1', checkin: '2026-10-30', roomName: 'Ferienwohnung 2 „Die Kleine“', boardType: 'RO', pricePerNightCents: 9_100 },
+      { ...stay, id: 'k2', checkin: '2026-11-06', roomName: 'Ferienwohnung 2 „Die Kleine“', boardType: 'RO', pricePerNightCents: 9_204 },
+      { ...stay, id: 'k3', checkin: '2026-11-13', roomName: 'Ferienwohnung 2 „Die Kleine“', boardType: 'RO', pricePerNightCents: 6_421 },
+      { ...stay, id: 'a1', checkin: '2026-10-09', roomName: 'Apartment', boardType: 'RO', pricePerNightCents: 8_924 },
+      { ...stay, id: 'g1', checkin: '2026-10-16', roomName: 'Ferienwohnung 1 „Gartenblick“', boardType: 'RO', pricePerNightCents: 9_100 },
+      { ...stay, id: 'g2', checkin: '2026-10-23', roomName: 'Ferienwohnung 1 „Gartenblick“', boardType: 'RO', pricePerNightCents: 9_092 },
+    ]);
+    // (182 € + 184.08 €) / 2 = 183.04 € → 1 − 128.42 / 183.04 = 29.8 % → 30 %.
+    expect(bargains.get('k3')).toEqual({
+      types: ['date'],
+      reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 128 € gesamt, an deinen anderen Terminen im Mittel 183 € gesamt)',
+    });
+    expect(bargains.size).toBe(1);
+  });
+
+  it('an expensive date does not become cheaper by counting itself', () => {
+    // 100 €, 100 €, 79 €: against the others (100 €) the 79 € is 21 % cheaper, a bargain;
+    // the median of all three (100 €) would say the same, but the mean of all three would not.
+    const bargains = detectBargains([
+      { ...stay, id: '1', checkin: '2026-10-02', pricePerNightCents: 10_000 },
+      { ...stay, id: '2', checkin: '2026-10-09', pricePerNightCents: 10_000 },
+      { ...stay, id: '3', checkin: '2026-10-16', pricePerNightCents: 7_900 },
+    ]);
+    expect(bargains.get('3')?.reason).toContain('21 % günstiger');
   });
 
   it('treats another board or other cancellation terms as another kind of stay', () => {

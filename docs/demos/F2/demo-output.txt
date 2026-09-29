@@ -1,0 +1,44 @@
+$ npm run demo -- f2
+# recorded 2026-09-29T16:17:56.834Z
+
+Teil 1 – Bens Beispiel (Bad Wildbad, 2 Nächte):
+  2026-10-30  Ferienwohnung 2 „Die Kleine“     182.00 €
+  2026-11-06  Ferienwohnung 2 „Die Kleine“     184.08 €
+  2026-11-13  Ferienwohnung 2 „Die Kleine“     128.42 €
+  2026-10-09  Apartment                        178.48 €
+  2026-10-16  Ferienwohnung 1 „Gartenblick“    182.00 €
+  2026-10-23  Ferienwohnung 1 „Gartenblick“    181.84 €
+  Schnäppchen k3: 30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 128 € gesamt, an deinen anderen Terminen im Mittel 183 € gesamt)
+  erwartet: nur k3, 30 %, im Mittel 183 € → ok
+
+Teil 2 – echte Suche über den lokalen Stack, jede Schnäppchen-Begründung nachgerechnet:
+  ok     Hotel Almrausch · Doppelzimmer Standard · 2026-11-20: andere Termine 159 €, 159 €, 161 €, 124 € → im Mittel 151 € gesamt
+  ok     Gasthof Rose · Doppelzimmer Standard · 2026-11-20: andere Termine 187 €, 188 €, 196 €, 142 €, 149 €, 159 € → im Mittel 170 € gesamt
+  ok     Pension Seeblick · Doppelzimmer Standard · 2026-10-09: andere Termine 197 €, 211 €, 210 €, 156 €, 105 €, 158 € → im Mittel 173 € gesamt
+  ok     Pension Seeblick · Doppelzimmer Standard · 2026-11-20: andere Termine 197 €, 138 €, 211 €, 210 €, 156 €, 158 € → im Mittel 178 € gesamt
+  ok     Apartments Bachhaus · Apartment mit Küche · 2026-10-16: andere Termine 177 €, 192 €, 148 €, 145 €, 152 € → im Mittel 163 € gesamt
+  ok     Apartments Bachhaus · Apartment mit Küche · 2026-10-16: andere Termine 196 €, 213 €, 165 €, 161 €, 169 € → im Mittel 181 € gesamt
+  ok     Gasthof Adler · Doppelzimmer Standard · 2026-10-09: andere Termine 191 €, 187 €, 214 €, 165 €, 166 €, 161 €, 166 € → im Mittel 179 € gesamt
+  ok     Gasthof Adler · Doppelzimmer Standard · 2026-10-09: andere Termine 212 €, 208 €, 237 €, 184 €, 184 €, 179 €, 184 € → im Mittel 198 € gesamt
+  ok     Pension Kaiserblick · Doppelzimmer Standard · 2026-10-30: andere Termine 250 €, 270 €, 254 €, 255 €, 147 €, 208 €, 210 € → im Mittel 228 € gesamt
+  ok     Pension Kaiserblick · Doppelzimmer Standard · 2026-11-06: andere Termine 250 €, 270 €, 254 €, 255 €, 168 €, 208 €, 210 € → im Mittel 231 € gesamt
+  ok     Apartments Fischerhaus · Apartment mit Küche · 2026-10-23: andere Termine 235 €, 237 €, 235 €, 212 €, 180 €, 183 €, 181 € → im Mittel 209 € gesamt
+  ok     Apartments Fischerhaus · Apartment mit Küche · 2026-10-23: andere Termine 261 €, 263 €, 261 €, 236 €, 201 €, 203 €, 201 € → im Mittel 232 € gesamt
+  ok     Ferienwohnung Brunnenhof · Apartment mit Küche · 2026-11-13: andere Termine 312 €, 318 €, 309 €, 250 €, 247 €, 232 € → im Mittel 278 € gesamt
+  ok     Pension Waldesruh · Doppelzimmer Standard · 2026-11-27: andere Termine 224 €, 348 €, 311 €, 260 €, 253 € → im Mittel 279 € gesamt
+  ok     Pension Waldesruh · Doppelzimmer Standard · 2026-11-27: andere Termine 249 €, 386 €, 345 €, 289 €, 282 € → im Mittel 310 € gesamt
+  ok     Pension Lindenhof · Doppelzimmer Standard · 2026-10-23: andere Termine 295 €, 284 €, 277 €, 247 €, 226 €, 227 €, 242 € → im Mittel 257 € gesamt
+  ok     Pension Lindenhof · Doppelzimmer Standard · 2026-10-23: andere Termine 328 €, 315 €, 308 €, 274 €, 251 €, 252 €, 269 € → im Mittel 285 € gesamt
+  ok     Landhotel Bergfrieden · Doppelzimmer Standard · 2026-10-09: andere Termine 298 €, 292 €, 302 €, 250 €, 252 €, 246 € → im Mittel 273 € gesamt
+  ok     Pension Kastanienhof · Doppelzimmer Standard · 2026-10-16: andere Termine 321 €, 300 €, 311 €, 246 €, 248 €, 247 € → im Mittel 279 € gesamt
+  ok     Landhotel Fischerhaus · Doppelzimmer Standard · 2026-11-06: andere Termine 396 €, 405 €, 392 €, 331 €, 223 €, 330 € → im Mittel 346 € gesamt
+  ok     Landhotel Fischerhaus · Doppelzimmer Standard · 2026-11-06: andere Termine 440 €, 450 €, 436 €, 368 €, 247 €, 367 € → im Mittel 385 € gesamt
+  ok     Landhotel Fischerhaus · Doppelzimmer Standard · 2026-11-20: andere Termine 396 €, 405 €, 392 €, 232 €, 331 €, 330 € → im Mittel 348 € gesamt
+  ok     Landhotel Fischerhaus · Doppelzimmer Standard · 2026-11-20: andere Termine 440 €, 450 €, 436 €, 258 €, 368 €, 367 € → im Mittel 386 € gesamt
+  ok     Hotel Felsenkeller · Doppelzimmer Standard · 2026-11-20: andere Termine 413 €, 392 €, 379 €, 373 €, 400 €, 333 € → im Mittel 382 € gesamt
+  ok     Hotel Felsenkeller · Doppelzimmer Standard · 2026-11-20: andere Termine 459 €, 436 €, 421 €, 415 €, 445 €, 370 € → im Mittel 424 € gesamt
+  ok     Hotel Schwanen · Doppelzimmer Standard · 2026-10-30: andere Termine 355 €, 373 €, 351 €, 268 €, 288 €, 285 € → im Mittel 320 € gesamt
+  ok     Hotel Schwanen · Doppelzimmer Standard · 2026-10-30: andere Termine 394 €, 415 €, 390 €, 298 €, 320 €, 317 € → im Mittel 356 € gesamt
+  ok     Hotel Talblick · Doppelzimmer Standard · 2026-10-30: andere Termine 347 €, 336 €, 300 €, 284 €, 298 €, 300 € → im Mittel 311 € gesamt
+
+Ergebnis: Teil 1 ok, Teil 2 28 Schnäppchen nachgerechnet, 0 abweichend.
