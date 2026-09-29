@@ -13,7 +13,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 4** – Flexible Übernachtungsanzahl (z. B. 2 bis 3 Nächte)
 - [x] **Aufgabe 5** – Personenzahl und Zimmerlogik
 - [x] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
-- [ ] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
+- [x] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
 - [ ] **Aufgabe 8** – Attraktivität von Regionen und Orten
 - [ ] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
 - [ ] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
@@ -84,3 +84,9 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Anzeige: Aufschlüsselung in der Detailansicht nennt Art und Schwelle; Seite „So berechnen wir die Rangliste“ erklärt die Unterschiede.
 - Beleg: `npm run demo -- f6` → `docs/demos/F6/demo-output.txt`; Tests `packages/domain/test/property-kind.test.ts`; `npm test` 433 grün.
 - Offen: Schwellen mit echten Daten kalibrieren; Nachtrag für `architektur.md` wartet auf Freigabe.
+
+### Aufgabe 7 – erledigt
+- Berechnung passt jetzt zu Aufgabe 6: Bens Beispiel (Ferienwohnung, 8,7 aus 17) wird nur noch auf 8,5 statt 8,2 gezogen (vorher mit Aktualität 8,0); Aktualität und Abzüge wirken wie bisher.
+- Anzeige in Liste, „Deine Auswahl“ und Detailansicht: **beide Werte nebeneinander** – die Gästebewertung (umrandet, z. B. „8,7 · 17 Gästebewertungen“) und **unser Wert** (gefüllt) mit kleinem „i“.
+- Das „i“ öffnet beim Draufhalten (Handy: Tippen) ein kleines Info-Panel wie bei Reiseportalen: Überschrift „Warum 8,5 statt 8,7?“, ein Satz zum Unterschied und nur die Gründe, die bei dieser Unterkunft zutreffen (z. B. „Bei Ferienwohnungen zählt die Note ab 20 Bewertungen voll. Bei 17 gleichen wir sie etwas an den Durchschnitt aller Unterkünfte (7,5) an.“, „Neuere Bewertungen fallen schlechter aus (−0,1).“, „Abzug für gemeldete Mängel (−0,6).“), dazu Link „So berechnen wir unseren Wert“. Neues UI-Bauteil `InfoPopover` (`packages/ui`), bleibt auf schmalen Bildschirmen im Bild.
+- Beleg: Walkthrough `bewertung` in `docs/demos/F7/walkthrough-P/` (Liste, Info-Panel, Detail, Handy 390 px), Screenshots gelesen; `npm test` 433 grün.

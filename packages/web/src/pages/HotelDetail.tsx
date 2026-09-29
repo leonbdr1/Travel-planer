@@ -10,7 +10,8 @@ import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@
 import { fetchHotelDetail } from '../features/results/api';
 import { ExtraNightNote } from '../features/results/ExtraNightNote';
 import { ReferencePrice } from '../features/results/ReferencePrice';
-import { cancellationText, QualityBadge } from '../features/results/ResultList';
+import { cancellationText } from '../features/results/ResultList';
+import { RatingPair } from '../features/results/RatingPair';
 import { groupOffersByRoom } from '../lib/room-groups';
 import { ReviewCheckPanel } from '../features/results/ReviewCheckPanel';
 import { de } from '../i18n/de';
@@ -161,7 +162,23 @@ export function HotelDetail() {
             </p>
           ) : null}
         </div>
-        <QualityBadge score={data.score.quality} reviews={h.review_count} sources={h.rating_sources} />
+        <RatingPair
+          quality={{
+            score: data.score.quality,
+            checked: data.score.recency.checked,
+            no_reviews: data.score.quality === null,
+            property_kind: data.score.propertyKind,
+            full_weight_reviews: data.score.fullWeightReviews,
+            prior_applied: data.score.priorWeight > 0,
+            recency_delta: data.score.s0 !== null && data.score.recency.applied && data.score.recency.s1 !== null ? data.score.recency.s1 - data.score.s0 : 0,
+            cleanliness_delta:
+              data.score.cleanliness.applied && data.score.cleanliness.s2 !== null && data.score.recency.s1 !== null ? data.score.cleanliness.s2 - data.score.recency.s1 : 0,
+            penalty: data.score.penalty.total,
+          }}
+          rating={h.rating}
+          reviews={h.review_count}
+          sources={h.rating_sources}
+        />
       </div>
       {h.photos.length > 0 ? (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">

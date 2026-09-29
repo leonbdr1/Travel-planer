@@ -154,7 +154,19 @@ export function hotelSummary(hotelId: string, hotels: ReadonlyMap<string, Summar
 }
 
 export function qualityDto(o: EvaluatedOffer): ResultItem['quality'] {
-  return { score: o.quality, checked: o.breakdown.recency.checked, no_reviews: o.quality === null };
+  const b = o.breakdown;
+  const round = (v: number) => Math.round(v * 100) / 100;
+  return {
+    score: o.quality,
+    checked: b.recency.checked,
+    no_reviews: o.quality === null,
+    property_kind: b.propertyKind,
+    full_weight_reviews: b.fullWeightReviews,
+    prior_applied: b.priorWeight > 0,
+    recency_delta: b.s0 !== null && b.recency.applied && b.recency.s1 !== null ? round(b.recency.s1 - b.s0) : 0,
+    cleanliness_delta: b.cleanliness.applied && b.cleanliness.s2 !== null && b.recency.s1 !== null ? round(b.cleanliness.s2 - b.recency.s1) : 0,
+    penalty: b.penalty.total,
+  };
 }
 
 export function offerDto(o: EvaluatedOffer & { nights?: number }): OfferDto {

@@ -253,6 +253,26 @@ export const de = {
     pending: 'wird gesucht',
     newSearch: 'Neue Suche',
   },
+  rating: {
+    guestTitle: 'Durchschnitt der Gästebewertungen',
+    guests: (n: number) => (n === 1 ? '1 Gästebewertung' : `${n} Gästebewertungen`),
+    ours: 'Unser Wert',
+    infoLabel: 'Was bedeutet „Unser Wert“?',
+    sameTitle: 'Unser Wert entspricht der Gästebewertung',
+    diffTitle: (ours: string, guests: string) => `Warum ${ours} statt ${guests}?`,
+    intro: 'Die Gästebewertung ist der reine Durchschnitt. Für unseren Wert zählen außerdem die Zahl der Bewertungen, wie aktuell sie sind und welche Mängel Gäste melden.',
+    kindPlural: { hotel: 'Bei Hotels', pension: 'Bei Pensionen und Gasthöfen', ferienwohnung: 'Bei Ferienwohnungen' } as Record<'hotel' | 'pension' | 'ferienwohnung', string>,
+    fewReviews: (kinds: string, full: number, n: number, mean: string) =>
+      n >= full
+        ? `Bewertungen, die älter als drei Jahre sind, zählen weniger. ${kinds} zählt die Note ab ${full} aktuellen Bewertungen voll, darunter gleichen wir sie etwas an den Durchschnitt aller Unterkünfte (${mean}) an.`
+        : `${kinds} zählt die Note ab ${full} Bewertungen voll. Bei ${n} gleichen wir sie etwas an den Durchschnitt aller Unterkünfte (${mean}) an.`,
+    recentWorse: (d: string) => `Neuere Bewertungen fallen schlechter aus (${d}).`,
+    recentBetter: (d: string) => `Neuere Bewertungen fallen besser aus (${d}).`,
+    cleanliness: (d: string) => `Sauberkeit laut Gästen (${d}).`,
+    penalty: (d: string) => `Abzug für gemeldete Mängel (${d}).`,
+    enough: 'Genug Bewertungen und keine Auffälligkeiten – hier zählt der Durchschnitt, wie er ist.',
+    more: 'So berechnen wir unseren Wert',
+  },
   results: {
     title: 'Ergebnisse',
     fetchedAt: (time: string) => `Preise abgerufen um ${time} Uhr. Preise können sich bis zur Buchung ändern.`,

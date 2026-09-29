@@ -10,6 +10,7 @@ import { de } from '../../i18n/de';
 import { formatDateTime, formatEuro, formatEuroCents, formatScore, formatStay } from '../../lib/format';
 import { ExtraNightNote } from './ExtraNightNote';
 import { PraiseLabels } from './PraiseLabels';
+import { RatingPair } from './RatingPair';
 
 const t = de.results;
 const rc = de.reviewCheck;
@@ -65,7 +66,7 @@ export function ResultList({
                     {item.hotel.name}
                   </Link>
                   {item.hotel.stars ? <span className="text-sm text-amber-600">{'★'.repeat(Math.round(item.hotel.stars))}</span> : null}
-                  <QualityBadge score={item.quality.score} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} />
+                  <RatingPair quality={item.quality} rating={item.hotel.rating} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} />
                   {item.recommended ? (
                     <Badge tone="brand" data-testid="recommended">
                       {t.recommended}

@@ -13,5 +13,6 @@ export { Dialog } from './Dialog';
 export { Checkbox, Description, ErrorMessage, Fieldset, Input, Label, Select, Textarea } from './Form';
 export { ProgressBar } from './ProgressBar';
 export { Spinner } from './Spinner';
+export { InfoPopover } from './InfoPopover';
 export { Heading, Small, Text } from './Typography';
 export { Tooltip } from './Tooltip';

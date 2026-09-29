@@ -111,7 +111,22 @@ export const hotelSummarySchema = z.object({
   photo_url: z.string().nullable(),
 });
 
-export const qualityDtoSchema = z.object({ score: z.number().nullable(), checked: z.boolean(), no_reviews: z.boolean() });
+export const qualityDtoSchema = z.object({
+  score: z.number().nullable(),
+  checked: z.boolean(),
+  no_reviews: z.boolean(),
+  /** Why our score differs from the guest rating (Aufgabe 7): kind, the review count from which the rating counts fully, and the steps. */
+  property_kind: z.enum(['hotel', 'pension', 'ferienwohnung']).default('hotel'),
+  full_weight_reviews: z.number().default(30),
+  /** Effective reviews below full_weight_reviews: the rating was pulled towards the overall mean. */
+  prior_applied: z.boolean().default(false),
+  /** Change by recent reviews (s1 − s0), 0 without. */
+  recency_delta: z.number().default(0),
+  /** Change by the cleanliness value (s2 − s1), 0 without. */
+  cleanliness_delta: z.number().default(0),
+  /** Deduction for confirmed complaints. */
+  penalty: z.number().default(0),
+});
 
 /** One night more of the same stay (Aufgabe 4, docs/logik/flexible-naechte.md). */
 export const extraNightSchema = z.object({

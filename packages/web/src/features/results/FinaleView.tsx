@@ -12,7 +12,8 @@ import { constants, DEFAULT_GOAL, type Goal } from '@reiseplaner/domain';
 import { Alert, Badge, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
-import { formatEuro, formatScore, formatStay } from '../../lib/format';
+import { formatEuro, formatStay } from '../../lib/format';
+import { RatingPair } from './RatingPair';
 import { fetchFinale, type ResultsParams } from './api';
 import { FeatureIcon } from './FeatureIcon';
 
@@ -132,9 +133,7 @@ function Row({ f, isBase, href }: { f: FinalistDto; isBase: boolean; href: strin
               {t.unrated}
             </Badge>
           ) : (
-            <span className="rounded-md bg-brand-700 px-1.5 py-0.5 text-sm font-bold text-white tabular-nums" title={`${de.results.reviews(f.hotel.review_count ?? 0)}${f.hotel.rating_sources.length > 0 ? ` ${de.results.ratingSources(f.hotel.rating_sources.join(', '))}` : ''}`}>
-              {formatScore(f.quality.score)}
-            </span>
+            <RatingPair quality={f.quality} rating={f.hotel.rating} reviews={f.hotel.review_count} sources={f.hotel.rating_sources} size="sm" />
           )}
         </div>
         <p className="text-xs text-zinc-500">
