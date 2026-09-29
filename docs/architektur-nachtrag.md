@@ -57,3 +57,7 @@
 - Anzeige in Blöcken: unter 7 h genau, bis 10 h volle Stunden („ca. 8 h“), dann „über 10 h“, „über 20 h“, ab 30 h „über 30 h“ mit Flugzeug-Hinweis „Flug empfohlen“ (nur Anzeige). `packages/domain/src/drive-bands.ts`, Details `docs/logik/fahrzeit-bloecke.md`.
 - `getTravelTimes` fragt den Routendienst nur für Ziele, deren Autobahn-Schätzung (Luftlinie × 1,2 bei 95 km/h) höchstens 9 h beträgt; fernere bekommen diese Schätzung ohne Routing und ohne Cache-Eintrag (`stats.coarse`), nicht als Rückfall markiert.
 - Verträge: `max_drive_minutes` bis 1800 (`MAX_DRIVE_MINUTES`) statt 720; Auswahl bis 7, 10, 20, 30 Stunden und „egal (ganz Europa)“.
+
+## 6.2 Regionsvorschläge, 7.x Vertrag (Aufgabe F17)
+
+- `RegionSuggestionDto` zusätzlich `title` (Kartentitel) und `highlight_place` (additiv, Standard leer bzw. `null`): genau ein Top-Urlaubsort unter den zur Suche passenden Orten → Titel = dieser Ort, Stufe und Wert der Karte = die des Orts; sonst Regionsname und Regionswert. Details: `docs/logik/orts-attraktivitaet.md`.

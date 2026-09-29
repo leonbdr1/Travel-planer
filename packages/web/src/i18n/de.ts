@@ -210,6 +210,7 @@ export const de = {
       next: 'Weiter zu den Orten',
       skip: 'Überspringen und Orte selbst wählen',
       selectAtLeastOne: 'Bitte wähle mindestens eine Region.',
+      regionOf: (region: string) => `Region ${region}`,
     },
     places: {
       title: 'Orte für deine Suche',

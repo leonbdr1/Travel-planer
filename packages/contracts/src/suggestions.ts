@@ -29,6 +29,10 @@ export const regionSuggestionSchema = z.object({
   id: z.string(),
   slug: z.string(),
   name: z.string(),
+  /** Card title (Aufgabe F17): the only highlight place of the region ("Venedig"), else the region name. */
+  title: z.string().default(''),
+  /** That highlight place, null when the title is the region name. */
+  highlight_place: z.string().nullable().default(null),
   description: z.string(),
   ai_assisted: z.boolean(),
   verified: z.boolean(),

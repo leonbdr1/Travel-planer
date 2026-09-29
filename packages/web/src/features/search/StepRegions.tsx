@@ -76,6 +76,8 @@ export function StepRegions({
       {state.regions !== null && regions.length === 0 ? <Alert tone="info">{t.empty}</Alert> : null}
       <ul className="grid gap-4 md:grid-cols-2" data-testid="region-list">
         {regions.map((region) => {
+          // Aufgabe F17: a region with a single highlight is named after it ("Venedig").
+          const title = region.title || region.name;
           const selected = state.selectedRegionIds.includes(region.id);
           const full = !selected && state.selectedRegionIds.length >= MAX_REGIONS;
           return (
@@ -94,17 +96,24 @@ export function StepRegions({
                 )}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <Heading level={3}>{region.name}</Heading>
+                  <div className="min-w-0">
+                    <Heading level={3}>{title}</Heading>
+                    {region.highlight_place ? (
+                      <p className="mt-0.5 text-sm text-zinc-500" data-testid="region-subtitle">
+                        {t.regionOf(region.name)}
+                      </p>
+                    ) : null}
+                  </div>
                   <span className="flex shrink-0 items-start gap-2">
                     {region.center ? (
                       <OverviewMap
                         className="w-14"
                         size="mini"
-                        markers={[{ id: region.id, label: region.name, lat: region.center.lat, lng: region.center.lng }]}
+                        markers={[{ id: region.id, label: title, lat: region.center.lat, lng: region.center.lng }]}
                         highlight={[region.id]}
                         showCities={false}
                         showLabels={false}
-                        title={t.miniMap(region.name)}
+                        title={t.miniMap(title)}
                       />
                     ) : null}
                   <span
@@ -135,7 +144,7 @@ export function StepRegions({
                     level={region.attractiveness.level}
                     score={region.attractiveness.score}
                     topPlaces={region.attractiveness.top_places}
-                    name={region.name}
+                    name={title}
                   />
                 </div>
               ) : null}

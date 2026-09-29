@@ -1,0 +1,75 @@
+$ npm run demo -- f17
+# recorded 2026-09-29T22:03:47.489Z
+
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, IT 3031, FR 3258, ES 1728, PT 587, NL 760, BE 508, LU 29, DK 212, CZ 448, PL 1055, HU 499, HR 140, SI 71, SK 134, GR 351, GB 2131, IE 189, NO 133, SE 404, Postleitzahlen 17081)
+seed: Katalog-Entwurf importiert (109 Regionen, 520 Orte)
+Regionen ab München, staedte_kultur, bis 7 h:
+    Franken und Romantische Straße
+    Bodensee
+    Bozen  (Region Eisacktal und Bozen, einziger Top-Ort)
+    Rüdesheim am Rhein  (Region Mittelrhein und Rheingau, einziger Top-Ort)
+    Elsass
+Regionen ab München, strand, bis 7 h:
+    Rovinj  (Region Istrien und Kvarner, einziger Top-Ort)
+    Venedig und Obere Adria
+    Bologna und Riviera Romagnola
+    Monterosso al Mare  (Region Cinque Terre und Ligurische Küste, einziger Top-Ort)
+    Slowenien
+Regionen ab München, wandern, bis 4 h:
+    Schwarzwald
+    Allgäu
+    Bregenzerwald und Montafon
+    Bayerischer Wald
+    Gröden und Seiser Alm
+Regionen ab München, shopping, Fahrzeit egal:
+    Brüssel  (Region Flandern und Brüssel, einziger Top-Ort)
+    Köln und Düsseldorf
+    Sevilla  (Region Andalusien und Costa del Sol, einziger Top-Ort)
+    Frankfurt am Main  (Region Frankfurt und Rhein-Main, einziger Top-Ort)
+    Marseille  (Region Provence, einziger Top-Ort)
+  ok     Frankfurt und Rhein-Main heißt bei Shopping „Frankfurt am Main“
+  ok     bei Strand heißt Slowenien nicht „Bled“ (Bled liegt nicht am Meer)
+  ok     Allgäu (Oberstdorf und Füssen) behält den Regionsnamen
+Ganzer Katalog ohne Themenwahl (gleiche Regel über alle Orte der Region):
+    Algarve → Lagos
+    Alta Badia → Corvara
+    Amsterdam und Nordholland → Amsterdam
+    Athen und Peloponnes → Athen
+    Barcelona und Costa Brava → Barcelona
+    Bretagne und Normandie → Saint-Malo
+    Budapest → Budapest
+    Danzig und polnische Ostsee → Danzig
+    Dresden und Elbland → Dresden
+    Eisacktal und Bozen → Bozen
+    Fjordnorwegen → Bergen
+    Frankfurt und Rhein-Main → Frankfurt am Main
+    Heidelberg und Neckartal → Heidelberg
+    Irland → Dublin
+    Istrien und Kvarner → Rovinj
+    Kitzbüheler Alpen → Kitzbühel
+    Kopenhagen → Kopenhagen
+    Korfu → Korfu
+    Kreta → Chania
+    London → London
+    Madeira → Funchal
+    Mailand und Bergamo → Mailand
+    Mallorca → Palma
+    Meraner Land → Meran
+    Mittelrhein und Rheingau → Rüdesheim am Rhein
+    München → München
+    Porto und Douro → Porto
+    Prag → Prag
+    Pustertal und Drei Zinnen → Bruneck
+    Rom und Latium → Rom
+    Salzkammergut → St. Wolfgang im Salzkammergut
+    Schottland → Edinburgh
+    Slowenien → Bled
+    Stockholm → Stockholm
+    Tannheimer Tal und Zugspitzarena → Ehrwald
+    Tegernsee und Schliersee → Tegernsee
+    Venedig und Obere Adria → Venedig
+    Wachau → Melk
+    Zillertal → Mayrhofen
+  39 von 109 Regionen tragen den Namen ihres einzigen Top-Orts.
+  ok     Venedig und Obere Adria heißt „Venedig“
+Ergebnis: alle Prüfungen ok

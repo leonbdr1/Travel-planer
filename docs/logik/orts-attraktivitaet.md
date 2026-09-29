@@ -43,3 +43,10 @@ Wert einer Region = Mittel der drei besten Orte der Region (eine Region lebt von
 
 - Bekanntheit und Attraktionen sind für die 300 Katalogorte ein KI-Entwurf wie der Katalog selbst (Prüfung BG-11).
 - Eigene Orte werden aus Einwohnerzahl und nahen Katalogorten geschätzt. Eine spätere Ausbaustufe kann Bergbahnen und Wanderrouten aus OpenStreetMap zählen (Overpass ist freigegeben, BG-20).
+
+## Regionsname nach dem Highlight-Ort (Aufgabe F17)
+
+- Hat eine Region unter den Orten, die zur Suche passen (Themen, Fahrzeit), **genau einen** Top-Urlaubsort, heißt die Regionskarte wie dieser Ort („Venedig“, „Bozen“, „Frankfurt am Main“); darunter steht klein „Region Venedig und Obere Adria“. Stufe und Wert auf der Karte sind dann die des Orts.
+- Bei **zwei oder mehr** Top-Orten (Allgäu mit Oberstdorf und Füssen) oder **keinem** bleibt der Regionsname.
+- Weil nur passende Orte zählen, folgt der Name der Suche: Bei „Strand und Meer“ heißt Slowenien nicht „Bled“, und „Venedig und Obere Adria“ bleibt die Region, weil Venedig selbst keinen Strand hat.
+- Code: `regionTitle` in `packages/domain/src/attractiveness.ts`; Vertrag `title` und `highlight_place` an jeder vorgeschlagenen Region.

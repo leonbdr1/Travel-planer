@@ -156,7 +156,7 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - [x] **F14** – Themen: Kultur und Shopping getrennt, dazu Strand
 - [x] **F15** – Europa-Erweiterung: Ortsdaten, Datenbank, Katalog
 - [x] **F16** – Fahrzeiten in groben Blöcken, Flug-Hinweis ab 30 Stunden
-- [ ] **F17** – Regionsname: bei nur einem Highlight-Ort der Ortsname
+- [x] **F17** – Regionsname: bei nur einem Highlight-Ort der Ortsname
 - [ ] **F18** – Rezensionen: Stichwörter in weiteren Sprachen
 
 ### F14 – erledigt
@@ -183,3 +183,10 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - Fahrzeit-Auswahl: zusätzlich „bis 7 / 10 / 20 / 30 Stunden“, „egal“ heißt jetzt „egal (ganz Europa)“.
 - Nebenbei behoben: Auf dem Handy ragte die Leiste „Wann und mit wem?“ über den Rand, und die Daten waren abgeschnitten.
 - Beleg: `npm run demo -- f16` → `docs/demos/F16/demo-output.txt` (ab München: Venedig 4 h 17 min, Split ca. 9 h, Barcelona über 10 h, Lissabon über 20 h, Teneriffa über 30 h mit Flugzeug; bis 20 h keine Kanaren, kein Madeira, keine Algarve); Walkthrough `fahrzeit` in `docs/demos/F16/walkthrough-P/`, Screenshots gelesen (auch 390 px).
+
+### F17 – erledigt
+- Hat eine Region unter den Orten, die zu deiner Suche passen, **genau einen Highlight-Ort** (Top-Urlaubsort), steht dieser Ort als Überschrift der Regionskarte, darunter klein „Region …“: z. B. „Bozen“ (Region Eisacktal und Bozen), „Frankfurt am Main“ (Region Frankfurt und Rhein-Main), „Venedig“ (Region Venedig und Obere Adria). Bei **zwei oder mehr** Highlights (Allgäu mit Oberstdorf und Füssen, Elsass) bleibt der Regionsname.
+- Gezählt werden nur passende Orte: Bei „Strand und Meer“ heißt Slowenien nicht „Bled“ (kein Meer), Venedig bleibt dann „Venedig und Obere Adria“.
+- Die Stufe auf so einer Karte ist die des Orts (Bozen „Top-Urlaubsort 8,7“ statt Regionsmittel 7,7).
+- Ohne Themenwahl tragen 39 von 109 Regionen den Namen ihres einzigen Top-Orts (Liste in `docs/demos/F17/demo-output.txt`). **Zur Prüfung:** Bei Regionen, die selbst ein bekanntes Ziel sind, liest sich das teils ungewohnt (Mallorca → „Palma“, Algarve → „Lagos“, Irland → „Dublin“, Zillertal → „Mayrhofen“). Die Unterzeile „Region Mallorca“ bleibt sichtbar; falls gewünscht, kann eine Region im Katalog vom Umbenennen ausgenommen werden.
+- Beleg: `npm run demo -- f17` → `docs/demos/F17/demo-output.txt`; Walkthrough `regionsname` in `docs/demos/F17/walkthrough-P/`, Screenshots gelesen.

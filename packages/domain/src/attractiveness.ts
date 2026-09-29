@@ -111,3 +111,18 @@ export function regionAttractiveness(placeScores: readonly number[], top = 3): {
 }
 
 export { ATTRACTIVENESS_NEIGHBOUR_KM };
+
+/**
+ * Title of a region card (Aufgabe F17): a region with exactly one highlight
+ * (a top place) is named after that place – "Venedig" instead of "Venedig und
+ * Obere Adria"; with two or more highlights, or none, the region keeps its name.
+ * The caller passes the places that fit the search, so the title follows it.
+ */
+export function regionTitle(
+  regionName: string,
+  places: ReadonlyArray<{ name: string; level: AttractivenessLevel }>,
+): { title: string; highlight: string | null } {
+  const highlights = places.filter((p) => p.level === 'top');
+  const only = highlights.length === 1 ? highlights[0] : undefined;
+  return only ? { title: only.name, highlight: only.name } : { title: regionName, highlight: null };
+}

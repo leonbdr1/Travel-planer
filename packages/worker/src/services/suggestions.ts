@@ -7,6 +7,7 @@ import {
   rankRegions,
   reachablePlaces,
   regionAttractiveness,
+  regionTitle,
   themeLabel,
   type CatalogPlace as DomainPlace,
   type TravelTime as DomainTravelTime,
@@ -108,10 +109,21 @@ export async function suggestRegions(
   for (const r of ranked) {
     const row = byId.get(r.regionId);
     if (!row) continue;
+    const regionPlaces = all.filter((p) => p.regionId === r.regionId);
+    // Highlights among the places that fit this search (a beach search names no mountain village).
+    const matching = reachable.filter((x) => x.place.regionId === r.regionId).map((x) => x.place);
+    const { title, highlight } = regionTitle(r.name, matching.map((p) => ({ name: p.name, level: p.row.attractiveness.level })));
+    const regionScore = regionAttractivenessDto(regionPlaces.map((p) => p.row));
+    // A card named after its highlight shows that place's level ("Bozen · Top-Urlaubsort"), not the region mean.
+    const highlightRow = highlight ? matching.find((p) => p.name === highlight)?.row : undefined;
+    const attractiveness =
+      regionScore && highlightRow ? { ...regionScore, score: highlightRow.attractiveness.score, level: highlightRow.attractiveness.level } : regionScore;
     regions.push({
       id: r.regionId,
       slug: row.slug,
       name: r.name,
+      title,
+      highlight_place: highlight,
       description: row.descriptionDe,
       ai_assisted: row.aiAssisted,
       verified: row.verified,
@@ -121,8 +133,8 @@ export async function suggestRegions(
       min_minutes: Math.round(r.minMinutes),
       max_minutes: Math.round(r.maxMinutes),
       estimated: r.estimated,
-      attractiveness: regionAttractivenessDto(all.filter((p) => p.regionId === r.regionId).map((p) => p.row)),
-      center: regionCenter(all.filter((p) => p.regionId === r.regionId)),
+      attractiveness,
+      center: regionCenter(regionPlaces),
     });
   }
   return { regions, stats: publicStats(stats) };
