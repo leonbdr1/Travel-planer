@@ -6,11 +6,11 @@ import { pickWindow } from './helpers';
 export const karteFlow: Flow = {
   name: 'karte',
   mode: 'P',
-  description: 'Regionen mit grober Karte: Übersicht mit Startort und allen Regionen, Mini-Karte je Region, beim Draufzeigen wird die Region auf der Übersicht hervorgehoben.',
+  description: 'Passende Regionen: eine kleine Karte je Region zeigt die Lage; das große Übersichtsbild oben gibt es nicht mehr (Ben, 29.09.).',
   async run({ page, baseUrl, step, note }) {
     await page.setViewportSize({ width: 1280, height: 900 });
     await step(
-      'Regionen mit Übersichtskarte und Mini-Karten',
+      'Regionen ohne große Übersichtskarte, aber mit Mini-Karte je Region',
       async () => {
         await page.goto(`${baseUrl}/suche`);
         await page.evaluate(() => sessionStorage.clear());
@@ -21,22 +21,16 @@ export const karteFlow: Flow = {
         await page.locator('#max-drive').selectOption('240');
         await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();
         await page.getByTestId('frame-next').click();
-        await page.getByTestId('region-map').waitFor({ timeout: 30_000 });
+        await page.getByTestId('region-card').first().waitFor({ timeout: 30_000 });
+        if ((await page.getByTestId('region-map').count()) > 0) throw new Error('the big overview map is still there');
+        const minis = await page.locator('[data-testid="region-card"] svg[data-testid="overview-map"]').count();
+        const cards = await page.getByTestId('region-card').count();
+        if (minis !== cards) throw new Error(`mini maps ${minis} ≠ region cards ${cards}`);
+        note(`${cards} Regionskarten, jede mit Mini-Karte; keine große Übersichtskarte.`);
       },
-      { expectText: ['Wo liegen die Regionen?', 'Dein Startort: Stuttgart'], expectSelector: ['[data-testid="region-map"] [data-testid="map-marker"]', '[data-testid="region-card"] svg[data-testid="overview-map"]'] },
-    );
-    await step(
-      'Maus auf „Allgäu“: auf der Karte hervorgehoben',
-      async () => {
-        const card = page.getByTestId('region-card').filter({ hasText: 'Allgäu' });
-        await card.hover();
-        await page.locator('[data-testid="region-map"] [data-testid="map-marker"][data-strong]').first().waitFor();
-        note(`Hervorgehoben: ${await page.locator('[data-testid="region-map"] [data-testid="map-marker"][data-strong] text').allInnerTexts()}`);
-        await page.getByTestId('region-map').scrollIntoViewIfNeeded();
-      },
-      { expectSelector: ['[data-testid="region-map"] [data-testid="map-marker"][data-strong]'], fullPage: false },
+      { expectText: ['Passende Regionen'], rejectText: ['Wo liegen die Regionen?'], expectSelector: ['[data-testid="region-card"] svg[data-testid="overview-map"]'] },
     );
     await page.setViewportSize({ width: 390, height: 844 });
-    await step('Handy (390 px)', async () => page.getByTestId('region-map').scrollIntoViewIfNeeded(), { expectSelector: ['[data-testid="region-map"]'], fullPage: false });
+    await step('Handy (390 px)', async () => page.getByTestId('region-list').scrollIntoViewIfNeeded(), { expectSelector: ['[data-testid="region-list"]'], fullPage: false });
   },
 };

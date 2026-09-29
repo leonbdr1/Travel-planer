@@ -133,6 +133,14 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Beleg: Walkthrough `karte` in `docs/demos/F13/walkthrough-P/` (Desktop, Hervorhebung, 390 px), Screenshots gelesen; `npm test` 446 grün.
 - Offen: bewusst grob; bei Wunsch nach echter Karte (z. B. OpenStreetMap-Kacheln) wäre das eine neue Abhängigkeit/ein neuer Anbieter (Ben entscheidet).
 
+## Nachtrag 1: Suchseite neu geordnet (Ben, 29.09.2026) – erledigt
+- **„Wohin soll es gehen?“ steht ganz oben.** Darin zwei Wege mit je einem Häkchen: „Orte vorschlagen lassen“ (mit **Startort und Fahrzeit**, nur dort) und „Orte selbst wählen“ (mehrere Orte). Beide zusammen, oder nur einer; mindestens einer bleibt an. Nur eigene Orte: kein Startort nötig, dann gibt es aber auch keine Fahrzeiten.
+- **Darunter, verbunden:** „Wann und mit wem?“ mit Datum (Kalender) und Reisenden, gilt für beide Wege.
+- **Startseite:** nur noch ein Button „Suche starten“ (keine Eingabefelder mehr); alles Weitere auf `/suche`.
+- **Passende Regionen:** das große Übersichtsbild ist raus, die kleinen Karten je Region bleiben.
+- Technik: Zustand `suggest` und `pickOwn`; der Startort ist in der Anfrage leer, wenn nur eigene Orte gewählt sind (`origin` im Vertrag optional, Migration `20261017a_search_origin_optional.sql` mit pgTAP-Test `supabase/tests/search_origin_optional.sql`, nur lokal ausgeführt, Staging/Produktion bleibt BEN-GATE).
+- Beleg: Walkthroughs `startseite`, `orte`, `karte`, `naechte`, `zimmer` angepasst und Screenshots gelesen; `npm test` 448 grün, `npm run db:test` grün.
+
 ## Stand nach allen Aufgaben (29.09.2026)
 Alle 14 Aufgaben (0–13) erledigt, committet und auf `claude/hopeful-fermat-jechzj` gepusht; nichts deployt. Offene Punkte für Ben: `architektur.md`-Nachtrag freigeben (`docs/architektur-nachtrag.md`), Migrationen `20261015a`/`20261016a` gegen Staging/Produktion, redaktionelle Prüfung der Orts-Attraktivität (BG-11), „Preis-Leistung“ und „Komfort“ überarbeiten (Aufgabe 0), Schwellen mit echten Daten kalibrieren.
 

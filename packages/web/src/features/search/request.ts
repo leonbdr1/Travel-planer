@@ -1,12 +1,13 @@
 // Wizard state → SearchRequest (architektur.md 7.3).
 import type { SearchRequest } from '@reiseplaner/contracts';
-import type { WizardState } from './state';
+import { activeOrigin, type WizardState } from './state';
 
 export function toSearchRequest(state: WizardState): SearchRequest | null {
-  if (!state.origin) return null;
+  const origin = activeOrigin(state);
+  if (state.suggest && !origin) return null;
   return {
     goal: state.goal,
-    origin: { geonameid: state.origin.geonameid, label: state.origin.name, lat: state.origin.lat, lng: state.origin.lng },
+    origin: origin ? { geonameid: origin.geonameid, label: origin.name, lat: origin.lat, lng: origin.lng } : null,
     max_drive_minutes: state.maxDriveMinutes,
     themes: state.themes,
     window: { start: state.windowStart, end: state.windowEnd },

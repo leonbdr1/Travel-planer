@@ -23,12 +23,12 @@ export const de = {
   home: {
     heroTitle: 'Flexibel reisen, besser wohnen.',
     heroLead:
-      'Gib deinen Rahmen an – Startort, Fahrzeit, Zeitfenster und Reisemuster. Wir durchsuchen alle passenden Orte und Termine gleichzeitig und zeigen dir die besten Angebote innerhalb deines Rahmens.',
+      'Sag uns, wohin es gehen soll – oder lass dir Orte vorschlagen – und wann du reisen kannst. Wir durchsuchen alle passenden Orte und Termine gleichzeitig und zeigen dir die besten Angebote innerhalb deines Rahmens.',
     cta: 'Suche starten',
     search: 'Suchen',
     stepsTitle: 'In drei Schritten zum passenden Angebot',
     steps: [
-      { title: 'Rahmen angeben', text: 'Startort, maximale Fahrzeit, Zeitfenster, Nächte und Wünsche.' },
+      { title: 'Rahmen angeben', text: 'Wohin, Zeitfenster, Reisende, Nächte und Wünsche. Orte wählst du selbst oder lässt sie ab deinem Startort vorschlagen.' },
       { title: 'Orte bestätigen', text: 'Wir schlagen Regionen und Orte aus einem geprüften Katalog vor. Du entscheidest.' },
       { title: 'Vergleichen und buchen', text: 'Preis-Matrix über alle Orte und Termine, ehrliche Bewertung, Buchung direkt hier.' },
     ],
@@ -154,7 +154,7 @@ export const de = {
       dates: (n: number) => (n === 1 ? '1 Termin' : `${n} Termine`),
       datesPreview: 'Daraus entstehen',
       next: 'Weiter zu den Regionen',
-      direct: 'Orte direkt eingeben',
+      nextPlaces: 'Weiter zu den Orten',
       errors: {
         invalid_date: 'Bitte gib gültige Daten ein.',
         invalid_nights: (max: number) => `Bitte wähle 1 bis ${max} Nächte.`,
@@ -172,15 +172,17 @@ export const de = {
     ownPlaces: {
       title: 'Wohin soll es gehen?',
       suggestTitle: 'Orte vorschlagen lassen',
-      suggestText:
-        'Wir suchen Regionen und Orte, die du ab deinem Startort in der gewählten Fahrzeit erreichst und die zu deiner Reiseart passen. Das ist der nächste Schritt.',
+      suggestText: 'Wir schlagen Regionen und Orte vor, die du ab deinem Startort in der gewählten Fahrzeit erreichst und die zu deiner Reiseart passen.',
       pickTitle: 'Orte selbst wählen',
       pickText: 'Mehrere möglich, z. B. Köln, Frankfurt und Berlin. Wir durchsuchen sie zusätzlich zu den Vorschlägen.',
+      pickTextOnly: 'Mehrere möglich, z. B. Köln, Frankfurt und Berlin. Einen Startort brauchst du dafür nicht.',
+      lastOne: 'Mindestens eine der beiden Möglichkeiten bleibt an.',
+      needOne: 'Bitte wähle mindestens einen Ort.',
+      whenTitle: 'Wann und mit wem?',
       placeholder: 'Ort oder Postleitzahl eingeben',
       full: (max: number) => `Höchstens ${max} Orte pro Suche.`,
       chosen: 'Deine Orte',
       remove: (name: string) => `${name} entfernen`,
-      onlyMine: (n: number) => (n === 1 ? 'Nur in diesem Ort suchen' : `Nur in diesen ${n} Orten suchen`),
       section: 'Deine Orte',
     },
     calendar: {
@@ -200,15 +202,11 @@ export const de = {
       title: 'Passende Regionen',
       lead: 'Aus unserem Ortskatalog, erreichbar in deiner maximalen Fahrzeit. Wähle eine oder mehrere Regionen.',
       loading: 'Regionen werden gesucht …',
-      empty: 'Für diese Auswahl haben wir keine Region gefunden. Erhöhe die Fahrzeit, wähle andere Themen oder gib Orte direkt ein.',
+      empty: 'Für diese Auswahl haben wir keine Region gefunden. Erhöhe die Fahrzeit, wähle andere Themen oder wähle Orte selbst.',
       estimated: 'Fahrzeiten teilweise geschätzt (Luftlinie), weil der Routendienst gerade nicht verfügbar ist.',
-      mapTitle: 'Wo liegen die Regionen?',
-      mapLead: 'Zur groben Orientierung. Zeig mit der Maus auf eine Region, um sie auf der Karte zu sehen.',
-      mapStart: (origin: string) => `Dein Startort${origin ? `: ${origin}` : ''}`,
-      mapRegions: 'Regionen, ausgewählte hervorgehoben',
       miniMap: (region: string) => `Lage von ${region}`,
       next: 'Weiter zu den Orten',
-      skip: 'Überspringen und Orte selbst eingeben',
+      skip: 'Überspringen und Orte selbst wählen',
       selectAtLeastOne: 'Bitte wähle mindestens eine Region.',
     },
     places: {
