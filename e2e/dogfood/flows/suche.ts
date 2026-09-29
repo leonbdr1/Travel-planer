@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import type { Flow } from '../types';
+import { pickWindow } from './helpers';
 
 /** Wizard step 1: Stuttgart, Fridays from 1 October, 2 nights, hiking; optionally a goal (its button label). */
 export async function fillSearchFrame(page: Page, baseUrl: string, windowEnd: string, dates: number, goal?: string) {
@@ -8,8 +9,7 @@ export async function fillSearchFrame(page: Page, baseUrl: string, windowEnd: st
   await page.goto(`${baseUrl}/suche`);
   await page.getByTestId('origin-input').fill('Stutt');
   await page.getByRole('option', { name: /^Stuttgart, Baden-Württemberg, DE/ }).click();
-  await page.locator('#window-start').fill('2026-10-01');
-  await page.locator('#window-end').fill(windowEnd);
+  await pickWindow(page, '2026-10-01', windowEnd);
   await page.locator('#nights').selectOption('2');
   await page.locator('#max-drive').selectOption('180');
   await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();

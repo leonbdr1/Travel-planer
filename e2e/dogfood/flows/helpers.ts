@@ -1,5 +1,16 @@
 import type { Page } from '@playwright/test';
 
+/** Picks the time window in the calendar popover: first click arrival, second click departure. */
+export async function pickWindow(page: Page, start: string, end: string) {
+  await page.locator('#window-start').click();
+  for (const day of [start, end]) {
+    const cell = page.locator(`[data-testid="calendar"] [data-date="${day}"]:visible`);
+    for (let i = 0; i < 24 && (await cell.count()) === 0; i += 1) await page.getByTestId('calendar-next').click();
+    await cell.first().click();
+  }
+  await page.locator(`#window-end[data-value="${end}"]`).waitFor();
+}
+
 /** Search frame Stuttgart, 01.–12.10.2026 (two Fridays), only one own place; stops at "Suche starten". */
 export async function prepareSinglePlaceSearch(page: Page, baseUrl: string, place = 'Füssen') {
   await page.goto(`${baseUrl}/suche`);
@@ -7,8 +18,7 @@ export async function prepareSinglePlaceSearch(page: Page, baseUrl: string, plac
   await page.goto(`${baseUrl}/suche`);
   await page.getByTestId('origin-input').fill('Stutt');
   await page.getByRole('option', { name: /^Stuttgart, Baden-Württemberg, DE/ }).click();
-  await page.locator('#window-start').fill('2026-10-01');
-  await page.locator('#window-end').fill('2026-10-12');
+  await pickWindow(page, '2026-10-01', '2026-10-12');
   await page.locator('#nights').selectOption('2');
   await page.locator('#max-drive').selectOption('240');
   await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();

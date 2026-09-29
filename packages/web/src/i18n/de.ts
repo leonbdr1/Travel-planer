@@ -23,6 +23,7 @@ export const de = {
     heroLead:
       'Gib deinen Rahmen an – Startort, Fahrzeit, Zeitfenster und Reisemuster. Wir durchsuchen alle passenden Orte und Termine gleichzeitig und zeigen dir die besten Angebote innerhalb deines Rahmens.',
     cta: 'Suche starten',
+    search: 'Suchen',
     stepsTitle: 'In drei Schritten zum passenden Angebot',
     steps: [
       { title: 'Rahmen angeben', text: 'Startort, maximale Fahrzeit, Zeitfenster, Nächte und Wünsche.' },
@@ -91,11 +92,16 @@ export const de = {
       originNoResults: 'Kein passender Ort gefunden.',
       originRequired: 'Bitte wähle einen Startort aus der Liste.',
       maxDrive: 'Maximale Fahrzeit (Auto)',
-      noLimit: 'Keine Begrenzung',
+      maxDriveShort: 'Fahrzeit (Auto)',
+      noLimit: 'egal',
+      driveUpTo: (m: number) => `bis ${m === 60 ? '1 Stunde' : m % 60 === 0 ? `${m / 60} Stunden` : `${Math.floor(m / 60)} h ${m % 60} min`}`,
       minutes: (m: number) => (m === 60 ? '1 Stunde' : m % 60 === 0 ? `${m / 60} Stunden` : `${Math.floor(m / 60)} h ${m % 60} min`),
       themes: 'Reiseart',
       themesHint: 'Was möchtest du vor Ort machen? Mehrfachauswahl möglich.',
       window: 'Zeitfenster',
+      pattern: 'Wie lange und ab welchem Wochentag?',
+      patternHint: 'Wir suchen jeden passenden Termin zwischen Anreise und Abreise und vergleichen die Preise.',
+      nightsOption: (n: number) => (n === 1 ? '1 Nacht' : `${n} Nächte`),
       windowStart: 'Früheste Anreise',
       windowEnd: 'Späteste Abreise',
       nights: 'Nächte',
@@ -109,6 +115,18 @@ export const de = {
       childAge: (n: number) => `Alter Kind ${n}`,
       removeChild: 'Entfernen',
       rooms: 'Zimmer',
+      travellersSummary: (adults: number, children: number, rooms: number) =>
+        [
+          adults === 1 ? '1 Erwachsener' : `${adults} Erwachsene`,
+          children === 0 ? null : children === 1 ? '1 Kind' : `${children} Kinder`,
+          rooms === 1 ? '1 Zimmer' : `${rooms} Zimmer`,
+        ]
+          .filter(Boolean)
+          .join(' · '),
+      less: (label: string) => `${label}: eins weniger`,
+      more: (label: string) => `${label}: eins mehr`,
+      years: (n: number) => (n === 1 ? '1 Jahr' : `${n} Jahre`),
+      done: 'Fertig',
       budget: 'Budget in € (optional)',
       budgetHint: 'Gilt für den gesamten Aufenthalt inklusive Steuern und Gebühren.',
       goalHint:
@@ -141,6 +159,19 @@ export const de = {
           `Das ergibt ${count} Termine. Möglich sind höchstens ${max}: Bitte verkürze das Zeitfenster oder wähle weniger Anreisetage.`,
         adults: 'Bitte gib mindestens eine erwachsene Person an.',
       },
+    },
+    calendar: {
+      arrival: 'Anreise frühestens',
+      departure: 'Abreise spätestens',
+      choose: 'Datum wählen',
+      pickArrival: 'Wann kannst du frühestens anreisen?',
+      pickDeparture: 'Und wann musst du spätestens zurück sein?',
+      span: (days: number) => (days === 1 ? '1 Tag Zeitraum' : `${days} Tage Zeitraum`),
+      prev: 'Vorheriger Monat',
+      next: 'Nächster Monat',
+      months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+      weekdaysShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      weekdaysLong: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
     },
     regions: {
       title: 'Passende Regionen',

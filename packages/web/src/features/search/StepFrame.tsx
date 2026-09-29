@@ -1,20 +1,19 @@
-// Step 1: search frame (F1, F15): start location, drive time, themes, time
-// window, travel pattern with live date count, travellers, budget, goal (one
-// tap), wish chips and free text translated by AI (with the visible AI
-// notice). Stars and rating minimums are "Weitere Filter" in the results.
-import { useCallback, useMemo, useState } from 'react';
-import type { LocalityDto, MetaConfigResponse } from '@reiseplaner/contracts';
-import { AiLabel, Alert, Button, Card, Chip, Description, ErrorMessage, Fieldset, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
+// Step 1: search frame (F1, F15). On top the search bar known from booking
+// sites (start location, drive time, arrival and departure in a calendar,
+// travellers); below the travel pattern with live date count, themes, budget,
+// goal (one tap), wish chips and free text translated by AI (with the visible
+// AI notice). Stars and rating minimums are "Weitere Filter" in the results.
+import { useMemo, useState } from 'react';
+import type { MetaConfigResponse } from '@reiseplaner/contracts';
+import { AiLabel, Alert, Button, Card, Chip, Description, Fieldset, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
-import { AsyncCombobox } from './AsyncCombobox';
-import { fetchLocalities, parseWish } from './api';
+import { parseWish } from './api';
+import { SearchBar } from './SearchBar';
 import { stayDates, toggle, type WizardState } from './state';
 
 const t = de.wizard.frame;
-const DRIVE_OPTIONS = [60, 90, 120, 150, 180, 240, 300, 360];
-const MAX_CHILD_AGE = 17;
 
 type Update = (patch: Partial<WizardState>) => void;
 
@@ -54,10 +53,6 @@ export function StepFrame({
   const originMissing = state.origin === null;
   const adultsInvalid = state.adults < 1;
   const aiOff = !meta.llm_enabled;
-  const loadLocalities = useCallback(
-    (q: string, signal: AbortSignal) => fetchLocalities(q, signal).then((r) => r.items),
-    [],
-  );
 
   async function translate() {
     const text = state.wishText.trim();
@@ -99,106 +94,37 @@ export function StepFrame({
       }}
       noValidate
     >
-      <Card className="space-y-6">
-        <div data-origin={state.origin?.geonameid ?? ''}>
-          <Label htmlFor="origin">{t.origin}</Label>
-          <div className="mt-2">
-            <AsyncCombobox<LocalityDto>
-              id="origin"
-              testId="origin-input"
-              value={state.origin}
-              onChange={(origin) => update({ origin, regions: null, selectedRegionIds: [], places: [], selectedPlaceIds: [] })}
-              load={loadLocalities}
-              itemKey={(l) => String(l.geonameid)}
-              itemLabel={(l) => l.label}
-              placeholder={t.originPlaceholder}
-              emptyText={t.originNoResults}
-              invalid={touched && originMissing}
-              describedBy="origin-hint"
-            />
-          </div>
-          <Description id="origin-hint">{t.originHint}</Description>
-          {touched && originMissing ? <ErrorMessage>{t.originRequired}</ErrorMessage> : null}
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div>
-            <Label htmlFor="max-drive">{t.maxDrive}</Label>
-            <Select
-              id="max-drive"
-              className="mt-2"
-              value={state.maxDriveMinutes ?? ''}
-              onChange={(e) =>
-                update({ maxDriveMinutes: e.target.value === '' ? null : Number(e.target.value), regions: null, places: [], selectedPlaceIds: [] })
-              }
-            >
-              <option value="">{t.noLimit}</option>
-              {DRIVE_OPTIONS.map((m) => (
-                <option key={m} value={m}>
-                  {t.minutes(m)}
-                </option>
-              ))}
-            </Select>
-          </div>
-        </div>
-
-        <Fieldset legend={t.themes}>
-          <Description>{t.themesHint}</Description>
-          <div className="flex flex-wrap gap-2" data-testid="theme-chips">
-            {meta.themes.map((theme) => (
-              <Chip
-                key={theme.code}
-                selected={state.themes.includes(theme.code)}
-                onToggle={() => update({ themes: toggle(state.themes, theme.code), regions: null, places: [], selectedPlaceIds: [] })}
-              >
-                {theme.label}
-              </Chip>
-            ))}
-          </div>
-        </Fieldset>
-      </Card>
+      <SearchBar state={state} update={update} meta={meta} touched={touched} />
 
       <Card className="space-y-6">
-        <Fieldset legend={t.window}>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <Label htmlFor="window-start">{t.windowStart}</Label>
-              <Input
-                id="window-start"
-                type="date"
-                className="mt-2"
-                value={state.windowStart}
-                onChange={(e) => update({ windowStart: e.target.value })}
-              />
-            </div>
-            <div>
-              <Label htmlFor="window-end">{t.windowEnd}</Label>
-              <Input id="window-end" type="date" className="mt-2" value={state.windowEnd} onChange={(e) => update({ windowEnd: e.target.value })} />
-            </div>
+        <Fieldset legend={t.pattern}>
+          <Description>{t.patternHint}</Description>
+          <div className="grid gap-4 sm:grid-cols-[10rem_1fr]">
             <div>
               <Label htmlFor="nights">{t.nights}</Label>
               <Select id="nights" className="mt-2" value={state.nights} onChange={(e) => update({ nights: Number(e.target.value) })}>
                 {Array.from({ length: meta.limits.max_nights }, (_, i) => i + 1).map((n) => (
                   <option key={n} value={n}>
-                    {n}
+                    {t.nightsOption(n)}
                   </option>
                 ))}
               </Select>
             </div>
-          </div>
-        </Fieldset>
-        <Fieldset legend={t.weekdays}>
-          <div className="flex flex-wrap gap-2" data-testid="weekday-chips">
-            {t.weekdayNames.map((name, index) => (
-              <Chip
-                key={name}
-                title={t.weekdayLong[index] ?? name}
-                selected={state.weekdays.includes(index + 1)}
-                onToggle={() => update({ weekdays: toggle(state.weekdays, index + 1).sort() })}
-              >
-                {name}
-              </Chip>
-            ))}
+            <div>
+              <span className="block text-sm/6 font-medium text-zinc-900">{t.weekdays}</span>
+              <div className="mt-2 flex flex-wrap gap-2" data-testid="weekday-chips">
+                {t.weekdayNames.map((name, index) => (
+                  <Chip
+                    key={name}
+                    title={t.weekdayLong[index] ?? name}
+                    selected={state.weekdays.includes(index + 1)}
+                    onToggle={() => update({ weekdays: toggle(state.weekdays, index + 1).sort() })}
+                  >
+                    {name}
+                  </Chip>
+                ))}
+              </div>
+            </div>
           </div>
         </Fieldset>
         <div aria-live="polite" data-testid="date-count">
@@ -219,59 +145,23 @@ export function StepFrame({
       </Card>
 
       <Card className="space-y-6">
-        <Fieldset legend={t.travellers}>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <Label htmlFor="adults">{t.adults}</Label>
-              <Select id="adults" className="mt-2" value={state.adults} onChange={(e) => update({ adults: Number(e.target.value) })}>
-                {Array.from({ length: meta.limits.max_adults_per_room * state.rooms }, (_, i) => i + 1).map((n) => (
-                  <option key={n} value={n}>
-                    {n}
-                  </option>
-                ))}
-              </Select>
-              {touched && adultsInvalid ? <ErrorMessage>{t.errors.adults}</ErrorMessage> : null}
-            </div>
-            <div>
-              <Label htmlFor="rooms">{t.rooms}</Label>
-              <Select id="rooms" className="mt-2" value={state.rooms} onChange={(e) => update({ rooms: Number(e.target.value) })}>
-                {Array.from({ length: meta.limits.max_rooms }, (_, i) => i + 1).map((n) => (
-                  <option key={n} value={n}>
-                    {n}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <span className="block text-sm/6 font-medium text-zinc-900">{t.children}</span>
-              {state.childrenAges.map((age, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <Select
-                    aria-label={t.childAge(index + 1)}
-                    value={age}
-                    onChange={(e) =>
-                      update({ childrenAges: state.childrenAges.map((a, i) => (i === index ? Number(e.target.value) : a)) })
-                    }
-                  >
-                    {Array.from({ length: MAX_CHILD_AGE + 1 }, (_, i) => i).map((n) => (
-                      <option key={n} value={n}>
-                        {n}
-                      </option>
-                    ))}
-                  </Select>
-                  <Button variant="ghost" size="sm" onClick={() => update({ childrenAges: state.childrenAges.filter((_, i) => i !== index) })}>
-                    {t.removeChild}
-                  </Button>
-                </div>
-              ))}
-              {state.childrenAges.length < meta.limits.max_children_per_room * state.rooms ? (
-                <Button variant="secondary" size="sm" onClick={() => update({ childrenAges: [...state.childrenAges, 8] })}>
-                  {t.addChild}
-                </Button>
-              ) : null}
-            </div>
+        <Fieldset legend={t.themes}>
+          <Description>{t.themesHint}</Description>
+          <div className="flex flex-wrap gap-2" data-testid="theme-chips">
+            {meta.themes.map((theme) => (
+              <Chip
+                key={theme.code}
+                selected={state.themes.includes(theme.code)}
+                onToggle={() => update({ themes: toggle(state.themes, theme.code), regions: null, places: [], selectedPlaceIds: [] })}
+              >
+                {theme.label}
+              </Chip>
+            ))}
           </div>
         </Fieldset>
+      </Card>
+
+      <Card className="space-y-6">
         <div className="grid gap-6 sm:grid-cols-3">
           <div className="sm:col-span-1">
             <Label htmlFor="budget">{t.budget}</Label>
