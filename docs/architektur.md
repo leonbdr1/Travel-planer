@@ -1,6 +1,6 @@
 # Architektur: [ARBEITSTITEL]
 
-Stand: 26.09.2026 · **Fassung 2 (Plattform-Angleichung)** · Ergebnis von Phase 2 · Baut auf `docs/konzept.md` (Fassung 3) auf. Ergänzt am 28.09.2026 um Abschnitt 6.15 und die zugehörigen Zeilen in 5.5, 6.10, 7.2 und 7.3 (Entscheidungshilfe, konzept.md Fassung 4, M11), am selben Tag nach Bens Entscheidungen um Lage-Fakten aus OpenStreetMap (8.4, BG-20), die Entwicklerseite (7.2) und die Werte in 6.15; von Ben freigegeben. Bestehende Abschnitte sonst unverändert.
+Stand: 26.09.2026 · **Fassung 2 (Plattform-Angleichung)** · Ergebnis von Phase 2 · Baut auf `docs/konzept.md` (Fassung 3) auf. Ergänzt am 28.09.2026 um Abschnitt 6.15 und die zugehörigen Zeilen in 5.5, 6.10, 7.2 und 7.3 (Entscheidungshilfe, konzept.md Fassung 4, M11), am selben Tag nach Bens Entscheidungen um Lage-Fakten aus OpenStreetMap (8.4, BG-20), die Entwicklerseite (7.2) und die Werte in 6.15; von Ben freigegeben. Am 29.09.2026 mit Bens Freigabe an den gebauten Stand angepasst: Suchablauf mit `hotel-content`, Nachprüfrunden und Lage-Fakten (6.4), Bewertungssystem vom 28.09. (6.7, 6.9, 6.14, 6.15: Note ab 30 Bewertungen, Vergleichspreis und „Unsere Wahl“), Schnäppchen mit gleichem Zimmer (6.8), Warnsignale nach Anteil der geprüften Bewertungen (6.10, 6.15), Häuser ohne Bewertungen unten in der Liste (6.15, 7.3), Texte der Unterkunft auf Deutsch und als Blöcke (7.3, 8.1) und die lokale Datenbank mit eigenem Wire-Server statt `pglite-socket` (2, 3.5, 12, 13, 14.3, 18). Bestehende Abschnitte sonst unverändert.
 Ersetzt Fassung 1 vom selben Tag (Python/FastAPI auf eigenem Hetzner-Server). Grund: Das Produkt soll nahtlos auf der bestehenden Firmenplattform laufen, die Frontlift nutzt, und mit fi-deck gebaut werden.
 
 Preise, Limits und Endpunkte externer Dienste entsprechen dem Stand 09/2026. Jede Zahl trägt ihre Quelle in Abschnitt 18 (Belege). Vor der Implementierung werden sie gegen die aktuelle Dokumentation geprüft (`umsetzungsplan.md`, Verified contracts). Abweichungen werden gemeldet und nicht still übernommen.
@@ -97,7 +97,7 @@ Preise, Limits und Endpunkte externer Dienste entsprechen dem Stand 09/2026. Jed
 | Datenzugriff | Handgeschriebenes SQL in Repository-Modulen, Zeilen mit zod geprüft |
 | KI | Anthropic API; Skills im Firmenformat; Laufzeit-Runner im Worker; Katalog über die Batch API |
 | Frontend | React 19, Vite, Tailwind CSS 4, React Router 7, Headless UI, Heroicons, Catalyst |
-| Dev-Server | Cloudflare-Vite-Plugin (Worker und SPA in einem Prozess), lokale Datenbank über PGlite-Socket |
+| Dev-Server | Cloudflare-Vite-Plugin (Worker und SPA in einem Prozess), lokale Datenbank: PGlite hinter einem eigenen Wire-Server (`packages/db/src/wire-server.ts`) |
 | Tests | Vitest; `@cloudflare/vitest-pool-workers` (Worker, Workflows, Cron im echten Workers-Laufzeitsystem); PGlite mit pgTAP; Playwright für Walkthroughs |
 | E-Mail | Resend |
 | Bot-Schutz | ALTCHA (Proof-of-Work, selbst gehostet, ohne Cookies) |
@@ -169,10 +169,10 @@ Jede Entscheidung ist als Kurz-ADR formuliert: Kontext, Optionen, Wahl, Begründ
 - ⛔ BG-08: Nutzt das Resend-Konto der Firma die eine kostenlose Domain bereits, braucht der Reiseplaner den Pro-Plan (20 $ pro Monat) oder ein eigenes Konto.
 
 **E11 Teststrategie**
-- **A) Hermetisch (gewählt):** Unit-Tests für die Fachlogik; Worker-, Workflow- und Cron-Tests im echten Workers-Laufzeitsystem (`@cloudflare/vitest-pool-workers`) mit Fakes für alle Anbieter; Datenbank-Tests gegen PGlite mit pgTAP über `pglite-socket`. Zusätzlich eine CI-Spur gegen einen echten Postgres-Dienstcontainer für Nebenläufigkeit und RLS-Parität.
+- **A) Hermetisch (gewählt):** Unit-Tests für die Fachlogik; Worker-, Workflow- und Cron-Tests im echten Workers-Laufzeitsystem (`@cloudflare/vitest-pool-workers`) mit Fakes für alle Anbieter; Datenbank-Tests gegen PGlite mit pgTAP über den eigenen Wire-Server. Zusätzlich eine CI-Spur gegen einen echten Postgres-Dienstcontainer für Nebenläufigkeit und RLS-Parität.
 - B) Lokales Supabase per Docker. Nicht Fleet-tauglich, weil die Sandbox kein Docker und kein Netzwerk erlaubt.
 - C) Tests gegen Live-Dienste wie bei den Frontlift-Contract-Tests. Verworfen: Kosten, Nebenwirkungen, nicht reproduzierbar.
-- Hinweis: PGlite ist eine Einzelverbindungs-Datenbank. `pglite-socket` erlaubt standardmäßig nur eine Verbindung und bietet einen Multiplexer für mehrere, ohne Garantie für alle Fälle. Die Tests fahren deshalb mit Pool-Größe 1; Nebenläufigkeitstests laufen in der Postgres-Spur der CI.
+- Hinweis: PGlite ist eine Einzelverbindungs-Datenbank. Der eigene Wire-Server (`wire-server.ts`, seit 29.09.2026) teilt ihre einzige Sitzung zwischen den Verbindungen Stück für Stück: Nachrichten laufen bis Sync, Query oder Flush; die Sitzung wechselt nur zwischen solchen Sequenzen und außerhalb von Transaktionen; bricht eine Verbindung ab, wird ihre offene Transaktion zurückgerollt. Vorher vermischte `pglite-socket` parallele Verbindungen, der serielle Proxy danach ließ wartende Verbindungen in Timeouts laufen (`HANDOFF.md` Drift 15 und 41). Nicht unterstützt: COPY über die Leitung und LISTEN/NOTIFY zwischen Verbindungen (nicht genutzt). Die Tests fahren mit Pool-Größe 1; Nebenläufigkeitstests gegen echtes Postgres laufen in der Postgres-Spur der CI.
 
 **E12 Monorepo und Werkzeuge**
 - npm-Workspaces wie fi-deck. Keine zusätzlichen Build-Werkzeuge (kein Turborepo, kein pnpm), keine Linter (die Firma nutzt keine); TypeScript im Strict-Modus ist das Qualitäts-Gate.
@@ -274,7 +274,7 @@ sequenceDiagram
 
 | Modus | LiteAPI | openrouteservice | Claude | Resend | Datenbank | Einsatz |
 |---|---|---|---|---|---|---|
-| `fake` | Fixtures | Fixtures | feste Antworten | Postausgang in der DB | PGlite (`pglite-socket`) | Entwicklung, CI, Fleet-Sandbox, Walkthroughs |
+| `fake` | Fixtures | Fixtures | feste Antworten | Postausgang in der DB | PGlite (eigener Wire-Server) | Entwicklung, CI, Fleet-Sandbox, Walkthroughs |
 | `sandbox` | Sandbox-Schlüssel | echter Dienst | echter Dienst, kleines Budget | Testadresse | PGlite lokal oder Staging-Projekt | Validierung, manuelle Integration, Staging |
 | `live` | Live-Schlüssel | echter Dienst | echter Dienst | echter Versand | Supabase Produktion | Produktion |
 
@@ -497,9 +497,9 @@ Die Zuordnung zu den Ausstattungs-IDs wird in S4.1 aus der echten Facilities-Lis
    - Fehler 429 und 5xx: bis zu 2 Wiederholungen mit exponentiellem Backoff innerhalb des Schritts; andere Fehler setzen die Kombination auf `failed`.
    - Angebote normalisieren (6.5), idempotent schreiben (Unique-Schlüssel aus 5.4), `cache_entries` aktualisieren, Fortschritt erhöhen, `provider_usage` zählen.
    - Schritt-Konfiguration: Timeout 60 s, Workflow-Wiederholungen 2 (exponentiell). Weil jeder Schreibzugriff idempotent ist, schadet eine Wiederholung nicht.
-4. **Hotelinhalte:** fehlende oder mehr als 7 Tage alte Inhalte kommen aus der Tarifantwort; nur fehlende Felder lösen `GET /data/hotel` aus.
+4. **Schritt `hotel-content`** (28.09.2026, `HANDOFF.md` Drift 36): Die echte Tarifantwort nennt je Haus nur ID, Name, Foto, Adresse und Note. Deshalb holt der Schritt nach den Tarifblöcken je Haus einmal `GET /data/hotel` (Cache `hotel_content`, `HOTEL_CONTENT_TTL_DAYS`, derselbe wie die Detailseite; `liteapi_calls` fail-closed; höchstens `HOTEL_CONTENT_STEP_BUDGET_S` je Suche) und ergänzt fehlende Werte wie Anzahl der Bewertungen, Sterne und Koordinaten; vorhandene Werte werden nie mit leeren überschrieben. Häuser, die in der Zeit nicht mehr drankommen, bleiben ohne Bewertungsanzahl.
 5. **Schritt `score-1`:** Filter (6.6), Score Stufe 1 (6.7), Schnäppchen (6.8), Rangliste (6.9). Status `reviewing`.
-6. **Schritte `reviews-fetch` und `reviews-verify`:** Rezensionscheck der Top `REVIEW_TOP_N` Hotels (6.10). Getrennte Schritte, damit ein Fehler bei der KI den Abruf nicht wiederholt.
+6. **Schritte `reviews-fetch` und `reviews-verify`:** Rezensionscheck von `REVIEW_TOP_N` Hotels (6.10; ab M11 die wahrscheinlichen Finalisten aller Ziele, 6.15), danach bis zu `REVIEW_FOLLOWUP_ROUNDS` Nachprüfrunden `reviews-fetch-<n>`/`reviews-verify-<n>`. Getrennte Schritte, damit ein Fehler bei der KI den Abruf nicht wiederholt. Anschließend Schritt `location-facts` (OpenStreetMap, 6.15).
 7. **Schritt `finalize`:** Score Stufe 2, Schnäppchen und Rangliste neu, Status `done`; bei mindestens einer fehlgeschlagenen Kombination `partial`, wenn alle fehlschlagen `failed`.
 8. **Frist:** Jeder Schritt prüft `SEARCH_JOB_TIMEOUT_S` ab `started_at`. Nach Ablauf werden offene Kombinationen `failed`, der Workflow springt zu `finalize`.
 9. **Frontend:** fragt den Status alle 2 Sekunden ab und lädt Teilergebnisse schon während `running`, damit sich die Matrix live füllt.
@@ -521,7 +521,8 @@ Ein Angebot erfüllt `passes_filters`, wenn alle gesetzten Bedingungen zutreffen
 **Stufe 1** (alle Angebote):
 - `R` = Rating auf der Skala 0–10 (eine 5er-Skala wird mit 2 multipliziert), `n` = Anzahl der Bewertungen.
 - Fehlt `R` oder ist `n = 0`: `quality = null` mit dem Hinweis „noch keine Bewertungen“.
-- `S0 = (n · R + m · C) / (n + m)` mit `m = SCORE_PRIOR_WEIGHT`, `C = SCORE_PRIOR_MEAN`.
+- `S0 = (n · R + m · C) / (n + m)` mit `m = max(0, SCORE_FULL_WEIGHT_REVIEWS − n)` und `C = SCORE_PRIOR_MEAN` (Ben 28.09.2026: ab 30 Bewertungen zählt der Durchschnitt so, wie er ist; darunter ziehen ihn die fehlenden Bewertungen zum Mittel, damit 10,0 aus 3 Bewertungen nicht vor 9,0 aus 400 landet).
+- `n` = wirksame Bewertungen (`effectiveReviewCount`): mit Rezensionscheck zählen die geladenen Bewertungen der letzten `REVIEW_FRESH_MONTHS` voll, alle übrigen (älter oder nicht geladen) `REVIEW_OLD_WEIGHT`; ohne Check ist das Alter unbekannt und alle zählen voll.
 
 **Stufe 2** (nur Hotels mit gültigem `review_checks`):
 - **Aktualität:** bei `recent_count ≥ 5`: `Δ = clamp(recent_rating − R, −1,5, +1,5)`, `S1 = S0 + SCORE_RECENCY_WEIGHT · Δ · recent_count / (recent_count + 10)`; sonst `S1 = S0`.
@@ -533,30 +534,27 @@ Ein Angebot erfüllt `passes_filters`, wenn alle gesetzten Bedingungen zutreffen
 
 ### 6.8 Schnäppchen (`bargains.ts`)
 
-Grundlage ist die Menge `F`: Angebote mit `passes_filters` und `quality ≠ null`. Für jedes Angebot gilt `v = quality / (price_per_night_cents / 100)`.
+Seit 28.09.2026 gibt es nur noch die Termin-Markierung (Ben: `value` und `place` trafen mit echten Preisen fast jedes Angebot). Grundlage ist die Menge `F`: Angebote mit `passes_filters` und `quality ≠ null`.
 
-| Typ | Bedingung | Begründung (Textbaustein) |
-|---|---|---|
-| `value` | mindestens 10 Angebote in F, `v ≥ BARGAIN_VALUE_FACTOR · median(v)` und `quality ≥ 7,0` | „Preis-Leistung {p} % besser als der Durchschnitt deiner Suche“ |
-| `date` | dasselbe Hotel hat Angebote an ≥ 3 Terminen dieser Suche und `price_per_night ≤ BARGAIN_DATE_FACTOR · median` seiner Preise | „{p} % günstiger als dieselbe Unterkunft an deinen anderen Terminen“ |
-| `place` | Vergleichsmenge: gleicher Ort, gleicher Termin, Qualitätsabstand ≤ 1,0, mindestens 5 Angebote; `price_per_night ≤ BARGAIN_PLACE_FACTOR · median` | „{p} % günstiger als vergleichbare Unterkünfte in {Ort}“ |
-
-`{p}` wird kaufmännisch auf ganze Prozent gerundet; mehrere Begründungen werden mit „ · “ verbunden. Die Textbausteine sind die einzigen erlaubten Ersparnis-Formulierungen (Claims-Regel, 6.13).
+- **Gleiches mit Gleichem** (Ben 29.09.2026): verglichen wird dieselbe Unterkunft mit demselben Zimmer (Name ohne Groß- und Kleinschreibung und doppelte Leerzeichen), derselben Verpflegung und denselben Stornobedingungen. Ein Doppelzimmer, das nur an einem Termin frei ist, ist also kein Schnäppchen gegenüber der Suite, die an den anderen übrig ist.
+- **Bedingung:** Je Termin zählt der günstigste Preis pro Nacht dieser Art. Wird sie an mindestens `BARGAIN_DATE_MIN_DATES` Terminen angeboten und liegt dieser Preis bei höchstens `BARGAIN_DATE_FACTOR` × dem Median ihrer Terminpreise, trägt das Angebot die Markierung `date`.
+- **Begründung** (`bargainReasonDate`): „{p} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer, im Mittel deiner Termine {m} € pro Nacht)“, `{p}` kaufmännisch auf ganze Prozent, `{m}` der Median in ganzen Euro. Der Wortlaut folgt `konzept.md` 5.1 (Beispiel 3); die Klammer nennt, womit verglichen wurde.
+- Der Textbaustein ist die einzige erlaubte Ersparnis-Formulierung (Claims-Regel, 6.13). Die Preis-Matrix zeigt beim Draufhalten und bei Tastatur-Fokus Unterkunft, Zimmer, Verpflegung und Begründung.
 
 ### 6.9 Rangliste, Liste und Matrix (`ranking.ts`)
 - **Rangwert:** `q_norm = quality / 10` (bei `null`: 0,5, gekennzeichnet); `p_norm = 1 − (ppn − min) / (max − min)` über `F` (bei `max = min`: 1); `rank_score = RANK_W_QUALITY · q_norm + RANK_W_PRICE · p_norm + RANK_BARGAIN_BONUS · [Schnäppchen]`. Bei Gleichstand gewinnt der niedrigere Preis.
-- **Sortierung:** `best` (Standard), `price` (aufsteigend), `quality` (absteigend).
-- **Liste:** Jede Unterkunft genau einmal mit ihrem besten Angebot; `other_dates_count` nennt weitere Termine, die in der Detailansicht stehen.
-- **Matrix:** Zeilen Orte, Spalten Termine; eine Zelle zeigt das Angebot mit dem höchsten `rank_score` in `F`. `state`: `offer`, `empty` (kein passendes Angebot) oder `failed` (keine Daten). `price_bucket` 1–5 nach Quintilen der Zellpreise.
+- **Sortierung** (seit 28.09.2026): `price` (Standard, aufsteigend), `best` („Unsere Wahl zuerst“: Vergleichspreis, 6.15), `quality` (absteigend, bei Gleichstand der niedrigere Preis). Der Rangwert wird weiter berechnet, bestimmt die Reihenfolge der Liste aber nicht mehr.
+- **Liste:** Jede Unterkunft genau einmal mit ihrem günstigsten passenden Angebot, und nur Unterkünfte, die die Regeln des Ziels bestehen (`admissibleHotelIds`, 6.15), damit ein aussortiertes Haus nie mit einem billigen Preis oben steht; `recommended` markiert „Unsere Wahl“. `other_dates_count` nennt weitere Termine, die in der Detailansicht stehen. Darunter stehen getrennt die aussortierten Unterkünfte ohne Bewertungen (6.15).
+- **Matrix:** Zeilen Orte, Spalten Termine; eine Zelle zeigt das günstigste passende Angebot einer Unterkunft, die die Regeln des Ziels besteht. `state`: `offer`, `empty` (kein passendes Angebot) oder `failed` (keine Daten). `price_bucket` 1–5 nach Quintilen der Zellpreise. Jede Zelle nennt Unterkunft, Zimmer, Verpflegung und gegebenenfalls die Schnäppchen-Begründung für den Hinweis beim Draufhalten.
 
 ### 6.10 Rezensionscheck (`review-keywords.ts`, Skill `reiseplaner.review-verify`)
 1. Kandidaten: die Top `REVIEW_TOP_N` unterschiedlichen Hotels nach Stufe 1; gültige `review_checks` werden wiederverwendet. Ab M11 die wahrscheinlichen Finalisten aller Ziele und die Zielreihenfolge, danach Nachprüfrunden (6.15).
 2. `GET /data/reviews` mit den neuesten `REVIEW_MAX_REVIEWS` Bewertungen; `getSentiment` nur, wenn `LITEAPI_USE_SENTIMENT = true` (abhängig von Validierung V7).
 3. Bewertungen älter als `REVIEW_MAX_AGE_MONTHS` werden verworfen; daraus `recent_rating` und `recent_count` der letzten 12 Monate.
-4. **Stichwortsuche:** Regex mit Wortgrenzen, ohne Groß- und Kleinschreibung. Lexikon `packages/domain/src/review-lexicon.yaml` mit Einträgen in DE, EN, FR, IT und NL je Thema: `sauberkeit`, `schimmel`, `ungeziefer`, `laerm`, `geruch`, `zustand`, `abweichung_beschreibung`. Um jeden Treffer ein Ausschnitt von ±120 Zeichen mit ID und Datum; höchstens 5 Ausschnitte je Thema und 25 insgesamt. Namen der Verfasser werden vorher entfernt.
+4. **Stichwortsuche:** Regex mit Wortgrenzen, ohne Groß- und Kleinschreibung. Lexikon `packages/domain/src/review-lexicon.yaml` mit Einträgen in DE, EN, FR, IT und NL je Thema: `sauberkeit`, `schimmel`, `ungeziefer`, `laerm`, `geruch`, `zustand`, `abweichung_beschreibung`. Um jeden Treffer ein Ausschnitt von ±120 Zeichen mit ID und Datum; höchstens 5 Ausschnitte je Thema und 25 insgesamt. Namen der Verfasser werden vorher entfernt. Unabhängig von dieser Grenze zählt der Scan je Thema alle Bewertungen mit einem nicht verneinten Treffer und als Basis alle Bewertungen des Zeitraums, die die Stichwortliste lesen kann (ihre Sprachen oder unbekannt, andere nur mit Treffer); beides nach Alter gewichtet: Bewertungen der letzten `MENTION_RECENT_MONTHS` zählen `MENTION_RECENT_WEIGHT`-fach, wie beim Lob (Ben 29.09.2026).
 5. **Keine Treffer:** Themen leer, kein KI-Aufruf.
-6. **Treffer, KI aktiv, Budget reserviert:** Skill `reiseplaner.review-verify` (Abschnitt 9). Aggregation ohne KI: `confirmed_count` = Ausschnitte mit `is_complaint = true`, `latest_date` = spätestes Datum darunter, `severity` = Maximum.
-7. **Treffer, aber KI aus oder Budget erschöpft:** als `unverified_count` gezählt und als „Hinweis (ungeprüft)“ angezeigt, ohne Abzug im Score; Status `skipped_budget`.
+6. **Treffer, KI aktiv, Budget reserviert:** Skill `reiseplaner.review-verify` (Abschnitt 9). Aggregation ohne KI: `confirmed_count` = Ausschnitte mit `is_complaint = true`, `latest_date` = spätestes Datum darunter, `severity` = Maximum. Dazu je Thema `guests` (beschwerende Gäste: die bestätigten und, wenn mehr Bewertungen trafen, als die KI sah, der Rest mit der Quote, die sie unter den nicht verneinten Ausschnitten des Themas bestätigt hat) und `share` (ihr gewichteter Anteil an der Basis).
+7. **Treffer, aber KI aus oder Budget erschöpft:** als `unverified_count` gezählt und als „Hinweis (ungeprüft)“ angezeigt, ohne Abzug im Score; Status `skipped_budget`. `guests` und `share` zählen hier jeden nicht verneinten Treffer.
 8. `review_checks` wird mit TTL `REVIEW_CACHE_DAYS` gespeichert.
 
 ### 6.11 Zustandsautomat der Buchung (`booking-state.ts`)
@@ -602,9 +600,10 @@ Drei Cron Triggers (Workers Paid erlaubt 250 je Account, Free 5). Jeder Job ist 
 | `ORS_MATRIX_CHUNK` | 50 | in S2.3 gegen die Limits der API prüfen |
 | `ORS_DAILY_CAP` / `ORS_PER_MIN_CAP` | 450 / 35 | knapp unter dem Kontingent von 500 pro Tag und 40 pro Minute |
 | `SUGGEST_MAX_REGIONS` | 5 | |
-| `SCORE_PRIOR_MEAN` / `SCORE_PRIOR_WEIGHT` | 7,5 / 50 | |
+| `SCORE_PRIOR_MEAN` / `SCORE_FULL_WEIGHT_REVIEWS` | 7,5 / 30 | Ben 28.09.2026 (vorher Prior-Gewicht 50) |
+| `REVIEW_FRESH_MONTHS` / `REVIEW_OLD_WEIGHT` | 36 / ⅓ | ältere Bewertungen zählen ein Drittel |
 | `SCORE_RECENCY_WEIGHT` / `SCORE_MAX_PENALTY` | 0,5 / 2,0 | |
-| `BARGAIN_VALUE_FACTOR` / `BARGAIN_DATE_FACTOR` / `BARGAIN_PLACE_FACTOR` | 1,3 / 0,8 / 0,75 | |
+| `BARGAIN_DATE_FACTOR` / `BARGAIN_DATE_MIN_DATES` | 0,8 / 3 | nur noch die Termin-Markierung (6.8) |
 | `RANK_W_QUALITY` / `RANK_W_PRICE` / `RANK_BARGAIN_BONUS` | 0,6 / 0,4 / 0,05 | |
 | `REVIEW_TOP_N` / `REVIEW_MAX_REVIEWS` / `REVIEW_MAX_AGE_MONTHS` / `REVIEW_CACHE_DAYS` | 10 / 100 / 24 / 30 | |
 | `LLM_DAILY_BUDGET_USD` | 5 | Tagesdeckel für alle Laufzeit-Skills |
@@ -618,18 +617,20 @@ Ergänzt am 28.09.2026 nach Bens Vorgabe (konzept.md Fassung 4, Abschnitte 9.9 b
 - **Regeln in dieser Reihenfolge**, gezählt beim ersten Treffer:
   1. `filters`: kein Angebot erfüllt die Filter (Budget, Chips, Sterne, Mindestbewertung …).
   2. `no_reviews`: kein Qualitätswert und nicht plausibel: Preis pro Nacht unter `UNRATED_MIN_PRICE_RATIO` × Median der bewerteten Häuser mit gleicher Sternezahl (bei weniger als `STAR_TRAP_MIN_REFERENCE` aller bewerteten), oder unter diesem Median mit mehr Extras (Frühstück, Halbpension, Sauna, Schwimmbad) als drei Viertel der bewerteten Häuser (`UNRATED_MAX_EXTRAS_SHARE`); bei `komfort` immer. Plausible Häuser ohne Bewertungen durchlaufen die übrigen Regeln ohne Qualitätsschwelle.
-  3. `red_flag`: Warnung zu Schimmel oder Ungeziefer mit ≥ 2 bestätigten oder ≥ 3 ungeprüften Erwähnungen, zu Sauberkeit mit ≥ 3 bestätigten oder ≥ 4 ungeprüften (`RED_FLAG_MIN_MENTIONS`, Ben 28.09.2026: ein einzelner Gast kann sich irren).
+  3. `red_flag`: Beschwerden über Schimmel, Ungeziefer oder Schmutz nehmen überhand (`RED_FLAG_THRESHOLDS`, Ben 29.09.2026): mindestens `guests` beschwerende Gäste (ohne KI-Prüfung `guestsUnverified`) **und** mindestens `share` der geprüften Bewertungen, beides aus 6.10 und nach Alter gewichtet wie beim Lob. Wenige Meldungen bei vielen Gästen machen ein Haus nicht unbewohnbar: Darunter bleibt es ein Warnhinweis mit Abzug im Qualitätswert (6.7), und das Haus läuft ganz normal durch die übrigen Regeln. Häuser mit Warnsignal erscheinen nicht in der Liste, auch nicht unten. Vorher (28.09.) genügten 2 bestätigte Erwähnungen, unabhängig von der Zahl der Bewertungen.
   4. `star_trap`: ≥ `STAR_TRAP_MIN_STARS` Sterne und Preis pro Nacht unter `STAR_TRAP_PRICE_RATIO` × Median der Häuser mit weniger Sternen (mindestens `STAR_TRAP_MIN_REFERENCE` davon mit Qualitätswert). Entlastet nur durch einen Rezensionscheck, Qualität ≥ `STAR_TRAP_MIN_QUALITY` und keine Warnung zu Zustand oder Sauberkeit.
   5. `low_quality`: Qualität unter `GOAL_QUALITY_FLOOR[goal]`. Ausnahme (nicht bei `komfort`): ein Haus mit Rezensionscheck, ohne Warnsignal und mit Qualität ≥ `LOW_QUALITY_EXCEPTION_MIN` bleibt, wenn es höchstens `LOW_QUALITY_EXCEPTION_PRICE_RATIO` × den Preis des günstigsten Hauses kostet, das die Schwelle erreicht (ohne ein solches Haus immer). Solche Häuser setzen das Preisfenster nicht.
   6. `too_expensive`: Gesamtpreis über dem günstigsten sauberen Haus × (1 + `GOAL_PRICE_WINDOW[goal]`); „sauber“ heißt: mit Rezensionscheck und durch alle Regeln gekommen (ohne jeden Check das günstigste verbliebene). Bei `komfort` kein Fenster.
   7. `dominated`: ein anderes Haus ist nicht teurer, höchstens `DOMINANCE_QUALITY_TOLERANCE` schlechter bewertet, bietet jedes Merkmal dieses Hauses und ist in Preis, Qualität (über der Toleranz) oder Merkmalen besser. Ein ungeprüftes Haus verdrängt nie ein geprüftes.
-- **Finalisten:** höchstens `FINALISTS_MAX`; zuerst die Häuser mit Rezensionscheck in Zielreihenfolge (`sparen` Preis, `komfort` Qualität, `ausgewogen` Rangwert), ungeprüfte füllen nur auf und sind als „Rezensionen nicht geprüft“ gekennzeichnet, darunter höchstens `UNRATED_FINALISTS_MAX` ohne Bewertungen (gekennzeichnet „noch keine Bewertungen“); angezeigt nach Preis. Die übrigen passenden Häuser zählen als Nachrücker. Jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund.
+- **Finalisten:** höchstens `FINALISTS_MAX`; zuerst die Häuser mit Rezensionscheck in Zielreihenfolge (Vergleichspreis mit dem Bonus des Ziels, siehe unten), ungeprüfte füllen nur auf und sind als „Rezensionen nicht geprüft“ gekennzeichnet, darunter höchstens `UNRATED_FINALISTS_MAX` ohne Bewertungen (gekennzeichnet „noch keine Bewertungen“); angezeigt nach Preis. Die übrigen passenden Häuser zählen als Nachrücker. Jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund.
 - **Merkmale** (`offerFeatures`), in dieser Reihenfolge: Frühstück inklusive, Halbpension, kostenlos stornierbar; Sauna oder Wellness, Schwimmbad; Lage (Gehminuten zu Lift, Bahnhof, Bushaltestelle, Supermarkt aus 6.15 „Lage-Fakten“, „Ortskern“, „Restaurants in der Nähe“); Lob-Labels; übrige Ausstattung aus den Chip-Zuordnungen (Parkplatz, Küche, Hund, Familienzimmer, barrierefrei) sowie Restaurant und E-Ladestation. Lage-Merkmale vergleichen „ob“ (Code), das Label nennt „wie weit“.
 - **Darstellung als Preisleiter** (S11.7, Bens Entwurf A): eine Zeile je Finalist mit Gesamtpreis, Aufpreis, Name, Note und kurzen Badges statt Sätzen: grün, was es zusätzlich hat, durchgestrichen, was fehlt, neutral, was auch das günstigste hat; zusammen höchstens `FINALE_BADGES_SHOWN`, davon bis zu `FINALE_LOSSES_SHOWN` Fehlendes immer sichtbar, der Rest aufklappbar. Unter der Leiter Legende und Quellenangabe OpenStreetMap.
-- **Finale** (`compareFinalists`): Basis ist der günstigste Finalist. Je weiterer Finalist: Aufpreis in Cent, Merkmale mehr („Dafür“) und weniger („Dafür nicht“), Qualitätsabstand ab `FINALE_QUALITY_DELTA_MIN`, anderer Ort, anderer Termin, Entfernung zur Ortsmitte (Haversine zu den Koordinaten des Orts) als Klasse `kern` (≤ `CENTER_DISTANCE_CORE_KM`), `ort` (≤ `CENTER_DISTANCE_TOWN_KM`) oder `ausserhalb`. Keine Empfehlung, kein Favorit.
+- **Finale** (`compareFinalists`): Basis ist der günstigste Finalist. Je weiterer Finalist: Aufpreis in Cent, Merkmale mehr („Dafür“) und weniger („Dafür nicht“), Qualitätsabstand ab `FINALE_QUALITY_DELTA_MIN`, anderer Ort, anderer Termin, Entfernung zur Ortsmitte (Haversine zu den Koordinaten des Orts) als Klasse `kern` (≤ `CENTER_DISTANCE_CORE_KM`), `ort` (≤ `CENTER_DISTANCE_TOWN_KM`) oder `ausserhalb`. „Unsere Wahl“ markiert den Finalisten mit dem niedrigsten Vergleichspreis (Ben 28.09.2026; vorher keine Empfehlung).
+- **Vergleichspreis und „Unsere Wahl“** (`comparison.ts`, Ben 28.09.2026): Liste und Finale zeigen nach Preis, das günstigste zuerst. Vergleichspreis = Gesamtpreis / (1 + Bonus); einen Bonus bringt nur, was belegt ist: je Punkt über `GOAL_QUALITY_FLOOR[goal]` `GOAL_QUALITY_BONUS_PER_POINT[goal]`, ab `MANY_REVIEWS_MIN` wirksamen Bewertungen `MANY_REVIEWS_BONUS`, bei `komfort` je Extra (Frühstück, Halbpension, Sauna oder Wellness, Schwimmbad) `KOMFORT_EXTRA_BONUS`, höchstens `KOMFORT_EXTRAS_BONUS_MAX`. „Unsere Wahl“ ist in Liste und Finale das Haus mit dem niedrigsten Vergleichspreis, nie eines ohne Bewertungen.
+- **Häuser ohne Bewertungen unten in der Liste** (Ben 29.09.2026): Ohne Bewertungen ist ein Haus nicht zwingend schlecht. Die unter `no_reviews` aussortierten Häuser stehen deshalb getrennt ganz unten unter „Alle Angebote“ (`unrated` in `/results`), je mit ihrem Zweifel (`goal`: bei „Komfort“ nie ohne bestätigte Qualität; `no_reference`: zu wenige bewertete Häuser zum Vergleich; `cheap`: auffällig günstig; `extras`: billiger mit mehr Extras als üblich; mit dem mittleren Preis der Vergleichshäuser). Sie kommen nicht ins Finale und sind nie „Unsere Wahl“. Häuser mit Warnsignal, Sterne-Fallen und zu schwach bewertete bleiben ausgeblendet und werden nur gezählt.
 - **Kandidaten des Rezensionschecks** (`reviewCandidateIds`): zuerst die wahrscheinlichen Finalisten aller drei Ziele (das Ziel der Suche zuerst; Warnsignale sind vor dem Check unbekannt), dann als Reserve die Zielreihenfolge unter den Regeln ohne Warnsignale, mit um `CANDIDATE_QUALITY_MARGIN` (= `SCORE_RECENCY_WEIGHT` × `SCORE_RECENCY_MAX_DELTA`) gesenkten Schwellen, ohne Preisfenster und Dominanz; insgesamt `REVIEW_TOP_N`.
 - **Nachprüfrunden** (Workflow-Schritte `reviews-fetch-<n>`/`reviews-verify-<n>`): Der Check verschiebt Qualitätswerte und nimmt Häuser heraus, dadurch rücken ungeprüfte Häuser ins Finale nach. Bis zu `REVIEW_FOLLOWUP_ROUNDS` Runden prüfen deshalb die dann aktuellen Finalisten aller Ziele ohne Check (`finalistIdsAcrossGoals`), je höchstens `REVIEW_FOLLOWUP_MAX`; eine Runde ohne Kandidaten beendet die Schleife. Budgets wie in 6.10 (fail-closed).
-- **Lob-Labels** (`countPraise`, `praiseLabels`): Stichwortliste `packages/domain/src/praise-lexicon.yaml` je Thema (`fruehstueck`, `sauberkeit`, `ruhe`, `personal`, `betten`, `aussicht`, `lage`) in DE, EN, FR, IT, NL, nur in der Sprache der Bewertung. Ein Themenwort im Feld „Positiv“ zählt als Lob, im Feld „Negativ“ als Kritik, je Bewertung höchstens einmal; der erste Satz eines Negativ-Felds, das mit „Nichts“ o. Ä. beginnt, zählt nicht. Bewertungen der letzten `PRAISE_MAX_AGE_MONTHS`. Label ab `PRAISE_MIN_MENTIONS` lobenden Gästen und `PRAISE_MIN_REVIEW_SHARE` aller Bewertungen des Zeitraums (Bewertungen der letzten `PRAISE_RECENT_MONTHS` zählen `PRAISE_RECENT_WEIGHT`-fach, im Anteil wie in der Basis), Lobanteil ≥ `PRAISE_MIN_SHARE` und ohne angezeigte Warnung zu den zugehörigen Beschwerdethemen (`PRAISE_BLOCKED_BY`). Ohne KI; die Zahlen stehen in `review_checks.praise`.
+- **Lob-Labels** (`countPraise`, `praiseLabels`): Stichwortliste `packages/domain/src/praise-lexicon.yaml` je Thema (`fruehstueck`, `sauberkeit`, `ruhe`, `personal`, `betten`, `aussicht`, `lage`) in DE, EN, FR, IT, NL, nur in der Sprache der Bewertung. Ein Themenwort im Feld „Positiv“ zählt als Lob, im Feld „Negativ“ als Kritik, je Bewertung höchstens einmal; der erste Satz eines Negativ-Felds, das mit „Nichts“ o. Ä. beginnt, zählt nicht. Bewertungen der letzten `PRAISE_MAX_AGE_MONTHS`. Label ab `PRAISE_MIN_MENTIONS` lobenden Gästen und `PRAISE_MIN_REVIEW_SHARE` aller Bewertungen des Zeitraums (Bewertungen der letzten `MENTION_RECENT_MONTHS` zählen `MENTION_RECENT_WEIGHT`-fach, im Anteil wie in der Basis; dieselbe Gewichtung gilt für die Warnsignale), Lobanteil ≥ `PRAISE_MIN_SHARE` und ohne angezeigte Warnung zu den zugehörigen Beschwerdethemen (`PRAISE_BLOCKED_BY`). Ohne KI; die Zahlen stehen in `review_checks.praise`.
 - **Lage-Fakten** (`location.ts`, S11.5, BG-20 am 28.09.2026 freigegeben): Workflow-Schritt `location-facts` nach den Nachprüfrunden holt für die wahrscheinlichen Finalisten aller Ziele in einer Overpass-Abfrage (8.4) Bushaltestellen, Bahnhöfe, Lift-Stationen, Supermärkte im Umkreis `LOCATION_SEARCH_RADIUS_M` und Gastronomie im Umkreis `LOCATION_GASTRO_RADIUS_M`. Gehminuten = Luftlinie × `WALK_DETOUR_FACTOR` / `WALK_METERS_PER_MIN`; zählt bis `LOCATION_MAX_WALK_MIN` je Art, „Restaurants in der Nähe“ ab `LOCATION_GASTRO_MIN`. Ergebnis je Haus in `cache_entries` (`location_facts`, Schlüssel je Quelle, `LOCATION_FACTS_TTL_DAYS`). Fällt der Dienst aus, zeigt das Finale keine Gehminuten; die Suche läuft weiter.
 - **API:** `GET /searches/{id}/finale?goal=&…` mit denselben Filterparametern wie `/results`; Antwort `FinaleResponse` (Ziel, wirksame Filter, Finalisten mit Vergleich, `excluded` je Grund, `runners_up`, `hotels`). `/results` und die Detailansicht tragen `labels`, die Detailansicht zusätzlich `praise` mit den Zahlen.
 
@@ -641,19 +642,22 @@ Ergänzt am 28.09.2026 nach Bens Vorgabe (konzept.md Fassung 4, Abschnitte 9.9 b
 | `LOW_QUALITY_EXCEPTION_MIN` / `LOW_QUALITY_EXCEPTION_PRICE_RATIO` | 6,5 / 0,75 | schwächere Häuser nur deutlich günstiger, nicht bei `komfort` |
 | `UNRATED_FINALISTS_MAX` / `UNRATED_MIN_PRICE_RATIO` / `UNRATED_MAX_EXTRAS_SHARE` | 1 / 0,8 / 0,25 | Häuser ohne Bewertungen |
 | `STAR_TRAP_MIN_STARS` / `STAR_TRAP_PRICE_RATIO` / `STAR_TRAP_MIN_REFERENCE` / `STAR_TRAP_MIN_QUALITY` | 4 / 0,7 / 3 / 8,0 | Sterne-Falle |
-| `RED_FLAG_MIN_MENTIONS` | Schimmel, Ungeziefer 2 / 3; Sauberkeit 3 / 4 | bestätigt / ungeprüft |
+| `RED_FLAG_THRESHOLDS` | Schimmel, Ungeziefer: 3 Gäste (ohne KI 4) und 10 %; Sauberkeit: 4 (ohne KI 5) und 15 % | Ben 29.09.2026; Anteil der geprüften Bewertungen, nach Alter gewichtet |
+| `MANY_REVIEWS_MIN` / `MANY_REVIEWS_BONUS` | 500 / 0,05 | Vergleichspreis: viele Bewertungen |
+| `GOAL_QUALITY_BONUS_PER_POINT` | 0,02 / 0,05 / 0,10 | Vergleichspreis: je Punkt über der Mindestnote (`sparen` / `ausgewogen` / `komfort`) |
+| `KOMFORT_EXTRA_BONUS` / `KOMFORT_EXTRAS_BONUS_MAX` | 0,03 / 0,12 | Vergleichspreis: Extras nur bei `komfort` |
 | `DOMINANCE_QUALITY_TOLERANCE` / `FINALE_QUALITY_DELTA_MIN` | 0,2 / 0,3 | |
 | `FINALE_BADGES_SHOWN` / `FINALE_LOSSES_SHOWN` | 6 / 2 | Badges je Zeile der Preisleiter |
 | `CANDIDATE_QUALITY_MARGIN` | 0,75 | Spielraum der Rezensionscheck-Kandidaten |
 | `REVIEW_FOLLOWUP_ROUNDS` / `REVIEW_FOLLOWUP_MAX` | 2 / 4 | Nachprüfrunden und Häuser je Runde; höchstens 8 Checks zusätzlich zu `REVIEW_TOP_N` |
 | `PRAISE_MIN_MENTIONS` / `PRAISE_MIN_REVIEW_SHARE` / `PRAISE_MIN_SHARE` / `PRAISE_MAX_AGE_MONTHS` / `PRAISE_MAX_LABELS_LIST` | 3 / 0,05 / 0,8 / 24 / 3 | Lob-Labels; die Liste zeigt die drei meistgelobten |
-| `PRAISE_RECENT_MONTHS` / `PRAISE_RECENT_WEIGHT` | 6 / 2 | frisches Lob zählt doppelt |
+| `MENTION_RECENT_MONTHS` / `MENTION_RECENT_WEIGHT` | 6 / 2 | neuere Erwähnungen zählen doppelt, bei Lob und Warnsignalen (Ben 29.09.2026: überall gleich) |
 | `WALK_METERS_PER_MIN` / `WALK_DETOUR_FACTOR` | 80 / 1,3 | Gehminuten |
 | `LOCATION_MAX_WALK_MIN` | Lift 15, Bahnhof 15, Bus 10, Supermarkt 10 | |
 | `LOCATION_GASTRO_RADIUS_M` / `LOCATION_GASTRO_MIN` / `LOCATION_SEARCH_RADIUS_M` / `LOCATION_FACTS_TTL_DAYS` | 300 / 3 / 1200 / 90 | |
 | `CENTER_DISTANCE_CORE_KM` / `CENTER_DISTANCE_TOWN_KM` | 0,6 / 2 | Lage zur Ortsmitte |
 
-Die Werte hat Ben am 28.09.2026 festgelegt; sie werden mit echten Daten im Testbetrieb überprüft.
+Die Werte hat Ben am 28. und 29.09.2026 festgelegt; sie werden mit echten Daten im Testbetrieb überprüft.
 
 ## 7. API-Endpunkte
 
@@ -725,7 +729,8 @@ Ab M11 optional `"goal": "sparen" | "ausgewogen" | "komfort"` (6.15); ohne Angab
     "places": [{"id": "<uuid>", "name": "Oberstdorf"}],
     "dates": [{"checkin": "2026-10-02", "checkout": "2026-10-04"}],
     "cells": [{"place_id": "<uuid>", "checkin": "2026-10-02", "state": "offer",
-               "offer_id": 123, "total_price_eur": 212.00, "price_bucket": 1}]
+               "offer_id": 123, "total_price_eur": 212.00, "price_bucket": 1,
+               "hotel_name": "…", "room_name": "Doppelzimmer", "board_type": "BB", "bargain_reason": null}]
   },
   "items": [{
     "hotel": {"id": "lp1234", "name": "…", "stars": 3, "rating": 8.6, "review_count": 412,
@@ -735,13 +740,20 @@ Ab M11 optional `"goal": "sparen" | "ausgewogen" | "komfort"` (6.15); ohne Angab
                    "refundable": true, "free_cancel_until": "2026-09-30T22:00:00Z", "board_type": "BB"},
     "other_dates_count": 3,
     "quality": {"score": 8.4, "checked": true},
-    "bargain": {"types": ["date"], "reason": "28 % günstiger als dieselbe Unterkunft an deinen anderen Terminen"},
+    "bargain": {"types": ["date"], "reason": "28 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer, im Mittel deiner Termine 147 € pro Nacht)"},
+    "recommended": true,
     "warnings": [{"topic": "laerm", "label": "Lärm", "count": 2, "latest_date": "2026-07-14",
                   "verified": true, "ai_provenance": "ai_assisted"}]
   }],
-  "meta": {"prices_fetched_at": "2026-09-26T10:14:00Z", "sort": "best"}
+  "unrated": [{"hotel": {"…": "…"}, "best_offer": {"…": "…"},
+               "doubt": {"code": "cheap", "reference_per_night_eur": 81}}],
+  "counts": {"listed": 15, "hidden": 9, "unrated_hidden": 3, "…": "…"},
+  "meta": {"prices_fetched_at": "2026-09-26T10:14:00Z", "sort": "price"}
 }
 ```
+`items` enthält nur Unterkünfte, die die Regeln des Ziels bestehen; `unrated` die aussortierten ohne Bewertungen mit ihrem Zweifel (6.15).
+
+**HotelDetail** (`GET /searches/{id}/hotels/{hotelId}`): Beschreibung und „Wichtige Hinweise“ der Unterkunft kommen als Textblöcke (`{"type": "heading" | "paragraph" | "list", …}`), nie als Markup; `description_language` und `important_information_language` (`de` · `en` · `null`) lassen die Oberfläche englische Texte kennzeichnen (`rich-text.ts`, Ben 29.09.2026).
 
 **BookingCreate** (`POST /bookings`)
 ```json
@@ -773,7 +785,7 @@ Antwort: `booking_ref`, `session_token` (2 Stunden gültig), `price`, `price_cha
 | Zweck | Endpunkt | Wichtige Parameter |
 |---|---|---|
 | Tarife suchen | `POST /hotels/rates` | `latitude`, `longitude`, `radius`, `checkin`, `checkout`, `occupancies[]`, `currency`, `guestNationality`, `timeout`, `limit`, Marge; bis zu 200 Hotels je Anfrage |
-| Hoteldetails | `GET /data/hotel?hotelId=` | |
+| Hoteldetails | `GET /data/hotel?hotelId=&language=` | `language` = Sprache der Website (`markets.language`, `de`); gegen die echte API ungeprüft, bei 4xx ein zweiter Versuch ohne (29.09.2026, `HANDOFF.md` Drift 38; Prüfung über `testbetrieb pruefen`) |
 | Rezensionen | `GET /data/reviews?hotelId=&getSentiment=` | Einzelbewertungen mit Datum, optional Kategorieauswertung inkl. Sauberkeit |
 | Ausstattungsliste | `GET /data/facilities` | für die Chip-Zuordnung |
 | Referenzpreis (Beta) | „Get cached public price“ | öffentliche Preise von Booking.com und Expedia, 10 Anfragen pro Minute |
@@ -919,7 +931,7 @@ Keine Tracking-Cookies, keine Analyse im MVP, ALTCHA ohne Cookies: kein Cookie-B
 | Art | Name | Inhalt |
 |---|---|---|
 | Static Assets | `ASSETS` | `packages/web/dist`, `not_found_handling: "single-page-application"`, Worker zuerst nur für `/api/*` |
-| Hyperdrive | `HYPERDRIVE` | Konfiguration `reiseplaner-db`, Caching abgeschaltet; lokal `localConnectionString` auf den PGlite-Socket |
+| Hyperdrive | `HYPERDRIVE` | Konfiguration `reiseplaner-db`, Caching abgeschaltet; lokal `localConnectionString` auf den PGlite-Wire-Server (`127.0.0.1:54329`) |
 | Workflow | `SEARCH_WORKFLOW` | Klasse `SearchWorkflow` |
 | Rate Limiting | `RATE_LIMITER` | grobe Stufe je Standort |
 | Cron | `triggers.crons` | `*/10 * * * *`, `0 * * * *`, `30 3 * * *` |
@@ -937,7 +949,7 @@ Alle Werte stehen ohne Inhalt in `.dev.vars.example`; die Tabelle hier ist die R
 
 | Umgebung | Worker | Datenbank | Anbieter | Zweck |
 |---|---|---|---|---|
-| Lokal | Cloudflare-Vite-Plugin (`npm run dev`) | PGlite über `pglite-socket` (`.data/pglite`) | `fake`, wahlweise `sandbox` | Entwicklung, Walkthroughs |
+| Lokal | Cloudflare-Vite-Plugin (`npm run dev`) | PGlite über den eigenen Wire-Server (`.data/pglite`) | `fake`, wahlweise `sandbox` | Entwicklung, Walkthroughs |
 | CI | `@cloudflare/vitest-pool-workers` | PGlite; zusätzlich ein Postgres-17-Dienstcontainer für Nebenläufigkeit und RLS-Parität | `fake` | Pull Requests |
 | Fleet-Sandbox | wie CI | PGlite | `fake` | Fleet-Worker (ohne Netzwerk) |
 | Staging | `reiseplaner-app-staging` | Supabase-Projekt in einer separaten kostenlosen Organisation (pausiert nach 7 Tagen Inaktivität) | `sandbox` | Integration, Sandbox-Buchungen |
@@ -974,7 +986,7 @@ Die fi-deck-Workflows `design-preflight`, `verify-slice` und `phantom-audit` hab
 | `hono`, `zod`, `postgres`, `@anthropic-ai/sdk`, `altcha-lib` | Worker-Laufzeit |
 | `react`, `react-dom`, `react-router`, `@headlessui/react`, `@heroicons/react`, `clsx`, `altcha` | SPA |
 | `typescript`, `vite`, `@vitejs/plugin-react`, `tailwindcss`, `@tailwindcss/vite`, `@cloudflare/vite-plugin`, `wrangler`, `@cloudflare/workers-types` | Build und Dev |
-| `vitest`, `@cloudflare/vitest-pool-workers`, `@electric-sql/pglite`, `@electric-sql/pglite-socket`, `@electric-sql/pglite-pgtap`, `@playwright/test` | Tests |
+| `vitest`, `@cloudflare/vitest-pool-workers`, `@electric-sql/pglite`, `@electric-sql/pglite-pgtap`, `@playwright/test` | Tests (`@electric-sql/pglite-socket` am 29.09.2026 entfernt, ersetzt durch den eigenen Wire-Server) |
 | `ajv`, `ajv-formats` (nur Build, Standalone-Kompilierung), `yaml`, `tsx`, `@types/node` | Skills, CLI, Skripte |
 
 Rebuild-Allowlist: `esbuild`, `workerd`. Der Playwright-Browser wird beim Bau des Images installiert.
@@ -1025,7 +1037,7 @@ Einordnung: 10.000 Suchen mit 1 % Buchungsquote und etwa 20 € Marge ergeben ru
 | Workflows: in Free und Paid enthalten; Abrechnung von Schritten ab 10.08.2026; 500.000 Schritte pro Monat im Paid-Plan; Schritt-Ergebnis höchstens 1 MiB | developers.cloudflare.com/workflows/reference/limits und /pricing; Changelog Workflows |
 | Hyperdrive: in allen Plänen; Supabase über direkte Verbindung mit postgres.js oder node-postgres; Standard-Cache 60 s | developers.cloudflare.com/hyperdrive/examples/…/supabase; Hyperdrive-Übersichten 07–08/2026 |
 | Workers-Tests: Workflows-Introspektion, Hyperdrive-Bindung auf lokalen Port | developers.cloudflare.com/workers/testing/vitest-integration; workers-sdk Commit eac5cf7 |
-| PGlite: pgTAP- und pgvector-Erweiterungen; `pglite-socket` mit Standard von einer Verbindung | pglite.dev/extensions; pglite.dev/docs/pglite-socket; electric-sql/pglite PR 980 |
+| PGlite: pgTAP- und pgvector-Erweiterungen; eine Sitzung je Instanz (daher der eigene Wire-Server, 2.2) | pglite.dev/extensions; pglite.dev/docs/pglite-socket; electric-sql/pglite PR 980 |
 | Supabase: Free 2 aktive Projekte, Pause nach 7 Tagen; Pro 25 $ je Organisation, weitere Projekte ab etwa 10 $ | supabase.com/pricing; supabase.com/docs/guides/platform/billing-faq |
 | Resend: Free 3.000 pro Monat, 100 pro Tag, 1 Domain; Pro 20 $ | Resend-Tarifübersichten 2026 |
 | LiteAPI: Kern-Endpunkte kostenlos; Mehrnutzung jenseits 5.000 : 1; Ortssuche 0,01 $, Preisindex 0,05 $ | docs.liteapi.travel/docs/faq; docs.liteapi.travel/reference/api-pricing-usage-costs |

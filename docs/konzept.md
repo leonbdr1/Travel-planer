@@ -1,6 +1,6 @@
 # Konzept: [ARBEITSTITEL] – Flexible Unterkunftssuche
 
-Stand: 28.09.2026 · Fassung 4 · Produktkonzept aus Phase 1, ergänzt in Phase 2 um Wünsche, Zielgebiete, Ortskatalog und die Einordnung in die Firmenplattform (Frontlift, fi-deck), in Fassung 4 um die Entscheidungshilfe (Ziel, automatische Vorauswahl, Finale mit Aufpreis-Vergleich, Lob-Labels; Abschnitte 9.9 bis 9.11, F15 bis F17), am selben Tag präzisiert nach Bens Entscheidungen (Preisleiter mit fünf Finalisten, Lage aus OpenStreetMap, Ausnahme für deutlich günstigere Häuser, Häuser ohne Bewertungen, Lob-Labels nach Anteil). Die Technik steht in `docs/architektur.md`.
+Stand: 29.09.2026 · Fassung 4 · Produktkonzept aus Phase 1, ergänzt in Phase 2 um Wünsche, Zielgebiete, Ortskatalog und die Einordnung in die Firmenplattform (Frontlift, fi-deck), in Fassung 4 um die Entscheidungshilfe (Ziel, automatische Vorauswahl, Finale mit Aufpreis-Vergleich, Lob-Labels; Abschnitte 9.9 bis 9.11, F15 bis F17), am selben Tag präzisiert nach Bens Entscheidungen (Preisleiter mit fünf Finalisten, Lage aus OpenStreetMap, Ausnahme für deutlich günstigere Häuser, Häuser ohne Bewertungen, Lob-Labels nach Anteil), am 28. und 29.09.2026 nach Bens Test mit echten Hotels (Note ab 30 Bewertungen, Sortierung nach Preis mit „Unsere Wahl“, Schnäppchen nur nach Termin und gleichem Zimmer, Warnsignale erst, wenn Beschwerden überhandnehmen, Häuser ohne Bewertungen unten in der Liste). Die Technik steht in `docs/architektur.md`.
 
 ---
 
@@ -152,22 +152,22 @@ Eine unbekannte Website mit eigener Buchung muss Vertrauen aktiv herstellen. Im 
 
 ### 9.3 Qualitätsscore
 Der Score setzt sich aus diesen Bestandteilen zusammen:
-- **Bewertungsdurchschnitt, gewichtet nach Anzahl:** Bei wenigen Bewertungen wird die Note Richtung Gesamtmittelwert gezogen. Eine 5,0 aus drei Bewertungen zählt also weniger als eine 4,6 aus 400.
+- **Bewertungsdurchschnitt, gewichtet nach Anzahl:** Bei wenigen Bewertungen wird die Note Richtung Gesamtmittelwert gezogen. Eine 5,0 aus drei Bewertungen zählt also weniger als eine 4,6 aus 400. Ab 30 Bewertungen zählt der Durchschnitt so, wie er ist; Bewertungen, die älter als drei Jahre sind, zählen dabei ein Drittel (Ben, 28.09.2026).
 - **Aktualität:** Neuere Bewertungen zählen stärker. Ein klarer Trend (etwa alte schlecht, neue gut) fließt ein.
 - **Sauberkeit:** Wo verfügbar, geht der Sauberkeitswert gesondert ein.
 - **Warnhinweise:** Treffer aus dem Rezensionscheck führen zu Abzügen.
 - Die konkreten Gewichte werden anhand von Testdaten festgelegt (offene Frage).
 
 ### 9.4 Schnäppchen
-Ein Treffer ist ein Schnäppchen, wenn mindestens einer dieser Fälle zutrifft. Jede Markierung wird mit einem Satz im Klartext begründet.
-- **Preis-Leistungs-Ausreißer:** Das Verhältnis von Qualitätsscore zu Preis liegt deutlich über dem der übrigen Treffer derselben Suche.
-- **Termin-Ausreißer:** Dieselbe Unterkunft ist an diesem Termin deutlich günstiger als an den anderen gesuchten Terminen.
-- **Orts-Ausreißer:** Der Treffer ist deutlich günstiger als vergleichbare Unterkünfte im selben Ort.
-- Die Schwellenwerte für „deutlich“ werden anhand von Testdaten festgelegt (offene Frage).
+Ein Treffer ist ein Schnäppchen, wenn dieselbe Unterkunft an diesem Termin deutlich günstiger ist als an den anderen gesuchten Terminen. Jede Markierung wird mit einem Satz im Klartext begründet; in der Preis-Matrix erscheint die Begründung, wenn man mit der Maus auf den Preis zeigt.
+- Verglichen wird Gleiches mit Gleichem: dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen. Ist an einem Termin das Doppelzimmer frei und an den anderen nur noch die Suite, ist das kein Schnäppchen (Ben, 29.09.2026).
+- „Deutlich“ heißt: mindestens 20 % unter dem mittleren Preis dieses Zimmers an den gesuchten Terminen, bei mindestens drei Terminen.
+- Preis-Leistungs- und Orts-Ausreißer sind entfallen (Ben, 28.09.2026): Mit echten Preisen traf das fast jedes Angebot.
 
 ### 9.5 Rangliste
-- Standardsortierung: „Bestes Angebot“, eine Kombination aus Qualitätsscore und Preis.
-- Alternativ sortierbar nach Preis oder nach Bewertung.
+- Standardsortierung: Preis, die günstigste Unterkunft zuerst (Ben, 28.09.2026).
+- **„Unsere Wahl“** markiert das Angebot, bei dem belegte Vorteile den Preis am besten aufwiegen: eine Bewertung über der Mindestnote des Ziels, viele Bewertungen, bei „Komfort“ Extras wie Frühstück oder Sauna. Unterkünfte ohne Bewertungen sind nie „Unsere Wahl“.
+- Alternativ sortierbar nach „Unsere Wahl zuerst“ oder nach Bewertung.
 - Die Hauptkriterien des Rankings werden für Nutzer verständlich erklärt. Das ist eine gesetzliche Pflicht für Vergleichs- und Vermittlungsportale.
 
 ### 9.6 Rezensionscheck
@@ -191,19 +191,19 @@ Grundsatz: Das Programm sortiert aus, was offensichtlich nicht passt. Zwischen d
 - **Sterne sind kein Qualitätsmerkmal.** Gerade günstige Häuser mit wenigen Sternen sind oft sauberer als 4-Sterne-Häuser zum Billigpreis. Sterne gehen nie in den Qualitätswert ein.
 - **Aussortiert wird automatisch, mit Grund und Anzahl:**
   1. Wünsche nicht erfüllt (Budget, Hund, Parkplatz und die übrigen Filter).
-  2. Keine Bewertungen und etwas passt nicht ins Bild: auffällig billig für die Sterne oder billiger mit mehr Extras als üblich (Hinweis auf ein Scheinangebot); bei „Komfort“ immer, weil die Qualität niemand bestätigt hat. Passt ein Haus ohne Bewertungen ins Bild, kommt höchstens eines ins Finale, gekennzeichnet „noch keine Bewertungen“.
-  3. Warnsignale: Beschwerden über Schimmel oder Ungeziefer von mindestens zwei Gästen, über Schmutz von mindestens drei (ein einzelner Gast kann sich irren).
+  2. Keine Bewertungen und etwas passt nicht ins Bild: auffällig billig für die Sterne oder billiger mit mehr Extras als üblich (Hinweis auf ein Scheinangebot); bei „Komfort“ immer, weil die Qualität niemand bestätigt hat. Passt ein Haus ohne Bewertungen ins Bild, kommt höchstens eines ins Finale, gekennzeichnet „noch keine Bewertungen“. Die aussortierten Häuser ohne Bewertungen stehen mit ihrem Grund ganz unten unter „Alle Angebote“: Ohne Bewertungen ist ein Haus nicht zwingend schlecht, die Entscheidung liegt beim Nutzer. Ins Finale und in „Unsere Wahl“ kommen sie nicht (Ben, 29.09.2026).
+  3. Warnsignale: Beschwerden über Schimmel, Ungeziefer oder Schmutz nehmen überhand, bei Schimmel oder Ungeziefer mindestens 3 Gäste und mindestens 10 % der geprüften Bewertungen, bei Schmutz mindestens 4 Gäste und 15 %. Bewertungen der letzten 6 Monate zählen dabei doppelt, ältere also weniger, wie beim Lob. Nur weil ein paar Gäste Schimmel melden, ist ein Haus nicht unbewohnbar: Bei wenigen Meldungen kommt es ganz normal in die Bewertung, mit Warnhinweis und Abzug im Qualitätswert, und steht regulär in der Liste. Häuser mit Warnsignal erscheinen dagegen gar nicht, auch nicht unten in der Liste (Ben, 29.09.2026).
   4. Zu schwach bewertet für das Ziel (Mindest-Qualitätswert je Ziel). Ausnahme außer bei „Komfort“: Ein geprüftes Haus ohne Warnsignal ab 6,5 bleibt, wenn es mindestens 25 % günstiger ist als das günstigste Haus mit normaler Note; wenn die meisten sehr teuer sind, kann es trotzdem reichen.
   5. **Sterne-Falle:** 4 oder 5 Sterne zum Preis eines einfachen Hauses, ohne geprüfte gute Bewertungen.
   6. Zu teuer für das Ziel: bei „Günstig und sauber“ deutlich über dem günstigsten sauberen Angebot, bei „Preis-Leistung“ weit darüber; bei „Komfort“ zählt nur das Budget.
   7. Es gibt ein besseres Angebot: ein anderes ist nicht teurer, mindestens gleich gut bewertet und bietet alles, was dieses bietet.
-- **Finalisten:** Was übrig bleibt, höchstens 5 Unterkünfte mit je ihrem günstigsten passenden Angebot. Unterkünfte mit geprüften Rezensionen haben Vorrang; eine ungeprüfte rückt nur nach, wenn nicht genug geprüfte passen, und ist gekennzeichnet. Alle anderen Angebote bleiben unter „Alle Angebote“ erreichbar, die Aussortierung ist nachvollziehbar.
-- Die Schwellenwerte hat Ben am 28.09.2026 festgelegt; sie werden mit echten Daten im Testbetrieb überprüft.
+- **Finalisten:** Was übrig bleibt, höchstens 5 Unterkünfte mit je ihrem günstigsten passenden Angebot. Unterkünfte mit geprüften Rezensionen haben Vorrang; eine ungeprüfte rückt nur nach, wenn nicht genug geprüfte passen, und ist gekennzeichnet. Unter „Alle Angebote“ stehen alle Unterkünfte, die zum Ziel passen; die aussortierten sind mit Grund gezählt, die ohne Bewertungen stehen ganz unten (Punkt 2). Die Aussortierung ist nachvollziehbar.
+- Die Schwellenwerte hat Ben am 28. und 29.09.2026 festgelegt; sie werden mit echten Daten im Testbetrieb überprüft.
 
 ### 9.10 Finale: was der Mehrpreis bringt
 - Die Finalisten stehen als **Preisleiter** untereinander, das günstigste zuerst: je Zeile Preis, Aufpreis, Name, Note und kurze Badges statt Sätzen (grün: hat es zusätzlich, durchgestrichen: fehlt, neutral: wie beim günstigsten), zum Beispiel „Sauna“, „Parkplatz“, „Bus 5 min“.
 - Für jeden weiteren Finalisten zeigt das Produkt den Aufpreis gegenüber dem günstigsten und, was er bringt oder kostet: Ausstattung (Sauna, Schwimmbad, Parkplatz, Küche …), Verpflegung, Stornierbarkeit, Lob-Labels, Qualitätswert, Lage zum Ortskern, Gehminuten zu Bushaltestelle, Bahnhof, Lift und Supermarkt sowie Restaurants in der Nähe (Kartendaten von OpenStreetMap), anderer Ort oder Termin.
-- Das Produkt empfiehlt im Finale keinen Favoriten. Ob dem Nutzer 10 € für die Sauna wert sind, entscheidet er selbst.
+- „Unsere Wahl“ markiert im Finale den Finalisten, bei dem belegte Vorteile den Preis am besten aufwiegen (Abschnitt 9.5, Ben 28.09.2026); die Reihenfolge bleibt nach Preis. Ob dem Nutzer 10 € für die Sauna wert sind, entscheidet er weiterhin selbst.
 
 ### 9.11 Lob-Labels
 - Aus den Rezensionen der geprüften Unterkünfte zählt das Produkt Lob und Kritik je Thema: Frühstück, Sauberkeit, Ruhe, Personal, Betten, Aussicht, Lage (Erwähnungen in den Feldern „Positiv“ und „Negativ“ der Bewertungen, Stichwortliste in fünf Sprachen, die letzten 24 Monate).
@@ -348,9 +348,9 @@ Akzeptanzkriterien:
 Als Nutzer möchte ich zwischen den letzten passenden Unterkünften selbst entscheiden und dabei sehen, was mir ein Mehrpreis bringt.
 
 Akzeptanzkriterien:
-- Höchstens 5 Finalisten als Preisleiter, das günstigste zuerst, ohne Empfehlung.
+- Höchstens 5 Finalisten als Preisleiter, das günstigste zuerst; „Unsere Wahl“ ist markiert (Abschnitt 9.10).
 - Jeder weitere Finalist zeigt den Aufpreis und die Unterschiede zum günstigsten (Abschnitt 9.10).
-- *Gegeben* Wohnung 1 für 100 € und Wohnung 2 für 110 € mit Sauna, beide sauber und gut bewertet, Ziel „Günstig und sauber“. *Dann* stehen beide im Finale, und Wohnung 2 zeigt „+10 € · Sauna“. Eine Luxuswohnung für 300 € und eine Wohnung für 80 € mit Beschwerden über Schmutz erscheinen nicht im Finale.
+- *Gegeben* Wohnung 1 für 100 € und Wohnung 2 für 110 € mit Sauna, beide sauber und gut bewertet, Ziel „Günstig und sauber“. *Dann* stehen beide im Finale, und Wohnung 2 zeigt „+10 € · Sauna“. Eine Luxuswohnung für 300 € und eine Wohnung für 80 € mit gehäuften Beschwerden über Schmutz erscheinen nicht im Finale.
 
 ### F17 Lob-Labels
 Als Nutzer möchte ich auf einen Blick sehen, was Gäste an einer Unterkunft loben, ohne etwas einstellen zu müssen.
