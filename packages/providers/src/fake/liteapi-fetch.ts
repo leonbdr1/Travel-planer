@@ -182,8 +182,10 @@ export function createFakeLiteApiFetch(options: FakeLiteApiOptions = {}): FetchL
 
     switch (endpoint) {
       case 'hotels/rates': {
-        const lat = Number(body.latitude);
-        const lng = Number(body.longitude);
+        const hotelIds = Array.isArray(body.hotelIds) ? body.hotelIds.map(String) : null;
+        const known = hotelIds ? hotelIds.map((id) => hotelById(id)).filter((h): h is NonNullable<typeof h> => h !== null) : [];
+        const lat = hotelIds ? (known[0]?.lat ?? 0) : Number(body.latitude);
+        const lng = hotelIds ? (known[0]?.lng ?? 0) : Number(body.longitude);
         const checkin = String(body.checkin);
         const checkout = String(body.checkout);
         const currency = String(body.currency ?? 'EUR');
@@ -198,7 +200,7 @@ export function createFakeLiteApiFetch(options: FakeLiteApiOptions = {}): FetchL
         if (failEvery > 0 && hashString(`fail|${latE2}|${lngE2}|${checkin}`) % failEvery === 0) {
           return error(500, 'supplier timeout');
         }
-        const hotels = hotelsAt(lat, lng);
+        const hotels = hotelIds ? known : hotelsAt(lat, lng);
         const data: unknown[] = [];
         const infos: unknown[] = [];
         for (const hotel of hotels) {

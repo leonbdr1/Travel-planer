@@ -8,6 +8,8 @@ export const SEARCH_JOB_TIMEOUT_S = 180;
 export const LITEAPI_MAX_CONCURRENCY = 6;
 export const LITEAPI_MAX_CONCURRENCY_SANDBOX = 4;
 export const LITEAPI_RATES_TIMEOUT_S = 6;
+/** Fresh quotes of a tariff before a booking gives up: rate ids expire and prices move (LiteAPI: "please search again"). */
+export const BOOKING_MAX_REQUOTES = 2;
 export const LITEAPI_RATES_LIMIT = 200;
 export const LITEAPI_MAX_RETRIES = 2;
 export const RATE_CACHE_TTL_MIN = 30;

@@ -1,6 +1,6 @@
 // Searches, combinations, hotels, offers and the provider cache
 // (architektur.md 5.3, 5.4). Writes from workflow steps are idempotent.
-import { fuseRatings, type NormalizedOffer, type RatingEvidence } from '@reiseplaner/domain';
+import { fuseRatings, type NormalizedOffer, type OfferKind, type RatingEvidence } from '@reiseplaner/domain';
 import { json, type Db, type Queryable } from '../db';
 
 export type SearchStatus = 'queued' | 'running' | 'reviewing' | 'done' | 'partial' | 'failed';
@@ -511,6 +511,7 @@ export interface SearchOfferRef {
 
 export interface BookableOffer {
   id: string;
+  kind: OfferKind;
   hotelId: string;
   hotelName: string;
   placeName: string;
@@ -533,6 +534,7 @@ export async function getBookableOffer(db: Queryable, searchId: string, offerId:
   if (!/^\d{1,18}$/.test(offerId)) return null;
   const rows = await db.query<{
     id: number;
+    offer_kind: string;
     hotel_id: string;
     hotel_name: string;
     place_name: string;
@@ -549,7 +551,7 @@ export async function getBookableOffer(db: Queryable, searchId: string, offerId:
     checkin: string;
     checkout: string;
   }>(
-    `SELECT o.id, o.hotel_id, h.name AS hotel_name, p.name AS place_name, o.liteapi_offer_id, o.room_name, o.board_type, o.refundable,
+    `SELECT o.id, o.offer_kind, o.hotel_id, h.name AS hotel_name, p.name AS place_name, o.liteapi_offer_id, o.room_name, o.board_type, o.refundable,
             to_char(o.free_cancel_until AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS free_cancel_until,
             o.total_price_cents, o.pay_at_property_cents, o.pay_at_property_known, o.currency, o.nights,
             c.checkin::text AS checkin, c.checkout::text AS checkout
@@ -564,6 +566,7 @@ export async function getBookableOffer(db: Queryable, searchId: string, offerId:
   if (!r) return null;
   return {
     id: String(r.id),
+    kind: r.offer_kind as OfferKind,
     hotelId: r.hotel_id,
     hotelName: r.hotel_name,
     placeName: r.place_name,
@@ -580,6 +583,20 @@ export async function getBookableOffer(db: Queryable, searchId: string, offerId:
     checkin: r.checkin,
     checkout: r.checkout,
   };
+}
+
+/**
+ * Replaces the rate id and the price of a stored offer by a fresh quote of the
+ * same tariff (rate ids expire at the supplier). The search shows the new price
+ * from then on.
+ */
+export async function refreshOfferQuote(db: Queryable, offerRowId: string, offer: NormalizedOffer): Promise<void> {
+  await db.query(
+    `UPDATE app.offers SET liteapi_offer_id = $2, free_cancel_until = $3::timestamptz, total_price_cents = $4, pay_at_property_cents = $5,
+            pay_at_property_known = $6, price_per_night_cents = $7
+      WHERE id = $1::bigint`,
+    [offerRowId, offer.offerId, offer.freeCancelUntil, offer.totalCents, offer.payAtPropertyCents, offer.payAtPropertyKnown, offer.pricePerNightCents],
+  );
 }
 
 /** One offer of a search by its row id; null when it does not belong to the search. */

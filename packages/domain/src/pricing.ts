@@ -36,7 +36,7 @@ export function payAtProperty(option: Pick<RateOption, 'taxes'>): { cents: numbe
   return { cents: option.taxes.filter((t) => !t.included).reduce((s, t) => s + t.amountCents, 0), known: true };
 }
 
-function toOffer(hotelId: string, kind: OfferKind, option: RateOption, nights: number): NormalizedOffer {
+export function toOffer(hotelId: string, kind: OfferKind, option: RateOption, nights: number): NormalizedOffer {
   const pay = payAtProperty(option);
   return {
     hotelId,
@@ -69,6 +69,30 @@ export function normalizeOffers(rates: readonly HotelRates[], nights: number): N
     }
   }
   return out;
+}
+
+/**
+ * The current version of an offer the guest chose: same room, board and
+ * cancellation kind, cheapest first. Rate ids only live for a short time at the
+ * supplier, so a stale one is re-quoted by looking for its equivalent. Null when
+ * the tariff is gone (the guest is then told it is no longer available, never
+ * moved to a different tariff without knowing).
+ */
+export function findEquivalentOption(
+  options: readonly RateOption[],
+  wanted: { roomName: string; boardType: string; refundable: boolean },
+): RateOption | null {
+  const matches = options
+    .filter(
+      (o) =>
+        Number.isInteger(o.totalCents) &&
+        o.totalCents > 0 &&
+        o.roomName === wanted.roomName &&
+        o.boardType === wanted.boardType &&
+        o.refundable === wanted.refundable,
+    )
+    .sort((a, b) => a.totalCents - b.totalCents || a.offerId.localeCompare(b.offerId));
+  return matches[0] ?? null;
 }
 
 /** Guest rating on a 0–10 scale (architektur.md 5.3). */

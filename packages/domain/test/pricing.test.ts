@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { freeCancelUntil, normalizedRating, normalizeOffers } from '../src/pricing';
+import { findEquivalentOption, freeCancelUntil, normalizedRating, normalizeOffers } from '../src/pricing';
 import type { RateOption } from '../src/types';
 
 const option = (id: string, totalCents: number, refundable: boolean, extra: Partial<RateOption> = {}): RateOption => ({
@@ -73,5 +73,23 @@ describe('normalizeOffers (architektur.md 6.5)', () => {
     expect(normalizedRating({ rating: 4.3, ratingScale: 5 })).toBe(8.6);
     expect(normalizedRating({ rating: 8.64, ratingScale: 10 })).toBe(8.64);
     expect(normalizedRating({ rating: null, ratingScale: 10 })).toBeNull();
+  });
+});
+
+describe('findEquivalentOption', () => {
+  const room = { roomName: 'Doppelzimmer', boardType: 'BB' as const, refundable: true };
+  const opt = (id: string, cents: number, extra: Partial<RateOption> = {}) => option(id, cents, true, { roomName: 'Doppelzimmer', boardType: 'BB', ...extra });
+
+  it('takes the cheapest option with the same room, board and cancellation kind', () => {
+    const found = findEquivalentOption([opt('b', 25_000), opt('a', 21_000), opt('c', 19_000, { roomName: 'Einzelzimmer' })], room);
+    expect(found?.offerId).toBe('a');
+  });
+
+  it('never substitutes a different board or a non-refundable tariff', () => {
+    expect(findEquivalentOption([opt('a', 20_000, { boardType: 'RO' }), option('n', 15_000, false, { roomName: 'Doppelzimmer', boardType: 'BB' })], room)).toBeNull();
+  });
+
+  it('is null when the tariff is gone', () => {
+    expect(findEquivalentOption([], room)).toBeNull();
   });
 });

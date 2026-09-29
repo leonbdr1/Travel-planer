@@ -6,12 +6,16 @@ import type { BookingCompleteResponse, BookingCreateRequest, BookingCreateRespon
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import {
   applyBookingEvent,
+  budgetReserve,
+  budgetSettle,
   confirmBookingPrice,
   createBookingDraft,
   getBookableOffer,
   getBookingById,
   getBookingByRef,
   getSearch,
+  refreshOfferQuote,
+  type BookableOffer,
   type Booking,
   type Db,
 } from '@reiseplaner/db';
@@ -22,10 +26,13 @@ import {
   cancellationPreview,
   constants,
   decideComplete,
+  findEquivalentOption,
   normalizeBookingRef,
   splitOccupancy,
+  toOffer,
+  type Occupancy,
 } from '@reiseplaner/domain';
-import { ProviderError, type LiteApiPort, type MailPort } from '@reiseplaner/providers';
+import { ProviderError, type LiteApiPort, type MailPort, type PrebookResult } from '@reiseplaner/providers';
 import { ApiError } from '../http/errors';
 import { sendViaOutbox } from '../mail/outbox';
 import { sha256Hex } from './search-run';
@@ -44,6 +51,10 @@ export interface BookingDeps {
   simulatedPayment: boolean;
   bookingEnabled: boolean;
   randomBytes: (n: number) => Uint8Array;
+  /** For re-quoting a stale offer right before the prebook (same values as the search). */
+  currency: string;
+  guestNationality: string;
+  liteapiDailyCap: number;
 }
 
 const eur = (cents: number) => cents / 100;
@@ -105,6 +116,85 @@ async function accessToken(deps: BookingDeps, b: Booking): Promise<string | null
   });
 }
 
+const logWarn = (msg: string, fields: Record<string, string | number | undefined> = {}) => console.error(JSON.stringify({ level: 'warn', msg, ...fields }));
+
+function providerFields(err: unknown) {
+  return err instanceof ProviderError ? { kind: err.kind, status: err.status } : { kind: 'error' };
+}
+
+type PayablePrebook = PrebookResult & { transactionId: string; secretKey: string };
+
+/** Prebook and make sure the guest can go on to pay: the payment SDK needs a transaction id and a secret key. */
+async function prebookOnce(deps: BookingDeps, liteapiOfferId: string): Promise<PayablePrebook> {
+  const prebook = await deps.liteapi.prebook(liteapiOfferId);
+  if (!prebook.transactionId || !prebook.secretKey) {
+    logWarn('prebook without payment sdk data');
+    throw new ApiError(503, 'payment_unavailable', BOOKING_TEXTS.paymentUnavailable);
+  }
+  return { ...prebook, transactionId: prebook.transactionId, secretKey: prebook.secretKey };
+}
+
+/**
+ * A fresh quote of the tariff the guest chose (same room, board and
+ * cancellation kind) for this hotel and stay; the stored offer takes over its
+ * rate id and price. A tariff that is gone at the supplier is "not available".
+ */
+async function requote(deps: BookingDeps, offer: BookableOffer, occupancy: readonly Occupancy[]): Promise<string> {
+  if (!(await budgetReserve(deps.db, 'liteapi_calls', 1, deps.liteapiDailyCap))) {
+    logWarn('requote skipped: liteapi budget used up');
+    throw new ApiError(503, 'provider_unavailable', BOOKING_TEXTS.providerUnavailable);
+  }
+  let options;
+  try {
+    const rates = await deps.liteapi.searchHotelRates({
+      hotelId: offer.hotelId,
+      checkin: offer.checkin,
+      checkout: offer.checkout,
+      occupancies: [...occupancy],
+      currency: deps.currency,
+      guestNationality: deps.guestNationality,
+      timeoutS: constants.LITEAPI_RATES_TIMEOUT_S,
+    });
+    options = rates.rates.find((r) => r.hotelId === offer.hotelId)?.options ?? [];
+  } catch (err) {
+    logWarn('requote failed', providerFields(err));
+    throw new ApiError(503, 'provider_unavailable', BOOKING_TEXTS.providerUnavailable);
+  } finally {
+    await budgetSettle(deps.db, 'liteapi_calls', 1, 1).catch(() => undefined);
+  }
+  const fresh = findEquivalentOption(options, offer);
+  if (!fresh) {
+    logWarn('requote: tariff gone');
+    throw new ApiError(409, 'offer_unavailable', BOOKING_TEXTS.offerUnavailable);
+  }
+  await refreshOfferQuote(deps.db, offer.id, toOffer(offer.hotelId, offer.kind, fresh, offer.nights));
+  return fresh.offerId;
+}
+
+/**
+ * Prebook the offer of the search. LiteAPI rate ids only live for a short time
+ * and prices move (the search may also come from the rate cache); an answer of
+ * 4xx means the supplier no longer sells that rate ("please search again").
+ * Then the same tariff is quoted again and that one is prebooked, at most
+ * BOOKING_MAX_REQUOTES times. A different price reaches the guest through the
+ * price confirmation, a tariff that is gone as "not available". Outages of the
+ * supplier are never read as "not available".
+ */
+async function prebookFresh(deps: BookingDeps, offer: BookableOffer, occupancy: readonly Occupancy[]): Promise<PayablePrebook> {
+  let liteapiOfferId = offer.liteapiOfferId;
+  for (let requotes = 0; ; requotes += 1) {
+    try {
+      return await prebookOnce(deps, liteapiOfferId);
+    } catch (err) {
+      if (err instanceof ApiError) throw err;
+      logWarn('prebook failed', { ...providerFields(err), requotes });
+      if (!(err instanceof ProviderError) || err.kind !== 'client') throw new ApiError(503, 'provider_unavailable', BOOKING_TEXTS.providerUnavailable);
+      if (requotes >= constants.BOOKING_MAX_REQUOTES) throw new ApiError(409, 'offer_unavailable', BOOKING_TEXTS.offerUnavailable);
+    }
+    liteapiOfferId = await requote(deps, offer, occupancy);
+  }
+}
+
 const accessUrl = (deps: BookingDeps, ref: string, token: string) => `${deps.origin}/buchung/${ref}#a=${token}`;
 
 export async function createBooking(deps: BookingDeps, req: BookingCreateRequest): Promise<BookingCreateResponse> {
@@ -154,20 +244,12 @@ export async function createBooking(deps: BookingDeps, req: BookingCreateRequest
     refGenerator(deps),
   );
 
-  let prebook;
+  let prebook: PayablePrebook;
   try {
-    prebook = await deps.liteapi.prebook(offer.liteapiOfferId);
+    prebook = await prebookFresh(deps, offer, occupancy);
   } catch (err) {
-    const kind = err instanceof ProviderError ? err.kind : 'error';
-    const status = err instanceof ProviderError ? err.status : undefined;
-    console.error(JSON.stringify({ level: 'warn', msg: 'prebook failed', kind, ...(status === undefined ? {} : { status }) }));
-    await applyBookingEvent(deps.db, draft.id, 'prebook_failed', { lastError: kind });
-    throw new ApiError(409, 'offer_unavailable', BOOKING_TEXTS.offerUnavailable);
-  }
-  if (!prebook.transactionId || !prebook.secretKey) {
-    console.error(JSON.stringify({ level: 'warn', msg: 'prebook without payment sdk data' }));
-    await applyBookingEvent(deps.db, draft.id, 'prebook_failed', { lastError: 'payment_sdk_missing' });
-    throw new ApiError(503, 'payment_unavailable', BOOKING_TEXTS.paymentUnavailable);
+    await applyBookingEvent(deps.db, draft.id, 'prebook_failed', { lastError: err instanceof ApiError ? err.code : 'error' });
+    throw err;
   }
   const priceChanged = prebook.totalCents !== offer.totalCents;
   const moved = await applyBookingEvent(deps.db, draft.id, 'prebook_ok', {

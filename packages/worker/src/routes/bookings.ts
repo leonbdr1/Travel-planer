@@ -38,6 +38,9 @@ function bookingDeps(c: Context<AppEnv>): BookingDeps {
     simulatedPayment: deps.providers().sources.liteapi === 'fake',
     bookingEnabled: deps.config.BOOKING_ENABLED,
     randomBytes: (n) => crypto.getRandomValues(new Uint8Array(n)),
+    currency: productConfig.markets.currency,
+    guestNationality: productConfig.markets.guest_nationality,
+    liteapiDailyCap: productConfig.limits.daily_quotas.liteapi_calls,
   };
 }
 

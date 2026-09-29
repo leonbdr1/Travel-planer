@@ -30,6 +30,18 @@ export interface RatesRequest {
   marginPercent?: number;
 }
 
+/** Rates of one known hotel for exactly one stay (re-quote right before booking). */
+export interface HotelRatesRequest {
+  hotelId: string;
+  checkin: string;
+  checkout: string;
+  occupancies: Occupancy[];
+  currency: string;
+  guestNationality: string;
+  timeoutS: number;
+  marginPercent?: number;
+}
+
 export interface RatesResult {
   rates: HotelRates[];
   hotels: HotelSummary[];
@@ -91,6 +103,7 @@ export interface HotelDetailsOptions {
 
 export interface LiteApiPort {
   searchRates(request: RatesRequest): Promise<RatesResult>;
+  searchHotelRates(request: HotelRatesRequest): Promise<RatesResult>;
   getHotel(hotelId: string, options?: HotelDetailsOptions): Promise<HotelDetails>;
   getReviews(hotelId: string, options: { limit: number; withSentiment: boolean }): Promise<ReviewsResult>;
   getFacilities(): Promise<Facility[]>;
@@ -164,6 +177,23 @@ export function createLiteApiClient(options: LiteApiClientOptions): LiteApiPort 
           ...(request.marginPercent === undefined ? {} : { margin: request.marginPercent }),
         },
         // Network timeout = vendor timeout + headroom for transfer.
+        timeoutMs: (request.timeoutS + 6) * 1000,
+      });
+      return mapRatesResponse(raw);
+    },
+    async searchHotelRates(request) {
+      const raw = await call('hotels/rates', data('/hotels/rates'), ratesResponseSchema, {
+        body: {
+          hotelIds: [request.hotelId],
+          checkin: request.checkin,
+          checkout: request.checkout,
+          occupancies: request.occupancies.map((o) => ({ adults: o.adults, children: o.childrenAges })),
+          currency: request.currency,
+          guestNationality: request.guestNationality,
+          timeout: request.timeoutS,
+          includeHotelData: true,
+          ...(request.marginPercent === undefined ? {} : { margin: request.marginPercent }),
+        },
         timeoutMs: (request.timeoutS + 6) * 1000,
       });
       return mapRatesResponse(raw);

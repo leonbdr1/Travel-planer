@@ -21,6 +21,7 @@ export {
   type HotelDetailsOptions,
   type LiteApiPort,
   type PrebookResult,
+  type HotelRatesRequest,
   type RatesRequest,
   type RatesResult,
 } from './liteapi/client';

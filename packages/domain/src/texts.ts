@@ -59,6 +59,7 @@ export const BOOKING_TEXTS = {
   guestsInvalid: 'Bitte gib für jedes Zimmer einen Gast an.',
   offerUnavailable: 'Dieses Angebot ist leider nicht mehr verfügbar. Bitte wähle ein anderes Angebot oder starte eine neue Suche.',
   paymentUnavailable: 'Die Zahlung ist gerade nicht möglich. Bitte versuche es später erneut.',
+  providerUnavailable: 'Wir konnten den aktuellen Preis gerade nicht prüfen. Bitte versuche es in ein paar Minuten erneut.',
   tokenInvalid: 'Der Link ist ungültig oder abgelaufen.',
   priceConfirmationRequired: 'Der Preis hat sich geändert. Bitte bestätige den neuen Preis, bevor du bezahlst.',
   inProgress: 'Die Buchung wird gerade abgeschlossen. Bitte versuche es in einigen Sekunden erneut.',

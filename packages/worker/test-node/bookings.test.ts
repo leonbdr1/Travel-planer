@@ -5,6 +5,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createSearch, getBookingByRef, type Db } from '@reiseplaner/db';
 import { createTestDb, type TestDb } from '@reiseplaner/db/testing';
+import { constants } from '@reiseplaner/domain';
 import { createProviders, fakeMailbox, ProviderError, type ProvidersConfig } from '@reiseplaner/providers';
 import { ApiError } from '../src/http/errors';
 import { cancelBooking, completeBooking, confirmPrice, createBooking, requestAccessLink, viewBooking, type BookingDeps } from '../src/services/bookings';
@@ -80,6 +81,9 @@ beforeEach(async () => {
     paymentMode: 'sandbox',
     simulatedPayment: true,
     bookingEnabled: true,
+    currency: 'EUR',
+    guestNationality: 'DE',
+    liteapiDailyCap: 60_000,
     randomBytes: (size) => Uint8Array.from({ length: size }, (_, i) => (n * 37 + i * 11 + 3) % 256).map((v, i) => (i === 0 ? (n++ * 29 + v) % 256 : v)),
   };
 });
@@ -119,14 +123,162 @@ const apiError = async (p: Promise<unknown>) => {
 };
 
 describe('booking flow (architektur.md 6.11, 7.2)', () => {
-  it('answers a failing prebook with offer_unavailable and a prebook without payment data with payment_unavailable', async () => {
-    const [first] = await offers(test.db, 'refundable');
-    const offerId = first?.id ?? '';
-    const real = deps.liteapi;
-    deps = { ...deps, liteapi: { ...real, prebook: async () => { throw new ProviderError('liteapi', 'client', 'gone', 400); } } };
-    expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 409, code: 'offer_unavailable' });
-    deps = { ...deps, liteapi: { ...real, prebook: async (id) => ({ ...(await real.prebook(id)), transactionId: null, secretKey: null }) } };
-    expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 503, code: 'payment_unavailable' });
+  describe('stale rate ids (LiteAPI: "please search again")', () => {
+    const gone = () => new ProviderError('liteapi', 'client', 'no availability found', 409);
+    const chosen = async () => {
+      const [first] = await offers(test.db, 'refundable');
+      const offerId = first?.id ?? '';
+      const [row] = await test.db.query<{ liteapi_offer_id: string; total_price_cents: number }>(
+        'SELECT liteapi_offer_id, total_price_cents FROM app.offers WHERE id = $1::bigint',
+        [offerId],
+      );
+      return { offerId, storedId: row?.liteapi_offer_id ?? '', storedCents: Number(row?.total_price_cents) };
+    };
+    /** Rate ids of one search only work once: the stored id is refused, a fresh one is accepted. */
+    const staleStoredId = (storedId: string) => {
+      const real = deps.liteapi;
+      let requotes = 0;
+      let refused = false;
+      deps = {
+        ...deps,
+        liteapi: {
+          ...real,
+          prebook: async (id) => {
+            if (id === storedId && !refused) {
+              refused = true;
+              throw gone();
+            }
+            return real.prebook(id);
+          },
+          searchHotelRates: async (r) => {
+            requotes += 1;
+            return real.searchHotelRates(r);
+          },
+        },
+      };
+      return () => requotes;
+    };
+
+    it('re-quotes the same tariff once and books it', async () => {
+      const { offerId, storedId, storedCents } = await chosen();
+      const requotes = staleStoredId(storedId);
+      const created = await createBooking(deps, request(offerId));
+      expect(requotes()).toBe(1);
+      expect(created.price_changed).toBe(false);
+      expect(created.previous_price.total_eur).toBe(storedCents / 100);
+      expect((await getBookingByRef(test.db, created.booking_ref))?.status).toBe('prebooked');
+    });
+
+    it('lets the guest confirm a price that moved while the offer was stale', async () => {
+      const { offerId, storedId, storedCents } = await chosen();
+      const real = deps.liteapi;
+      let refused = false;
+      deps = {
+        ...deps,
+        liteapi: {
+          ...real,
+          searchHotelRates: async (r) => {
+            const res = await real.searchHotelRates(r);
+            return { ...res, rates: res.rates.map((h) => ({ ...h, options: h.options.map((o) => ({ ...o, totalCents: Math.round(o.totalCents * 1.1) })) })) };
+          },
+          prebook: async (id) => {
+            if (id === storedId && !refused) {
+              refused = true;
+              throw gone();
+            }
+            return { ...(await real.prebook(id)), totalCents: Math.round(storedCents * 1.1) };
+          },
+        },
+      };
+      const created = await createBooking(deps, request(offerId));
+      expect(created.price_changed).toBe(true);
+      expect(created.previous_price.total_eur).toBe(storedCents / 100);
+      expect(created.price.total_eur).toBeGreaterThan(storedCents / 100);
+      const [row] = await test.db.query<{ total_price_cents: number }>('SELECT total_price_cents FROM app.offers WHERE id = $1::bigint', [offerId]);
+      expect(Number(row?.total_price_cents)).toBe(Math.round(storedCents * 1.1));
+    });
+
+    it('answers a tariff that is gone with offer_unavailable', async () => {
+      const { offerId, storedId } = await chosen();
+      staleStoredId(storedId);
+      const stale = deps.liteapi;
+      deps = { ...deps, liteapi: { ...stale, searchHotelRates: async () => ({ rates: [], hotels: [] }) } };
+      expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 409, code: 'offer_unavailable' });
+      const [booking] = await test.db.query<{ status: string; last_error: string }>('SELECT status, last_error FROM app.bookings ORDER BY created_at DESC LIMIT 1');
+      expect(booking).toEqual({ status: 'failed', last_error: 'offer_unavailable' });
+    });
+
+    it('quotes again when the first fresh id is already gone (prices move between calls)', async () => {
+      const { offerId } = await chosen();
+      const real = deps.liteapi;
+      let refusals = 0;
+      let requotes = 0;
+      deps = {
+        ...deps,
+        liteapi: {
+          ...real,
+          prebook: async (id) => {
+            if (refusals < 2) {
+              refusals += 1;
+              throw gone();
+            }
+            return real.prebook(id);
+          },
+          searchHotelRates: async (r) => {
+            requotes += 1;
+            return real.searchHotelRates(r);
+          },
+        },
+      };
+      const created = await createBooking(deps, request(offerId));
+      expect(requotes).toBe(2);
+      expect((await getBookingByRef(test.db, created.booking_ref))?.status).toBe('prebooked');
+    });
+
+    it('gives up with offer_unavailable after the allowed number of fresh quotes', async () => {
+      const { offerId } = await chosen();
+      const real = deps.liteapi;
+      let requotes = 0;
+      deps = {
+        ...deps,
+        liteapi: {
+          ...real,
+          prebook: async () => Promise.reject(gone()),
+          searchHotelRates: async (r) => {
+            requotes += 1;
+            return real.searchHotelRates(r);
+          },
+        },
+      };
+      expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 409, code: 'offer_unavailable' });
+      expect(requotes).toBe(constants.BOOKING_MAX_REQUOTES);
+    });
+
+    it('does not read a supplier outage as an unavailable offer and does not re-quote', async () => {
+      const { offerId } = await chosen();
+      const real = deps.liteapi;
+      let requotes = 0;
+      deps = {
+        ...deps,
+        liteapi: {
+          ...real,
+          prebook: async () => Promise.reject(new ProviderError('liteapi', 'server', 'boom', 503)),
+          searchHotelRates: async (r) => {
+            requotes += 1;
+            return real.searchHotelRates(r);
+          },
+        },
+      };
+      expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 503, code: 'provider_unavailable' });
+      expect(requotes).toBe(0);
+    });
+
+    it('answers a prebook without payment data with payment_unavailable', async () => {
+      const { offerId } = await chosen();
+      const real = deps.liteapi;
+      deps = { ...deps, liteapi: { ...real, prebook: async (id) => ({ ...(await real.prebook(id)), transactionId: null, secretKey: null }) } };
+      expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 503, code: 'payment_unavailable' });
+    });
   });
 
   it('prebooks, completes once, answers repeats with the same state and sends the confirmation', async () => {
