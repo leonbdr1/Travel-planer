@@ -8,6 +8,12 @@ import { GATE_COOKIE, GATE_LOGIN_MAX_ATTEMPTS, handleGate, type GateOptions } fr
 
 const PASSWORD = 'correct horse battery staple';
 const base = { APP_ENV: 'test', SITE_GATE: 'password', SITE_PASSWORD: PASSWORD, SIGNING_KEY: 'gate-signing-key', IP_HASH_SALT: 'salt' } as unknown as Env;
+/** The environment without the given keys (optional properties must be absent, not undefined). */
+const without = (...keys: Array<keyof Env>): Env => {
+  const copy = { ...base };
+  for (const key of keys) delete copy[key];
+  return copy;
+};
 const T0 = new Date('2026-09-29T12:00:00Z');
 const ORIGIN = 'https://site.example';
 
@@ -39,7 +45,7 @@ async function signIn(env: Env = base): Promise<string> {
 
 describe('site gate', () => {
   it('is off without SITE_GATE=password (dev, tests)', async () => {
-    expect(await handleGate(get('/'), { ...base, SITE_GATE: undefined } as Env, options())).toBeNull();
+    expect(await handleGate(get('/'), without('SITE_GATE'), options())).toBeNull();
     expect(await handleGate(get('/api/v1/searches'), { ...base, SITE_GATE: 'off' } as Env, options())).toBeNull();
   });
 
@@ -115,11 +121,11 @@ describe('site gate', () => {
   });
 
   it('closes the site when the secret is missing, but keeps the health check', async () => {
-    const env = { ...base, SITE_PASSWORD: undefined } as Env;
+    const env = without('SITE_PASSWORD');
     expect((await handleGate(get('/'), env, options()))?.status).toBe(503);
     expect((await handleGate(post(''), env, options()))?.status).toBe(503);
     expect(await handleGate(get('/api/v1/health'), env, options())).toBeNull();
-    const noKey = { ...base, SIGNING_KEY: undefined } as Env;
+    const noKey = without('SIGNING_KEY');
     expect((await handleGate(get('/'), noKey, options()))?.status).toBe(503);
   });
 
