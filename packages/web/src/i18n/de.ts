@@ -370,7 +370,7 @@ export const de = {
     scorePenalty: 'Abzüge aus Warnhinweisen',
     scoreFinal: 'Qualitätswert',
     ratingSourcesNote: (names: string) =>
-      `Die Note fasst die Bewertungen der Unterkunft mit Bewertungen von ${names} zusammen, weil die Unterkunft dort mehr Bewertungen hat. Bewertungen von ${names} zählen dabei halb.`,
+      `Die Note fasst die Bewertungen der Unterkunft mit Bewertungen von ${names} zusammen, weil sie in unserer Datenquelle nur wenige Bewertungen hat. Bewertungen von ${names} zählen dabei halb.`,
     noScore: 'Diese Unterkunft hat noch keine Bewertungen und daher keinen Qualitätswert.',
     importantInfo: 'Wichtige Hinweise der Unterkunft',
     onlyEnglish: 'Diesen Text der Unterkunft haben wir nur auf Englisch erhalten.',

@@ -125,6 +125,24 @@ export const ergebnisseFlow: Flow = {
     );
 
     await step(
+      'Fusionierte Note nennt ihre Quelle in Liste und Detailansicht',
+      async () => {
+        const item = page.getByTestId('result-list').locator('li').filter({ has: page.getByTestId('rating-sources') }).first();
+        await item.scrollIntoViewIfNeeded();
+        note(`Liste: ${(await item.getByTestId('rating-sources').innerText()).trim()}`);
+        await item.getByTestId('result-name').click();
+        await page.getByTestId('rating-sources-note').waitFor({ timeout: 15_000 });
+        note(`Detail: ${(await page.getByTestId('rating-sources-note').innerText()).trim()}`);
+      },
+      {
+        expectText: ['inkl. Tripadvisor', 'Bewertungen von Tripadvisor zusammen', 'zählen dabei halb'],
+        expectSelector: ['[data-testid="rating-sources"]', '[data-testid="rating-sources-note"]'],
+      },
+    );
+    await page.goBack();
+    await page.getByTestId('result-list').waitFor();
+
+    await step(
       'Detailansicht mit allen Terminen und Score-Aufschlüsselung',
       async () => {
         // The review check covers the likely finalists of every goal (architektur.md 6.15),
