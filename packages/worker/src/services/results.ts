@@ -4,11 +4,13 @@
 import {
   searchRequestSchema,
   type EffectiveFilters,
+  type ExtraNightDto,
   type MatrixCellDto,
   type OfferDto,
   type PraiseLabelDto,
   type ResultItem,
   type SearchRequest,
+  type SearchResultsResponse,
   type UnratedItem,
   type WarningDto,
 } from '@reiseplaner/contracts';
@@ -19,6 +21,7 @@ import {
   byComparison,
   comparisonOf,
   evaluateOffers,
+  extraNights,
   hotelList,
   offerFeatures,
   recommendedIndex,
@@ -201,6 +204,52 @@ export function matrixCells(
   }));
 }
 
+const nightsOf = (o: EvaluatedOffer) => Math.max(1, Math.round(o.totalCents / o.pricePerNightCents));
+
+/** One night more of the same stay per offer id (Aufgabe 4), over the passing offers. */
+export function extraNightsFor(evaluated: readonly EvaluatedOffer[]): Map<string, ExtraNightDto> {
+  const steps = extraNights(evaluated.filter((o) => o.passes).map((o) => ({ ...o, nights: nightsOf(o) })));
+  return new Map(
+    [...steps].map(([id, x]) => [
+      id,
+      {
+        from_nights: x.fromNights,
+        to_nights: x.toNights,
+        longer_offer_id: x.longerOfferId,
+        extra_eur: x.extraCents / 100,
+        nightly_eur: x.nightlyCents / 100,
+        verdict: x.verdict,
+      },
+    ]),
+  );
+}
+
+const median = (values: readonly number[]) => {
+  const s = [...values].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? (s[m] as number) : ((s[m - 1] as number) + (s[m] as number)) / 2;
+};
+
+/** How the extra nights of the listed houses compare: the most common step (e.g. 2 → 3 nights). */
+export function nightsSummary(items: readonly Pick<ResultItem, 'extra_night'>[]): SearchResultsResponse['nights_summary'] {
+  const steps = items.map((i) => i.extra_night).filter((x): x is ExtraNightDto => x !== null);
+  if (steps.length === 0) return null;
+  const byStep = new Map<string, ExtraNightDto[]>();
+  for (const x of steps) byStep.set(`${x.from_nights}|${x.to_nights}`, [...(byStep.get(`${x.from_nights}|${x.to_nights}`) ?? []), x]);
+  const main = [...byStep.values()].sort((a, b) => b.length - a.length)[0] as ExtraNightDto[];
+  const first = main[0] as ExtraNightDto;
+  return {
+    from_nights: first.from_nights,
+    to_nights: first.to_nights,
+    houses: main.length,
+    cheap: main.filter((x) => x.verdict === 'cheap').length,
+    normal: main.filter((x) => x.verdict === 'normal').length,
+    expensive: main.filter((x) => x.verdict === 'expensive').length,
+    median_extra_eur: Math.round(median(main.map((x) => x.extra_eur)) * 100) / 100,
+    median_nightly_eur: Math.round(median(main.map((x) => x.nightly_eur)) * 100) / 100,
+  };
+}
+
 /**
  * The list: every admissible house once with its cheapest passing offer,
  * cheapest first (or by comparison price or quality). The house with the
@@ -226,6 +275,7 @@ export function resultItems(
   if (sort === 'best') listed.sort((a, b) => cmp(a.comparison, b.comparison));
   if (sort === 'quality') listed.sort((a, b) => (b.offer.quality ?? -1) - (a.offer.quality ?? -1) || a.offer.totalCents - b.offer.totalCents);
   const recommended = recommendedIndex(listed.map((x) => x.comparison), scope.goal);
+  const steps = extraNightsFor(evaluated);
   return listed.map(({ offer, otherDatesCount }, i) => ({
     hotel: hotelSummary(offer.hotelId, hotels),
     best_offer: offerDto(offer),
@@ -236,6 +286,7 @@ export function resultItems(
     reviews_checked: reviews.checked?.get(offer.hotelId) ?? null,
     labels: reviews.labels?.get(offer.hotelId) ?? [],
     recommended: i === recommended,
+    extra_night: steps.get(offer.id) ?? null,
   }));
 }
 
@@ -256,6 +307,7 @@ export function unratedItems(evaluated: readonly EvaluatedOffer[], hotels: Reado
       reviews_checked: null,
       labels: [],
       recommended: false,
+      extra_night: null,
       doubt: {
         code: doubt.code,
         reference_per_night_eur: doubt.referencePerNightCents === null ? null : Math.round(doubt.referencePerNightCents) / 100,

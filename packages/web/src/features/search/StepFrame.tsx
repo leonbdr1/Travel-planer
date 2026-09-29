@@ -135,16 +135,40 @@ export function StepFrame({
       <Card className="space-y-6">
         <Fieldset legend={t.pattern}>
           <Description>{t.patternHint}</Description>
-          <div className="grid gap-4 sm:grid-cols-[10rem_1fr]">
+          <div className="grid gap-4 sm:grid-cols-[14rem_1fr]">
             <div>
-              <Label htmlFor="nights">{t.nights}</Label>
-              <Select id="nights" className="mt-2" value={state.nights} onChange={(e) => update({ nights: Number(e.target.value) })}>
-                {Array.from({ length: meta.limits.max_nights }, (_, i) => i + 1).map((n) => (
-                  <option key={n} value={n}>
-                    {t.nightsOption(n)}
-                  </option>
-                ))}
-              </Select>
+              <span className="block text-sm/6 font-medium text-zinc-900">{t.nights}</span>
+              <div className="mt-2 flex items-center gap-2" data-testid="nights-range">
+                <Select
+                  id="nights"
+                  aria-label={t.nightsFrom}
+                  value={state.nights}
+                  onChange={(e) => {
+                    const nights = Number(e.target.value);
+                    update({ nights, nightsMax: Math.max(nights, state.nightsMax) });
+                  }}
+                >
+                  {Array.from({ length: meta.limits.max_nights }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </Select>
+                <span className="text-sm text-zinc-600">{t.nightsTo}</span>
+                <Select
+                  id="nights-max"
+                  aria-label={t.nightsUpTo}
+                  value={Math.max(state.nights, state.nightsMax)}
+                  onChange={(e) => update({ nightsMax: Number(e.target.value) })}
+                >
+                  {Array.from({ length: meta.limits.max_nights - state.nights + 1 }, (_, i) => state.nights + i).map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+              <Description>{state.nightsMax > state.nights ? t.nightsRangeHint(state.nights, state.nightsMax) : t.nightsFixedHint}</Description>
             </div>
             <div>
               <span className="block text-sm/6 font-medium text-zinc-900">{t.weekdays}</span>
@@ -170,7 +194,11 @@ export function StepFrame({
               {': '}
               {dates.dates
                 .slice(0, 4)
-                .map((d) => `${d.checkin.slice(8, 10)}.${d.checkin.slice(5, 7)}.`)
+                .map((d) =>
+                  state.nightsMax > state.nights
+                    ? `${d.checkin.slice(8, 10)}.${d.checkin.slice(5, 7)}.–${d.checkout.slice(8, 10)}.${d.checkout.slice(5, 7)}.`
+                    : `${d.checkin.slice(8, 10)}.${d.checkin.slice(5, 7)}.`,
+                )
                 .join(', ')}
               {dates.dates.length > 4 ? ' …' : ''}
             </Alert>

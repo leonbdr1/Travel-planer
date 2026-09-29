@@ -3,6 +3,7 @@
 import type { SearchCell } from '@reiseplaner/contracts';
 import { cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
+import { hasNightVariants, nightsBetween } from '../../lib/format';
 
 const t = de.searchRun;
 const WEEKDAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
@@ -22,7 +23,8 @@ export interface MatrixProps {
 }
 
 export function Matrix({ places, dates, cells, onCell, highlight }: MatrixProps) {
-  const byKey = new Map(cells.map((c) => [`${c.place_id}|${c.checkin}`, c]));
+  const byKey = new Map(cells.map((c) => [`${c.place_id}|${c.checkin}|${c.checkout}`, c]));
+  const variants = hasNightVariants(dates);
   const prices = cells.filter((c) => c.min_total_eur !== null).map((c) => c.min_total_eur as number);
   const min = prices.length ? Math.min(...prices) : 0;
   const max = prices.length ? Math.max(...prices) : 0;
@@ -37,8 +39,9 @@ export function Matrix({ places, dates, cells, onCell, highlight }: MatrixProps)
               {t.place}
             </th>
             {dates.map((d) => (
-              <th key={d.checkin} scope="col" className="whitespace-nowrap bg-zinc-50 px-3 py-2 text-right font-medium text-zinc-600">
+              <th key={`${d.checkin}|${d.checkout}`} scope="col" className="whitespace-nowrap bg-zinc-50 px-3 py-2 text-right font-medium text-zinc-600">
                 {dateLabel(d.checkin)}
+                {variants ? <span className="block text-xs font-normal text-zinc-500">{de.results.nightsColumn(nightsBetween(d.checkin, d.checkout))}</span> : null}
               </th>
             ))}
           </tr>
@@ -50,7 +53,7 @@ export function Matrix({ places, dates, cells, onCell, highlight }: MatrixProps)
                 {p.name}
               </th>
               {dates.map((d) => {
-                const cell = byKey.get(`${p.id}|${d.checkin}`);
+                const cell = byKey.get(`${p.id}|${d.checkin}|${d.checkout}`);
                 const state = cell?.state ?? 'pending';
                 const mark = cell && highlight ? highlight(cell) : null;
                 const content =
@@ -66,7 +69,7 @@ export function Matrix({ places, dates, cells, onCell, highlight }: MatrixProps)
                 const clickable = state === 'offer' && onCell && cell;
                 return (
                   <td
-                    key={d.checkin}
+                    key={`${d.checkin}|${d.checkout}`}
                     data-state={state}
                     className={cx(
                       'whitespace-nowrap px-3 py-2 text-right tabular-nums',

@@ -138,6 +138,17 @@ describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
     expect(bargains.get('3')?.reason).toContain('21 % günstiger');
   });
 
+  it('compares only stays with the same number of nights (Aufgabe 4)', () => {
+    // Fr–So three times 100 €/night; Fr–Mo once at 70 €/night is another kind of stay.
+    const bargains = detectBargains([
+      { ...stay, id: '1', checkin: '2026-10-02', pricePerNightCents: 10_000 },
+      { ...stay, id: '2', checkin: '2026-10-09', pricePerNightCents: 10_000 },
+      { ...stay, id: '3', checkin: '2026-10-16', pricePerNightCents: 10_000 },
+      { ...stay, id: '4', checkin: '2026-10-02', nights: 3, pricePerNightCents: 7_000 },
+    ]);
+    expect(bargains.size).toBe(0);
+  });
+
   it('treats another board or other cancellation terms as another kind of stay', () => {
     const three = (patch: Partial<typeof stay>, prefix: string) =>
       ['2026-10-02', '2026-10-09', '2026-10-16'].map((checkin, i) => ({ ...stay, ...patch, id: `${prefix}${i}`, checkin, pricePerNightCents: 10_000 }));

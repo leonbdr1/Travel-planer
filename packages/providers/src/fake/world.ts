@@ -377,6 +377,18 @@ function occupancyFactor(o: FakeOccupancy): number {
   return adults + o.children.filter((age) => age >= 6).length * 0.15;
 }
 
+/**
+ * Length-of-stay pricing (Aufgabe 4): from the third night on, a quarter of the
+ * houses give a clear discount (holiday flats with a cleaning fee spread over
+ * the stay), a quarter charge clearly more (the extra weekday night is sold
+ * dear). Stays of one or two nights are unchanged.
+ */
+function lengthOfStayFactor(hotel: FakeHotel, nightIndex: number, nights: number): number {
+  if (nights < 3 || nightIndex < 2) return 1;
+  const kind = hashString(`los|${hotel.id}`) % 4;
+  return kind === 0 ? 0.55 : kind === 1 ? 1.75 : 1;
+}
+
 /** Deal dates: this hotel is markedly cheaper on this check-in date. */
 export function isDealDate(hotel: FakeHotel, checkin: string): boolean {
   return hashString(`deal|${hotel.id}|${checkin}`) % 9 === 0;
@@ -435,7 +447,7 @@ export function offersFor(
       const date = addDays(checkin, i);
       const noise = between(seeded('noise', hotel.id, date), 0.92, 1.08);
       const occ = occupancies.reduce((sum, o) => sum + occupancyFactor(o), 0);
-      return Math.round(hotel.basePerNightCents * room.factor * nightFactor(date) * noise * occ * deal);
+      return Math.round(hotel.basePerNightCents * room.factor * nightFactor(date) * noise * occ * deal * lengthOfStayFactor(hotel, i, nights));
     });
     const persons = occupancies.reduce((s, o) => s + o.adults, 0);
     for (const board of hotel.boards) {

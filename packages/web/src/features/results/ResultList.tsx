@@ -8,6 +8,7 @@ import { constants } from '@reiseplaner/domain';
 import { AiLabel, Badge, Card, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDateTime, formatEuro, formatEuroCents, formatScore, formatStay } from '../../lib/format';
+import { ExtraNightNote } from './ExtraNightNote';
 import { PraiseLabels } from './PraiseLabels';
 
 const t = de.results;
@@ -78,6 +79,7 @@ export function ResultList({
                 <p className="text-sm text-zinc-600">
                   {o.room_name} · {t.boardNames[o.board_type]} · {cancellationText(o.refundable, o.free_cancel_until)}
                 </p>
+                {item.extra_night ? <ExtraNightNote extra={item.extra_night} /> : null}
                 <PraiseLabels labels={item.labels} max={constants.PRAISE_MAX_LABELS_LIST} />
                 {item.doubt ? (
                   <p className="text-sm text-amber-800" data-testid="unrated-doubt" data-code={item.doubt.code}>

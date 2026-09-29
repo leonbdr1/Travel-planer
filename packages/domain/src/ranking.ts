@@ -129,12 +129,12 @@ export function buildMatrix(
   const cmp = compareOffers('price');
   for (const o of evaluated) {
     if (!o.passes || (admissible && !admissible.has(o.hotelId))) continue;
-    const key = `${o.placeId}|${o.checkin}`;
+    const key = `${o.placeId}|${o.checkin}|${o.checkout}`;
     const current = bestByCell.get(key);
     if (!current || cmp(o, current) < 0) bestByCell.set(key, o);
   }
   const cells: MatrixCell[] = combinations.map((c) => {
-    const offer = bestByCell.get(`${c.placeId}|${c.checkin}`) ?? null;
+    const offer = bestByCell.get(`${c.placeId}|${c.checkin}|${c.checkout}`) ?? null;
     const state = c.state === 'failed' ? 'failed' : c.state === 'pending' ? 'pending' : offer ? 'offer' : 'empty';
     return { placeId: c.placeId, checkin: c.checkin, checkout: c.checkout, state, offer: state === 'offer' ? offer : null, priceBucket: null };
   });

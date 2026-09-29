@@ -11,6 +11,7 @@ export function toSearchRequest(state: WizardState): SearchRequest | null {
     themes: state.themes,
     window: { start: state.windowStart, end: state.windowEnd },
     nights: state.nights,
+    nights_max: state.nightsMax > state.nights ? state.nightsMax : null,
     arrival_weekdays: state.weekdays,
     occupancy: { rooms: state.rooms, adults: state.adults, children_ages: state.childrenAges },
     budget_total_eur: state.budgetEur,

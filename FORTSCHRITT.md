@@ -10,7 +10,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 1** – Startseite im Stil üblicher Buchungsseiten (Ortssuche, Kalender mit zwei Klicks)
 - [x] **Aufgabe 2** – Rechenfehler „Alle Termine und Tarife“ (Vergleich nur über dasselbe Zimmer)
 - [x] **Aufgabe 3** – Standortsuche: Postleitzahlen, fehlende Orte, manuelle Mehrfachauswahl von Orten
-- [ ] **Aufgabe 4** – Flexible Übernachtungsanzahl (z. B. 2 bis 3 Nächte)
+- [x] **Aufgabe 4** – Flexible Übernachtungsanzahl (z. B. 2 bis 3 Nächte)
 - [ ] **Aufgabe 5** – Personenzahl und Zimmerlogik
 - [ ] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
 - [ ] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
@@ -56,3 +56,13 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - In Schritt 3 stehen die eigenen Orte als Gruppe „Deine Orte“ über den vorgeschlagenen Regionen, bleiben ausgewählt, und die Vorschläge füllen nur die übrigen Plätze. Ein neuer Startort, eine andere Fahrzeit oder Reiseart verwirft nur die Vorschläge, nicht die eigenen Orte; deren Fahrzeiten werden bei neuem Startort neu berechnet.
 - Vertrag: `PlaceDto` hat zusätzlich `geonameid` (additiv, Standard `null`).
 - Beleg: Walkthrough `orte` in `docs/demos/F3/walkthrough-P/` (Startort per PLZ 70173, Köln + Frankfurt + Berlin, nur eigene Orte = 6 Kombinationen; danach Köln + Berlin zusammen mit Schwarzwald-Vorschlägen, Suche abgeschlossen); Screenshots gelesen; `npm test` 414 grün.
+
+### Aufgabe 4 – erledigt
+- Ansatz: `docs/logik/flexible-naechte.md`.
+- Suchformular: „Nächte“ als Bereich „2 bis 3“ (Standard fest). Jede Anreise wird mit jeder Länge gesucht (Fr–So und Fr–Mo), die Terminvorschau zeigt die Varianten.
+- Vergleich: dasselbe Haus, Zimmer, Verpflegung, Stornobedingungen und dieselbe Anreise; Preis der Zusatznacht = Gesamtpreis(n+1) − Gesamtpreis(n), verglichen mit dem Nachtpreis der kürzeren Variante: „günstig“ (≤ 70 %, grün: „3. Nacht nur +60 € – lohnt sich“), „teuer“ (≥ 130 %, orange: „deutlich teurer als die Nächte davor“), sonst neutral.
+- Anzeige: Matrix-Spalte je Variante („Fr 02.10. / 3 Nächte“), Übersicht „3 statt 2 Nächte?“ über der Liste, Hinweis bei jeder Unterkunft in der Liste und je Termin/Zimmer in der Detailansicht.
+- Schnäppchen vergleichen nur gleiche Nächtezahlen.
+- Simulierte Unterkünfte: ab der 3. Nacht gibt jedes vierte Haus Rabatt, jedes vierte verlangt deutlich mehr (nur Aufenthalte ab 3 Nächten betroffen), damit alle drei Fälle vorführbar sind.
+- Beleg: Walkthrough `naechte` in `docs/demos/F4/walkthrough-P/` (6 Termine, 8 Hinweise: 2 günstig, 5 normal, 1 teuer), Screenshots gelesen; Unit-Tests `packages/domain/test/nights.test.ts`, `dates.test.ts`, `scoring.test.ts`; `npm test` 419 grün.
+- Offen/bekannte Grenze: Vorauswahl und Finale nehmen je Haus das günstigste Angebot nach Gesamtpreis (meist die kürzere Variante); Nachtrag für `architektur.md` in `docs/architektur-nachtrag.md` wartet auf Freigabe.

@@ -5,7 +5,7 @@
 import type { MatrixCellDto } from '@reiseplaner/contracts';
 import { Tooltip, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
-import { formatDay, formatEuro } from '../../lib/format';
+import { formatDay, formatEuro, formatStay, hasNightVariants, nightsBetween } from '../../lib/format';
 
 const t = de.results;
 const BUCKET = [
@@ -23,7 +23,7 @@ function roomLine(cell: MatrixCellDto): string {
 
 /** The same text for screen readers as the hover panel shows. */
 function cellLabel(cell: MatrixCellDto, place: string): string {
-  const parts = [`${place}, ${formatDay(cell.checkin)}: ${formatEuro(cell.total_price_eur ?? 0)}`, cell.hotel_name, roomLine(cell)];
+  const parts = [`${place}, ${formatStay(cell.checkin, cell.checkout)}: ${formatEuro(cell.total_price_eur ?? 0)}`, cell.hotel_name, roomLine(cell)];
   if (cell.bargain_reason) parts.push(`${t.bargain}: ${cell.bargain_reason}`);
   return parts.filter(Boolean).join('. ');
 }
@@ -51,12 +51,13 @@ export function PriceMatrix({
   onSelect,
 }: {
   places: Array<{ id: string; name: string }>;
-  dates: Array<{ checkin: string }>;
+  dates: Array<{ checkin: string; checkout: string }>;
   cells: MatrixCellDto[];
-  selected: { place_id: string; checkin: string } | null;
+  selected: { place_id: string; checkin: string; checkout: string | null } | null;
   onSelect: (cell: MatrixCellDto | null) => void;
 }) {
-  const byKey = new Map(cells.map((c) => [`${c.place_id}|${c.checkin}`, c]));
+  const byKey = new Map(cells.map((c) => [`${c.place_id}|${c.checkin}|${c.checkout}`, c]));
+  const variants = hasNightVariants(dates);
   return (
     <div className="space-y-2">
       <div className="overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-zinc-200" data-testid="result-matrix">
@@ -67,8 +68,9 @@ export function PriceMatrix({
                 {de.searchRun.place}
               </th>
               {dates.map((d) => (
-                <th key={d.checkin} scope="col" className="whitespace-nowrap bg-zinc-50 px-3 py-2 text-right font-medium text-zinc-600">
+                <th key={`${d.checkin}|${d.checkout}`} scope="col" className="whitespace-nowrap bg-zinc-50 px-3 py-2 text-right font-medium text-zinc-600">
                   {formatDay(d.checkin)}
+                  {variants ? <span className="block text-xs font-normal text-zinc-500">{de.results.nightsColumn(nightsBetween(d.checkin, d.checkout))}</span> : null}
                 </th>
               ))}
             </tr>
@@ -80,17 +82,17 @@ export function PriceMatrix({
                   {p.name}
                 </th>
                 {dates.map((d) => {
-                  const cell = byKey.get(`${p.id}|${d.checkin}`);
-                  const isSelected = selected?.place_id === p.id && selected.checkin === d.checkin;
+                  const cell = byKey.get(`${p.id}|${d.checkin}|${d.checkout}`);
+                  const isSelected = selected?.place_id === p.id && selected.checkin === d.checkin && (selected.checkout === null || selected.checkout === d.checkout);
                   if (!cell || cell.state !== 'offer' || cell.total_price_eur === null) {
                     return (
-                      <td key={d.checkin} data-state={cell?.state ?? 'pending'} className="whitespace-nowrap px-3 py-2 text-right text-xs text-zinc-400">
+                      <td key={`${d.checkin}|${d.checkout}`} data-state={cell?.state ?? 'pending'} className="whitespace-nowrap px-3 py-2 text-right text-xs text-zinc-400">
                         {cell?.state === 'failed' ? t.legendFailed : cell?.state === 'pending' ? '…' : '–'}
                       </td>
                     );
                   }
                   return (
-                    <td key={d.checkin} data-state="offer" data-bargain={cell.bargain || undefined} className={cx('p-0 text-right', BUCKET[cell.price_bucket ?? 3])}>
+                    <td key={`${d.checkin}|${d.checkout}`} data-state="offer" data-bargain={cell.bargain || undefined} className={cx('p-0 text-right', BUCKET[cell.price_bucket ?? 3])}>
                       <Tooltip content={<CellHint cell={cell} />}>
                         <button
                           type="button"

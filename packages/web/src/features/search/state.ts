@@ -11,6 +11,8 @@ export interface WizardState {
   windowStart: string;
   windowEnd: string;
   nights: number;
+  /** Longest stay of the night range (Aufgabe 4); equal to `nights` for a fixed number. */
+  nightsMax: number;
   weekdays: number[];
   adults: number;
   childrenAges: number[];
@@ -53,6 +55,7 @@ export function initialState(now: Date = new Date()): WizardState {
     windowStart: start,
     windowEnd: addDays(start, 42),
     nights: 2,
+    nightsMax: 2,
     weekdays: [5],
     adults: 2,
     childrenAges: [],
@@ -103,6 +106,7 @@ export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Dat
     {
       window: { start: state.windowStart, end: state.windowEnd },
       nights: state.nights,
+      nightsMax: Math.max(state.nights, state.nightsMax),
       arrivalWeekdays: state.weekdays,
       today: todayIso(now),
     },

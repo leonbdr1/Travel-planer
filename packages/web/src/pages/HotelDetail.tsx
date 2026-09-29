@@ -5,9 +5,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
 import type { HotelDetailResponse, TextBlockDto } from '@reiseplaner/contracts';
-import { constants } from '@reiseplaner/domain';
+import { constants, extraNights } from '@reiseplaner/domain';
 import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { fetchHotelDetail } from '../features/results/api';
+import { ExtraNightNote } from '../features/results/ExtraNightNote';
 import { ReferencePrice } from '../features/results/ReferencePrice';
 import { cancellationText, QualityBadge } from '../features/results/ResultList';
 import { groupOffersByRoom } from '../lib/room-groups';
@@ -115,6 +116,12 @@ export function HotelDetail() {
   // Testbetrieb books nothing; the map search leads to the property's own site and phone.
   const testbetrieb = meta.status === 'ready' && isTestbetrieb(meta.meta);
   const roomGroups = groupOffersByRoom(data.offers);
+  // One night more of the same stay (Aufgabe 4), shown at the shorter stay.
+  const nightSteps = extraNights(
+    data.offers
+      .filter((o) => o.passes_filters)
+      .map((o) => ({ id: o.id, hotelId: o.hotel_id, roomName: o.room_name, boardType: o.board_type, refundable: o.refundable, checkin: o.checkin, nights: o.nights, totalCents: Math.round(o.total_price_eur * 100) })),
+  );
   const town = h.city ?? data.offers[0]?.place_name ?? null;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([h.name, h.address, town].filter(Boolean).join(', '))}`;
   return (
@@ -182,6 +189,22 @@ export function HotelDetail() {
                       </div>
                     ) : null}
                     {!o.passes_filters ? <div className="text-xs">{t.filteredOut}</div> : null}
+                    {(() => {
+                      const step = nightSteps.get(o.id);
+                      return step && step.fromNights === o.nights ? (
+                        <ExtraNightNote
+                          className="mt-1 text-xs"
+                          extra={{
+                            from_nights: step.fromNights,
+                            to_nights: step.toNights,
+                            longer_offer_id: step.longerOfferId,
+                            extra_eur: step.extraCents / 100,
+                            nightly_eur: step.nightlyCents / 100,
+                            verdict: step.verdict,
+                          }}
+                        />
+                      ) : null;
+                    })()}
                   </td>
                   <td className="py-2 pr-4 text-xs">{cancellationText(o.refundable, o.free_cancel_until)}</td>
                   <td className="whitespace-nowrap py-2 pr-4 text-right">

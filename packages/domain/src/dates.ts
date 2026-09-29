@@ -1,6 +1,8 @@
 // Stay dates from the travel pattern (architektur.md 6.1, konzept.md 9.1):
 // every arrival day d from max(window.start, today + 1) to window.end − nights
-// that falls on an allowed ISO weekday yields (d, d + nights).
+// that falls on an allowed ISO weekday yields (d, d + nights). With a night
+// range (Aufgabe 4, docs/logik/flexible-naechte.md) every n from nights to
+// nightsMax yields (d, d + n) while it fits into the window.
 import type { IsoDate } from './types';
 
 export interface StayDate {
@@ -11,6 +13,8 @@ export interface StayDate {
 export interface DatesInput {
   window: { start: IsoDate; end: IsoDate };
   nights: number;
+  /** Longest stay of a night range ("2 bis 3 Nächte"); null or missing: exactly `nights`. */
+  nightsMax?: number | null;
   /** ISO weekdays, 1 = Monday … 7 = Sunday. */
   arrivalWeekdays: number[];
   today: IsoDate;
@@ -88,6 +92,10 @@ export function generateStayDates(input: DatesInput, limits: DatesLimits): Dates
   if (!Number.isInteger(input.nights) || input.nights < 1 || input.nights > limits.maxNights) {
     return { ok: false, error: 'invalid_nights' };
   }
+  const nightsMax = input.nightsMax ?? input.nights;
+  if (!Number.isInteger(nightsMax) || nightsMax < input.nights || nightsMax > limits.maxNights) {
+    return { ok: false, error: 'invalid_nights' };
+  }
   const weekdays = new Set(input.arrivalWeekdays.filter((d) => Number.isInteger(d) && d >= 1 && d <= 7));
   if (weekdays.size === 0) return { ok: false, error: 'no_weekdays' };
   if (end <= start) return { ok: false, error: 'invalid_window' };
@@ -100,7 +108,10 @@ export function generateStayDates(input: DatesInput, limits: DatesLimits): Dates
   const dates: StayDate[] = [];
   for (let d = first; d <= lastArrival; d += DAY_MS) {
     const weekday = ((new Date(d).getUTCDay() + 6) % 7) + 1;
-    if (weekdays.has(weekday)) dates.push({ checkin: formatIsoDate(d), checkout: formatIsoDate(d + input.nights * DAY_MS) });
+    if (!weekdays.has(weekday)) continue;
+    for (let n = input.nights; n <= nightsMax && d + n * DAY_MS <= end; n += 1) {
+      dates.push({ checkin: formatIsoDate(d), checkout: formatIsoDate(d + n * DAY_MS) });
+    }
   }
   if (dates.length === 0) return { ok: false, error: 'no_dates' };
   if (dates.length > limits.maxDates) return { ok: false, error: 'too_many_dates', count: dates.length };

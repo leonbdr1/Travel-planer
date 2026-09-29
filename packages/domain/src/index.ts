@@ -19,6 +19,7 @@ export * from './filters';
 export * from './scoring';
 export * from './rating-fusion';
 export * from './bargains';
+export * from './nights';
 export * from './ranking';
 export * from './features';
 export * from './comparison';

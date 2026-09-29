@@ -32,6 +32,7 @@ import {
   filtersFromQuery,
   filtersFromRequest,
   matrixCells,
+  nightsSummary,
   offerDto,
   resultItems,
   unratedFor,
@@ -56,12 +57,15 @@ export const resultRoutes = new Hono<AppEnv>()
     const goal = query.goal ?? request.goal ?? DEFAULT_GOAL;
     const admissible = admissibleFor(goal, data.evaluated, data.hotels, reviews);
     const doubts = unratedFor(goal, data.evaluated, data.hotels, reviews);
-    const cell = query.place_id && query.checkin ? { place_id: query.place_id, checkin: query.checkin } : null;
-    const scoped = cell ? data.evaluated.filter((o) => o.placeId === cell.place_id && o.checkin === cell.checkin) : data.evaluated;
+    const cell = query.place_id && query.checkin ? { place_id: query.place_id, checkin: query.checkin, checkout: query.checkout ?? null } : null;
+    const scoped = cell
+      ? data.evaluated.filter((o) => o.placeId === cell.place_id && o.checkin === cell.checkin && (cell.checkout === null || o.checkout === cell.checkout))
+      : data.evaluated;
     const places = await searchPlaces(db, search.id);
-    const dates = [...new Map(data.combinations.map((x) => [x.checkin, { checkin: x.checkin, checkout: x.checkout }])).values()].sort((a, b) =>
-      a.checkin.localeCompare(b.checkin),
+    const dates = [...new Map(data.combinations.map((x) => [`${x.checkin}|${x.checkout}`, { checkin: x.checkin, checkout: x.checkout }])).values()].sort(
+      (a, b) => a.checkin.localeCompare(b.checkin) || a.checkout.localeCompare(b.checkout),
     );
+    const items = resultItems(scoped, data.hotelsById, query.sort, reviews, { goal, admissible });
     const passing = data.evaluated.filter((o) => o.passes);
     const fetched = data.combinations.map((x) => x.updatedAt).sort().at(-1) ?? null;
     const body: SearchResultsResponse = {
@@ -78,7 +82,7 @@ export const resultRoutes = new Hono<AppEnv>()
         dates,
         cells: matrixCells(data.combinations, data.evaluated, admissible, data.hotelsById),
       },
-      items: resultItems(scoped, data.hotelsById, query.sort, reviews, { goal, admissible }),
+      items,
       unrated: unratedItems(scoped, data.hotelsById, doubts),
       counts: {
         offers: data.evaluated.length,
@@ -90,6 +94,7 @@ export const resultRoutes = new Hono<AppEnv>()
         unrated_hidden: doubts.size,
       },
       meta: { prices_fetched_at: fetched, sort: query.sort, goal, cell },
+      nights_summary: nightsSummary(items),
     };
     return c.json(body);
   })

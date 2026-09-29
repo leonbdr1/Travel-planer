@@ -43,10 +43,14 @@ export function median(values: readonly number[]): number {
 /** Commercial rounding to whole percent. */
 const pct = (value: number) => Math.round(value * 100 + Number.EPSILON);
 
-/** The same kind of stay: house, room (by name, case and spacing ignored), board and cancellation terms. */
-export function stayKind(o: Pick<BargainCandidate, 'hotelId' | 'roomName' | 'boardType' | 'refundable'>): string {
+/**
+ * The same kind of stay: house, room (by name, case and spacing ignored),
+ * board, cancellation terms and, with a night range (Aufgabe 4), the number
+ * of nights.
+ */
+export function stayKind(o: Pick<BargainCandidate, 'hotelId' | 'roomName' | 'boardType' | 'refundable'> & { nights?: number }): string {
   const room = o.roomName.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
-  return [o.hotelId, room, o.boardType, o.refundable ? 'refundable' : 'fixed'].join('|');
+  return [o.hotelId, room, o.boardType, o.refundable ? 'refundable' : 'fixed', ...(o.nights === undefined ? [] : [String(o.nights)])].join('|');
 }
 
 /** Mean price per night of the same kind of stay on the other dates (null without any). */

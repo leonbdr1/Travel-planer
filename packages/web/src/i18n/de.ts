@@ -102,6 +102,12 @@ export const de = {
       pattern: 'Wie lange und ab welchem Wochentag?',
       patternHint: 'Wir suchen jeden passenden Termin zwischen Anreise und Abreise und vergleichen die Preise.',
       nightsOption: (n: number) => (n === 1 ? '1 Nacht' : `${n} Nächte`),
+      nightsFrom: 'Nächte mindestens',
+      nightsTo: 'bis',
+      nightsUpTo: 'Nächte höchstens',
+      nightsFixedHint: 'Flexibel? Stell rechts mehr Nächte ein, dann vergleichen wir, was jede weitere Nacht kostet.',
+      nightsRangeHint: (from: number, to: number) =>
+        `Wir suchen jede Anreise mit ${from} bis ${to} Nächten und zeigen dir, ob sich eine Nacht mehr lohnt.`,
       windowStart: 'Früheste Anreise',
       windowEnd: 'Späteste Abreise',
       nights: 'Nächte',
@@ -268,6 +274,15 @@ export const de = {
     apply: 'Filter anwenden',
     reset: 'Filter der Suche',
     cellFilter: (place: string, date: string) => `Nur ${place} am ${date}`,
+    nightsColumn: (n: number) => (n === 1 ? '1 Nacht' : `${n} Nächte`),
+    extraNight: {
+      cheap: (night: number, extra: string, nightly: string) => `${night}. Nacht nur +${extra} – lohnt sich (sonst ${nightly} pro Nacht)`,
+      normal: (night: number, extra: string, nightly: string) => `${night}. Nacht +${extra}, etwa wie die Nächte davor (${nightly})`,
+      expensive: (night: number, extra: string, nightly: string) => `${night}. Nacht +${extra} – deutlich teurer als die Nächte davor (${nightly})`,
+    },
+    nightsSummaryTitle: (from: number, to: number) => `${to} statt ${from} Nächte?`,
+    nightsSummary: (houses: number, cheap: number, expensive: number, extra: string, nightly: string, to: number) =>
+      `Bei ${houses} ${houses === 1 ? 'Unterkunft' : 'Unterkünften'} gibt es dasselbe Zimmer auch mit einer Nacht mehr. Die ${to}. Nacht kostet im Mittel +${extra} (die Nächte davor im Mittel ${nightly}). Deutlich günstiger als die Nächte davor ist sie bei ${cheap} von ${houses}, deutlich teurer bei ${expensive}. Den Hinweis findest du bei jeder Unterkunft.`,
     clearCell: 'Alle Orte und Termine zeigen',
     empty: 'Keine Unterkunft erfüllt diese Filter. Lockere die Filter, um mehr Ergebnisse zu sehen.',
     perNight: (eur: string) => `${eur} pro Nacht`,

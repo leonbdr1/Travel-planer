@@ -85,6 +85,13 @@ export const RECENT_REVIEW_MONTHS = 12;
  */
 export const BARGAIN_DATE_FACTOR = 0.8;
 export const BARGAIN_DATE_MIN_DATES = 3;
+/**
+ * Flexible nights (Aufgabe 4, docs/logik/flexible-naechte.md): the extra night
+ * of the same stay is "cheap" at most at this share of the nightly price of the
+ * shorter stay, "expensive" from this share on.
+ */
+export const EXTRA_NIGHT_CHEAP_RATIO = 0.7;
+export const EXTRA_NIGHT_EXPENSIVE_RATIO = 1.3;
 /** Calibration target (umsetzungsplan S6.4): bargain share per type of F. */
 export const CALIBRATION_BARGAIN_RATE_MIN = 0.05;
 export const CALIBRATION_BARGAIN_RATE_MAX = 0.2;
