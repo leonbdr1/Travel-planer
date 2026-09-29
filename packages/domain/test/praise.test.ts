@@ -61,12 +61,12 @@ describe('countPraise', () => {
       ],
       today,
     );
-    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, reviewsWeighted: 2 * constants.PRAISE_RECENT_WEIGHT });
+    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, reviewsWeighted: 2 * constants.MENTION_RECENT_WEIGHT });
   });
 
   it('weights reviews of the last months up, for the praise and for the base', () => {
     const [c] = countPraise([review('Tolles Frühstück.', null, 'de', '2026-09-01'), review('Tolles Frühstück.', null, 'de', '2025-06-01'), review('Schönes Zimmer.', null, 'de', '2025-06-01')], today);
-    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, praisedWeighted: constants.PRAISE_RECENT_WEIGHT + 1, reviewsWeighted: constants.PRAISE_RECENT_WEIGHT + 2 });
+    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, praisedWeighted: constants.MENTION_RECENT_WEIGHT + 1, reviewsWeighted: constants.MENTION_RECENT_WEIGHT + 2 });
   });
 
   it('only counts reviews of the last 24 months', () => {

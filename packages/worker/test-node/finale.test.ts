@@ -8,13 +8,13 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { finaleResponseSchema, hotelDetailResponseSchema, searchResultsResponseSchema, type FinaleResponse } from '@reiseplaner/contracts';
 import { createSearch, type Db } from '@reiseplaner/db';
 import { createTestDb, type TestDb } from '@reiseplaner/db/testing';
-import { constants, type Goal } from '@reiseplaner/domain';
+import { constants, hasRedFlag, NO_EVIDENCE, type Goal } from '@reiseplaner/domain';
 import { createProviders, hasFallenHotel, hotelCountAt, type ProvidersConfig } from '@reiseplaner/providers';
 import { fakeResponders } from '@reiseplaner/skills';
 import { createApp } from '../src/app';
 import type { Env } from '../src/env';
 import { runLocationFacts, type LocationRunDeps } from '../src/services/location';
-import { runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../src/services/reviews';
+import { loadReviewData, runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../src/services/reviews';
 import { runFinalize, runLoad, runRatesBlock, runScoreStep, sha256Hex } from '../src/services/search-run';
 
 const config: ProvidersConfig = {
@@ -156,7 +156,7 @@ const finaleOf = async (providers: ReturnType<typeof createProviders>, id: strin
   return finaleResponseSchema.parse(res.body);
 };
 
-function expectConsistent(finale: FinaleResponse) {
+async function expectConsistent(finale: FinaleResponse, searchId: string) {
   const excluded = Object.values(finale.excluded).reduce((a, b) => a + b, 0);
   expect(excluded + finale.finalists.length + finale.runners_up).toBe(finale.hotels);
   expect(finale.finalists.length).toBeLessThanOrEqual(constants.FINALISTS_MAX);
@@ -172,13 +172,9 @@ function expectConsistent(finale: FinaleResponse) {
     expect(f.price_delta_eur).toBeCloseTo(f.offer.total_price_eur - first.offer.total_price_eur, 2);
     previous = f.offer.total_price_eur;
   }
-  for (const f of finale.finalists) {
-    // No red flags in the finale: no confirmed mould or vermin, no repeated dirt.
-    for (const w of f.warnings.filter((x) => x.verified)) {
-      const min = (constants.RED_FLAG_MIN_MENTIONS as Record<string, { confirmed: number } | undefined>)[w.topic];
-      if (min) expect(w.count, `${f.hotel.name}: ${w.topic}`).toBeLessThan(min.confirmed);
-    }
-  }
+  // No red flags in the finale: mould, vermin or dirt out of hand, by the stored review checks.
+  const { evidence } = await loadReviewData(test.db, searchId, []);
+  for (const f of finale.finalists) expect(hasRedFlag(evidence?.get(f.hotel.id) ?? NO_EVIDENCE), f.hotel.name).toBe(false);
 }
 
 describe('finale (architektur.md 6.15)', () => {
@@ -188,7 +184,7 @@ describe('finale (architektur.md 6.15)', () => {
     const finale = await finaleOf(providers, id);
     expect(finale.goal).toBe('sparen');
     expect(finale.finalists.length).toBeGreaterThan(0);
-    expectConsistent(finale);
+    await expectConsistent(finale, id);
     // "Günstig und sauber" sorts out the expensive houses; the run-down 4-star houses are in the
     // search with budget prices but never make it into the finale.
     expect(finale.excluded.too_expensive).toBeGreaterThan(0);
@@ -209,7 +205,7 @@ describe('finale (architektur.md 6.15)', () => {
     const komfort = await finaleOf(providers, id, '?goal=komfort');
     expect(komfort.goal).toBe('komfort');
     expect(komfort.excluded.too_expensive).toBe(0);
-    expectConsistent(komfort);
+    await expectConsistent(komfort, id);
     // The review check covered the finalists of every goal, not only of "sparen",
     // with bounded follow-up rounds.
     expect(komfort.finalists.filter((f) => f.review_status === 'none').map((f) => f.hotel.name)).toEqual([]);
@@ -244,7 +240,7 @@ describe('finale (architektur.md 6.15)', () => {
     const { id, providers } = await searched(undefined);
     const finale = await finaleOf(providers, id);
     expect(finale.goal).toBe('ausgewogen');
-    expectConsistent(finale);
+    await expectConsistent(finale, id);
     const budget = Math.floor((finale.finalists[0]?.offer.total_price_eur ?? 100) + 1);
     const filtered = await finaleOf(providers, id, `?budget=${budget}`);
     expect(filtered.filters.budget_total_eur).toBe(budget);

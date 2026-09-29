@@ -15,6 +15,10 @@ export const reviewTopicRowSchema = z.object({
   recent_count: z.number().int().min(0),
   latest_date: z.string().nullable(),
   severity: severity.nullable(),
+  // Complaining guests among all checked reviews and their age-weighted share
+  // (red flags, 2026-09-29); absent in rows written before.
+  guests: z.number().min(0).optional(),
+  share: z.number().min(0).max(1).optional(),
 });
 export type ReviewTopicRow = z.infer<typeof reviewTopicRowSchema>;
 /** Praise and criticism per praise topic (konzept.md 9.11). */
@@ -183,6 +187,14 @@ export const pendingScanSchema = z.object({
   praise: z.array(praiseRowSchema).default([]),
   loaded: z.number().int().nullable().default(null),
   freshCount: z.number().int().nullable().default(null),
+  // Keyword hits over all checked reviews and their age-weighted base (2026-09-29).
+  mentions: z
+    .object({
+      base: z.number().min(0),
+      hits: z.array(z.object({ topic: z.string(), reviews: z.number().int().min(0), weighted: z.number().min(0) })),
+    })
+    .nullable()
+    .default(null),
 });
 export type PendingScan = z.infer<typeof pendingScanSchema>;
 

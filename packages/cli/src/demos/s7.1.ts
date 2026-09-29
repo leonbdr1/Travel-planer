@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { repoRoot } from '@reiseplaner/db/node';
-import { aggregateUnverified, REVIEW_TOPIC_LABELS, REVIEW_TOPICS, scanReviews, type GuestReview } from '@reiseplaner/domain';
+import { aggregateUnverified, constants, REVIEW_TOPIC_LABELS, REVIEW_TOPICS, scanReviews, type GuestReview } from '@reiseplaner/domain';
 import type { DemoOutput } from '../lib/output';
 
 export async function run(out: DemoOutput): Promise<number> {
@@ -24,8 +24,10 @@ export async function run(out: DemoOutput): Promise<number> {
   }
   out.log('');
   out.log('Ohne KI (Fallback, „Hinweis (ungeprüft)“):');
-  for (const t of aggregateUnverified(scan.snippets, fixture.today)) {
-    out.log(`  ${REVIEW_TOPIC_LABELS[t.topic]}: ${t.unverifiedCount} ${t.unverifiedCount === 1 ? "Erwähnung" : "Erwähnungen"}, davon ${t.recentCount} in den letzten 6 Monaten, zuletzt ${t.latestDate}`);
+  for (const t of aggregateUnverified(scan.snippets, fixture.today, scan.mentions)) {
+    out.log(
+      `  ${REVIEW_TOPIC_LABELS[t.topic]}: ${t.unverifiedCount} ${t.unverifiedCount === 1 ? 'Erwähnung' : 'Erwähnungen'}, davon ${t.recentCount} in den letzten 6 Monaten, zuletzt ${t.latestDate}; ${Math.round(t.share * 100)} % der geprüften Bewertungen (die letzten ${constants.MENTION_RECENT_MONTHS} Monate ${constants.MENTION_RECENT_WEIGHT}-fach)`,
+    );
   }
   const mold = scan.snippets.filter((s) => s.topicHint === 'schimmel' && !s.negated).length;
   const ok = mold === 3 && scan.snippets.some((s) => s.topicHint === 'schimmel' && s.negated);

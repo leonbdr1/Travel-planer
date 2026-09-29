@@ -1,7 +1,7 @@
 // "So berechnen wir die Rangliste" (konzept.md 9.5, legal transparency of
 // the main ranking criteria): quality score, price order, the recommendation
 // "Unsere Wahl" (comparison price), bargains, the pre-selection of "Deine
-// Auswahl" and the praise labels (9.9–9.11). Values come from packages/domain
+// Auswahl", red flags and the praise labels (9.9–9.11). Values come from packages/domain
 // constants, so the page always states the rules in force.
 import { constants } from '@reiseplaner/domain';
 import { Card, Heading, Text } from '@reiseplaner/ui';
@@ -12,6 +12,9 @@ const t = de.ranking;
 export function Ranking() {
   const pct = (share: number) => Math.round(share * 100);
   const points = constants.GOAL_QUALITY_BONUS_PER_POINT;
+  const limit = (l: { guests: number; share: number }) => ({ guests: l.guests, share: pct(l.share) });
+  const flags = constants.RED_FLAG_THRESHOLDS;
+  const redFlagLimits = { schimmel: limit(flags.schimmel), ungeziefer: limit(flags.ungeziefer), sauberkeit: limit(flags.sauberkeit) };
   const sections: Array<[string, string]> = [
     [t.qualityTitle, t.quality(constants.SCORE_FULL_WEIGHT_REVIEWS, constants.REVIEW_FRESH_MONTHS)],
     [t.priceTitle, t.price],
@@ -27,6 +30,7 @@ export function Ranking() {
     ],
     [t.bargainTitle, t.bargain(pct(1 - constants.BARGAIN_DATE_FACTOR), constants.BARGAIN_DATE_MIN_DATES)],
     [t.finaleTitle, t.finale(constants.STAR_TRAP_MIN_STARS, constants.FINALISTS_MAX)],
+    [t.redFlagTitle, t.redFlag(redFlagLimits, constants.MENTION_RECENT_MONTHS, constants.MENTION_RECENT_WEIGHT)],
     [t.praiseTitle, t.praise(constants.PRAISE_MIN_MENTIONS, pct(constants.PRAISE_MIN_SHARE))],
     [t.sortTitle, t.sort],
     [t.otherTitle, t.other],

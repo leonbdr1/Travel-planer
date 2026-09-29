@@ -52,7 +52,7 @@ export const GOAL_NAMES: Record<Goal, string> = { sparen: 'Günstig und sauber',
 export const REASON_NAMES: Record<keyof FinaleResponse['excluded'], string> = {
   filters: 'Filter oder Budget nicht erfüllt',
   no_reviews: 'ohne Bewertungen',
-  red_flag: 'Warnsignale (Schimmel, Ungeziefer, Schmutz)',
+  red_flag: 'Warnsignale (Beschwerden über Schimmel, Ungeziefer oder Schmutz häufen sich)',
   star_trap: 'Sterne-Falle',
   low_quality: 'zu schwach bewertet für das Ziel',
   too_expensive: 'zu teuer für das Ziel',

@@ -8,18 +8,11 @@
 // matching complaint topics. Reviews in a language the lexicon does not read
 // (e.g. Japanese) neither praise nor count in the base. Only counts leave
 // this module, never review texts.
-import {
-  PRAISE_MAX_AGE_MONTHS,
-  PRAISE_MIN_MENTIONS,
-  PRAISE_MIN_REVIEW_SHARE,
-  PRAISE_MIN_SHARE,
-  PRAISE_RECENT_MONTHS,
-  PRAISE_RECENT_WEIGHT,
-} from './constants';
+import { PRAISE_MAX_AGE_MONTHS, PRAISE_MIN_MENTIONS, PRAISE_MIN_REVIEW_SHARE, PRAISE_MIN_SHARE } from './constants';
 import { addMonths } from './dates';
 import { PRAISE_LEXICON, type PraiseLexicon } from './generated/praise-lexicon';
 import { REVIEW_LEXICON_LANGUAGES, type LexiconLanguage } from './generated/review-lexicon';
-import { keywordRegex } from './review-keywords';
+import { keywordRegex, mentionWeight, readableLanguage } from './review-keywords';
 import type { GuestReview, IsoDate } from './types';
 import { PRAISE_BLOCKED_BY, PRAISE_TOPICS, isPraiseTopic, type PraiseTopic } from './vocabulary';
 
@@ -31,7 +24,7 @@ export interface PraiseCount {
   praised: number;
   /** Reviews whose negative field names the topic. */
   criticized: number;
-  /** The same with recent reviews weighted up (PRAISE_RECENT_WEIGHT). */
+  /** The same weighted by age (mentionWeight). */
   praisedWeighted: number;
   criticizedWeighted: number;
   /** Readable reviews of the period, weighted the same way: the base of the review share. */
@@ -70,12 +63,6 @@ function languagesOf(language: string | null): readonly LexiconLanguage[] {
   return (REVIEW_LEXICON_LANGUAGES as readonly string[]).includes(lang) ? [lang as LexiconLanguage] : REVIEW_LEXICON_LANGUAGES;
 }
 
-/** A review the lexicon can read: its language is one of the lexicon's, or unknown. */
-function readable(language: string | null): boolean {
-  const lang = language?.slice(0, 2).toLowerCase() ?? '';
-  return lang === '' || (REVIEW_LEXICON_LANGUAGES as readonly string[]).includes(lang);
-}
-
 const normalize = (s: string) => s.replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
 
 /** "Nichts zu bemängeln. Das WLAN war langsam." → only the second sentence counts. */
@@ -96,12 +83,11 @@ function mentions(text: string, patterns: readonly RegExp[]): boolean {
 /** Praise and criticism per topic relative to `today`; topics nobody mentions are left out. */
 export function countPraise(reviews: readonly GuestReview[], today: IsoDate, compiled: CompiledPraiseLexicon = DEFAULT_COMPILED): PraiseCount[] {
   const cutoff = addMonths(today, -PRAISE_MAX_AGE_MONTHS);
-  const recent = addMonths(today, -PRAISE_RECENT_MONTHS);
   const counts = new Map<PraiseTopic, PraiseCount>();
   let reviewsWeighted = 0;
   for (const review of reviews) {
-    if (review.date === null || review.date < cutoff || review.date > today || !readable(review.language)) continue;
-    const weight = review.date >= recent ? PRAISE_RECENT_WEIGHT : 1;
+    if (review.date === null || review.date < cutoff || review.date > today || !readableLanguage(review.language)) continue;
+    const weight = mentionWeight(review.date, today);
     reviewsWeighted += weight;
     const langs = languagesOf(review.language);
     const pros = review.pros ? normalize(review.pros) : '';

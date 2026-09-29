@@ -16,6 +16,7 @@ import {
   reviewChecksForSearch,
   upsertReviewCheck,
   type Queryable,
+  type PendingScan,
   type ReviewCheck,
   type ReviewTopicRow,
 } from '@reiseplaner/db';
@@ -35,6 +36,7 @@ import {
   reviewCandidateIds,
   scanReviews,
   type HotelEvidence,
+  type MentionStats,
   type PraiseTopic,
   type ReviewSignals,
   type ReviewSnippet,
@@ -67,6 +69,29 @@ function topicRow(t: TopicResult): ReviewTopicRow {
     recent_count: t.recentCount,
     latest_date: t.latestDate,
     severity: t.severity,
+    guests: t.guests,
+    share: t.share,
+  };
+}
+
+/** The scan's hits and base; pending rows written before 2026-09-29 have only the snippets and the review count. */
+function mentionStats(scan: PendingScan): MentionStats {
+  if (!scan.mentions) return { base: scan.analyzed, hits: [] };
+  return { base: scan.mentions.base, hits: scan.mentions.hits.flatMap((h) => (isReviewTopic(h.topic) ? [{ ...h, topic: h.topic }] : [])) };
+}
+
+/**
+ * Guests and share of a stored topic; rows written before 2026-09-29 have
+ * neither and fall back to the counted mentions over the reviews checked.
+ */
+function warningEvidence(t: ReviewTopicRow, reviewsAnalyzed: number): HotelEvidence['warnings'][number] {
+  const count = t.confirmed_count + t.unverified_count;
+  return {
+    topic: t.topic,
+    confirmed: t.confirmed_count,
+    unverified: t.unverified_count,
+    guests: t.guests ?? count,
+    share: t.share ?? (reviewsAnalyzed > 0 ? Math.min(1, count / reviewsAnalyzed) : 0),
   };
 }
 
@@ -170,6 +195,7 @@ export async function runReviewsFetch(deps: ReviewRunDeps, searchId: string, rou
           recentCount: scan.recentCount,
           sentiment,
           praise,
+          mentions: scan.mentions,
         },
         snippets: scan.snippets,
         expiresAt: new Date(now.getTime() + constants.REVIEW_PENDING_TTL_HOURS * HOUR_MS),
@@ -225,7 +251,8 @@ export async function runReviewsVerify(deps: ReviewRunDeps, searchId: string): P
             { correlationId: `review:${searchId}:${p.hotelId}` },
           );
     const verified = run?.ok === true;
-    const topics = run?.ok ? aggregateFindings(snippets, run.output.findings, today) : aggregateUnverified(snippets, today);
+    const stats = mentionStats(p.scan);
+    const topics = run?.ok ? aggregateFindings(snippets, run.output.findings, today, stats) : aggregateUnverified(snippets, today, stats);
     await upsertReviewCheck(deps.db, {
       hotelId: p.hotelId,
       status: verified ? 'ok' : 'skipped_budget',
@@ -330,7 +357,7 @@ export async function loadReviewData(db: Queryable, searchId: string, _chips: re
     labels.set(check.hotelId, labelDtos);
     evidence.set(check.hotelId, {
       checked: isChecked,
-      warnings: check.topics.map((t) => ({ topic: t.topic, confirmed: t.confirmed_count, unverified: t.unverified_count })),
+      warnings: check.topics.map((t) => warningEvidence(t, check.reviewsAnalyzed)),
       labels: praised,
     });
     checks.set(check.hotelId, {

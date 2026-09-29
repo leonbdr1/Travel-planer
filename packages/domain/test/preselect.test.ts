@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { CANDIDATE_QUALITY_MARGIN, GOAL_QUALITY_FLOOR } from '../src/constants';
 import { compareFinalists, locationClass, type FinalistInput } from '../src/finale';
-import { finalistIdsAcrossGoals, preselect, reviewCandidateIds, unratedDoubts, type HotelEvidence, type PreselectHotel } from '../src/preselect';
+import { admissibleHotelIds, finalistIdsAcrossGoals, preselect, reviewCandidateIds, unratedDoubts, type HotelEvidence, type PreselectHotel, type WarningEvidence } from '../src/preselect';
 import type { EvaluatedOffer } from '../src/ranking';
 import { qualityScore } from '../src/scoring';
 import type { Goal } from '../src/vocabulary';
@@ -41,6 +41,14 @@ function offer(hotelId: string, totalEur: number, quality: number | null, extra:
 
 const house = (id: string, stars: number | null, facilityIds: number[] = []): PreselectHotel => ({ id, stars, facilityIds, hotelType: stars ? 'Hotel' : 'Ferienwohnung' });
 const clean: HotelEvidence = { checked: true, warnings: [], labels: [] };
+/** A confirmed complaint topic: `guests` of the checked guests, `share` of them weighted by age. */
+const complaint = (topic: string, guests: number, share: number, verified = true): WarningEvidence => ({
+  topic,
+  confirmed: verified ? Math.min(guests, 5) : 0,
+  unverified: verified ? 0 : Math.min(guests, 5),
+  guests,
+  share,
+});
 
 // Ben's example: "billig und sauber" → two flats remain, the customer decides about the sauna.
 const offers = [
@@ -68,8 +76,8 @@ const evidence = new Map<string, HotelEvidence>([
   ['W1', clean],
   ['W2', clean],
   ['LUX', clean],
-  ['DIRTY', { checked: true, warnings: [{ topic: 'sauberkeit', confirmed: 3, unverified: 0 }], labels: [] }],
-  ['TRAP', { checked: true, warnings: [{ topic: 'zustand', confirmed: 2, unverified: 0 }], labels: [] }],
+  ['DIRTY', { checked: true, warnings: [complaint('sauberkeit', 9, 0.3)], labels: [] }],
+  ['TRAP', { checked: true, warnings: [complaint('zustand', 2, 0.05)], labels: [] }],
   ['DOM', clean],
 ]);
 const run = (goal: Goal, overrides: Partial<{ evaluated: EvaluatedOffer[]; evidence: Map<string, HotelEvidence> }> = {}) =>
@@ -105,22 +113,34 @@ describe('preselect', () => {
     expect(result.excluded.dominated).toBeGreaterThanOrEqual(1);
   });
 
-  it('needs two mentions of mould or vermin for a red flag and three of dirt', () => {
-    const warned = (topic: string, confirmed: number, unverified: number) =>
-      new Map(evidence).set('DIRTY', { checked: true, warnings: [{ topic, confirmed, unverified }], labels: [] });
+  it('takes a house out for mould, vermin or dirt only when complaints get out of hand (Ben, 2026-09-29)', () => {
+    const warned = (w: WarningEvidence) => new Map(evidence).set('DIRTY', { checked: true, warnings: [w], labels: [] });
     // DIRTY is the cheapest house (80 €) and stays the first finalist unless flagged.
     const first = (e: Map<string, HotelEvidence>) => run('sparen', { evidence: e }).finalists[0]?.hotelId;
-    expect(first(warned('sauberkeit', 2, 0))).toBe('DIRTY');
-    expect(first(warned('sauberkeit', 0, 3))).toBe('DIRTY');
-    expect(first(warned('sauberkeit', 3, 0))).toBe('W1');
-    expect(first(warned('sauberkeit', 0, 4))).toBe('W1');
-    // One guest alone can be wrong.
-    expect(first(warned('schimmel', 1, 0))).toBe('DIRTY');
-    expect(first(warned('schimmel', 0, 2))).toBe('DIRTY');
-    expect(first(warned('schimmel', 2, 0))).toBe('W1');
-    expect(first(warned('ungeziefer', 0, 3))).toBe('W1');
+    // A few guests among many: a warning, the house is ranked like any other.
+    expect(first(warned(complaint('schimmel', 3, 0.04)))).toBe('DIRTY');
+    expect(first(warned(complaint('schimmel', 9, 0.09)))).toBe('DIRTY');
+    // Out of hand: a tenth of the checked reviews (weighted) on mould or vermin.
+    expect(first(warned(complaint('schimmel', 3, 0.1)))).toBe('W1');
+    expect(first(warned(complaint('ungeziefer', 4, 0.25)))).toBe('W1');
+    // Two guests are never enough, however small the house; keyword hits without AI need four.
+    expect(first(warned(complaint('schimmel', 2, 0.4)))).toBe('DIRTY');
+    expect(first(warned(complaint('schimmel', 3, 0.3, false)))).toBe('DIRTY');
+    expect(first(warned(complaint('schimmel', 4, 0.3, false)))).toBe('W1');
+    // Dirt: four guests and 15 %.
+    expect(first(warned(complaint('sauberkeit', 4, 0.14)))).toBe('DIRTY');
+    expect(first(warned(complaint('sauberkeit', 3, 0.3)))).toBe('DIRTY');
+    expect(first(warned(complaint('sauberkeit', 4, 0.15)))).toBe('W1');
     // Noise is no red flag: it is shown as a warning, the traveller decides.
-    expect(first(warned('laerm', 5, 0))).toBe('DIRTY');
+    expect(first(warned(complaint('laerm', 20, 0.5)))).toBe('DIRTY');
+  });
+
+  it('lists a house with a few mould reports like any other', () => {
+    const fewReports = new Map(evidence).set('DIRTY', { checked: true, warnings: [complaint('schimmel', 3, 0.04)], labels: [] });
+    const input = { goal: 'sparen' as const, evaluated: offers, hotels, evidence: fewReports };
+    expect(admissibleHotelIds(input).has('DIRTY')).toBe(true);
+    expect(preselect(input).excluded.red_flag).toBe(0);
+    expect(admissibleHotelIds({ ...input, evidence }).has('DIRTY')).toBe(false);
   });
 
   it('keeps at most five finalists, one per house, and names the rest runners-up', () => {

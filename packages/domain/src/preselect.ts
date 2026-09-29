@@ -11,7 +11,7 @@ import {
   GOAL_QUALITY_FLOOR,
   LOW_QUALITY_EXCEPTION_MIN,
   LOW_QUALITY_EXCEPTION_PRICE_RATIO,
-  RED_FLAG_MIN_MENTIONS,
+  RED_FLAG_THRESHOLDS,
   STAR_TRAP_MIN_QUALITY,
   STAR_TRAP_MIN_REFERENCE,
   STAR_TRAP_MIN_STARS,
@@ -31,10 +31,21 @@ export interface PreselectHotel extends FeatureHotel {
   stars: number | null;
 }
 
+/** A complaint topic the review check found (review-keywords.ts TopicResult). */
+export interface WarningEvidence {
+  topic: string;
+  confirmed: number;
+  unverified: number;
+  /** Complaining guests among all checked reviews (estimated beyond what the AI saw). */
+  guests: number;
+  /** Their share of the checked reviews, weighted by age, 0–1. */
+  share: number;
+}
+
 /** What the review check found for a house; houses without a check have none. */
 export interface HotelEvidence {
   checked: boolean;
-  warnings: ReadonlyArray<{ topic: string; confirmed: number; unverified: number }>;
+  warnings: readonly WarningEvidence[];
   labels: readonly PraiseTopic[];
 }
 
@@ -113,11 +124,18 @@ function houseOffer(offers: readonly EvaluatedOffer[]): EvaluatedOffer | null {
   return best;
 }
 
-/** Mould, vermin or dirt, mentioned often enough (RED_FLAG_MIN_MENTIONS). */
+type RedFlagThreshold = { guests: number; guestsUnverified: number; share: number };
+
+/**
+ * Mould, vermin or dirt out of hand (RED_FLAG_THRESHOLDS, Ben 2026-09-29):
+ * enough guests and a large enough share of the checked reviews. A few
+ * complaints among many guests stay a warning; the house is ranked normally.
+ */
 export function hasRedFlag(e: HotelEvidence): boolean {
   return e.warnings.some((w) => {
-    const min = (RED_FLAG_MIN_MENTIONS as Record<string, { confirmed: number; unverified: number }>)[w.topic];
-    return min !== undefined && (w.confirmed >= min.confirmed || w.unverified >= min.unverified);
+    const t = (RED_FLAG_THRESHOLDS as Record<string, RedFlagThreshold | undefined>)[w.topic];
+    if (!t || (w.confirmed === 0 && w.unverified === 0)) return false;
+    return w.guests >= (w.confirmed > 0 ? t.guests : t.guestsUnverified) && w.share >= t.share;
   });
 }
 

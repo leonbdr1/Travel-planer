@@ -130,14 +130,17 @@ export const STAR_TRAP_MIN_REFERENCE = 3;
 /** Quality score a star-trap suspect needs, together with a review check without condition or cleanliness warnings. */
 export const STAR_TRAP_MIN_QUALITY = 8.0;
 /**
- * Complaint topics that take a house out of the finale ("Warnsignale"), with
- * the mentions needed: confirmed by the review check, or keyword hits without
- * AI verification. Two guests on mould or vermin, three on dirt: one guest alone can be wrong.
+ * Complaint topics that take a house out ("Warnsignale") only when they get
+ * out of hand (Ben, 2026-09-29): at least `guests` complaining guests
+ * (confirmed by the review check; keyword hits without AI verification need
+ * `guestsUnverified`) and at least `share` of the checked reviews, weighted
+ * like every mention count (MENTION_RECENT_*). Fewer complaints stay a
+ * warning with its score penalty, and the house is ranked like any other.
  */
-export const RED_FLAG_MIN_MENTIONS = {
-  schimmel: { confirmed: 2, unverified: 3 },
-  ungeziefer: { confirmed: 2, unverified: 3 },
-  sauberkeit: { confirmed: 3, unverified: 4 },
+export const RED_FLAG_THRESHOLDS = {
+  schimmel: { guests: 3, guestsUnverified: 4, share: 0.1 },
+  ungeziefer: { guests: 3, guestsUnverified: 4, share: 0.1 },
+  sauberkeit: { guests: 4, guestsUnverified: 5, share: 0.15 },
 } as const;
 /** Complaint topics that keep a star-trap suspect out (any warning shown on them). */
 export const STAR_TRAP_WARNING_TOPICS = ['zustand', 'sauberkeit'] as const;
@@ -150,18 +153,24 @@ export const FINALE_BADGES_SHOWN = 6;
 /** Of these, what a house lacks against the cheapest stays visible up to this many. */
 export const FINALE_LOSSES_SHOWN = 2;
 /**
+ * Mentions in reviews, praise and complaints alike (Ben, 2026-09-29: older
+ * reviews count less everywhere in the same way): reviews of the last
+ * MENTION_RECENT_MONTHS count MENTION_RECENT_WEIGHT times, in the mentions as
+ * in the reviews they are measured against.
+ */
+export const MENTION_RECENT_MONTHS = 6;
+export const MENTION_RECENT_WEIGHT = 2;
+/**
  * Praise labels (konzept.md 9.11): at least PRAISE_MIN_MENTIONS praising
  * guests and PRAISE_MIN_REVIEW_SHARE of all reviews of the last
- * PRAISE_MAX_AGE_MONTHS, a praise share of PRAISE_MIN_SHARE of the mentions.
- * Reviews of the last PRAISE_RECENT_MONTHS count PRAISE_RECENT_WEIGHT times,
- * so fresh praise weighs more (3 of 1000 guests say nothing, 3 of 40 do).
+ * PRAISE_MAX_AGE_MONTHS (weighted, MENTION_RECENT_*), a praise share of
+ * PRAISE_MIN_SHARE of the mentions: fresh praise weighs more, and 3 of 1000
+ * guests say nothing while 3 of 40 do.
  */
 export const PRAISE_MIN_MENTIONS = 3;
 export const PRAISE_MIN_REVIEW_SHARE = 0.05;
 export const PRAISE_MIN_SHARE = 0.8;
 export const PRAISE_MAX_AGE_MONTHS = 24;
-export const PRAISE_RECENT_MONTHS = 6;
-export const PRAISE_RECENT_WEIGHT = 2;
 /** The result list shows at most this many labels per house (the most praised first). */
 export const PRAISE_MAX_LABELS_LIST = 3;
 /** Distance of a house to its place's centre: "im Ortskern" up to, "im Ort" up to (km). */

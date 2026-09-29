@@ -4,7 +4,8 @@
 // for "Komfort"), weaker houses only when clearly cheaper and never for
 // "Komfort", no red flag in any finale, and praise labels relative to the
 // review volume.
-import { constants, GOALS } from '@reiseplaner/domain';
+import { getReviewChecks } from '@reiseplaner/db';
+import { constants, GOALS, hasRedFlag } from '@reiseplaner/domain';
 import type { DemoOutput } from '../lib/output';
 import { accountedFor, euro, GOAL_NAMES, getDetail, getFinale, one, runGoalSearch } from '../lib/goal-search';
 import { catalogPlaceIds } from '../lib/search-request';
@@ -18,9 +19,13 @@ export async function run(out: DemoOutput): Promise<number> {
   out.log('Beschlossene Werte (28.09.2026):');
   out.log(`  Mindestnote ${GOALS.map((g) => `${GOAL_NAMES[g]} ${one(c.GOAL_QUALITY_FLOOR[g])}`).join(', ')}`);
   out.log(`  Ausnahme: ab ${one(c.LOW_QUALITY_EXCEPTION_MIN)}, geprüft, höchstens ${pct(c.LOW_QUALITY_EXCEPTION_PRICE_RATIO)} des günstigsten Hauses mit normaler Note, nicht bei Komfort`);
-  out.log(`  Warnsignale (bestätigt/ungeprüft): ${Object.entries(c.RED_FLAG_MIN_MENTIONS).map(([t, m]) => `${t} ${m.confirmed}/${m.unverified}`).join(', ')}`);
+  out.log(
+    `  Warnsignale (29.09.: Gäste bestätigt/ungeprüft und Anteil der geprüften Bewertungen): ${Object.entries(c.RED_FLAG_THRESHOLDS)
+      .map(([t, m]) => `${t} ${m.guests}/${m.guestsUnverified} und ${pct(m.share)}`)
+      .join(', ')}`,
+  );
   out.log(`  Ohne Bewertungen: höchstens ${c.UNRATED_FINALISTS_MAX} im Finale, raus unter ${pct(c.UNRATED_MIN_PRICE_RATIO)} des Mittelpreises oder billiger mit mehr Extras als ${pct(1 - c.UNRATED_MAX_EXTRAS_SHARE)} der bewerteten Häuser`);
-  out.log(`  Lob-Label: mindestens ${c.PRAISE_MIN_MENTIONS} Gäste und ${pct(c.PRAISE_MIN_REVIEW_SHARE)} der Bewertungen, ${pct(c.PRAISE_MIN_SHARE)} Lob-Anteil, letzte ${c.PRAISE_RECENT_MONTHS} Monate zählen ${c.PRAISE_RECENT_WEIGHT}-fach`);
+  out.log(`  Lob-Label: mindestens ${c.PRAISE_MIN_MENTIONS} Gäste und ${pct(c.PRAISE_MIN_REVIEW_SHARE)} der Bewertungen, ${pct(c.PRAISE_MIN_SHARE)} Lob-Anteil, letzte ${c.MENTION_RECENT_MONTHS} Monate zählen ${c.MENTION_RECENT_WEIGHT}-fach (auch bei Warnsignalen)`);
   out.log(`  Finale: höchstens ${c.FINALISTS_MAX} Unterkünfte`);
   out.log('starting local stack …');
   const stack = await startDemoStack({ onReady: (db) => seedDevData(db, () => undefined) });
@@ -34,10 +39,13 @@ export async function run(out: DemoOutput): Promise<number> {
       const floor = c.GOAL_QUALITY_FLOOR[goal];
       const unrated = finale.finalists.filter((f) => f.quality.score === null);
       const weaker = finale.finalists.filter((f) => f.quality.score !== null && f.quality.score < floor);
-      const flagged = finale.finalists.filter((f) =>
-        f.warnings.some((w) => {
-          const min = (c.RED_FLAG_MIN_MENTIONS as Record<string, { confirmed: number; unverified: number } | undefined>)[w.topic];
-          return min !== undefined && (w.verified ? w.count >= min.confirmed : w.count >= min.unverified);
+      // Red flags by the stored review checks: the API shows counts, not the shares behind the rule.
+      const checks = await getReviewChecks(stack.db.db, finale.finalists.map((f) => f.hotel.id));
+      const flagged = checks.filter((check) =>
+        hasRedFlag({
+          checked: true,
+          labels: [],
+          warnings: check.topics.map((t) => ({ topic: t.topic, confirmed: t.confirmed_count, unverified: t.unverified_count, guests: t.guests ?? 0, share: t.share ?? 0 })),
         }),
       );
       out.log(

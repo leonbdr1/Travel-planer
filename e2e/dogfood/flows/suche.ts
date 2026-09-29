@@ -68,13 +68,18 @@ export const sucheFlow: Flow = {
       'Suche abgeschlossen: 60 von 60, Matrix gefüllt',
       async () => {
         await page.getByTestId('search-progress').filter({ hasText: '60 von 60 Kombinationen' }).waitFor({ timeout: 90_000 });
-        const offers = await page.locator('[data-testid="matrix"] td[data-state="offer"]').count();
-        const noData = await page.locator('[data-testid="matrix"] td[data-state="failed"]').count();
-        note(`Matrix: ${offers} Zellen mit Angebot, ${noData} ohne Daten.`);
+        // With a quick review check the search is already done here and the
+        // result view (its own matrix) has replaced the live matrix.
+        const live = (await page.getByTestId('matrix').count()) > 0;
+        const matrix = live ? '[data-testid="matrix"]' : '[data-testid="result-matrix"]';
+        const offers = await page.locator(`${matrix} td[data-state="offer"]`).count();
+        const noData = await page.locator(`${matrix} td[data-state="failed"]`).count();
+        note(`${live ? 'Live-Matrix' : 'Ergebnisansicht (Suche schon fertig)'}: ${offers} Zellen mit Angebot, ${noData} ohne Daten.`);
+        if (offers === 0) throw new Error('no matrix cell with an offer');
       },
       {
-        expectText: ['60 von 60 Kombinationen', 'Angebote', 'ab '],
-        expectSelector: ['[data-testid="matrix"] td[data-state="offer"]'],
+        expectText: ['60 von 60 Kombinationen', 'Angebote'],
+        expectSelector: ['[data-testid="matrix"] td[data-state="offer"], [data-testid="result-matrix"] td[data-state="offer"]'],
         rejectText: ['wird gesucht'],
         fullPage: true,
       },
