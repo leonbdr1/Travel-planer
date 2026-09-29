@@ -18,6 +18,7 @@ export {
   type BookResult,
   type CancelResult,
   type Facility,
+  type HotelDetailsOptions,
   type LiteApiPort,
   type PrebookResult,
   type RatesRequest,

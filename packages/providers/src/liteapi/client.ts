@@ -83,9 +83,14 @@ export interface Facility {
   name: string;
 }
 
+export interface HotelDetailsOptions {
+  /** ISO 639-1 language of description, important information and facilities (e.g. `de`). */
+  language?: string;
+}
+
 export interface LiteApiPort {
   searchRates(request: RatesRequest): Promise<RatesResult>;
-  getHotel(hotelId: string): Promise<HotelDetails>;
+  getHotel(hotelId: string, options?: HotelDetailsOptions): Promise<HotelDetails>;
   getReviews(hotelId: string, options: { limit: number; withSentiment: boolean }): Promise<ReviewsResult>;
   getFacilities(): Promise<Facility[]>;
   prebook(offerId: string): Promise<PrebookResult>;
@@ -162,9 +167,17 @@ export function createLiteApiClient(options: LiteApiClientOptions): LiteApiPort 
       });
       return mapRatesResponse(raw);
     },
-    async getHotel(hotelId) {
-      const raw = await call('data/hotel', data(`/data/hotel?hotelId=${encodeURIComponent(hotelId)}`), hotelDetailsResponseSchema);
-      return mapHotelDetails(raw);
+    async getHotel(hotelId, detailsOptions = {}) {
+      const url = (language?: string) => data(`/data/hotel?${new URLSearchParams({ hotelId, ...(language ? { language } : {}) })}`);
+      try {
+        return mapHotelDetails(await call('data/hotel', url(detailsOptions.language), hotelDetailsResponseSchema));
+      } catch (err) {
+        // ⟂ Contract unverified (HANDOFF drift 38): `language` follows the LiteAPI
+        // reference, not yet seen live. Should the API reject it, the details
+        // come in the default language instead of not at all.
+        if (!detailsOptions.language || !(err instanceof ProviderError) || err.kind !== 'client') throw err;
+        return mapHotelDetails(await call('data/hotel', url(), hotelDetailsResponseSchema));
+      }
     },
     async getReviews(hotelId, { limit, withSentiment }) {
       const qs = new URLSearchParams({ hotelId, limit: String(limit), getSentiment: String(withSentiment) });

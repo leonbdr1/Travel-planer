@@ -4,7 +4,10 @@
 // Step `hotel-content` runs after the rates blocks and fills what is missing,
 // from the details cache (the detail page uses the same entries) or with one
 // details call per house (`liteapi_calls`, fail-closed). A house it cannot
-// fill stays without review count and counts as unrated.
+// fill stays without review count and counts as unrated. Texts are requested
+// in the site's language (`markets.language`, Ben 2026-09-29: the important
+// information came in English); the cache key carries the language.
+import { productConfig } from '@reiseplaner/config';
 import {
   budgetReserve,
   budgetSettle,
@@ -36,7 +39,10 @@ export interface HotelContentResult {
 
 const DAY_MS = 86_400_000;
 
-export const hotelContentKey = (hotelId: string) => sha256Hex(`hotel|${hotelId}`);
+/** Language of descriptions, important information and facility names. */
+export const CONTENT_LANGUAGE = productConfig.markets.language;
+
+export const hotelContentKey = (hotelId: string) => sha256Hex(`hotel|${CONTENT_LANGUAGE}|${hotelId}`);
 
 export async function cachedHotelDetails(db: Queryable, hotelId: string, now: Date): Promise<HotelDetails | null> {
   return getCacheEntry<HotelDetails>(db, 'hotel_content', await hotelContentKey(hotelId), now);
@@ -44,7 +50,7 @@ export async function cachedHotelDetails(db: Queryable, hotelId: string, now: Da
 
 /** Details of one house: from the cache, else one call that is cached for HOTEL_CONTENT_TTL_DAYS. */
 export async function fetchHotelDetails(db: Queryable, liteapi: LiteApiPort, hotelId: string, now: Date): Promise<HotelDetails> {
-  const details = await liteapi.getHotel(hotelId);
+  const details = await liteapi.getHotel(hotelId, { language: CONTENT_LANGUAGE });
   await putCacheEntry(db, 'hotel_content', await hotelContentKey(hotelId), details, new Date(now.getTime() + constants.HOTEL_CONTENT_TTL_DAYS * DAY_MS));
   return details;
 }

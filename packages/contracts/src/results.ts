@@ -208,15 +208,28 @@ export const scoreBreakdownSchema = z.object({
   quality: z.number().nullable(),
 });
 
+/** Provider text as plain blocks (domain/rich-text.ts): never markup. */
+export const textBlockSchema = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('heading'), text: z.string() }),
+  z.object({ kind: z.literal('paragraph'), text: z.string() }),
+  z.object({ kind: z.literal('list'), items: z.array(z.string()) }),
+]);
+export type TextBlockDto = z.infer<typeof textBlockSchema>;
+
+/** Guessed language of a provider text: `en` when the provider had no German text; null when unknown. */
+const textLanguageSchema = z.enum(['de', 'en']).nullable();
+
 export const hotelDetailResponseSchema = z.object({
   hotel: hotelSummarySchema.extend({
     address: z.string().nullable(),
-    description: z.string().nullable(),
+    description: z.array(textBlockSchema),
+    description_language: textLanguageSchema,
     photos: z.array(z.string()),
     facilities: z.array(z.string()),
     checkin_time: z.string().nullable(),
     checkout_time: z.string().nullable(),
-    important_information: z.string().nullable(),
+    important_information: z.array(textBlockSchema),
+    important_information_language: textLanguageSchema,
   }),
   score: scoreBreakdownSchema,
   offers: z.array(offerDtoSchema),

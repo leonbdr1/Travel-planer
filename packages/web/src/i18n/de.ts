@@ -368,6 +368,7 @@ export const de = {
     scoreFinal: 'Qualitätswert',
     noScore: 'Diese Unterkunft hat noch keine Bewertungen und daher keinen Qualitätswert.',
     importantInfo: 'Wichtige Hinweise der Unterkunft',
+    onlyEnglish: 'Diesen Text der Unterkunft haben wir nur auf Englisch erhalten.',
     referenceShow: 'Vergleichspreis anzeigen',
     referenceLoading: 'Vergleichspreis wird geladen …',
     referencePrice: (source: string, price: string) => `Öffentlicher Preis bei ${source}: ${price}`,

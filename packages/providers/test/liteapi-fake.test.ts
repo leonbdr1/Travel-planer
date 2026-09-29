@@ -113,6 +113,30 @@ describe('simulated LiteAPI through the real client', () => {
     expect((await liteapi.getFacilities()).length).toBeGreaterThan(10);
   });
 
+  it('sends the texts in German on request, as HTML like the real API, and falls back when the language is refused', async () => {
+    const { liteapi } = createProviders(config, { now });
+    const hotelId = (await liteapi.searchRates(request)).rates[0]!.hotelId;
+    const de = await liteapi.getHotel(hotelId, { language: 'de' });
+    expect(de.description).toMatch(/^<p><strong>/);
+    expect(de.importantInformation).toContain('Junggesellenabschiede');
+    expect((await liteapi.getHotel(hotelId)).importantInformation).toContain('This property does not accommodate');
+    // ⟂ `language` is unverified against the live API: a 400 must not cost the details.
+    const fake = createFakeLiteApiFetch({ now });
+    const urls: string[] = [];
+    const refusing = createLiteApiClient({
+      apiKey: 'key',
+      baseUrl: 'https://api.liteapi.travel/v3.0',
+      bookBaseUrl: 'https://book.liteapi.travel/v3.0',
+      sleep: noSleep,
+      fetch: async (url, init) => {
+        urls.push(url);
+        return url.includes('language=') ? new Response('{"error":{"code":400,"message":"unknown parameter"}}', { status: 400 }) : fake(url, init);
+      },
+    });
+    expect((await refusing.getHotel(hotelId, { language: 'de' })).id).toBe(hotelId);
+    expect(urls.map((u) => new URL(u).searchParams.get('language'))).toEqual(['de', null]);
+  });
+
   it('refuses to call a real provider without an API key', async () => {
     const { liteapi } = createProviders({ ...config, mode: 'sandbox' }, { fetch: async () => new Response('{}') });
     await expect(liteapi.getFacilities()).rejects.toMatchObject({ kind: 'not_configured' });

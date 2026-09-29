@@ -134,7 +134,10 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
     expect(detail.offers.length).toBeGreaterThanOrEqual(1);
     expect(detail.offers.every((o) => o.hotel_id === top?.hotel.id)).toBe(true);
     expect(detail.score.priorWeight).toBe(Math.max(0, 30 - detail.score.effectiveReviews));
-    expect(detail.hotel.description).toBeTruthy();
+    // Provider texts as plain blocks, requested in German (the simulated LiteAPI sends HTML).
+    expect(detail.hotel.description[0]?.kind).toBe('heading');
+    expect(JSON.stringify(detail.hotel.description)).not.toMatch(/<\/?[a-z]+>/);
+    expect(detail.hotel.description_language).toBe('de');
 
     // Reference price per offer: token required, offer must belong to the
     // hotel, repeated questions come from the cache, 10 per minute.

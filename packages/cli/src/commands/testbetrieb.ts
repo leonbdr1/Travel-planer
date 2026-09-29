@@ -10,7 +10,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { productConfig } from '@reiseplaner/config';
 import { repoRoot } from '@reiseplaner/db/node';
-import { constants, locationFacts, WALK_KINDS, type HotelDetails, type HotelSummary } from '@reiseplaner/domain';
+import { blocksLanguage, constants, locationFacts, textBlocks, WALK_KINDS, type HotelDetails, type HotelSummary } from '@reiseplaner/domain';
 import { createProviders, OVERPASS_PUBLIC_URL, ProviderError, type FetchLike } from '@reiseplaner/providers';
 import { memorySkillHooks, runSkill } from '@reiseplaner/skills';
 import { flag } from '../lib/args';
@@ -199,6 +199,18 @@ export function hotelDataCheck(rateHotels: readonly HotelSummary[], details: Hot
   return ['LiteAPI Hoteldaten', ok ? 'ok' : 'fehler', `${rates}; ${detail}${ok ? '' : ' (ohne Anzahl oder Koordinaten bleiben Häuser unbewertet)'}`];
 }
 
+/**
+ * Whether the details came in the site's language (`language` on /data/hotel,
+ * HANDOFF drift 38): description and important information together.
+ */
+export function detailsLanguageCheck(details: HotelDetails, language: string): [string, TestbetriebCheck['status'], string] {
+  const found = blocksLanguage([...textBlocks(details.description), ...textBlocks(details.importantInformation)]);
+  const name = `LiteAPI Texte (language=${language})`;
+  if (found === language) return [name, 'ok', 'Beschreibung und Hinweise kommen auf Deutsch'];
+  if (found === null) return [name, 'ok', 'Sprache der Texte nicht erkennbar (zu kurz oder gemischt)'];
+  return [name, 'fehler', `Texte kommen auf ${found === 'en' ? 'Englisch' : found}: die Sprachwahl wirkt nicht, die Detailseite kennzeichnet sie als englisch`];
+}
+
 export async function runTestbetriebChecks(options: CheckOptions): Promise<TestbetriebCheck[]> {
   const env = options.env;
   const baseFetch: FetchLike = options.fetch ?? ((input, init) => fetch(input, init));
@@ -273,9 +285,10 @@ export async function runTestbetriebChecks(options: CheckOptions): Promise<Testb
     if (hotelId) {
       const id = hotelId;
       try {
-        const h = await providers.liteapi.getHotel(id);
+        const h = await providers.liteapi.getHotel(id, { language: productConfig.markets.language });
         add('LiteAPI Hoteldetails', 'ok', `${h.name}: ${h.photos.length} Fotos, Beschreibung ${h.description ? 'vorhanden' : 'fehlt'}, ${h.facilities.length} Ausstattungsmerkmale`);
         add(...hotelDataCheck(rateHotels, h));
+        add(...detailsLanguageCheck(h, productConfig.markets.language));
       } catch (err) {
         add('LiteAPI Hoteldetails', 'fehler', errorText(err));
       }

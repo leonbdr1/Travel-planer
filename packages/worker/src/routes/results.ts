@@ -17,7 +17,7 @@ import {
   type SearchResultsResponse,
 } from '@reiseplaner/contracts';
 import { productConfig } from '@reiseplaner/config';
-import { DEFAULT_GOAL } from '@reiseplaner/domain';
+import { blocksLanguage, DEFAULT_GOAL, textBlocks } from '@reiseplaner/domain';
 import { getSearchOffer, searchPlaces } from '@reiseplaner/db';
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import type { AppEnv } from '../app';
@@ -118,6 +118,9 @@ export const resultRoutes = new Hono<AppEnv>()
     let details = await cachedHotelDetails(db, hotelId, deps.now());
     if (!details) details = await fetchHotelDetails(db, deps.providers().liteapi, hotelId, deps.now()).catch(() => null);
     const first = offers[0];
+    // Provider texts come as HTML or lines; the SPA gets plain blocks.
+    const description = textBlocks(details?.description);
+    const important = textBlocks(details?.importantInformation);
     const body: HotelDetailResponse = {
       hotel: {
         id: hotel.id,
@@ -129,12 +132,14 @@ export const resultRoutes = new Hono<AppEnv>()
         city: hotel.city,
         photo_url: hotel.mainPhotoUrl,
         address: details?.address ?? hotel.address,
-        description: details?.description ?? null,
+        description,
+        description_language: blocksLanguage(description),
         photos: details?.photos.slice(0, 12) ?? [],
         facilities: details?.facilities.slice(0, 40) ?? [],
         checkin_time: details?.checkinTime ?? null,
         checkout_time: details?.checkoutTime ?? null,
-        important_information: details?.importantInformation ?? null,
+        important_information: important,
+        important_information_language: blocksLanguage(important),
       },
       score: hotelDetailResponseSchema.shape.score.parse(first?.breakdown),
       offers: offers.sort((a, b) => a.checkin.localeCompare(b.checkin) || a.totalCents - b.totalCents).map(offerDto),

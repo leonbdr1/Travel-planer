@@ -1,9 +1,10 @@
 // Hotel detail (F10): description, facilities, all dates and rates of this
 // search, cancellation terms, public reference price on demand, score
-// breakdown and (M7) review check.
+// breakdown and (M7) review check. Provider texts arrive as plain blocks in
+// German where the provider has them; an English one says so.
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
-import type { HotelDetailResponse } from '@reiseplaner/contracts';
+import type { HotelDetailResponse, TextBlockDto } from '@reiseplaner/contracts';
 import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { fetchHotelDetail } from '../features/results/api';
 import { ReferencePrice } from '../features/results/ReferencePrice';
@@ -42,6 +43,39 @@ function ScoreBreakdown({ score }: { score: HotelDetailResponse['score'] }) {
         <dd className="font-bold tabular-nums text-zinc-950">{formatScore(score.quality)}</dd>
       </div>
     </dl>
+  );
+}
+
+/** Provider text as headings, paragraphs and lists; plain text only, never provider markup. */
+function ProviderText({ blocks, asList = false }: { blocks: TextBlockDto[]; asList?: boolean }) {
+  // Notes such as "A deposit may be required" read best as one list of lines.
+  if (asList && blocks.length > 1 && blocks.every((b) => b.kind === 'paragraph')) {
+    return (
+      <ul className="list-disc space-y-1 pl-5">
+        {blocks.map((b, i) => (
+          <li key={i}>{b.kind === 'paragraph' ? b.text : ''}</li>
+        ))}
+      </ul>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      {blocks.map((b, i) =>
+        b.kind === 'heading' ? (
+          <h3 key={i} className="pt-1 font-semibold text-zinc-900">
+            {b.text}
+          </h3>
+        ) : b.kind === 'list' ? (
+          <ul key={i} className="list-disc space-y-0.5 pl-5">
+            {b.items.map((item, j) => (
+              <li key={j}>{item}</li>
+            ))}
+          </ul>
+        ) : (
+          <p key={i}>{b.text}</p>
+        ),
+      )}
+    </div>
   );
 }
 
@@ -177,10 +211,13 @@ export function HotelDetail() {
         <ReviewCheckPanel check={data.review_check} aiLabel={meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : ''} />
       </div>
 
-      {h.description ? (
-        <Card className="space-y-2">
+      {h.description.length > 0 ? (
+        <Card className="space-y-2" data-testid="hotel-description">
           <Heading level={2}>{t.description}</Heading>
-          <Text className="whitespace-pre-line text-sm">{h.description}</Text>
+          <div className="text-sm text-zinc-700">
+            <ProviderText blocks={h.description} />
+          </div>
+          {h.description_language === 'en' ? <p className="text-xs text-zinc-500">{t.onlyEnglish}</p> : null}
           {h.checkin_time && h.checkout_time ? <Text className="text-sm">{t.checkinTimes(h.checkin_time, h.checkout_time)}</Text> : null}
         </Card>
       ) : null}
@@ -196,9 +233,12 @@ export function HotelDetail() {
           </ul>
         </Card>
       ) : null}
-      {h.important_information ? (
+      {h.important_information.length > 0 ? (
         <Alert tone="info" title={t.importantInfo}>
-          {h.important_information}
+          <div data-testid="important-information">
+            <ProviderText blocks={h.important_information} asList />
+            {h.important_information_language === 'en' ? <p className="mt-2 text-xs opacity-80">{t.onlyEnglish}</p> : null}
+          </div>
         </Alert>
       ) : null}
     </div>

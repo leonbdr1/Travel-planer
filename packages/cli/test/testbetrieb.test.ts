@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { productConfig } from '@reiseplaner/config';
 import { createFakeAnthropicFetch } from '@reiseplaner/providers';
 import { fakeResponders } from '@reiseplaner/skills';
-import { checkDates, hotelDataCheck, looksLikeKey, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
+import { checkDates, detailsLanguageCheck, hotelDataCheck, looksLikeKey, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
 import { withTestbetriebBlock } from '../src/lib/dev-vars';
 
 const fixture = (name: string) => readFileSync(resolve(import.meta.dirname, '../../providers/fixtures', name), 'utf8');
@@ -53,6 +53,16 @@ describe('hotel data check', () => {
     );
     expect(hotelDataCheck([house], { ...details, reviewCount: 120, lat: 47.5, lng: 10.7 })[1]).toBe('ok');
   });
+
+  it('flags details that come in English although German was asked for (HANDOFF drift 38)', () => {
+    const english = { ...details, importantInformation: 'This property does not accommodate parties.\nA deposit may be required at the property.' };
+    expect(detailsLanguageCheck(english, 'de')).toEqual([
+      'LiteAPI Texte (language=de)',
+      'fehler',
+      'Texte kommen auf Englisch: die Sprachwahl wirkt nicht, die Detailseite kennzeichnet sie als englisch',
+    ]);
+    expect(detailsLanguageCheck({ ...details, description: '<p>Die Kurtaxe wird vor Ort erhoben und ist nicht im Preis enthalten.</p>' }, 'de')[1]).toBe('ok');
+  });
 });
 
 describe('check', () => {
@@ -72,12 +82,13 @@ describe('check', () => {
       if (url.includes('api.anthropic.com')) return anthropic(url, init);
       if (url.endsWith('/hotels/rates')) return new Response(fixture('liteapi/rates.json'));
       if (url.includes('/data/hotel?')) {
+        if (!url.includes('language=de')) return new Response('{}', { status: 400 });
         return new Response(
           JSON.stringify({
             data: {
               id: 'lp1a2b3c',
               name: 'Hotel am See',
-              hotelDescription: 'Ruhig.',
+              hotelDescription: '<p><strong>Hotel am See</strong></p><p>Das Haus liegt ruhig direkt am See und ist für Familien geeignet.</p>',
               hotelImages: [{ url: 'https://img/1.jpg' }],
               hotelFacilities: ['Sauna'],
               location: { latitude: 47.41, longitude: 10.28 },
@@ -105,6 +116,7 @@ describe('check', () => {
     expect(byName['LiteAPI Tarife']).toMatchObject({ status: 'ok' });
     expect(byName['LiteAPI Tarife']?.detail).toMatch(/Füssen, 2026-10-23 bis 2026-10-25: \d+ Unterkünfte mit Angeboten/);
     expect(byName['LiteAPI Hoteldetails']).toMatchObject({ status: 'ok', detail: 'Hotel am See: 1 Fotos, Beschreibung vorhanden, 1 Ausstattungsmerkmale' });
+    expect(byName['LiteAPI Texte (language=de)']).toMatchObject({ status: 'ok', detail: 'Beschreibung und Hinweise kommen auf Deutsch' });
     expect(byName['LiteAPI Hoteldaten']).toMatchObject({ status: 'ok' });
     expect(byName['LiteAPI Hoteldaten']?.detail).toMatch(/^Tarifantwort: Note \d+\/\d+, Anzahl Bewertungen \d+\/\d+, Koordinaten \d+\/\d+, Sterne \d+\/\d+; /);
     expect(byName['LiteAPI Hoteldaten']?.detail).toContain('Details: Note 8.6, 412 Bewertungen, Sterne 3, Koordinaten ja, 2 Ausstattungs-IDs');

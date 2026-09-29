@@ -106,6 +106,35 @@ function rateFor(offer: PricedOffer, hotel: FakeHotel, share: number, occupancyN
   };
 }
 
+/** Description (HTML) and important information (lines) as the real API sends them. */
+function hotelTexts(hotel: FakeHotel, language: 'de' | 'en'): { description: string; important: string | null } {
+  const flat = hotel.kind === 'Ferienwohnung' || hotel.kind === 'Apartments';
+  if (language === 'de') {
+    const notes = [
+      'Junggesellenabschiede und ähnliche Feiern sind in dieser Unterkunft nicht gestattet.',
+      ...(hotel.cityTaxCentsPerPersonNight > 0 ? ['Die Kurtaxe wird vor Ort erhoben.'] : []),
+      ...(flat ? ['Die Unterkunft wird von privaten Gastgebern geführt.', 'Vor Ort kann eine Kaution verlangt werden.'] : []),
+    ];
+    return {
+      description:
+        `<p><strong>${hotel.name}</strong></p><p>Das ${flat ? 'Ferienquartier' : 'Haus'} bietet ${hotel.rooms.length} Zimmerkategorien und liegt im Ort. ` +
+        `Die Beschreibung ist simuliert (Entwicklungsmodus).</p><p><strong>Ausstattung</strong><br />Kostenloses WLAN &amp; Parkplatz.</p>`,
+      important: notes.join('\n'),
+    };
+  }
+  const notes = [
+    'This property does not accommodate bachelor(ette) or similar parties.',
+    ...(hotel.cityTaxCentsPerPersonNight > 0 ? ['The city tax is collected at the property.'] : []),
+    ...(flat ? ['Managed by a private host', 'A deposit may be required at the property.'] : []),
+  ];
+  return {
+    description:
+      `<p><strong>Charming accommodation: ${hotel.name}</strong></p><p>The ${flat ? 'holiday home' : 'property'} offers ${hotel.rooms.length} room types and is located in the town. ` +
+      `This description is simulated (development mode).</p><p><strong>Amenities</strong><br />Free WiFi &amp; parking.</p>`,
+    important: notes.join('\n'),
+  };
+}
+
 function strip(offer: PricedOffer): FakeOffer {
   return { h: offer.h, ci: offer.ci, co: offer.co, o: offer.o, r: offer.r, b: offer.b, rf: offer.rf, t: offer.t, c: offer.c };
 }
@@ -200,12 +229,14 @@ export function createFakeLiteApiFetch(options: FakeLiteApiOptions = {}): FetchL
         if (!hotel) return error(404, 'hotel not found');
         const r = seeded('details', hotel.id);
         const facilities = FAKE_FACILITIES.filter((f) => hotel.facilityIds.includes(f.id)).map((f) => f.name);
+        // Like the real API: HTML descriptions, notes as lines, English unless `language=de`.
+        const text = hotelTexts(hotel, url.searchParams.get('language') === 'de' ? 'de' : 'en');
         return json({
           data: {
             id: hotel.id,
             name: hotel.name,
-            hotelDescription: `${hotel.name} ist ein ${hotel.kind === 'Ferienwohnung' ? 'Ferienquartier' : 'Haus'} mit ${hotel.rooms.length} Zimmerkategorien. Simulierte Beschreibung im Entwicklungsmodus.`,
-            hotelImportantInformation: hotel.cityTaxCentsPerPersonNight > 0 ? 'Die Kurtaxe wird vor Ort erhoben.' : null,
+            hotelDescription: text.description,
+            hotelImportantInformation: text.important,
             main_photo: hotel.photo,
             hotelImages: [1, 2, 3].map((k) => ({ url: `/fake/hotel-${((hashString(hotel.id) + k) % 8) + 1}.svg`, defaultImage: k === 1 })),
             address: hotel.address,
