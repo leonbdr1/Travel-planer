@@ -91,6 +91,12 @@ export async function matchLocality(
   return fuzzy[0] ? { locality: fuzzy[0], exact: false } : null;
 }
 
+/** Localities with at least one postal code (the development seed re-imports when the extract gained them). */
+export async function countLocalitiesWithPostalCodes(db: Queryable): Promise<number> {
+  const rows = await db.query<{ n: number }>(`SELECT count(*)::int AS n FROM app.geo_localities WHERE cardinality(postal_codes) > 0`);
+  return rows[0]?.n ?? 0;
+}
+
 export async function countLocalities(db: Queryable): Promise<Record<string, number>> {
   const rows = await db.query<{ key: string; n: number }>(
     `SELECT CASE WHEN country_code = 'IT' THEN 'IT-BZ' ELSE country_code::text END AS key, count(*)::int AS n

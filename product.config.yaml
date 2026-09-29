@@ -105,7 +105,7 @@ attribution:
     license_url: https://creativecommons.org/licenses/by/4.0/
     source_url: https://www.geonames.org/
   - id: openstreetmap
-    text: "Fahrzeiten und Gehminuten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende"
+    text: "Postleitzahlen, Fahrzeiten und Gehminuten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende"
     license: ODbL
     license_url: https://opendatacommons.org/licenses/odbl/
     source_url: https://www.openstreetmap.org/copyright

@@ -41,3 +41,13 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Texte: Seite „So berechnen wir die Rangliste“ nennt jetzt den Durchschnitt der anderen Termine.
 - Beleg: `npm run demo -- f2` → `docs/demos/F2/demo-output.txt` (Bens Beispiel ok; echte Suche über den lokalen Stack: 28 Schnäppchen-Begründungen gegen die Angebote der Detailansicht nachgerechnet, 0 abweichend); `npm test` 410 grün.
 - Offen: `architektur.md` 6.8 nennt noch den Median – Nachtrag in `docs/architektur-nachtrag.md`, Übernahme braucht Bens Freigabe.
+
+### Aufgabe 3 – in Arbeit
+**Teilschritt 3a – Ortsdaten (erledigt):**
+- Ursache: Die lokale Ortsdatenbank war ein Entwicklungsauszug aus GeoNames `cities1000` **ohne Postleitzahlen** und ohne Orte unter 1.000 Einwohnern (die echten GeoNames-Downloads sind in der Bau-Umgebung gesperrt; der Produktivimport O3.1 steht aus). Die Suche nach Postleitzahlen war im Code schon vorgesehen, es fehlten nur die Daten.
+- Neu: 5.926 weitere Orte ab 500 Einwohnern (GeoNames `cities500`) und Postleitzahlen für DE (OpenStreetMap, ODbL), AT und CH, erzeugt mit `data/geonames/dev-extract/build-extra.ts`; Quellen und Grenzen in `data/geonames/README.md`. Die Quellenangabe OpenStreetMap nennt jetzt auch Postleitzahlen.
+- Bestehende lokale Datenbanken importieren beim nächsten `npm run dev` automatisch nach (`packages/cli/src/seed.ts`).
+- Beleg: `npm run demo -- f3` → `docs/demos/F3/demo-output.txt` (87629 → Füssen, 10115 → Berlin, 6580 → St. Anton, 3920 → Zermatt, Balderschwang …); Tests in `packages/cli/test/catalog.test.ts`; `npm test` 412 grün.
+- Offen: Orte unter 500 Einwohnern und einzelne Sammelgemeinden fehlen weiter, bis Ben den echten GeoNames-Import (O3.1) ausführt.
+
+**Teilschritt 3b – manuelle Mehrfachauswahl von Orten:** offen.

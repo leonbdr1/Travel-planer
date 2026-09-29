@@ -3,6 +3,7 @@
 import { resolve } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { repoRoot } from '@reiseplaner/db/node';
+import { searchLocalities } from '@reiseplaner/db';
 import { createTestDb, type TestDb } from '@reiseplaner/db/testing';
 import { catalogCounts, importCatalog } from '../src/catalog/import';
 import { loadCatalog } from '../src/catalog/load';
@@ -17,6 +18,25 @@ beforeAll(async () => {
 afterAll(async () => test.close());
 
 const catalog = () => loadCatalog(resolve(repoRoot, 'data/catalog'));
+
+describe('development extract (Aufgabe 3)', () => {
+  it('finds places by postal code in DE, AT and CH', async () => {
+    expect((await searchLocalities(test.db, '87629', 5))[0]?.name).toBe('Füssen');
+    expect((await searchLocalities(test.db, '10115', 5))[0]?.name).toBe('Berlin');
+    expect((await searchLocalities(test.db, '60311', 5))[0]?.name).toBe('Frankfurt am Main');
+    expect((await searchLocalities(test.db, '50667', 5))[0]?.name).toBe('Köln');
+    expect((await searchLocalities(test.db, '6580', 5))[0]?.name).toBe('St Anton am Arlberg');
+    expect((await searchLocalities(test.db, '3920', 5))[0]?.name).toBe('Zermatt');
+    // A postal code prefix lists the places of that area.
+    expect((await searchLocalities(test.db, '876', 8)).map((l) => l.name)).toContain('Füssen');
+  });
+
+  it('knows places from 500 inhabitants', async () => {
+    // Balderschwang (Allgäu) is only in GeoNames cities500, not in cities1000.
+    expect((await searchLocalities(test.db, 'Balderschwang', 3))[0]?.name).toBe('Balderschwang');
+    expect((await searchLocalities(test.db, '87538', 5)).map((l) => l.name)).toContain('Balderschwang');
+  });
+});
 
 describe('catalog', () => {
   it('validates without errors: vocabulary, texts, matching, coordinates, duplicates', async () => {

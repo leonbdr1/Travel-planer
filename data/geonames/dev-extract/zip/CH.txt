@@ -1,0 +1,4364 @@
+CH	1000	Lausanne							46.52910	6.65240	
+CH	1001	Lausanne							46.52240	6.63030	
+CH	1002	Lausanne							46.51950	6.63220	
+CH	1003	Lausanne							46.52000	6.63000	
+CH	1004	Lausanne							46.52850	6.61870	
+CH	1005	Lausanne							46.51990	6.64250	
+CH	1006	Lausanne							46.51120	6.63710	
+CH	1007	Lausanne							46.51770	6.60900	
+CH	1008	Jouxtens-Mézery							46.55300	6.59560	
+CH	1008	Prilly							46.53940	6.60500	
+CH	1009	Pully							46.51240	6.65670	
+CH	1010	Lausanne							46.53620	6.65890	
+CH	1011	Lausanne							46.52560	6.64290	
+CH	1012	Lausanne							46.52630	6.65700	
+CH	1014	Lausanne							46.52180	6.63300	
+CH	1015	Lausanne							46.52150	6.57410	
+CH	1017	Lausanne							46.52180	6.63300	
+CH	1018	Lausanne							46.53880	6.62860	
+CH	1019	Lausanne							46.52180	6.63300	
+CH	1020	Renens							46.53640	6.58950	
+CH	1022	Chavannes-près-Renens							46.53040	6.57660	
+CH	1023	Crissier							46.55530	6.57750	
+CH	1024	Ecublens							46.52870	6.56000	
+CH	1025	St-Sulpice							46.51340	6.55710	
+CH	1026	Echandens							46.54120	6.53710	
+CH	1026	Denges							46.52200	6.53930	
+CH	1027	Lonay							46.53020	6.51900	
+CH	1028	Préverenges							46.51560	6.52830	
+CH	1029	Villars-Ste-Croix							46.56560	6.56330	
+CH	1030	Bussigny-près-Lausanne							46.55420	6.54740	
+CH	1031	Mex							46.57480	6.56160	
+CH	1032	Romanel-sur-Lausanne							46.56390	6.60800	
+CH	1033	Cheseaux-sur-Lausanne							46.58250	6.59600	
+CH	1034	Boussens							46.60310	6.58460	
+CH	1035	Bournens							46.60900	6.56440	
+CH	1036	Sullens							46.59170	6.56930	
+CH	1037	Etagnières							46.60090	6.61080	
+CH	1038	Bercher							46.68990	6.70580	
+CH	1039	Cheseaux Polyval							46.58450	6.59550	
+CH	1040	Echallens							46.63790	6.63520	
+CH	1040	St-Barthélemy							46.63490	6.60210	
+CH	1040	Villars-le-Terroir							46.65820	6.64390	
+CH	1041	Poliez-le-Grand							46.63800	6.66580	
+CH	1041	Bottens							46.61520	6.66460	
+CH	1041	Poliez-Pittet							46.62470	6.68880	
+CH	1041	Naz							46.65880	6.69400	
+CH	1041	Dommartin							46.64330	6.69620	
+CH	1041	Montaubion-Chardonney							46.64560	6.71390	
+CH	1042	Bioley-Orjulaz							46.61940	6.59930	
+CH	1042	Bettens							46.62350	6.57400	
+CH	1042	Assens							46.61600	6.62680	
+CH	1043	Sugnens							46.65470	6.67430	
+CH	1044	Fey							46.67380	6.68030	
+CH	1045	Ogens							46.70840	6.72450	
+CH	1046	Rueyres							46.69680	6.69300	
+CH	1047	Oppens							46.71620	6.69460	
+CH	1052	Le Mont-sur-Lausanne							46.55990	6.64000	
+CH	1053	Cugy							46.58630	6.65790	
+CH	1053	Bretigny-sur-Morrens							46.59860	6.64660	
+CH	1054	Morrens							46.59200	6.62760	
+CH	1055	Froideville							46.59670	6.69160	
+CH	1058	Villars-Tiercelin							46.61710	6.71340	
+CH	1059	Peney-le-Jorat							46.62900	6.72900	
+CH	1061	Villars-Mendraz							46.64780	6.72730	
+CH	1062	Sottens							46.65130	6.74660	
+CH	1063	Martherenges							46.66290	6.75570	
+CH	1063	Chapelle-sur-Moudon							46.67200	6.73720	
+CH	1063	Boulens							46.68220	6.71910	
+CH	1063	Peyres-Possens							46.66300	6.70930	
+CH	1066	Epalinges							46.55270	6.66670	
+CH	1068	Les Monts-de-Pully							46.53420	6.68340	
+CH	1070	Puidoux							46.51230	6.78790	
+CH	1071	Rivaz							46.47850	6.77010	
+CH	1071	St-Saphorin (Lavaux)							46.47480	6.79680	
+CH	1071	Chexbres							46.48670	6.78840	
+CH	1072	Forel (Lavaux)							46.54040	6.76340	
+CH	1073	Savigny							46.53820	6.72600	
+CH	1073	Mollie-Margot							46.55980	6.74210	
+CH	1076	Ferlens							46.59010	6.78740	
+CH	1077	Servion							46.57440	6.77970	
+CH	1078	Essertes							46.56150	6.78710	
+CH	1080	Les Cullayes							46.57190	6.75590	
+CH	1081	Montpreveyres							46.58210	6.73830	
+CH	1082	Corcelles-le-Jorat							46.59890	6.73040	
+CH	1083	Mézières							46.58800	6.76390	
+CH	1084	Carrouge							46.60250	6.77450	
+CH	1085	Vulliens							46.62510	6.79250	
+CH	1088	Ropraz							46.61240	6.75500	
+CH	1090	La Croix (Lutry)							46.52360	6.70170	
+CH	1091	Chenaux							46.49600	6.73020	
+CH	1091	Grandvaux							46.50800	6.72850	
+CH	1091	Aran							46.51120	6.71710	
+CH	1092	Belmont-sur-Lausanne							46.52880	6.69070	
+CH	1093	La Conversion							46.51390	6.68450	
+CH	1094	Paudex							46.50840	6.67330	
+CH	1095	Lutry							46.50640	6.69210	
+CH	1096	Villette (Lavaux)							46.49560	6.70910	
+CH	1096	Cully							46.48810	6.72710	
+CH	1097	Riex							46.50130	6.74180	
+CH	1098	Epesses							46.49890	6.75250	
+CH	1110	Morges							46.51350	6.49490	
+CH	1112	Echichens							46.53010	6.49420	
+CH	1113	St-Saphorin-sur-Morges							46.54450	6.49040	
+CH	1114	Colombier							46.55570	6.47020	
+CH	1115	Vullierens							46.57590	6.47860	
+CH	1116	Cottens							46.57200	6.45330	
+CH	1117	Grancy							46.59390	6.46040	
+CH	1121	Bremblens							46.55010	6.52060	
+CH	1122	Romanel-sur-Morges							46.55550	6.50910	
+CH	1123	Aclens							46.56870	6.50910	
+CH	1124	Gollion							46.58670	6.51000	
+CH	1125	Monnaz							46.53130	6.47980	
+CH	1126	Vaux-sur-Morges							46.53770	6.46380	
+CH	1127	Clarmont							46.54870	6.44960	
+CH	1128	Reverolle							46.54280	6.44050	
+CH	1131	Tolochenaz							46.50260	6.47730	
+CH	1132	Lully							46.50550	6.46430	
+CH	1134	Vufflens-le-Château							46.52350	6.47050	
+CH	1134	Chigny							46.51560	6.47760	
+CH	1135	Denens							46.51770	6.45290	
+CH	1136	Bussy-Chardonney							46.53100	6.43770	
+CH	1141	Sévery							46.57260	6.44240	
+CH	1142	Pampigny							46.58460	6.41650	
+CH	1143	Apples							46.55550	6.41870	
+CH	1144	Ballens							46.55370	6.37810	
+CH	1145	Bière							46.54880	6.31360	
+CH	1146	Mollens							46.57590	6.36310	
+CH	1147	Montricher							46.60300	6.35750	
+CH	1148	La Praz							46.66880	6.42460	
+CH	1148	Chavannes-le-Veyron							46.60830	6.44680	
+CH	1148	Villars-Bozon							46.60830	6.40900	
+CH	1148	La Coudre							46.63370	6.39990	
+CH	1148	Cuarnens							46.63180	6.43360	
+CH	1148	Moiry							46.65310	6.45310	
+CH	1148	Mont-la-Ville							46.65340	6.39040	
+CH	1148	Mauraz							46.60320	6.41780	
+CH	1148	L'Isle							46.62270	6.40080	
+CH	1149	Berolle							46.56780	6.32990	
+CH	1162	St-Prex							46.48520	6.44740	
+CH	1163	Etoy							46.48320	6.42160	
+CH	1164	Buchillon							46.46670	6.40930	
+CH	1165	Allaman							46.47030	6.39320	
+CH	1166	Perroy							46.47080	6.35840	
+CH	1167	Lussy-sur-Morges							46.50140	6.44830	
+CH	1168	Villars-sous-Yens							46.50710	6.42900	
+CH	1169	Yens							46.52520	6.40550	
+CH	1170	Aubonne							46.48700	6.38730	
+CH	1172	Bougy-Villars							46.48460	6.35260	
+CH	1173	Féchy							46.47640	6.37400	
+CH	1174	Montherod							46.50650	6.35470	
+CH	1174	Pizy							46.49210	6.34610	
+CH	1175	Lavigny							46.50100	6.40890	
+CH	1176	St-Livres							46.51630	6.38150	
+CH	1180	Tartegnin							46.46720	6.31470	
+CH	1180	Rolle							46.45990	6.32780	
+CH	1182	Gilly							46.46220	6.29950	
+CH	1183	Bursins							46.44870	6.28880	
+CH	1184	Luins							46.43810	6.27680	
+CH	1184	Vinzel							46.44820	6.27890	
+CH	1185	Mont-sur-Rolle							46.47750	6.33770	
+CH	1186	Essertines-sur-Rolle							46.48660	6.30810	
+CH	1187	St-Oyens							46.49420	6.29740	
+CH	1188	Gimel							46.52120	6.28860	
+CH	1188	St-George							46.51990	6.25670	
+CH	1189	Saubraz							46.51900	6.32560	
+CH	1195	Bursinel							46.44150	6.30980	
+CH	1195	Dully							46.43140	6.29460	
+CH	1196	Gland							46.41840	6.26960	
+CH	1197	Prangins							46.40170	6.25620	
+CH	1200	Genève							46.20950	6.14380	
+CH	1201	Genève							46.21030	6.14640	
+CH	1202	Genève							46.22140	6.14310	
+CH	1203	Genève							46.20860	6.12360	
+CH	1204	Genève							46.20240	6.14500	
+CH	1205	Genève							46.19520	6.14360	
+CH	1206	Genève							46.18720	6.15880	
+CH	1207	Genève							46.20580	6.16190	
+CH	1208	Genève							46.19940	6.16590	
+CH	1209	Genève							46.22180	6.12440	
+CH	1211	Genève							46.21110	6.10280	
+CH	1212	Grand-Lancy							46.17930	6.11870	
+CH	1213	Onex							46.18470	6.09930	
+CH	1213	Petit-Lancy							46.19300	6.11580	
+CH	1214	Vernier							46.21340	6.08090	
+CH	1215	Genève							46.23520	6.10690	
+CH	1216	Cointrin							46.22470	6.10680	
+CH	1217	Meyrin							46.23190	6.07120	
+CH	1218	Le Grand-Saconnex							46.23410	6.12380	
+CH	1219	Châtelaine							46.21220	6.10970	
+CH	1219	Le Lignon							46.20800	6.09860	
+CH	1219	Aïre							46.19990	6.09840	
+CH	1220	Les Avanchets							46.22080	6.10900	
+CH	1222	Vésenaz							46.23830	6.20880	
+CH	1223	Cologny							46.21830	6.18710	
+CH	1224	Chêne-Bougeries							46.20320	6.19510	
+CH	1225	Chêne-Bourg							46.19640	6.19760	
+CH	1226	Thônex							46.19090	6.19750	
+CH	1227	Les Acacias							46.19350	6.13320	
+CH	1227	Carouge							46.17950	6.13910	
+CH	1228	Plan-les-Ouates							46.16420	6.11820	
+CH	1231	Conches							46.18480	6.17980	
+CH	1232	Confignon							46.17090	6.08830	
+CH	1233	Bernex							46.17540	6.06640	
+CH	1234	Vessy							46.17500	6.15720	
+CH	1236	Cartigny							46.17370	6.02870	
+CH	1237	Avully							46.16710	5.99970	
+CH	1239	Collex							46.27960	6.12140	
+CH	1240	Genève							46.20000	6.16670	
+CH	1241	Puplinge							46.21010	6.22950	
+CH	1242	Satigny							46.21540	6.02710	
+CH	1243	Presinge							46.21620	6.26270	
+CH	1244	Choulex							46.22540	6.23030	
+CH	1245	Collonge-Bellerive							46.25690	6.20630	
+CH	1246	Corsier							46.26290	6.22590	
+CH	1247	Anières							46.27700	6.23260	
+CH	1248	Hermance							46.29450	6.24430	
+CH	1251	Gy							46.25360	6.28590	
+CH	1252	Meinier							46.24160	6.23580	
+CH	1253	Vandoeuvres							46.22120	6.20570	
+CH	1254	Jussy							46.23890	6.28000	
+CH	1255	Veyrier							46.16770	6.17440	
+CH	1256	Troinex							46.15940	6.15590	
+CH	1257	La Croix-de-Rozon							46.14970	6.11800	
+CH	1258	Perly							46.15820	6.08800	
+CH	1260	Nyon							46.38290	6.22690	
+CH	1261	Longirod							46.50530	6.24070	
+CH	1261	Le Vaud							46.48000	6.23380	
+CH	1261	Marchissy							46.49340	6.23220	
+CH	1262	Eysins							46.37950	6.20540	
+CH	1263	Crassier							46.37590	6.16870	
+CH	1264	St-Cergue							46.45090	6.14860	
+CH	1265	La Cure							46.46280	6.09490	
+CH	1266	Duillier							46.40910	6.23090	
+CH	1267	Vich							46.42960	6.24840	
+CH	1267	Coinsins							46.42510	6.23660	
+CH	1268	Burtigny							46.47050	6.26560	
+CH	1268	Begnins							46.44570	6.24780	
+CH	1269	Bassins							46.48780	6.20000	
+CH	1270	Trélex							46.41850	6.19510	
+CH	1271	Givrins							46.43310	6.19430	
+CH	1272	Genolier							46.43430	6.22180	
+CH	1273	Le Muids							46.44970	6.21070	
+CH	1273	Arzier							46.52320	6.16110	
+CH	1274	Grens							46.39610	6.19120	
+CH	1274	Signy							46.39320	6.20290	
+CH	1275	Chéserex							46.41070	6.14820	
+CH	1276	Gingins							46.42520	6.15420	
+CH	1277	Borex							46.38050	6.18250	
+CH	1277	Arnex-sur-Nyon							46.37200	6.19160	
+CH	1278	La Rippe							46.40480	6.11990	
+CH	1279	Chavannes-de-Bogis							46.33950	6.15340	
+CH	1279	Bogis-Bossey							46.35620	6.16690	
+CH	1281	Russin							46.19050	6.01220	
+CH	1283	Dardagny							46.20280	5.98520	
+CH	1283	La Plaine							46.17880	6.00120	
+CH	1284	Chancy							46.14870	5.98080	
+CH	1285	Athenaz (Avusy)							46.15180	6.00590	
+CH	1286	Soral							46.14690	6.04110	
+CH	1287	Laconnex							46.15890	6.03330	
+CH	1288	Aire-la-Ville							46.19080	6.04540	
+CH	1289	Genève							46.20580	6.14160	
+CH	1290	Versoix							46.29370	6.14990	
+CH	1290	Chavannes-des-Bois							46.31540	6.13660	
+CH	1291	Commugny							46.32360	6.16440	
+CH	1292	Chambésy							46.24020	6.14000	
+CH	1293	Bellevue							46.25870	6.13510	
+CH	1294	Genthod							46.26610	6.15380	
+CH	1295	Mies							46.30360	6.16280	
+CH	1295	Tannay							46.31110	6.17210	
+CH	1296	Coppet							46.32070	6.18920	
+CH	1297	Founex							46.33620	6.18360	
+CH	1298	Céligny							46.34880	6.18910	
+CH	1299	Crans-près-Céligny							46.35610	6.19380	
+CH	1300	Eclépens							46.65150	6.54290	
+CH	1302	Vufflens-la-Ville							46.57520	6.53720	
+CH	1303	Penthaz							46.59940	6.54050	
+CH	1304	Dizy							46.63420	6.49640	
+CH	1304	Senarclens							46.59880	6.48260	
+CH	1304	Allens							46.59810	6.50940	
+CH	1304	Cossonay-Ville							46.61620	6.50160	
+CH	1305	Penthalaz							46.61390	6.53160	
+CH	1306	Daillens							46.62670	6.54860	
+CH	1307	Lussery-Villars							46.63240	6.52540	
+CH	1308	La Chaux (Cossonay)							46.62020	6.46710	
+CH	1310	Daillens							46.66670	6.51670	
+CH	1311	Eclépens							46.65150	6.54290	
+CH	1312	Eclépens							46.65210	6.53970	
+CH	1313	Ferreyres							46.66000	6.48090	
+CH	1315	La Sarraz							46.64990	6.50680	
+CH	1316	Chevilly							46.64320	6.47220	
+CH	1317	Orny							46.67160	6.53360	
+CH	1318	Pompaples							46.67830	6.52220	
+CH	1320	Daillens							46.62860	6.54950	
+CH	1321	Arnex-sur-Orbe							46.69460	6.51830	
+CH	1322	Croy							46.68560	6.48530	
+CH	1323	Romainmôtier							46.67180	6.45560	
+CH	1324	Premier							46.71210	6.44470	
+CH	1325	Vaulion							46.68570	6.37590	
+CH	1326	Juriens							46.67910	6.44230	
+CH	1329	Bretonnières							46.71390	6.46950	
+CH	1330	Daillens							46.62860	6.54950	
+CH	1337	Vallorbe							46.70800	6.37450	
+CH	1338	Ballaigues							46.73510	6.41050	
+CH	1341	Orient							46.59280	6.26210	
+CH	1342	Le Pont							46.67420	6.33530	
+CH	1343	Les Charbonnières							46.67750	6.29830	
+CH	1344	L'Abbaye							46.63960	6.32200	
+CH	1345	Le Lieu							46.65100	6.26970	
+CH	1346	Les Bioux							46.61470	6.29250	
+CH	1347	Le Sentier							46.61230	6.19970	
+CH	1347	Le Solliat							46.62610	6.22030	
+CH	1348	Le Brassus							46.56890	6.19830	
+CH	1350	Orbe							46.72270	6.54320	
+CH	1352	Agiez							46.71610	6.50870	
+CH	1353	Bofflens							46.70120	6.49640	
+CH	1354	Montcherand							46.73460	6.51110	
+CH	1355	Sergey							46.75170	6.50070	
+CH	1355	L'Abergement							46.75430	6.48180	
+CH	1356	La Russille							46.73960	6.49000	
+CH	1356	Les Clées							46.72870	6.46480	
+CH	1357	Lignerolle							46.75150	6.44360	
+CH	1358	Valeyres-sous-Rances							46.74830	6.53820	
+CH	1372	Bavois							46.68070	6.56550	
+CH	1373	Chavornay							46.70480	6.56390	
+CH	1374	Corcelles-sur-Chavornay							46.69870	6.60720	
+CH	1375	Penthéréaz							46.68290	6.60530	
+CH	1376	Eclagnens							46.64760	6.59350	
+CH	1376	Goumoens-la-Ville							46.65820	6.61200	
+CH	1376	Goumoens-le-Jux							46.66670	6.58690	
+CH	1377	Oulens-sous-Echallens							46.64810	6.57190	
+CH	1400	Yverdon-les-Bains							46.77870	6.63390	
+CH	1400	Cheseaux-Noréaz							46.78670	6.67910	
+CH	1401	Yverdon-les-Bains							46.78330	6.65000	
+CH	1404	Cuarny							46.77020	6.69050	
+CH	1404	Villars-Epeney							46.78260	6.69760	
+CH	1405	Pomy							46.75860	6.66910	
+CH	1406	Cronay							46.75500	6.70080	
+CH	1407	Donneloye							46.74730	6.71980	
+CH	1407	Gossens							46.73940	6.69810	
+CH	1407	Mézery-près-Donneloye							46.75330	6.73070	
+CH	1407	Bioley-Magnoux							46.72720	6.71710	
+CH	1408	Prahins							46.73560	6.73320	
+CH	1409	Chanéaz							46.72890	6.74260	
+CH	1410	Prévondavaux							46.73160	6.80330	
+CH	1410	Thierrens							46.70330	6.75780	
+CH	1410	St-Cierges							46.68960	6.73530	
+CH	1410	Correvon							46.71710	6.73960	
+CH	1410	Denezy							46.72210	6.78630	
+CH	1412	Ursins							46.73450	6.66970	
+CH	1412	Valeyres-sous-Ursins							46.74420	6.65530	
+CH	1413	Orzens							46.72940	6.68430	
+CH	1415	Molondin							46.76490	6.74870	
+CH	1415	Démoret							46.74880	6.75870	
+CH	1416	Pailly							46.69910	6.67460	
+CH	1417	Epautheyres							46.73570	6.64620	
+CH	1417	Essertines-sur-Yverdon							46.71740	6.64340	
+CH	1418	Vuarrens							46.68540	6.64680	
+CH	1420	Fiez							46.82770	6.62730	
+CH	1421	Grandevent							46.84220	6.60560	
+CH	1421	Fontaines-sur-Grandson							46.83320	6.61690	
+CH	1422	Grandson							46.81900	6.65090	
+CH	1423	Vaugondry							46.84610	6.63640	
+CH	1423	Fontanezier							46.86130	6.66040	
+CH	1423	Romairon							46.85020	6.64250	
+CH	1423	Villars-Burquin							46.84740	6.62630	
+CH	1424	Champagne							46.83570	6.65350	
+CH	1425	Onnens							46.84410	6.68760	
+CH	1426	Concise							46.86370	6.72560	
+CH	1426	Corcelles-près-Concise							46.85110	6.69960	
+CH	1427	Bonvillars							46.84190	6.66930	
+CH	1428	Provence							46.89290	6.70260	
+CH	1428	Mutrux							46.88080	6.72660	
+CH	1429	Giez							46.81380	6.61450	
+CH	1430	Orges							46.81250	6.58070	
+CH	1431	Novalles							46.83280	6.59280	
+CH	1431	Vugelles-La Mothe							46.82550	6.57600	
+CH	1432	Gressy							46.75160	6.64100	
+CH	1432	Belmont-sur-Yverdon							46.73790	6.62460	
+CH	1433	Suchy							46.72090	6.60390	
+CH	1434	Ependes							46.74620	6.60250	
+CH	1435	Essert-Pittet							46.72740	6.57960	
+CH	1436	Treycovagnes							46.77260	6.61120	
+CH	1436	Chamblon							46.77660	6.59660	
+CH	1437	Suscévaz							46.76180	6.58790	
+CH	1438	Mathod							46.76210	6.56770	
+CH	1439	Rances							46.76510	6.51490	
+CH	1440	Montagny-Chamard							46.78890	6.55000	
+CH	1441	Valeyres-sous-Montagny							46.80080	6.60160	
+CH	1442	Montagny-près-Yverdon							46.78940	6.61010	
+CH	1443	Essert-sous-Champvent							46.79410	6.58410	
+CH	1443	Champvent							46.78540	6.56320	
+CH	1443	Villars-sous-Champvent							46.78520	6.58450	
+CH	1445	Vuiteboeuf							46.80590	6.55060	
+CH	1446	Baulmes							46.78730	6.50340	
+CH	1450	Le Château-de-Ste-Croix							46.81740	6.53210	
+CH	1450	La Sagne (Ste-Croix)							46.80880	6.51120	
+CH	1450	Ste-Croix							46.82830	6.50030	
+CH	1452	Les Rasses							46.83930	6.53570	
+CH	1453	Mauborget							46.86860	6.61120	
+CH	1453	Bullet							46.84870	6.56070	
+CH	1454	L'Auberson							46.81400	6.46290	
+CH	1454	La Vraconnaz							46.84390	6.47730	
+CH	1462	Yvonand							46.78930	6.73110	
+CH	1463	Rovray							46.78750	6.76720	
+CH	1464	Chavannes-le-Chêne							46.78010	6.78020	
+CH	1464	Chêne-Pâquier							46.76550	6.77100	
+CH	1468	Cheyres							46.80820	6.78710	
+CH	1470	Seiry							46.81530	6.83650	
+CH	1470	Bollion							46.82130	6.83230	
+CH	1470	Lully							46.83380	6.85030	
+CH	1470	Estavayer-le-Lac							46.84970	6.85890	
+CH	1473	Font							46.83750	6.82210	
+CH	1473	Châtillon							46.83050	6.83150	
+CH	1474	Châbles							46.82000	6.81070	
+CH	1475	Autavaux							46.86520	6.87570	
+CH	1475	Montbrelloz							46.85330	6.88800	
+CH	1475	Forel							46.87530	6.89670	
+CH	1482	Cugy							46.80940	6.89450	
+CH	1483	Frasses							46.82700	6.86810	
+CH	1483	Montet (Broye)							46.81890	6.86930	
+CH	1483	Vesin							46.80470	6.87080	
+CH	1484	Granges-de-Vesin							46.81230	6.84270	
+CH	1484	Aumont							46.79590	6.85720	
+CH	1485	Nuvilly							46.78620	6.83660	
+CH	1486	Vuissens							46.73170	6.76760	
+CH	1489	Murist							46.79500	6.81000	
+CH	1509	Vucherens							46.62770	6.77460	
+CH	1510	Syens							46.64230	6.77740	
+CH	1510	Moudon							46.67030	6.79140	
+CH	1512	Chavannes-sur-Moudon							46.65850	6.81350	
+CH	1513	Hermenches							46.63990	6.75530	
+CH	1513	Rossenges							46.65470	6.77470	
+CH	1514	Bussy-sur-Moudon							46.69130	6.81090	
+CH	1515	Villars-le-Comte							46.71310	6.80140	
+CH	1515	Neyruz-sur-Moudon							46.69570	6.78860	
+CH	1521	Curtilles							46.69820	6.84940	
+CH	1522	Oulens-sur-Lucens							46.70700	6.81450	
+CH	1522	Lucens							46.70850	6.83660	
+CH	1523	Granges-près-Marnand							46.76680	6.88400	
+CH	1524	Marnand							46.75870	6.90240	
+CH	1525	Seigneux							46.72870	6.87460	
+CH	1525	Henniez							46.74220	6.88700	
+CH	1526	Forel-sur-Lucens							46.72570	6.82390	
+CH	1526	Cremin							46.72380	6.84070	
+CH	1527	Villeneuve							46.74420	6.86680	
+CH	1528	Surpierre							46.74860	6.85550	
+CH	1528	Praratoud							46.73510	6.84380	
+CH	1529	Cheiry							46.74800	6.83360	
+CH	1530	Payerne							46.83020	6.93140	
+CH	1532	Fétigny							46.79360	6.91370	
+CH	1533	Ménières							46.78550	6.89000	
+CH	1534	Chapelle (Broye)							46.76810	6.84860	
+CH	1534	Sassel							46.77690	6.86010	
+CH	1535	Combremont-le-Grand							46.76500	6.82330	
+CH	1536	Combremont-le-Petit							46.74620	6.80330	
+CH	1537	Champtauroz							46.75880	6.78550	
+CH	1538	Treytorrens (Payerne)							46.77520	6.80370	
+CH	1541	Sévaz							46.83930	6.87120	
+CH	1541	Morens							46.84410	6.90430	
+CH	1541	Bussy							46.83460	6.89270	
+CH	1542	Rueyres-les-Prés							46.85650	6.91170	
+CH	1543	Grandcour							46.87380	6.92830	
+CH	1544	Gletterens							46.90020	6.93660	
+CH	1545	Chevroux							46.89050	6.91100	
+CH	1551	Vers-chez-Perrin							46.79710	6.94640	
+CH	1552	Trey							46.78010	6.92340	
+CH	1553	Châtonnaye							46.75000	6.94880	
+CH	1554	Sédeilles							46.74430	6.93080	
+CH	1554	Rossens							46.73310	6.92330	
+CH	1555	Villarzel							46.74220	6.90800	
+CH	1562	Corcelles-près-Payerne							46.84660	6.96470	
+CH	1563	Dompierre							46.85710	6.99230	
+CH	1564	Domdidier							46.86090	7.01070	
+CH	1565	Vallon							46.88650	6.95400	
+CH	1565	Missy							46.87760	6.97350	
+CH	1566	St-Aubin							46.89160	6.97810	
+CH	1566	Les Friques							46.89640	6.99440	
+CH	1567	Delley							46.91280	6.97010	
+CH	1568	Portalban							46.91020	6.95340	
+CH	1580	Avenches							46.88290	7.03680	
+CH	1580	Oleyres							46.85450	7.03900	
+CH	1582	Donatyre							46.87140	7.06060	
+CH	1583	Villarepos							46.88230	7.08040	
+CH	1584	Villars-le-Grand							46.90450	6.99970	
+CH	1585	Salavaux							46.91250	7.02630	
+CH	1585	Cotterd							46.92330	7.02690	
+CH	1585	Bellerive							46.92530	7.02190	
+CH	1586	Vallamand							46.93390	7.03640	
+CH	1587	Constantine							46.91180	7.01230	
+CH	1587	Montmagny							46.92720	7.00750	
+CH	1588	Cudrefin							46.95470	7.03270	
+CH	1589	Chabrey							46.93030	6.98300	
+CH	1595	Clavaleyres							46.89820	7.09320	
+CH	1595	Faoug							46.90350	7.07280	
+CH	1607	Les Tavernes							46.55290	6.80980	
+CH	1607	Palézieux-Village							46.55370	6.83630	
+CH	1607	Les Thioleyres							46.53560	6.81180	
+CH	1607	Palézieux							46.54460	6.83780	
+CH	1608	Chapelle (Glâne)							46.58670	6.83790	
+CH	1608	Bussigny-sur-Oron							46.57000	6.86320	
+CH	1608	Chesalles-sur-Oron							46.57290	6.85320	
+CH	1608	Oron-le-Châtel							46.57300	6.84020	
+CH	1609	Besencens							46.58800	6.86800	
+CH	1609	Fiaugères							46.58920	6.89260	
+CH	1609	St-Martin							46.57380	6.88560	
+CH	1610	Vuibroye							46.57140	6.80470	
+CH	1610	Châtillens							46.56220	6.80620	
+CH	1610	Oron-la-Ville							46.56950	6.82500	
+CH	1611	Le Crêt-près-Semsales							46.60670	6.92080	
+CH	1612	Ecoteaux							46.55090	6.85710	
+CH	1613	Maracon							46.55600	6.87520	
+CH	1614	Granges (Veveyse)							46.52170	6.82580	
+CH	1615	Bossonnens							46.52920	6.84830	
+CH	1616	Attalens							46.50750	6.85260	
+CH	1617	Remaufens							46.53230	6.88150	
+CH	1617	Tatroz							46.52850	6.86630	
+CH	1618	Châtel-St-Denis							46.53380	6.94350	
+CH	1619	Les Paccots							46.50200	6.97250	
+CH	1623	Semsales							46.56980	6.93570	
+CH	1624	Grattavache							46.59750	6.93280	
+CH	1624	La Verrerie							46.58650	6.92330	
+CH	1624	Progens							46.58870	6.93070	
+CH	1625	Sâles (Gruyère)							46.63000	6.96500	
+CH	1625	Maules							46.64270	6.99700	
+CH	1626	Romanens							46.65370	6.98010	
+CH	1626	Treyfayes							46.65390	6.95820	
+CH	1626	Rueyres-Treyfayes							46.64380	6.95430	
+CH	1627	Vaulruz							46.61750	6.98200	
+CH	1628	Vuadens							46.60990	7.00290	
+CH	1630	Bulle							46.58710	6.99810	
+CH	1631	Bulle							46.61670	7.06670	
+CH	1632	Riaz							46.64200	7.04190	
+CH	1633	Vuippens							46.66320	7.07830	
+CH	1633	Marsens							46.65680	7.03830	
+CH	1634	La Roche							46.69260	7.15500	
+CH	1635	La Tour-de-Trême							46.59830	7.02500	
+CH	1636	Broc							46.60000	7.12210	
+CH	1637	Charmey (Gruyère)							46.59660	7.19320	
+CH	1638	Morlon							46.62490	7.08990	
+CH	1642	Sorens							46.67290	7.04370	
+CH	1643	Gumefens							46.67710	7.07540	
+CH	1644	Avry-devant-Pont							46.68400	7.08760	
+CH	1645	Le Bry							46.70040	7.08520	
+CH	1646	Echarlens							46.64700	7.08140	
+CH	1647	Corbières							46.65810	7.11290	
+CH	1648	Hauteville							46.66990	7.12680	
+CH	1649	Pont-la-Ville							46.70140	7.11110	
+CH	1651	Villarvolard							46.64450	7.12110	
+CH	1652	Villarbeney							46.62940	7.11620	
+CH	1652	Botterens							46.61750	7.11470	
+CH	1653	Châtel-sur-Montsalvens							46.61750	7.12660	
+CH	1653	Crésuz							46.62180	7.14210	
+CH	1654	Cerniat							46.65080	7.18420	
+CH	1656	Jaun							46.60700	7.28480	
+CH	1656	Im Fang							46.59070	7.23010	
+CH	1657	Abländschen							46.56240	7.27020	
+CH	1658	La Tine							46.47200	7.04770	
+CH	1658	Rossinière							46.46660	7.06250	
+CH	1659	Flendruz							46.51460	7.17200	
+CH	1659	Rougemont							46.48830	7.21300	
+CH	1660	La Lécherette							46.42140	7.08290	
+CH	1660	Château-d'Oex							46.47490	7.15030	
+CH	1660	Les Moulins							46.45100	7.09060	
+CH	1660	L'Etivaz							46.40820	7.16220	
+CH	1661	Le Pâquier-Montbarry							46.58950	7.04840	
+CH	1663	Moléson-sur-Gruyères							46.56160	7.03340	
+CH	1663	Epagny							46.58770	7.08640	
+CH	1663	Pringy							46.57870	7.06260	
+CH	1663	Gruyères							46.57990	7.08470	
+CH	1665	Estavannens							46.56500	7.11350	
+CH	1666	Villars-sous-Mont							46.54420	7.05580	
+CH	1666	Grandvillard							46.52330	7.10770	
+CH	1667	Enney							46.56220	7.06980	
+CH	1669	Albeuve							46.50670	7.02660	
+CH	1669	Neirivue							46.52690	7.03430	
+CH	1669	Les Sciernes-d'Albeuve							46.49740	7.03660	
+CH	1669	Montbovon							46.46810	7.00430	
+CH	1669	Lessoc							46.50800	7.07950	
+CH	1670	Ursy							46.63470	6.83640	
+CH	1670	Bionnens							46.63510	6.85550	
+CH	1670	Esmonts							46.64530	6.84700	
+CH	1673	Rue							46.62210	6.82370	
+CH	1673	Promasens							46.60250	6.82230	
+CH	1673	Auboranges							46.58470	6.80450	
+CH	1673	Gillarens							46.58530	6.82480	
+CH	1673	Ecublens							46.60810	6.80800	
+CH	1674	Montet (Glâne)							46.64010	6.81110	
+CH	1674	Morlens							46.65530	6.83890	
+CH	1674	Vuarmarens							46.64780	6.82870	
+CH	1675	Mossel							46.61580	6.86230	
+CH	1675	Blessens							46.60830	6.83890	
+CH	1675	Vauderens							46.62310	6.85100	
+CH	1676	Chavannes-les-Forts							46.65080	6.89570	
+CH	1677	Prez-vers-Siviriez							46.63510	6.87410	
+CH	1678	Siviriez							46.66220	6.87580	
+CH	1679	Villaraboud							46.65640	6.91350	
+CH	1680	Romont							46.70850	6.92570	
+CH	1680	Berlens							46.69450	6.95000	
+CH	1681	Billens							46.69080	6.89690	
+CH	1681	Hennens							46.68230	6.87830	
+CH	1682	Prévonloup							46.69750	6.88280	
+CH	1682	Dompierre							46.71200	6.88150	
+CH	1682	Lovatens							46.69450	6.86690	
+CH	1682	Villars-Bramard							46.72050	6.90330	
+CH	1682	Cerniaz							46.72920	6.89870	
+CH	1683	Brenles							46.66910	6.85690	
+CH	1683	Sarzens							46.68330	6.85020	
+CH	1683	Chesalles-sur-Moudon							46.67520	6.83520	
+CH	1684	Mézières							46.68040	6.92760	
+CH	1685	Villariaz							46.66500	6.94050	
+CH	1686	Grangettes-près-Romont							46.67090	6.97770	
+CH	1686	La Neirigue							46.68280	6.95510	
+CH	1687	Vuisternens-devant-Romont							46.65090	6.93260	
+CH	1687	Estévenens							46.66830	6.96200	
+CH	1687	La Magne							46.63730	6.93030	
+CH	1688	Lieffrens							46.63170	6.89750	
+CH	1688	Sommentier							46.63580	6.91560	
+CH	1689	Le Châtelard-près-Romont							46.67420	6.99870	
+CH	1690	Lussy							46.71870	6.93920	
+CH	1690	Villaz-St-Pierre							46.72070	6.95800	
+CH	1691	Villarimboud							46.74270	6.96710	
+CH	1692	Massonnens							46.69880	6.97770	
+CH	1694	Villargiroud							46.69660	7.00010	
+CH	1694	Orsonnens							46.71340	6.99560	
+CH	1694	Chavannes-sous-Orsonnens							46.72750	6.99170	
+CH	1694	Villarsiviriaux							46.68710	7.02130	
+CH	1695	Villarsel-le-Gibloux							46.71290	7.01560	
+CH	1695	Villarlod							46.70570	7.02920	
+CH	1695	Estavayer-le-Gibloux							46.72320	7.02460	
+CH	1695	Rueyres-St-Laurent							46.71650	7.03940	
+CH	1696	Vuisternens-en-Ogoz							46.70410	7.05790	
+CH	1697	La Joux							46.62680	6.93450	
+CH	1697	Les Ecasseys							46.62080	6.90970	
+CH	1699	Pont (Veveyse)							46.59230	6.85460	
+CH	1699	Bouloz							46.61520	6.89140	
+CH	1699	Porsel							46.59900	6.87960	
+CH	1700	Fribourg							46.80430	7.16670	
+CH	1701	Fribourg							46.80000	7.15000	
+CH	1702	Fribourg							46.80670	7.16140	
+CH	1704	Fribourg							46.80000	7.15000	
+CH	1705	Fribourg							46.80000	7.15000	
+CH	1707	Fribourg							46.80000	7.15000	
+CH	1708	Fribourg							46.80000	7.15000	
+CH	1709	Fribourg							46.80000	7.15000	
+CH	1712	Tafers							46.81090	7.21520	
+CH	1713	St. Antoni							46.82210	7.26480	
+CH	1714	Heitenried							46.82300	7.30070	
+CH	1715	Alterswil							46.78610	7.28350	
+CH	1716	Schwarzsee							46.67010	7.28580	
+CH	1716	Plaffeien							46.72670	7.28620	
+CH	1716	Oberschrot							46.73920	7.27310	
+CH	1717	St. Ursen							46.78940	7.22860	
+CH	1718	Rechthalten							46.76540	7.24470	
+CH	1719	Brünisried							46.75560	7.27800	
+CH	1719	Zumholz							46.75670	7.29330	
+CH	1720	Corminboeuf							46.80410	7.09850	
+CH	1720	Chésopelloz							46.80590	7.07690	
+CH	1721	Cournillens							46.85870	7.10260	
+CH	1721	Courtion							46.86040	7.06890	
+CH	1721	Cormérod							46.86660	7.08360	
+CH	1721	Misery							46.85140	7.06920	
+CH	1722	Bourguillon							46.79820	7.17420	
+CH	1723	Marly							46.77680	7.14740	
+CH	1723	Pierrafortscha							46.77700	7.18070	
+CH	1723	Villarsel-sur-Marly							46.76220	7.17450	
+CH	1724	Senèdes							46.74180	7.14190	
+CH	1724	Zénauva							46.71940	7.18820	
+CH	1724	Montévraz							46.71350	7.18340	
+CH	1724	Bonnefontaine							46.73480	7.20280	
+CH	1724	Le Mouret							46.74980	7.18100	
+CH	1724	Oberried							46.72990	7.19290	
+CH	1724	Essert							46.73650	7.16140	
+CH	1724	Ferpicloz							46.74820	7.16220	
+CH	1725	Posieux							46.77170	7.11020	
+CH	1726	Grenilles							46.72710	7.04870	
+CH	1726	Farvagny-le-Petit							46.73140	7.07280	
+CH	1726	Posat							46.74190	7.06140	
+CH	1726	Farvagny							46.71650	7.07200	
+CH	1727	Magnedens							46.74110	7.07910	
+CH	1727	Corpataux-Magnedens							46.74470	7.10030	
+CH	1728	Rossens							46.72330	7.09960	
+CH	1730	Ecuvillens							46.75630	7.07750	
+CH	1731	Ependes							46.75620	7.14920	
+CH	1732	Arconciel							46.75300	7.11530	
+CH	1733	Treyvaux							46.72060	7.14410	
+CH	1734	Tentlingen							46.77260	7.20380	
+CH	1735	Giffers							46.75360	7.22770	
+CH	1736	St. Silvester							46.72620	7.21790	
+CH	1737	Plasselb							46.69340	7.22620	
+CH	1738	Sangernboden							46.70750	7.37380	
+CH	1740	Neyruz							46.76620	7.06220	
+CH	1741	Cottens							46.75500	7.03500	
+CH	1742	Autigny							46.74080	7.03330	
+CH	1744	Chénens							46.74260	6.99640	
+CH	1745	Lentigny							46.76100	7.00270	
+CH	1746	Prez-vers-Noréaz							46.78430	7.01050	
+CH	1747	Corserey							46.77310	6.98870	
+CH	1748	Torny-le-Grand							46.76930	6.96760	
+CH	1749	Middes							46.77180	6.94880	
+CH	1752	Villars-sur-Glâne							46.79610	7.12300	
+CH	1753	Matran							46.78590	7.08870	
+CH	1754	Rosé							46.78130	7.06300	
+CH	1754	Avry-sur-Matran							46.79270	7.06420	
+CH	1754	Avry-Centre							46.78810	7.06030	
+CH	1754	Corjolens							46.78700	7.04270	
+CH	1756	Onnens							46.77160	7.03820	
+CH	1756	Lovens							46.77090	7.02150	
+CH	1757	Noréaz							46.80170	7.03850	
+CH	1762	Givisiez							46.81340	7.12550	
+CH	1763	Granges-Paccot							46.82240	7.15370	
+CH	1772	Ponthaux							46.81660	7.03990	
+CH	1772	Grolley							46.83460	7.06610	
+CH	1772	Nierlet-les-Bois							46.81710	7.05820	
+CH	1773	Russy							46.84050	7.00530	
+CH	1773	Chandon							46.84170	7.03980	
+CH	1773	Léchelles							46.82900	7.02160	
+CH	1774	Cousset							46.82060	6.97180	
+CH	1774	Montagny-les-Monts							46.80240	6.99310	
+CH	1775	Mannens							46.79870	6.97030	
+CH	1775	Grandsivaz							46.78610	6.98040	
+CH	1776	Montagny-la-Ville							46.81930	7.00270	
+CH	1782	La Corbaz							46.84070	7.11460	
+CH	1782	Lossy							46.83600	7.10420	
+CH	1782	Belfaux							46.82470	7.09710	
+CH	1782	Autafond							46.81640	7.07770	
+CH	1782	Cormagens							46.83590	7.13670	
+CH	1782	Formangueires							46.82770	7.12170	
+CH	1783	Barberêche							46.86040	7.15150	
+CH	1783	Pensier							46.86670	7.16670	
+CH	1784	Courtepin							46.86080	7.12500	
+CH	1784	Wallenried							46.87690	7.10970	
+CH	1784	Cournillens							46.85680	7.09990	
+CH	1785	Cressier							46.89640	7.14000	
+CH	1786	Sugiez							46.96970	7.10740	
+CH	1787	Môtier (Vully)							46.94380	7.07080	
+CH	1787	Mur (Vully)							46.94610	7.06440	
+CH	1788	Praz (Vully)							46.95640	7.09630	
+CH	1789	Lugnorre							46.95830	7.07440	
+CH	1791	Courtaman							46.87120	7.13220	
+CH	1792	Guschelmuth							46.88340	7.14060	
+CH	1792	Cordast							46.87310	7.15010	
+CH	1793	Jeuss							46.90970	7.17360	
+CH	1794	Salvenach							46.91390	7.14990	
+CH	1795	Courlevon							46.89160	7.11000	
+CH	1796	Courgevaux							46.90540	7.10460	
+CH	1797	Münchenwiler							46.90980	7.12550	
+CH	1800	Vevey							46.46720	6.84340	
+CH	1801	Le Mont-Pèlerin							46.49230	6.82460	
+CH	1802	Corseaux							46.47100	6.82350	
+CH	1803	Chardonne							46.47890	6.82060	
+CH	1804	Corsier-sur-Vevey							46.47710	6.85070	
+CH	1805	Jongny							46.48740	6.84540	
+CH	1806	St-Légier-La Chiésaz							46.50080	6.90750	
+CH	1807	Blonay							46.47590	6.90830	
+CH	1808	Les Monts-de-Corsier							46.50090	6.87470	
+CH	1809	Fenil-sur-Corsier							46.48580	6.86660	
+CH	1811	Vevey							46.46420	6.84810	
+CH	1814	La Tour-de-Peilz							46.45500	6.86770	
+CH	1815	Clarens							46.44630	6.88990	
+CH	1816	Chailly-Montreux							46.45290	6.89220	
+CH	1817	Brent							46.45280	6.90390	
+CH	1818	Montreux Redoute							46.45180	6.94080	
+CH	1820	Territet							46.42530	6.92570	
+CH	1820	Veytaux							46.42780	6.95790	
+CH	1820	Montreux							46.43510	6.91210	
+CH	1822	Chernex							46.43820	6.92000	
+CH	1823	Glion							46.43510	6.92840	
+CH	1824	Caux							46.44800	6.97840	
+CH	1832	Villard-sur-Chamby							46.46750	6.93130	
+CH	1832	Chamby							46.45290	6.91890	
+CH	1833	Les Avants							46.46260	6.95390	
+CH	1844	Villeneuve							46.40640	6.97160	
+CH	1845	Noville							46.37920	6.89350	
+CH	1846	Chessel							46.35030	6.89660	
+CH	1847	Rennaz							46.37590	6.91770	
+CH	1852	Roche							46.35930	6.92520	
+CH	1853	Yvorne							46.34220	6.94640	
+CH	1854	Leysin							46.35130	7.00880	
+CH	1856	Corbeyrier							46.37060	6.98690	
+CH	1860	Aigle							46.31390	6.96900	
+CH	1862	La Comballaz							46.37640	7.07550	
+CH	1862	Les Mosses							46.39430	7.10400	
+CH	1863	Le Sépey							46.36550	7.05950	
+CH	1864	Vers-l'Eglise							46.35800	7.11750	
+CH	1865	Les Diablerets							46.34200	7.17610	
+CH	1866	La Forclaz							46.34150	7.07260	
+CH	1867	St-Triphon							46.28220	6.97020	
+CH	1867	Panex							46.31710	7.02800	
+CH	1867	Ollon							46.28180	7.00920	
+CH	1868	Collombey							46.26060	6.93320	
+CH	1869	Massongex							46.24010	6.98510	
+CH	1870	Monthey							46.23990	6.88920	
+CH	1871	Les Giettes							46.22140	6.95330	
+CH	1871	Choëx							46.23950	6.95450	
+CH	1872	Troistorrents							46.22820	6.90440	
+CH	1873	Val-d'Illiez							46.19370	6.89770	
+CH	1873	Les Crosets							46.18770	6.82930	
+CH	1873	Champoussin							46.20650	6.85920	
+CH	1874	Champéry							46.15970	6.84910	
+CH	1875	Morgins							46.24110	6.86860	
+CH	1880	Frenières-sur-Bex							46.24140	7.06320	
+CH	1880	Fenalet-sur-Bex							46.27870	7.03130	
+CH	1880	Les Plans-sur-Bex							46.23870	7.11040	
+CH	1880	Les Posses-sur-Bex							46.27870	7.03130	
+CH	1880	Bex							46.24670	7.01380	
+CH	1882	Gryon							46.28610	7.13250	
+CH	1882	Les Posses-sur-Bex							46.27520	7.04560	
+CH	1884	Villars-sur-Ollon							46.31370	7.09810	
+CH	1884	Arveyes							46.28790	7.05810	
+CH	1884	Huémoz							46.29680	7.01480	
+CH	1885	Chesières							46.30240	7.03690	
+CH	1890	Mex							46.18690	6.98790	
+CH	1890	St-Maurice							46.19410	7.01440	
+CH	1891	Vérossaz							46.20470	6.97170	
+CH	1892	Morcles							46.20480	7.04940	
+CH	1892	Lavey-les-Bains							46.20340	7.01880	
+CH	1892	Lavey-Village							46.22090	7.03350	
+CH	1893	Muraz (Collombey)							46.28800	6.89900	
+CH	1895	Vionnaz							46.30690	6.89950	
+CH	1896	Miex							46.33800	6.83110	
+CH	1896	Vouvry							46.33500	6.90170	
+CH	1897	Les Evouettes							46.36400	6.87330	
+CH	1897	Bouveret							46.37400	6.85300	
+CH	1898	St-Gingolph							46.38380	6.81260	
+CH	1899	Torgon							46.30690	6.85420	
+CH	1902	Evionnaz							46.15290	6.95440	
+CH	1903	Collonges							46.17980	7.05700	
+CH	1904	Vernayaz							46.14340	7.03070	
+CH	1905	Dorénaz							46.14830	7.06050	
+CH	1906	Charrat							46.12050	7.13370	
+CH	1907	Saxon							46.13760	7.18210	
+CH	1908	Riddes							46.16710	7.21530	
+CH	1911	Mayens-de-Chamoson							46.22110	7.18230	
+CH	1911	Ovronnaz							46.20670	7.13400	
+CH	1912	Leytron							46.18700	7.21100	
+CH	1912	Dugny (Leytron)							46.18690	7.18100	
+CH	1912	Montagnon (Leytron)							46.19170	7.19230	
+CH	1912	Produit (Leytron)							46.18580	7.19420	
+CH	1913	Saillon							46.17990	7.14910	
+CH	1914	Isérables							46.14850	7.26290	
+CH	1914	Auddes-sur-Riddes							46.15680	7.23840	
+CH	1918	La Tzoumaz							46.13380	7.24670	
+CH	1920	Martigny							46.10630	7.09930	
+CH	1921	Martigny-Croix							46.06150	7.03060	
+CH	1922	Les Granges (Salvan)							46.13380	6.97740	
+CH	1922	Salvan							46.14180	7.00810	
+CH	1923	Les Marécottes							46.10030	6.93000	
+CH	1923	Le Trétien							46.09510	6.99370	
+CH	1925	Le Châtelard							46.05730	6.95450	
+CH	1925	Finhaut							46.07170	6.93500	
+CH	1926	Fully							46.15510	7.11720	
+CH	1927	Chemin							46.08780	7.07780	
+CH	1928	Ravoire							46.09900	7.04060	
+CH	1929	Trient							46.03450	6.99690	
+CH	1932	Les Valettes (Bovernier)							46.07720	7.07320	
+CH	1932	Martigny-Croix							46.05890	7.08000	
+CH	1933	Chamoille (Sembrancher)							46.06130	7.15580	
+CH	1933	La Garde (Sembrancher)							46.06640	7.14550	
+CH	1933	Vens (Sembrancher)							46.08740	7.12900	
+CH	1933	Sembrancher							46.07000	7.12420	
+CH	1934	Fontenelle (Le Châble)							46.08640	7.21790	
+CH	1934	Le Châble							46.08010	7.20220	
+CH	1934	Bruson							46.04900	7.20820	
+CH	1934	Montagnier (Le Châble)							46.07350	7.23120	
+CH	1934	Villette (Le Châble)							46.08220	7.21180	
+CH	1934	Cotterg (Le Châble)							46.08830	7.20250	
+CH	1936	Verbier							46.09840	7.22520	
+CH	1937	Orsières							46.02850	7.16500	
+CH	1938	Champex-Lac							46.03830	7.09610	
+CH	1941	Vollèges							46.08600	7.16100	
+CH	1941	Cries (Vollèges)							46.09320	7.17490	
+CH	1942	Levron							46.10340	7.16030	
+CH	1943	Praz-de-Fort							45.98270	7.08980	
+CH	1944	La Fouly							45.92940	7.08110	
+CH	1945	Rive Haute (Liddes)							46.00620	7.17090	
+CH	1945	Palasuit (Liddes)							45.97060	7.18830	
+CH	1945	Dranse (Liddes)							45.99100	7.17970	
+CH	1945	Les Moulins (Liddes)							46.00330	7.16550	
+CH	1945	Liddes							45.98960	7.22300	
+CH	1945	Vichères (Liddes)							45.99820	7.16140	
+CH	1945	Fontaine Dessous (Liddes)							46.01470	7.17010	
+CH	1945	Fontaine Dessus (Liddes)							46.00540	7.17490	
+CH	1945	Chez Petit (Liddes)							45.95090	7.15390	
+CH	1945	Petit Vichères (Liddes)							45.98840	7.15860	
+CH	1945	Fornex (Liddes)							46.00860	7.15600	
+CH	1945	Chandonne (Liddes)							46.01250	7.18740	
+CH	1946	Bourg-St-Pierre							45.91650	7.21400	
+CH	1947	Les Places (Versegères)							46.06260	7.23870	
+CH	1947	Versegères							46.06460	7.23340	
+CH	1947	Prarreyer (Versegères)							46.06970	7.22580	
+CH	1947	Le Fregnoley (Versegères)							46.05300	7.25160	
+CH	1947	La Montoz (Versegères)							46.05870	7.23900	
+CH	1947	Champsec (Versegères)							46.03040	7.23140	
+CH	1948	Le Planchamp (Lourtier)							46.05820	7.26200	
+CH	1948	Le Morgnes (Lourtier)							46.06300	7.28530	
+CH	1948	Fionnay							45.97150	7.36490	
+CH	1948	Lourtier							46.03710	7.26870	
+CH	1948	Sarreyer							46.06920	7.25980	
+CH	1950	Sion							46.22950	7.35680	
+CH	1951	Sion							46.23330	7.35000	
+CH	1955	Némiaz (Chamoson)							46.21540	7.22590	
+CH	1955	Grugnay (Chamoson)							46.20780	7.21380	
+CH	1955	St-Pierre-de-Clages							46.19100	7.24410	
+CH	1955	Les Vérines (Chamoson)							46.20750	7.20330	
+CH	1955	Chamoson							46.20370	7.22410	
+CH	1957	Ardon							46.23530	7.23880	
+CH	1958	St-Léonard							46.25670	7.42880	
+CH	1958	Uvrier							46.24770	7.40650	
+CH	1961	Vernamiège							46.21100	7.43850	
+CH	1962	Pont-de-la-Morge (Sion)							46.23200	7.31530	
+CH	1963	Vétroz							46.21840	7.26070	
+CH	1964	Conthey							46.21790	7.30220	
+CH	1965	Savièse							46.25000	7.35000	
+CH	1965	Roumaz (Savièse)							46.24530	7.34560	
+CH	1965	Drône							46.25720	7.36440	
+CH	1965	Mayens-de-la-Zour (Savièse)							46.31600	7.28630	
+CH	1965	St-Germain (Savièse)							46.25180	7.34850	
+CH	1965	Chandolin-près-Savièse							46.25280	7.32160	
+CH	1965	Monteiller-Savièse							46.25630	7.34430	
+CH	1965	Granois (Savièse)							46.25620	7.33050	
+CH	1965	Ormône (Savièse)							46.24210	7.34640	
+CH	1966	St-Romain (Ayent)							46.28260	7.41160	
+CH	1966	Blignou (Ayent)							46.27140	7.39720	
+CH	1966	Villa (Ayent)							46.27380	7.41840	
+CH	1966	Argnou (Ayent)							46.26360	7.39970	
+CH	1966	Signèse (Ayent)							46.25700	7.40390	
+CH	1966	La Place (Ayent)							46.26840	7.41300	
+CH	1966	Botyre (Ayent)							46.27660	7.40570	
+CH	1966	Saxonne (Ayent)							46.28480	7.40330	
+CH	1966	Luc (Ayent)							46.28320	7.42260	
+CH	1966	Fortunau (Ayent)							46.30280	7.42820	
+CH	1967	Bramois							46.23320	7.40480	
+CH	1968	Mase							46.19330	7.45180	
+CH	1969	Eison (St.Martin)							46.15160	7.48880	
+CH	1969	St-Martin							46.17040	7.44410	
+CH	1969	Suen (St-Martin)							46.18090	7.44150	
+CH	1969	Liez (St-Martin)							46.16150	7.45100	
+CH	1969	Trogne (St-Martin)							46.17410	7.47210	
+CH	1971	Grimisuat							46.25710	7.38250	
+CH	1971	Champlan (Grimisuat)							46.24830	7.37780	
+CH	1972	Anzère							46.33560	7.41000	
+CH	1973	Nax							46.21710	7.47160	
+CH	1974	Arbaz							46.29990	7.37440	
+CH	1975	St-Séverin							46.23870	7.30290	
+CH	1976	Daillon							46.25740	7.30210	
+CH	1976	Aven							46.28780	7.22020	
+CH	1976	Erde							46.28700	7.29640	
+CH	1977	Icogne							46.34260	7.45650	
+CH	1978	Lens							46.28000	7.45040	
+CH	1981	Vex							46.20890	7.39720	
+CH	1982	Euseigne							46.14400	7.42940	
+CH	1983	Lana (Evolène)							46.10990	7.45310	
+CH	1983	Evolène							46.11960	7.48590	
+CH	1984	Les Haudères							46.07900	7.47570	
+CH	1984	La Tour							46.08330	7.51670	
+CH	1985	La Forclaz							46.13060	7.45280	
+CH	1985	La Sage							46.09480	7.54150	
+CH	1985	Villaz							46.13060	7.45280	
+CH	1986	Arolla							46.01630	7.51820	
+CH	1987	Hérémence							46.09690	7.39350	
+CH	1988	Les Collons							46.19160	7.39020	
+CH	1988	Thyon							46.17600	7.37510	
+CH	1991	Turin (Salins)							46.21520	7.35800	
+CH	1991	Arvillard (Salins)							46.21020	7.34340	
+CH	1991	Pravidondaz (Salins)							46.21190	7.35280	
+CH	1991	Misériez (Salins)							46.20680	7.34360	
+CH	1991	Salins							46.20360	7.35380	
+CH	1992	Crête-à-l'Oeil (Les Agettes)							46.21330	7.37420	
+CH	1992	Les Mayens-de-Sion							46.19420	7.37170	
+CH	1992	La Vernaz (Les Agettes)							46.21080	7.37600	
+CH	1992	Les Agettes							46.20670	7.37160	
+CH	1993	Clèbes (Nendaz)							46.18710	7.33730	
+CH	1993	Veysonnaz							46.19510	7.33890	
+CH	1994	Aproz (Nendaz)							46.20520	7.31080	
+CH	1996	Condémines (Nendaz)							46.17670	7.26010	
+CH	1996	Brignon (Nendaz)							46.19340	7.32730	
+CH	1996	Fey (Nendaz)							46.18570	7.26800	
+CH	1996	Bieudron (Nendaz)							46.19400	7.27970	
+CH	1996	Basse-Nendaz							46.19250	7.30780	
+CH	1996	Baar (Nendaz)							46.20270	7.32600	
+CH	1996	Beuson (Nendaz)							46.18060	7.32560	
+CH	1996	Saclentse							46.17870	7.31740	
+CH	1997	Siviez (Nendaz)							46.11130	7.32100	
+CH	1997	Haute-Nendaz							46.16800	7.31350	
+CH	1997	Sornard (Nendaz)							46.16800	7.31350	
+CH	2000	Neuchâtel							47.00090	6.92740	
+CH	2001	Neuchâtel 1							47.00000	6.96670	
+CH	2002	Neuchâtel 2							47.00000	6.96670	
+CH	2003	Neuchâtel 3							47.00000	6.96670	
+CH	2004	Neuchâtel 4							47.00000	6.96670	
+CH	2006	Neuchâtel 6							47.00000	6.96670	
+CH	2007	Neuchâtel 7							47.00000	6.96670	
+CH	2008	Neuchâtel							47.00000	6.96670	
+CH	2009	Neuchâtel 9							47.00000	6.96670	
+CH	2010	Neuchâtel							46.95000	6.85000	
+CH	2012	Auvernier							46.97610	6.87440	
+CH	2013	Colombier							46.96730	6.86070	
+CH	2014	Bôle							46.96880	6.83580	
+CH	2015	Areuse							46.95280	6.86100	
+CH	2016	Cortaillod							46.94260	6.84630	
+CH	2017	Boudry							46.95420	6.81800	
+CH	2019	Chambrelien							46.97040	6.81240	
+CH	2019	Rochefort							46.99460	6.80360	
+CH	2022	Bevaix							46.93280	6.81060	
+CH	2023	Gorgier							46.92110	6.75590	
+CH	2024	St-Aubin-Sauges							46.89660	6.76660	
+CH	2025	Chez-le-Bart							46.91090	6.79260	
+CH	2027	Montalchez							46.91160	6.73810	
+CH	2027	Fresens							46.88740	6.74840	
+CH	2028	Vaumarcus							46.87560	6.74780	
+CH	2034	Peseux							46.99430	6.88700	
+CH	2035	Corcelles							46.98690	6.86470	
+CH	2036	Cormondrèche							46.97980	6.86430	
+CH	2037	Montezillon							46.98690	6.83630	
+CH	2037	Montmollin							46.99910	6.83880	
+CH	2042	Valangin							47.01770	6.90300	
+CH	2043	Boudevilliers							47.03020	6.88460	
+CH	2046	Fontaines							47.04120	6.90080	
+CH	2052	Fontainemelon							47.05530	6.88690	
+CH	2052	La Vue-des-Alpes							47.06750	6.87570	
+CH	2053	Cernier							47.06000	6.90400	
+CH	2054	Les Vieux-Prés							47.09140	6.92650	
+CH	2054	Chézard-St-Martin							47.06390	6.92640	
+CH	2056	Dombresson							47.07100	6.95940	
+CH	2057	Villiers							47.08290	6.98140	
+CH	2058	Le Pâquier							47.10370	6.98620	
+CH	2063	Vilars							47.03250	6.93230	
+CH	2063	Saules							47.03820	6.94020	
+CH	2063	Fenin							47.02290	6.92020	
+CH	2063	Engollon							47.04610	6.92720	
+CH	2065	Savagnier							47.04980	6.95490	
+CH	2067	Chaumont							47.03550	6.96380	
+CH	2068	Hauterive							47.01660	6.96870	
+CH	2072	St-Blaise							47.03740	7.00210	
+CH	2073	Enges							47.07250	7.01280	
+CH	2074	Marin-Epagnier							47.01010	7.01220	
+CH	2075	Wavre							47.02250	7.01940	
+CH	2075	Thielle							47.01860	7.02690	
+CH	2087	Cornaux							47.03360	7.02100	
+CH	2088	Cressier							47.04900	7.03420	
+CH	2103	Noiraigue							46.94600	6.72120	
+CH	2105	Travers							46.94670	6.67880	
+CH	2108	Couvet							46.92110	6.69460	
+CH	2112	Môtiers							46.90240	6.61890	
+CH	2113	Boveresse							46.91630	6.59870	
+CH	2114	Fleurier							46.89590	6.59250	
+CH	2115	Buttes							46.87770	6.54590	
+CH	2116	Mont-de-Buttes							46.88700	6.51920	
+CH	2117	La Côte-aux-Fées							46.86430	6.48750	
+CH	2123	St-Sulpice							46.90780	6.55790	
+CH	2124	Les Sagnettes							46.93910	6.59870	
+CH	2126	Les Verrières							46.91640	6.47320	
+CH	2127	Les Bayards							46.92450	6.54050	
+CH	2149	Fretereules							46.96080	6.76830	
+CH	2149	Champ-du-Moulin							46.95400	6.77220	
+CH	2149	Brot-Dessous							46.96300	6.75480	
+CH	2206	Les Geneveys-sur-Coffrane							47.01830	6.83310	
+CH	2207	Coffrane							47.00860	6.86450	
+CH	2208	Les Hauts-Geneveys							47.03840	6.85210	
+CH	2300	La Chaux-de-Fonds							47.11090	6.82930	
+CH	2300	La Cibourg							47.11650	6.87580	
+CH	2301	La Chx-de-F. Combe-à-l'Ours							47.13330	6.85000	
+CH	2301	La Chaux-de-Fonds							47.13330	6.85000	
+CH	2302	La Chaux-de-Fonds							47.13330	6.85000	
+CH	2303	La Chaux-de-Fonds							47.13330	6.85000	
+CH	2304	La Chaux-de-Fonds							47.13330	6.85000	
+CH	2306	La Chaux-de-Fonds							47.13330	6.85000	
+CH	2314	La Sagne NE							47.03430	6.80010	
+CH	2316	Les Ponts-de-Martel							46.98920	6.71870	
+CH	2316	Petit-Martel							47.01210	6.74920	
+CH	2318	Brot-Plamboz							46.97920	6.74600	
+CH	2322	Le Crêt-du-Locle							47.07940	6.78020	
+CH	2325	Les Planchettes							47.10730	6.76860	
+CH	2333	La Cibourg							47.12590	6.88970	
+CH	2333	La Ferrière							47.14090	6.90960	
+CH	2336	Les Bois							47.17800	6.89820	
+CH	2338	Muriaux							47.24440	6.98500	
+CH	2338	Les Emibois							47.23170	6.99780	
+CH	2340	Le Noirmont							47.21550	6.94430	
+CH	2345	Les Breuleux							47.20600	7.00220	
+CH	2345	La Chaux-des-Breuleux							47.22350	7.02810	
+CH	2345	Le Cerneux-Veusil							47.17840	6.96550	
+CH	2350	Saignelégier							47.24580	7.02800	
+CH	2353	Les Pommerats							47.28810	6.98820	
+CH	2354	Goumois							47.25230	6.96480	
+CH	2360	Le Bémont							47.26160	7.03330	
+CH	2362	Montfaucon							47.27990	7.07250	
+CH	2362	Montfavergier							47.30570	7.08820	
+CH	2363	Les Enfers							47.28820	7.04080	
+CH	2364	St-Brais							47.30650	7.12230	
+CH	2400	Le Locle							47.05640	6.76270	
+CH	2400	Le Prévoux							47.03500	6.71140	
+CH	2405	La Chaux-du-Milieu							47.00560	6.69590	
+CH	2406	Les Taillères							46.97280	6.57570	
+CH	2406	Le Brouillet							46.95420	6.52870	
+CH	2406	La Châtagne							46.97900	6.64540	
+CH	2406	La Brévine							46.97270	6.60220	
+CH	2414	Le Cerneux-Péquignot							47.01300	6.67020	
+CH	2416	Les Brenets							47.07510	6.72430	
+CH	2500	Biel/Bienne							47.13240	7.24410	
+CH	2501	Biel/Bienne							47.15040	7.24700	
+CH	2502	Biel/Bienne							47.14300	7.24680	
+CH	2503	Biel/Bienne							47.13110	7.25190	
+CH	2504	Biel/Bienne							47.15820	7.28310	
+CH	2505	Biel/Bienne							47.13420	7.21880	
+CH	2512	Tüscherz-Alfermée							47.12330	7.19860	
+CH	2513	Twann							47.10730	7.16260	
+CH	2514	Ligerz							47.08850	7.13760	
+CH	2515	Prêles							47.09700	7.11960	
+CH	2516	Lamboing							47.12650	7.15930	
+CH	2517	Diesse							47.11930	7.12100	
+CH	2518	Nods							47.12170	7.05920	
+CH	2520	La Neuveville							47.07380	7.09860	
+CH	2523	Lignières							47.09110	7.05780	
+CH	2525	Le Landeron							47.06000	7.06350	
+CH	2532	Macolin							47.14270	7.21260	
+CH	2533	Evilard							47.15050	7.23450	
+CH	2534	Orvin							47.15610	7.21200	
+CH	2534	Les Prés-d'Orvin							47.15220	7.15500	
+CH	2535	Frinvillier							47.16850	7.25970	
+CH	2536	Plagne							47.18920	7.27760	
+CH	2537	Vauffelin							47.18580	7.30730	
+CH	2538	Romont							47.19210	7.32730	
+CH	2540	Grenchen							47.20310	7.38610	
+CH	2542	Pieterlen							47.17570	7.32790	
+CH	2543	Lengnau							47.18260	7.36500	
+CH	2544	Bettlach							47.20910	7.41960	
+CH	2545	Selzach							47.21780	7.44710	
+CH	2552	Orpund							47.14180	7.30130	
+CH	2553	Safnern							47.15340	7.31990	
+CH	2554	Meinisberg							47.16160	7.35400	
+CH	2555	Brügg							47.12780	7.28250	
+CH	2556	Schwadernau							47.12430	7.31000	
+CH	2556	Scheuren							47.13150	7.32960	
+CH	2557	Studen							47.11360	7.30600	
+CH	2558	Aegerten							47.11760	7.28320	
+CH	2560	Nidau							47.12420	7.24030	
+CH	2562	Port							47.11370	7.25820	
+CH	2563	Ipsach							47.11510	7.23160	
+CH	2564	Bellmund							47.10250	7.24760	
+CH	2565	Jens							47.09660	7.26880	
+CH	2572	Sutz							47.10030	7.21750	
+CH	2572	Mörigen							47.08460	7.21250	
+CH	2575	Hagneck							47.04800	7.18790	
+CH	2575	Täuffelen							47.06070	7.19440	
+CH	2575	Gerolfingen							47.07650	7.20050	
+CH	2576	Lüscherz							47.04510	7.16230	
+CH	2577	Finsterhennen							47.02270	7.17690	
+CH	2577	Siselen							47.03050	7.19740	
+CH	2603	Péry							47.19360	7.25530	
+CH	2604	La Heutte							47.19110	7.21810	
+CH	2605	Sonceboz-Sombeval							47.18910	7.18150	
+CH	2606	Corgémont							47.19180	7.14120	
+CH	2607	Cortébert							47.19050	7.10770	
+CH	2608	Courtelary							47.18880	7.07400	
+CH	2608	Montagne-de-Courtelary							47.15890	7.09960	
+CH	2610	St-Imier							47.14800	6.98730	
+CH	2610	Mont-Crosin							47.18670	7.02360	
+CH	2610	Mont-Soleil							47.15190	6.95550	
+CH	2610	Les Pontins							47.12950	7.00800	
+CH	2612	Cormoret							47.15720	7.05210	
+CH	2613	Villeret							47.14930	7.03180	
+CH	2615	Montagne-de-Sonvilier							47.12070	6.95600	
+CH	2615	Sonvilier							47.13140	6.95670	
+CH	2616	La Cibourg							47.11690	6.89160	
+CH	2616	Renan							47.10730	6.90490	
+CH	2710	Tavannes							47.22020	7.19280	
+CH	2712	Le Fuet							47.24860	7.17660	
+CH	2713	Bellelay							47.26410	7.16320	
+CH	2714	Le Prédame							47.25430	7.10040	
+CH	2714	Les Genevez							47.25490	7.12120	
+CH	2715	Monible							47.27820	7.19860	
+CH	2715	Châtelat							47.26970	7.18950	
+CH	2716	Sornetan							47.27570	7.21560	
+CH	2717	Fornet-Dessous							47.27700	7.17900	
+CH	2717	Rebévelier							47.28940	7.18740	
+CH	2718	Lajoux							47.27830	7.13100	
+CH	2718	Fornet-Dessus							47.28850	7.15670	
+CH	2720	La Tanne							47.21660	7.13570	
+CH	2720	Tramelan							47.23090	7.11710	
+CH	2722	Les Reussilles							47.22640	7.07320	
+CH	2723	Mont-Tramelan							47.21050	7.05190	
+CH	2732	Loveresse							47.24330	7.23960	
+CH	2732	Saicourt							47.24860	7.20270	
+CH	2732	Saules							47.25240	7.22290	
+CH	2732	Reconvilier							47.23070	7.21800	
+CH	2733	Pontenet							47.24640	7.25820	
+CH	2735	Bévilard							47.23390	7.28580	
+CH	2735	Malleray							47.23370	7.26670	
+CH	2735	Champoz							47.25910	7.31040	
+CH	2736	Sorvilier							47.23290	7.30910	
+CH	2738	Court							47.23710	7.36290	
+CH	2740	Moutier							47.27850	7.37020	
+CH	2742	Perrefitte							47.27830	7.32190	
+CH	2743	Eschert							47.26620	7.41220	
+CH	2744	Belprahon							47.29020	7.40540	
+CH	2745	Grandval							47.28300	7.42840	
+CH	2746	Crémines							47.27320	7.45480	
+CH	2747	Seehof							47.30510	7.52390	
+CH	2747	Corcelles							47.29230	7.47290	
+CH	2748	Souboz							47.27230	7.25600	
+CH	2748	Les Ecorcheresses							47.28350	7.28410	
+CH	2762	Roches							47.30370	7.38910	
+CH	2800	Delémont							47.36850	7.33250	
+CH	2802	Develier							47.36330	7.28590	
+CH	2803	Bourrignon							47.39410	7.25180	
+CH	2805	Soyhières							47.39700	7.38220	
+CH	2806	Mettembert							47.39200	7.33330	
+CH	2807	Lucelle							47.41770	7.24330	
+CH	2807	Pleigne							47.41540	7.26980	
+CH	2812	Movelier							47.41050	7.33100	
+CH	2813	Ederswiler							47.42680	7.32590	
+CH	2814	Roggenburg							47.42780	7.36060	
+CH	2822	Courroux							47.36620	7.38130	
+CH	2823	Courcelon							47.36570	7.40490	
+CH	2824	Vicques							47.35020	7.42610	
+CH	2825	Courchapoix							47.35110	7.45160	
+CH	2826	Corban							47.35260	7.47370	
+CH	2827	Schelten							47.33550	7.55500	
+CH	2827	Mervelier							47.33840	7.51500	
+CH	2828	Montsevelier							47.35990	7.51070	
+CH	2829	Vermes							47.31920	7.49370	
+CH	2830	Vellerat							47.31490	7.36350	
+CH	2830	Courrendlin							47.33290	7.37920	
+CH	2832	Rebeuvelier							47.32090	7.41690	
+CH	2842	Rossemaison							47.34530	7.34400	
+CH	2843	Châtillon							47.32200	7.34450	
+CH	2852	Courtételle							47.33180	7.31680	
+CH	2853	Courfaivre							47.33050	7.28140	
+CH	2854	Bassecourt							47.33420	7.23750	
+CH	2855	Glovelier							47.32410	7.18580	
+CH	2856	Boécourt							47.35820	7.21630	
+CH	2857	Montavon							47.37160	7.23660	
+CH	2863	Undervelier							47.30410	7.21480	
+CH	2864	Soulce							47.30000	7.29120	
+CH	2873	Saulcy							47.30390	7.16570	
+CH	2882	St-Ursanne							47.34180	7.13000	
+CH	2883	Montmelon							47.34590	7.17210	
+CH	2884	Montenol							47.35020	7.14270	
+CH	2885	Epauvillers							47.33590	7.12470	
+CH	2886	Epiquerez							47.32850	7.06940	
+CH	2887	Soubey							47.31090	7.04730	
+CH	2888	Seleute							47.36850	7.11090	
+CH	2889	Ocourt							47.35280	7.06830	
+CH	2900	Porrentruy							47.42060	7.06860	
+CH	2902	Fontenais							47.39910	7.07860	
+CH	2903	Villars-sur-Fontenais							47.38290	7.07550	
+CH	2904	Bressaucourt							47.38330	7.03790	
+CH	2905	Courtedoux							47.41170	7.02890	
+CH	2906	Chevenez							47.39190	6.99670	
+CH	2907	Rocourt							47.38880	6.96050	
+CH	2908	Grandfontaine							47.39290	6.93160	
+CH	2912	Roche-d'Or							47.36570	6.95580	
+CH	2912	Réclère							47.36780	6.92410	
+CH	2914	Damvant							47.36890	6.89540	
+CH	2915	Bure							47.43990	6.99560	
+CH	2916	Fahy							47.41970	6.95840	
+CH	2922	Courchavon							47.43800	7.04480	
+CH	2923	Courtemaîche							47.45860	7.04500	
+CH	2924	Montignez							47.48350	7.05780	
+CH	2925	Buix							47.47500	7.02500	
+CH	2926	Boncourt							47.48840	7.00990	
+CH	2932	Coeuve							47.45070	7.09520	
+CH	2933	Damphreux							47.47470	7.10150	
+CH	2933	Lugnez							47.48470	7.09600	
+CH	2935	Beurnevésin							47.49150	7.13610	
+CH	2942	Alle							47.42760	7.12630	
+CH	2943	Vendlincourt							47.45260	7.14910	
+CH	2944	Bonfol							47.47710	7.15740	
+CH	2946	Miécourt							47.43110	7.17130	
+CH	2947	Charmoille							47.42740	7.21530	
+CH	2950	Courgenay							47.39580	7.12600	
+CH	2950	Courtemautruy							47.39890	7.14030	
+CH	2952	Cornol							47.40480	7.16120	
+CH	2953	Fregiécourt							47.41090	7.19190	
+CH	2953	Pleujouse							47.41180	7.22050	
+CH	2954	Asuel							47.39920	7.20330	
+CH	3000	Bern							46.95090	7.44630	
+CH	3001	Bern							46.94700	7.44050	
+CH	3002	Bern PostFinance							46.94760	7.40650	
+CH	3003	Bern							46.91670	7.46670	
+CH	3004	Bern							46.98050	7.45200	
+CH	3005	Bern							46.93940	7.44990	
+CH	3006	Bern							46.94580	7.47130	
+CH	3007	Bern							46.93900	7.43500	
+CH	3008	Bern							46.94510	7.41390	
+CH	3010	Bern							46.94710	7.42440	
+CH	3011	Bern							46.95040	7.45490	
+CH	3012	Bern							46.96160	7.42600	
+CH	3013	Bern							46.95620	7.44620	
+CH	3014	Bern							46.96220	7.45840	
+CH	3015	Bern							46.94020	7.48550	
+CH	3018	Bern							46.93390	7.38910	
+CH	3019	Bern							46.93100	7.34790	
+CH	3020	Bern							46.93710	7.32090	
+CH	3024	Bern							46.91670	7.46670	
+CH	3027	Bern							46.95580	7.38730	
+CH	3029	Bern							46.94760	7.40650	
+CH	3030	Bern							46.91670	7.46670	
+CH	3032	Hinterkappelen							46.96720	7.38020	
+CH	3033	Wohlen b. Bern							46.97370	7.35100	
+CH	3034	Murzelen							46.97620	7.31160	
+CH	3035	Frieswil							46.99200	7.29300	
+CH	3036	Detligen							46.99030	7.26840	
+CH	3037	Herrenschwanden							46.97720	7.41980	
+CH	3038	Kirchlindach							46.99980	7.41510	
+CH	3039	Bern							46.94760	7.40650	
+CH	3040	Bern							46.91670	7.46670	
+CH	3041	Bern UBS							46.94760	7.40650	
+CH	3042	Ortschwaben							46.99220	7.39940	
+CH	3043	Uettligen							46.98860	7.37820	
+CH	3044	Innerberg							46.99610	7.31300	
+CH	3045	Meikirch							47.00920	7.37230	
+CH	3046	Wahlendorf							47.00950	7.34030	
+CH	3047	Bremgarten b. Bern							46.97710	7.43610	
+CH	3048	Worblaufen							46.97720	7.46160	
+CH	3049	Säriswil							46.99230	7.33480	
+CH	3050	Bern Swisscom							46.94760	7.40650	
+CH	3052	Zollikofen							46.99670	7.45330	
+CH	3053	Lätti							47.03700	7.43440	
+CH	3053	Münchenbuchsee							47.02210	7.43780	
+CH	3053	Wiggiswil							47.03070	7.46920	
+CH	3053	Diemerswil							47.01940	7.41910	
+CH	3053	Deisswil b. Münchenbuchsee							47.03870	7.45310	
+CH	3054	Schüpfen							47.03550	7.37740	
+CH	3063	Ittigen							46.98050	7.47860	
+CH	3065	Bolligen							46.98410	7.50830	
+CH	3066	Stettlen							46.96250	7.52870	
+CH	3067	Boll							46.96960	7.55230	
+CH	3068	Utzigen							46.96630	7.58560	
+CH	3071	Ostermundigen							46.95590	7.49560	
+CH	3072	Ostermundigen							46.95350	7.49250	
+CH	3073	Gümligen							46.93510	7.50710	
+CH	3074	Muri b. Bern							46.92660	7.48640	
+CH	3075	Rüfenacht							46.92690	7.53500	
+CH	3075	Vielbringen b. Worb							46.91580	7.54300	
+CH	3076	Worb							46.93080	7.56450	
+CH	3077	Enggistein							46.92910	7.60140	
+CH	3078	Richigen							46.91720	7.58390	
+CH	3082	Schlosswil							46.91130	7.61180	
+CH	3083	Trimstein							46.90210	7.57980	
+CH	3084	Wabern							46.92160	7.45250	
+CH	3085	Wabern Weihnachten							46.90430	7.39780	
+CH	3086	Englisberg							46.89570	7.46360	
+CH	3086	Zimmerwald							46.87970	7.46370	
+CH	3087	Niedermuhlern							46.86000	7.45730	
+CH	3088	Oberbütschel							46.83990	7.45820	
+CH	3088	Rüeggisberg							46.82420	7.43810	
+CH	3089	Hinterfultigen							46.83780	7.40470	
+CH	3095	Spiegel b. Bern							46.92540	7.43460	
+CH	3096	Oberbalm							46.86490	7.41060	
+CH	3097	Liebefeld							46.93080	7.42050	
+CH	3098	Köniz							46.91390	7.43390	
+CH	3098	Schliern b. Köniz							46.90620	7.42760	
+CH	3099	Rüti b. Riggisberg							46.76030	7.45920	
+CH	3110	Münsingen							46.87640	7.56000	
+CH	3111	Tägertschi							46.87370	7.58700	
+CH	3112	Allmendingen b. Bern							46.91770	7.51970	
+CH	3113	Rubigen							46.89470	7.54070	
+CH	3114	Wichtrach							46.84570	7.58180	
+CH	3115	Gerzensee							46.84900	7.54140	
+CH	3116	Mühledorf							46.82710	7.53140	
+CH	3116	Kirchdorf							46.81780	7.54200	
+CH	3116	Noflen							46.80170	7.54160	
+CH	3122	Kehrsatz							46.91320	7.46770	
+CH	3123	Belp							46.89330	7.50740	
+CH	3124	Belpberg							46.86730	7.52430	
+CH	3125	Toffen							46.86080	7.49460	
+CH	3126	Gelterfingen							46.84240	7.51790	
+CH	3126	Kaufdorf							46.84030	7.49460	
+CH	3127	Mühlethurnen							46.81590	7.50970	
+CH	3127	Lohnstorf							46.80660	7.51090	
+CH	3128	Rümligen							46.82720	7.49110	
+CH	3128	Kirchenthurnen							46.82430	7.50410	
+CH	3132	Riggisberg							46.80670	7.46640	
+CH	3144	Gasel							46.89620	7.39700	
+CH	3145	Niederscherli							46.88540	7.39420	
+CH	3147	Mittelhäusern							46.87270	7.37150	
+CH	3148	Lanzenhäusern							46.84620	7.36340	
+CH	3150	Schwarzenburg							46.81370	7.33150	
+CH	3152	Mamishaus							46.81580	7.37750	
+CH	3153	Rüschegg Gambach							46.77050	7.37640	
+CH	3154	Rüschegg Heubach							46.77140	7.41860	
+CH	3155	Helgisried-Rohrbach							46.81110	7.41730	
+CH	3156	Riffenmatt							46.75940	7.34650	
+CH	3157	Milken							46.79390	7.36560	
+CH	3158	Guggisberg							46.75980	7.32000	
+CH	3159	Riedstätt							46.78390	7.31890	
+CH	3172	Niederwangen b. Bern							46.92210	7.37820	
+CH	3173	Oberwangen b. Bern							46.91190	7.35650	
+CH	3174	Thörishaus							46.90040	7.34810	
+CH	3175	Flamatt							46.88740	7.30640	
+CH	3176	Neuenegg							46.90740	7.29720	
+CH	3177	Laupen							46.90630	7.24830	
+CH	3178	Bösingen							46.88700	7.23440	
+CH	3179	Kriechenwil							46.91370	7.21110	
+CH	3182	Ueberstorf							46.86880	7.32560	
+CH	3183	Albligen							46.84880	7.32260	
+CH	3184	Wünnewil							46.87350	7.27740	
+CH	3185	Schmitten							46.84930	7.25150	
+CH	3186	Düdingen							46.85060	7.18820	
+CH	3202	Frauenkappelen							46.95480	7.33260	
+CH	3203	Mühleberg							46.96290	7.27590	
+CH	3204	Rosshäusern							46.92940	7.27280	
+CH	3205	Gümmenen							46.94330	7.25160	
+CH	3206	Gammen							46.92040	7.22560	
+CH	3206	Rizenbach							46.94880	7.22800	
+CH	3206	Biberen							46.93840	7.21120	
+CH	3206	Ferenbalm							46.95610	7.21500	
+CH	3206	Wallenbuch							46.93210	7.22480	
+CH	3207	Wileroltigen							46.97080	7.23910	
+CH	3207	Golaten							46.98690	7.23800	
+CH	3208	Gurbrü							46.96680	7.21680	
+CH	3210	Kerzers							46.97900	7.19840	
+CH	3212	Kleingurmels							46.88450	7.18710	
+CH	3212	Gurmels							46.88840	7.17340	
+CH	3213	Kleinbösingen							46.89380	7.20380	
+CH	3213	Liebistorf							46.91200	7.19180	
+CH	3214	Ulmiz							46.92990	7.19940	
+CH	3215	Lurtigen							46.92740	7.17120	
+CH	3215	Büchslen							46.94380	7.18260	
+CH	3215	Gempenach							46.94300	7.19920	
+CH	3216	Ried b. Kerzers							46.96300	7.17470	
+CH	3216	Agriswil							46.95490	7.20190	
+CH	3225	Müntschemier							46.99560	7.14480	
+CH	3226	Treiten							47.00800	7.16480	
+CH	3232	Ins							47.00150	7.10910	
+CH	3233	Tschugg							47.02350	7.07750	
+CH	3234	Vinelz							47.03240	7.11970	
+CH	3235	Erlach							47.05000	7.10920	
+CH	3236	Gampelen							46.99630	7.05950	
+CH	3237	Brüttelen							47.02130	7.14920	
+CH	3238	Gals							47.03550	7.05820	
+CH	3250	Lyss							47.07560	7.31070	
+CH	3251	Ruppoldsried							47.08960	7.42520	
+CH	3251	Wengi b. Büren							47.08530	7.39210	
+CH	3252	Worben							47.09870	7.29320	
+CH	3253	Schnottwil							47.10630	7.39100	
+CH	3254	Messen							47.09010	7.45030	
+CH	3254	Balm b. Messen							47.10430	7.43500	
+CH	3255	Rapperswil							47.06650	7.41330	
+CH	3256	Dieterswil							47.05080	7.43060	
+CH	3256	Bangerten b. Dieterswil							47.05720	7.44810	
+CH	3256	Seewil							47.04630	7.41030	
+CH	3257	Ammerzwil							47.07320	7.34270	
+CH	3257	Grossaffoltern							47.06860	7.36650	
+CH	3262	Suberg							47.05590	7.33960	
+CH	3263	Büetigen							47.10610	7.33420	
+CH	3264	Diessbach b. Büren							47.10710	7.36500	
+CH	3266	Wiler b. Seedorf							47.04910	7.31730	
+CH	3267	Seedorf							47.02360	7.32400	
+CH	3268	Lobsigen							47.01790	7.29880	
+CH	3270	Aarberg							47.04420	7.28320	
+CH	3271	Radelfingen b. Aarberg							47.01860	7.27160	
+CH	3272	Walperswil							47.05300	7.22600	
+CH	3272	Epsach							47.07070	7.22160	
+CH	3273	Kappelen							47.07570	7.27770	
+CH	3274	Merzligen							47.08580	7.25660	
+CH	3274	Hermrigen							47.08130	7.24060	
+CH	3274	Bühl b. Aarberg							47.06650	7.24630	
+CH	3280	Greng							46.91490	7.09180	
+CH	3280	Murten							46.92860	7.13590	
+CH	3280	Meyriez							46.92370	7.10660	
+CH	3282	Bargen							47.03520	7.25030	
+CH	3283	Kallnach							47.01520	7.22010	
+CH	3283	Niederried b. Kallnach							46.99910	7.22790	
+CH	3284	Fräschels							46.99810	7.20790	
+CH	3285	Galmiz							46.96190	7.14620	
+CH	3286	Muntelier							46.94200	7.13600	
+CH	3292	Busswil							47.10060	7.32190	
+CH	3293	Dotzigen							47.12640	7.34890	
+CH	3294	Meienried							47.13700	7.34100	
+CH	3294	Büren an der Aare							47.14190	7.36570	
+CH	3295	Rüti b. Büren							47.15200	7.41290	
+CH	3296	Arch							47.16950	7.43260	
+CH	3297	Leuzigen							47.17110	7.46910	
+CH	3298	Oberwil b. Büren							47.13220	7.41350	
+CH	3302	Moosseedorf							47.00970	7.48610	
+CH	3303	Ballmoos							47.04070	7.47520	
+CH	3303	Münchringen							47.04660	7.52470	
+CH	3303	Jegenstorf							47.05200	7.50700	
+CH	3303	Zuzwil							47.04960	7.46980	
+CH	3305	Iffwil							47.06640	7.47920	
+CH	3305	Scheunen							47.07110	7.45430	
+CH	3306	Etzelkofen							47.08290	7.47990	
+CH	3307	Brunnenthal							47.08180	7.46450	
+CH	3308	Grafenried							47.07840	7.50760	
+CH	3309	Kernenried							47.06870	7.55120	
+CH	3309	Zauggenried							47.07040	7.53220	
+CH	3312	Fraubrunnen							47.08810	7.53040	
+CH	3313	Büren zum Hof							47.09820	7.50730	
+CH	3314	Schalunen							47.11350	7.52660	
+CH	3315	Kräiligen							47.15080	7.54090	
+CH	3315	Bätterkinden							47.13500	7.53200	
+CH	3317	Mülchi							47.10150	7.47700	
+CH	3317	Limpach							47.10950	7.49890	
+CH	3321	Schönbühl Einkaufszentrum							47.02500	7.55000	
+CH	3322	Mattstetten							47.03040	7.52080	
+CH	3322	Urtenen-Schönbühl							47.02520	7.49770	
+CH	3323	Bäriswil							47.01600	7.53090	
+CH	3324	Mötschwil							47.04790	7.56880	
+CH	3324	Hindelbank							47.04390	7.54510	
+CH	3325	Hettiswil b. Hindelbank							47.02560	7.55640	
+CH	3326	Krauchthal							47.00410	7.56630	
+CH	3360	Herzogenbuchsee							47.19510	7.71320	
+CH	3362	Niederönz							47.18830	7.68430	
+CH	3363	Oberönz							47.17440	7.68880	
+CH	3365	Seeberg							47.15990	7.66510	
+CH	3365	Grasswil							47.13960	7.66900	
+CH	3366	Bettenhausen							47.17400	7.70960	
+CH	3366	Bollodingen							47.16520	7.70450	
+CH	3367	Thörigen							47.17540	7.73280	
+CH	3367	Ochlenberg							47.15220	7.74040	
+CH	3368	Bleienbach							47.18300	7.76040	
+CH	3372	Wanzwil							47.19870	7.69080	
+CH	3373	Röthenbach Herzogenbuchsee							47.20560	7.68270	
+CH	3373	Heimenhausen							47.21450	7.69560	
+CH	3374	Wangenried							47.21810	7.66150	
+CH	3375	Inkwil							47.20190	7.66280	
+CH	3376	Berken							47.22530	7.70430	
+CH	3376	Graben							47.21790	7.72040	
+CH	3377	Walliswil b. Wangen							47.22770	7.68610	
+CH	3380	Wangen an der Aare							47.23160	7.64750	
+CH	3380	Walliswil b. Niederbipp							47.23490	7.69560	
+CH	3400	Burgdorf							47.05760	7.61780	
+CH	3401	Burgdorf							47.05000	7.61670	
+CH	3402	Burgdorf							47.05000	7.61670	
+CH	3412	Heimiswil							47.05380	7.66290	
+CH	3413	Kaltacker							47.07280	7.68710	
+CH	3414	Oberburg							47.02110	7.60970	
+CH	3415	Rüegsauschachen							47.02300	7.65550	
+CH	3415	Schafhausen im Emmental							46.99100	7.64490	
+CH	3415	Hasle b. Burgdorf							47.01370	7.64060	
+CH	3416	Affoltern im Emmental							47.06800	7.72460	
+CH	3417	Rüegsau							47.02740	7.68240	
+CH	3418	Rüegsbach							47.04750	7.69960	
+CH	3419	Biembach im Emmental							46.99330	7.61240	
+CH	3421	Rüti b. Lyssach							47.05430	7.58300	
+CH	3421	Lyssach							47.05830	7.58750	
+CH	3422	Alchenflüh							47.08340	7.57780	
+CH	3422	Kirchberg							47.07840	7.60150	
+CH	3422	Rüdtligen							47.08480	7.56520	
+CH	3423	Ersigen							47.10090	7.59430	
+CH	3424	Niederösch							47.11450	7.62080	
+CH	3424	Oberösch							47.10540	7.61280	
+CH	3425	Koppigen							47.13370	7.60500	
+CH	3425	Willadingen							47.14650	7.61490	
+CH	3426	Aefligen							47.09530	7.54870	
+CH	3427	Utzenstorf							47.12010	7.56390	
+CH	3428	Wiler b. Utzenstorf							47.15220	7.55800	
+CH	3429	Höchstetten							47.14430	7.63340	
+CH	3429	Hellsau							47.14300	7.64930	
+CH	3432	Lützelflüh-Goldbach							47.00640	7.68470	
+CH	3433	Schwanden im Emmental							46.97550	7.69270	
+CH	3434	Obergoldbach							46.95830	7.66360	
+CH	3434	Landiswil							46.95770	7.68550	
+CH	3435	Ramsei							47.00000	7.70940	
+CH	3436	Zollbrück							46.97270	7.76070	
+CH	3437	Rüderswil							46.98640	7.71360	
+CH	3438	Lauperswil							46.96110	7.72790	
+CH	3439	Ranflüh							46.98920	7.74610	
+CH	3452	Grünenmatt							47.00970	7.72880	
+CH	3453	Heimisbach							47.00920	7.78110	
+CH	3454	Sumiswald							47.03650	7.74340	
+CH	3455	Grünen							47.02170	7.73810	
+CH	3456	Trachselwald							47.01400	7.74840	
+CH	3457	Wasen im Emmental							47.02940	7.84010	
+CH	3462	Weier im Emmental							47.06110	7.76860	
+CH	3463	Häusernmoos im Emmental							47.08210	7.75000	
+CH	3464	Schmidigen-Mühleweg							47.09350	7.74000	
+CH	3465	Dürrenroth							47.08020	7.78480	
+CH	3472	Rumendingen							47.10380	7.64210	
+CH	3472	Wynigen							47.10150	7.68990	
+CH	3473	Alchenstorf							47.12290	7.64330	
+CH	3474	Rüedisbach							47.11710	7.70560	
+CH	3475	Riedtwil							47.13230	7.71440	
+CH	3475	Hermiswil							47.15550	7.69910	
+CH	3476	Oschwand							47.14660	7.72200	
+CH	3503	Gysenstein							46.89600	7.59590	
+CH	3504	Oberhünigen							46.87400	7.66710	
+CH	3504	Niederhünigen							46.86480	7.64840	
+CH	3506	Grosshöchstetten							46.90750	7.63550	
+CH	3507	Biglen							46.93040	7.62830	
+CH	3508	Arni							46.93420	7.66350	
+CH	3510	Häutligen							46.85720	7.60410	
+CH	3510	Konolfingen							46.87890	7.61810	
+CH	3510	Freimettigen							46.86500	7.63040	
+CH	3512	Walkringen							46.94840	7.61800	
+CH	3513	Bigenthal							46.97200	7.63410	
+CH	3531	Oberthal							46.92220	7.68190	
+CH	3532	Zäziwil							46.89560	7.66720	
+CH	3532	Mirchel							46.89150	7.65070	
+CH	3533	Bowil							46.88620	7.70220	
+CH	3534	Signau							46.90960	7.73180	
+CH	3535	Schüpbach							46.93050	7.74470	
+CH	3536	Aeschau							46.90620	7.78390	
+CH	3537	Eggiwil							46.85400	7.80630	
+CH	3538	Röthenbach im Emmental							46.85410	7.74420	
+CH	3543	Emmenmatt							46.94470	7.72510	
+CH	3550	Langnau im Emmental							46.93490	7.78620	
+CH	3551	Oberfrittenbach							46.97360	7.79500	
+CH	3552	Bärau							46.93590	7.82480	
+CH	3553	Gohl							46.98200	7.83160	
+CH	3555	Trubschachen							46.90500	7.86300	
+CH	3556	Trub							46.97000	7.88470	
+CH	3557	Fankhaus (Trub)							46.98120	7.92470	
+CH	3600	Thun							46.75540	7.62360	
+CH	3601	Thun							46.75000	7.61670	
+CH	3602	Thun							46.75000	7.61670	
+CH	3603	Thun							46.76200	7.60010	
+CH	3604	Thun							46.74050	7.62070	
+CH	3605	Thun							46.75000	7.61670	
+CH	3607	Thun							46.75000	7.61670	
+CH	3608	Thun							46.73990	7.59880	
+CH	3609	Thun							46.75000	7.61670	
+CH	3612	Steffisburg							46.78270	7.63830	
+CH	3613	Steffisburg							46.77100	7.61450	
+CH	3614	Unterlangenegg							46.80000	7.69190	
+CH	3615	Heimenschwand							46.82550	7.69630	
+CH	3616	Schwarzenegg							46.79920	7.73790	
+CH	3617	Fahrni b. Thun							46.79600	7.65800	
+CH	3618	Süderen							46.82170	7.75810	
+CH	3619	Eriz							46.77770	7.77910	
+CH	3619	Innereriz							46.77740	7.83700	
+CH	3622	Homberg b. Thun							46.77520	7.68290	
+CH	3623	Teuffenthal b. Thun							46.76460	7.70830	
+CH	3623	Horrenbach							46.77750	7.74500	
+CH	3623	Buchen							46.78050	7.71190	
+CH	3624	Goldiwil (Thun)							46.76020	7.66750	
+CH	3624	Schwendibach							46.77080	7.65950	
+CH	3625	Heiligenschwendi							46.75210	7.67880	
+CH	3626	Hünibach							46.74840	7.64870	
+CH	3627	Heimberg							46.79080	7.60390	
+CH	3628	Kienersrüti							46.79980	7.56000	
+CH	3628	Uttigen							46.79670	7.57420	
+CH	3629	Oppligen							46.81510	7.59540	
+CH	3629	Kiesen							46.81290	7.57810	
+CH	3629	Jaberg							46.81950	7.56600	
+CH	3631	Höfen b. Thun							46.72150	7.56410	
+CH	3632	Oberstocken							46.70720	7.54990	
+CH	3632	Niederstocken							46.70250	7.57270	
+CH	3633	Amsoldingen							46.72400	7.58730	
+CH	3634	Thierachern							46.74990	7.57110	
+CH	3635	Uebeschi							46.73990	7.54890	
+CH	3636	Forst b. Längenbühl							46.76470	7.52460	
+CH	3636	Längenbühl							46.75820	7.53830	
+CH	3638	Blumenstein							46.72900	7.49360	
+CH	3638	Pohlern							46.71790	7.52370	
+CH	3645	Gwatt (Thun)							46.72410	7.62170	
+CH	3645	Zwieselberg							46.71070	7.61570	
+CH	3646	Einigen							46.70340	7.64830	
+CH	3647	Reutigen							46.69370	7.60500	
+CH	3652	Hilterfingen							46.74090	7.66170	
+CH	3653	Oberhofen am Thunersee							46.73420	7.67500	
+CH	3654	Gunten							46.71480	7.70470	
+CH	3655	Sigriswil							46.71980	7.73480	
+CH	3656	Tschingel ob Gunten							46.72560	7.71330	
+CH	3656	Ringoldswil							46.73800	7.69560	
+CH	3656	Aeschlen ob Gunten							46.72180	7.69910	
+CH	3657	Schwanden (Sigriswil)							46.74430	7.75700	
+CH	3658	Merligen							46.70070	7.74570	
+CH	3661	Uetendorf							46.77580	7.57720	
+CH	3662	Seftigen							46.79090	7.54120	
+CH	3663	Gurzelen							46.77180	7.53530	
+CH	3664	Burgistein							46.79070	7.50360	
+CH	3665	Wattenwil							46.75890	7.48870	
+CH	3671	Brenzikofen							46.81440	7.61620	
+CH	3671	Herbligen							46.82840	7.60530	
+CH	3672	Oberdiessbach							46.84120	7.62930	
+CH	3672	Aeschlen b. Oberdiessbach							46.83260	7.65320	
+CH	3673	Linden							46.84880	7.68370	
+CH	3674	Bleiken b. Oberdiessbach							46.81680	7.64020	
+CH	3700	Spiez							46.68200	7.67120	
+CH	3702	Hondrich							46.67250	7.68150	
+CH	3703	Aeschi b. Spiez							46.65110	7.69790	
+CH	3703	Aeschiried							46.61320	7.76130	
+CH	3704	Krattigen							46.65410	7.73710	
+CH	3705	Faulensee							46.67280	7.70230	
+CH	3706	Leissigen							46.64280	7.77700	
+CH	3707	Därligen							46.65180	7.81030	
+CH	3711	Mülenen							46.63970	7.68910	
+CH	3711	Emdthal							46.64550	7.68150	
+CH	3713	Reichenbach im Kandertal							46.61210	7.68240	
+CH	3714	Frutigen							46.58450	7.63640	
+CH	3714	Wengi b. Frutigen							46.62100	7.63770	
+CH	3715	Adelboden							46.47000	7.55820	
+CH	3716	Kandergrund							46.55290	7.66800	
+CH	3717	Blausee-Mitholz							46.52750	7.68430	
+CH	3718	Kandersteg							46.46560	7.71370	
+CH	3722	Scharnachtal							46.61170	7.71360	
+CH	3723	Kiental							46.55580	7.75790	
+CH	3724	Ried (Frutigen)							46.56150	7.59210	
+CH	3725	Achseten							46.52790	7.59760	
+CH	3752	Wimmis							46.66490	7.64500	
+CH	3753	Oey							46.65050	7.59910	
+CH	3754	Diemtigen							46.64780	7.55590	
+CH	3755	Horboden							46.61210	7.57170	
+CH	3756	Zwischenflüh							46.59920	7.52290	
+CH	3757	Schwenden im Diemtigtal							46.55730	7.50840	
+CH	3758	Latterbach							46.67270	7.59380	
+CH	3762	Erlenbach im Simmental							46.65590	7.52160	
+CH	3763	Därstetten							46.66600	7.50890	
+CH	3764	Weissenburg							46.67910	7.47590	
+CH	3765	Oberwil im Simmental							46.66550	7.42280	
+CH	3766	Boltigen							46.60740	7.35830	
+CH	3770	Zweisimmen							46.57090	7.39130	
+CH	3771	Blankenburg							46.53750	7.41520	
+CH	3772	St. Stephan							46.49090	7.39010	
+CH	3773	Matten (St. Stephan)							46.50930	7.47160	
+CH	3775	Lenk im Simmental							46.43390	7.46450	
+CH	3776	Oeschseite							46.52630	7.33760	
+CH	3777	Saanenmöser							46.51290	7.31370	
+CH	3778	Schönried							46.50720	7.27850	
+CH	3780	Gstaad							46.47560	7.29430	
+CH	3781	Turbach							46.46460	7.34610	
+CH	3782	Lauenen b. Gstaad							46.39350	7.34220	
+CH	3783	Grund b. Gstaad							46.43830	7.24340	
+CH	3784	Feutersoey							46.39510	7.22290	
+CH	3785	Gsteig b. Gstaad							46.36630	7.25050	
+CH	3792	Saanen							46.47800	7.25220	
+CH	3800	Sundlauenen							46.68740	7.79530	
+CH	3800	Matten b. Interlaken							46.67540	7.86610	
+CH	3800	Interlaken							46.66830	7.89440	
+CH	3800	Unterseen							46.69520	7.84140	
+CH	3801	Jungfraujoch							46.54740	7.98330	
+CH	3802	Interlaken Ost							46.68710	7.86490	
+CH	3803	Beatenberg							46.70930	7.80070	
+CH	3804	Habkern							46.75300	7.88970	
+CH	3805	Goldswil b. Interlaken							46.70220	7.87520	
+CH	3806	Bönigen b. Interlaken							46.67750	7.91970	
+CH	3807	Iseltwald							46.70140	7.98210	
+CH	3812	Wilderswil							46.64070	7.86780	
+CH	3813	Saxeten							46.62380	7.82570	
+CH	3814	Gsteigwiler							46.65020	7.89010	
+CH	3815	Gündlischwand							46.65400	7.92640	
+CH	3815	Zweilütschinen							46.62310	7.90480	
+CH	3816	Lütschental							46.64210	7.95250	
+CH	3816	Burglauenen							46.63110	7.97460	
+CH	3818	Grindelwald							46.61560	8.04070	
+CH	3822	Lauterbrunnen							46.59100	7.90380	
+CH	3822	Isenfluh							46.60720	7.86430	
+CH	3823	Eigergletscher							46.57480	7.97410	
+CH	3823	Kleine Scheidegg							46.58460	7.96020	
+CH	3823	Wengen							46.56200	7.95570	
+CH	3824	Stechelberg							46.52870	7.92330	
+CH	3825	Mürren							46.57190	7.86160	
+CH	3826	Gimmelwald							46.53250	7.85070	
+CH	3852	Ringgenberg							46.70950	7.89700	
+CH	3853	Niederried b. Interlaken							46.72490	7.92480	
+CH	3854	Oberried am Brienzersee							46.76080	7.95830	
+CH	3855	Axalp							46.72140	8.03800	
+CH	3855	Brienz							46.70580	8.03080	
+CH	3855	Schwanden b. Brienz							46.77130	8.05430	
+CH	3856	Brienzwiler							46.75960	8.10630	
+CH	3857	Unterbach							46.73720	8.12260	
+CH	3858	Hofstetten b. Brienz							46.76570	8.08400	
+CH	3860	Meiringen							46.70560	8.09880	
+CH	3860	Schattenhalb							46.67480	8.16530	
+CH	3860	Brünig							46.76000	8.13100	
+CH	3860	Rosenlaui							46.67970	8.15360	
+CH	3862	Innertkirchen							46.68710	8.23850	
+CH	3863	Gadmen							46.70060	8.36400	
+CH	3864	Guttannen							46.60760	8.30420	
+CH	3900	Brig							46.28980	7.97420	
+CH	3900	Brigerbad							46.30240	7.92390	
+CH	3900	Gamsen							46.30500	7.95130	
+CH	3901	Rothwald							46.27150	8.07860	
+CH	3902	Glis							46.31030	7.97630	
+CH	3903	Mund							46.35850	7.92070	
+CH	3903	Birgisch							46.33190	7.96400	
+CH	3904	Naters							46.33710	7.98220	
+CH	3905	Saas-Almagell							46.05360	7.95930	
+CH	3906	Saas-Fee							46.08840	7.90200	
+CH	3907	Simplon Hospiz							46.19170	8.09170	
+CH	3907	Simplon Dorf							46.20150	8.04750	
+CH	3907	Gondo							46.14670	8.09090	
+CH	3907	Gabi (Simplon)							46.18370	8.07310	
+CH	3908	Saas-Balen							46.15040	7.92760	
+CH	3910	Saas-Grund							46.13840	7.97030	
+CH	3911	Ried-Brig							46.30870	8.02390	
+CH	3912	Termen							46.33040	8.04600	
+CH	3913	Rosswald							46.31430	8.07870	
+CH	3914	Blatten b. Naters							46.36310	7.97160	
+CH	3914	Belalp							46.41740	7.97740	
+CH	3916	Ferden							46.39110	7.74120	
+CH	3917	Goppenstein							46.36770	7.75600	
+CH	3917	Kippel							46.39060	7.76950	
+CH	3918	Wiler (Lötschen)							46.40680	7.78700	
+CH	3919	Blatten (Lötschen)							46.44380	7.85680	
+CH	3920	Zermatt							45.99060	7.74220	
+CH	3922	Eisten							46.17550	7.89510	
+CH	3922	Stalden							46.24340	7.88280	
+CH	3922	Kalpetran							46.21480	7.83860	
+CH	3923	Törbel							46.24440	7.83110	
+CH	3924	St. Niklaus							46.16130	7.80970	
+CH	3924	Gasenried							46.18040	7.82820	
+CH	3925	Grächen							46.19800	7.84580	
+CH	3926	Embd							46.21830	7.80020	
+CH	3927	Herbriggen							46.13850	7.78280	
+CH	3928	Randa							46.09520	7.78560	
+CH	3929	Täsch							46.05040	7.81640	
+CH	3930	Visp							46.28700	7.86690	
+CH	3930	Eyholz							46.28850	7.91490	
+CH	3931	Lalden							46.30050	7.89850	
+CH	3932	Visperterminen							46.25540	7.93630	
+CH	3933	Staldenried							46.21660	7.90910	
+CH	3934	Zeneggen							46.27190	7.86390	
+CH	3935	Bürchen							46.27130	7.82130	
+CH	3937	Baltschieder							46.34290	7.87130	
+CH	3938	Ausserberg							46.32830	7.85030	
+CH	3939	Eggerberg							46.31880	7.88710	
+CH	3940	Steg							46.35440	7.76570	
+CH	3942	Raron							46.35710	7.82530	
+CH	3942	St. German							46.31020	7.82110	
+CH	3942	Niedergesteln							46.31340	7.78100	
+CH	3943	Eischoll							46.28240	7.76480	
+CH	3944	Unterbäch							46.24650	7.77450	
+CH	3945	Gampel							46.33590	7.73320	
+CH	3945	Niedergampel							46.31800	7.71230	
+CH	3946	Turtmann							46.30060	7.70270	
+CH	3946	Gruben							46.20610	7.70380	
+CH	3947	Ergisch							46.25340	7.73050	
+CH	3948	Unterems							46.29200	7.69110	
+CH	3948	Oberems							46.15850	7.70370	
+CH	3949	Hohtenn							46.33060	7.76590	
+CH	3951	Agarn							46.27560	7.66420	
+CH	3952	Susten							46.28260	7.62690	
+CH	3953	Varen							46.32040	7.59290	
+CH	3953	Inden							46.36080	7.59800	
+CH	3953	Leuk Stadt							46.31940	7.64200	
+CH	3954	Leukerbad							46.39830	7.61530	
+CH	3955	Albinen							46.35390	7.64390	
+CH	3956	Guttet-Feschel							46.36080	7.67880	
+CH	3957	Erschmatt							46.34700	7.69770	
+CH	3957	Bratsch							46.32160	7.70540	
+CH	3960	Muraz (Sierre)							46.29690	7.52880	
+CH	3960	Sierre							46.27460	7.55490	
+CH	3960	Loc							46.29680	7.50520	
+CH	3960	Niouc							46.27000	7.56160	
+CH	3960	Corin-de-la-Crête							46.28730	7.50080	
+CH	3961	Zinal							46.10380	7.64840	
+CH	3961	St-Jean							46.20950	7.55920	
+CH	3961	St-Luc							46.21550	7.62610	
+CH	3961	Chandolin							46.25420	7.60140	
+CH	3961	Vissoie							46.24400	7.57680	
+CH	3961	Grimentz							46.14300	7.56360	
+CH	3961	Ayer							46.18470	7.62210	
+CH	3961	Grimentz							46.18090	7.57580	
+CH	3963	Montana							46.29450	7.48990	
+CH	3963	Aminona							46.35880	7.53970	
+CH	3963	Crans-Montana							46.32700	7.48640	
+CH	3965	Chippis							46.27430	7.53940	
+CH	3966	Chalais							46.26500	7.51590	
+CH	3966	Réchy							46.26570	7.49480	
+CH	3967	Vercorin							46.24200	7.53460	
+CH	3968	Veyras							46.30530	7.53970	
+CH	3970	Salgesch							46.31410	7.57220	
+CH	3971	Chermignon							46.28750	7.47180	
+CH	3971	Chermignon-d'en-Bas							46.28310	7.48200	
+CH	3971	Ollon							46.27760	7.48670	
+CH	3972	Miège							46.34040	7.55400	
+CH	3973	Venthône							46.30330	7.52340	
+CH	3974	Mollens							46.32090	7.52130	
+CH	3975	Randogne							46.30710	7.50060	
+CH	3976	Champzabé							46.27920	7.49940	
+CH	3976	Noës							46.27690	7.50460	
+CH	3977	Granges							46.26000	7.46360	
+CH	3978	Flanthey							46.27050	7.45290	
+CH	3979	Grône							46.23100	7.48620	
+CH	3982	Bitsch							46.33970	8.01300	
+CH	3983	Greich							46.36610	8.04050	
+CH	3983	Mörel							46.35350	8.03900	
+CH	3983	Bister							46.35160	8.07710	
+CH	3983	Filet							46.34740	8.06100	
+CH	3983	Goppisberg							46.37140	8.04900	
+CH	3984	Fieschertal							46.48860	8.05000	
+CH	3984	Fiesch							46.41500	8.14230	
+CH	3985	Münster							46.48330	8.27120	
+CH	3985	Geschinen							46.49090	8.29630	
+CH	3986	Ried-Mörel							46.35350	8.02830	
+CH	3987	Riederalp							46.38120	8.03030	
+CH	3988	Ulrichen							46.44900	8.32540	
+CH	3988	Obergesteln							46.52720	8.32050	
+CH	3989	Blitzingen							46.44280	8.19790	
+CH	3989	Selkingen							46.47180	8.17530	
+CH	3989	Ritzingen							46.45300	8.23240	
+CH	3989	Biel							46.46520	8.20930	
+CH	3989	Niederwald							46.43140	8.19740	
+CH	3991	Betten							46.37670	8.06600	
+CH	3992	Bettmeralp							46.42720	8.07790	
+CH	3993	Grengiols							46.34360	8.13630	
+CH	3994	Lax							46.40140	8.10190	
+CH	3994	Martisberg							46.39520	8.09210	
+CH	3995	Ernen							46.39900	8.15610	
+CH	3995	Mühlebach (Goms)							46.40660	8.20640	
+CH	3995	Steinhaus							46.41660	8.21260	
+CH	3995	Ausserbinn							46.37950	8.16350	
+CH	3996	Binn							46.35860	8.21960	
+CH	3997	Bellwald							46.44330	8.15680	
+CH	3998	Reckingen							46.46080	8.26490	
+CH	3998	Gluringen							46.47370	8.21910	
+CH	3999	Oberwald							46.57280	8.39620	
+CH	4000	Basel							47.58420	7.58760	
+CH	4001	Basel							47.55640	7.58890	
+CH	4002	Basel							47.54880	7.59040	
+CH	4003	Basel							47.55920	7.57880	
+CH	4004	Basel							47.56670	7.60000	
+CH	4005	Basel							47.56230	7.59460	
+CH	4007	Basel							47.56670	7.60000	
+CH	4008	Basel							47.56670	7.60000	
+CH	4009	Basel							47.56670	7.60000	
+CH	4010	Basel							47.55280	7.59290	
+CH	4011	Basel							47.56670	7.60000	
+CH	4012	Basel							47.56670	7.60000	
+CH	4013	Basel							47.56670	7.60000	
+CH	4015	Basel							47.56670	7.60000	
+CH	4016	Basel							47.56670	7.60000	
+CH	4017	Basel							47.56670	7.60000	
+CH	4018	Basel							47.56670	7.60000	
+CH	4019	Basel							47.56670	7.60000	
+CH	4020	Basel							47.56670	7.60000	
+CH	4023	Basel							47.51860	7.61740	
+CH	4024	Basel							47.56670	7.60000	
+CH	4025	Basel							47.56670	7.60000	
+CH	4030	Basel							47.56670	7.60000	
+CH	4032	Basel							47.56670	7.60000	
+CH	4039	Basel							47.56670	7.60000	
+CH	4040	Basel							47.51860	7.61740	
+CH	4051	Basel							47.55420	7.58670	
+CH	4052	Basel							47.54740	7.60740	
+CH	4053	Basel							47.53830	7.60100	
+CH	4054	Basel							47.55050	7.56890	
+CH	4055	Basel							47.56370	7.56400	
+CH	4056	Basel							47.56960	7.57350	
+CH	4057	Basel							47.57610	7.59990	
+CH	4058	Basel							47.56620	7.61540	
+CH	4059	Basel							47.53160	7.59340	
+CH	4070	Basel							47.56670	7.60000	
+CH	4075	Basel							47.56670	7.60000	
+CH	4080	Basel							47.56670	7.60000	
+CH	4083	Basel							47.56670	7.60000	
+CH	4084	Basel							47.56670	7.60000	
+CH	4085	Basel							47.56670	7.60000	
+CH	4086	Basel							47.56670	7.60000	
+CH	4087	Basel							47.56670	7.60000	
+CH	4088	Basel							47.56670	7.60000	
+CH	4091	Basel							47.56670	7.60000	
+CH	4101	Bruderholz							47.52800	7.58050	
+CH	4102	Binningen							47.53670	7.56770	
+CH	4103	Bottmingen							47.52110	7.57750	
+CH	4104	Oberwil							47.51910	7.54530	
+CH	4105	Biel-Benken							47.50730	7.51730	
+CH	4106	Therwil							47.49650	7.55650	
+CH	4107	Ettingen							47.47610	7.54650	
+CH	4108	Witterswil							47.48790	7.52560	
+CH	4112	Flüh							47.48430	7.49790	
+CH	4112	Bättwil							47.49080	7.51100	
+CH	4114	Hofstetten							47.47180	7.50880	
+CH	4115	Mariastein							47.47640	7.48460	
+CH	4116	Metzerlen							47.46740	7.47020	
+CH	4117	Burg im Leimental							47.45260	7.43940	
+CH	4118	Rodersdorf							47.48440	7.44470	
+CH	4123	Allschwil							47.54170	7.53430	
+CH	4124	Schönenbuch							47.53550	7.50690	
+CH	4125	Riehen							47.58050	7.65300	
+CH	4126	Bettingen							47.57140	7.67530	
+CH	4127	Birsfelden							47.54810	7.62690	
+CH	4132	Muttenz							47.52280	7.64780	
+CH	4133	Pratteln							47.51740	7.69410	
+CH	4142	Münchenstein							47.51750	7.61150	
+CH	4143	Dornach							47.47610	7.62520	
+CH	4144	Arlesheim							47.49620	7.62810	
+CH	4145	Gempen							47.48070	7.66160	
+CH	4146	Hochwald							47.45630	7.64310	
+CH	4147	Aesch							47.46940	7.58280	
+CH	4148	Pfeffingen							47.45600	7.58100	
+CH	4153	Reinach							47.49150	7.58690	
+CH	4202	Duggingen							47.45140	7.61000	
+CH	4203	Grellingen							47.43920	7.58440	
+CH	4204	Himmelried							47.42410	7.59350	
+CH	4206	Seewen							47.42810	7.64890	
+CH	4207	Bretzwil							47.39530	7.65170	
+CH	4208	Nunningen							47.40070	7.61320	
+CH	4222	Zwingen							47.43580	7.53020	
+CH	4223	Blauen							47.45240	7.52210	
+CH	4224	Nenzlingen							47.44900	7.56180	
+CH	4225	Brislach							47.42820	7.54930	
+CH	4226	Breitenbach							47.40450	7.55050	
+CH	4227	Büsserach							47.38990	7.54870	
+CH	4228	Erschwil							47.37040	7.54400	
+CH	4229	Beinwil							47.35440	7.58890	
+CH	4232	Fehren							47.40290	7.57880	
+CH	4233	Meltingen							47.38250	7.58200	
+CH	4234	Zullwil							47.38770	7.60280	
+CH	4242	Laufen							47.40730	7.48450	
+CH	4243	Dittingen							47.44280	7.48810	
+CH	4244	Röschenz							47.43200	7.46150	
+CH	4245	Kleinlützel							47.42870	7.41850	
+CH	4246	Wahlen b. Laufen							47.39870	7.51180	
+CH	4247	Grindel							47.38020	7.50870	
+CH	4252	Bärschwil							47.38610	7.46670	
+CH	4253	Liesberg							47.39700	7.42060	
+CH	4254	Liesberg Dorf							47.40640	7.41450	
+CH	4302	Augst							47.53110	7.72460	
+CH	4303	Kaiseraugst							47.53590	7.74170	
+CH	4304	Giebenach							47.52390	7.73930	
+CH	4305	Olsberg							47.52930	7.77370	
+CH	4310	Rheinfelden							47.55100	7.79770	
+CH	4312	Magden							47.51870	7.80910	
+CH	4313	Möhlin							47.56690	7.85460	
+CH	4314	Zeiningen							47.54460	7.87620	
+CH	4315	Zuzgen							47.52360	7.90410	
+CH	4316	Hellikon							47.50790	7.91690	
+CH	4317	Wegenstetten							47.49650	7.93400	
+CH	4322	Mumpf							47.54480	7.91810	
+CH	4323	Wallbach							47.56960	7.89470	
+CH	4324	Obermumpf							47.52820	7.93860	
+CH	4325	Schupfart							47.51400	7.96310	
+CH	4332	Stein							47.54050	7.94980	
+CH	4333	Münchwilen							47.53540	7.96230	
+CH	4334	Sisseln							47.55120	7.98270	
+CH	4402	Frenkendorf							47.50220	7.70630	
+CH	4410	Liestal							47.48300	7.72540	
+CH	4411	Seltisberg							47.46080	7.71330	
+CH	4412	Nuglar							47.46950	7.69330	
+CH	4413	Büren							47.44930	7.67140	
+CH	4414	Füllinsdorf							47.50940	7.73430	
+CH	4415	Lausen							47.46930	7.76630	
+CH	4416	Bubendorf							47.44700	7.73480	
+CH	4417	Ziefen							47.42720	7.69880	
+CH	4418	Reigoldswil							47.39990	7.68770	
+CH	4419	Lupsingen							47.44870	7.69940	
+CH	4421	St. Pantaleon							47.45930	7.68830	
+CH	4422	Arisdorf							47.50770	7.76650	
+CH	4423	Hersberg							47.49190	7.78180	
+CH	4424	Arboldswil							47.41640	7.71920	
+CH	4425	Titterten							47.40170	7.71730	
+CH	4426	Lauwil							47.38070	7.66450	
+CH	4431	Bennwil							47.39450	7.78220	
+CH	4432	Lampenberg							47.42750	7.75310	
+CH	4433	Ramlinsburg							47.44950	7.76750	
+CH	4434	Hölstein							47.42720	7.77450	
+CH	4435	Niederdorf							47.41250	7.75090	
+CH	4436	Liedertswil							47.38850	7.72030	
+CH	4436	Oberdorf							47.39210	7.75050	
+CH	4437	Waldenburg							47.37760	7.73820	
+CH	4438	Langenbruck							47.35770	7.76900	
+CH	4441	Thürnen							47.45150	7.82880	
+CH	4442	Diepflingen							47.44500	7.84220	
+CH	4443	Wittinsburg							47.42920	7.83870	
+CH	4444	Rümlingen							47.42770	7.85780	
+CH	4445	Häfelfingen							47.41390	7.86880	
+CH	4446	Buckten							47.41260	7.84640	
+CH	4447	Känerkinden							47.41100	7.83310	
+CH	4448	Läufelfingen							47.39200	7.85300	
+CH	4450	Sissach							47.47300	7.80570	
+CH	4451	Wintersingen							47.49690	7.82630	
+CH	4452	Itingen							47.46350	7.78670	
+CH	4453	Nusshof							47.49170	7.80080	
+CH	4455	Zunzgen							47.44350	7.79380	
+CH	4456	Tenniken							47.43280	7.81500	
+CH	4457	Diegten							47.40930	7.81330	
+CH	4458	Eptingen							47.37950	7.81690	
+CH	4460	Gelterkinden							47.45510	7.86000	
+CH	4461	Böckten							47.46870	7.83440	
+CH	4462	Rickenbach							47.48630	7.85150	
+CH	4463	Buus							47.50620	7.86810	
+CH	4464	Maisprach							47.52330	7.84760	
+CH	4465	Hemmiken							47.49050	7.89120	
+CH	4466	Ormalingen							47.47630	7.87940	
+CH	4467	Rothenfluh							47.46810	7.91630	
+CH	4468	Kienberg							47.44280	7.96710	
+CH	4469	Anwil							47.45250	7.94130	
+CH	4492	Tecknau							47.44300	7.89450	
+CH	4493	Wenslingen							47.44510	7.90830	
+CH	4494	Oltingen							47.43120	7.93840	
+CH	4495	Zeglingen							47.41180	7.90950	
+CH	4496	Kilchberg							47.42710	7.89770	
+CH	4497	Rünenberg							47.43140	7.88030	
+CH	4500	Solothurn							47.20810	7.52830	
+CH	4501	Solothurn							47.23330	7.51670	
+CH	4502	Solothurn							47.23330	7.51670	
+CH	4503	Solothurn							47.23330	7.51670	
+CH	4509	Solothurn							47.23330	7.51670	
+CH	4512	Bellach							47.21020	7.49580	
+CH	4513	Langendorf							47.21980	7.51490	
+CH	4514	Lommiswil							47.22900	7.46980	
+CH	4515	Weissenstein b. Solothurn							47.24640	7.48690	
+CH	4515	Oberdorf							47.24640	7.48690	
+CH	4522	Rüttenen							47.23900	7.53210	
+CH	4523	Niederwil							47.24840	7.56930	
+CH	4524	Günsberg							47.26280	7.57180	
+CH	4524	Oberbalmberg							47.26440	7.53920	
+CH	4524	Balmberg							47.26730	7.54390	
+CH	4525	Balm b. Günsberg							47.25820	7.54260	
+CH	4528	Zuchwil							47.20550	7.56070	
+CH	4532	Feldbrunnen							47.22030	7.55240	
+CH	4533	Riedholz							47.23020	7.57020	
+CH	4534	Flumenthal							47.23620	7.60030	
+CH	4535	Hubersdorf							47.24490	7.58870	
+CH	4535	Kammersrohr							47.25640	7.59220	
+CH	4536	Attiswil							47.25040	7.60800	
+CH	4537	Wiedlisbach							47.24740	7.64760	
+CH	4538	Oberbipp							47.25270	7.67390	
+CH	4539	Farnern							47.26970	7.60740	
+CH	4539	Rumisberg							47.26930	7.64000	
+CH	4542	Luterbach							47.21630	7.58900	
+CH	4543	Deitingen							47.21770	7.62510	
+CH	4551	Derendingen							47.19190	7.58990	
+CH	4552	Derendingen							47.19000	7.58990	
+CH	4553	Subingen							47.19910	7.62100	
+CH	4554	Etziken							47.18640	7.64500	
+CH	4554	Hüniken							47.18370	7.63480	
+CH	4556	Aeschi							47.17680	7.66200	
+CH	4556	Burgäschi							47.17170	7.67000	
+CH	4556	Steinhof							47.15960	7.68780	
+CH	4556	Bolken							47.19340	7.66020	
+CH	4557	Horriwil							47.18060	7.62210	
+CH	4558	Heinrichswil							47.15860	7.63400	
+CH	4558	Hersiwil							47.16550	7.63450	
+CH	4558	Winistorf							47.16470	7.64520	
+CH	4562	Biberist							47.18150	7.54470	
+CH	4563	Gerlafingen							47.17010	7.56960	
+CH	4564	Zielebach							47.15790	7.57470	
+CH	4564	Obergerlafingen							47.16310	7.58320	
+CH	4565	Recherswil							47.16090	7.60350	
+CH	4566	Oekingen							47.18050	7.60660	
+CH	4566	Kriegstetten							47.17540	7.59470	
+CH	4566	Halten							47.16820	7.61170	
+CH	4571	Ichertswil							47.15810	7.49100	
+CH	4571	Lüterkofen							47.16570	7.50980	
+CH	4573	Lohn-Ammannsegg							47.17000	7.52780	
+CH	4574	Lüsslingen							47.19350	7.49950	
+CH	4574	Nennigkofen							47.18420	7.48970	
+CH	4576	Tscheppach							47.14820	7.48210	
+CH	4577	Hessigkofen							47.14020	7.46560	
+CH	4578	Bibern							47.14740	7.45490	
+CH	4579	Gossliwil							47.13700	7.43360	
+CH	4581	Küttigkofen							47.15120	7.51380	
+CH	4582	Brügglen							47.14510	7.49390	
+CH	4583	Mühledorf							47.13280	7.47380	
+CH	4583	Aetigkofen							47.12250	7.46320	
+CH	4584	Gächliwil							47.12850	7.44330	
+CH	4584	Lüterswil							47.11670	7.44040	
+CH	4585	Biezwil							47.11050	7.42120	
+CH	4586	Kyburg-Buchegg							47.14290	7.51300	
+CH	4587	Aetingen							47.12940	7.50100	
+CH	4588	Unterramsern							47.11890	7.48010	
+CH	4588	Oberramsern							47.11330	7.46200	
+CH	4588	Brittern							47.12120	7.49420	
+CH	4600	Olten							47.34530	7.90190	
+CH	4601	Olten 1 Fächer							47.34480	7.90010	
+CH	4603	Olten							47.35000	7.91670	
+CH	4612	Wangen b. Olten							47.34680	7.86910	
+CH	4613	Rickenbach							47.34050	7.85670	
+CH	4614	Hägendorf							47.34480	7.82800	
+CH	4615	Allerheiligenberg							47.35200	7.81750	
+CH	4616	Kappel							47.32100	7.85670	
+CH	4617	Gunzgen							47.31560	7.83350	
+CH	4618	Boningen							47.30110	7.85190	
+CH	4620	Härkingen							47.28670	7.77670	
+CH	4621	Härkingen							47.30460	7.82140	
+CH	4622	Egerkingen							47.32560	7.79720	
+CH	4623	Neuendorf							47.29660	7.80050	
+CH	4624	Härkingen							47.30520	7.82080	
+CH	4625	Oberbuchsiten							47.31260	7.75990	
+CH	4626	Niederbuchsiten							47.28810	7.77820	
+CH	4628	Wolfwil							47.26930	7.79800	
+CH	4629	Fulenbach							47.27890	7.83170	
+CH	4632	Trimbach							47.36980	7.89340	
+CH	4633	Hauenstein							47.37180	7.84670	
+CH	4634	Wisen							47.39210	7.89160	
+CH	4652	Winznau							47.36640	7.93020	
+CH	4653	Obergösgen							47.36360	7.95270	
+CH	4654	Lostorf							47.38950	7.93500	
+CH	4655	Stüsslingen							47.39480	7.96900	
+CH	4655	Rohr b. Olten							47.40860	7.94850	
+CH	4656	Starrkirch-Wil							47.34500	7.92790	
+CH	4657	Dulliken							47.34770	7.94830	
+CH	4658	Däniken							47.34880	7.98110	
+CH	4663	Aarburg							47.32310	7.90360	
+CH	4665	Oftringen							47.31310	7.94240	
+CH	4702	Oensingen							47.29030	7.71850	
+CH	4703	Kestenholz							47.27750	7.75530	
+CH	4704	Wolfisberg							47.27710	7.65730	
+CH	4704	Niederbipp							47.26700	7.70120	
+CH	4710	Balsthal							47.31290	7.70800	
+CH	4712	Laupersdorf							47.30870	7.65290	
+CH	4713	Matzendorf							47.30360	7.62880	
+CH	4714	Aedermannsdorf							47.31330	7.59330	
+CH	4715	Herbetswil							47.29390	7.57420	
+CH	4716	Gänsbrunnen							47.26970	7.48240	
+CH	4716	Welschenrohr							47.28370	7.52270	
+CH	4717	Mümliswil							47.34370	7.71430	
+CH	4718	Holderbank							47.33120	7.75230	
+CH	4719	Ramiswil							47.34550	7.64420	
+CH	4800	Zofingen							47.28740	7.95770	
+CH	4801	Zofingen							47.28880	7.96330	
+CH	4802	Strengelbach							47.28310	7.92360	
+CH	4803	Vordemwald							47.27130	7.89310	
+CH	4805	Brittnau							47.25610	7.92860	
+CH	4806	Wikon							47.26550	7.97050	
+CH	4807	Zofingen PF							47.28880	7.96330	
+CH	4808	Zofingen PF							47.28880	7.96330	
+CH	4809	Zofingen PF							47.28880	7.96330	
+CH	4812	Mühlethal							47.29960	7.97700	
+CH	4813	Uerkheim							47.30340	8.01090	
+CH	4814	Bottenwil							47.28320	7.99920	
+CH	4852	Rothrist							47.29800	7.88570	
+CH	4853	Murgenthal							47.26070	7.83470	
+CH	4853	Riken							47.27390	7.86090	
+CH	4856	Glashütten							47.25010	7.85610	
+CH	4900	Langenthal							47.21750	7.79510	
+CH	4901	Langenthal							47.21670	7.78330	
+CH	4902	Langenthal							47.21670	7.78330	
+CH	4911	Schwarzhäusern							47.25740	7.76590	
+CH	4912	Aarwangen							47.23670	7.76720	
+CH	4913	Bannwil							47.23800	7.73000	
+CH	4914	Roggwil							47.23460	7.81610	
+CH	4915	St. Urban							47.21820	7.85710	
+CH	4916	Untersteckholz							47.20590	7.84400	
+CH	4917	Busswil b. Melchnau							47.18760	7.83090	
+CH	4917	Melchnau							47.17750	7.85600	
+CH	4919	Reisiswil							47.16110	7.84190	
+CH	4922	Bützberg							47.21540	7.74620	
+CH	4922	Thunstetten							47.19970	7.74780	
+CH	4923	Wynau							47.25590	7.80780	
+CH	4924	Obersteckholz							47.20100	7.82560	
+CH	4932	Lotzwil							47.18870	7.79170	
+CH	4932	Gutenburg							47.18230	7.80070	
+CH	4933	Rütschelen							47.17250	7.77130	
+CH	4934	Madiswil							47.16230	7.80170	
+CH	4935	Leimiswil							47.15400	7.77050	
+CH	4936	Kleindietwil							47.14110	7.79060	
+CH	4937	Ursenbach							47.12880	7.76220	
+CH	4938	Rohrbach							47.13320	7.80910	
+CH	4938	Rohrbachgraben							47.11030	7.80520	
+CH	4942	Walterswil							47.10540	7.77380	
+CH	4943	Oeschenbach							47.11030	7.74480	
+CH	4944	Auswil							47.13580	7.83850	
+CH	4950	Huttwil							47.11010	7.85260	
+CH	4952	Eriswil							47.06940	7.85910	
+CH	4953	Schwarzenbach (Huttwil)							47.10500	7.82690	
+CH	4954	Wyssachen							47.07430	7.82080	
+CH	4955	Gondiswil							47.14650	7.86680	
+CH	5000	Aarau							47.38900	8.04870	
+CH	5001	Aarau 1							47.38880	8.04830	
+CH	5004	Aarau							47.40090	8.06060	
+CH	5012	Wöschnau							47.38570	8.02410	
+CH	5012	Eppenberg							47.37340	8.02360	
+CH	5012	Schönenwerd							47.37370	8.00980	
+CH	5013	Niedergösgen							47.37480	7.98300	
+CH	5014	Gretzenbach							47.35110	7.99870	
+CH	5015	Erlinsbach							47.39580	7.99570	
+CH	5017	Barmelweid							47.42240	7.97400	
+CH	5018	Erlinsbach							47.41250	8.00890	
+CH	5022	Rombach							47.40570	8.04660	
+CH	5023	Biberstein							47.41950	8.08270	
+CH	5024	Küttigen							47.42040	8.04610	
+CH	5025	Asp							47.44180	8.05390	
+CH	5026	Densbüren							47.45550	8.05720	
+CH	5027	Herznach							47.47240	8.04800	
+CH	5028	Ueken							47.48660	8.04430	
+CH	5032	Aarau Rohr							47.40460	8.08100	
+CH	5033	Buchs							47.39310	8.07560	
+CH	5034	Suhr							47.37470	8.08580	
+CH	5035	Unterentfelden							47.36860	8.04120	
+CH	5036	Oberentfelden							47.35420	8.03960	
+CH	5037	Muhen							47.33410	8.06320	
+CH	5040	Schöftland							47.30610	8.05810	
+CH	5042	Hirschthal							47.31750	8.06790	
+CH	5043	Holziken							47.31980	8.03340	
+CH	5044	Schlossrued							47.28730	8.09070	
+CH	5046	Schmiedrued							47.27070	8.11040	
+CH	5046	Walde							47.25400	8.11640	
+CH	5053	Wittwil							47.29290	8.03560	
+CH	5053	Staffelbach							47.28180	8.03700	
+CH	5054	Kirchleerau							47.27680	8.07310	
+CH	5054	Moosleerau							47.26560	8.06820	
+CH	5056	Attelwil							47.26290	8.03810	
+CH	5057	Reitnau							47.25200	8.03710	
+CH	5058	Wiliberg							47.26630	8.01650	
+CH	5062	Oberhof							47.44210	8.00830	
+CH	5063	Wölflinswil							47.46440	8.00210	
+CH	5064	Wittnau							47.47720	7.96820	
+CH	5070	Frick							47.50790	8.01200	
+CH	5072	Oeschgen							47.52490	8.01790	
+CH	5073	Gipf-Oberfrick							47.48970	8.00650	
+CH	5074	Eiken							47.53840	7.99000	
+CH	5075	Hornussen							47.49970	8.06660	
+CH	5076	Bözen							47.49580	8.08910	
+CH	5077	Elfingen							47.51010	8.10260	
+CH	5078	Effingen							47.49340	8.11270	
+CH	5079	Zeihen							47.46910	8.09320	
+CH	5080	Laufenburg							47.55650	8.05980	
+CH	5082	Kaisten							47.53650	8.04280	
+CH	5083	Ittenthal							47.51800	8.06090	
+CH	5084	Rheinsulz							47.55330	8.08590	
+CH	5085	Sulz							47.53490	8.09900	
+CH	5102	Rupperswil							47.40310	8.13370	
+CH	5103	Möriken							47.41560	8.19250	
+CH	5103	Wildegg							47.41670	8.16290	
+CH	5105	Auenstein							47.41860	8.12890	
+CH	5106	Veltheim							47.43100	8.14600	
+CH	5107	Schinznach Dorf							47.45500	8.13260	
+CH	5108	Oberflachs							47.43750	8.12340	
+CH	5112	Thalheim							47.44090	8.09070	
+CH	5113	Holderbank							47.43050	8.17350	
+CH	5116	Schinznach Bad							47.45360	8.16980	
+CH	5200	Brugg							47.48280	8.20370	
+CH	5201	Brugg							47.49050	8.18570	
+CH	5210	Windisch							47.47640	8.22020	
+CH	5212	Hausen							47.46280	8.20820	
+CH	5213	Villnachern							47.47070	8.15750	
+CH	5222	Umiken							47.48080	8.18510	
+CH	5223	Riniken							47.49470	8.18630	
+CH	5224	Unterbözberg							47.48750	8.14910	
+CH	5224	Linn							47.47040	8.12260	
+CH	5224	Gallenkirch							47.48000	8.12270	
+CH	5225	Oberbözberg							47.50190	8.15310	
+CH	5233	Stilli							47.51860	8.23130	
+CH	5234	Villigen							47.52940	8.19740	
+CH	5235	Rüfenach							47.50400	8.21250	
+CH	5236	Remigen							47.51690	8.17940	
+CH	5237	Mönthal							47.51540	8.13570	
+CH	5242	Lupfig							47.44120	8.20130	
+CH	5242	Birr							47.43260	8.21120	
+CH	5243	Mülligen							47.45240	8.24060	
+CH	5244	Birrhard							47.43580	8.24310	
+CH	5245	Habsburg							47.46180	8.18570	
+CH	5246	Scherz							47.44860	8.18760	
+CH	5272	Gansingen							47.53890	8.13180	
+CH	5273	Oberhofen							47.55630	8.12690	
+CH	5274	Mettau							47.56950	8.12670	
+CH	5275	Etzgen							47.57500	8.11520	
+CH	5276	Wil							47.56850	8.15740	
+CH	5277	Hottwil							47.54400	8.16510	
+CH	5300	Turgi							47.49000	8.25620	
+CH	5301	Siggenthal Station							47.51490	8.23980	
+CH	5303	Würenlingen							47.53100	8.24770	
+CH	5304	Endingen							47.52730	8.29390	
+CH	5305	Unterendingen							47.54580	8.29450	
+CH	5306	Tegerfelden							47.56060	8.28560	
+CH	5312	Döttingen							47.55470	8.25120	
+CH	5313	Klingnau							47.58850	8.24920	
+CH	5314	Kleindöttingen							47.56980	8.23770	
+CH	5315	Böttstein							47.55300	8.21800	
+CH	5316	Felsenau							47.60560	8.21830	
+CH	5316	Leuggern							47.57810	8.22040	
+CH	5317	Hettenschwil							47.57240	8.19260	
+CH	5318	Mandach							47.55180	8.18850	
+CH	5322	Koblenz							47.60470	8.24250	
+CH	5323	Rietheim							47.59870	8.27180	
+CH	5324	Full-Reuenthal							47.60770	8.20300	
+CH	5325	Leibstadt							47.58710	8.17720	
+CH	5326	Schwaderloch							47.58420	8.14270	
+CH	5330	Bad Zurzach							47.59200	8.29480	
+CH	5332	Rekingen							47.56790	8.32140	
+CH	5333	Baldingen							47.55490	8.31340	
+CH	5334	Böbikon							47.55180	8.33640	
+CH	5400	Baden							47.47160	8.29250	
+CH	5401	Baden							47.46670	8.30000	
+CH	5402	Baden							47.46670	8.30000	
+CH	5404	Baden							47.45410	8.27820	
+CH	5405	Dättwil							47.45450	8.28430	
+CH	5406	Rütihof							47.43830	8.26580	
+CH	5408	Ennetbaden							47.47980	8.32770	
+CH	5412	Vogelsang							47.49660	8.24080	
+CH	5412	Gebenstorf							47.48000	8.24400	
+CH	5413	Birmenstorf							47.45170	8.26680	
+CH	5415	Rieden							47.48410	8.30320	
+CH	5415	Nussbaumen							47.49540	8.29570	
+CH	5415	Hertenstein							47.48900	8.31710	
+CH	5416	Kirchdorf							47.49940	8.27980	
+CH	5417	Untersiggenthal							47.50380	8.25620	
+CH	5420	Ehrendingen							47.49560	8.34460	
+CH	5423	Freienwil							47.49840	8.32050	
+CH	5425	Schneisingen							47.52800	8.36660	
+CH	5426	Lengnau							47.52660	8.32190	
+CH	5430	Wettingen							47.46290	8.33210	
+CH	5431	Wettingen Sonderdienste							47.45560	8.33330	
+CH	5432	Neuenhof							47.44460	8.32530	
+CH	5436	Würenlos							47.44740	8.36220	
+CH	5442	Fislisbach							47.43640	8.29050	
+CH	5443	Niederrohrdorf							47.42280	8.30180	
+CH	5444	Künten							47.38910	8.32640	
+CH	5445	Eggenwil							47.37110	8.33800	
+CH	5452	Oberrohrdorf							47.42390	8.32280	
+CH	5453	Remetschwil							47.40730	8.33510	
+CH	5454	Bellikon							47.39190	8.34830	
+CH	5462	Siglistorf							47.54090	8.39080	
+CH	5463	Wislikofen							47.55300	8.36720	
+CH	5464	Rümikon							47.56570	8.37070	
+CH	5465	Mellikon							47.56220	8.34810	
+CH	5466	Kaiserstuhl							47.56790	8.41980	
+CH	5467	Fisibach							47.55730	8.40510	
+CH	5502	Hunzenschwil							47.38270	8.12220	
+CH	5503	Schafisheim							47.37530	8.13830	
+CH	5504	Othmarsingen							47.40290	8.21590	
+CH	5505	Brunegg							47.42110	8.21860	
+CH	5506	Mägenwil							47.41380	8.23350	
+CH	5507	Mellingen							47.42050	8.27270	
+CH	5512	Wohlenschwil							47.41820	8.25290	
+CH	5522	Tägerig							47.39760	8.27890	
+CH	5524	Nesselnbach							47.39290	8.29430	
+CH	5524	Niederwil							47.37450	8.29210	
+CH	5525	Fischbach-Göslikon							47.36870	8.31220	
+CH	5600	Lenzburg							47.38040	8.17440	
+CH	5600	Ammerswil							47.36810	8.20620	
+CH	5601	Lenzburg Sonderdienste							47.38330	8.21000	
+CH	5603	Staufen							47.37590	8.15900	
+CH	5604	Hendschiken							47.38460	8.21650	
+CH	5605	Dottikon							47.37470	8.24540	
+CH	5606	Dintikon							47.36110	8.22150	
+CH	5607	Hägglingen							47.39080	8.25690	
+CH	5608	Stetten							47.40360	8.30230	
+CH	5610	Wohlen							47.35070	8.28590	
+CH	5611	Anglikon							47.36510	8.26180	
+CH	5612	Villmergen							47.34790	8.23870	
+CH	5613	Hilfikon							47.33080	8.24360	
+CH	5614	Sarmenstorf							47.31120	8.25090	
+CH	5615	Fahrwangen							47.29440	8.23790	
+CH	5616	Meisterschwanden							47.29030	8.22460	
+CH	5617	Tennwil							47.30460	8.21880	
+CH	5618	Bettwil							47.29280	8.27080	
+CH	5619	Büttikon							47.32850	8.26800	
+CH	5619	Uezwil							47.31480	8.27720	
+CH	5620	Bremgarten							47.35500	8.32940	
+CH	5621	Zufikon							47.34710	8.35660	
+CH	5622	Waltenschwil							47.33400	8.29690	
+CH	5623	Boswil							47.29850	8.31230	
+CH	5624	Bünzen							47.31590	8.32570	
+CH	5624	Waldhäusern							47.32730	8.31810	
+CH	5625	Kallern							47.31210	8.28970	
+CH	5626	Hermetschwil-Staffeln							47.32990	8.34680	
+CH	5627	Besenbüren							47.31200	8.34460	
+CH	5628	Aristau							47.29020	8.36320	
+CH	5630	Muri							47.27330	8.33860	
+CH	5632	Buttwil							47.26970	8.30540	
+CH	5634	Merenschwand							47.26400	8.38440	
+CH	5636	Benzenschwil							47.24650	8.36460	
+CH	5637	Beinwil (Freiamt)							47.22920	8.34390	
+CH	5637	Geltwil							47.24940	8.32600	
+CH	5642	Mühlau							47.23290	8.39020	
+CH	5643	Alikon							47.19490	8.35030	
+CH	5643	Meienberg							47.19740	8.37710	
+CH	5643	Sins							47.19260	8.36810	
+CH	5644	Auw							47.21730	8.36790	
+CH	5645	Aettenschwil							47.18430	8.37330	
+CH	5645	Fenkrieden							47.15920	8.37080	
+CH	5646	Abtwil							47.17320	8.35270	
+CH	5647	Oberrüti							47.16500	8.39740	
+CH	5702	Niederlenz							47.40460	8.16780	
+CH	5703	Seon							47.34870	8.15890	
+CH	5704	Egliswil							47.35170	8.19210	
+CH	5705	Hallwil							47.32800	8.17660	
+CH	5706	Boniswil							47.31020	8.19450	
+CH	5707	Seengen							47.32730	8.20580	
+CH	5708	Birrwil							47.29210	8.19770	
+CH	5712	Beinwil am See							47.26500	8.20760	
+CH	5722	Gränichen							47.35430	8.10570	
+CH	5723	Teufenthal							47.32860	8.12850	
+CH	5724	Dürrenäsch							47.31870	8.15260	
+CH	5725	Leutwil							47.30780	8.17410	
+CH	5726	Unterkulm							47.31900	8.10930	
+CH	5727	Oberkulm							47.29710	8.12420	
+CH	5728	Gontenschwil							47.26770	8.14310	
+CH	5732	Zetzwil							47.28880	8.15940	
+CH	5733	Leimbach							47.27460	8.16790	
+CH	5734	Reinach							47.26350	8.17480	
+CH	5735	Pfeffikon							47.24650	8.16230	
+CH	5736	Burg							47.23420	8.17870	
+CH	5737	Menziken							47.23590	8.19370	
+CH	5742	Kölliken							47.33390	8.02300	
+CH	5745	Safenwil							47.32130	7.98620	
+CH	5746	Walterswil							47.32900	7.96810	
+CH	6000	Luzern							47.05590	8.31050	
+CH	6002	Luzern							47.05960	8.30600	
+CH	6003	Luzern							47.05010	8.29700	
+CH	6004	Luzern							47.06030	8.29860	
+CH	6005	St. Niklausen							47.08330	8.26670	
+CH	6005	Luzern							47.03420	8.31780	
+CH	6006	Luzern							47.05850	8.33370	
+CH	6007	Luzern							47.08330	8.26670	
+CH	6009	Luzern							47.08330	8.26670	
+CH	6010	Kriens							46.97930	8.25550	
+CH	6011	Kriens							47.03330	8.28330	
+CH	6012	Obernau							47.02880	8.23740	
+CH	6013	Eigenthal							46.99640	8.21440	
+CH	6014	Luzern							47.05670	8.24460	
+CH	6015	Luzern							47.06380	8.27750	
+CH	6016	Hellbühl							47.06720	8.19840	
+CH	6017	Ruswil							47.08770	8.12610	
+CH	6018	Buttisholz							47.11460	8.09660	
+CH	6019	Sigigen							47.06130	8.13620	
+CH	6020	Emmenbrücke							47.07610	8.26150	
+CH	6021	Emmenbrücke							47.12920	8.18750	
+CH	6022	Grosswangen							47.13290	8.05480	
+CH	6023	Rothenburg							47.10430	8.26740	
+CH	6024	Hildisrieden							47.14630	8.23500	
+CH	6025	Neudorf							47.17810	8.20700	
+CH	6026	Rain							47.13260	8.26340	
+CH	6027	Römerswil							47.17300	8.24910	
+CH	6028	Herlisberg							47.19590	8.22970	
+CH	6030	Ebikon							47.08090	8.34250	
+CH	6031	Ebikon							47.08330	8.33330	
+CH	6032	Emmen							47.08760	8.30960	
+CH	6033	Buchrain							47.10200	8.34680	
+CH	6034	Inwil							47.12780	8.36370	
+CH	6035	Perlen							47.11070	8.36460	
+CH	6036	Dierikon							47.09370	8.37370	
+CH	6037	Root							47.11110	8.39620	
+CH	6038	Honau							47.13250	8.40810	
+CH	6038	Gisikon							47.12690	8.40020	
+CH	6039	Root Längenbold							47.10350	8.37290	
+CH	6042	Dietwil							47.14960	8.39670	
+CH	6043	Adligenswil							47.07170	8.36830	
+CH	6044	Udligenswil							47.09180	8.39900	
+CH	6045	Meggen							47.05040	8.37090	
+CH	6047	Kastanienbaum							47.00880	8.33150	
+CH	6048	Horw							47.01350	8.31310	
+CH	6052	Hergiswil							46.98620	8.29670	
+CH	6053	Alpnachstad							46.95980	8.28780	
+CH	6055	Alpnach Dorf							46.95040	8.21100	
+CH	6056	Kägiswil							46.91520	8.25290	
+CH	6060	Sarnen							46.89560	8.24550	
+CH	6060	Ramersberg							46.91300	8.20710	
+CH	6061	Sarnen 1							46.88330	8.26670	
+CH	6062	Wilen (Sarnen)							46.87290	8.21520	
+CH	6063	Stalden (Sarnen)							46.89950	8.16310	
+CH	6064	Kerns							46.90650	8.30230	
+CH	6066	St. Niklausen							46.87320	8.30130	
+CH	6067	Melchtal							46.82500	8.29820	
+CH	6068	Melchsee-Frutt							46.78240	8.29650	
+CH	6072	Sachseln							46.82310	8.24340	
+CH	6073	Flüeli-Ranft							46.87530	8.25900	
+CH	6074	Giswil							46.83640	8.12060	
+CH	6078	Bürglen							46.81140	8.16610	
+CH	6078	Lungern							46.78730	8.15730	
+CH	6083	Hasliberg Hohfluh							46.75460	8.16470	
+CH	6084	Hasliberg Wasserwendi							46.75460	8.21050	
+CH	6085	Hasliberg Goldern							46.73830	8.19670	
+CH	6086	Hasliberg Reuti							46.74220	8.25170	
+CH	6102	Malters							47.03420	8.19390	
+CH	6103	Schwarzenberg							46.99520	8.17210	
+CH	6105	Schachen							47.03810	8.14250	
+CH	6106	Werthenstein							47.04590	8.10820	
+CH	6110	Wolhusen							47.05600	8.07560	
+CH	6110	Fontannen b. Wolhusen							47.02550	8.01200	
+CH	6112	Doppleschwand							47.00990	8.04940	
+CH	6113	Romoos							47.00770	7.99880	
+CH	6114	Steinhuserberg							47.04580	8.04130	
+CH	6122	Menznau							47.08180	8.03860	
+CH	6123	Geiss							47.09150	8.06030	
+CH	6125	Menzberg							47.03600	7.99920	
+CH	6126	Daiwil							47.09780	8.01130	
+CH	6130	Willisau							47.11310	7.97950	
+CH	6132	Rohrmatt							47.08430	7.98490	
+CH	6133	Hergiswil b. Willisau							47.06900	7.95620	
+CH	6142	Gettnau							47.13830	7.97030	
+CH	6143	Ohmstal							47.15980	7.95410	
+CH	6144	Zell							47.13780	7.92700	
+CH	6145	Fischbach							47.15330	7.90500	
+CH	6146	Grossdietwil							47.16880	7.89630	
+CH	6147	Altbüron							47.19090	7.89380	
+CH	6152	Hüswil							47.12930	7.90510	
+CH	6153	Ufhusen							47.10770	7.89780	
+CH	6154	Hofstatt							47.07610	7.89720	
+CH	6156	Luthern							47.05210	7.90360	
+CH	6156	Luthern Bad							47.02820	7.91780	
+CH	6160	Entlebuch							46.97620	8.10790	
+CH	6162	Finsterwald b. Entlebuch							46.92600	8.11350	
+CH	6162	Entlebuch							46.99020	8.07210	
+CH	6162	Rengg							47.00400	8.10930	
+CH	6163	Ebnet							47.02000	8.08560	
+CH	6166	Hasle							46.96080	8.08310	
+CH	6167	Bramboden							46.98330	7.97570	
+CH	6170	Schüpfheim							46.94410	8.00580	
+CH	6173	Flühli							46.88020	8.01970	
+CH	6174	Sörenberg							46.81710	8.00320	
+CH	6182	Escholzmatt							46.92800	7.93580	
+CH	6192	Wiggen							46.87820	7.94650	
+CH	6196	Marbach							46.86170	7.90890	
+CH	6197	Schangnau							46.81260	7.87650	
+CH	6203	Sempach Station							47.11870	8.20880	
+CH	6204	Sempach							47.13630	8.20610	
+CH	6205	Eich							47.15820	8.17240	
+CH	6206	Neuenkirch							47.09610	8.20190	
+CH	6207	Nottwil							47.12790	8.13780	
+CH	6208	Oberkirch							47.15270	8.10300	
+CH	6210	Sursee							47.17600	8.10500	
+CH	6211	Buchs							47.20200	8.03670	
+CH	6212	Kaltbach							47.18040	8.05840	
+CH	6212	St. Erhard							47.18210	8.07100	
+CH	6213	Knutwil							47.20230	8.07070	
+CH	6214	Schenkon							47.18340	8.13230	
+CH	6215	Beromünster							47.21040	8.20260	
+CH	6215	Schwarzenbach							47.23630	8.21240	
+CH	6216	Mauensee							47.16840	8.07470	
+CH	6217	Kottwil							47.16300	8.04170	
+CH	6218	Ettiswil							47.14610	8.01710	
+CH	6221	Rickenbach							47.21540	8.15000	
+CH	6222	Gunzwil							47.19280	8.17090	
+CH	6231	Schlierbach							47.22930	8.11860	
+CH	6232	Geuensee							47.20310	8.12030	
+CH	6233	Büron							47.21380	8.09500	
+CH	6234	Kulmerau							47.25340	8.08950	
+CH	6234	Triengen							47.23650	8.08270	
+CH	6235	Winikon							47.23080	8.04260	
+CH	6236	Wilihof							47.22070	8.06110	
+CH	6242	Wauwil							47.18430	8.03070	
+CH	6243	Egolzwil							47.18440	7.99730	
+CH	6244	Nebikon							47.19180	7.98730	
+CH	6245	Ebersecken							47.18060	7.93930	
+CH	6246	Altishofen							47.20350	7.95930	
+CH	6247	Schötz							47.16610	7.98760	
+CH	6248	Alberswil							47.14780	7.99340	
+CH	6252	Dagmersellen							47.21460	7.99800	
+CH	6253	Uffikon							47.21600	8.02700	
+CH	6260	Reidermoos							47.24980	7.99530	
+CH	6260	Reiden							47.24460	7.97680	
+CH	6260	Hintermoos							47.27090	7.99620	
+CH	6260	Mehlsecken							47.24450	7.95720	
+CH	6262	Langnau b. Reiden							47.23020	7.94790	
+CH	6263	Richenthal							47.21120	7.93210	
+CH	6264	Pfaffnau							47.22940	7.90040	
+CH	6265	Roggliswil							47.21350	7.88370	
+CH	6274	Eschenbach							47.12520	8.31400	
+CH	6275	Ballwil							47.15620	8.33110	
+CH	6276	Hohenrain							47.17900	8.31800	
+CH	6277	Kleinwangen							47.19760	8.29970	
+CH	6277	Lieli							47.21270	8.30610	
+CH	6280	Urswil							47.14720	8.28800	
+CH	6280	Hochdorf							47.16970	8.28500	
+CH	6281	Hochdorf							47.16670	8.28330	
+CH	6283	Baldegg							47.18360	8.28240	
+CH	6284	Gelfingen							47.20780	8.27470	
+CH	6284	Sulz							47.22200	8.28830	
+CH	6285	Hitzkirch							47.21990	8.25580	
+CH	6285	Retschwil							47.19670	8.24680	
+CH	6286	Altwis							47.24070	8.25100	
+CH	6287	Aesch							47.25910	8.24540	
+CH	6288	Schongau							47.26710	8.27150	
+CH	6289	Müswangen							47.24010	8.29850	
+CH	6289	Hämikon							47.24350	8.28810	
+CH	6294	Ermensee							47.22480	8.23670	
+CH	6295	Mosen							47.24160	8.22800	
+CH	6300	Zug							47.16860	8.51450	
+CH	6300	Zugerberg							47.16670	8.51670	
+CH	6301	Zug							47.16670	8.51670	
+CH	6302	Zug							47.16670	8.51670	
+CH	6303	Zug							47.16670	8.51670	
+CH	6304	Zug							47.19830	8.52890	
+CH	6310	Zug Sonderdienste							47.14330	8.55330	
+CH	6312	Steinhausen							47.19880	8.48640	
+CH	6313	Edlibach							47.17970	8.57150	
+CH	6313	Finstersee							47.16430	8.63680	
+CH	6313	Menzingen							47.17040	8.59830	
+CH	6314	Neuägeri							47.13330	8.58330	
+CH	6314	Unterägeri							47.11890	8.58470	
+CH	6315	Alosen							47.14520	8.65230	
+CH	6315	Morgarten							47.10990	8.63420	
+CH	6315	Oberägeri							47.13690	8.61190	
+CH	6317	Oberwil b. Zug							47.13460	8.49970	
+CH	6318	Walchwil							47.10450	8.52690	
+CH	6319	Allenwinden							47.16420	8.54830	
+CH	6330	Cham							47.19620	8.45310	
+CH	6331	Hünenberg							47.17790	8.42080	
+CH	6332	Hagendorn							47.20920	8.42920	
+CH	6333	Hünenberg See							47.17170	8.45090	
+CH	6340	Baar							47.19780	8.53670	
+CH	6340	Sihlbrugg							47.23390	8.57300	
+CH	6341	Baar							47.20000	8.51670	
+CH	6342	Baar							47.20000	8.51670	
+CH	6343	Buonas							47.13830	8.46140	
+CH	6343	Risch							47.12460	8.45910	
+CH	6343	Rotkreuz							47.14500	8.47400	
+CH	6343	Holzhäusern							47.15210	8.44110	
+CH	6344	Meierskappel							47.11640	8.43570	
+CH	6345	Neuheim							47.20110	8.58410	
+CH	6346	Baar 3							47.19540	8.53700	
+CH	6349	Baar Sonderdienste							47.19550	8.53700	
+CH	6353	Weggis							47.03800	8.43190	
+CH	6354	Vitznau							47.01620	8.48640	
+CH	6356	Rigi Kaltbad							47.03590	8.49270	
+CH	6362	Stansstad							46.97620	8.33210	
+CH	6363	Obbürgen							46.98460	8.37000	
+CH	6363	Bürgenstock							46.99580	8.39660	
+CH	6363	Fürigen							46.98370	8.35040	
+CH	6365	Kehrsiten							47.00230	8.38810	
+CH	6370	Stans							46.95580	8.36490	
+CH	6370	Oberdorf							46.95150	8.38930	
+CH	6371	Stans							46.96670	8.35000	
+CH	6372	Ennetmoos							46.94550	8.31860	
+CH	6373	Ennetbürgen							46.99460	8.43360	
+CH	6374	Buochs							46.96370	8.41870	
+CH	6375	Beckenried							46.92950	8.47720	
+CH	6376	Emmetten							46.95080	8.50290	
+CH	6377	Seelisberg							46.96560	8.57350	
+CH	6382	Büren							46.94110	8.41150	
+CH	6383	Wiesenberg							46.92330	8.35880	
+CH	6383	Wirzweli							46.91210	8.36370	
+CH	6383	Niederrickenbach							46.93170	8.43600	
+CH	6383	Dallenwil							46.92690	8.38340	
+CH	6386	Wolfenschiessen							46.89580	8.37910	
+CH	6387	Oberrickenbach							46.87800	8.43990	
+CH	6388	Grafenort							46.86220	8.37120	
+CH	6390	Engelberg							46.81660	8.43350	
+CH	6391	Engelberg							46.81970	8.43410	
+CH	6402	Merlischachen							47.07070	8.40630	
+CH	6403	Küssnacht am Rigi							47.08670	8.44370	
+CH	6404	Greppen							47.05630	8.43840	
+CH	6405	Immensee							47.09130	8.47600	
+CH	6410	Rigi Kulm							47.05740	8.48930	
+CH	6410	Rigi Staffel							47.05000	8.47650	
+CH	6410	Rigi Scheidegg							47.02530	8.52270	
+CH	6410	Rigi Klösterli							47.04100	8.50130	
+CH	6410	Goldau							47.04750	8.55220	
+CH	6414	Oberarth							47.05510	8.53750	
+CH	6415	Arth							47.07380	8.52430	
+CH	6416	Steinerberg							47.06500	8.58010	
+CH	6417	Sattel							47.08140	8.62750	
+CH	6418	Rothenthurm							47.09730	8.67720	
+CH	6422	Steinen							47.04910	8.61000	
+CH	6423	Seewen							47.02590	8.62280	
+CH	6424	Lauerz							47.02650	8.57890	
+CH	6430	Schwyz							47.02570	8.66720	
+CH	6431	Schwyz							47.01670	8.65000	
+CH	6432	Rickenbach b. Schwyz							47.00970	8.69740	
+CH	6433	Stoos							46.96980	8.66160	
+CH	6434	Illgau							46.99740	8.73570	
+CH	6436	Ried (Muotathal)							46.97750	8.71290	
+CH	6436	Muotathal							46.96050	8.75350	
+CH	6436	Bisisthal							46.92520	8.86950	
+CH	6438	Ibach							47.00170	8.64800	
+CH	6440	Brunnen							46.99460	8.59260	
+CH	6441	Rütli							46.97000	8.59730	
+CH	6442	Gersau							46.99800	8.51360	
+CH	6443	Morschach							46.97600	8.62450	
+CH	6452	Riemenstalden							46.93830	8.68600	
+CH	6452	Sisikon							46.94210	8.62870	
+CH	6454	Flüelen							46.91260	8.62810	
+CH	6460	Altdorf							46.88760	8.64120	
+CH	6461	Isenthal							46.88260	8.53250	
+CH	6462	Seedorf							46.88760	8.58840	
+CH	6463	Bürglen							46.89030	8.68540	
+CH	6464	Spiringen							46.87360	8.73750	
+CH	6465	Unterschächen							46.85270	8.78220	
+CH	6466	Bauen							46.93070	8.57980	
+CH	6467	Schattdorf							46.85700	8.65380	
+CH	6468	Attinghausen							46.85680	8.60600	
+CH	6469	Haldi b. Schattdorf							46.84770	8.68850	
+CH	6472	Erstfeld							46.81270	8.60100	
+CH	6473	Silenen							46.80670	8.68980	
+CH	6474	Amsteg							46.77450	8.65760	
+CH	6475	Bristen							46.77140	8.75210	
+CH	6476	Intschi							46.76870	8.64360	
+CH	6482	Gurtnellen							46.72800	8.63550	
+CH	6484	Wassen							46.70120	8.59920	
+CH	6485	Meien							46.73150	8.51640	
+CH	6487	Göschenen							46.66760	8.51820	
+CH	6490	Andermatt							46.61750	8.61430	
+CH	6491	Realp							46.57690	8.47250	
+CH	6493	Hospental							46.60920	8.55860	
+CH	6500	Bellinzona							46.19700	9.03550	
+CH	6501	Bellinzona							46.21320	9.03330	
+CH	6503	Bellinzona							46.20840	9.00660	
+CH	6512	Giubiasco							46.17220	8.99760	
+CH	6513	Monte Carasso							46.20300	8.97900	
+CH	6514	Sementina							46.18560	8.96880	
+CH	6515	Gudo							46.18500	8.94520	
+CH	6516	Cugnasco							46.19790	8.90610	
+CH	6517	Arbedo							46.20020	9.08900	
+CH	6518	Gorduno							46.22770	8.98570	
+CH	6523	Preonzo							46.24980	8.97650	
+CH	6524	Moleno							46.26980	8.98210	
+CH	6525	Gnosca							46.23850	9.00020	
+CH	6526	Prosito							46.28160	8.98670	
+CH	6527	Lodrino							46.28960	8.94900	
+CH	6528	Camorino							46.15650	9.01270	
+CH	6532	Castione							46.22850	9.04240	
+CH	6533	Lumino							46.24290	9.07010	
+CH	6534	S. Vittore							46.21590	9.12660	
+CH	6535	Roveredo							46.20130	9.15070	
+CH	6537	Grono							46.23260	9.18330	
+CH	6538	Verdabbio							46.26440	9.23420	
+CH	6540	Castaneda							46.25630	9.13160	
+CH	6541	Sta. Maria in Calanca							46.27650	9.14380	
+CH	6542	Buseno							46.27380	9.09840	
+CH	6543	Arvigo							46.31150	9.09330	
+CH	6544	Braggio							46.30090	9.13360	
+CH	6545	Selma							46.31790	9.13520	
+CH	6546	Cauco							46.33980	9.11420	
+CH	6547	Augio							46.36040	9.13410	
+CH	6548	Rossa							46.40890	9.13150	
+CH	6549	Laura							46.21000	9.10420	
+CH	6556	Leggia							46.24980	9.18780	
+CH	6557	Cama							46.26090	9.20260	
+CH	6558	Lostallo							46.30340	9.22560	
+CH	6562	Soazza							46.35010	9.22940	
+CH	6563	Mesocco							46.40230	9.22130	
+CH	6565	S. Bernardino							46.46760	9.18040	
+CH	6571	Indemini							46.09390	8.84190	
+CH	6572	Quartino							46.15270	8.89620	
+CH	6573	Magadino							46.14300	8.87920	
+CH	6574	Vira (Gambarogno)							46.12520	8.86240	
+CH	6575	Vairano							46.12210	8.81340	
+CH	6575	S. Nazzaro							46.13260	8.80480	
+CH	6576	Gerra (Gambarogno)							46.11930	8.79630	
+CH	6577	Ranzo							46.10730	8.79210	
+CH	6578	Caviano							46.10260	8.77560	
+CH	6579	Piazzogna							46.11880	8.84020	
+CH	6582	Pianezzo							46.15980	9.04900	
+CH	6583	S. Antonio (Val Morobbia)							46.15490	9.10110	
+CH	6584	Carena							46.16740	9.08690	
+CH	6592	S. Antonino							46.15180	8.97570	
+CH	6593	Cadenazzo							46.15080	8.95100	
+CH	6594	Contone							46.15410	8.92350	
+CH	6595	Riazzino							46.16930	8.89590	
+CH	6596	Gordola							46.17590	8.86730	
+CH	6597	Agarone							46.17990	8.90750	
+CH	6598	Tenero							46.17600	8.84950	
+CH	6599	Robasacco							46.13890	8.94830	
+CH	6600	Muralto							46.17450	8.80260	
+CH	6600	Solduno							46.17470	8.77180	
+CH	6600	Locarno							46.17400	8.77970	
+CH	6601	Locarno							46.16910	8.79550	
+CH	6602	Muralto							46.16670	8.79670	
+CH	6604	Locarno							46.16670	8.80000	
+CH	6605	Locarno							46.18050	8.78330	
+CH	6605	Monte Brè sopra Locarno							46.16670	8.80000	
+CH	6611	Mosogno							46.19810	8.63470	
+CH	6611	Crana							46.19570	8.60290	
+CH	6611	Gresso							46.23920	8.61590	
+CH	6612	Ascona							46.15620	8.76610	
+CH	6613	Porto Ronco							46.14170	8.72700	
+CH	6614	Isole di Brissago							46.13300	8.73520	
+CH	6614	Brissago							46.12810	8.68370	
+CH	6616	Losone							46.16930	8.74520	
+CH	6618	Arcegno							46.15840	8.74270	
+CH	6622	Ronco sopra Ascona							46.14590	8.71360	
+CH	6631	Corippo							46.23530	8.82020	
+CH	6632	Vogorno							46.22170	8.89030	
+CH	6633	Lavertezzo							46.28380	8.85900	
+CH	6634	Brione (Verzasca)							46.29920	8.77120	
+CH	6635	Gerra (Verzasca)							46.31330	8.80630	
+CH	6636	Frasco							46.35660	8.82000	
+CH	6637	Sonogno							46.36480	8.75610	
+CH	6644	Orselina							46.18250	8.79680	
+CH	6645	Brione sopra Minusio							46.19410	8.81360	
+CH	6646	Contra							46.19140	8.83780	
+CH	6647	Mergoscia							46.21360	8.82510	
+CH	6648	Minusio							46.17850	8.81830	
+CH	6652	Tegna							46.19000	8.74600	
+CH	6653	Verscio							46.19640	8.72460	
+CH	6654	Cavigliano							46.19280	8.70920	
+CH	6655	Rasa							46.15800	8.65600	
+CH	6655	Intragna							46.16910	8.69070	
+CH	6655	Verdasio							46.17230	8.64610	
+CH	6656	Golino							46.17840	8.71270	
+CH	6657	Palagnedra							46.13750	8.64770	
+CH	6658	Borgnone							46.17090	8.60090	
+CH	6659	Camedo							46.15550	8.60790	
+CH	6659	Moneto							46.13850	8.62030	
+CH	6661	Berzona							46.20980	8.65710	
+CH	6661	Auressio							46.20290	8.69260	
+CH	6661	Loco							46.20820	8.67420	
+CH	6662	Russo							46.21700	8.62530	
+CH	6663	Comologno							46.20660	8.57630	
+CH	6663	Spruga							46.20580	8.55490	
+CH	6664	Vergeletto							46.24140	8.52960	
+CH	6670	Avegno							46.20320	8.76640	
+CH	6672	Gordevio							46.23530	8.76500	
+CH	6673	Maggia							46.26990	8.73310	
+CH	6674	Riveo							46.29640	8.63080	
+CH	6674	Someo							46.28820	8.64050	
+CH	6675	Cevio							46.30610	8.59360	
+CH	6676	Bignasco							46.34530	8.56680	
+CH	6677	Moghegno							46.24400	8.68650	
+CH	6677	Aurigeno							46.22380	8.71370	
+CH	6678	Lodano							46.25230	8.65820	
+CH	6678	Giumaglio							46.29790	8.68090	
+CH	6678	Coglio							46.29650	8.70620	
+CH	6682	Linescio							46.31080	8.57590	
+CH	6683	Niva (Vallemaggia)							46.28020	8.53450	
+CH	6683	Cerentino							46.31690	8.53860	
+CH	6684	Campo (Vallemaggia)							46.29060	8.50170	
+CH	6684	Cimalmotto							46.27450	8.46840	
+CH	6685	Bosco/Gurin							46.32130	8.48910	
+CH	6690	S. Carlo (Val Bavona)							46.42830	8.50420	
+CH	6690	Cavergno							46.37870	8.54150	
+CH	6692	Menzonio							46.35560	8.66040	
+CH	6692	Brontallo							46.35860	8.62040	
+CH	6693	Broglio							46.37070	8.67350	
+CH	6694	Prato-Sornico							46.39910	8.68780	
+CH	6695	Piano di Peccia							46.42600	8.58710	
+CH	6695	Peccia							46.40670	8.64190	
+CH	6696	Fusio							46.45460	8.65960	
+CH	6702	Claro							46.26520	9.03480	
+CH	6703	Osogna							46.32380	9.01160	
+CH	6705	Cresciano							46.29910	9.02700	
+CH	6707	Iragna							46.32750	8.94780	
+CH	6710	Biasca							46.35240	8.98710	
+CH	6710	Biasca Stazione							46.35000	8.96670	
+CH	6713	Malvaglia							46.41620	9.03940	
+CH	6714	Semione							46.39660	8.95080	
+CH	6715	Dongio							46.44790	8.97290	
+CH	6716	Acquarossa							46.45710	8.93730	
+CH	6716	Leontica							46.45050	8.89640	
+CH	6716	Lottigna							46.46410	8.95610	
+CH	6717	Dangio-Torre							46.49550	8.95430	
+CH	6717	Torre							46.48280	8.97540	
+CH	6718	Olivone							46.53590	8.88950	
+CH	6718	Camperio							46.51650	8.91040	
+CH	6719	Aquila							46.56820	8.97260	
+CH	6720	Ghirone							46.58420	8.94860	
+CH	6720	Campo (Blenio)							46.56270	8.88680	
+CH	6721	Motto (Blenio)							46.42860	8.96970	
+CH	6721	Ludiano							46.42090	8.95150	
+CH	6722	Corzoneso							46.43520	8.92470	
+CH	6723	Marolta							46.48190	8.90430	
+CH	6723	Castro							46.47680	8.87990	
+CH	6723	Prugiasco							46.47010	8.91620	
+CH	6724	Largario							46.49280	8.93780	
+CH	6724	Ponto Valentino							46.48740	8.89300	
+CH	6742	Pollegio							46.37240	8.94660	
+CH	6743	Bodio							46.38760	8.92050	
+CH	6744	Personico							46.34270	8.89820	
+CH	6745	Giornico							46.39420	8.86560	
+CH	6746	Calonico							46.45240	8.84520	
+CH	6746	Nivo							46.43680	8.84210	
+CH	6746	Lavorgo							46.44280	8.84100	
+CH	6747	Chironico							46.42210	8.79750	
+CH	6748	Anzonico							46.44180	8.86990	
+CH	6749	Sobrio							46.40250	8.90640	
+CH	6749	Cavagnago							46.41950	8.88910	
+CH	6760	Rossura							46.47330	8.84260	
+CH	6760	Molare							46.49570	8.84590	
+CH	6760	Faido							46.47310	8.80070	
+CH	6760	Carì							46.50520	8.82640	
+CH	6760	Calpiogna							46.48530	8.80540	
+CH	6760	Campello							46.50650	8.81470	
+CH	6763	Mairengo							46.51150	8.79530	
+CH	6763	Osco							46.50500	8.76920	
+CH	6764	Chiggiogna							46.45400	8.82840	
+CH	6772	Rodi-Fiesso							46.47910	8.71970	
+CH	6773	Prato (Leventina)							46.47340	8.74770	
+CH	6774	Dalpe							46.45890	8.76090	
+CH	6775	Ambrì							46.49580	8.69160	
+CH	6776	Piotta							46.54940	8.70980	
+CH	6777	Varenzo							46.50020	8.71990	
+CH	6777	Quinto							46.51340	8.72530	
+CH	6780	Madrano							46.52750	8.63130	
+CH	6780	Airolo							46.53850	8.59280	
+CH	6781	Villa Bedretto							46.51220	8.52580	
+CH	6781	Bedretto							46.49220	8.47140	
+CH	6802	Rivera							46.12720	8.90490	
+CH	6803	Camignolo							46.10440	8.94860	
+CH	6804	Bironico							46.12420	8.93070	
+CH	6805	Mezzovico							46.09160	8.89360	
+CH	6806	Sigirino							46.08850	8.88710	
+CH	6807	Taverne							46.06410	8.93100	
+CH	6808	Torricella							46.06980	8.91450	
+CH	6809	Medeglia							46.13090	9.00950	
+CH	6810	Isone							46.13120	9.01580	
+CH	6814	Lamone							46.04740	8.93240	
+CH	6814	Cadempino							46.03510	8.93410	
+CH	6815	Melide							45.96110	8.94620	
+CH	6816	Bissone							45.95160	8.96870	
+CH	6817	Maroggia							45.93640	8.97270	
+CH	6818	Melano							45.92170	8.99670	
+CH	6821	Rovio							45.93540	8.99980	
+CH	6822	Arogno							45.96100	8.99510	
+CH	6823	Pugerna							45.98640	8.99690	
+CH	6825	Capolago							45.91570	9.00230	
+CH	6826	Riva San Vitale							45.91150	8.96260	
+CH	6827	Brusino Arsizio							45.92260	8.93740	
+CH	6828	Balerna							45.84290	9.00780	
+CH	6830	Chiasso							45.83370	9.02690	
+CH	6832	Pedrinate							45.82590	9.01760	
+CH	6832	Seseglio							45.82870	8.99970	
+CH	6833	Vacallo							45.84750	9.03750	
+CH	6834	Morbio Inferiore							45.84840	9.02210	
+CH	6835	Morbio Superiore							45.86490	9.04400	
+CH	6836	Serfontana							45.85560	9.03330	
+CH	6837	Caneggio							45.88000	9.05500	
+CH	6837	Bruzella							45.88980	9.06440	
+CH	6838	Scudellate							45.91910	9.03840	
+CH	6838	Muggio							45.90560	9.03550	
+CH	6838	Cabbio							45.90330	9.05810	
+CH	6839	Sagno							45.85930	9.04730	
+CH	6850	Mendrisio							45.87250	8.97920	
+CH	6852	Genestrerio							45.85070	8.96350	
+CH	6853	Ligornetto							45.86260	8.95280	
+CH	6854	S. Pietro							45.85770	8.93430	
+CH	6855	Stabio							45.84510	8.93090	
+CH	6862	Rancate							45.87490	8.97050	
+CH	6863	Besazio							45.87090	8.95390	
+CH	6864	Arzo							45.87850	8.93900	
+CH	6865	Tremona							45.88090	8.95860	
+CH	6866	Meride							45.89980	8.94220	
+CH	6867	Serpiano							45.91680	8.94310	
+CH	6872	Somazzo							45.88240	8.99290	
+CH	6872	Salorino							45.89150	9.00000	
+CH	6873	Corteglia							45.86260	8.99380	
+CH	6874	Castel San Pietro							45.86760	9.00960	
+CH	6875	Campora							45.87430	9.02380	
+CH	6875	Casima							45.89270	9.03390	
+CH	6875	Monte							45.87930	9.02380	
+CH	6877	Coldrerio							45.85350	8.98590	
+CH	6883	Novazzano							45.84200	8.98010	
+CH	6900	Massagno							46.01270	8.94320	
+CH	6900	Lugano							46.01340	8.95420	
+CH	6900	Paradiso							45.98810	8.94850	
+CH	6901	Lugano							46.00030	8.95120	
+CH	6902	Lugano							46.01170	8.95750	
+CH	6903	Lugano							46.00580	8.94750	
+CH	6904	Lugano							46.01170	8.95750	
+CH	6905	Lugano							46.01170	8.95750	
+CH	6906	Lugano							46.01170	8.95750	
+CH	6907	Lugano							46.01170	8.95750	
+CH	6908	Massagno Caselle							46.01170	8.95750	
+CH	6912	Pazzallo							45.98060	8.94780	
+CH	6913	Carabbia							45.97060	8.93340	
+CH	6914	Carona							45.95200	8.93010	
+CH	6915	Pambio-Noranco							45.98460	8.92760	
+CH	6916	Grancia							45.96800	8.92680	
+CH	6917	Barbengo							45.96110	8.91660	
+CH	6918	Figino							45.95600	8.92160	
+CH	6919	Carabietta							45.97770	8.90610	
+CH	6921	Vico Morcote							45.93470	8.92430	
+CH	6922	Morcote							45.93400	8.91240	
+CH	6924	Sorengo							46.00080	8.93500	
+CH	6925	Gentilino							45.99150	8.92540	
+CH	6926	Montagnola							45.98390	8.91630	
+CH	6927	Agra							45.96750	8.91130	
+CH	6928	Manno							46.03050	8.91800	
+CH	6929	Gravesano							46.04150	8.91900	
+CH	6930	Bedano							46.05160	8.91690	
+CH	6932	Breganzona							46.00920	8.92760	
+CH	6933	Muzzano							45.99740	8.91990	
+CH	6934	Bioggio							46.01430	8.90640	
+CH	6935	Bosco Luganese							46.02970	8.90510	
+CH	6936	Cademario							46.02370	8.89300	
+CH	6937	Breno							46.04430	8.85190	
+CH	6938	Fescoggia							46.04910	8.87210	
+CH	6938	Vezio							46.06450	8.86950	
+CH	6939	Mugena							46.07100	8.87630	
+CH	6939	Arosio							46.06000	8.89820	
+CH	6942	Savosa							46.01960	8.94480	
+CH	6943	Vezia							46.02490	8.93560	
+CH	6944	Cureglia							46.03600	8.94360	
+CH	6945	Origlio							46.05080	8.94520	
+CH	6946	Ponte Capriasca							46.09330	9.00450	
+CH	6947	Vaglio							46.08040	8.98060	
+CH	6948	Porza							46.02620	8.95360	
+CH	6949	Comano							46.04040	8.95720	
+CH	6950	Tesserete							46.06940	8.96740	
+CH	6951	Cozzo							46.09720	9.06200	
+CH	6951	Signôra							46.09300	9.04670	
+CH	6951	Bogno							46.09140	9.07340	
+CH	6951	Scareglia							46.09120	9.03860	
+CH	6951	Odogno							46.09630	8.97360	
+CH	6951	Insone							46.09100	9.02920	
+CH	6951	Colla							46.10410	9.05340	
+CH	6952	Canobbio							46.03440	8.96650	
+CH	6953	Lugaggia							46.08200	8.99160	
+CH	6954	Bigorio							46.07250	8.95480	
+CH	6954	Sala Capriasca							46.09840	8.99060	
+CH	6955	Cagiallo							46.09430	8.99490	
+CH	6955	Oggio							46.07040	8.98370	
+CH	6956	Lopagno							46.09480	8.98770	
+CH	6957	Roveredo							46.07630	8.98570	
+CH	6958	Corticiasca							46.08330	9.01330	
+CH	6958	Bidogno							46.09570	9.00910	
+CH	6959	Piandera Paese							46.08140	9.03790	
+CH	6959	Maglio di Colla							46.08640	9.03720	
+CH	6959	Cimadera							46.07170	9.05510	
+CH	6959	Certara							46.07830	9.06950	
+CH	6959	Curtina							46.08330	9.02260	
+CH	6960	Odogno							46.08290	8.97190	
+CH	6962	Viganello							46.01210	8.96920	
+CH	6963	Pregassona							46.02250	8.97840	
+CH	6963	Cureggia							46.01860	8.98650	
+CH	6964	Davesco-Soragno							46.03260	8.98690	
+CH	6965	Cadro							46.04100	8.99310	
+CH	6966	Villa Luganese							46.05150	9.00420	
+CH	6967	Dino							46.05250	8.98200	
+CH	6968	Sonvico							46.06600	9.01380	
+CH	6974	Aldesago							46.00970	8.98100	
+CH	6976	Castagnola							46.00260	8.98670	
+CH	6977	Ruvigliana							46.00630	8.97510	
+CH	6978	Gandria							46.01040	9.00750	
+CH	6979	Brè sopra Lugano							46.01850	8.99900	
+CH	6980	Castelrotto							45.99370	8.83680	
+CH	6981	Banco							46.01050	8.84080	
+CH	6981	Bombinasco							46.01640	8.83270	
+CH	6981	Bedigliora							46.01260	8.83550	
+CH	6981	Biogno-Beride							45.99790	8.84060	
+CH	6982	Agno							46.00360	8.90320	
+CH	6983	Magliaso							45.98230	8.88620	
+CH	6984	Pura							45.98210	8.86420	
+CH	6986	Miglieglia							46.02900	8.85150	
+CH	6986	Novaggio							46.01970	8.84470	
+CH	6986	Curio							45.99400	8.85690	
+CH	6987	Caslano							45.97060	8.87840	
+CH	6988	Ponte Tresa							45.97140	8.85880	
+CH	6989	Purasca							45.98250	8.84870	
+CH	6990	Cassina d'Agno							45.99300	8.89150	
+CH	6991	Neggio							45.98760	8.87850	
+CH	6992	Vernate							45.99450	8.88020	
+CH	6992	Cimo							46.00280	8.89050	
+CH	6993	Iseo							46.00560	8.87720	
+CH	6994	Aranno							46.01790	8.87310	
+CH	6995	Madonna del Piano							45.98920	8.83320	
+CH	6995	Molinazzo di Monteggio							45.99140	8.82020	
+CH	6996	Ponte Cremenaga							45.99270	8.80070	
+CH	6997	Sessa							46.00320	8.81080	
+CH	6998	Termine							45.99720	8.80240	
+CH	6999	Astano							46.01550	8.81570	
+CH	7000	Chur							46.85350	9.53090	
+CH	7001	Chur							46.85000	9.50000	
+CH	7002	Chur							46.84490	9.53170	
+CH	7003	Chur 							46.85000	9.50000	
+CH	7004	Chur							46.85000	9.50000	
+CH	7006	Chur							46.85000	9.50000	
+CH	7007	Chur							46.85000	9.50000	
+CH	7012	Felsberg							46.86020	9.46220	
+CH	7013	Domat/Ems							46.81930	9.45280	
+CH	7014	Trin							46.87790	9.32160	
+CH	7015	Tamins							46.84320	9.40910	
+CH	7016	Trin Mulin							46.82200	9.33440	
+CH	7017	Flims Dorf							46.85510	9.26850	
+CH	7018	Flims Waldhaus							46.82440	9.28540	
+CH	7019	Fidaz							46.84490	9.31780	
+CH	7023	Haldenstein							46.87910	9.49860	
+CH	7026	Maladers							46.84380	9.56990	
+CH	7027	Lüen							46.83640	9.62250	
+CH	7027	Castiel							46.84960	9.61580	
+CH	7027	Calfreisen							46.85740	9.60190	
+CH	7028	Pagig							46.84120	9.63650	
+CH	7028	St. Peter							46.84730	9.65530	
+CH	7029	Peist							46.84020	9.68650	
+CH	7031	Laax							46.81130	9.26620	
+CH	7032	Laax							46.85420	9.21060	
+CH	7050	Arosa							46.77170	9.67530	
+CH	7056	Molinis							46.81210	9.64620	
+CH	7057	Langwies							46.82070	9.74750	
+CH	7058	Litzirüti							46.79880	9.70140	
+CH	7062	Passugg-Araschgen							46.82270	9.54960	
+CH	7063	Praden							46.82080	9.58400	
+CH	7064	Tschiertschen							46.79410	9.60700	
+CH	7074	Malix							46.81250	9.51790	
+CH	7075	Churwalden							46.77780	9.53030	
+CH	7076	Parpan							46.77950	9.56880	
+CH	7077	Valbella							46.75340	9.55070	
+CH	7078	Lenzerheide/Lai							46.73460	9.54540	
+CH	7082	Vaz/Obervaz							46.69890	9.53440	
+CH	7083	Lantsch/Lenz							46.69980	9.57720	
+CH	7084	Brienz/Brinzauls							46.68690	9.59910	
+CH	7104	Versam							46.78020	9.33860	
+CH	7104	Arezen							46.77460	9.33550	
+CH	7106	Tenna							46.74730	9.33370	
+CH	7107	Safien Platz							46.71050	9.32650	
+CH	7109	Thalkirch							46.63480	9.28570	
+CH	7110	Peiden							46.71660	9.19400	
+CH	7111	Pitasch							46.72280	9.24200	
+CH	7112	Duvin							46.69230	9.25620	
+CH	7113	Camuns							46.69730	9.21720	
+CH	7114	Uors (Lumnezia)							46.70350	9.18900	
+CH	7115	Surcasti							46.68030	9.16820	
+CH	7116	St. Martin (Lugnez)							46.65970	9.19820	
+CH	7116	Tersnaus							46.68810	9.19180	
+CH	7122	Carrera							46.79020	9.29800	
+CH	7122	Valendas							46.76680	9.29500	
+CH	7126	Castrisch							46.77240	9.23720	
+CH	7127	Sevgein							46.75740	9.22610	
+CH	7128	Riein							46.74230	9.25750	
+CH	7130	Schnaus							46.79990	9.18030	
+CH	7130	Ilanz							46.76720	9.19400	
+CH	7132	Vals							46.57340	9.13360	
+CH	7133	Obersaxen Affeier							46.75420	9.12140	
+CH	7134	Obersaxen Meierhof							46.71520	9.08910	
+CH	7135	Obersaxen Giraniga							46.73980	9.07960	
+CH	7136	Obersaxen Friggahüs							46.72140	9.04510	
+CH	7137	Flond							46.76660	9.15990	
+CH	7138	Surcuolm							46.74960	9.15410	
+CH	7141	Luven							46.75520	9.18910	
+CH	7142	Cumbel							46.73530	9.20020	
+CH	7143	Morissen							46.73420	9.17170	
+CH	7144	Vella							46.72110	9.15590	
+CH	7145	Degen							46.70550	9.17150	
+CH	7146	Vattiz							46.71380	9.13850	
+CH	7147	Vignogn							46.70060	9.13500	
+CH	7148	Lumbrein							46.66340	9.03660	
+CH	7148	Surin							46.66640	9.12030	
+CH	7149	Vrin							46.62340	9.04090	
+CH	7151	Schluein							46.78550	9.22460	
+CH	7152	Sagogn							46.79870	9.28100	
+CH	7153	Falera							46.80620	9.22800	
+CH	7154	Ruschein							46.80270	9.17530	
+CH	7155	Ladir							46.81970	9.18630	
+CH	7156	Rueun							46.78070	9.14710	
+CH	7156	Pigniu							46.83510	9.11720	
+CH	7157	Siat							46.79750	9.15350	
+CH	7158	Waltensburg/Vuorz							46.80310	9.08680	
+CH	7159	Andiast							46.82470	9.09320	
+CH	7162	Tavanasa							46.75680	9.07770	
+CH	7163	Danis							46.75580	9.05460	
+CH	7164	Dardin							46.75800	9.03720	
+CH	7165	Breil/Brigels							46.79840	9.01580	
+CH	7166	Trun							46.75230	8.98070	
+CH	7167	Zignau							46.71350	8.99210	
+CH	7168	Schlans							46.76670	9.00180	
+CH	7172	Rabius							46.76220	8.94100	
+CH	7173	Surrein							46.67710	8.96550	
+CH	7174	S. Benedetg							46.75840	8.93010	
+CH	7175	Sumvitg							46.75550	8.91660	
+CH	7176	Cumpadials							46.70450	8.91850	
+CH	7180	Disentis/Mustér							46.74570	8.84270	
+CH	7182	Cavardiras							46.70340	8.88900	
+CH	7183	Mumpé Medel							46.68730	8.84720	
+CH	7184	Curaglia							46.67760	8.87380	
+CH	7185	Platta							46.61700	8.86000	
+CH	7186	Segnas							46.68680	8.81470	
+CH	7187	Camischolas							46.68150	8.76140	
+CH	7188	Sedrun							46.62290	8.75040	
+CH	7189	Rueras							46.67700	8.71310	
+CH	7202	Says							46.89940	9.61090	
+CH	7203	Trimmis							46.88990	9.56700	
+CH	7204	Untervaz							46.92140	9.51770	
+CH	7205	Zizers							46.93600	9.57820	
+CH	7206	Igis							46.94410	9.58210	
+CH	7208	Malans							46.98960	9.58180	
+CH	7212	Seewis-Pardisla							47.01800	9.63680	
+CH	7212	Seewis Dorf							47.01800	9.63680	
+CH	7212	Seewis-Schmitten							47.01800	9.63680	
+CH	7213	Valzeina							46.96740	9.61610	
+CH	7214	Seewis-Schmitten							46.98040	9.64070	
+CH	7214	Seewis-Pardisla							46.97760	9.63180	
+CH	7214	Grüsch							46.96040	9.64300	
+CH	7215	Fanas							47.00380	9.68040	
+CH	7220	Schiers							46.98300	9.72720	
+CH	7222	Mittellunden							46.95010	9.71280	
+CH	7223	Buchen im Prättigau							46.93850	9.72360	
+CH	7224	Putz							46.92710	9.74300	
+CH	7226	Stels							46.98810	9.76540	
+CH	7226	Fajauna							46.96990	9.70110	
+CH	7228	Schuders							47.01230	9.75050	
+CH	7228	Pusserein							46.99090	9.71280	
+CH	7231	Pragg-Jenaz							46.93980	9.69800	
+CH	7232	Furna							46.91150	9.66040	
+CH	7233	Jenaz							46.89800	9.70540	
+CH	7235	Fideris							46.88790	9.73690	
+CH	7240	Küblis							46.92460	9.79310	
+CH	7241	Conters im Prättigau							46.88460	9.78730	
+CH	7242	Luzein							46.92080	9.76250	
+CH	7243	Pany							46.94910	9.77060	
+CH	7244	Gadenstätt							46.94430	9.79000	
+CH	7245	Ascharina							46.94870	9.82080	
+CH	7246	St. Antönien							46.97800	9.82950	
+CH	7247	Saas im Prättigau							46.91010	9.84480	
+CH	7249	Serneus							46.88830	9.83030	
+CH	7250	Klosters							46.83700	9.97640	
+CH	7252	Klosters Dorf							46.89890	9.92190	
+CH	7260	Davos Dorf							46.77830	9.87900	
+CH	7265	Davos Wolfgang							46.83740	9.85380	
+CH	7270	Davos Platz							46.78580	9.81540	
+CH	7272	Davos Clavadel							46.72030	9.84870	
+CH	7276	Davos Frauenkirch							46.78020	9.76880	
+CH	7277	Davos Glaris							46.73920	9.76720	
+CH	7278	Davos Monstein							46.69880	9.78140	
+CH	7302	Landquart							46.96140	9.57490	
+CH	7303	Mastrils							46.96020	9.53650	
+CH	7304	Maienfeld							47.01920	9.53980	
+CH	7306	Fläsch							47.03960	9.50250	
+CH	7307	Jenins							47.00780	9.56560	
+CH	7310	Bad Ragaz							46.99150	9.47970	
+CH	7312	Pfäfers							46.97560	9.49310	
+CH	7313	St. Margrethenberg							46.96920	9.51260	
+CH	7314	Vadura							46.95690	9.49240	
+CH	7315	Vättis							46.91120	9.36910	
+CH	7317	Vasön							46.95130	9.46330	
+CH	7317	Valens							46.98120	9.47580	
+CH	7320	Sargans							47.05430	9.44880	
+CH	7323	Wangs							47.00270	9.41220	
+CH	7324	Vilters							47.01800	9.45380	
+CH	7325	Schwendi im Weisstannental							47.00550	9.36530	
+CH	7326	Weisstannen							46.97100	9.31600	
+CH	7402	Bonaduz							46.75930	9.37170	
+CH	7403	Rhäzüns							46.78590	9.39500	
+CH	7404	Feldis/Veulden							46.79730	9.43560	
+CH	7405	Rothenbrunnen							46.77560	9.42070	
+CH	7407	Trans							46.76200	9.48240	
+CH	7408	Realta							46.75530	9.42070	
+CH	7408	Cazis							46.72970	9.43120	
+CH	7411	Sils im Domleschg							46.69050	9.47170	
+CH	7412	Scharans							46.71490	9.48280	
+CH	7413	Fürstenaubruck							46.71450	9.45070	
+CH	7414	Fürstenau							46.72270	9.44900	
+CH	7415	Pratval							46.73200	9.44560	
+CH	7415	Rodels							46.73890	9.44060	
+CH	7416	Almens							46.74260	9.48240	
+CH	7417	Paspels							46.75100	9.45700	
+CH	7418	Tumegl/Tomils							46.76410	9.44450	
+CH	7419	Scheid							46.78390	9.47060	
+CH	7421	Summaprada							46.71170	9.42950	
+CH	7422	Tartar							46.72100	9.41950	
+CH	7423	Sarn							46.72520	9.38830	
+CH	7423	Portein							46.71170	9.38840	
+CH	7424	Dalin							46.73490	9.40610	
+CH	7424	Präz							46.74780	9.39620	
+CH	7425	Masein							46.69560	9.42240	
+CH	7426	Flerden							46.68640	9.39860	
+CH	7427	Urmein							46.69090	9.39780	
+CH	7428	Tschappina							46.68790	9.36480	
+CH	7428	Glaspass							46.66310	9.34450	
+CH	7430	Rongellen							46.67320	9.43900	
+CH	7430	Thusis							46.68530	9.43160	
+CH	7431	Mutten							46.67890	9.49960	
+CH	7431	Obermutten							46.66510	9.48880	
+CH	7432	Zillis							46.64450	9.46920	
+CH	7433	Farden							46.63560	9.42510	
+CH	7433	Mathon							46.64090	9.38240	
+CH	7433	Lohn							46.65530	9.41950	
+CH	7433	Wergenstein							46.61560	9.35130	
+CH	7433	Donat							46.62310	9.42260	
+CH	7434	Sufers							46.55090	9.38750	
+CH	7435	Splügen							46.53960	9.32620	
+CH	7436	Medels im Rheinwald							46.54660	9.27850	
+CH	7437	Nufenen							46.54660	9.23930	
+CH	7438	Hinterrhein							46.51500	9.15540	
+CH	7440	Andeer							46.57840	9.41400	
+CH	7442	Clugin							46.61400	9.41590	
+CH	7443	Pignia							46.60320	9.46880	
+CH	7444	Ausserferrera							46.55470	9.46380	
+CH	7445	Innerferrera							46.49140	9.43100	
+CH	7446	Campsut-Cröt							46.46400	9.48540	
+CH	7447	Am Bach (Avers)							46.42520	9.54070	
+CH	7447	Cresta (Avers)							46.47070	9.52940	
+CH	7448	Juf							46.43370	9.58970	
+CH	7450	Tiefencastel							46.64380	9.59650	
+CH	7451	Alvaschein							46.67860	9.53340	
+CH	7452	Cunter							46.62350	9.60580	
+CH	7453	Tinizong							46.58960	9.65710	
+CH	7454	Rona							46.55430	9.64040	
+CH	7455	Mulegns							46.50030	9.57650	
+CH	7456	Sur							46.52960	9.66190	
+CH	7456	Marmorera							46.50360	9.65100	
+CH	7457	Bivio							46.45810	9.66440	
+CH	7458	Mon							46.64810	9.54850	
+CH	7459	Stierva							46.66220	9.52220	
+CH	7460	Savognin							46.57840	9.58890	
+CH	7462	Salouf							46.62540	9.54290	
+CH	7463	Riom							46.62210	9.58710	
+CH	7464	Parsonz							46.55600	9.53760	
+CH	7472	Surava							46.65830	9.61720	
+CH	7473	Alvaneu Bad							46.66820	9.63920	
+CH	7477	Filisur							46.64470	9.69780	
+CH	7482	Bergün/Bravuogn							46.64360	9.81670	
+CH	7482	Preda							46.58750	9.76660	
+CH	7482	Stugl/Stuls							46.65890	9.74650	
+CH	7484	Latsch							46.63830	9.75450	
+CH	7492	Alvaneu Dorf							46.71240	9.64900	
+CH	7493	Schmitten (Albula)							46.70160	9.67810	
+CH	7494	Davos Wiesen							46.71440	9.71860	
+CH	7500	St. Moritz							46.48550	9.83350	
+CH	7502	Bever							46.54240	9.79950	
+CH	7503	Samedan							46.53510	9.84610	
+CH	7504	Pontresina							46.49550	9.90130	
+CH	7505	Celerina/Schlarigna							46.50230	9.86910	
+CH	7512	Champfèr							46.47950	9.79350	
+CH	7513	Silvaplana							46.47640	9.75030	
+CH	7513	Silvaplana-Surlej							46.44400	9.82160	
+CH	7514	Fex							46.37550	9.78970	
+CH	7514	Sils/Segl Maria							46.43160	9.78080	
+CH	7515	Sils/Segl Baselgia							46.43630	9.74350	
+CH	7516	Maloja							46.35570	9.69470	
+CH	7517	Plaun da Lej							46.43050	9.71010	
+CH	7522	La Punt-Chamues-ch							46.53870	9.95990	
+CH	7523	Madulain							46.54300	9.96840	
+CH	7524	Zuoz							46.59840	9.93440	
+CH	7525	S-chanf							46.59050	10.03370	
+CH	7526	Cinuos-chel							46.65790	9.93750	
+CH	7527	Brail							46.67140	10.01660	
+CH	7530	Zernez							46.66710	10.16460	
+CH	7532	Tschierv							46.64200	10.29900	
+CH	7533	Fuldera							46.60240	10.34480	
+CH	7534	Lü							46.63360	10.36900	
+CH	7535	Valchava							46.59660	10.38110	
+CH	7536	Sta. Maria Val Müstair							46.58820	10.28740	
+CH	7537	Müstair							46.62730	10.44770	
+CH	7542	Susch							46.74970	10.03110	
+CH	7543	Lavin							46.78900	10.10630	
+CH	7545	Guarda							46.82010	10.14080	
+CH	7546	Ardez							46.77490	10.18560	
+CH	7550	Scuol							46.73240	10.32770	
+CH	7551	Ftan							46.82380	10.22670	
+CH	7552	Vulpera							46.78720	10.28620	
+CH	7553	Tarasp							46.73490	10.24640	
+CH	7554	Sent							46.83150	10.32830	
+CH	7554	Crusch							46.82030	10.36030	
+CH	7556	Ramosch							46.86410	10.32320	
+CH	7557	Vnà							46.87320	10.34600	
+CH	7558	Strada							46.83630	10.43310	
+CH	7559	Tschlin							46.90560	10.41250	
+CH	7560	Martina							46.91180	10.45750	
+CH	7562	Samnaun-Compatsch							46.96210	10.39810	
+CH	7563	Samnaun Dorf							46.94720	10.35940	
+CH	7602	Casaccia							46.37260	9.67250	
+CH	7603	Vicosoprano							46.33260	9.63780	
+CH	7604	Borgonovo							46.33950	9.60930	
+CH	7605	Stampa							46.34340	9.58560	
+CH	7606	Bondo							46.33540	9.55410	
+CH	7606	Promontogno							46.31520	9.57950	
+CH	7608	Castasegna							46.35060	9.51710	
+CH	7610	Soglio							46.38640	9.50470	
+CH	7710	Ospizio Bernina							46.39800	10.02440	
+CH	7710	Alp Grüm							46.37480	10.03280	
+CH	7741	S. Carlo (Poschiavo)							46.35980	10.09010	
+CH	7742	La Rösa							46.41020	10.07690	
+CH	7742	Sfazù							46.39850	10.11680	
+CH	7742	Poschiavo							46.34260	10.02530	
+CH	7743	Brusio							46.27300	10.12160	
+CH	7743	Miralago							46.27310	10.10070	
+CH	7744	Campocologno							46.23560	10.14240	
+CH	7745	Li Curt							46.29550	10.02630	
+CH	7746	Le Prese							46.28510	10.08400	
+CH	7747	Viano							46.26280	10.15380	
+CH	7748	Campascio							46.23740	10.09470	
+CH	8000	Zürich							47.36670	8.55000	
+CH	8001	Zürich							47.37200	8.54130	
+CH	8002	Zürich							47.36060	8.53250	
+CH	8003	Zürich							47.37260	8.51610	
+CH	8004	Zürich							47.37800	8.52340	
+CH	8005	Zürich							47.38680	8.52070	
+CH	8006	Zürich							47.38580	8.54320	
+CH	8008	Zürich							47.35360	8.56140	
+CH	8010	Zürich							47.36670	8.55000	
+CH	8012	Zürich							47.39500	8.44880	
+CH	8015	Zürich 15							47.36670	8.55000	
+CH	8020	Zürich 1							47.36670	8.55000	
+CH	8021	Zürich 1							47.36670	8.55000	
+CH	8022	Zürich							47.36740	8.53740	
+CH	8023	Zürich							47.37480	8.53810	
+CH	8024	Zürich							47.36670	8.55000	
+CH	8026	Zürich							47.36670	8.55000	
+CH	8027	Zürich							47.36670	8.55000	
+CH	8030	Zürich							47.36670	8.55000	
+CH	8031	Zürich							47.36670	8.55000	
+CH	8032	Zürich							47.36670	8.56440	
+CH	8033	Zürich							47.38360	8.54800	
+CH	8034	Zürich							47.36670	8.55000	
+CH	8036	Zürich							47.36670	8.55000	
+CH	8037	Zürich							47.39850	8.52430	
+CH	8038	Zürich							47.34160	8.53690	
+CH	8039	Zürich							47.36670	8.55000	
+CH	8040	Zürich							47.38020	8.50680	
+CH	8041	Zürich							47.33610	8.51560	
+CH	8042	Zürich							47.36670	8.55000	
+CH	8044	Gockhausen							47.37860	8.60440	
+CH	8044	Zürich							47.38040	8.57280	
+CH	8045	Zürich							47.35160	8.50570	
+CH	8046	Zürich							47.42220	8.50830	
+CH	8047	Zürich							47.37390	8.48700	
+CH	8048	Zürich							47.38680	8.48390	
+CH	8049	Zürich							47.40870	8.50040	
+CH	8050	Zürich							47.41190	8.55080	
+CH	8051	Zürich							47.39960	8.57880	
+CH	8052	Zürich							47.42450	8.54060	
+CH	8053	Zürich							47.36130	8.59740	
+CH	8055	Zürich							47.36420	8.49030	
+CH	8057	Zürich							47.39990	8.54740	
+CH	8058	Zürich							47.45350	8.56100	
+CH	8060	Zürich							47.45800	8.58530	
+CH	8061	Zürich							47.36670	8.55000	
+CH	8063	Zürich							47.36660	8.49700	
+CH	8064	Zürich							47.39870	8.48520	
+CH	8065	Zürich							47.36670	8.55000	
+CH	8066	Zürich							47.36670	8.55000	
+CH	8068	Zürich							47.36670	8.55000	
+CH	8070	Zürich							47.36670	8.55000	
+CH	8071	Zürich CS PZ							47.38280	8.53070	
+CH	8074	Zürich Voice Pub							47.38280	8.53070	
+CH	8075	Zürich							47.38280	8.53070	
+CH	8080	Zürich 80							47.36670	8.55000	
+CH	8081	Zürich							47.38280	8.53070	
+CH	8085	Zürich Versich.							47.38280	8.53070	
+CH	8086	Zürich R Digest							47.38280	8.53070	
+CH	8087	Zürich							47.36670	8.55000	
+CH	8088	Zürich							47.36670	8.55000	
+CH	8090	Zürich							47.36670	8.55000	
+CH	8091	Zürich							47.36670	8.55000	
+CH	8092	Zürich							47.38280	8.53070	
+CH	8093	Zürich							47.38280	8.53070	
+CH	8096	Zürich IBRS local							47.38280	8.53070	
+CH	8098	Zürich							47.36670	8.55000	
+CH	8099	Zürich Sonderdienste							47.36670	8.55000	
+CH	8102	Oberengstringen							47.41130	8.46500	
+CH	8103	Unterengstringen							47.41120	8.44440	
+CH	8104	Weiningen							47.42230	8.43760	
+CH	8105	Watt							47.44390	8.48550	
+CH	8105	Regensdorf							47.43190	8.46580	
+CH	8106	Adlikon b. Regensdorf							47.45230	8.46020	
+CH	8107	Buchs							47.45870	8.44060	
+CH	8108	Dällikon							47.43900	8.43240	
+CH	8109	Kloster Fahr							47.40830	8.43910	
+CH	8112	Otelfingen							47.46570	8.38500	
+CH	8113	Boppelsen							47.47250	8.40520	
+CH	8114	Dänikon							47.44440	8.40470	
+CH	8115	Hüttikon							47.44110	8.39230	
+CH	8117	Fällanden							47.37040	8.64340	
+CH	8118	Pfaffhausen							47.36630	8.62570	
+CH	8121	Benglen							47.36120	8.63730	
+CH	8122	Binz							47.35670	8.62710	
+CH	8123	Ebmatingen							47.35100	8.64100	
+CH	8124	Maur							47.33720	8.67050	
+CH	8125	Zollikerberg							47.34470	8.60780	
+CH	8126	Zumikon							47.33590	8.62580	
+CH	8127	Forch							47.32220	8.64920	
+CH	8132	Egg b. Zürich							47.29190	8.69080	
+CH	8132	Hinteregg							47.31110	8.68470	
+CH	8133	Esslingen							47.28880	8.71710	
+CH	8134	Adliswil							47.30790	8.52180	
+CH	8135	Sihlbrugg Station							47.23890	8.57720	
+CH	8135	Sihlwald							47.26560	8.55850	
+CH	8135	Langnau am Albis							47.27590	8.53880	
+CH	8136	Gattikon							47.27940	8.55310	
+CH	8142	Uitikon Waldegg							47.36670	8.45480	
+CH	8143	Uetliberg							47.34850	8.49180	
+CH	8143	Stallikon							47.32980	8.48960	
+CH	8152	Opfikon							47.43100	8.58160	
+CH	8152	Glattpark (Opfikon)							47.42090	8.56320	
+CH	8152	Glattbrugg							47.43260	8.56100	
+CH	8153	Rümlang							47.44850	8.52750	
+CH	8154	Oberglatt							47.48040	8.52490	
+CH	8155	Niederhasli							47.47680	8.48650	
+CH	8155	Nassenwil							47.46750	8.47100	
+CH	8156	Oberhasli							47.46080	8.49940	
+CH	8157	Dielsdorf							47.47560	8.45520	
+CH	8158	Regensberg							47.47570	8.42280	
+CH	8162	Sünikon							47.48810	8.42720	
+CH	8162	Steinmaur							47.49960	8.44690	
+CH	8164	Bachs							47.52880	8.42570	
+CH	8165	Schöfflisdorf							47.49960	8.42040	
+CH	8165	Schleinikon							47.49440	8.39110	
+CH	8165	Oberweningen							47.50370	8.40580	
+CH	8166	Niederweningen							47.49690	8.37460	
+CH	8172	Niederglatt							47.49190	8.50080	
+CH	8173	Neerach							47.50700	8.47530	
+CH	8174	Stadel b. Niederglatt							47.52700	8.46980	
+CH	8175	Windlach							47.54780	8.47420	
+CH	8180	Bülach							47.53070	8.54560	
+CH	8181	Höri							47.50800	8.50090	
+CH	8182	Hochfelden							47.52800	8.50850	
+CH	8183	Bülach Dist Ba							47.52840	8.50890	
+CH	8184	Bachenbülach							47.50110	8.54530	
+CH	8185	Winkel							47.48210	8.55830	
+CH	8187	Weiach							47.55350	8.44150	
+CH	8192	Zweidlen							47.56950	8.47540	
+CH	8192	Glattfelden							47.55540	8.50220	
+CH	8193	Eglisau							47.57230	8.52300	
+CH	8194	Hüntwangen							47.59310	8.49820	
+CH	8195	Wasterkingen							47.59650	8.47200	
+CH	8196	Wil							47.61280	8.50070	
+CH	8197	Rafz							47.60820	8.54480	
+CH	8200	Schaffhausen							47.71510	8.62200	
+CH	8201	Schaffhausen							47.70000	8.63330	
+CH	8202	Schaffhausen							47.70000	8.63330	
+CH	8203	Schaffhausen							47.69930	8.66120	
+CH	8204	Schaffhausen							47.70000	8.63330	
+CH	8205	Schaffhausen							47.70000	8.63330	
+CH	8207	Schaffhausen							47.72530	8.65580	
+CH	8208	Schaffhausen							47.71180	8.63560	
+CH	8210	Schaffhausen Dist Ba							47.71570	8.64110	
+CH	8212	Neuhausen am Rheinfall							47.67860	8.59830	
+CH	8212	Nohl							47.66330	8.61030	
+CH	8213	Neunkirch							47.68110	8.50650	
+CH	8214	Gächlingen							47.70850	8.50170	
+CH	8215	Hallau							47.70150	8.43980	
+CH	8216	Oberhallau							47.71560	8.47230	
+CH	8217	Wilchingen							47.66650	8.45800	
+CH	8218	Osterfingen							47.65730	8.50160	
+CH	8219	Trasadingen							47.66900	8.42520	
+CH	8222	Beringen							47.69830	8.57590	
+CH	8223	Guntmadingen							47.68050	8.55720	
+CH	8224	Löhningen							47.70580	8.54590	
+CH	8225	Siblingen							47.72050	8.52560	
+CH	8226	Schleitheim							47.75090	8.50230	
+CH	8228	Beggingen							47.76580	8.53970	
+CH	8231	Hemmental							47.73910	8.57390	
+CH	8232	Merishausen							47.76300	8.60240	
+CH	8233	Bargen							47.79420	8.59200	
+CH	8234	Stetten							47.73710	8.65600	
+CH	8235	Lohn							47.75740	8.67110	
+CH	8236	Opfertshofen							47.77270	8.66160	
+CH	8236	Büttenhardt							47.75420	8.64470	
+CH	8239	Dörflingen							47.70880	8.71420	
+CH	8240	Thayngen							47.73960	8.71050	
+CH	8241	Barzheim							47.76010	8.71620	
+CH	8242	Hofen							47.78120	8.67690	
+CH	8242	Bibern							47.76990	8.67740	
+CH	8243	Altdorf							47.78720	8.65780	
+CH	8245	Feuerthalen							47.68900	8.64410	
+CH	8246	Langwiesen							47.68340	8.66250	
+CH	8247	Flurlingen							47.68360	8.63550	
+CH	8248	Uhwiesen							47.66930	8.65010	
+CH	8252	Schlatt							47.66930	8.70030	
+CH	8253	Willisdorf							47.67990	8.73840	
+CH	8253	Diessenhofen							47.67940	8.72130	
+CH	8254	Basadingen							47.65880	8.73950	
+CH	8255	Schlattingen							47.66110	8.77090	
+CH	8259	Rheinklingen							47.67020	8.81380	
+CH	8259	Kaltenbach							47.64550	8.83770	
+CH	8259	Etzwilen							47.65700	8.81710	
+CH	8259	Wagenhausen							47.66350	8.83540	
+CH	8260	Stein am Rhein							47.66540	8.85650	
+CH	8261	Hemishofen							47.68450	8.84060	
+CH	8262	Ramsen							47.70660	8.81930	
+CH	8263	Buch							47.71620	8.78450	
+CH	8264	Eschenz							47.63640	8.88400	
+CH	8265	Mammern							47.64510	8.92140	
+CH	8266	Steckborn							47.65870	8.99930	
+CH	8267	Berlingen							47.66500	9.02950	
+CH	8268	Salenstein							47.65960	9.04970	
+CH	8268	Mannenbach-Salenstein							47.67050	9.04740	
+CH	8269	Fruthwilen							47.65650	9.06430	
+CH	8272	Ermatingen							47.65720	9.08480	
+CH	8273	Triboltingen							47.65520	9.10920	
+CH	8274	Tägerwilen							47.64780	9.13480	
+CH	8274	Gottlieben							47.66450	9.12620	
+CH	8280	Kreuzlingen							47.64050	9.17550	
+CH	8301	Glattzentrum b. Wallisellen							47.42920	8.63850	
+CH	8302	Kloten							47.45870	8.58210	
+CH	8303	Bassersdorf							47.44020	8.62590	
+CH	8304	Wallisellen							47.42120	8.59630	
+CH	8305	Dietlikon							47.42490	8.61240	
+CH	8306	Brüttisellen							47.42200	8.63560	
+CH	8307	Ottikon b. Kemptthal							47.43080	8.72460	
+CH	8307	Effretikon							47.42480	8.69030	
+CH	8308	Agasul							47.42140	8.74240	
+CH	8308	Illnau							47.40890	8.72020	
+CH	8309	Nürensdorf							47.45500	8.65120	
+CH	8310	Kemptthal							47.46010	8.71220	
+CH	8310	Grafstal							47.44380	8.69850	
+CH	8311	Brütten							47.47520	8.67520	
+CH	8312	Winterberg							47.45740	8.69010	
+CH	8314	Kyburg							47.45260	8.74640	
+CH	8315	Lindau							47.44390	8.67780	
+CH	8317	Tagelswangen							47.42670	8.66900	
+CH	8320	Fehraltorf							47.38750	8.75050	
+CH	8322	Madetswil							47.41210	8.79320	
+CH	8322	Gündisau							47.40030	8.80530	
+CH	8325	Effretikon Dist Ba							47.38330	8.75000	
+CH	8330	Pfäffikon							47.36370	8.78940	
+CH	8330	Hermatswil							47.39460	8.82780	
+CH	8331	Auslikon							47.34600	8.80870	
+CH	8332	Russikon							47.39430	8.78360	
+CH	8332	Rumlikon							47.40830	8.76130	
+CH	8335	Hittnau							47.36720	8.82960	
+CH	8340	Hinwil							47.30290	8.85040	
+CH	8342	Wernetshausen							47.29060	8.87800	
+CH	8343	Hinwil Dist Ba							47.31110	8.85000	
+CH	8344	Bäretswil							47.33610	8.87390	
+CH	8345	Adetswil							47.34220	8.83670	
+CH	8352	Ricketwil (Winterthur)							47.48690	8.79750	
+CH	8352	Elsau							47.50220	8.80480	
+CH	8353	Elgg							47.49010	8.86140	
+CH	8354	Hofstetten							47.47470	8.85060	
+CH	8355	Aadorf							47.49300	8.90440	
+CH	8356	Ettenhausen							47.47370	8.89540	
+CH	8357	Guntershausen b. Aadorf							47.47080	8.91840	
+CH	8360	Wallenwil							47.45300	8.95370	
+CH	8360	Eschlikon							47.46010	8.96550	
+CH	8362	Balterswil							47.45210	8.93820	
+CH	8363	Bichelsee							47.44410	8.91740	
+CH	8370	Sirnach							47.46060	8.99900	
+CH	8371	Busswil							47.45280	9.01580	
+CH	8372	Wiezikon b. Sirnach							47.44590	8.98830	
+CH	8374	Oberwangen							47.43130	8.98230	
+CH	8374	Dussnang							47.42340	8.94460	
+CH	8376	Au							47.39370	8.95130	
+CH	8376	Fischingen							47.40910	8.97070	
+CH	8400	Winterthur							47.49160	8.72950	
+CH	8401	Winterthur							47.50000	8.75000	
+CH	8402	Winterthur							47.50000	8.75000	
+CH	8404	Winterthur							47.50750	8.75920	
+CH	8404	Stadel (Winterthur)							47.53820	8.76520	
+CH	8404	Reutlingen (Winterthur)							47.52770	8.75050	
+CH	8405	Winterthur							47.47760	8.77830	
+CH	8406	Winterthur							47.48320	8.70060	
+CH	8408	Winterthur							47.50770	8.68330	
+CH	8409	Winterthur							47.50980	8.78140	
+CH	8410	Winterthur							47.50000	8.75000	
+CH	8411	Winterthur							47.50000	8.75000	
+CH	8412	Aesch (Neftenbach)							47.54400	8.67880	
+CH	8412	Hünikon (Neftenbach)							47.55410	8.66310	
+CH	8412	Riet (Neftenbach)							47.53720	8.68890	
+CH	8413	Neftenbach							47.53180	8.66350	
+CH	8414	Buch am Irchel							47.55050	8.62510	
+CH	8415	Gräslikon							47.55590	8.60490	
+CH	8415	Berg am Irchel							47.56310	8.58600	
+CH	8416	Flaach							47.58340	8.60190	
+CH	8418	Schlatt b. Winterthur							47.47150	8.81730	
+CH	8421	Dättlikon							47.52860	8.62350	
+CH	8422	Pfungen							47.50970	8.64240	
+CH	8423	Embrach-Embraport							47.50830	8.60830	
+CH	8424	Embrach							47.51040	8.60050	
+CH	8425	Oberembrach							47.48970	8.63360	
+CH	8426	Lufingen							47.48260	8.59370	
+CH	8427	Rorbas							47.53240	8.56900	
+CH	8427	Freienstein							47.53210	8.59580	
+CH	8428	Teufen							47.55140	8.57400	
+CH	8442	Hettlingen							47.54810	8.71070	
+CH	8444	Henggart							47.56040	8.68080	
+CH	8447	Dachsen							47.66170	8.62440	
+CH	8450	Andelfingen							47.59470	8.68140	
+CH	8451	Kleinandelfingen							47.60650	8.68480	
+CH	8452	Adlikon b. Andelfingen							47.57690	8.70500	
+CH	8453	Alten							47.59700	8.64160	
+CH	8454	Buchberg							47.56860	8.55090	
+CH	8455	Rüdlingen							47.58650	8.56630	
+CH	8455	Buchberg							47.59190	8.55300	
+CH	8457	Humlikon							47.57480	8.67590	
+CH	8458	Dorf							47.57130	8.64930	
+CH	8459	Volken							47.57660	8.63150	
+CH	8460	Marthalen							47.62050	8.64080	
+CH	8461	Oerlingen							47.62320	8.67770	
+CH	8462	Rheinau							47.62760	8.61800	
+CH	8463	Benken							47.65380	8.65470	
+CH	8464	Ellikon am Rhein							47.60400	8.60320	
+CH	8465	Wildensbuch							47.65130	8.67940	
+CH	8465	Rudolfingen							47.63810	8.67130	
+CH	8466	Trüllikon							47.63640	8.69990	
+CH	8467	Truttikon							47.63180	8.72910	
+CH	8468	Waltalingen							47.62080	8.76700	
+CH	8468	Guntalingen							47.63550	8.75970	
+CH	8471	Oberwil (Dägerlen)							47.57130	8.71440	
+CH	8471	Rutschwil (Dägerlen)							47.55630	8.73270	
+CH	8471	Dägerlen							47.56160	8.71690	
+CH	8471	Berg (Dägerlen)							47.56640	8.73410	
+CH	8471	Bänk (Dägerlen)							47.54890	8.73860	
+CH	8472	Seuzach							47.53480	8.72430	
+CH	8474	Dinhard							47.55910	8.76520	
+CH	8475	Ossingen							47.61130	8.72180	
+CH	8476	Unterstammheim							47.64760	8.78970	
+CH	8477	Oberstammheim							47.62840	8.80480	
+CH	8478	Thalheim an der Thur							47.58200	8.74530	
+CH	8479	Altikon							47.57820	8.78450	
+CH	8482	Sennhof (Winterthur)							47.46740	8.75800	
+CH	8483	Kollbrunn							47.45510	8.78520	
+CH	8484	Neschwil							47.42800	8.79460	
+CH	8484	Weisslingen							47.43590	8.77220	
+CH	8484	Theilingen							47.41700	8.76710	
+CH	8486	Rikon im Tösstal							47.44990	8.80470	
+CH	8487	Zell							47.45150	8.83030	
+CH	8487	Rämismühle							47.43980	8.81810	
+CH	8488	Turbenthal							47.43850	8.87530	
+CH	8489	Wildberg							47.42460	8.81900	
+CH	8489	Ehrikon							47.41960	8.81020	
+CH	8489	Schalchen							47.40730	8.82550	
+CH	8492	Wila							47.41160	8.85730	
+CH	8493	Saland							47.38910	8.86260	
+CH	8494	Bauma							47.36680	8.89240	
+CH	8495	Schmidrüti							47.42050	8.91180	
+CH	8496	Steg im Tösstal							47.34430	8.94610	
+CH	8497	Fischenthal							47.33280	8.92530	
+CH	8498	Gibswil							47.32000	8.90720	
+CH	8499	Sternenberg							47.38990	8.91110	
+CH	8500	Frauenfeld							47.56030	8.90360	
+CH	8500	Gerlikon							47.53490	8.88010	
+CH	8501	Frauenfeld							47.55000	8.90000	
+CH	8502	Frauenfeld							47.55000	8.90000	
+CH	8503	Frauenfeld							47.55000	8.90000	
+CH	8505	Pfyn							47.59940	8.95490	
+CH	8505	Dettighofen							47.61910	8.95430	
+CH	8506	Lanzenneunforn							47.62210	8.93170	
+CH	8507	Hörhausen							47.63860	8.95140	
+CH	8508	Homburg							47.62920	9.00160	
+CH	8509	Frauenfeld							47.55800	8.89640	
+CH	8510	Frauenfeld Kant. Verwaltung							47.55130	9.01240	
+CH	8512	Thundorf							47.55000	8.96390	
+CH	8512	Lustdorf							47.55160	8.98530	
+CH	8512	Wetzikon							47.53810	8.99910	
+CH	8514	Amlikon-Bissegg							47.55670	9.03360	
+CH	8520	Frauenfeld Paketzentrum							47.58330	8.81670	
+CH	8520	Frauenfeld Dist Ba							47.58330	8.81670	
+CH	8522	Häuslenen							47.52190	8.90020	
+CH	8522	Aawangen							47.49310	8.91010	
+CH	8523	Hagenbuch							47.51460	8.87400	
+CH	8524	Buch b. Frauenfeld							47.59870	8.83800	
+CH	8524	Uesslingen							47.58220	8.82860	
+CH	8525	Wilen b. Neunforn							47.60220	8.79560	
+CH	8525	Niederneunforn							47.59300	8.77530	
+CH	8526	Oberneunforn							47.61050	8.76250	
+CH	8532	Warth							47.58640	8.86830	
+CH	8532	Weiningen							47.59000	8.89890	
+CH	8535	Herdern							47.61380	8.90880	
+CH	8536	Hüttwilen							47.61070	8.86540	
+CH	8537	Uerschhausen							47.60740	8.81600	
+CH	8537	Nussbaumen							47.62440	8.83010	
+CH	8542	Wiesendangen							47.52270	8.78800	
+CH	8543	Gundetswil							47.53800	8.82200	
+CH	8543	Kefikon							47.54930	8.82840	
+CH	8543	Bertschikon							47.52590	8.82950	
+CH	8544	Attikon							47.53810	8.80180	
+CH	8545	Rickenbach Sulz							47.54110	8.78730	
+CH	8545	Rickenbach							47.55410	8.79560	
+CH	8546	Islikon							47.55220	8.84590	
+CH	8546	Kefikon							47.55190	8.83390	
+CH	8546	Menzengrüt							47.54890	8.81730	
+CH	8547	Gachnang							47.53910	8.85460	
+CH	8548	Ellikon an der Thur							47.56250	8.82720	
+CH	8552	Felben-Wellhausen							47.57640	8.93770	
+CH	8553	Hüttlingen							47.57990	8.98800	
+CH	8553	Eschikofen							47.57980	9.00480	
+CH	8553	Harenwilen							47.56810	8.99910	
+CH	8553	Mettendorf							47.57850	8.96460	
+CH	8554	Bonau							47.58330	9.03440	
+CH	8554	Müllheim-Wigoltingen							47.59000	9.01390	
+CH	8555	Müllheim Dorf							47.60120	9.00540	
+CH	8556	Lamperswil							47.61060	9.03770	
+CH	8556	Engwang							47.60040	9.05380	
+CH	8556	Wigoltingen							47.59780	9.02750	
+CH	8556	Illhart							47.61790	9.03630	
+CH	8558	Raperswilen							47.63830	9.04690	
+CH	8560	Märstetten							47.59320	9.07460	
+CH	8561	Ottoberg							47.59330	9.09010	
+CH	8564	Lipperswil							47.61740	9.05440	
+CH	8564	Hattenhausen							47.62710	9.06910	
+CH	8564	Wäldi							47.63250	9.09630	
+CH	8564	Sonterswil							47.62300	9.08290	
+CH	8564	Engwilen							47.61570	9.09740	
+CH	8564	Gunterswilen							47.63690	9.07650	
+CH	8564	Hefenhausen							47.61660	9.06870	
+CH	8564	Wagerswil							47.60870	9.06180	
+CH	8565	Hugelshofen							47.59480	9.11580	
+CH	8566	Neuwilen							47.62300	9.13070	
+CH	8566	Dotnacht							47.59800	9.14180	
+CH	8566	Lippoldswilen							47.61120	9.11480	
+CH	8566	Ellighausen							47.61290	9.13940	
+CH	8570	Weinfelden							47.56860	9.10740	
+CH	8572	Berg							47.58940	9.17680	
+CH	8572	Guntershausen b. Berg							47.57410	9.18740	
+CH	8572	Andhausen							47.57750	9.17940	
+CH	8572	Graltshausen							47.59710	9.18350	
+CH	8573	Alterswilen							47.61130	9.15210	
+CH	8573	Siegershausen							47.61890	9.17040	
+CH	8573	Altishausen							47.59750	9.16920	
+CH	8574	Dettighofen (Lengwil)							47.62330	9.20370	
+CH	8574	Illighausen							47.60190	9.20950	
+CH	8574	Oberhofen							47.61250	9.19150	
+CH	8574	Lengwil							47.62040	9.20000	
+CH	8575	Istighofen							47.53900	9.14550	
+CH	8575	Bürglen							47.55220	9.15280	
+CH	8576	Mauren							47.56540	9.15310	
+CH	8577	Schönholzerswilen							47.51390	9.13260	
+CH	8580	Biessenhofen							47.54690	9.26110	
+CH	8580	Hefenhofen							47.55960	9.31400	
+CH	8580	Sommeri							47.57030	9.28140	
+CH	8580	Hagenwil b. Amriswil							47.52940	9.30720	
+CH	8580	Amriswil							47.54090	9.29360	
+CH	8581	Schocherswil							47.53660	9.26460	
+CH	8582	Dozwil							47.57560	9.32150	
+CH	8583	Donzhausen							47.55500	9.19860	
+CH	8583	Sulgen							47.53910	9.18900	
+CH	8583	Götighofen							47.53390	9.21400	
+CH	8584	Leimbach							47.56310	9.19020	
+CH	8584	Opfershofen							47.56150	9.17330	
+CH	8585	Herrenhof							47.59790	9.24340	
+CH	8585	Schönenbaumgarten							47.61230	9.22620	
+CH	8585	Zuben							47.60270	9.23110	
+CH	8585	Langrickenbach							47.58330	9.24730	
+CH	8585	Mattwil							47.57980	9.21000	
+CH	8585	Klarsreuti							47.58770	9.21310	
+CH	8585	Happerswil							47.57910	9.22720	
+CH	8585	Birwinken							47.58400	9.19670	
+CH	8586	Kümmertshausen							47.56570	9.24610	
+CH	8586	Erlen							47.54890	9.23440	
+CH	8586	Ennetaach							47.55270	9.21480	
+CH	8586	Riedt b. Erlen							47.54330	9.21660	
+CH	8586	Engishofen							47.55640	9.24950	
+CH	8586	Andwil							47.56660	9.21540	
+CH	8586	Buchackern							47.53570	9.24180	
+CH	8586	Buch b. Kümmertshausen							47.57110	9.23500	
+CH	8587	Oberaach							47.55790	9.27430	
+CH	8588	Zihlschlacht							47.52050	9.26170	
+CH	8589	Sitterdorf							47.50580	9.24690	
+CH	8590	Romanshorn							47.56500	9.35970	
+CH	8592	Uttwil							47.57780	9.34050	
+CH	8593	Kesswil							47.58950	9.31470	
+CH	8594	Güttingen							47.59830	9.28690	
+CH	8595	Altnau							47.60290	9.25950	
+CH	8596	Münsterlingen							47.63130	9.23560	
+CH	8596	Scherzingen							47.62570	9.22550	
+CH	8597	Landschlacht							47.62400	9.25140	
+CH	8598	Bottighofen							47.63450	9.20930	
+CH	8599	Salmsach							47.55110	9.36400	
+CH	8600	Dübendorf							47.39280	8.62060	
+CH	8602	Wangen b. Dübendorf							47.40930	8.64940	
+CH	8603	Schwerzenbach							47.38220	8.65630	
+CH	8604	Volketswil							47.39490	8.68190	
+CH	8605	Gutenswil							47.38660	8.71750	
+CH	8606	Nänikon							47.37370	8.69210	
+CH	8606	Greifensee							47.36300	8.67810	
+CH	8607	Aathal-Seegräben							47.34310	8.76730	
+CH	8608	Bubikon							47.27580	8.81080	
+CH	8610	Uster							47.35300	8.72300	
+CH	8612	Uster 2							47.30560	8.71110	
+CH	8613	Uster 3							47.30560	8.71110	
+CH	8614	Bertschikon (Gossau ZH)							47.32110	8.75830	
+CH	8614	Sulzbach							47.32750	8.74640	
+CH	8615	Wermatswil							47.36620	8.74010	
+CH	8615	Freudwil							47.37650	8.73290	
+CH	8616	Riedikon							47.32950	8.70710	
+CH	8617	Mönchaltorf							47.31150	8.71830	
+CH	8618	Oetwil am See							47.27460	8.71820	
+CH	8620	Wetzikon							47.32240	8.80640	
+CH	8621	Wetzikon 4							47.28330	8.75000	
+CH	8622	Wetzikon							47.28330	8.75000	
+CH	8623	Wetzikon							47.33270	8.81690	
+CH	8624	Grüt (Gossau ZH)							47.31020	8.77900	
+CH	8625	Gossau							47.30510	8.75580	
+CH	8626	Ottikon (Gossau ZH)							47.28930	8.78600	
+CH	8627	Grüningen							47.27860	8.76200	
+CH	8630	Rüti							47.25810	8.86070	
+CH	8632	Tann							47.26820	8.84790	
+CH	8633	Wolfhausen							47.25840	8.79830	
+CH	8634	Hombrechtikon							47.25510	8.76590	
+CH	8635	Dürnten							47.27490	8.87430	
+CH	8636	Wald							47.29310	8.93030	
+CH	8637	Laupen							47.26660	8.93000	
+CH	8638	Goldingen							47.29300	8.97840	
+CH	8639	Faltigberg							47.27630	8.94340	
+CH	8640	Rapperswil							47.22960	8.82670	
+CH	8640	Hurden							47.21370	8.80330	
+CH	8645	Jona							47.22960	8.85160	
+CH	8646	Wagen							47.23280	8.88990	
+CH	8700	Küsnacht							47.31960	8.58990	
+CH	8702	Zollikon							47.34110	8.57510	
+CH	8703	Erlenbach							47.30190	8.59140	
+CH	8704	Herrliberg							47.29430	8.62620	
+CH	8706	Meilen							47.27780	8.63760	
+CH	8707	Uetikon am See							47.26950	8.67900	
+CH	8708	Männedorf							47.25210	8.69240	
+CH	8712	Stäfa							47.24070	8.72530	
+CH	8713	Uerikon							47.22820	8.75510	
+CH	8714	Feldbach							47.23580	8.78680	
+CH	8715	Bollingen							47.22100	8.88910	
+CH	8716	Schmerikon							47.22550	8.93890	
+CH	8717	Benken							47.19240	8.99600	
+CH	8718	Schänis							47.15860	9.06310	
+CH	8722	Kaltbrunn							47.20790	9.02500	
+CH	8723	Rufi							47.18590	9.06930	
+CH	8723	Maseltrangen							47.19730	9.05200	
+CH	8725	Ernetschwil							47.24190	8.99750	
+CH	8725	Gebertingen							47.25490	9.00130	
+CH	8726	Ricken							47.26260	9.04510	
+CH	8727	Walde							47.27440	9.02340	
+CH	8730	Uznach							47.22650	8.98230	
+CH	8732	Neuhaus							47.24390	8.94670	
+CH	8733	Eschenbach							47.24340	8.92060	
+CH	8734	Ermenswil							47.24750	8.88910	
+CH	8735	St. Gallenkappel							47.24560	8.96850	
+CH	8735	Rüeterswil							47.27520	8.99250	
+CH	8737	Gommiswald							47.23920	9.03930	
+CH	8738	Uetliburg							47.23950	9.04620	
+CH	8739	Rieden							47.22680	9.07260	
+CH	8750	Riedern							47.02560	9.00250	
+CH	8750	Klöntal							47.00530	8.94720	
+CH	8750	Glarus							47.03840	9.05330	
+CH	8751	Urnerboden							46.88000	8.90810	
+CH	8752	Näfels							47.08210	9.01080	
+CH	8753	Mollis							47.09580	9.09160	
+CH	8754	Netstal							47.06600	9.05100	
+CH	8755	Ennenda							47.04390	9.09780	
+CH	8756	Mitlödi							47.01460	9.09060	
+CH	8757	Filzbach							47.11200	9.11970	
+CH	8758	Obstalden							47.07210	9.15530	
+CH	8759	Netstal							47.05000	9.05000	
+CH	8762	Schwanden							46.96720	9.09960	
+CH	8762	Sool							47.00900	9.11720	
+CH	8762	Schwändi b. Schwanden							47.01270	9.05740	
+CH	8765	Engi							46.99850	9.17040	
+CH	8766	Matt							46.95880	9.18530	
+CH	8767	Elm							46.90350	9.14720	
+CH	8772	Nidfurn							46.98800	9.04570	
+CH	8773	Haslen							46.96480	9.07130	
+CH	8774	Leuggelbach							46.97960	9.03170	
+CH	8775	Luchsingen							46.98010	8.99860	
+CH	8775	Hätzingen							46.96170	9.04750	
+CH	8777	Diesbach							46.94830	9.04910	
+CH	8777	Betschwanden							46.93020	9.05470	
+CH	8782	Rüti							46.93270	9.02030	
+CH	8783	Linthal							46.87060	8.97240	
+CH	8784	Braunwald							46.94210	8.98680	
+CH	8800	Thalwil							47.29200	8.56900	
+CH	8801	Thalwil Fächer							47.25000	8.64170	
+CH	8802	Kilchberg							47.32700	8.55030	
+CH	8803	Rüschlikon							47.30590	8.55560	
+CH	8804	Au							47.24840	8.65080	
+CH	8805	Richterswil							47.21390	8.70980	
+CH	8806	Bäch							47.20500	8.73290	
+CH	8807	Freienbach							47.20550	8.75600	
+CH	8808	Pfäffikon							47.20260	8.77400	
+CH	8810	Horgen							47.25730	8.60420	
+CH	8812	Horgen Bahnhof Oberdorf							47.26670	8.58330	
+CH	8813	Horgen							47.26670	8.58330	
+CH	8815	Horgenberg							47.24790	8.58390	
+CH	8816	Hirzel							47.22030	8.60200	
+CH	8820	Wädenswil							47.22250	8.65490	
+CH	8824	Schönenberg							47.19250	8.64070	
+CH	8825	Hütten							47.17350	8.65880	
+CH	8832	Wollerau							47.19600	8.75250	
+CH	8832	Wilen b. Wollerau							47.19500	8.73470	
+CH	8833	Samstagern							47.19360	8.67950	
+CH	8834	Schindellegi							47.17420	8.70590	
+CH	8835	Feusisberg							47.17940	8.75830	
+CH	8836	Bennau							47.14960	8.71680	
+CH	8840	Trachslau							47.10130	8.72990	
+CH	8840	Einsiedeln							47.13340	8.74340	
+CH	8841	Gross							47.09980	8.76560	
+CH	8842	Unteriberg							47.05680	8.79990	
+CH	8843	Oberiberg							47.03380	8.76420	
+CH	8844	Euthal							47.09320	8.82420	
+CH	8845	Studen							47.03660	8.85620	
+CH	8846	Willerzell							47.13140	8.81200	
+CH	8847	Egg							47.16060	8.77950	
+CH	8849	Alpthal							47.05640	8.71540	
+CH	8852	Altendorf							47.17830	8.82560	
+CH	8853	Lachen							47.19720	8.85610	
+CH	8854	Galgenen							47.17000	8.86870	
+CH	8854	Siebnen							47.14860	8.92160	
+CH	8855	Wangen							47.19880	8.88640	
+CH	8856	Tuggen							47.20050	8.93940	
+CH	8857	Vorderthal							47.12560	8.89470	
+CH	8858	Innerthal							47.07470	8.92120	
+CH	8862	Schübelbach							47.17340	8.92880	
+CH	8863	Buttikon							47.16880	8.94670	
+CH	8864	Reichenburg							47.16270	8.97570	
+CH	8865	Bilten							47.15230	9.00930	
+CH	8866	Ziegelbrücke							47.13630	9.06180	
+CH	8867	Niederurnen							47.12900	9.02570	
+CH	8868	Oberurnen							47.11520	9.03390	
+CH	8872	Weesen							47.14140	9.09800	
+CH	8873	Amden							47.15540	9.16530	
+CH	8874	Mühlehorn							47.09680	9.17460	
+CH	8877	Murg							47.10080	9.20720	
+CH	8878	Quinten							47.13470	9.22050	
+CH	8879	Pizolpark (Mels)							47.00080	9.33750	
+CH	8880	Walenstadt							47.12510	9.30640	
+CH	8881	Knoblisbühl							47.14040	9.28470	
+CH	8881	Walenstadtberg							47.13880	9.27800	
+CH	8881	Tscherlach							47.13000	9.33870	
+CH	8882	Unterterzen							47.11540	9.24740	
+CH	8883	Quarten							47.10350	9.23810	
+CH	8884	Oberterzen							47.05840	9.21080	
+CH	8885	Mols							47.11020	9.28340	
+CH	8886	Mädris-Vermol							47.03520	9.34390	
+CH	8887	Mels							47.04440	9.42640	
+CH	8888	Heiligkreuz (Mels)							47.06600	9.40990	
+CH	8889	Plons							47.06130	9.38650	
+CH	8890	Flums							47.09340	9.34120	
+CH	8892	Berschis							47.11180	9.36960	
+CH	8893	Flums Hochwiese							47.08390	9.37220	
+CH	8894	Flumserberg Saxli							47.07760	9.34640	
+CH	8895	Flumserberg Portels							47.08400	9.33720	
+CH	8896	Flumserberg Bergheim							47.09810	9.30780	
+CH	8897	Flumserberg Tannenheim							47.08910	9.30340	
+CH	8898	Flumserberg Tannenbodenalp							47.09320	9.28160	
+CH	8901	Urdorf							47.37980	8.42240	
+CH	8902	Urdorf							47.38210	8.42390	
+CH	8903	Birmensdorf							47.35200	8.43960	
+CH	8904	Aesch							47.33550	8.43550	
+CH	8905	Islisberg							47.32490	8.44060	
+CH	8905	Arni							47.31540	8.41960	
+CH	8906	Bonstetten							47.31600	8.46250	
+CH	8907	Wettswil							47.33740	8.47060	
+CH	8908	Hedingen							47.30230	8.45040	
+CH	8909	Zwillikon							47.28860	8.43090	
+CH	8910	Affoltern am Albis							47.27880	8.45440	
+CH	8911	Rifferswil							47.24550	8.49490	
+CH	8912	Obfelden							47.26040	8.42240	
+CH	8913	Ottenbach							47.28110	8.40860	
+CH	8914	Aeugstertal							47.28280	8.49360	
+CH	8914	Aeugst am Albis							47.26800	8.48910	
+CH	8915	Hausen am Albis							47.24960	8.53300	
+CH	8916	Jonen							47.29970	8.40080	
+CH	8917	Oberlunkhofen							47.31310	8.40010	
+CH	8918	Unterlunkhofen							47.32260	8.39170	
+CH	8919	Rottenschwil							47.31470	8.36580	
+CH	8925	Ebertswil							47.22760	8.55370	
+CH	8926	Uerzlikon							47.21840	8.49920	
+CH	8926	Kappel am Albis							47.22850	8.51860	
+CH	8926	Hauptikon							47.23250	8.49420	
+CH	8932	Mettmenstetten							47.24870	8.46620	
+CH	8933	Maschwanden							47.23570	8.43090	
+CH	8934	Knonau							47.22430	8.46310	
+CH	8942	Oberrieden							47.27490	8.57850	
+CH	8951	Fahrweid							47.41110	8.42060	
+CH	8952	Schlieren							47.39440	8.44740	
+CH	8953	Dietikon							47.40060	8.39740	
+CH	8954	Geroldswil							47.42290	8.41310	
+CH	8955	Oetwil an der Limmat							47.42950	8.39290	
+CH	8956	Killwangen							47.42750	8.34090	
+CH	8957	Spreitenbach							47.41740	8.36670	
+CH	8962	Bergdietikon							47.38850	8.37930	
+CH	8964	Rudolfstetten							47.36830	8.38780	
+CH	8965	Berikon							47.35310	8.38690	
+CH	8966	Oberwil-Lieli							47.33980	8.39150	
+CH	8967	Widen							47.36930	8.35680	
+CH	9000	St. Gallen							47.42360	9.36220	
+CH	9001	St. Gallen							47.42310	9.37330	
+CH	9004	St. Gallen							47.46670	9.40000	
+CH	9006	St. Gallen							47.46670	9.40000	
+CH	9007	St. Gallen							47.46670	9.40000	
+CH	9008	St. Gallen							47.44180	9.39180	
+CH	9009	St. Gallen							47.46670	9.40000	
+CH	9010	St. Gallen							47.44220	9.37170	
+CH	9011	St. Gallen							47.41480	9.39980	
+CH	9012	St. Gallen							47.41030	9.36170	
+CH	9013	St. Gallen							47.46670	9.40000	
+CH	9014	St. Gallen							47.40910	9.33550	
+CH	9015	St. Gallen							47.40560	9.30930	
+CH	9016	St. Gallen							47.44150	9.41410	
+CH	9020	St. Gallen							47.46670	9.40000	
+CH	9022	St. Gallen							47.46670	9.40000	
+CH	9023	St. Gallen							47.42210	9.37550	
+CH	9024	St. Gallen							47.42210	9.37550	
+CH	9026	St. Gallen K AG							47.42210	9.37550	
+CH	9027	St. Gallen							47.42210	9.37550	
+CH	9028	St. Gallen							47.46670	9.40000	
+CH	9029	St. Gallen Sonderdienste							47.46670	9.40000	
+CH	9030	Abtwil							47.42740	9.31460	
+CH	9030	St. Josefen							47.42540	9.33860	
+CH	9032	Engelburg							47.44190	9.33490	
+CH	9033	Untereggen							47.45280	9.45690	
+CH	9034	Eggersriet							47.44140	9.46230	
+CH	9035	Grub							47.44200	9.50640	
+CH	9036	Grub							47.44200	9.50640	
+CH	9037	Speicherschwendi							47.42790	9.43850	
+CH	9038	Rehetobel							47.42720	9.48550	
+CH	9042	Speicher							47.40730	9.44130	
+CH	9043	Trogen							47.40150	9.48250	
+CH	9044	Wald							47.41450	9.49930	
+CH	9050	Appenzell							47.32280	9.40890	
+CH	9050	Appenzell Eggerstanden							47.33330	9.47550	
+CH	9050	Appenzell Enggenhütten							47.34970	9.35970	
+CH	9050	Appenzell Meistersrüte							47.34990	9.43160	
+CH	9050	Appenzell Steinegg							47.32140	9.45560	
+CH	9050	Appenzell Schlatt							47.35650	9.40090	
+CH	9052	Niederteufen							47.39120	9.36170	
+CH	9053	Teufen							47.39220	9.40480	
+CH	9054	Haslen							47.36950	9.38230	
+CH	9055	Bühler							47.37870	9.42770	
+CH	9056	Gais							47.36960	9.46380	
+CH	9057	Weissbad							47.28760	9.37060	
+CH	9057	Wasserauen							47.26760	9.39550	
+CH	9057	Schwende							47.29650	9.43410	
+CH	9058	Brülisau							47.27560	9.45650	
+CH	9062	Lustmühle							47.39830	9.35280	
+CH	9063	Stein							47.37590	9.34400	
+CH	9064	Hundwil							47.35180	9.32090	
+CH	9100	Herisau							47.37900	9.28760	
+CH	9101	Herisau							47.38610	9.27920	
+CH	9102	Herisau							47.38610	9.27920	
+CH	9103	Schwellbrunn							47.35110	9.23430	
+CH	9104	Waldstatt							47.35560	9.28610	
+CH	9105	Schönengrund							47.32580	9.22460	
+CH	9107	Urnäsch							47.28040	9.32920	
+CH	9108	Gonten							47.32970	9.34610	
+CH	9108	Gontenbad							47.32550	9.36950	
+CH	9108	Jakobsbad							47.30770	9.33290	
+CH	9112	Schachen b. Herisau							47.38060	9.23540	
+CH	9113	Degersheim							47.37070	9.19250	
+CH	9114	Hoffeld							47.35500	9.17240	
+CH	9115	Dicken							47.33710	9.19730	
+CH	9116	Wolfertswil							47.39510	9.16870	
+CH	9122	Mogelsberg							47.36050	9.13640	
+CH	9122	Ebersol							47.33870	9.16260	
+CH	9123	Nassen							47.37910	9.15440	
+CH	9125	Brunnadern							47.32540	9.14540	
+CH	9126	Necker							47.34590	9.12990	
+CH	9127	St. Peterzell							47.32040	9.18320	
+CH	9200	Gossau							47.42080	9.25750	
+CH	9201	Gossau							47.46670	9.28330	
+CH	9203	Niederwil							47.43040	9.19990	
+CH	9204	Andwil							47.43860	9.27970	
+CH	9205	Waldkirch							47.46090	9.28200	
+CH	9212	Arnegg							47.44080	9.25220	
+CH	9213	Hauptwil							47.48410	9.25720	
+CH	9214	Kradolf							47.52600	9.19560	
+CH	9215	Schönenberg an der Thur							47.51610	9.19900	
+CH	9215	Buhwil							47.52750	9.16820	
+CH	9216	Hohentannen							47.50760	9.22280	
+CH	9216	Heldswil							47.52590	9.22680	
+CH	9217	Neukirch an der Thur							47.50820	9.16960	
+CH	9220	Bischofszell							47.49610	9.24340	
+CH	9223	Halden							47.50450	9.20690	
+CH	9223	Schweizersholz							47.50230	9.19750	
+CH	9225	St. Pelagiberg							47.48970	9.30530	
+CH	9225	Wilen (Gottshaus)							47.48880	9.27630	
+CH	9230	Flawil							47.40900	9.18960	
+CH	9231	Egg (Flawil)							47.39330	9.22190	
+CH	9240	Niederglatt							47.42870	9.16900	
+CH	9240	Uzwil							47.43640	9.13610	
+CH	9242	Oberuzwil							47.42900	9.12050	
+CH	9243	Jonschwil							47.42550	9.09660	
+CH	9244	Niederuzwil							47.44430	9.14390	
+CH	9245	Sonnental							47.45970	9.13320	
+CH	9245	Oberbüren							47.44840	9.16800	
+CH	9246	Niederbüren							47.46310	9.20990	
+CH	9247	Henau							47.45650	9.11250	
+CH	9248	Bichwil							47.41510	9.13760	
+CH	9249	Oberstetten							47.44580	9.09160	
+CH	9249	Niederstetten							47.45290	9.08260	
+CH	9249	Algetshausen							47.44300	9.11260	
+CH	9300	Wittenbach							47.46570	9.38440	
+CH	9301	Wittenbach							47.46670	9.37950	
+CH	9304	Bernhardzell							47.46830	9.34370	
+CH	9305	Berg							47.48710	9.41240	
+CH	9306	Freidorf							47.48480	9.38750	
+CH	9308	Lömmenschwil							47.49320	9.36000	
+CH	9312	Häggenschwil							47.49000	9.33560	
+CH	9313	Muolen							47.51680	9.31920	
+CH	9314	Steinebrunn							47.53300	9.34090	
+CH	9315	Winden							47.51010	9.36020	
+CH	9315	Neukirch (Egnach)							47.52530	9.36990	
+CH	9320	Stachen							47.50870	9.41170	
+CH	9320	Arbon							47.51170	9.42580	
+CH	9320	Frasnacht							47.52460	9.40870	
+CH	9322	Egnach							47.54010	9.38240	
+CH	9323	Steinach							47.49480	9.43310	
+CH	9325	Roggwil							47.51000	9.39240	
+CH	9326	Horn							47.49270	9.46020	
+CH	9327	Tübach							47.48110	9.45400	
+CH	9400	Rorschach							47.47550	9.49380	
+CH	9401	Rorschach							47.46670	9.44170	
+CH	9402	Mörschwil							47.46720	9.42800	
+CH	9403	Goldach							47.47460	9.46350	
+CH	9404	Rorschacherberg							47.46620	9.50080	
+CH	9405	Wienacht-Tobel							47.46450	9.53680	
+CH	9410	Heiden							47.43490	9.53740	
+CH	9411	Reute							47.41140	9.57900	
+CH	9413	Oberegg							47.42020	9.56320	
+CH	9414	Schachen b. Reute							47.42530	9.56380	
+CH	9422	Staad							47.47730	9.54840	
+CH	9423	Altenrhein							47.49200	9.56050	
+CH	9424	Rheineck							47.46680	9.58780	
+CH	9425	Thal							47.47890	9.56470	
+CH	9426	Lutzenberg							47.45780	9.57480	
+CH	9427	Wolfhalden							47.44940	9.56330	
+CH	9428	Walzenhausen							47.44510	9.60740	
+CH	9430	St. Margrethen							47.45510	9.62560	
+CH	9434	Au							47.43110	9.63870	
+CH	9435	Heerbrugg							47.41290	9.62730	
+CH	9436	Balgach							47.39450	9.61300	
+CH	9437	Marbach							47.38440	9.58060	
+CH	9442	Büriswilen							47.43240	9.59950	
+CH	9442	Berneck							47.42530	9.60870	
+CH	9443	Widnau							47.40160	9.63420	
+CH	9444	Diepoldsau							47.38050	9.64720	
+CH	9445	Rebstein							47.40100	9.58840	
+CH	9450	Altstätten							47.36940	9.54670	
+CH	9450	Lüchingen							47.38620	9.55770	
+CH	9451	Kriessern							47.36490	9.60860	
+CH	9452	Hinterforst							47.35870	9.52790	
+CH	9453	Eichberg							47.34500	9.52270	
+CH	9462	Montlingen							47.32560	9.54510	
+CH	9463	Oberriet							47.32550	9.53840	
+CH	9464	Rüthi (Rheintal)							47.29150	9.53300	
+CH	9464	Lienz							47.28410	9.51380	
+CH	9465	Salez							47.23510	9.49730	
+CH	9466	Sennwald							47.26260	9.50360	
+CH	9467	Frümsen							47.25300	9.47030	
+CH	9468	Sax							47.23670	9.43160	
+CH	9469	Haag (Rheintal)							47.20830	9.48730	
+CH	9470	Werdenberg							47.16870	9.45700	
+CH	9470	Buchs							47.16520	9.47580	
+CH	9471	Buchs							47.15000	9.45670	
+CH	9472	Grabserberg							47.16460	9.37780	
+CH	9472	Grabs							47.18260	9.44880	
+CH	9473	Gams							47.21450	9.43750	
+CH	9475	Sevelen							47.13290	9.45430	
+CH	9476	Fontnas							47.09070	9.48850	
+CH	9476	Weite							47.09670	9.49980	
+CH	9477	Trübbach							47.07810	9.48820	
+CH	9478	Azmoos							47.08980	9.43130	
+CH	9479	Malans							47.09050	9.47530	
+CH	9479	Oberschan							47.10230	9.45830	
+CH	9479	Gretschins							47.09670	9.48630	
+CH	9500	Wil							47.45190	9.05250	
+CH	9501	Wil							47.52500	8.96670	
+CH	9502	Braunau							47.50400	9.06950	
+CH	9503	Stehrenberg							47.52290	9.09110	
+CH	9503	Lanterswil							47.51650	9.09680	
+CH	9504	Friltschen							47.53470	9.08880	
+CH	9506	Lommis							47.51490	8.99830	
+CH	9507	Stettfurt							47.52500	8.96060	
+CH	9508	Weingarten-Kalthäusern							47.52360	8.98280	
+CH	9512	Rossrüti							47.48180	9.07220	
+CH	9514	Wuppenau							47.49840	9.10890	
+CH	9515	Hosenruck							47.49210	9.13830	
+CH	9517	Mettlen							47.53620	9.12070	
+CH	9523	Züberwangen							47.46570	9.09260	
+CH	9524	Zuzwil							47.47450	9.11060	
+CH	9525	Lenggenwil							47.47170	9.14320	
+CH	9526	Zuckenriet							47.48620	9.16240	
+CH	9527	Niederhelfenschwil							47.47750	9.18610	
+CH	9532	Rickenbach b. Wil							47.44160	9.05400	
+CH	9533	Dietschwil							47.42580	9.01170	
+CH	9533	Kirchberg							47.40700	9.02940	
+CH	9534	Gähwil							47.39640	9.00030	
+CH	9535	Wilen b. Wil							47.44710	9.03200	
+CH	9536	Schwarzenbach							47.44020	9.07510	
+CH	9542	Münchwilen							47.48050	8.99410	
+CH	9543	St. Margarethen							47.49030	9.00170	
+CH	9545	Wängi							47.49770	8.96740	
+CH	9546	Tuttwil							47.47950	8.94880	
+CH	9547	Wittenwil							47.50190	8.92610	
+CH	9548	Matzingen							47.52460	8.92860	
+CH	9552	Bronschhofen							47.47860	9.02950	
+CH	9553	Bettwiesen							47.49790	9.02440	
+CH	9554	Tägerschen							47.50450	9.02580	
+CH	9555	Tobel							47.51680	9.04470	
+CH	9556	Affeltrangen							47.52620	9.03070	
+CH	9556	Zezikon							47.53440	9.01710	
+CH	9562	Buch b. Märwil							47.53770	9.05780	
+CH	9562	Märwil							47.52900	9.06720	
+CH	9565	Bussnang							47.55700	9.08220	
+CH	9565	Oppikon							47.54890	9.06160	
+CH	9565	Oberbussnang							47.54450	9.09240	
+CH	9565	Rothenhausen							47.54820	9.10950	
+CH	9565	Schmidshof							47.54450	9.05530	
+CH	9573	Littenheid							47.44160	9.00790	
+CH	9601	Lütisburg Station							47.38130	9.06700	
+CH	9602	Müselbach							47.38740	9.04210	
+CH	9602	Bazenheid							47.41210	9.06670	
+CH	9604	Lütisburg							47.39300	9.10890	
+CH	9604	Oberrindal							47.40490	9.13080	
+CH	9604	Unterrindal							47.40860	9.09330	
+CH	9606	Bütschwil							47.35670	9.06680	
+CH	9607	Mosnang							47.36070	9.03640	
+CH	9608	Ganterschwil							47.37160	9.10000	
+CH	9612	Dreien							47.34540	9.00380	
+CH	9613	Mühlrüti							47.36940	8.97960	
+CH	9614	Libingen							47.31920	9.01970	
+CH	9615	Dietfurt							47.33810	9.07210	
+CH	9620	Lichtensteig							47.31780	9.09690	
+CH	9621	Oberhelfenschwil							47.34480	9.10550	
+CH	9622	Krinau							47.31510	9.05030	
+CH	9630	Wattwil							47.28580	9.08670	
+CH	9631	Ulisbach							47.28590	9.11700	
+CH	9633	Hemberg							47.29590	9.17740	
+CH	9633	Bächli (Hemberg)							47.29990	9.20100	
+CH	9642	Ebnat-Kappel							47.23570	9.13180	
+CH	9643	Krummenau							47.26750	9.19240	
+CH	9650	Nesslau							47.21140	9.18560	
+CH	9651	Ennetbühl							47.24440	9.25690	
+CH	9652	Neu St. Johann							47.23710	9.19350	
+CH	9655	Stein							47.19940	9.22860	
+CH	9656	Alt St. Johann							47.18310	9.26300	
+CH	9657	Unterwasser							47.20900	9.29870	
+CH	9658	Wildhaus							47.21500	9.35190	

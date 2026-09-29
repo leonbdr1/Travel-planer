@@ -108,7 +108,7 @@ export const productConfig: ProductConfig = {
     },
     {
       "id": "openstreetmap",
-      "text": "Fahrzeiten und Gehminuten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende",
+      "text": "Postleitzahlen, Fahrzeiten und Gehminuten auf Basis von Kartendaten © OpenStreetMap-Mitwirkende",
       "license": "ODbL",
       "license_url": "https://opendatacommons.org/licenses/odbl/",
       "source_url": "https://www.openstreetmap.org/copyright"

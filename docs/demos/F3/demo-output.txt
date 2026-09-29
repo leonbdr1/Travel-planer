@@ -1,0 +1,21 @@
+$ npm run demo -- f3
+# recorded 2026-09-29T16:27:47.671Z
+
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, Postleitzahlen 17081)
+seed: Katalog-Entwurf importiert (49 Regionen, 307 Orte)
+Startort-Suche (GET /api/v1/geo/localities):
+  ok     „87629“ → Füssen, Bayern, DE
+  ok     „10115“ → Berlin, Berlin, DE
+  ok     „50667“ → Köln, Nordrhein-Westfalen, DE
+  ok     „60311“ → Frankfurt am Main, Hessen, DE
+  ok     „6580“ → St Anton am Arlberg, Tirol, AT
+  ok     „6991“ → Riezlern, Vorarlberg, AT | Pura, Tessin, CH
+  ok     „3920“ → Zermatt, Wallis, CH
+  ok     „87538“ → Bolsterlang, Bayern, DE | Obermaiselstein, Bayern, DE | Balderschwang, Bayern, DE
+  ok     „Balderschw“ → Balderschwang, Bayern, DE
+Ortssuche in der Suche (GET /api/v1/places/search):
+  ok     „Köln“ → Köln, Nordrhein-Westfalen, DE
+  ok     „Frankfurt“ → Frankfurt am Main, Hessen, DE
+  ok     „Berlin“ → Berlin, Berlin, DE
+  ok     „87538“ → Bolsterlang, Bayern, DE
+Ergebnis: alle Abfragen ok
