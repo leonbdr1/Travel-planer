@@ -23,6 +23,6 @@ Bens Vorgabe vom 29.09.2026: „Nur weil ein paar Leute Schimmel melden, heißt 
 | `packages/domain/test/review-keywords.test.ts` („complaint shares for red flags“) | 3 Meldungen aus den letzten 6 Monaten bei 40 Gästen: 12 %, aussortiert; dieselben 3 Meldungen aus dem Vorjahr: 6 %, gelistet. 10 Meldungen, die KI sieht 5 und bestätigt 4: 8 Gäste, 32 %. |
 | `packages/domain/test/preselect.test.ts` („only when complaints get out of hand“) | Grenzen je Thema, zwei Gäste reichen nie, Lärm ist kein Warnsignal. |
 | `packages/worker/test-node/finale.test.ts` | Kein Finalist erfüllt die Regel auf den gespeicherten Rezensionschecks. |
-| `walkthrough-P.md` | Alle Pfad-Walkthroughs nach der Änderung. |
+| `walkthrough-P.md` (`npm run dogfood -- --mode P`) | Alle Pfad-Walkthroughs nach der Änderung: 226/226, keine Konsolenfehler, keine fehlgeschlagenen Anfragen. Der Schritt „Suche abgeschlossen“ akzeptiert jetzt auch die Ergebnisansicht, wenn die Suche bei 60 von 60 schon fertig ist (vorher 2 rote Prüfungen allein durch das Timing, `e2e/dogfood/flows/suche.ts`). |
 
 In der simulierten Welt bekommt jedes Schimmel-Haus genau 3 Meldungen. Ob es aussortiert wird, hängt deshalb nur von der Zahl seiner Gäste ab. Das ist der Fall, den Ben beschrieben hat.
