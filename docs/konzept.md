@@ -187,6 +187,7 @@ Ein Treffer ist ein Schnäppchen, wenn dieselbe Unterkunft an diesem Termin deut
 ### 9.9 Ziel und automatische Vorauswahl
 Grundsatz: Das Programm sortiert aus, was offensichtlich nicht passt. Zwischen dem, was übrig bleibt, entscheidet der Nutzer selbst.
 
+- ⚠️ **Aktuell unfertig (Ben, 29.09.2026):** „Preis-Leistung“ und „Komfort“ arbeiten noch nicht wie gewollt und sind ein offener Punkt für später. Priorität hat „Günstig und sauber“.
 - **Ziel (ein Tipp, Standard „Preis-Leistung“):** „Günstig und sauber“ (Preis zählt am meisten, Sauberkeit ist Pflicht), „Preis-Leistung“ (Qualität und Preis gleich wichtig), „Komfort“ (Qualität zählt mehr als der Preis).
 - **Sterne sind kein Qualitätsmerkmal.** Gerade günstige Häuser mit wenigen Sternen sind oft sauberer als 4-Sterne-Häuser zum Billigpreis. Sterne gehen nie in den Qualitätswert ein.
 - **Aussortiert wird automatisch, mit Grund und Anzahl:**

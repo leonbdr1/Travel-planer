@@ -5,6 +5,7 @@ Stand: 29.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 
 ## 1. Frontier
 
+- **Priorität (Ben, 29.09.2026 abends):** Ziel „Günstig und sauber“ zuerst finalisieren. ⚠️ **Aktuell unfertig: „Preis-Leistung“ und „Komfort“** funktionieren noch nicht wie gewollt; Ben geht das später an. Laufende Aufgabenliste (Startseite, Zimmerlogik, Bewertungslogik, Orts-Attraktivität …): `FORTSCHRITT.md`.
 - **Fertig:** M1 Grundgerüst; M2 im Fake-Modus (Provider-Ports mit simulierten Anbietern, LiteAPI-Client, ORS-Client mit Fahrzeit-Cache, Budget- und Rate-Limit-RPCs); M3 (Ortsdatenbank aus dem GeoNames-Entwicklungsauszug, Skill-Infrastruktur mit vier Bundles, Katalog-Pipeline, Katalog-Entwurf mit 49 Regionen und 307 Orten, Import). Belege unter `docs/demos/S1.*` bis `S3.*`.
 - **Fertig (M4):** Assistent Schritt 1–3 auf `/suche` mit Autovervollständigung, Terminanzahl, KI-Wunschübersetzung, Regions- und Ortsvorschlägen (Walkthrough `docs/demos/S4.4/`).
 - **Fertig (M5):** Kombinationssuche als Workflow mit ALTCHA, Rate Limits, Kontingenten, Preis-Cache und Live-Matrix (`docs/demos/S5.*`).

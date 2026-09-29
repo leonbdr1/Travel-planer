@@ -4,6 +4,12 @@ Flexible Unterkunftssuche: Der Nutzer gibt Startort, Fahrzeit, Themen, Zeitfenst
 
 Deutsch für Dokumente, UI-Texte und die Kommunikation mit Ben. Englisch für Code, Kommentare und Commit-Messages (fi-deck-Konvention).
 
+## Aktueller Fokus (Ben, 29.09.2026)
+
+- **Ziel „Günstig und sauber“ hat Priorität** und wird zuerst finalisiert.
+- ⚠️ **Aktuell unfertig: „Preis-Leistung“ und „Komfort“.** Beide Ziele funktionieren noch nicht so, wie Ben es will. Das ist ein offener Punkt, den Ben später selbst angeht. Neue Logik für diese Ziele nur vorbereiten, nicht finalisieren.
+- Fortschritt der laufenden Aufgabenliste: `FORTSCHRITT.md`.
+
 ## Dokumente
 
 | Datei | Inhalt |

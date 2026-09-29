@@ -4,6 +4,8 @@ Der Nutzer beschreibt seinen Rahmen (Startort, maximale Fahrzeit, Themen, Zeitfe
 
 > **Stand (28.09.2026):** funktional vollständige lokale Version, Meilensteine M1 bis M9, der Smoke-Test aus M10 und die Entscheidungshilfe aus M11: Suche über alle Orte und Termine, ehrliche Bewertung mit Schnäppchen, KI-Rezensionscheck mit Warnhinweisen, Ziel mit automatischer Vorauswahl und Finale („was der Aufpreis bringt“), Lob-Labels, Buchung mit Stornierung, Pflichtseiten, Wartungsjobs und Watchdog. Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail, Zahlung) sind **simuliert** – es gibt keine echten Preise und keine echten Buchungen. Baustand je Slice: [`STATUS.md`](STATUS.md); was bis zum Go-Live fehlt: [`HANDOFF.md`](HANDOFF.md) und [`docs/runbooks/go-live-checkliste.md`](docs/runbooks/go-live-checkliste.md).
 
+> **Aktuell unfertig (Ben, 29.09.2026):** Die Ziele **„Preis-Leistung“** und **„Komfort“** arbeiten noch nicht so, wie sie sollen; das ist ein offener Punkt für später. Priorität hat das Ziel **„Günstig und sauber“**, das zuerst finalisiert wird. Laufende Aufgaben: [`FORTSCHRITT.md`](FORTSCHRITT.md).
+
 ## Schnellstart
 
 Voraussetzung: **Node.js 22** (siehe `.nvmrc`).

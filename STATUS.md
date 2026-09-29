@@ -3,6 +3,8 @@
 Einzige Wahrheit über den Baustand (`CLAUDE.md`, `docs/umsetzungsplan.md`). Reifegrade:
 `spec'd` (nur beschrieben) · `built` (Code da, nicht verdrahtet) · `wired` · `demonstrated` (über den realen Einstiegspunkt vorgeführt) · `live-verified` (im laufenden Stack gesehen, Report gelesen) · `blocked` (wartet auf ⛔ BEN-GATE oder externe Ressource).
 
+> ⚠️ **Aktuell unfertig (Ben, 29.09.2026):** Ziele „Preis-Leistung“ und „Komfort“ arbeiten noch nicht wie gewollt (offener Punkt für später). Priorität: „Günstig und sauber“. Laufende Aufgabenliste: `FORTSCHRITT.md`.
+
 Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schlüssel). Stand: 29.09.2026.
 
 ## M1 Grundgerüst
