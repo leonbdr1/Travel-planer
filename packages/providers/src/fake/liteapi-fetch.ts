@@ -299,6 +299,9 @@ export function createFakeLiteApiFetch(options: FakeLiteApiOptions = {}): FetchL
         } catch {
           return error(400, 'unknown prebook');
         }
+        // The real API validates every guest's e-mail before it looks at the payment (seen 2026-09-29).
+        const guests = body.guests as Array<{ email?: string }> | undefined;
+        if (!guests?.length || guests.some((g) => !g.email)) return error(400, 'Guests[].Email required');
         const payment = body.payment as { method?: string; transactionId?: string } | undefined;
         if (payment?.method !== 'TRANSACTION_ID' || payment.transactionId !== prebook.tx) {
           return error(400, 'payment not completed');

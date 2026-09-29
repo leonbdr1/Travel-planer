@@ -88,7 +88,11 @@ describe('simulated LiteAPI through the real client', () => {
     expect(prebook.transactionId).toMatch(/^tx_fake_/);
     expect(prebook.secretKey).toMatch(/^fake_sk_/);
     const holder = { firstName: 'Max', lastName: 'Muster', email: 'max@example.org', phone: null };
-    const guests = [{ occupancyNumber: 1, firstName: 'Max', lastName: 'Muster' }];
+    const guests = [{ occupancyNumber: 1, firstName: 'Max', lastName: 'Muster', email: 'max@example.org' }];
+    const withoutEmail = [{ occupancyNumber: 1, firstName: 'Max', lastName: 'Muster' }] as unknown as typeof guests;
+    await expect(
+      liteapi.book({ prebookId: prebook.prebookId, transactionId: prebook.transactionId!, holder, guests: withoutEmail, clientReference: 'ABC' }),
+    ).rejects.toMatchObject({ kind: 'client' });
     await expect(
       liteapi.book({ prebookId: prebook.prebookId, transactionId: 'tx_wrong', holder, guests, clientReference: 'ABC' }),
     ).rejects.toMatchObject({ kind: 'client' });

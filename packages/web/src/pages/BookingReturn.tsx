@@ -2,11 +2,12 @@
 // the confirmation with booking number and the hotel's confirmation number
 // (F12, konzept.md 5.1 example 5). A running completion is retried.
 import { useEffect, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 import type { BookingView } from '@reiseplaner/contracts';
 import { Alert, Card, Heading, Spinner, Text, buttonClasses } from '@reiseplaner/ui';
 import { ApiRequestError } from '../api/client';
 import { completeBooking } from '../features/booking/api';
+import { paymentReturnState } from '../features/booking/payment-sdk';
 import { loadFlow, saveFlow } from '../features/booking/session';
 import { de } from '../i18n/de';
 import { BookingFacts } from './BookingView';
@@ -18,13 +19,14 @@ const MAX_TRIES = 6;
 export function BookingReturn() {
   const { ref = '' } = useParams();
   const flow = loadFlow(ref);
+  const payState = paymentReturnState(useLocation().search);
   const [booking, setBooking] = useState<BookingView | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(flow?.accessToken ?? null);
   const [error, setError] = useState<string | null>(flow ? null : t.sessionMissing);
   const started = useRef(false);
 
   useEffect(() => {
-    if (!flow || started.current) return;
+    if (!flow || payState !== 'paid' || started.current) return;
     started.current = true;
     let tries = 0;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -48,8 +50,19 @@ export function BookingReturn() {
     };
     attempt();
     return () => clearTimeout(timer);
-  }, [ref, flow]);
+  }, [ref, flow, payState]);
 
+  if (flow && payState !== 'paid') {
+    return (
+      <div className="mx-auto max-w-2xl space-y-4 px-4 py-12" data-testid="payment-not-finished">
+        <Heading level={1}>{t.paymentNotFinishedTitle}</Heading>
+        <Alert tone="warning">{payState === 'failed' ? t.paymentFailed : t.paymentNotFinished}</Alert>
+        <Link to={`/buchung/${ref}/zahlung`} className={buttonClasses('secondary')}>
+          {t.paymentBack}
+        </Link>
+      </div>
+    );
+  }
   if (error) {
     return (
       <div className="mx-auto max-w-2xl space-y-4 px-4 py-12">

@@ -251,7 +251,7 @@ export async function completeBooking(deps: BookingDeps, ref: string, sessionTok
       prebookId: b.prebookId,
       transactionId: b.transactionId,
       holder: b.holder,
-      guests: b.guests.map((g) => ({ occupancyNumber: g.room, firstName: g.firstName, lastName: g.lastName })),
+      guests: b.guests.map((g) => ({ occupancyNumber: g.room, firstName: g.firstName, lastName: g.lastName, email: b.holder!.email })),
       clientReference: b.bookingRef,
     });
   } catch (err) {

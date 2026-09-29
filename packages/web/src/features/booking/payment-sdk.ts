@@ -24,3 +24,15 @@ export function paymentSdkConfig(create: BookingCreateResponse, targetElement: s
     appearance: { theme: 'flat' },
   };
 }
+
+/**
+ * Stripe sends the browser to `returnUrl` as soon as the payment is confirmed
+ * or needs a further step (Link, 3-D Secure) and appends `redirect_status`.
+ * Only `succeeded` may trigger the booking; without the parameter (simulated
+ * payment) the page books as before.
+ */
+export function paymentReturnState(search: string): 'paid' | 'open' | 'failed' {
+  const status = new URLSearchParams(search).get('redirect_status');
+  if (status === null || status === 'succeeded') return 'paid';
+  return status === 'failed' ? 'failed' : 'open';
+}

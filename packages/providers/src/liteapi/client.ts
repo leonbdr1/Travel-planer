@@ -58,7 +58,8 @@ export interface BookRequest {
   prebookId: string;
   transactionId: string;
   holder: BookHolder;
-  guests: Array<{ occupancyNumber: number; firstName: string; lastName: string }>;
+  /** LiteAPI requires an e-mail per guest (the holder's is used when a guest has none of their own). */
+  guests: Array<{ occupancyNumber: number; firstName: string; lastName: string; email: string }>;
   clientReference: string;
 }
 

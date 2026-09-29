@@ -3,7 +3,7 @@
 // page that finalizes the booking.
 import { describe, expect, it } from 'vitest';
 import type { BookingCreateResponse } from '@reiseplaner/contracts';
-import { PAYMENT_SDK_SCRIPT, paymentSdkConfig } from '../src/features/booking/payment-sdk';
+import { PAYMENT_SDK_SCRIPT, paymentReturnState, paymentSdkConfig } from '../src/features/booking/payment-sdk';
 
 const create = (over: Partial<BookingCreateResponse['payment']> = {}): BookingCreateResponse => ({
   booking_ref: 'RP-ABC234',
@@ -36,5 +36,15 @@ describe('paymentSdkConfig', () => {
 
   it('loads the script from the host the CSP allows', () => {
     expect(PAYMENT_SDK_SCRIPT).toBe('https://payment-wrapper.liteapi.travel/dist/liteAPIPayment.js?v=a1');
+  });
+});
+
+describe('paymentReturnState', () => {
+  it('books only after Stripe reports a finished payment (or when there is no Stripe redirect at all)', () => {
+    expect(paymentReturnState('?payment_intent=pi_1&payment_intent_client_secret=x&redirect_status=succeeded')).toBe('paid');
+    expect(paymentReturnState('')).toBe('paid');
+    expect(paymentReturnState('?redirect_status=processing')).toBe('open');
+    expect(paymentReturnState('?redirect_status=requires_action')).toBe('open');
+    expect(paymentReturnState('?redirect_status=failed')).toBe('failed');
   });
 });
