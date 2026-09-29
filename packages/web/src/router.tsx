@@ -6,6 +6,7 @@ import { Search } from './pages/Search';
 import { SearchRun } from './pages/SearchRun';
 import { HotelDetail } from './pages/HotelDetail';
 import { Ranking } from './pages/Ranking';
+import { FilterSystem } from './pages/FilterSystem';
 import { BookingForm } from './pages/BookingForm';
 import { BookingPayment } from './pages/BookingPayment';
 import { BookingReturn } from './pages/BookingReturn';
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
       { path: 'buchung/:ref/abschluss', element: <BookingReturn /> },
       { path: 'so-funktionierts', element: <HowItWorks /> },
       { path: 'ranking', element: <Ranking /> },
+      { path: 'so-filtern-wir', element: <FilterSystem /> },
       { path: 'entwickler', element: <Developer /> },
       { path: 'impressum', element: <Imprint /> },
       { path: 'agb', element: <Terms /> },

@@ -15,7 +15,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
 - [x] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
 - [x] **Aufgabe 8** – Attraktivität von Regionen und Orten
-- [ ] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
+- [x] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
 - [ ] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
 - [ ] **Aufgabe 11** – Bilder vergrößerbar (Lightbox)
 - [ ] **Aufgabe 12** – Ausstattungs-Labels auf Deutsch
@@ -100,3 +100,9 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Datenbank: Migration `20261016a_place_attractiveness.sql` (nur lokal), pgTAP-Test; lokale Datenbanken importieren den Katalog automatisch nach.
 - Beleg: Walkthrough `attraktivitaet` in `docs/demos/F8/walkthrough-P/` (Regionen mit Stufe, Info-Panel, Balderschwang als „wenig los“ in Matrix und Liste), Screenshots gelesen; Tests `packages/domain/test/attractiveness.test.ts`; `npm test` 442 grün.
 - Offen: Einschätzungen redaktionell prüfen (BG-11); Ausbau mit OpenStreetMap-Zählung von Bergbahnen und Wanderrouten möglich.
+
+### Aufgabe 9 – erledigt
+- **Prüfung (Meldung an Ben):** Ja, die „ab“-Preise der Preis-Matrix sind vorgefiltert. `matrixCells` → `buildMatrix` (`packages/domain/src/ranking.ts`) nimmt je Zelle nur Angebote, die die Filter bestehen, deren Zimmer passt (Aufgabe 5) und deren Unterkunft die Regeln des Ziels besteht (`admissibleFor` → `admissibleHotelIds` in `packages/domain/src/preselect.ts`). Heraus fallen: Warnsignale (gehäufte Beschwerden über Schimmel, Ungeziefer, Schmutz), zu schwach bewertet für das Ziel (mit der Ausnahme „deutlich günstiger“), Sterne-Falle, Häuser ohne Bewertungen mit auffälligem Preis oder auffälliger Ausstattung. **Bewusst drin bleiben** (so gewollt, aber zur Kenntnis): Häuser mit nur wenigen Schimmel-Meldungen (Warnhinweis mit Abzug, Bens Entscheidung vom 29.09.), Häuser ohne Rezensionscheck (Warnsignale sind dort unbekannt) und unauffällige Häuser ohne Bewertungen. Nicht angewandt werden in der Matrix die Regeln „zu teuer für das Ziel“ und „besseres Angebot vorhanden“ (die gelten nur für „Deine Auswahl“).
+- Neben der Preis-Matrix steht jetzt die Überschrift „Preis-Matrix (Gesamtpreis ab)“ mit „i“; beim Draufhalten (Handy: Tippen) erscheint ein kurzer Hinweis „Vorgefiltert“ mit dem, was nicht eingerechnet ist, und dem Link „Mehr Details hier“. Der Hinweis ist nicht dauerhaft sichtbar.
+- Neue Seite „So filtern wir“ (`/so-filtern-wir`, `packages/web/src/pages/FilterSystem.tsx`) mit allen Filterstufen und den gültigen Werten, auch im Fußbereich verlinkt.
+- Beleg: Walkthrough `filter` in `docs/demos/F9/walkthrough-P/`, Screenshots gelesen; `npm test` grün.

@@ -80,6 +80,7 @@ export const de = {
     contact: 'Kontakt',
     howItWorks: "So funktioniert's",
     ranking: 'So berechnen wir die Rangliste',
+    filter: 'So filtern wir',
     sources: 'Datenquellen',
     intermediary: 'Wir vermitteln Unterkünfte; Vertragspartner ist die jeweilige Unterkunft.',
   },
@@ -248,6 +249,11 @@ export const de = {
     failed: 'Für diese Suche kamen keine Daten zurück. Bitte versuche es später erneut.',
     notFound: 'Diese Suche gibt es nicht oder der Link ist ungültig.',
     matrixTitle: 'Preis-Matrix (Gesamtpreis ab)',
+    matrixFilterLabel: 'Was ist vorgefiltert?',
+    matrixFilterTitle: 'Vorgefiltert',
+    matrixFilterText:
+      'Die „ab“-Preise zeigen die günstigste Unterkunft, die zu deinem Ziel passt. Nicht eingerechnet: Unterkünfte mit gehäuften Beschwerden über Schimmel, Ungeziefer oder Schmutz, zu schwach bewertete, auffällig billige Häuser mit vielen Sternen oder ohne Bewertungen und Wohnungen, die viel größer sind als nötig.',
+    matrixFilterMore: 'Mehr Details hier',
     place: 'Ort',
     from: (eur: string) => `ab ${eur}`,
     noOffer: 'kein Angebot',
@@ -274,6 +280,36 @@ export const de = {
     listNote: (place: string) => `${place}: günstiger, hat aber wenig zu bieten`,
     matrixHint: (place: string, level: string) => `${place}: ${level}`,
     more: 'So bewerten wir Orte',
+  },
+  filterPage: {
+    title: 'So filtern wir',
+    intro:
+      'Die Preis-Matrix und die Liste zeigen „ab“-Preise: den günstigsten Preis einer Unterkunft, die zu deiner Suche passt. Extrem billige Angebote, die sich im Urlaub als Reinfall entpuppen würden, rechnen wir vorher heraus. Hier steht, was wir herausnehmen und warum.',
+    wishesTitle: 'Deine Wünsche',
+    wishes:
+      'Was du angegeben hast, gilt streng: Budget, Hund, Parkplatz, Verpflegung, kostenlose Stornierung, Sterne und Mindestbewertung. Angebote, die das nicht erfüllen, zählen nicht.',
+    roomsTitle: 'Passende Zimmer',
+    rooms: (extra: number) =>
+      `Wir vergleichen nur Zimmer und Wohnungen, die zu deiner Personenzahl passen. Ist eine Wohnung um mehr als ${extra} Plätze größer als nötig – etwa die Ferienwohnung für sechs, wenn ihr zu zweit reist –, zeigen wir sie weiter unten, rechnen sie aber nicht in die Preise ein.`,
+    redFlagsTitle: 'Schimmel, Ungeziefer, Schmutz',
+    redFlags: (hotel: { guests: number; share: number }, flat: { guests: number; share: number }, dirt: { guests: number; share: number }) =>
+      `Wir lesen die Bewertungen der aussichtsreichsten Unterkünfte. Häufen sich Beschwerden, fliegt die Unterkunft raus: bei einem Hotel ab ${hotel.guests} Gästen und ${hotel.share} % der geprüften Bewertungen mit Schimmel oder Ungeziefer (Schmutz ab ${dirt.guests} Gästen und ${dirt.share} %), bei einer Ferienwohnung schon ab ${flat.guests} Gästen und ${flat.share} %, weil es dort genau die Wohnung trifft, die du buchst. Einzelne Meldungen zeigen wir als Hinweis bei der Unterkunft und ziehen sie vom Qualitätswert ab.`,
+    weakTitle: 'Zu schwach bewertet',
+    weak: (floors: string, min: string, cheaper: number) =>
+      `Jedes Ziel hat eine Mindestbewertung (unser Wert): ${floors}. Darunter zählt eine Unterkunft nicht – außer bei „Günstig und sauber“ und „Preis-Leistung“, wenn sie geprüft ist, keine Warnsignale hat, mindestens ${min} erreicht und mindestens ${cheaper} % günstiger ist als die günstigste Unterkunft über der Mindestbewertung.`,
+    starTrapTitle: 'Viele Sterne zum Billigpreis',
+    starTrap: (stars: number, cheaper: number, min: string) =>
+      `Ein Haus mit ${stars} oder mehr Sternen, das mindestens ${cheaper} % billiger ist als die einfachen Häuser deiner Suche, ist oft in die Jahre gekommen. Es zählt nur, wenn wir seine Bewertungen geprüft haben, es mindestens ${min} erreicht und niemand über Zustand oder Sauberkeit klagt.`,
+    unratedTitle: 'Ohne Bewertungen und auffällig',
+    unrated: (cheaper: number) =>
+      `Unterkünfte ohne Bewertungen zählen, wenn Preis und Ausstattung zu den bewerteten Unterkünften passen. Sind sie mehr als ${cheaper} % billiger als vergleichbare oder versprechen sie für weniger Geld mehr Extras als fast alle anderen, nehmen wir sie heraus. Du findest sie ganz unten in der Liste und kannst selbst entscheiden.`,
+    keptTitle: 'Was nicht herausfällt',
+    kept:
+      'Unterkünfte mit wenigen Beschwerden, ohne geprüfte Rezensionen oder in ruhigen Orten bleiben drin; wir kennzeichnen sie. Orte mit wenig Angebot markieren wir als „wenig los“, statt sie zu verstecken.',
+    finaleTitle: '„Deine Auswahl“',
+    finale: (max: number) =>
+      `Für „Deine Auswahl“ sortieren wir zusätzlich aus, was für dein Ziel zu teuer ist oder von einer anderen Unterkunft in allem übertroffen wird, und zeigen höchstens ${max} Unterkünfte.`,
+    moreBefore: 'Wie wir Bewertungen, Schnäppchen und „Unsere Wahl“ berechnen, steht unter',
   },
   rating: {
     guestTitle: 'Durchschnitt der Gästebewertungen',

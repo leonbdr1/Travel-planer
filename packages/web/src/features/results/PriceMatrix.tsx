@@ -3,7 +3,8 @@
 // a click scopes the list to that combination. Hovering or focusing a price
 // names the house and room behind it and, for a bargain (★), why it is one.
 import type { AttractivenessDto, MatrixCellDto } from '@reiseplaner/contracts';
-import { Tooltip, cx } from '@reiseplaner/ui';
+import { Link } from 'react-router';
+import { InfoPopover, Tooltip, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { LEVEL_TONE } from '../search/AttractivenessBadge';
 import { formatDay, formatEuro, formatStay, hasNightVariants, nightsBetween } from '../../lib/format';
@@ -59,8 +60,19 @@ export function PriceMatrix({
 }) {
   const byKey = new Map(cells.map((c) => [`${c.place_id}|${c.checkin}|${c.checkout}`, c]));
   const variants = hasNightVariants(dates);
+  const r = de.searchRun;
   return (
     <div className="space-y-2">
+      <div className="flex items-center gap-1.5" data-testid="matrix-heading">
+        <h3 className="text-base font-semibold text-zinc-950">{r.matrixTitle}</h3>
+        <InfoPopover label={r.matrixFilterLabel} testId="matrix-filter-info">
+          <span className="block font-semibold text-zinc-900">{r.matrixFilterTitle}</span>
+          <span className="mt-1 block">{r.matrixFilterText}</span>
+          <Link to="/so-filtern-wir" className="mt-2 inline-block font-medium text-brand-700 hover:underline" data-testid="matrix-filter-more">
+            {r.matrixFilterMore}
+          </Link>
+        </InfoPopover>
+      </div>
       <div className="overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-zinc-200" data-testid="result-matrix">
         <table className="min-w-full border-collapse text-sm">
           <thead>

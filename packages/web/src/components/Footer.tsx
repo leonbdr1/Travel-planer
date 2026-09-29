@@ -11,6 +11,7 @@ export function Footer() {
     ['/kontakt', t.contact],
     ['/so-funktionierts', t.howItWorks],
     ['/ranking', t.ranking],
+    ['/so-filtern-wir', t.filter],
   ];
   return (
     <footer className="border-t border-zinc-200 bg-white" data-testid="site-footer">
