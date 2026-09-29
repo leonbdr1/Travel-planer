@@ -114,6 +114,7 @@ export const productConfigSchema = z.strictObject({
       searches: positiveInt,
       liteapi_calls: positiveInt,
       ors_calls: positiveInt,
+      rating_calls: positiveInt,
     }),
     llm_daily_budget_usd: z.number().positive(),
   }),

@@ -2,7 +2,7 @@
 // call reserves budget first; any database error counts as "not allowed".
 import type { Queryable } from '../db';
 
-export type BudgetScope = 'llm_usd' | 'liteapi_calls' | 'ors_calls' | 'searches';
+export type BudgetScope = 'llm_usd' | 'liteapi_calls' | 'ors_calls' | 'rating_calls' | 'searches';
 
 export async function budgetReserve(db: Queryable, scope: BudgetScope, amount: number, cap: number): Promise<boolean> {
   try {

@@ -17,6 +17,7 @@ export * from './pricing';
 export * from './occupancy';
 export * from './filters';
 export * from './scoring';
+export * from './rating-fusion';
 export * from './bargains';
 export * from './ranking';
 export * from './features';

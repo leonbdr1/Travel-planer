@@ -41,6 +41,19 @@ export const DEFAULT_SEARCH_RADIUS_KM = 10;
 
 export const SCORE_PRIOR_MEAN = 7.5;
 /**
+ * Additional rating source (external, e.g. Tripadvisor): asked only for houses
+ * whose own rating has fewer reviews than this (unrated houses included). The
+ * answer is cached per house for EXTERNAL_RATING_TTL_DAYS, also when the source
+ * knows nothing about the house. External reviews count EXTERNAL_RATING_WEIGHT
+ * each when both sources are fused (other guest population and scale; start
+ * value, to be checked against real data).
+ */
+export const EXTERNAL_RATING_BELOW_REVIEWS = 30;
+export const EXTERNAL_RATING_TTL_DAYS = 30;
+export const EXTERNAL_RATING_WEIGHT = 0.5;
+export const EXTERNAL_RATING_STEP_BUDGET_S = 30;
+
+/**
  * From this many reviews the rating counts as it is (Ben, 2026-09-28: 69
  * reviews with 8.3 are solid); below, it is pulled towards SCORE_PRIOR_MEAN
  * by the missing reviews, so 3 reviews with 10.0 do not beat everything.

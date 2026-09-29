@@ -50,3 +50,10 @@ export type {
   LlmToolResult,
   LlmUsage,
 } from './llm/port';
+export { createFakeRatingSource, FAKE_RATING_SOURCE } from './fake/rating-source';
+export {
+  createUnverifiedRatingSource,
+  type RatingLookup,
+  type RatingLookupResult,
+  type RatingSourcePort,
+} from './rating-source/port';

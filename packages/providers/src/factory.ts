@@ -13,8 +13,10 @@ import { createFakeAnthropicFetch, type FakeLlmResponder } from './fake/anthropi
 import { createFakeLiteApiFetch, type FakeFault } from './fake/liteapi-fetch';
 import { createFakeOrsFetch } from './fake/ors-fetch';
 import { createFakeOverpassFetch } from './fake/overpass-fetch';
+import { createFakeRatingSource } from './fake/rating-source';
 import { createFakeReferencePrice } from './fake/reference-price';
 import { createFakeResendFetch } from './fake/resend-fetch';
+import { createUnverifiedRatingSource, type RatingSourcePort } from './rating-source/port';
 import { createUnverifiedReferencePrice, type ReferencePricePort } from './reference-price/port';
 import { providerSources, type ProviderSources, type ProvidersMode } from './mode';
 
@@ -58,6 +60,8 @@ export interface Providers {
   liteapi: LiteApiPort;
   /** Public reference price (beta); live adapter pending the contract check. */
   referencePrice: ReferencePricePort;
+  /** Additional rating source for houses without or with few own ratings; live adapter pending the contract check. */
+  ratings: RatingSourcePort;
   routing: RoutingPort;
   /** OpenStreetMap points of interest (location facts in the finale). */
   poi: PoiPort;
@@ -101,6 +105,12 @@ export function createProviders(config: ProvidersConfig, hooks: ProviderHooks = 
           ...(tuning.latencyMs !== undefined ? { latencyMs: tuning.latencyMs } : {}),
         })
       : createUnverifiedReferencePrice(),
+    ratings: fakeLiteapi
+      ? createFakeRatingSource({
+          onCall: count('ratings'),
+          ...(tuning.latencyMs !== undefined ? { latencyMs: tuning.latencyMs } : {}),
+        })
+      : createUnverifiedRatingSource(),
     routing: createOrsClient({
       apiKey: fakeRouting ? 'fake-key' : config.ors.apiKey,
       baseUrl: config.ors.baseUrl,

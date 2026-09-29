@@ -1,0 +1,6 @@
+-- Verification for 20261014a_external_ratings: the column exists (nullable jsonb),
+-- the budget scope accepts 'rating_calls', row security is still enabled on hotels.
+SELECT column_name, data_type, is_nullable FROM information_schema.columns
+ WHERE table_schema = 'app' AND table_name = 'hotels' AND column_name = 'external_ratings';
+SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname = 'budget_ledger_scope_check';
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'hotels';

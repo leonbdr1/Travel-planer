@@ -1,5 +1,5 @@
 // SearchWorkflow (architektur.md 6.4, 6.15): `load` → `rates-<n>` → `hotel-content`
-// (review count, stars, coordinates from the hotel details) → `score-1` →
+// (review count, stars, coordinates from the hotel details) → `external-ratings` (second rating source) → `score-1` →
 // `reviews-fetch` → `reviews-verify` → up to REVIEW_FOLLOWUP_ROUNDS times
 // `reviews-fetch-<n>` → `reviews-verify-<n>` (finalists still unchecked) →
 // `location-facts` (OpenStreetMap, likely finalists) → `finalize` (score stage 2).
@@ -12,6 +12,7 @@ import { createRequestDeps } from '../deps';
 import { parseRuntimeConfig, type Env } from '../env';
 import { SEARCH_WORKFLOW_HEARTBEAT_JOB, sendHeartbeat } from '../services/heartbeat';
 import { effectiveLlmEnabled } from '../services/dev-settings';
+import { runExternalRatings, type ExternalRatingsDeps } from '../services/external-ratings';
 import { runHotelContent } from '../services/hotel-content';
 import { runLocationFacts, type LocationRunDeps } from '../services/location';
 import { runReviewsFetch, runReviewsVerify, type ReviewRunDeps } from '../services/reviews';
@@ -29,7 +30,7 @@ const STEP: WorkflowStepConfig = {
 declare const __GIT_SHA__: string | undefined;
 
 /** Per-step dependencies: fresh DB connection and providers, usage flushed at the end. */
-export async function withSearchDeps<T>(env: Env, fn: (deps: ReviewRunDeps & LocationRunDeps) => Promise<T>): Promise<T> {
+export async function withSearchDeps<T>(env: Env, fn: (deps: ReviewRunDeps & LocationRunDeps & ExternalRatingsDeps) => Promise<T>): Promise<T> {
   const config = parseRuntimeConfig(env, typeof __GIT_SHA__ === 'string' ? __GIT_SHA__ : 'dev');
   const deps = createRequestDeps(env, config);
   try {
@@ -47,6 +48,8 @@ export async function withSearchDeps<T>(env: Env, fn: (deps: ReviewRunDeps & Loc
       llmDailyBudgetUsd: productConfig.limits.llm_daily_budget_usd,
       poi: deps.providers().poi,
       poiSource: deps.providers().sources.poi,
+      ratings: deps.providers().ratings,
+      ratingDailyCap: productConfig.limits.daily_quotas.rating_calls,
     });
   } finally {
     await deps.dispose({ awaitClose: false });
@@ -62,6 +65,7 @@ export class SearchWorkflow extends WorkflowEntrypoint<Env, SearchParams> {
       if (block.timedOut) break;
     }
     await step.do('hotel-content', STEP, () => withSearchDeps(this.env, (d) => runHotelContent(d, searchId)));
+    await step.do('external-ratings', STEP, () => withSearchDeps(this.env, (d) => runExternalRatings(d, searchId)));
     await step.do('score-1', STEP, () => withSearchDeps(this.env, (d) => runScoreStep(d, searchId)));
     // Separate steps: a failing AI call is retried without fetching reviews again.
     await step.do('reviews-fetch', STEP, () => withSearchDeps(this.env, (d) => runReviewsFetch(d, searchId)));

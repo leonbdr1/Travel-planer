@@ -1,6 +1,6 @@
 // Searches, combinations, hotels, offers and the provider cache
 // (architektur.md 5.3, 5.4). Writes from workflow steps are idempotent.
-import type { NormalizedOffer } from '@reiseplaner/domain';
+import { fuseRatings, type NormalizedOffer, type RatingEvidence } from '@reiseplaner/domain';
 import { json, type Db, type Queryable } from '../db';
 
 export type SearchStatus = 'queued' | 'running' | 'reviewing' | 'done' | 'partial' | 'failed';
@@ -486,8 +486,10 @@ export interface EvaluationHotelRow {
   address: string | null;
   city: string | null;
   stars: number | null;
+  /** LiteAPI rating, fused with external sources where they exist (`ratingFused`). */
   rating: number | null;
   reviewCount: number | null;
+  ratingFused: boolean;
   hotelType: string | null;
   mainPhotoUrl: string | null;
   facilityIds: number[];
@@ -645,9 +647,10 @@ export async function loadEvaluationData(db: Queryable, searchId: string) {
     facility_ids: number[];
     lat: number | null;
     lng: number | null;
+    external_ratings: ExternalRatings | null;
   }>(
     `SELECT h.id, h.name, h.address, h.city, h.stars::float8 AS stars, h.rating::float8 AS rating, h.review_count, h.hotel_type,
-            h.main_photo_url, h.facility_ids, h.lat::float8 AS lat, h.lng::float8 AS lng
+            h.main_photo_url, h.facility_ids, h.lat::float8 AS lat, h.lng::float8 AS lng, h.external_ratings
        FROM app.hotels h WHERE h.id IN (SELECT DISTINCT hotel_id FROM app.offers WHERE search_id = $1::uuid)`,
     [searchId],
   );
@@ -680,22 +683,25 @@ export async function loadEvaluationData(db: Queryable, searchId: string) {
         nights: Number(o.nights),
       }),
     ),
-    hotels: hotels.map(
-      (h): EvaluationHotelRow => ({
+    hotels: hotels.map((h): EvaluationHotelRow => {
+      const own = { rating: h.rating === null ? null : Number(h.rating), count: h.review_count === null ? null : Number(h.review_count) };
+      const fused = fuseRatings(own, externalEvidence(h.external_ratings));
+      return {
         id: h.id,
         name: h.name,
         address: h.address,
         city: h.city,
         stars: h.stars === null ? null : Number(h.stars),
-        rating: h.rating === null ? null : Number(h.rating),
-        reviewCount: h.review_count === null ? null : Number(h.review_count),
+        rating: fused ? fused.rating : own.rating,
+        reviewCount: fused ? fused.count : own.count,
+        ratingFused: fused?.fused ?? false,
         hotelType: h.hotel_type,
         mainPhotoUrl: h.main_photo_url,
         facilityIds: h.facility_ids.map(Number),
         lat: h.lat === null ? null : Number(h.lat),
         lng: h.lng === null ? null : Number(h.lng),
-      }),
-    ),
+      };
+    }),
     combinations: combinations.map((c) => ({
       placeId: c.place_id,
       checkin: c.checkin,
@@ -739,5 +745,53 @@ export async function saveEvaluation(db: Queryable, searchId: string, rows: read
         })),
       ),
     ],
+  );
+}
+
+
+/** Answers of external rating sources for one house (column `external_ratings`). */
+export interface ExternalRatings {
+  checkedAt: string;
+  sources: Record<string, { rating: number; count: number; url?: string | null }>;
+}
+
+function externalEvidence(value: ExternalRatings | null): RatingEvidence[] {
+  if (!value || typeof value.sources !== 'object' || value.sources === null) return [];
+  return Object.values(value.sources).map((e) => ({ rating: Number(e.rating), count: Number(e.count) }));
+}
+
+export interface RatingLookupRow {
+  id: string;
+  name: string;
+  city: string | null;
+  countryCode: string | null;
+  lat: number | null;
+  lng: number | null;
+}
+
+/**
+ * Houses of a search whose own rating rests on fewer than `below` reviews (or is
+ * missing) and that no external source was asked about since `staleBefore`.
+ */
+export async function hotelsNeedingExternalRating(db: Queryable, searchId: string, below: number, staleBefore: Date): Promise<RatingLookupRow[]> {
+  const rows = await db.query<{ id: string; name: string; city: string | null; country_code: string | null; lat: number | null; lng: number | null }>(
+    `SELECT h.id, h.name, h.city, h.country_code, h.lat::float8 AS lat, h.lng::float8 AS lng
+       FROM app.hotels h
+      WHERE h.id IN (SELECT DISTINCT hotel_id FROM app.offers WHERE search_id = $1::uuid)
+        AND (h.rating IS NULL OR h.review_count IS NULL OR h.review_count < $2)
+        AND (h.external_ratings IS NULL OR (h.external_ratings->>'checkedAt')::timestamptz < $3::timestamptz)
+      ORDER BY h.id`,
+    [searchId, below, staleBefore.toISOString()],
+  );
+  return rows.map((r) => ({ id: r.id, name: r.name, city: r.city, countryCode: r.country_code, lat: r.lat, lng: r.lng }));
+}
+
+export async function saveExternalRatings(db: Queryable, entries: ReadonlyArray<{ id: string; ratings: ExternalRatings }>): Promise<void> {
+  if (entries.length === 0) return;
+  await db.query(
+    `UPDATE app.hotels AS cur SET external_ratings = e.ratings
+       FROM jsonb_to_recordset($1::text::jsonb) AS e(id text, ratings jsonb)
+      WHERE cur.id = e.id`,
+    [json(entries.map((e) => ({ id: e.id, ratings: e.ratings })))],
   );
 }
