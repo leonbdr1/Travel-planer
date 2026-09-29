@@ -5,13 +5,15 @@
 // AI notice). Stars and rating minimums are "Weitere Filter" in the results.
 import { useMemo, useState } from 'react';
 import type { MetaConfigResponse } from '@reiseplaner/contracts';
-import { AiLabel, Alert, Button, Card, Chip, Description, Fieldset, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
+import { MapPinIcon, SparklesIcon } from '@heroicons/react/20/solid';
+import { AiLabel, Alert, Button, Card, Chip, Description, Fieldset, Heading, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
 import { parseWish } from './api';
+import { OwnPlacesPicker } from './OwnPlacesPicker';
 import { SearchBar } from './SearchBar';
-import { stayDates, toggle, type WizardState } from './state';
+import { resetSuggestions, stayDates, toggle, type WizardState } from './state';
 
 const t = de.wizard.frame;
 
@@ -96,6 +98,40 @@ export function StepFrame({
     >
       <SearchBar state={state} update={update} meta={meta} touched={touched} />
 
+      <Card className="space-y-4" data-testid="where">
+        <Heading level={2}>{de.wizard.ownPlaces.title}</Heading>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-2 rounded-lg bg-zinc-50 p-4 ring-1 ring-zinc-200">
+            <p className="flex items-center gap-2 font-semibold text-zinc-900">
+              <SparklesIcon aria-hidden="true" className="size-5 text-brand-600" />
+              {de.wizard.ownPlaces.suggestTitle}
+            </p>
+            <p className="text-sm text-zinc-600">{de.wizard.ownPlaces.suggestText}</p>
+          </div>
+          <div className="space-y-2 rounded-lg bg-zinc-50 p-4 ring-1 ring-zinc-200">
+            <label htmlFor="own-places-input" className="flex items-center gap-2 font-semibold text-zinc-900">
+              <MapPinIcon aria-hidden="true" className="size-5 text-brand-600" />
+              {de.wizard.ownPlaces.pickTitle}
+            </label>
+            <p className="text-sm text-zinc-600">{de.wizard.ownPlaces.pickText}</p>
+            <OwnPlacesPicker
+              places={state.ownPlaces}
+              origin={state.origin?.geonameid ?? null}
+              max={meta.limits.max_places}
+              onChange={(ownPlaces, ownPlacesOrigin) => {
+                const removed = state.ownPlaces.filter((p) => !ownPlaces.some((x) => x.id === p.id)).map((p) => p.id);
+                const added = ownPlaces.filter((p) => !state.ownPlaces.some((x) => x.id === p.id)).map((p) => p.id);
+                update({
+                  ownPlaces,
+                  ownPlacesOrigin,
+                  selectedPlaceIds: [...state.selectedPlaceIds.filter((id) => !removed.includes(id)), ...added.filter((id) => !state.selectedPlaceIds.includes(id))],
+                });
+              }}
+            />
+          </div>
+        </div>
+      </Card>
+
       <Card className="space-y-6">
         <Fieldset legend={t.pattern}>
           <Description>{t.patternHint}</Description>
@@ -152,7 +188,7 @@ export function StepFrame({
               <Chip
                 key={theme.code}
                 selected={state.themes.includes(theme.code)}
-                onToggle={() => update({ themes: toggle(state.themes, theme.code), regions: null, places: [], selectedPlaceIds: [] })}
+                onToggle={() => update({ themes: toggle(state.themes, theme.code), ...resetSuggestions(state) })}
               >
                 {theme.label}
               </Chip>
@@ -236,9 +272,15 @@ export function StepFrame({
         <Button type="submit" size="lg" data-testid="frame-next">
           {t.next}
         </Button>
-        <Button variant="ghost" onClick={() => next(true)}>
-          {t.direct}
-        </Button>
+        {state.ownPlaces.length > 0 ? (
+          <Button variant="secondary" size="lg" onClick={() => next(true)} data-testid="own-only">
+            {de.wizard.ownPlaces.onlyMine(state.ownPlaces.length)}
+          </Button>
+        ) : (
+          <Button variant="ghost" onClick={() => next(true)}>
+            {t.direct}
+          </Button>
+        )}
       </div>
     </form>
   );

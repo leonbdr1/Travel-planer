@@ -9,7 +9,7 @@ import { de } from '../../i18n/de';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchLocalities } from './api';
 import { DateRangePicker } from './DateRangePicker';
-import { todayIso, type WizardState } from './state';
+import { resetSuggestions, todayIso, type WizardState } from './state';
 import { TravellersPicker } from './TravellersPicker';
 
 const t = de.wizard.frame;
@@ -74,7 +74,7 @@ export function SearchBar({
               id="origin"
               testId="origin-input"
               value={state.origin}
-              onChange={(origin) => update({ origin, regions: null, selectedRegionIds: [], places: [], selectedPlaceIds: [] })}
+              onChange={(origin) => update({ origin, ...resetSuggestions(state) })}
               load={loadLocalities}
               itemKey={(l) => String(l.geonameid)}
               itemLabel={(l) => l.label}
@@ -92,7 +92,7 @@ export function SearchBar({
             className="block w-full cursor-pointer appearance-none border-0 bg-transparent p-0 text-sm/6 font-semibold text-zinc-950 focus:ring-0 focus:outline-none"
             value={state.maxDriveMinutes ?? ''}
             onChange={(e) =>
-              update({ maxDriveMinutes: e.target.value === '' ? null : Number(e.target.value), regions: null, places: [], selectedPlaceIds: [] })
+              update({ maxDriveMinutes: e.target.value === '' ? null : Number(e.target.value), ...resetSuggestions(state) })
             }
           >
             <option value="">{t.noLimit}</option>

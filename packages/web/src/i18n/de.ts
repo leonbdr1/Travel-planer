@@ -160,6 +160,20 @@ export const de = {
         adults: 'Bitte gib mindestens eine erwachsene Person an.',
       },
     },
+    ownPlaces: {
+      title: 'Wohin soll es gehen?',
+      suggestTitle: 'Orte vorschlagen lassen',
+      suggestText:
+        'Wir suchen Regionen und Orte, die du ab deinem Startort in der gewählten Fahrzeit erreichst und die zu deiner Reiseart passen. Das ist der nächste Schritt.',
+      pickTitle: 'Orte selbst wählen',
+      pickText: 'Mehrere möglich, z. B. Köln, Frankfurt und Berlin. Wir durchsuchen sie zusätzlich zu den Vorschlägen.',
+      placeholder: 'Ort oder Postleitzahl eingeben',
+      full: (max: number) => `Höchstens ${max} Orte pro Suche.`,
+      chosen: 'Deine Orte',
+      remove: (name: string) => `${name} entfernen`,
+      onlyMine: (n: number) => (n === 1 ? 'Nur in diesem Ort suchen' : `Nur in diesen ${n} Orten suchen`),
+      section: 'Deine Orte',
+    },
     calendar: {
       arrival: 'Anreise frühestens',
       departure: 'Abreise spätestens',

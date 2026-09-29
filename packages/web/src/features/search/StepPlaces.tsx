@@ -10,7 +10,7 @@ import { de } from '../../i18n/de';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchPlaces, resolvePlace, searchPlaces } from './api';
 import { catalogLabel, formatMinutes } from './labels';
-import { stayDates, toggle, type WizardState } from './state';
+import { keepOwnSelection, stayDates, toggle, type WizardState } from './state';
 
 const t = de.wizard.places;
 
@@ -108,7 +108,10 @@ export function StepPlaces({
         // Round by round the next best place of every region, as many as the limits allow.
         const frame = stayDates(state, meta);
         const limit = placeLimit(max, meta.limits.max_combinations, frame.ok ? frame.dates.length : 0);
-        update({ places, selectedPlaceIds: preselectPlaceIds(res.regions, limit) });
+        // Own places stay selected; the suggestions fill the remaining slots.
+        const own = keepOwnSelection(state);
+        const suggested = preselectPlaceIds(res.regions, Math.max(0, limit - own.length)).filter((id) => !own.includes(id));
+        update({ places, selectedPlaceIds: [...own, ...suggested] });
       })
       .catch((err: unknown) => {
         if (!cancelled) setError(err instanceof ApiRequestError ? err.message : de.status.apiUnreachable);
@@ -120,6 +123,21 @@ export function StepPlaces({
       cancelled = true;
     };
   }, [origin?.geonameid, needsLoad]);
+
+  // Own places picked before the start location changed get their drive times again.
+  useEffect(() => {
+    const originId = origin?.geonameid ?? null;
+    if (state.ownPlaces.length === 0 || state.ownPlacesOrigin === originId) return;
+    let cancelled = false;
+    Promise.all(state.ownPlaces.map((p) => (p.geonameid !== null ? resolvePlace(p.geonameid, originId).then((r) => r.place) : Promise.resolve(p))))
+      .then((ownPlaces) => {
+        if (!cancelled) update({ ownPlaces, ownPlacesOrigin: originId });
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [origin?.geonameid, state.ownPlacesOrigin]);
 
   const dates = useMemo(() => stayDates(state, meta), [state, meta]);
   const dateCount = dates.ok ? dates.dates.length : 0;
@@ -141,20 +159,25 @@ export function StepPlaces({
     if (!hit) return;
     try {
       let place: PlaceDto;
-      if (hit.kind === 'place') {
+      if (hit.kind === 'place' && hit.place.geonameid === null) {
         place = hit.place;
+      } else if (hit.kind === 'place') {
+        place = (await resolvePlace(hit.place.geonameid as number, origin?.geonameid ?? null)).place;
       } else {
         place = (await resolvePlace(hit.locality.geonameid, origin?.geonameid ?? null)).place;
       }
-      const places = state.places.some((p) => p.id === place.id) ? state.places : [...state.places, place];
+      const known = state.places.some((p) => p.id === place.id) || state.ownPlaces.some((p) => p.id === place.id);
       const selected = state.selectedPlaceIds.includes(place.id) || selectedCount >= max ? state.selectedPlaceIds : [...state.selectedPlaceIds, place.id];
-      update({ places, selectedPlaceIds: selected });
+      update({ ...(known ? {} : { ownPlaces: [...state.ownPlaces, place], ownPlacesOrigin: origin?.geonameid ?? null }), selectedPlaceIds: selected });
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : de.status.apiUnreachable);
     }
   }
 
   const byRegion = new Map<string, PlaceDto[]>();
+  const suggestedIds = new Set(state.places.map((p) => p.id));
+  const own = state.ownPlaces.filter((p) => !suggestedIds.has(p.id));
+  if (own.length > 0) byRegion.set(de.wizard.ownPlaces.section, own);
   for (const p of state.places) {
     const key = p.region_name ?? t.userPlace;
     byRegion.set(key, [...(byRegion.get(key) ?? []), p]);

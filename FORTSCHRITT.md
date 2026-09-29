@@ -9,7 +9,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 0** – Priorisierung vermerkt: „Günstig und sauber“ zuerst, „Preis-Leistung“ und „Komfort“ aktuell unfertig
 - [x] **Aufgabe 1** – Startseite im Stil üblicher Buchungsseiten (Ortssuche, Kalender mit zwei Klicks)
 - [x] **Aufgabe 2** – Rechenfehler „Alle Termine und Tarife“ (Vergleich nur über dasselbe Zimmer)
-- [ ] **Aufgabe 3** – Standortsuche: Postleitzahlen, fehlende Orte, manuelle Mehrfachauswahl von Orten
+- [x] **Aufgabe 3** – Standortsuche: Postleitzahlen, fehlende Orte, manuelle Mehrfachauswahl von Orten
 - [ ] **Aufgabe 4** – Flexible Übernachtungsanzahl (z. B. 2 bis 3 Nächte)
 - [ ] **Aufgabe 5** – Personenzahl und Zimmerlogik
 - [ ] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
@@ -42,7 +42,7 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Beleg: `npm run demo -- f2` → `docs/demos/F2/demo-output.txt` (Bens Beispiel ok; echte Suche über den lokalen Stack: 28 Schnäppchen-Begründungen gegen die Angebote der Detailansicht nachgerechnet, 0 abweichend); `npm test` 410 grün.
 - Offen: `architektur.md` 6.8 nennt noch den Median – Nachtrag in `docs/architektur-nachtrag.md`, Übernahme braucht Bens Freigabe.
 
-### Aufgabe 3 – in Arbeit
+### Aufgabe 3 – erledigt
 **Teilschritt 3a – Ortsdaten (erledigt):**
 - Ursache: Die lokale Ortsdatenbank war ein Entwicklungsauszug aus GeoNames `cities1000` **ohne Postleitzahlen** und ohne Orte unter 1.000 Einwohnern (die echten GeoNames-Downloads sind in der Bau-Umgebung gesperrt; der Produktivimport O3.1 steht aus). Die Suche nach Postleitzahlen war im Code schon vorgesehen, es fehlten nur die Daten.
 - Neu: 5.926 weitere Orte ab 500 Einwohnern (GeoNames `cities500`) und Postleitzahlen für DE (OpenStreetMap, ODbL), AT und CH, erzeugt mit `data/geonames/dev-extract/build-extra.ts`; Quellen und Grenzen in `data/geonames/README.md`. Die Quellenangabe OpenStreetMap nennt jetzt auch Postleitzahlen.
@@ -50,4 +50,9 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Beleg: `npm run demo -- f3` → `docs/demos/F3/demo-output.txt` (87629 → Füssen, 10115 → Berlin, 6580 → St. Anton, 3920 → Zermatt, Balderschwang …); Tests in `packages/cli/test/catalog.test.ts`; `npm test` 412 grün.
 - Offen: Orte unter 500 Einwohnern und einzelne Sammelgemeinden fehlen weiter, bis Ben den echten GeoNames-Import (O3.1) ausführt.
 
-**Teilschritt 3b – manuelle Mehrfachauswahl von Orten:** offen.
+**Teilschritt 3b – manuelle Mehrfachauswahl von Orten (erledigt):**
+- Schritt 1 hat unter der Suchleiste den Block „Wohin soll es gehen?“ mit beiden Wegen nebeneinander: links „Orte vorschlagen lassen“ (wie bisher über Startort, Fahrzeit und Reiseart), rechts „Orte selbst wählen“ – Ort oder Postleitzahl eintippen, auswählen, beliebig oft wiederholen (bis 10 Orte); gewählte Orte erscheinen als Chips mit Fahrzeit und lassen sich per × entfernen (`OwnPlacesPicker.tsx`).
+- Mit eigenen Orten gibt es zwei Knöpfe: „Weiter zu den Regionen“ (eigene Orte **zusätzlich** zu den Vorschlägen) oder „Nur in diesen N Orten suchen“.
+- In Schritt 3 stehen die eigenen Orte als Gruppe „Deine Orte“ über den vorgeschlagenen Regionen, bleiben ausgewählt, und die Vorschläge füllen nur die übrigen Plätze. Ein neuer Startort, eine andere Fahrzeit oder Reiseart verwirft nur die Vorschläge, nicht die eigenen Orte; deren Fahrzeiten werden bei neuem Startort neu berechnet.
+- Vertrag: `PlaceDto` hat zusätzlich `geonameid` (additiv, Standard `null`).
+- Beleg: Walkthrough `orte` in `docs/demos/F3/walkthrough-P/` (Startort per PLZ 70173, Köln + Frankfurt + Berlin, nur eigene Orte = 6 Kombinationen; danach Köln + Berlin zusammen mit Schwarzwald-Vorschlägen, Suche abgeschlossen); Screenshots gelesen; `npm test` 414 grün.

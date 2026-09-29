@@ -50,6 +50,8 @@ export const placeDtoSchema = z.object({
   id: z.string(),
   name: z.string(),
   kind: z.enum(['catalog', 'user']),
+  /** GeoNames id of the place: resolves it again with another start location (manual place choice). */
+  geonameid: z.number().int().nullable().default(null),
   region_id: z.string().nullable(),
   region_name: z.string().nullable(),
   country_code: z.string(),

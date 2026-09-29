@@ -7,7 +7,7 @@ import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
 import { fetchRegions } from './api';
 import { catalogLabel } from './labels';
-import { toggle, type WizardState } from './state';
+import { toggle, type WizardState, keepOwnSelection } from './state';
 
 const t = de.wizard.regions;
 const MAX_REGIONS = 5;
@@ -82,7 +82,7 @@ export function StepRegions({
                 aria-pressed={selected}
                 disabled={full}
                 data-testid="region-card"
-                onClick={() => update({ selectedRegionIds: toggle(state.selectedRegionIds, region.id), places: [], selectedPlaceIds: [] })}
+                onClick={() => update({ selectedRegionIds: toggle(state.selectedRegionIds, region.id), places: [], selectedPlaceIds: keepOwnSelection(state) })}
                 className={cx(
                   'block h-full w-full rounded-xl bg-white p-5 text-left shadow-sm ring-1 transition',
                   selected ? 'ring-2 ring-brand-600' : 'ring-zinc-200 hover:ring-zinc-300',

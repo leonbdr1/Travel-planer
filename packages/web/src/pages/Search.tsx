@@ -8,7 +8,7 @@ import { startSearch } from '../features/search/run-api';
 import { StepFrame } from '../features/search/StepFrame';
 import { StepPlaces } from '../features/search/StepPlaces';
 import { StepRegions } from '../features/search/StepRegions';
-import { loadState, saveState, stayDates, type WizardState } from '../features/search/state';
+import { allPlaces, loadState, resetSuggestions, saveState, stayDates, type WizardState } from '../features/search/state';
 import { de } from '../i18n/de';
 import { useMeta } from '../lib/meta';
 
@@ -66,7 +66,7 @@ function StartSearch({ state, onBack }: { state: WizardState; onBack: () => void
       <Heading level={2}>{r.startTitle}</Heading>
       <Text>{r.startLead}</Text>
       <ul className="list-inside list-disc text-sm text-zinc-700">
-        {state.places
+        {allPlaces(state)
           .filter((p) => state.selectedPlaceIds.includes(p.id))
           .map((p) => (
             <li key={p.id}>{p.name}</li>
@@ -127,7 +127,7 @@ export function Search() {
           update={update}
           meta={m}
           onNext={() => update({ step: 2, direct: false })}
-          onDirect={() => update({ step: 3, direct: true, selectedRegionIds: [] })}
+          onDirect={() => update({ step: 3, direct: true, ...resetSuggestions(state) })}
         />
       ) : null}
       {state.step === 2 ? (
@@ -137,7 +137,7 @@ export function Search() {
           meta={m}
           onBack={() => update({ step: 1 })}
           onNext={() => update({ step: 3, direct: false })}
-          onSkip={() => update({ step: 3, direct: true, selectedRegionIds: [], places: [], selectedPlaceIds: [] })}
+          onSkip={() => update({ step: 3, direct: true, ...resetSuggestions(state) })}
         />
       ) : null}
       {state.step === 3 ? (

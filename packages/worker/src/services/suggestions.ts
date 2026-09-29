@@ -42,6 +42,7 @@ export function placeDto(
     id: row.id,
     name: row.name,
     kind: row.kind,
+    geonameid: row.geonameid,
     region_id: row.regionId,
     region_name: row.regionName,
     country_code: row.countryCode,

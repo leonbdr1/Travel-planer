@@ -27,6 +27,13 @@ export interface WizardState {
   selectedPlaceIds: string[];
   /** true when the user skipped the region step (places entered directly). */
   direct: boolean;
+  /**
+   * Places the traveller picked by name (Aufgabe 3), kept next to the
+   * suggestions: they survive a new suggestion round and stay selected.
+   */
+  ownPlaces: PlaceDto[];
+  /** Start location the drive times of `ownPlaces` were computed for. */
+  ownPlacesOrigin: number | null;
 }
 
 const KEY = 'wizard-state-v1';
@@ -60,6 +67,8 @@ export function initialState(now: Date = new Date()): WizardState {
     places: [],
     selectedPlaceIds: [],
     direct: false,
+    ownPlaces: [],
+    ownPlacesOrigin: null,
   };
 }
 
@@ -99,6 +108,27 @@ export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Dat
     },
     { maxDates: meta.limits.max_dates, maxNights: meta.limits.max_nights, maxWindowDays: meta.limits.max_window_days },
   );
+}
+
+/** Suggested and own places in one list (own places after the suggestions, without duplicates). */
+export function allPlaces(state: Pick<WizardState, 'places' | 'ownPlaces'>): PlaceDto[] {
+  const ids = new Set(state.places.map((p) => p.id));
+  return [...state.places, ...state.ownPlaces.filter((p) => !ids.has(p.id))];
+}
+
+/** The selected ids that belong to own places. */
+export function keepOwnSelection(state: Pick<WizardState, 'ownPlaces' | 'selectedPlaceIds'>): string[] {
+  return state.selectedPlaceIds.filter((id) => state.ownPlaces.some((p) => p.id === id));
+}
+
+/** Patch that drops the suggestions (new start, drive time or themes) and keeps the own places with their selection. */
+export function resetSuggestions(state: Pick<WizardState, 'ownPlaces' | 'selectedPlaceIds'>): Partial<WizardState> {
+  return {
+    regions: null,
+    selectedRegionIds: [],
+    places: [],
+    selectedPlaceIds: keepOwnSelection(state),
+  };
 }
 
 export function toggle<T>(list: readonly T[], value: T): T[] {
