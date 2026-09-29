@@ -158,12 +158,16 @@ export async function createBooking(deps: BookingDeps, req: BookingCreateRequest
   try {
     prebook = await deps.liteapi.prebook(offer.liteapiOfferId);
   } catch (err) {
-    await applyBookingEvent(deps.db, draft.id, 'prebook_failed', { lastError: err instanceof ProviderError ? err.kind : 'error' });
+    const kind = err instanceof ProviderError ? err.kind : 'error';
+    const status = err instanceof ProviderError ? err.status : undefined;
+    console.error(JSON.stringify({ level: 'warn', msg: 'prebook failed', kind, ...(status === undefined ? {} : { status }) }));
+    await applyBookingEvent(deps.db, draft.id, 'prebook_failed', { lastError: kind });
     throw new ApiError(409, 'offer_unavailable', BOOKING_TEXTS.offerUnavailable);
   }
   if (!prebook.transactionId || !prebook.secretKey) {
+    console.error(JSON.stringify({ level: 'warn', msg: 'prebook without payment sdk data' }));
     await applyBookingEvent(deps.db, draft.id, 'prebook_failed', { lastError: 'payment_sdk_missing' });
-    throw new ApiError(409, 'offer_unavailable', BOOKING_TEXTS.offerUnavailable);
+    throw new ApiError(503, 'payment_unavailable', BOOKING_TEXTS.paymentUnavailable);
   }
   const priceChanged = prebook.totalCents !== offer.totalCents;
   const moved = await applyBookingEvent(deps.db, draft.id, 'prebook_ok', {

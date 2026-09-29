@@ -58,6 +58,7 @@ export const BOOKING_TEXTS = {
   offerNotFound: 'Dieses Angebot gehört nicht zu dieser Suche.',
   guestsInvalid: 'Bitte gib für jedes Zimmer einen Gast an.',
   offerUnavailable: 'Dieses Angebot ist leider nicht mehr verfügbar. Bitte wähle ein anderes Angebot oder starte eine neue Suche.',
+  paymentUnavailable: 'Die Zahlung ist gerade nicht möglich. Bitte versuche es später erneut.',
   tokenInvalid: 'Der Link ist ungültig oder abgelaufen.',
   priceConfirmationRequired: 'Der Preis hat sich geändert. Bitte bestätige den neuen Preis, bevor du bezahlst.',
   inProgress: 'Die Buchung wird gerade abgeschlossen. Bitte versuche es in einigen Sekunden erneut.',

@@ -5,7 +5,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createSearch, getBookingByRef, type Db } from '@reiseplaner/db';
 import { createTestDb, type TestDb } from '@reiseplaner/db/testing';
-import { createProviders, fakeMailbox, type ProvidersConfig } from '@reiseplaner/providers';
+import { createProviders, fakeMailbox, ProviderError, type ProvidersConfig } from '@reiseplaner/providers';
 import { ApiError } from '../src/http/errors';
 import { cancelBooking, completeBooking, confirmPrice, createBooking, requestAccessLink, viewBooking, type BookingDeps } from '../src/services/bookings';
 import { runLoad, runRatesBlock, runScoreStep, sha256Hex } from '../src/services/search-run';
@@ -119,6 +119,16 @@ const apiError = async (p: Promise<unknown>) => {
 };
 
 describe('booking flow (architektur.md 6.11, 7.2)', () => {
+  it('answers a failing prebook with offer_unavailable and a prebook without payment data with payment_unavailable', async () => {
+    const [first] = await offers(test.db, 'refundable');
+    const offerId = first?.id ?? '';
+    const real = deps.liteapi;
+    deps = { ...deps, liteapi: { ...real, prebook: async () => { throw new ProviderError('liteapi', 'client', 'gone', 400); } } };
+    expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 409, code: 'offer_unavailable' });
+    deps = { ...deps, liteapi: { ...real, prebook: async (id) => ({ ...(await real.prebook(id)), transactionId: null, secretKey: null }) } };
+    expect(await apiError(createBooking(deps, request(offerId)))).toEqual({ status: 503, code: 'payment_unavailable' });
+  });
+
   it('prebooks, completes once, answers repeats with the same state and sends the confirmation', async () => {
     const { created } = await offerWithPrice(false);
     expect(created.payment).toMatchObject({ mode: 'sandbox', simulated: true, return_url: `http://localhost:5173/buchung/${created.booking_ref}/abschluss` });
