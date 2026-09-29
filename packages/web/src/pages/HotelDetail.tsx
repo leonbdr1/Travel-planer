@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
 import type { HotelDetailResponse, TextBlockDto } from '@reiseplaner/contracts';
 import { constants, extraNights } from '@reiseplaner/domain';
-import { Alert, Badge, buttonClasses, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
+import { Alert, Badge, buttonClasses, Card, Heading, Lightbox, Spinner, Text, cx } from '@reiseplaner/ui';
 import { fetchHotelDetail } from '../features/results/api';
 import { ExtraNightNote } from '../features/results/ExtraNightNote';
 import { ReferencePrice } from '../features/results/ReferencePrice';
@@ -101,6 +101,7 @@ export function HotelDetail() {
   const meta = useMeta();
   const [data, setData] = useState<HotelDetailResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<number | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -181,12 +182,35 @@ export function HotelDetail() {
         />
       </div>
       {h.photos.length > 0 ? (
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {h.photos.slice(0, 4).map((src) => (
-            <img key={src} src={src} alt="" loading="lazy" className="aspect-[4/3] w-full rounded-lg object-cover" />
-          ))}
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4" data-testid="detail-photos">
+          {h.photos.slice(0, 4).map((src, i) => {
+            const more = i === 3 ? h.photos.length - 4 : 0;
+            return (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setPhoto(i)}
+                aria-label={t.photoOpen(i + 1)}
+                className="group relative overflow-hidden rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+                data-testid="detail-photo"
+              >
+                <img src={src} alt="" loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                {more > 0 ? (
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/45 text-sm font-semibold text-white">{t.photosMore(more)}</span>
+                ) : null}
+              </button>
+            );
+          })}
         </div>
       ) : null}
+      <Lightbox
+        photos={h.photos}
+        index={photo}
+        onIndex={setPhoto}
+        onClose={() => setPhoto(null)}
+        title={h.name}
+        labels={{ close: t.photoClose, prev: t.photoPrev, next: t.photoNext, counter: t.photoCounter, photo: t.photoOpen }}
+      />
 
       <Card className="space-y-3">
         <Heading level={2}>{t.offers}</Heading>

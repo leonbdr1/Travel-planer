@@ -17,7 +17,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 8** – Attraktivität von Regionen und Orten
 - [x] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
 - [x] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
-- [ ] **Aufgabe 11** – Bilder vergrößerbar (Lightbox)
+- [x] **Aufgabe 11** – Bilder vergrößerbar (Lightbox)
 - [ ] **Aufgabe 12** – Ausstattungs-Labels auf Deutsch
 - [ ] **Aufgabe 13** – Kartenansicht für Regionen
 
@@ -113,3 +113,7 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Der KI-artige Satz („Ob dir ein Aufpreis das wert ist, entscheidest du …“) ist ersetzt durch „Links steht der Preis, darunter der Aufpreis zur günstigsten Unterkunft.“
 - Nebenbei behoben: Die Bewertungsanzeige aus Aufgabe 7 war in „Deine Auswahl“ auf 390 px zu breit.
 - Beleg: Walkthrough `finale` in `docs/demos/F10/walkthrough-P/` (Schritt 05 zeigt die Legende), Screenshots gelesen; `npm test` grün.
+
+### Aufgabe 11 – erledigt
+- Fotos in der Detailansicht sind anklickbar (leichter Zoom beim Draufhalten; beim vierten Foto „+N Fotos“, wenn es mehr gibt). Ein Klick öffnet eine Galerie (`Lightbox` in `packages/ui`): Foto groß auf dunklem Grund, Vor/Zurück als Knöpfe, mit den Pfeiltasten und per Wischen auf dem Handy, Zähler „2 / 3“, Vorschaubilder zum Springen, Schließen mit × oder Escape; am Ende geht es wieder zum ersten Foto.
+- Beleg: Walkthrough `bilder` in `docs/demos/F11/walkthrough-P/` (Desktop und 390 px), Screenshots gelesen; `npm test` grün.

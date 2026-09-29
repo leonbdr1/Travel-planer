@@ -511,6 +511,12 @@ export const de = {
     room: 'Zimmer und Tarif',
     boardAndRate: 'Verpflegung',
     fromPrice: (price: string) => `ab ${price}`,
+    photoOpen: (n: number) => `Foto ${n} vergrößern`,
+    photosMore: (n: number) => `+${n} Fotos`,
+    photoClose: 'Schließen',
+    photoPrev: 'Vorheriges Foto',
+    photoNext: 'Nächstes Foto',
+    photoCounter: (n: number, total: number) => `${n} / ${total}`,
     roomOverviewTitle: (persons: number, rooms: number) =>
       `Zimmer dieser Unterkunft an deinen Terminen (du suchst für ${persons} ${persons === 1 ? 'Person' : 'Personen'}${rooms > 1 ? ` in ${rooms} Zimmern` : ''}):`,
     roomCapacity: (n: number) => (n === 1 ? 'für 1 Person' : `für bis zu ${n} Personen`),
