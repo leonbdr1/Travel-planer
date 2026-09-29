@@ -1,5 +1,7 @@
-// Simulated external rating source: knows about 70 % of the houses, more often
-// the ones with few own reviews (small houses are exactly what it is for).
+// Simulated external rating source: knows about 70 % of the houses with own
+// reviews (small houses are exactly what it is for). Houses without any review
+// stay unknown (some houses are rated nowhere; the walkthroughs of the unrated
+// section depend on such houses existing).
 import type { RatingLookup, RatingLookupResult, RatingSourcePort } from '../rating-source/port';
 import { between, intBetween, seeded } from './random';
 import { hotelById } from './world';
@@ -14,6 +16,7 @@ export function createFakeRatingSource(options: { onCall?: (endpoint: string) =>
       if (options.latencyMs) await new Promise((r) => setTimeout(r, options.latencyMs));
       const hotel = hotelById(request.hotelId);
       if (!hotel) return { status: 'unavailable', reason: 'not_found' };
+      if (hotel.rating === null || hotel.reviewCount === 0) return { status: 'unavailable', reason: 'not_found' };
       const r = seeded('external-rating', hotel.id);
       if (r() >= 0.7) return { status: 'unavailable', reason: 'not_found' };
       return {
