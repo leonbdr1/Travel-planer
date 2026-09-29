@@ -5,7 +5,7 @@ export const finaleFlow: Flow = {
   name: 'finale',
   mode: 'P',
   description:
-    'Entscheidungshilfe (F15–F17, konzept.md 9.9–9.11): Ziel „Günstig und sauber“ im Suchformular, Suche Stuttgart → 5 Orte × 3 Freitage; oben „Deine Auswahl“ als Preisleiter mit höchstens 5 Unterkünften, die günstigste zuerst, bei den anderen Aufpreis und Badges (grün: hat es zusätzlich, durchgestrichen: fehlt), Gehminuten aus OpenStreetMap, „Unsere Wahl“ markiert; aussortierte Unterkünfte mit Gründen; Zielwechsel ohne neue Suche; Lob-Labels in Liste und Detailansicht; Sterne und Mindestbewertung unter „Weitere Filter“.',
+    'Entscheidungshilfe (F15–F17, konzept.md 9.9–9.11): Ziel „Günstig und sauber“ im Suchformular, Suche Stuttgart → 5 Orte × 3 Freitage; oben „Deine Auswahl“ als Preisleiter mit höchstens 5 Unterkünften, die günstigste zuerst, bei den anderen Aufpreis und Badges (Legende: grün zusätzlich, weiß gleich, durchgestrichen fehlt, gelb Lob, grau Kritik), Gehminuten aus OpenStreetMap, „Unsere Wahl“ markiert; aussortierte Unterkünfte mit Gründen; Zielwechsel ohne neue Suche; Lob-Labels in Liste und Detailansicht; Sterne und Mindestbewertung unter „Weitere Filter“.',
   async run({ page, baseUrl, step, note }) {
     await step(
       'Suchformular: Ziel „Günstig und sauber“ mit einem Tipp',
@@ -38,7 +38,7 @@ export const finaleFlow: Flow = {
         note(`${totals.length} Finalisten, Gesamtpreise ${totals.join(' € · ')} €; Aufpreise ${surcharges.map((v) => `+${v} €`).join(', ') || 'keine'}.`);
       },
       {
-        expectText: ['Deine Auswahl', 'Wir haben aussortiert', 'günstigste', 'aussortiert', 'hat es zusätzlich', 'fehlt', 'Unsere Wahl', 'Alle Angebote'],
+        expectText: ['Deine Auswahl', 'Wir haben aussortiert', 'günstigste', 'aussortiert', 'Legende', 'zusätzlich', 'fehlt', 'Lob und Kritik stammen aus Bewertungen von Gästen', 'Unsere Wahl', 'Alle Angebote'],
         expectSelector: ['[data-testid="finalist"]', '[data-testid="excluded"]', '[data-testid="feature-badge"]', '[data-testid="finale-legend"]'],
         rejectText: ['Unsere Empfehlung', 'Testsieger'],
         fullPage: true,
@@ -77,6 +77,15 @@ export const finaleFlow: Flow = {
         expectSelector: ['[data-testid="feature-badge"][data-code^="lage_"]', '[data-testid="osm-attribution"]'],
         rejectText: ['Dafür nicht:', 'gegenüber'],
       },
+    );
+
+    await step(
+      'Legende unter der Auswahl (Aufgabe 10)',
+      async () => {
+        await page.getByTestId('finale-legend').scrollIntoViewIfNeeded();
+        await page.mouse.wheel(0, 250);
+      },
+      { expectText: ['Verglichen mit der günstigsten Unterkunft', 'Aus Gästebewertungen', 'Lob', 'Kritik'], fullPage: false },
     );
 
     await step(

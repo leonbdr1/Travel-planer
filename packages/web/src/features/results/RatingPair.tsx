@@ -40,8 +40,8 @@ export function RatingPair({
   const same = Math.abs(quality.score - rating) < NOTICEABLE;
   const badge = size === 'sm' ? 'px-1 py-0.5 text-xs' : 'px-1.5 py-0.5 text-sm';
   return (
-    <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1" data-testid="rating-pair" data-guest={rating} data-ours={quality.score}>
-      <span className="inline-flex items-baseline gap-1.5" title={t.guestTitle}>
+    <span className="inline-flex min-w-0 max-w-full flex-wrap items-center gap-x-2 gap-y-1" data-testid="rating-pair" data-guest={rating} data-ours={quality.score}>
+      <span className="inline-flex min-w-0 flex-wrap items-baseline gap-x-1.5" title={t.guestTitle}>
         <span className={cx('rounded-md font-bold text-brand-800 ring-1 ring-brand-700 tabular-nums', badge)} data-testid="guest-rating">
           {formatScore(rating)}
         </span>

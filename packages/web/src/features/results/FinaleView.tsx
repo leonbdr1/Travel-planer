@@ -5,7 +5,8 @@
 // recommendation (lowest comparison price, domain/comparison.ts) is marked
 // "Unsere Wahl"; the order stays by price. The goal switch is owned by the
 // results page, so the matrix and the list follow it too.
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { ExclamationTriangleIcon } from '@heroicons/react/16/solid';
 import { Link } from 'react-router';
 import { exclusionReasonSchema, type AttractivenessDto, type ExclusionReasonCode, type FinaleResponse, type FinalistDto, type OfferFeatureDto } from '@reiseplaner/contracts';
 import { constants, DEFAULT_GOAL, type Goal } from '@reiseplaner/domain';
@@ -23,9 +24,12 @@ type BadgeKind = 'plus' | 'minus' | 'same';
 
 const BADGE_CLASS: Record<BadgeKind, string> = {
   plus: 'bg-brand-50 text-brand-800 ring-brand-200 font-semibold',
-  minus: 'bg-zinc-50 text-zinc-400 ring-zinc-200 line-through',
+  minus: 'bg-white text-zinc-400 ring-zinc-200 line-through',
   same: 'bg-white text-zinc-700 ring-zinc-200',
 };
+/** From guest reviews (Aufgabe 10): yellow praise, grey criticism. */
+const PRAISE_CLASS = 'bg-amber-50 text-amber-800 ring-amber-200';
+const CRITIQUE_CLASS = 'bg-zinc-200 text-zinc-800 ring-zinc-300';
 
 function badgeText(f: OfferFeatureDto): string {
   const walk = f.code.startsWith('lage_') && f.minutes !== undefined ? t.walk[f.code.slice('lage_'.length)] : undefined;
@@ -39,7 +43,7 @@ function FeatureBadge({ f, kind }: { f: OfferFeatureDto; kind: BadgeKind }) {
     <span
       className={cx(
         'inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs leading-none ring-1 ring-inset whitespace-nowrap',
-        praise && kind !== 'minus' ? 'bg-amber-50 text-amber-800 ring-amber-200' : BADGE_CLASS[kind],
+        praise && kind !== 'minus' ? PRAISE_CLASS : BADGE_CLASS[kind],
       )}
       title={f.minutes !== undefined ? t.walkTitle(f.label) : f.label}
       data-testid="feature-badge"
@@ -80,15 +84,16 @@ function Badges({ f, isBase }: { f: FinalistDto; isBase: boolean }) {
         <FeatureBadge key={`${b.kind}-${b.f.code}`} f={b.f} kind={b.kind} />
       ))}
       {f.warnings.map((w) => (
-        <Badge
+        <span
           key={w.topic}
-          tone={w.verified ? 'warning' : 'neutral'}
-          className="rounded-full"
-          title={de.reviewCheck.mentionsShort(w.count, w.recent_count, constants.REVIEW_RECENT_MONTHS_LABEL)}
+          className={cx('inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs leading-none whitespace-nowrap ring-1 ring-inset', CRITIQUE_CLASS)}
+          title={`${t.critiqueTitle}: ${de.reviewCheck.mentionsShort(w.count, w.recent_count, constants.REVIEW_RECENT_MONTHS_LABEL)}`}
           data-testid="warning-badge"
+          data-verified={w.verified}
         >
+          <ExclamationTriangleIcon aria-hidden="true" className="size-3" />
           {w.label}
-        </Badge>
+        </span>
       ))}
       {hidden > 0 ? (
         <button type="button" className="rounded-full px-2 py-1 text-xs font-medium text-brand-700 hover:underline" onClick={() => setAll(true)} data-testid="more-features">
@@ -117,7 +122,7 @@ function Row({ f, isBase, href, littleToOffer }: { f: FinalistDto; isBase: boole
         )}
       </div>
       <div className="min-w-0 space-y-1.5">
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1">
           <span className="flex flex-wrap items-center gap-1.5">
             <Link to={href} className="font-semibold text-zinc-950 hover:underline" data-testid="finalist-name">
               {f.hotel.name}
@@ -151,13 +156,55 @@ function Row({ f, isBase, href, littleToOffer }: { f: FinalistDto; isBase: boole
   );
 }
 
-function Legend({ osm }: { osm: boolean }) {
+function LegendItem({ className, children, text }: { className: string; children: ReactNode; text: string }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-zinc-500" data-testid="finale-legend">
-      <span className={cx('rounded-full px-2 py-0.5 ring-1 ring-inset', BADGE_CLASS.plus)}>{t.legend.plus}</span>
-      <span className={cx('rounded-full px-2 py-0.5 ring-1 ring-inset', BADGE_CLASS.minus)}>{t.legend.minus}</span>
-      <span className={cx('rounded-full px-2 py-0.5 ring-1 ring-inset', BADGE_CLASS.same)}>{t.legend.same}</span>
-      {osm ? <span data-testid="osm-attribution">{t.osm}</span> : null}
+    <li className="flex items-center gap-2">
+      <span className={cx('inline-flex min-w-16 justify-center rounded-full px-2 py-0.5 ring-1 ring-inset', className)}>{children}</span>
+      <span>{text}</span>
+    </li>
+  );
+}
+
+/** What the colours mean (Aufgabe 10): comparison with the cheapest, and what guests say. */
+function Legend({ osm }: { osm: boolean }) {
+  const l = t.legend;
+  return (
+    <div className="max-w-3xl space-y-2 rounded-xl bg-zinc-50 p-3 text-xs text-zinc-600 ring-1 ring-zinc-200" data-testid="finale-legend">
+      <p className="font-semibold text-zinc-800">{l.title}</p>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <p className="mb-1 font-medium text-zinc-700">{l.compareTitle}</p>
+          <ul className="space-y-1">
+            <LegendItem className={BADGE_CLASS.plus} text={l.plus}>
+              {l.plusChip}
+            </LegendItem>
+            <LegendItem className={BADGE_CLASS.same} text={l.same}>
+              {l.sameChip}
+            </LegendItem>
+            <LegendItem className={BADGE_CLASS.minus} text={l.minus}>
+              {l.minusChip}
+            </LegendItem>
+            <LegendItem className="bg-brand-600 font-medium text-white ring-brand-600" text={l.recommended}>
+              {t.recommended}
+            </LegendItem>
+          </ul>
+        </div>
+        <div>
+          <p className="mb-1 font-medium text-zinc-700">{l.reviewsTitle}</p>
+          <ul className="space-y-1">
+            <LegendItem className={PRAISE_CLASS} text={l.praise}>
+              {l.praiseChip}
+            </LegendItem>
+            <LegendItem className={CRITIQUE_CLASS} text={l.critique}>
+              {l.critiqueChip}
+            </LegendItem>
+          </ul>
+          <p className="mt-1.5" data-testid="legend-reviews-note">
+            {l.reviewsNote}
+          </p>
+        </div>
+      </div>
+      {osm ? <p data-testid="osm-attribution">{t.osm}</p> : null}
     </div>
   );
 }

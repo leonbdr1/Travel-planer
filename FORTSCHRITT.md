@@ -16,7 +16,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
 - [x] **Aufgabe 8** – Attraktivität von Regionen und Orten
 - [x] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
-- [ ] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
+- [x] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
 - [ ] **Aufgabe 11** – Bilder vergrößerbar (Lightbox)
 - [ ] **Aufgabe 12** – Ausstattungs-Labels auf Deutsch
 - [ ] **Aufgabe 13** – Kartenansicht für Regionen
@@ -106,3 +106,10 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Neben der Preis-Matrix steht jetzt die Überschrift „Preis-Matrix (Gesamtpreis ab)“ mit „i“; beim Draufhalten (Handy: Tippen) erscheint ein kurzer Hinweis „Vorgefiltert“ mit dem, was nicht eingerechnet ist, und dem Link „Mehr Details hier“. Der Hinweis ist nicht dauerhaft sichtbar.
 - Neue Seite „So filtern wir“ (`/so-filtern-wir`, `packages/web/src/pages/FilterSystem.tsx`) mit allen Filterstufen und den gültigen Werten, auch im Fußbereich verlinkt.
 - Beleg: Walkthrough `filter` in `docs/demos/F9/walkthrough-P/`, Screenshots gelesen; `npm test` grün.
+
+### Aufgabe 10 – erledigt
+- Unter „Deine Auswahl“ steht statt der Wortketten eine **Legende** in zwei Spalten: „Verglichen mit der günstigsten Unterkunft“ – grün = zusätzlich, weiß = gleich, durchgestrichen = fehlt, „Unsere Wahl“ = bestes Verhältnis aus Preis und Bewertung; „Aus Gästebewertungen“ – **gelb = Lob, grau = Kritik**, dazu: „Lob und Kritik stammen aus Bewertungen von Gästen, nicht von der Unterkunft.“ Jede Farbe mit einem Beispiel-Label.
+- Kritik-Labels (z. B. „Baulicher Zustand“) sind jetzt grau mit kleinem Warnsymbol (vorher orange), damit die Legende stimmt; „fehlt“ ist weiß durchgestrichen statt grau.
+- Der KI-artige Satz („Ob dir ein Aufpreis das wert ist, entscheidest du …“) ist ersetzt durch „Links steht der Preis, darunter der Aufpreis zur günstigsten Unterkunft.“
+- Nebenbei behoben: Die Bewertungsanzeige aus Aufgabe 7 war in „Deine Auswahl“ auf 390 px zu breit.
+- Beleg: Walkthrough `finale` in `docs/demos/F10/walkthrough-P/` (Schritt 05 zeigt die Legende), Screenshots gelesen; `npm test` grün.
