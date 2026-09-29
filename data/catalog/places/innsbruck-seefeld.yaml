@@ -7,6 +7,7 @@ places:
       staedte_kultur: 3
       wandern: 2
       wintersport: 2
+      shopping: 2
     description_de: Tiroler Landeshauptstadt mit Goldenem Dachl und Nordkettenbahn.
     search_radius_km: 10
     ai_assisted: true

@@ -41,6 +41,7 @@ places:
       staedte_kultur: 3
       seen: 3
       radfahren: 2
+      shopping: 2
     description_de: Universitätsstadt mit Altstadt, Konzilgebäude und Fähre nach Meersburg, nahe der Insel Mainau.
     search_radius_km: 10
     ai_assisted: true
@@ -78,7 +79,7 @@ places:
     search_radius_km: 10
     ai_assisted: true
     verified: false
-    geonameid: 2813758
+    geonameid: 2813756
   - name: Radolfzell
     admin1: '01'
     themes:

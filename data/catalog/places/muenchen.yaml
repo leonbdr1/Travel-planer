@@ -1,0 +1,26 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: muenchen
+places:
+  - name: München
+    match_name: Munich
+    admin1: '02'
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      familie: 2
+      radfahren: 1
+    description_de: Landeshauptstadt mit Marienplatz, Pinakotheken, Englischem Garten und Einkaufsmeilen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2867714
+  - name: Freising
+    admin1: '02'
+    themes:
+      staedte_kultur: 2
+      radfahren: 1
+    description_de: Domstadt an der Isar mit Weihenstephan, ruhigere Basis nördlich von München.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2925034

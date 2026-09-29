@@ -1,0 +1,36 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: rhein-main
+places:
+  - name: Frankfurt am Main
+    admin1: '05'
+    themes:
+      shopping: 3
+      staedte_kultur: 2
+      familie: 1
+    description_de: Bankenstadt mit Zeil, MyZeil, Römerberg, Museumsufer und Apfelweinlokalen in Sachsenhausen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2925533
+  - name: Wiesbaden
+    admin1: '05'
+    themes:
+      wellness: 2
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Kurstadt mit Thermalquellen, Kurhaus und Wilhelmstraße am Fuß des Taunus.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2809346
+  - name: Mainz
+    admin1: '08'
+    themes:
+      staedte_kultur: 2
+      wein_kulinarik: 2
+      shopping: 1
+    description_de: Domstadt am Rhein mit Gutenberg-Museum, Altstadt und rheinhessischen Weinstuben.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2874225

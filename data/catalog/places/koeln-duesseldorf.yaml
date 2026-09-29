@@ -1,0 +1,35 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: koeln-duesseldorf
+places:
+  - name: Köln
+    admin1: '07'
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      familie: 2
+    description_de: Domstadt am Rhein mit Schildergasse, Hohe Straße, Altstadt und vielen Museen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2886242
+  - name: Düsseldorf
+    admin1: '07'
+    themes:
+      shopping: 3
+      staedte_kultur: 2
+    description_de: Landeshauptstadt mit Königsallee, Altstadt am Rhein und Medienhafen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2934246
+  - name: Bonn
+    admin1: '07'
+    themes:
+      staedte_kultur: 2
+      radfahren: 2
+      shopping: 1
+    description_de: Beethovenstadt am Rhein mit Museumsmeile, nahe Siebengebirge.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2946447

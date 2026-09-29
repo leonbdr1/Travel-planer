@@ -69,6 +69,7 @@ places:
     admin1: '05'
     themes:
       staedte_kultur: 3
+      shopping: 2
     description_de: Mozartstadt mit Festung Hohensalzburg und barocker Altstadt.
     search_radius_km: 10
     ai_assisted: true

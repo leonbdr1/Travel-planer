@@ -275,7 +275,7 @@ export const de = {
     parts: {
       fame: 'Bekanntheit als Urlaubsort',
       attractions: 'Bergbahnen, Skigebiet, Sehenswürdigkeiten',
-      trails: 'Wander- und Radwege',
+      trails: 'Wandern, Rad, Strand oder Shopping',
       variety: 'Vielfalt der Aktivitäten',
       infrastructure: 'Restaurants, Läden, Gästeinfo',
     },
@@ -607,7 +607,7 @@ export const de = {
     other: 'Unterkünfte können sich keine bessere Platzierung kaufen. Provisionen oder Margen haben keinen Einfluss auf die Reihenfolge.',
     placesTitle: 'So bewerten wir Orte und Regionen',
     places: (top: number, beliebt: number, ruhig: number) =>
-      `Ein abgelegener Nebenort ohne Bergbahn und Wanderwege ist oft deutlich günstiger als ein bekannter Urlaubsort – im Urlaub hat man dort aber weniger davon. Deshalb zeigen wir bei jedem Ort, wie viel er bietet, und markieren Orte, in denen wenig los ist; aussortiert wird dadurch nichts. Wir schauen auf fünf Punkte: Bekanntheit als Urlaubsort, Bergbahnen, Skigebiet oder große Sehenswürdigkeiten, Wander- und Radwege, die Vielfalt der Aktivitäten und die Versorgung vor Ort (Restaurants, Läden, Gästeinformation). Bekanntheit und Attraktionen zählen doppelt. Daraus entsteht ein Wert von 0 bis 10: ab ${formatNumber(top)} „Top-Urlaubsort“, ab ${formatNumber(beliebt)} „Beliebter Urlaubsort“, ab ${formatNumber(ruhig)} „Ruhiger Ort“, darunter „Wenig los“. Orte, die du selbst eingibst, schätzen wir aus ihrer Größe und bekannten Urlaubsorten in der Nähe. Eine Region zählt so viel wie ihre drei besten Orte.`,
+      `Ein abgelegener Nebenort ohne Bergbahn und Wanderwege ist oft deutlich günstiger als ein bekannter Urlaubsort – im Urlaub hat man dort aber weniger davon. Deshalb zeigen wir bei jedem Ort, wie viel er bietet, und markieren Orte, in denen wenig los ist; aussortiert wird dadurch nichts. Wir schauen auf fünf Punkte: Bekanntheit als Urlaubsort, Bergbahnen, Skigebiet oder große Sehenswürdigkeiten, Wander- und Radwege (in Großstädten und Badeorten Shopping und Strand), die Vielfalt der Aktivitäten und die Versorgung vor Ort (Restaurants, Läden, Gästeinformation). Bekanntheit und Attraktionen zählen doppelt. Daraus entsteht ein Wert von 0 bis 10: ab ${formatNumber(top)} „Top-Urlaubsort“, ab ${formatNumber(beliebt)} „Beliebter Urlaubsort“, ab ${formatNumber(ruhig)} „Ruhiger Ort“, darunter „Wenig los“. Orte, die du selbst eingibst, schätzen wir aus ihrer Größe und bekannten Urlaubsorten in der Nähe. Eine Region zählt so viel wie ihre drei besten Orte.`,
     sortTitle: 'Sortierungen',
     sort: 'Standard ist der Preis, die günstigste Unterkunft zuerst. Du kannst die Liste auch nach „Unsere Wahl zuerst“ (Vergleichspreis) oder nach Bewertung (absteigend) sortieren.',
     finaleTitle: '„Deine Auswahl“: So sortieren wir vor',

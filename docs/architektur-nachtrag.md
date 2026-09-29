@@ -34,3 +34,11 @@
 - Migration `20261016a_place_attractiveness` (additiv): `app.places.fame`, `attractions` (0–3, NULL erlaubt); pgTAP `place_attractiveness.sql`. Kuratierte Werte in `data/catalog/attraktivitaet.yaml` (KI-Entwurf, BG-11), `catalog import` schreibt sie; der Katalog hat zusätzlich St. Anton am Arlberg.
 - `packages/domain/src/attractiveness.ts`: Wert 0–10 aus fünf Kriterien, Stufen top / beliebt / ruhig / wenig; eigene Orte aus Einwohnerzahl und nächstem Katalogort (≤ 8 km); Region = Mittel der drei besten Orte.
 - Verträge: `PlaceDto.attractiveness`, `RegionSuggestion.attractiveness`, Matrix-Orte mit `attractiveness`. Details: `docs/logik/orts-attraktivitaet.md`.
+
+## 6.3 Themenvokabular, 5.2 Katalog, 9.x Skills (Aufgabe F14)
+
+- Themen: `staedte_kultur` heißt jetzt „Kultur und Sehenswürdigkeiten“ (Code unverändert, damit gespeicherte Suchen gültig bleiben); neu `shopping` („Shopping und Großstadt“) und `strand` („Strand und Meer“, für die Europa-Erweiterung). Kultur und Shopping sind getrennt: Cinque Terre ist Kultur, Frankfurt ist Shopping.
+- Skills `reiseplaner.wish-parse`, `reiseplaner.catalog-regions`, `reiseplaner.catalog-places` in Version 1.1.0 mit dem erweiterten Vokabular (Themenlisten höchstens 12), Evals ergänzt (wish-parse 38 Fälle).
+- Verträge: `themes` in Vorschlags- und Suchanfragen höchstens 12 statt 10.
+- Katalog: sieben Großstadt-Regionen in Deutschland (Berlin und Potsdam, Hamburg und Lübeck, München, Frankfurt und Rhein-Main, Köln und Düsseldorf, Dresden und Elbland, Stuttgart); Shopping bei größeren Städten, Strand an Nord- und Ostsee.
+- Orts-Attraktivität, Kriterium W: höchste Stärke von Wandern, Radfahren, Strand oder Shopping (vorher nur Wandern und Radfahren), damit Großstädte und Badeorte nicht als „Ruhiger Ort“ erscheinen.

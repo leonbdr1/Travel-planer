@@ -1,0 +1,20 @@
+id: reiseplaner.catalog-regions
+version: 1.1.0
+description: Schlägt Urlaubsregionen eines Landes mit Kurzbeschreibung und Themen aus dem Vokabular vor (Katalogentwurf, CLI).
+model: claude-sonnet-5
+# Sonnet 5 rejects sampling parameters (product.config.yaml ai.models); the
+# runner omits temperature for this model.
+temperature: null
+maxTokens: 4000
+costCapUsdPerCall: 0.06
+systemRef: system.md
+userTemplateRef: user.template.md
+inputSchemaRef: input.schema.json
+outputSchemaRef: output.schema.json
+tool:
+  name: submit_regions
+  description: Gibt die vorgeschlagenen Regionen zurück.
+owners:
+  - reiseplaner
+triggers:
+  - npm run cli -- catalog generate

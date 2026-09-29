@@ -148,3 +148,21 @@ Alle 14 Aufgaben (0–13) erledigt, committet und auf `claude/hopeful-fermat-jec
 
 ### Abschlussprüfung
 - Alle Pfad-Walkthroughs zusammen (`npm run dogfood -- --mode P`): 366/366 Prüfungen bestanden, Bericht in `docs/demos/Aufgaben-Gesamt/report-P-all.md`. Dabei behoben: lange Labels in „Deine Auswahl“ brechen auf 390 px jetzt um; eine veraltete Textprüfung im Walkthrough `ergebnisse` angepasst.
+
+# Aufgabenliste vom 29.09.2026, spät (F14–F18)
+
+Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), Europa-Erweiterung komplett mit groben Fahrzeitblöcken und Flug-Hinweis ab 30 Stunden (nur Anzeige), Rezensionen in anderen Sprachen erkennen, Kultur und Shopping trennen. Branch: `claude/inspiring-knuth-tmiduy` (entspricht `main`). Nichts davon ist deployt.
+
+- [x] **F14** – Themen: Kultur und Shopping getrennt, dazu Strand
+- [ ] **F15** – Europa-Erweiterung: Ortsdaten, Datenbank, Katalog
+- [ ] **F16** – Fahrzeiten in groben Blöcken, Flug-Hinweis ab 30 Stunden
+- [ ] **F17** – Regionsname: bei nur einem Highlight-Ort der Ortsname
+- [ ] **F18** – Rezensionen: Stichwörter in weiteren Sprachen
+
+### F14 – erledigt
+- Reiseart: „Städte und Kultur“ heißt jetzt **„Kultur und Sehenswürdigkeiten“** (Altstädte, Museen, schöne Bauwerke); neu **„Shopping und Großstadt“** (Einkaufsstraßen, Kaufhäuser) und **„Strand und Meer“** (für Europa). Der Code `staedte_kultur` bleibt, damit alte Suchen gültig bleiben.
+- Katalog neu verschlagwortet: Shopping bei Salzburg, Innsbruck, Bozen, Konstanz, Luzern, Lugano (2) und kleineren Städten wie Kempten, Trier, Würzburg (1); Strand an Nord- und Ostsee. Kleine Kulturorte (Füssen, Rothenburg …) haben kein Shopping.
+- Neue Großstadt-Regionen: Berlin und Potsdam, Hamburg und Lübeck, München, Frankfurt und Rhein-Main, Köln und Düsseldorf, Dresden und Elbland, Stuttgart (KI-Entwurf, BG-11).
+- Orts-Attraktivität: Kriterium W zählt jetzt Wandern, Radfahren, Strand **oder** Shopping; vorher landete Stuttgart als „Ruhiger Ort“ (5,8), jetzt 6,8, die Region Frankfurt 7,4 statt 6,1.
+- KI-Skills `wish-parse`, `catalog-regions`, `catalog-places` als Version 1.1.0 mit dem neuen Vokabular („Städtetrip mit Shopping“ → Kultur und Shopping); Evals im Fake-Modus 38/10/10 bestanden.
+- Beleg: `npm run demo -- f14` → `docs/demos/F14/demo-output.txt` (ab Stuttgart, 6 h: Shopping → Köln/Düsseldorf, Frankfurt, Stuttgart, München, Bodensee; Allgäu nicht dabei; Kultur → Romantische Straße, Bodensee, Mittelrhein …); Walkthrough `themen` in `docs/demos/F14/walkthrough-P/`, Screenshots gelesen.

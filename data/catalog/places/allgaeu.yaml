@@ -102,6 +102,7 @@ places:
     themes:
       staedte_kultur: 3
       radfahren: 1
+      shopping: 1
     description_de: Zentrum des Allgäus mit Residenz, Altstadt und dem römischen Archäologischen Park Cambodunum.
     search_radius_km: 10
     ai_assisted: true

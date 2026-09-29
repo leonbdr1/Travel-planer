@@ -7,7 +7,7 @@ export const originRefSchema = z.object({ geonameid: z.number().int().positive()
 export const regionSuggestionsRequestSchema = z.object({
   origin: originRefSchema,
   max_drive_minutes: z.number().int().min(15).max(720).nullable(),
-  themes: z.array(themeCode).max(10),
+  themes: z.array(themeCode).max(12),
 });
 export type RegionSuggestionsRequest = z.infer<typeof regionSuggestionsRequestSchema>;
 
@@ -56,7 +56,7 @@ export type RegionSuggestionsResponse = z.infer<typeof regionSuggestionsResponse
 export const placeSuggestionsRequestSchema = z.object({
   origin: originRefSchema,
   max_drive_minutes: z.number().int().min(15).max(720).nullable(),
-  themes: z.array(themeCode).max(10),
+  themes: z.array(themeCode).max(12),
   region_ids: z.array(z.uuid()).min(1).max(5),
 });
 export type PlaceSuggestionsRequest = z.infer<typeof placeSuggestionsRequestSchema>;

@@ -12,6 +12,8 @@ export const THEME_CODES = [
   'staedte_kultur',
   'wein_kulinarik',
   'familie',
+  'shopping',
+  'strand',
 ] as const;
 export type ThemeCode = (typeof THEME_CODES)[number];
 
@@ -24,9 +26,11 @@ export const THEME_LABELS: Record<ThemeCode, string> = {
   radfahren: 'Radfahren',
   wellness: 'Wellness',
   wintersport: 'Wintersport',
-  staedte_kultur: 'Städte und Kultur',
+  staedte_kultur: 'Kultur und Sehenswürdigkeiten',
   wein_kulinarik: 'Wein und Kulinarik',
   familie: 'Familie',
+  shopping: 'Shopping und Großstadt',
+  strand: 'Strand und Meer',
 };
 
 export function themeLabel(code: string): string {

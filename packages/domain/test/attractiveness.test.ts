@@ -52,3 +52,13 @@ describe('levels and regions', () => {
     expect(regionAttractiveness([])).toBeNull();
   });
 });
+
+describe('F14: cities and beach resorts by their main activity', () => {
+  it('counts shopping and beaches like trails', () => {
+    const frankfurt = catalogAttractiveness({ fame: 3, attractions: 2, themes: { shopping: 3, staedte_kultur: 2, familie: 1 }, population: 650_000 });
+    expect(frankfurt.parts.trails).toBe(3);
+    expect(frankfurt.level).toBe('top');
+    const binz = catalogAttractiveness({ fame: 3, attractions: 1, themes: { strand: 3, wellness: 2 }, population: 5_000 });
+    expect(binz.parts.trails).toBe(3);
+  });
+});

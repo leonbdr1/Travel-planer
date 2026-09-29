@@ -1,0 +1,24 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: stuttgart
+places:
+  - name: Stuttgart
+    admin1: '01'
+    themes:
+      shopping: 3
+      staedte_kultur: 2
+      wein_kulinarik: 2
+    description_de: Landeshauptstadt mit Königstraße, Mercedes- und Porsche-Museum und Weinbergen im Talkessel.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2825297
+  - name: Ludwigsburg
+    admin1: '01'
+    themes:
+      staedte_kultur: 3
+      familie: 2
+    description_de: Barockstadt mit Residenzschloss, Blühendem Barock und Märchengarten.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2875392

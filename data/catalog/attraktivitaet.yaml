@@ -364,3 +364,27 @@ zillertal:
   Tux: [2, 3]
   Gerlos: [2, 3]
   Kaltenbach: [1, 2]
+berlin:
+  Berlin: [3, 3]
+  Potsdam: [3, 3]
+hamburg:
+  Hamburg: [3, 3]
+  Lübeck: [3, 2]
+muenchen:
+  München: [3, 3]
+  Freising: [1, 1]
+rhein-main:
+  Frankfurt am Main: [3, 2]
+  Wiesbaden: [2, 2]
+  Mainz: [2, 2]
+koeln-duesseldorf:
+  Köln: [3, 3]
+  Düsseldorf: [3, 2]
+  Bonn: [2, 2]
+dresden-elbland:
+  Dresden: [3, 3]
+  Meißen: [2, 2]
+  Radebeul: [1, 1]
+stuttgart:
+  Stuttgart: [2, 2]
+  Ludwigsburg: [2, 2]

@@ -11,7 +11,7 @@ export interface AttractivenessParts {
   fame: number;
   /** A: lifts, ski area or major sights. */
   attractions: number;
-  /** W: hiking and cycling routes. */
+  /** W: the main outdoor or city activity: hiking, cycling, beach or shopping (F14). */
   trails: number;
   /** V: variety of activities. */
   variety: number;
@@ -33,6 +33,12 @@ export interface CatalogAttractivenessInput {
   themes: Readonly<Record<string, number>>;
   population: number | null;
 }
+
+/**
+ * Themes that count for W. Since F14 a big city or a beach resort is judged by
+ * its shopping streets or beaches, not only by hiking trails.
+ */
+export const ACTIVITY_THEMES = ['wandern', 'radfahren', 'strand', 'shopping'] as const;
 
 const clamp3 = (v: number) => Math.max(0, Math.min(3, Math.round(v)));
 
@@ -67,7 +73,7 @@ export function catalogAttractiveness(input: CatalogAttractivenessInput): Attrac
   return attractivenessOf({
     fame,
     attractions: clamp3(input.attractions ?? 1),
-    trails: clamp3(Math.max(input.themes['wandern'] ?? 0, input.themes['radfahren'] ?? 0)),
+    trails: clamp3(Math.max(...ACTIVITY_THEMES.map((code) => input.themes[code] ?? 0))),
     variety: varietyFromThemes(input.themes),
     // A famous resort village has the infrastructure of a town.
     infrastructure: fame === 3 ? 3 : infrastructure,

@@ -138,7 +138,7 @@ describe('GET /meta/config (wizard data)', () => {
   it('lists chips, themes, limits and AI labels', async () => {
     const body = metaConfigResponseSchema.parse(await (await client()('/meta/config')).json());
     expect(body.chips.map((c) => c.code)).toContain('sauber');
-    expect(body.themes.find((t) => t.code === 'staedte_kultur')?.label).toBe('Städte und Kultur');
+    expect(body.themes.find((t) => t.code === 'staedte_kultur')?.label).toBe('Kultur und Sehenswürdigkeiten');
     expect(body.limits).toMatchObject({ max_places: 10, max_dates: 12, max_combinations: 120, wish_text_max_chars: 300 });
     expect(body.ai_labels.wish_parse).toContain('KI');
     expect(body.catalog_drafts).toBe(true);
