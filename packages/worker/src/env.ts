@@ -50,6 +50,8 @@ export interface Env {
    * secret closes the site instead of opening it.
    */
   SITE_GATE?: string;
+  /** JSON array of PBKDF2 records for additional `user` passwords of the site gate (src/gate.ts). */
+  GATE_EXTRA_USER_HASHES?: string;
   /**
    * Testbetrieb (local, real data): pin single providers to `fake` or `real`
    * regardless of PROVIDERS_MODE. Not allowed to be `fake` in production.
