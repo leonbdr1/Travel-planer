@@ -57,6 +57,22 @@ export function withTestbetriebBlock(content: string, vars: Readonly<Record<stri
   return `${out.join('\n')}\n`;
 }
 
+/** Sets one variable inside the Testbetrieb block; null when there is no block or it lacks the key. */
+export function setBlockVar(content: string, key: string, value: string): string | null {
+  let inBlock = false;
+  let changed = false;
+  const lines = content.split('\n').map((line) => {
+    if (line.startsWith(BLOCK_START)) inBlock = true;
+    else if (line.startsWith(BLOCK_END)) inBlock = false;
+    else if (inBlock && new RegExp(`^${key}=`).test(line)) {
+      changed = true;
+      return `${key}=${value}`;
+    }
+    return line;
+  });
+  return changed ? lines.join('\n') : null;
+}
+
 export function hasTestbetriebBlock(content: string): boolean {
   return content.split('\n').some((line) => line.startsWith(BLOCK_START));
 }

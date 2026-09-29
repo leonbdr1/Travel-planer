@@ -475,7 +475,7 @@ export const de = {
     paymentSimulatedTitle: 'Simulierte Zahlung (Entwicklungsmodus)',
     paymentSimulated: 'Im Entwicklungsmodus wird keine echte Zahlung ausgelöst. Die Schaltfläche simuliert die Rückkehr vom Zahlungsanbieter.',
     paymentSimulatedButton: 'Testzahlung abschließen',
-    paymentSdkPending: 'Die Einbindung des Zahlungsformulars wird mit dem Sandbox-Zugang geprüft. Bis dahin ist die Zahlung hier nicht möglich.',
+    paymentSdkFailed: 'Das Zahlungsformular konnte nicht geladen werden. Bitte lade die Seite neu oder versuche es später erneut.',
     sessionMissing: 'Die Buchungssitzung ist abgelaufen oder wurde in einem anderen Browser begonnen. Bitte starte die Buchung erneut.',
     completing: 'Deine Buchung wird bei der Unterkunft bestätigt …',
     confirmedTitle: 'Buchung bestätigt',

@@ -1,4 +1,4 @@
-// `npm run cli -- testbetrieb einrichten [--from-env]` · `testbetrieb pruefen [--aufzeichnen]` · `testbetrieb aus`
+// `npm run cli -- testbetrieb einrichten [--from-env]` · `testbetrieb pruefen [--aufzeichnen]` · `testbetrieb buchen an|aus` · `testbetrieb aus`
 //
 // Local test operation with real data (HANDOFF drift 27): real hotels and
 // prices (LiteAPI), real drive times (openrouteservice, optional) and the
@@ -6,7 +6,7 @@
 // booking is switched off. Keys are typed into the terminal (hidden) or taken
 // from REISEPLANER_* environment variables and written to
 // packages/worker/.dev.vars; no command prints a key.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { productConfig } from '@reiseplaner/config';
 import { repoRoot } from '@reiseplaner/db/node';
@@ -14,8 +14,8 @@ import { blocksLanguage, constants, locationFacts, textBlocks, WALK_KINDS, type 
 import { createProviders, OVERPASS_PUBLIC_URL, ProviderError, type FetchLike } from '@reiseplaner/providers';
 import { memorySkillHooks, runSkill } from '@reiseplaner/skills';
 import { flag } from '../lib/args';
-import { devVarsPath, updateDevVars } from '../lib/dev-vars';
-import { cliEnv } from '../lib/env';
+import { devVarsPath, ensureDevVars, setBlockVar, updateDevVars } from '../lib/dev-vars';
+import { cliEnv, readDevVars } from '../lib/env';
 
 /** Variables the setup reads in --from-env mode (prefixed, so they never clash with other tools' keys). */
 export const KEY_ENV = {
@@ -381,18 +381,55 @@ async function check(args: string[], log: (line: string) => void): Promise<numbe
   return failed.length ? 1 : 0;
 }
 
+/** Booking in the Testbetrieb: `an` only with a LiteAPI sandbox key (no real booking, no real money). */
+export function bookingSwitch(
+  content: string,
+  mode: 'an' | 'aus',
+  liteapiKey: string | undefined,
+): { ok: true; content: string } | { ok: false; reason: string } {
+  if (mode === 'an' && !liteapiKey?.startsWith('sand_')) {
+    return { ok: false, reason: 'Buchen lässt sich nur mit einem LiteAPI-Sandbox-Schlüssel (sand_…) einschalten; echte Buchungen sind ein eigener Schritt.' };
+  }
+  const next = setBlockVar(content, 'BOOKING_ENABLED', mode === 'an' ? 'true' : 'false');
+  if (next === null) return { ok: false, reason: 'Kein Testbetrieb eingerichtet: zuerst npm run cli -- testbetrieb einrichten.' };
+  return { ok: true, content: next };
+}
+
+function bookingCommand(args: string[], log: (line: string) => void): number {
+  const mode = args[1];
+  if (mode !== 'an' && mode !== 'aus') {
+    log('usage: testbetrieb buchen an | aus');
+    return 2;
+  }
+  ensureDevVars();
+  const result = bookingSwitch(readFileSync(devVarsPath, 'utf8'), mode, readDevVars().LITEAPI_API_KEY);
+  if (!result.ok) {
+    log(`Abbruch: ${result.reason}`);
+    return 1;
+  }
+  writeFileSync(devVarsPath, result.content);
+  log(
+    mode === 'an'
+      ? 'Buchen ist an (Sandbox: Testkarte 4242 4242 4242 4242, kein Geld). npm run dev neu starten.'
+      : 'Buchen ist aus. npm run dev neu starten.',
+  );
+  return 0;
+}
+
 export async function testbetriebCommand(args: string[], log: (line: string) => void): Promise<number> {
   switch (args[0]) {
     case 'einrichten':
       return setup(args, log);
     case 'pruefen':
       return check(args, log);
+    case 'buchen':
+      return bookingCommand(args, log);
     case 'aus':
       updateDevVars(null);
       log('Testbetrieb aus: Alle Anbieter sind wieder simuliert (npm run dev neu starten). Die Schlüssel sind aus packages/worker/.dev.vars entfernt.');
       return 0;
     default:
-      log('usage: testbetrieb einrichten [--from-env] | pruefen [--aufzeichnen [<ordner>]] | aus');
+      log('usage: testbetrieb einrichten [--from-env] | pruefen [--aufzeichnen [<ordner>]] | buchen an|aus | aus');
       return 2;
   }
 }

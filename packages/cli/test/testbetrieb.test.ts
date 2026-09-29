@@ -8,8 +8,8 @@ import { describe, expect, it } from 'vitest';
 import { productConfig } from '@reiseplaner/config';
 import { createFakeAnthropicFetch } from '@reiseplaner/providers';
 import { fakeResponders } from '@reiseplaner/skills';
-import { checkDates, detailsLanguageCheck, hotelDataCheck, looksLikeKey, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
-import { withTestbetriebBlock } from '../src/lib/dev-vars';
+import { bookingSwitch, checkDates, detailsLanguageCheck, hotelDataCheck, looksLikeKey, runTestbetriebChecks, testbetriebVars } from '../src/commands/testbetrieb';
+import { setBlockVar, withTestbetriebBlock } from '../src/lib/dev-vars';
 
 const fixture = (name: string) => readFileSync(resolve(import.meta.dirname, '../../providers/fixtures', name), 'utf8');
 
@@ -29,6 +29,28 @@ describe('.dev.vars block', () => {
     expect(twice).toContain('LLM_ENABLED=true');
     const removed = withTestbetriebBlock(twice, null);
     expect(removed).toBe('# local\nSIGNING_KEY=s1\nIP_HASH_SALT=s2\n');
+  });
+});
+
+describe('booking switch', () => {
+  const block = withTestbetriebBlock('SIGNING_KEY=s1\n', testbetriebVars({ liteapi: 'sand_abcdefghijklmnop' }));
+
+  it('changes only BOOKING_ENABLED inside the block', () => {
+    const on = setBlockVar(block, 'BOOKING_ENABLED', 'true') ?? '';
+    expect(on).toContain('BOOKING_ENABLED=true');
+    expect(on.match(/BOOKING_ENABLED=/g)).toHaveLength(1);
+    expect(on.replace('BOOKING_ENABLED=true', 'BOOKING_ENABLED=false')).toBe(block);
+    expect(setBlockVar('SIGNING_KEY=s1\n', 'BOOKING_ENABLED', 'true')).toBeNull();
+  });
+
+  it('allows booking only with a sandbox key and a Testbetrieb block', () => {
+    expect(bookingSwitch(block, 'an', 'sand_abcdefghijklmnop')).toMatchObject({ ok: true });
+    expect(bookingSwitch(block, 'an', 'prod_abcdefghijklmnop')).toMatchObject({ ok: false });
+    expect(bookingSwitch(block, 'an', undefined)).toMatchObject({ ok: false });
+    expect(bookingSwitch('SIGNING_KEY=s1\n', 'an', 'sand_abcdefghijklmnop')).toMatchObject({ ok: false });
+    const off = bookingSwitch(setBlockVar(block, 'BOOKING_ENABLED', 'true') ?? '', 'aus', 'prod_abcdefghijklmnop');
+    expect(off).toMatchObject({ ok: true });
+    expect(off.ok && off.content).toContain('BOOKING_ENABLED=false');
   });
 });
 

@@ -1,9 +1,10 @@
 // Payment step (architektur.md 3.4, 8.1). Fake mode simulates the LiteAPI
 // payment SDK: the button returns to the return URL like the SDK would.
-// ⟂ The real SDK (sandbox/live) is not wired yet: its script API and CSP
-// domains are verified with the first sandbox access (S8.4, HANDOFF).
+// Sandbox and live mount the real SDK (features/booking/payment-sdk.ts).
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { Alert, Button, Card, Heading, Text } from '@reiseplaner/ui';
+import { mountPaymentSdk } from '../features/booking/payment-sdk-mount';
 import { loadFlow } from '../features/booking/session';
 import { de } from '../i18n/de';
 import { formatEuroCents } from '../lib/format';
@@ -14,6 +15,14 @@ export function BookingPayment() {
   const { ref = '' } = useParams();
   const navigate = useNavigate();
   const flow = loadFlow(ref);
+  const [sdkError, setSdkError] = useState(false);
+  const mounted = useRef(false);
+  const useSdk = flow !== null && !flow.create.payment.simulated;
+  useEffect(() => {
+    if (!flow || !useSdk || mounted.current) return;
+    mounted.current = true;
+    mountPaymentSdk(flow.create, '#payment-element').catch(() => setSdkError(true));
+  }, [flow, useSdk]);
   if (!flow) {
     return (
       <div className="mx-auto max-w-2xl space-y-4 px-4 py-12">
@@ -42,8 +51,10 @@ export function BookingPayment() {
               {t.paymentSimulatedButton}
             </Button>
           </>
+        ) : sdkError ? (
+          <Alert tone="error">{t.paymentSdkFailed}</Alert>
         ) : (
-          <Alert tone="warning">{t.paymentSdkPending}</Alert>
+          <div id="payment-element" data-testid="payment-element" />
         )}
       </Card>
     </div>

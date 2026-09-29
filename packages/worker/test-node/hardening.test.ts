@@ -11,7 +11,7 @@ import { createProviders, type ProvidersConfig } from '@reiseplaner/providers';
 import { createApp } from '../src/app';
 import type { Env } from '../src/env';
 import { redactForLog } from '../src/http/log';
-import { apiSecurityHeaders, renderHeadersFile } from '../src/http/security-headers';
+import { apiSecurityHeaders, renderHeadersFile, spaContentSecurityPolicy } from '../src/http/security-headers';
 import { runLoad, runRatesBlock, runScoreStep, sha256Hex } from '../src/services/search-run';
 
 const config: ProvidersConfig = {
@@ -51,6 +51,15 @@ describe('headers', () => {
     const file = readFileSync(resolve(import.meta.dirname, '../../web/public/_headers'), 'utf8');
     expect(file).toBe(renderHeadersFile());
     expect(file).toContain("frame-ancestors 'none'");
+  });
+
+  it('lets the SPA load the LiteAPI payment form (verified against the SDK files) and nothing broader', () => {
+    const directive = (name: string) => spaContentSecurityPolicy.split('; ').find((d) => d.startsWith(`${name} `)) ?? '';
+    expect(directive('script-src')).toBe("script-src 'self' https://payment-wrapper.liteapi.travel https://js.stripe.com");
+    expect(directive('connect-src')).toBe("connect-src 'self' https://payment-wrapper.liteapi.travel https://api.stripe.com");
+    expect(directive('frame-src')).toBe('frame-src https://js.stripe.com https://hooks.stripe.com');
+    expect(spaContentSecurityPolicy).not.toContain("'unsafe-inline'");
+    expect(spaContentSecurityPolicy).not.toContain('*');
   });
 
   it('sends the API security headers on every response', async () => {

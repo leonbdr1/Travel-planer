@@ -20,16 +20,21 @@ export const apiSecurityHeaders: Readonly<Record<string, string>> = {
 
 /**
  * CSP of the SPA: own origin only; images also from https (hotel photos of
- * the provider). ⟂ The payment SDK's domains are added once verified with
- * the sandbox (S8.4, HANDOFF).
+ * the provider). The LiteAPI payment SDK (liteAPIPayment.js) fetches its
+ * config from payment-wrapper.liteapi.travel and mounts Stripe's payment
+ * element (js.stripe.com script, api.stripe.com, framed hooks.stripe.com for
+ * 3-D Secure); checked against the SDK files on 2026-09-29.
  */
+const PAYMENT_SDK_HOST = 'https://payment-wrapper.liteapi.travel';
+const STRIPE_SCRIPT_HOST = 'https://js.stripe.com';
 export const spaContentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self'",
+  `script-src 'self' ${PAYMENT_SDK_HOST} ${STRIPE_SCRIPT_HOST}`,
   "style-src 'self'",
   "img-src 'self' data: https:",
   "font-src 'self'",
-  "connect-src 'self'",
+  `connect-src 'self' ${PAYMENT_SDK_HOST} https://api.stripe.com`,
+  `frame-src ${STRIPE_SCRIPT_HOST} https://hooks.stripe.com`,
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
