@@ -17,7 +17,7 @@ import {
   type SearchResultsResponse,
 } from '@reiseplaner/contracts';
 import { productConfig } from '@reiseplaner/config';
-import { blocksLanguage, DEFAULT_GOAL, textBlocks } from '@reiseplaner/domain';
+import { blocksLanguage, DEFAULT_GOAL, facilitiesDe, textBlocks } from '@reiseplaner/domain';
 import { getSearchOffer, placesByIds, searchPlaces } from '@reiseplaner/db';
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import type { AppEnv } from '../app';
@@ -128,6 +128,9 @@ export const resultRoutes = new Hono<AppEnv>()
     const first = offers[0];
     // Provider texts come as HTML or lines; the SPA gets plain blocks.
     const description = textBlocks(details?.description);
+    // Facilities in German (Aufgabe 12); unknown English names are logged so the table can grow (no personal data).
+    const facilities = facilitiesDe(details?.facilities.slice(0, 60) ?? []);
+    if (facilities.unknown.length > 0) console.log(JSON.stringify({ level: 'info', msg: 'facility untranslated', names: facilities.unknown }));
     const important = textBlocks(details?.importantInformation);
     const body: HotelDetailResponse = {
       hotel: {
@@ -144,7 +147,9 @@ export const resultRoutes = new Hono<AppEnv>()
         description,
         description_language: blocksLanguage(description),
         photos: details?.photos.slice(0, 12) ?? [],
-        facilities: details?.facilities.slice(0, 40) ?? [],
+        facilities: facilities.groups.flatMap((g) => g.labels),
+        facility_groups: facilities.groups,
+        facilities_untranslated: facilities.unknown.length,
         checkin_time: details?.checkinTime ?? null,
         checkout_time: details?.checkoutTime ?? null,
         important_information: important,

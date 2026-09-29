@@ -286,7 +286,17 @@ export const hotelDetailResponseSchema = z.object({
     description: z.array(textBlockSchema),
     description_language: textLanguageSchema,
     photos: z.array(z.string()),
+    /** Facilities in German (Aufgabe 12), flat and in groups; names we cannot translate are only counted. */
     facilities: z.array(z.string()),
+    facility_groups: z
+      .array(
+        z.object({
+          group: z.enum(['internet', 'parken', 'essen', 'wellness', 'draussen', 'aktivitaeten', 'zimmer', 'service', 'familie', 'barrierefrei']),
+          labels: z.array(z.string()),
+        }),
+      )
+      .default([]),
+    facilities_untranslated: z.number().int().default(0),
     checkin_time: z.string().nullable(),
     checkout_time: z.string().nullable(),
     important_information: z.array(textBlockSchema),

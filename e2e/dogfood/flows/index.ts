@@ -8,6 +8,7 @@ import { bewertungFlow } from './bewertung';
 import { attraktivitaetFlow } from './attraktivitaet';
 import { filterFlow } from './filter';
 import { bilderFlow } from './bilder';
+import { ausstattungFlow } from './ausstattung';
 import { buchungFlow } from './buchung';
 import { entwicklerFlow } from './entwickler';
 import { ergebnisseFlow } from './ergebnisse';
@@ -18,4 +19,4 @@ import { sucheFlow } from './suche';
 import { suchrahmenFlow } from './suchrahmen';
 import { warnungenFlow } from './warnungen';
 
-export const flows: Flow[] = [startFlow, startseiteFlow, pflichtseitenFlow, suchrahmenFlow, orteFlow, naechteFlow, zimmerFlow, bewertungFlow, attraktivitaetFlow, filterFlow, bilderFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow, langsamFlow];
+export const flows: Flow[] = [startFlow, startseiteFlow, pflichtseitenFlow, suchrahmenFlow, orteFlow, naechteFlow, zimmerFlow, bewertungFlow, attraktivitaetFlow, filterFlow, bilderFlow, ausstattungFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow, langsamFlow];

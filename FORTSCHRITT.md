@@ -18,7 +18,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
 - [x] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
 - [x] **Aufgabe 11** – Bilder vergrößerbar (Lightbox)
-- [ ] **Aufgabe 12** – Ausstattungs-Labels auf Deutsch
+- [x] **Aufgabe 12** – Ausstattungs-Labels auf Deutsch
 - [ ] **Aufgabe 13** – Kartenansicht für Regionen
 
 ## Notizen je Aufgabe
@@ -117,3 +117,11 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 ### Aufgabe 11 – erledigt
 - Fotos in der Detailansicht sind anklickbar (leichter Zoom beim Draufhalten; beim vierten Foto „+N Fotos“, wenn es mehr gibt). Ein Klick öffnet eine Galerie (`Lightbox` in `packages/ui`): Foto groß auf dunklem Grund, Vor/Zurück als Knöpfe, mit den Pfeiltasten und per Wischen auf dem Handy, Zähler „2 / 3“, Vorschaubilder zum Springen, Schließen mit × oder Escape; am Ende geht es wieder zum ersten Foto.
 - Beleg: Walkthrough `bilder` in `docs/demos/F11/walkthrough-P/` (Desktop und 390 px), Screenshots gelesen; `npm test` grün.
+
+### Aufgabe 12 – erledigt
+- Zentrale Übersetzungstabelle `packages/domain/src/facilities-de.ts`: rund 190 übliche englische Ausstattungsnamen von LiteAPI/Booking (inkl. Bens Liste: WLAN verfügbar, Kostenloses WLAN, Parkplatz, Kostenloser Parkplatz, Nichtraucherzimmer, Heizung, Terrasse, Garten, Haustiere erlaubt, Wandern, Angeln, Radfahren, Tourenberatung) → deutsches Label und Gruppe. Groß-/Kleinschreibung, Leerzeichen und „&“ egal; doppelte Einträge fallen weg.
+- Anzeige „schöner verpackt“: Die Detailansicht zeigt die Ausstattung in Gruppen mit Symbol (Internet, Parken und Mobilität, Essen und Trinken, Wellness und Sport, Draußen, Aktivitäten, Zimmer und Wohnung, Familie und Haustiere, Barrierefreiheit, Service), jeder Eintrag mit Häkchen.
+- **Keine englischen Begriffe mehr:** Unbekannte Namen werden nicht angezeigt, nur gezählt („Dazu 2 weitere Angaben des Anbieters, die wir noch nicht übersetzen.“), und der Worker schreibt sie ins Log (`facility untranslated`, keine personenbezogenen Daten) – damit kann Ben die Tabelle im Testbetrieb ergänzen.
+- Die simulierten Unterkünfte liefern ihre Ausstattung jetzt wie die echte LiteAPI auf Englisch (vorher schon deutsch), damit die Übersetzung sichtbar geprüft wird.
+- Weitere englische Labels im Code: keine gefunden (Verpflegung, Wünsche, Lob, Badges sind bereits deutsch). Zimmernamen und Beschreibungen kommen vom Anbieter (Beschreibungen fordern wir auf Deutsch an, Drift 38) – Zimmernamen wie „Double Room“ werden nicht übersetzt; bitte melden, falls gewünscht.
+- Beleg: Walkthrough `ausstattung` in `docs/demos/F12/walkthrough-P/` (prüft, dass keine englischen Begriffe erscheinen), Tests `packages/domain/test/facilities-de.test.ts`; `npm test` 446 grün.

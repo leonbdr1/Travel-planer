@@ -4,6 +4,20 @@
 // German where the provider has them; an English one says so.
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
+import {
+  BuildingStorefrontIcon,
+  CheckIcon,
+  FaceSmileIcon,
+  FireIcon,
+  HomeModernIcon,
+  MapIcon,
+  SparklesIcon,
+  SunIcon,
+  TruckIcon,
+  UserGroupIcon,
+  WifiIcon,
+} from '@heroicons/react/20/solid';
+import type { ComponentType, SVGProps } from 'react';
 import type { HotelDetailResponse, TextBlockDto } from '@reiseplaner/contracts';
 import { constants, extraNights } from '@reiseplaner/domain';
 import { Alert, Badge, buttonClasses, Card, Heading, Lightbox, Spinner, Text, cx } from '@reiseplaner/ui';
@@ -20,6 +34,20 @@ import { isTestbetrieb, useMeta } from '../lib/meta';
 import { tokenFromHash } from './SearchRun';
 
 const t = de.detail;
+
+/** An icon per facility group (Aufgabe 12). */
+const FACILITY_ICONS: Record<HotelDetailResponse['hotel']['facility_groups'][number]['group'], ComponentType<SVGProps<SVGSVGElement>>> = {
+  internet: WifiIcon,
+  parken: TruckIcon,
+  essen: FireIcon,
+  wellness: SparklesIcon,
+  draussen: SunIcon,
+  aktivitaeten: MapIcon,
+  zimmer: HomeModernIcon,
+  familie: FaceSmileIcon,
+  barrierefrei: UserGroupIcon,
+  service: BuildingStorefrontIcon,
+};
 const r = de.results;
 
 function ScoreBreakdown({ score, sources }: { score: HotelDetailResponse['score']; sources: readonly string[] }) {
@@ -339,16 +367,31 @@ export function HotelDetail() {
           {h.checkin_time && h.checkout_time ? <Text className="text-sm">{t.checkinTimes(h.checkin_time, h.checkout_time)}</Text> : null}
         </Card>
       ) : null}
-      {h.facilities.length > 0 ? (
-        <Card className="space-y-2">
+      {h.facility_groups.length > 0 ? (
+        <Card className="space-y-4" data-testid="facilities">
           <Heading level={2}>{t.facilities}</Heading>
-          <ul className="flex flex-wrap gap-1.5">
-            {h.facilities.map((f) => (
-              <li key={f}>
-                <Badge>{f}</Badge>
-              </li>
-            ))}
-          </ul>
+          <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            {h.facility_groups.map((g) => {
+              const Icon = FACILITY_ICONS[g.group];
+              return (
+                <section key={g.group} data-testid="facility-group" data-group={g.group}>
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                    <Icon aria-hidden="true" className="size-5 text-brand-600" />
+                    {t.facilityGroups[g.group]}
+                  </h3>
+                  <ul className="mt-1.5 space-y-1 pl-7 text-sm text-zinc-700">
+                    {g.labels.map((label) => (
+                      <li key={label} className="flex items-center gap-1.5">
+                        <CheckIcon aria-hidden="true" className="size-4 shrink-0 text-brand-600" />
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              );
+            })}
+          </div>
+          {h.facilities_untranslated > 0 ? <p className="text-xs text-zinc-500">{t.facilitiesMore(h.facilities_untranslated)}</p> : null}
         </Card>
       ) : null}
       {h.important_information.length > 0 ? (
