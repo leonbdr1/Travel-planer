@@ -5,11 +5,10 @@
 import { PGlite } from '@electric-sql/pglite';
 import { pg_trgm } from '@electric-sql/pglite/contrib/pg_trgm';
 import { pgtap } from '@electric-sql/pglite-pgtap';
-import { PGLiteSocketServer } from '@electric-sql/pglite-socket';
 import type { Db } from './db';
 import { migrate } from './migrate';
 import { pgliteDb } from './pglite';
-import { startSerialProxy } from './serial-proxy';
+import { startPgliteWireServer } from './wire-server';
 
 let snapshot: Promise<Blob> | undefined;
 
@@ -40,22 +39,16 @@ export interface TestDbServer extends TestDb {
   connectionString: string;
 }
 
-/** Migrated PGlite behind a Postgres wire-protocol socket (random port). */
+/** Migrated PGlite behind a Postgres wire-protocol server (random port, see wire-server.ts). */
 export async function startTestDbServer(): Promise<TestDbServer> {
   const test = await createTestDb();
-  const server = new PGLiteSocketServer({ db: test.pg, port: 0, host: '127.0.0.1', maxConnections: 16 });
-  await server.start();
-  const internalPort = Number(server.getServerConn().split(':').pop());
-  const proxy = await startSerialProxy({ host: '127.0.0.1', port: 0, targetPort: internalPort });
+  const server = await startPgliteWireServer(test.pg, { host: '127.0.0.1', port: 0 });
   return {
     ...test,
-    port: proxy.port,
-    connectionString: `postgres://postgres:postgres@127.0.0.1:${proxy.port}/postgres`,
+    port: server.port,
+    connectionString: `postgres://postgres:postgres@127.0.0.1:${server.port}/postgres`,
     async close() {
-      await proxy.close();
-      // Let the socket server finish its close handlers before PGlite shuts down.
-      await new Promise((r) => setTimeout(r, 100));
-      await server.stop();
+      await server.close();
       await test.pg.close();
     },
   };

@@ -4,9 +4,10 @@ import { buchungFlow } from './buchung';
 import { entwicklerFlow } from './entwickler';
 import { ergebnisseFlow } from './ergebnisse';
 import { finaleFlow } from './finale';
+import { langsamFlow } from './langsam';
 import { pflichtseitenFlow } from './pflichtseiten';
 import { sucheFlow } from './suche';
 import { suchrahmenFlow } from './suchrahmen';
 import { warnungenFlow } from './warnungen';
 
-export const flows: Flow[] = [startFlow, pflichtseitenFlow, suchrahmenFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow];
+export const flows: Flow[] = [startFlow, pflichtseitenFlow, suchrahmenFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow, langsamFlow];

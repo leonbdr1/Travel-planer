@@ -1,0 +1,4 @@
+RESULT serial proxy (before): write CONNECT_TIMEOUT 127.0.0.1:37419 after 3006 ms
+RESULT wire server (after): ok after 3 ms
+ Test Files  1 passed (1)
+      Tests  1 passed (1)

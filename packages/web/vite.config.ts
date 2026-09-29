@@ -18,6 +18,10 @@ const product = parse(readFileSync(resolve(root, 'product.config.yaml'), 'utf8')
 // Local namespace of the coarse rate limiter; staging and production
 // declare their own RATE_LIMITER binding in wrangler.jsonc (O10.1).
 const DEV_RATE_LIMIT_NAMESPACE = '1001';
+// Local only: slow simulated providers, e.g. `REISEPLANER_FAKE_LATENCY_MS=4000
+// npm run dev`, behave like the real LiteAPI in the Testbetrieb (a value in
+// packages/worker/.dev.vars still wins).
+const FAKE_LATENCY_MS = process.env.CLOUDFLARE_ENV ? undefined : process.env.REISEPLANER_FAKE_LATENCY_MS;
 
 function gitSha(): string {
   if (process.env.GIT_SHA) return process.env.GIT_SHA;
@@ -43,6 +47,7 @@ export default defineConfig({
         const declared = worker.ratelimits.filter((r) => r.name === 'RATE_LIMITER');
         return {
           name: `${product.slug}-app`,
+          ...(FAKE_LATENCY_MS ? { vars: { ...worker.vars, FAKE_LATENCY_MS } } : {}),
           ratelimits: declared.length
             ? worker.ratelimits.map((r) => (r.name === 'RATE_LIMITER' ? { ...r, simple: coarse } : r))
             : process.env.CLOUDFLARE_ENV
