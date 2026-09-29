@@ -4,6 +4,7 @@ import { detectBargains, type Bargain } from './bargains';
 import { RANK_BARGAIN_BONUS, RANK_UNRATED_QUALITY_NORM, RANK_W_PRICE, RANK_W_QUALITY } from './constants';
 import { passesFilters, type FilterHotel, type FilterSettings } from './filters';
 import type { OfferKind } from './pricing';
+import { propertyKind } from './property-kind';
 import type { RoomFit, RoomOption } from './rooms';
 import { qualityScore, type ReviewSignals, type ScoreBreakdown } from './scoring';
 import type { BoardType } from './types';
@@ -61,7 +62,13 @@ export function evaluateOffers(
   for (const hotel of hotels.values()) {
     scores.set(
       hotel.id,
-      qualityScore({ rating: hotel.rating, reviewCount: hotel.reviewCount, review: reviews.get(hotel.id) ?? null, chips: filters.chips }),
+      qualityScore({
+        rating: hotel.rating,
+        reviewCount: hotel.reviewCount,
+        review: reviews.get(hotel.id) ?? null,
+        chips: filters.chips,
+        kind: propertyKind(hotel.hotelType, hotel.name),
+      }),
     );
   }
   const base = offers.map((o) => {

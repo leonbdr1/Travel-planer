@@ -270,7 +270,7 @@ export function resultItems(
     'price',
   ).map((entry) => {
     const h = hotels.get(entry.offer.hotelId);
-    const hotel = { facilityIds: h?.facilityIds ?? [], hotelType: h?.hotelType ?? null, reviewCount: entry.offer.breakdown.reviewCount, effectiveReviews: entry.offer.breakdown.effectiveReviews };
+    const hotel = { facilityIds: h?.facilityIds ?? [], hotelType: h?.hotelType ?? null, reviewCount: entry.offer.breakdown.reviewCount, effectiveReviews: entry.offer.breakdown.effectiveReviews, propertyKind: entry.offer.breakdown.propertyKind };
     const features = offerFeatures(hotel, entry.offer, reviews.evidence?.get(entry.offer.hotelId)?.labels ?? []).map((f) => f.code);
     return { ...entry, comparison: comparisonOf(entry.offer, features) };
   });

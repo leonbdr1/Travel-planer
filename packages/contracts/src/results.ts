@@ -233,6 +233,9 @@ export const searchResultsResponseSchema = z.object({
 export type SearchResultsResponse = z.infer<typeof searchResultsResponseSchema>;
 
 export const scoreBreakdownSchema = z.object({
+  /** Kind of accommodation and the review count from which its rating counts fully (Aufgabe 6). */
+  propertyKind: z.enum(['hotel', 'pension', 'ferienwohnung']).default('hotel'),
+  fullWeightReviews: z.number().default(30),
   rating: z.number().nullable(),
   reviewCount: z.number(),
   effectiveReviews: z.number(),

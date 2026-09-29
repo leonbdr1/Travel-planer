@@ -48,7 +48,7 @@ function centerDistance(f: FinalistInput): number | null {
 }
 
 function featuresOf(f: FinalistInput, km: number | null): OfferFeature[] {
-  const reviews = { reviewCount: f.offer.breakdown.reviewCount, effectiveReviews: f.offer.breakdown.effectiveReviews };
+  const reviews = { reviewCount: f.offer.breakdown.reviewCount, effectiveReviews: f.offer.breakdown.effectiveReviews, propertyKind: f.offer.breakdown.propertyKind };
   return offerFeatures({ ...f.hotel, ...reviews, inCore: locationClass(km) === 'kern' }, f.offer, f.labels);
 }
 

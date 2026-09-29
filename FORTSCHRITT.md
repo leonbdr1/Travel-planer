@@ -12,7 +12,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 3** – Standortsuche: Postleitzahlen, fehlende Orte, manuelle Mehrfachauswahl von Orten
 - [x] **Aufgabe 4** – Flexible Übernachtungsanzahl (z. B. 2 bis 3 Nächte)
 - [x] **Aufgabe 5** – Personenzahl und Zimmerlogik
-- [ ] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
+- [x] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
 - [ ] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
 - [ ] **Aufgabe 8** – Attraktivität von Regionen und Orten
 - [ ] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
@@ -76,3 +76,11 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Datenbank: Migration `supabase/migrations/20261015a_offer_rooms.sql` (additiv, nur lokal), pgTAP-Test `offer_rooms.sql`.
 - Beleg: Walkthrough `zimmer` in `docs/demos/F5/walkthrough-P/` (1 Erwachsener: 4 Ferienwohnungen nur mit Wohnungen für 4 → unten, 11 Häuser in der Liste; Zimmerübersicht gelesen); Unit-Tests `packages/domain/test/rooms.test.ts`; `npm test` 426 grün, `npm run db:test` grün.
 - Offen: Migration gegen Staging/Produktion (Ben); Schwelle `ROOM_OVERSIZE_EXTRA` = 2 ggf. mit echten Daten nachjustieren.
+
+### Aufgabe 6 – erledigt
+- Ansatz: `docs/logik/unterkunftsarten.md` (Unterkunftsarten Hotel / Pension / Ferienwohnung aus Anbieter-Typ oder Name).
+- **Bewertungsanzahl:** Der Durchschnitt zählt ab 30 (Hotel), 25 (Pension/Gasthof) bzw. 20 (Ferienwohnung) Bewertungen voll. Bens Beispiel 8,7 aus 17: Hotel 8,2, Pension 8,3, Ferienwohnung 8,5 – eine Ferienwohnung wird nur noch leicht herabgesetzt. „Viele Bewertungen“ (Bonus im Vergleichspreis, Label) gilt ab 500 / 150 / 60.
+- **Schimmel und ähnliche Mängel** (Schimmel, Ungeziefer, Schmutz, Zustand, Geruch): Abzug × 0,6 (Hotel), × 1 (Pension), × 1,6 (Ferienwohnung), Höchstabzug bei Ferienwohnungen 3 statt 2 Punkte. Aussortiert wird eine Ferienwohnung schon ab 2 Gästen und 5 % der geprüften Bewertungen (Schimmel/Ungeziefer), ein Hotel wie bisher ab 3 Gästen und 10 %.
+- Anzeige: Aufschlüsselung in der Detailansicht nennt Art und Schwelle; Seite „So berechnen wir die Rangliste“ erklärt die Unterschiede.
+- Beleg: `npm run demo -- f6` → `docs/demos/F6/demo-output.txt`; Tests `packages/domain/test/property-kind.test.ts`; `npm test` 433 grün.
+- Offen: Schwellen mit echten Daten kalibrieren; Nachtrag für `architektur.md` wartet auf Freigabe.

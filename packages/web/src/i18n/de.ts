@@ -431,9 +431,16 @@ export const de = {
     checkinTimes: (ci: string, co: string) => `Anreise ab ${ci}, Abreise bis ${co}`,
     scoreTitle: 'So setzt sich der Qualitätswert zusammen',
     scoreRating: (r: string, n: number) => `Durchschnitt ${r} aus ${n} Bewertungen`,
-    scorePrior: (mean: string, weight: number) =>
-      `Wenige Bewertungen werden zum Gesamtmittel ${mean} gezogen (Gewicht wie ${weight} Bewertungen)`,
-    scoreFullWeight: (full: number) => `Ab ${full} Bewertungen zählt der Durchschnitt voll`,
+    scorePrior: (mean: string, weight: number, kind: string, full: number) =>
+      `${kind}: Der Durchschnitt zählt ab ${full} Bewertungen voll, darunter gleichen wir ihn etwas an das Gesamtmittel ${mean} an (Gewicht wie ${weight} Bewertungen)`,
+    scoreFullWeight: (full: number, kind: string) => `${kind}: ab ${full} Bewertungen zählt der Durchschnitt voll`,
+    kindNames: { hotel: 'Hotel', pension: 'Pension oder Gasthof', ferienwohnung: 'Ferienwohnung' } as Record<'hotel' | 'pension' | 'ferienwohnung', string>,
+    scorePenaltyUnit: (kind: string) =>
+      kind === 'Ferienwohnung'
+        ? 'Mängel wie Schimmel betreffen hier die eine Wohnung, die du buchst: Sie zählen stärker.'
+        : kind === 'Hotel'
+          ? 'Mängel wie Schimmel betreffen in einem Hotel meist einzelne von vielen Zimmern: Sie zählen schwächer.'
+          : '',
     scoreBase: 'Basiswert',
     scoreRecency: 'Aktualität',
     scoreRecencyNotChecked: 'Aktualität nicht geprüft',
@@ -461,14 +468,20 @@ export const de = {
     intro:
       'Wir erklären hier die Hauptkriterien, nach denen wir Angebote ordnen, aussortieren und markieren, damit du nachvollziehen kannst, warum ein Angebot oben steht.',
     qualityTitle: 'Qualitätswert',
-    quality: (full: number, oldMonths: number) =>
-      `Grundlage ist der Durchschnitt der Gästebewertungen. Ab ${full} Bewertungen zählt er so, wie er ist; darunter ziehen wir ihn zum Gesamtmittel, damit eine 10 aus drei Bewertungen nicht vor einer 9,0 aus 400 Bewertungen landet. Bewertungen, die älter als ${oldMonths} Monate sind, zählen dabei ein Drittel, sobald wir ihr Datum kennen. Wo wir die Rezensionen geprüft haben, fließen die Aktualität der Bewertungen und Warnhinweise ein. Sterne fließen nie in den Qualitätswert ein.`,
+    quality: (full: { hotel: number; pension: number; ferienwohnung: number }, oldMonths: number) =>
+      `Grundlage ist der Durchschnitt der Gästebewertungen. Ab einer gewissen Zahl von Bewertungen zählt er so, wie er ist; darunter ziehen wir ihn zum Gesamtmittel, damit eine 10 aus drei Bewertungen nicht vor einer 9,0 aus 400 Bewertungen landet. Die Zahl hängt von der Art der Unterkunft ab, weil ein Hotel mit vielen Zimmern naturgemäß viel mehr Bewertungen sammelt als eine einzelne Ferienwohnung: bei Hotels ${full.hotel}, bei Pensionen und Gasthöfen ${full.pension}, bei Ferienwohnungen ${full.ferienwohnung} Bewertungen. Umgekehrt wiegen Mängel wie Schimmel, Ungeziefer oder Schmutz bei einer Ferienwohnung schwerer als bei einem großen Hotel, denn sie betreffen genau die Wohnung, die du buchst; eine Ferienwohnung fliegt deshalb schon bei weniger Meldungen aus unserer Auswahl. Bewertungen, die älter als ${oldMonths} Monate sind, zählen dabei ein Drittel, sobald wir ihr Datum kennen. Wo wir die Rezensionen geprüft haben, fließen die Aktualität der Bewertungen und Warnhinweise ein. Sterne fließen nie in den Qualitätswert ein.`,
     priceTitle: 'Preis',
     price:
       'Verglichen wird der Gesamtpreis des Aufenthalts inklusive aller im Voraus zu zahlenden Steuern und Gebühren. Die Liste zeigt jede Unterkunft einmal mit ihrem günstigsten passenden Angebot, standardmäßig die günstigste zuerst.',
     recommendTitle: '„Unsere Wahl“',
-    recommend: (points: { sparen: number; ausgewogen: number; komfort: number }, reviews: number, reviewsBonus: number, extra: number, extraMax: number) =>
-      `„Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile den Preis am besten aufwiegen. Dafür rechnen wir jeden Preis in einen Vergleichspreis um: Jeder Punkt Bewertung über der Mindestnote deines Ziels ist ${points.sparen} % („Günstig und sauber“), ${points.ausgewogen} % („Preis-Leistung“) oder ${points.komfort} % („Komfort“) des Preises wert, ab ${reviews} Bewertungen kommen ${reviewsBonus} % hinzu, bei „Komfort“ je Extra wie Frühstück, Halbpension, Sauna oder Pool ${extra} % (höchstens ${extraMax} %). Das Angebot mit dem niedrigsten Vergleichspreis ist unsere Wahl; die Reihenfolge bleibt nach Preis. Unterkünfte ohne Bewertungen sind nie unsere Wahl.`,
+    recommend: (
+      points: { sparen: number; ausgewogen: number; komfort: number },
+      reviews: { hotel: number; pension: number; ferienwohnung: number },
+      reviewsBonus: number,
+      extra: number,
+      extraMax: number,
+    ) =>
+      `„Unsere Wahl“ markiert das Angebot, bei dem nachweisbare Vorteile den Preis am besten aufwiegen. Dafür rechnen wir jeden Preis in einen Vergleichspreis um: Jeder Punkt Bewertung über der Mindestnote deines Ziels ist ${points.sparen} % („Günstig und sauber“), ${points.ausgewogen} % („Preis-Leistung“) oder ${points.komfort} % („Komfort“) des Preises wert, bei vielen Bewertungen kommen ${reviewsBonus} % hinzu (Hotels ab ${reviews.hotel}, Pensionen ab ${reviews.pension}, Ferienwohnungen ab ${reviews.ferienwohnung}, weil kleine Unterkünfte naturgemäß weniger Gäste haben), bei „Komfort“ je Extra wie Frühstück, Halbpension, Sauna oder Pool ${extra} % (höchstens ${extraMax} %). Das Angebot mit dem niedrigsten Vergleichspreis ist unsere Wahl; die Reihenfolge bleibt nach Preis. Unterkünfte ohne Bewertungen sind nie unsere Wahl.`,
     bargainTitle: 'Schnäppchen (★)',
     bargain: (percent: number, dates: number) =>
       `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem Durchschnittspreis an deinen anderen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Der Termin selbst und andere Zimmer zählen beim Durchschnitt nicht mit. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit dem Gesamtpreis dieses Angebots und dem durchschnittlichen Gesamtpreis desselben Zimmers an deinen anderen Terminen, also den Zahlen, die auch in der Liste und der Preis-Matrix stehen; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
@@ -480,8 +493,13 @@ export const de = {
     finale: (stars: number, max: number) =>
       `Je nach deinem Ziel sortieren wir Unterkünfte aus, die deine Filter nicht erfüllen, die keine Bewertungen haben und dabei auffällig billig oder auffällig gut ausgestattet oder für dein Ziel nicht einschätzbar sind, bei denen sich Beschwerden über Schimmel, Ungeziefer oder Schmutz häufen (siehe „Warnsignale“), die ${stars} oder mehr Sterne zum Preis eines einfachen Hauses haben, aber keine geprüften guten Bewertungen, die für dein Ziel zu schwach bewertet oder zu teuer sind, oder für die es ein Angebot gibt, das nicht teurer, mindestens gleich gut bewertet ist und alles bietet, was dieses bietet. Von den übrigen zeigen wir höchstens ${max}, die günstigste zuerst, und nennen bei den anderen den Aufpreis und was er bringt. Unter „Alle Angebote“ stehen alle Unterkünfte, die zu deinem Ziel passen. Aussortierte Unterkünfte ohne Bewertungen findest du dort ganz unten: Ohne Bewertungen ist eine Unterkunft nicht zwingend schlecht, die Entscheidung liegt bei dir.`,
     redFlagTitle: 'Warnsignale',
-    redFlag: (limits: Record<'schimmel' | 'ungeziefer' | 'sauberkeit', { guests: number; share: number }>, months: number, weight: number) =>
-      `Bei den Unterkünften, die am besten zu deinem Ziel passen, prüfen wir die Rezensionen auf Beschwerden, etwa über Schimmel, Ungeziefer, Schmutz oder Lärm. Einzelne Beschwerden zeigen wir als Warnhinweis und ziehen sie vom Qualitätswert ab; die Unterkunft bleibt in der Liste, denn wenige Meldungen bei vielen Gästen machen ein Haus nicht unbewohnbar. Aussortiert wird sie erst, wenn sich Beschwerden häufen: bei Schimmel ab ${limits.schimmel.guests} Gästen und ${limits.schimmel.share} % der geprüften Bewertungen, bei Ungeziefer ab ${limits.ungeziefer.guests} Gästen und ${limits.ungeziefer.share} %, bei Schmutz ab ${limits.sauberkeit.guests} Gästen und ${limits.sauberkeit.share} %. Bewertungen der letzten ${months} Monate zählen dabei ${weight === 2 ? 'doppelt' : `${weight}-fach`}, ältere also weniger, genau wie beim Lob.`,
+    redFlag: (
+      limits: Record<'schimmel' | 'ungeziefer' | 'sauberkeit', { guests: number; share: number }>,
+      months: number,
+      weight: number,
+      flat: Record<'schimmel' | 'ungeziefer' | 'sauberkeit', { guests: number; share: number }>,
+    ) =>
+      `Bei den Unterkünften, die am besten zu deinem Ziel passen, prüfen wir die Rezensionen auf Beschwerden, etwa über Schimmel, Ungeziefer, Schmutz oder Lärm. Einzelne Beschwerden zeigen wir als Warnhinweis und ziehen sie vom Qualitätswert ab; die Unterkunft bleibt in der Liste, denn wenige Meldungen bei vielen Gästen machen ein Haus nicht unbewohnbar. Aussortiert wird sie erst, wenn sich Beschwerden häufen: bei Schimmel ab ${limits.schimmel.guests} Gästen und ${limits.schimmel.share} % der geprüften Bewertungen, bei Ungeziefer ab ${limits.ungeziefer.guests} Gästen und ${limits.ungeziefer.share} %, bei Schmutz ab ${limits.sauberkeit.guests} Gästen und ${limits.sauberkeit.share} %. Das gilt für Hotels. Pensionen, Gasthöfe und besonders Ferienwohnungen haben nur wenige Zimmer oder eine einzige Wohnung, da betrifft eine Meldung genau das, was du buchst: Bei einer Ferienwohnung reichen deshalb schon ${flat.schimmel.guests} Gäste und ${flat.schimmel.share} % bei Schimmel oder Ungeziefer und ${flat.sauberkeit.guests} Gäste und ${flat.sauberkeit.share} % bei Schmutz. Bewertungen der letzten ${months} Monate zählen dabei ${weight === 2 ? 'doppelt' : `${weight}-fach`}, ältere also weniger, genau wie beim Lob.`,
     praiseTitle: 'Lob-Labels',
     praise: (min: number, share: number) =>
       `Labels wie „Gutes Frühstück“ oder „Besonders sauber“ zählen wir ohne KI aus den Feldern „Positiv“ und „Negativ“ der Gästebewertungen. Ein Label erscheint ab ${min} lobenden Gästen, wenn mindestens ${share} % der Erwähnungen Lob sind und keine passende Warnung vorliegt. Die Zahlen stehen in der Detailansicht.`,

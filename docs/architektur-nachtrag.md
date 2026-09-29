@@ -20,3 +20,11 @@
 - Migration `20261015a_offer_rooms` (additiv): `app.offers.room_fit` ('fits' | 'oversized', Standard 'fits'), `room_capacity`, `room_options` (jsonb, Standard `[]`); pgTAP `supabase/tests/offer_rooms.sql`. Gegen Staging/Produktion nicht ausgeführt (BEN-GATE).
 - `normalizeOffers(rates, nights, persons)`: günstigstes und günstigstes stornierbares Angebot nur unter passenden Zimmern (Größe ≤ Personen pro Zimmer + `ROOM_OVERSIZE_EXTRA` 2); nur größere Zimmer → günstigstes davon mit `oversized`. `room_options` = jedes Zimmer mit günstigstem Preis.
 - Bewertung: `oversized`-Angebote bestehen nie (`passes = false`), stehen in `oversized` der Ergebnisse. Vorbereitet, nicht verdrahtet: `comfortRoomPrice` für „Komfort“. Details: `docs/logik/zimmer-und-personen.md`.
+
+## 6.7 Qualitätswert, 6.10 Vergleichspreis, 6.15 Warnsignale (Aufgabe 6)
+
+- Neu `packages/domain/src/property-kind.ts`: Art `hotel` | `pension` | `ferienwohnung` aus `hotelType`, sonst Name, sonst `hotel`.
+- `SCORE_FULL_WEIGHT_REVIEWS_BY_KIND` 30 / 25 / 20; `MANY_REVIEWS_MIN_BY_KIND` 500 / 150 / 60.
+- Einheitsgebundene Mängel (`UNIT_DEFECT_TOPICS`: Schimmel, Ungeziefer, Sauberkeit, Zustand, Geruch): Abzug × `UNIT_DEFECT_PENALTY_FACTOR` 0,6 / 1 / 1,6, Höchstabzug `SCORE_MAX_PENALTY_BY_KIND` 2 / 2 / 3.
+- Warnsignale `RED_FLAG_THRESHOLDS_BY_KIND` (Hotel wie bisher; Pension 2 Gäste/7 % bzw. 3/10 %; Ferienwohnung 2/5 % bzw. 3/8 %).
+- `ScoreBreakdown` trägt `propertyKind` und `fullWeightReviews`. Details: `docs/logik/unterkunftsarten.md`.

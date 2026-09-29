@@ -15,14 +15,16 @@ export function Ranking() {
   const limit = (l: { guests: number; share: number }) => ({ guests: l.guests, share: pct(l.share) });
   const flags = constants.RED_FLAG_THRESHOLDS;
   const redFlagLimits = { schimmel: limit(flags.schimmel), ungeziefer: limit(flags.ungeziefer), sauberkeit: limit(flags.sauberkeit) };
+  const flat = constants.RED_FLAG_THRESHOLDS_BY_KIND.ferienwohnung;
+  const flatLimits = { schimmel: limit(flat.schimmel), ungeziefer: limit(flat.ungeziefer), sauberkeit: limit(flat.sauberkeit) };
   const sections: Array<[string, string]> = [
-    [t.qualityTitle, t.quality(constants.SCORE_FULL_WEIGHT_REVIEWS, constants.REVIEW_FRESH_MONTHS)],
+    [t.qualityTitle, t.quality(constants.SCORE_FULL_WEIGHT_REVIEWS_BY_KIND, constants.REVIEW_FRESH_MONTHS)],
     [t.priceTitle, t.price],
     [
       t.recommendTitle,
       t.recommend(
         { sparen: pct(points.sparen), ausgewogen: pct(points.ausgewogen), komfort: pct(points.komfort) },
-        constants.MANY_REVIEWS_MIN,
+        constants.MANY_REVIEWS_MIN_BY_KIND,
         pct(constants.MANY_REVIEWS_BONUS),
         pct(constants.KOMFORT_EXTRA_BONUS),
         pct(constants.KOMFORT_EXTRAS_BONUS_MAX),
@@ -30,7 +32,7 @@ export function Ranking() {
     ],
     [t.bargainTitle, t.bargain(pct(1 - constants.BARGAIN_DATE_FACTOR), constants.BARGAIN_DATE_MIN_DATES)],
     [t.finaleTitle, t.finale(constants.STAR_TRAP_MIN_STARS, constants.FINALISTS_MAX)],
-    [t.redFlagTitle, t.redFlag(redFlagLimits, constants.MENTION_RECENT_MONTHS, constants.MENTION_RECENT_WEIGHT)],
+    [t.redFlagTitle, t.redFlag(redFlagLimits, constants.MENTION_RECENT_MONTHS, constants.MENTION_RECENT_WEIGHT, flatLimits)],
     [t.praiseTitle, t.praise(constants.PRAISE_MIN_MENTIONS, pct(constants.PRAISE_MIN_SHARE))],
     [t.sortTitle, t.sort],
     [t.otherTitle, t.other],

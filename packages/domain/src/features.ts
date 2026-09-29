@@ -6,6 +6,7 @@
 import { chipDefinition } from './chips';
 import { hasManyReviews } from './comparison';
 import { hasGastroNearby, WALK_KINDS, type LocationFacts, type WalkKind } from './location';
+import type { PropertyKind } from './property-kind';
 import type { BoardType } from './types';
 import { PRAISE_LABELS, type ChipCode, type PraiseTopic } from './vocabulary';
 
@@ -19,6 +20,8 @@ export interface FeatureHotel {
   /** Reviews in total and as they count (older ones weigh less): "viele Bewertungen" is a plus like a sauna. */
   reviewCount?: number | null | undefined;
   effectiveReviews?: number | null | undefined;
+  /** Kind of accommodation: "viele Bewertungen" is relative to it (Aufgabe 6). */
+  propertyKind?: PropertyKind | undefined;
 }
 
 const WALK_LABELS: Record<WalkKind, (min: number) => string> = {
@@ -56,7 +59,7 @@ const count = new Intl.NumberFormat('de-DE');
 
 function reviewFeature(hotel: FeatureHotel): OfferFeature[] {
   const total = hotel.reviewCount ?? 0;
-  return hasManyReviews(hotel.effectiveReviews ?? total) ? [{ code: 'viele_bewertungen', label: `${count.format(total)} Bewertungen`, count: total }] : [];
+  return hasManyReviews(hotel.effectiveReviews ?? total, hotel.propertyKind) ? [{ code: 'viele_bewertungen', label: `${count.format(total)} Bewertungen`, count: total }] : [];
 }
 
 interface FacilityFeature {

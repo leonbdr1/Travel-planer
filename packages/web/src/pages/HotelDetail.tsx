@@ -26,7 +26,9 @@ function ScoreBreakdown({ score, sources }: { score: HotelDetailResponse['score'
   const rows: Array<[string, string]> = [
     [t.scoreRating(formatScore(score.rating ?? 0), score.reviewCount), ''],
     [
-      score.priorWeight > 0 ? t.scorePrior(formatScore(score.priorMean), Math.round(score.priorWeight)) : t.scoreFullWeight(constants.SCORE_FULL_WEIGHT_REVIEWS),
+      score.priorWeight > 0
+        ? t.scorePrior(formatScore(score.priorMean), Math.round(score.priorWeight), t.kindNames[score.propertyKind], score.fullWeightReviews)
+        : t.scoreFullWeight(score.fullWeightReviews, t.kindNames[score.propertyKind]),
       score.s0 === null ? '' : formatScore(score.s0),
     ],
     [
@@ -35,6 +37,7 @@ function ScoreBreakdown({ score, sources }: { score: HotelDetailResponse['score'
     ],
     [t.scoreCleanliness, score.cleanliness.applied && score.cleanliness.value !== null ? formatScore(score.cleanliness.value) : t.scoreCleanlinessNone],
     [t.scorePenalty, score.penalty.total > 0 ? `− ${formatScore(score.penalty.total)}` : '–'],
+    ...(score.penalty.total > 0 && t.scorePenaltyUnit(t.kindNames[score.propertyKind]) ? ([[t.scorePenaltyUnit(t.kindNames[score.propertyKind]), '']] as Array<[string, string]>) : []),
   ];
   return (
     <dl className="divide-y divide-zinc-100 text-sm" data-testid="score-breakdown">
