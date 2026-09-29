@@ -61,7 +61,7 @@ TypeScript (strict) · Node 22 · npm-Workspaces (`packages/*`, Scope `@reisepla
 
 ```bash
 npm ci --ignore-scripts && node scripts/supply-chain-check.mjs --rebuild   # installieren
-npm run db:local                      # lokale Datenbank (PGlite-Socket, Port 54329)
+npm run db:local                      # lokale Datenbank (PGlite mit eigenem Wire-Server, Port 54329)
 npm run dev                           # Worker und SPA lokal, Anbieter als Fakes
 npm test                              # alle hermetischen Tests
 npm run db:test                       # pgTAP (RLS, RPCs, Constraints)

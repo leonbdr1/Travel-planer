@@ -12,7 +12,6 @@
   "dependencies": {
     "@electric-sql/pglite": "0.5.8",
     "@electric-sql/pglite-pgtap": "0.0.9",
-    "@electric-sql/pglite-socket": "0.2.11",
     "@reiseplaner/config": "0.0.0",
     "@reiseplaner/domain": "0.0.0",
     "postgres": "3.4.9",
