@@ -1,0 +1,10 @@
+Bearbeite folgende offene Aufgaben hier aus dem prompt sowie danach die aus dem repo, die in md dateien notiert sind.
+Offen: - Ausgeblendete Unterkünfte anzeigen der Kategorie „ohne Bewertungen und auffällig billig, auffällig gut ausgestattet oder für dein Ziel nicht einschätzbar“ —> Vielleicht sind häuser dabei die der kunde manuell doch buchen will. es soll also weiter unten alles aufgelistet werden das man es sich angucken kann. ohne rezension ist ja nicht zwingend schlecht, die entscheidung soll beim kunden liegen. soll trotzdem rausfliegen bei unserer empfehlung also daran nichts ändern.
+- Sterne, also schnäppchen immernoch unklar. sie tauchen einfach auf. beim mauszeiger draufhalten konkret unterkunftbezogen beschrieben ist warum es ein schnäppchen ist. z.B. bestehende erklärung „Schnäppchen 22 % günstiger als dieselbe Unterkunft an deinen anderen Terminen“ einfach auch in die übersicht beim draufhalten machen.
+- Prüfen ob für preisvergleich auch verschiedene zimmer beachtet wird. wenn doppelzimmer frei ist und sonst nur suite, dann ist klar dass doppelzimmer hier billiger ist, ist aber auch andere art.
+* Beschreibung: <p><strong>Charming Accommodation in Todtmoos</strong></p><p>< —> Kaputtes format, zu technisch.
+* Kommentar bei unterkunft klick ganz unten in blau: Wichtige Hinweise der Unterkunft z.B. This property does not accommodate bachelor(ette) or similar parties. Managed by a private host A deposit may be required at the property. —> Muss websitesprache also deutsch sein
+
+--- STARTPROMPT GENUTZT ---
+Datum: 2026-09-28 23:43:51 +0200
+Status: GENUTZT
