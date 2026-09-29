@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { goalSchema } from './searches';
+import { attractivenessSchema } from './suggestions';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -203,7 +204,9 @@ export const searchResultsResponseSchema = z.object({
   }),
   filters: effectiveFiltersSchema,
   matrix: z.object({
-    places: z.array(z.object({ id: z.string(), name: z.string(), drive_minutes: z.number().int().nullable() })),
+    places: z.array(
+      z.object({ id: z.string(), name: z.string(), drive_minutes: z.number().int().nullable(), attractiveness: attractivenessSchema.nullable().default(null) }),
+    ),
     dates: z.array(z.object({ checkin: isoDate, checkout: isoDate })),
     cells: z.array(matrixCellSchema),
   }),

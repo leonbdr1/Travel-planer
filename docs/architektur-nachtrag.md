@@ -28,3 +28,9 @@
 - Einheitsgebundene Mängel (`UNIT_DEFECT_TOPICS`: Schimmel, Ungeziefer, Sauberkeit, Zustand, Geruch): Abzug × `UNIT_DEFECT_PENALTY_FACTOR` 0,6 / 1 / 1,6, Höchstabzug `SCORE_MAX_PENALTY_BY_KIND` 2 / 2 / 3.
 - Warnsignale `RED_FLAG_THRESHOLDS_BY_KIND` (Hotel wie bisher; Pension 2 Gäste/7 % bzw. 3/10 %; Ferienwohnung 2/5 % bzw. 3/8 %).
 - `ScoreBreakdown` trägt `propertyKind` und `fullWeightReviews`. Details: `docs/logik/unterkunftsarten.md`.
+
+## 5.2 Katalog, 6.2 Vorschläge (Aufgabe 8)
+
+- Migration `20261016a_place_attractiveness` (additiv): `app.places.fame`, `attractions` (0–3, NULL erlaubt); pgTAP `place_attractiveness.sql`. Kuratierte Werte in `data/catalog/attraktivitaet.yaml` (KI-Entwurf, BG-11), `catalog import` schreibt sie; der Katalog hat zusätzlich St. Anton am Arlberg.
+- `packages/domain/src/attractiveness.ts`: Wert 0–10 aus fünf Kriterien, Stufen top / beliebt / ruhig / wenig; eigene Orte aus Einwohnerzahl und nächstem Katalogort (≤ 8 km); Region = Mittel der drei besten Orte.
+- Verträge: `PlaceDto.attractiveness`, `RegionSuggestion.attractiveness`, Matrix-Orte mit `attractiveness`. Details: `docs/logik/orts-attraktivitaet.md`.

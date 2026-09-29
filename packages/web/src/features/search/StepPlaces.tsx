@@ -7,6 +7,7 @@ import { checkCombinations, placeLimit, preselectPlaceIds } from '@reiseplaner/d
 import { AiLabel, Alert, Badge, Button, Card, Heading, Label, Spinner, Text, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
+import { AttractivenessBadge } from './AttractivenessBadge';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchPlaces, resolvePlace, searchPlaces } from './api';
 import { catalogLabel, formatMinutes } from './labels';
@@ -50,6 +51,9 @@ function PlaceRow({
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-semibold text-zinc-950">{place.name}</span>
             {place.kind === 'user' ? <Badge tone="neutral">{t.userPlace}</Badge> : null}
+            {place.attractiveness ? (
+              <AttractivenessBadge level={place.attractiveness.level} score={place.attractiveness.score} parts={place.attractiveness.parts} name={place.name} />
+            ) : null}
             <span className="text-sm text-zinc-600" data-testid="place-drive">
               {place.minutes === null
                 ? t.noDrive

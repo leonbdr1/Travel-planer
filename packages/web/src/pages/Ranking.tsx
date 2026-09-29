@@ -34,6 +34,7 @@ export function Ranking() {
     [t.finaleTitle, t.finale(constants.STAR_TRAP_MIN_STARS, constants.FINALISTS_MAX)],
     [t.redFlagTitle, t.redFlag(redFlagLimits, constants.MENTION_RECENT_MONTHS, constants.MENTION_RECENT_WEIGHT, flatLimits)],
     [t.praiseTitle, t.praise(constants.PRAISE_MIN_MENTIONS, pct(constants.PRAISE_MIN_SHARE))],
+    [t.placesTitle, t.places(constants.ATTRACTIVENESS_LEVELS.top, constants.ATTRACTIVENESS_LEVELS.beliebt, constants.ATTRACTIVENESS_LEVELS.ruhig)],
     [t.sortTitle, t.sort],
     [t.otherTitle, t.other],
   ];
@@ -42,7 +43,7 @@ export function Ranking() {
       <Heading level={1}>{t.title}</Heading>
       <Text>{t.intro}</Text>
       {sections.map(([title, text]) => (
-        <Card key={title} className="space-y-2">
+        <Card key={title} className="space-y-2" id={title === t.placesTitle ? 'orte' : undefined}>
           <Heading level={2}>{title}</Heading>
           <Text>{text}</Text>
         </Card>

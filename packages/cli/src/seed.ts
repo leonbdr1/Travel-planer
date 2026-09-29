@@ -26,7 +26,9 @@ export async function seedDevData(db: Db, log: (line: string) => void): Promise<
     const b = stats.byCountry;
     log(`seed: Ortsdatenbank importiert (DE ${b.DE}, AT ${b.AT}, CH ${b.CH}, IT-BZ ${b['IT-BZ']}, Postleitzahlen ${stats.postalCodesAssigned})`);
   }
-  if ((await catalogCounts(db)).places === 0) {
+  // Also when the catalog predates the attractiveness ratings (Aufgabe 8); the import is an idempotent upsert.
+  const rated = await db.query<{ n: number }>(`SELECT count(*)::int AS n FROM app.places WHERE kind = 'catalog' AND fame IS NOT NULL`);
+  if ((await catalogCounts(db)).places === 0 || (rated[0]?.n ?? 0) === 0) {
     // Local development only: include the AI draft awaiting approval (BG-11).
     const stats = await importCatalog(db, loadCatalog(resolve(repoRoot, 'data/catalog')), { includeDrafts: true });
     log(`seed: Katalog-Entwurf importiert (${stats.regions} Regionen, ${stats.places} Orte)`);

@@ -3,7 +3,7 @@
 // cancellation. Houses without reviews that the goal's rules sort out come in
 // a second list with the doubt (why they are not in our selection).
 import { Link } from 'react-router';
-import type { ResultItem, UnratedDoubtDto } from '@reiseplaner/contracts';
+import type { AttractivenessDto, ResultItem, UnratedDoubtDto } from '@reiseplaner/contracts';
 import { constants } from '@reiseplaner/domain';
 import { AiLabel, Badge, Card, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
@@ -47,11 +47,14 @@ export function ResultList({
   detailHref,
   aiLabel,
   testId = 'result-list',
+  places,
 }: {
   items: Array<ResultItem & { doubt?: UnratedDoubtDto }>;
   detailHref: (hotelId: string) => string;
   aiLabel: string;
   testId?: string;
+  /** What the places of the search offer (Aufgabe 8), by place id. */
+  places?: ReadonlyMap<string, AttractivenessDto>;
 }) {
   return (
     <ol className="space-y-3" data-testid={testId}>
@@ -73,8 +76,15 @@ export function ResultList({
                     </Badge>
                   ) : null}
                 </div>
+                {places?.get(o.place_id)?.level === 'wenig' ? (
+                  <p className="text-sm font-medium text-orange-800" data-testid="place-little-to-offer">
+                    {de.attractiveness.listNote(o.place_name)}
+                  </p>
+                ) : null}
                 <p className="text-sm text-zinc-600">
-                  {o.place_name} · {formatStay(o.checkin, o.checkout)}
+                  {o.place_name}
+                  {places?.get(o.place_id)?.level === 'top' ? <span className="text-emerald-700"> ({de.attractiveness.levels.top})</span> : null} ·{' '}
+                  {formatStay(o.checkin, o.checkout)}
                   {item.other_dates_count > 0 ? ` · ${t.otherDates(item.other_dates_count)}` : ''}
                 </p>
                 <p className="text-sm text-zinc-600">

@@ -16,6 +16,7 @@ export * from './suggestions';
 export * from './pricing';
 export * from './rooms';
 export * from './property-kind';
+export * from './attractiveness';
 export * from './occupancy';
 export * from './filters';
 export * from './scoring';

@@ -6,6 +6,7 @@ import {
   rankPlaces,
   rankRegions,
   reachablePlaces,
+  regionAttractiveness,
   themeLabel,
   type CatalogPlace as DomainPlace,
   type TravelTime as DomainTravelTime,
@@ -55,7 +56,15 @@ export function placeDto(
     matched_themes: [...matched].filter((t) => selectedThemes.includes(t)),
     minutes: time ? Math.round(time.minutes) : null,
     estimated: time?.estimated ?? false,
+    attractiveness: row.attractiveness,
   };
+}
+
+/** A region by its best places (Aufgabe 8): score and level, and the names of those places. */
+function regionAttractivenessDto(rows: readonly CatalogPlace[]): RegionSuggestionDto['attractiveness'] {
+  const best = [...rows].sort((a, b) => b.attractiveness.score - a.attractiveness.score).slice(0, 3);
+  const region = regionAttractiveness(best.map((p) => p.attractiveness.score));
+  return region ? { ...region, top_places: best.map((p) => p.name) } : null;
 }
 
 export async function resolveOrigin(db: Queryable, geonameid: number): Promise<Locality | null> {
@@ -105,6 +114,7 @@ export async function suggestRegions(
       min_minutes: Math.round(r.minMinutes),
       max_minutes: Math.round(r.maxMinutes),
       estimated: r.estimated,
+      attractiveness: regionAttractivenessDto(all.filter((p) => p.regionId === r.regionId).map((p) => p.row)),
     });
   }
   return { regions, stats: publicStats(stats) };

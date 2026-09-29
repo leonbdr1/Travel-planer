@@ -7,7 +7,7 @@
 // results page, so the matrix and the list follow it too.
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import { exclusionReasonSchema, type ExclusionReasonCode, type FinaleResponse, type FinalistDto, type OfferFeatureDto } from '@reiseplaner/contracts';
+import { exclusionReasonSchema, type AttractivenessDto, type ExclusionReasonCode, type FinaleResponse, type FinalistDto, type OfferFeatureDto } from '@reiseplaner/contracts';
 import { constants, DEFAULT_GOAL, type Goal } from '@reiseplaner/domain';
 import { Alert, Badge, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { GoalSwitch } from '../../components/GoalSwitch';
@@ -99,7 +99,7 @@ function Badges({ f, isBase }: { f: FinalistDto; isBase: boolean }) {
   );
 }
 
-function Row({ f, isBase, href }: { f: FinalistDto; isBase: boolean; href: string }) {
+function Row({ f, isBase, href, littleToOffer }: { f: FinalistDto; isBase: boolean; href: string; littleToOffer: boolean }) {
   const o = f.offer;
   const same = Math.round(f.price_delta_eur) === 0;
   return (
@@ -136,6 +136,11 @@ function Row({ f, isBase, href }: { f: FinalistDto; isBase: boolean; href: strin
             <RatingPair quality={f.quality} rating={f.hotel.rating} reviews={f.hotel.review_count} sources={f.hotel.rating_sources} size="sm" />
           )}
         </div>
+        {littleToOffer ? (
+          <p className="text-xs font-medium text-orange-800" data-testid="finalist-little-to-offer">
+            {de.attractiveness.listNote(o.place_name)}
+          </p>
+        ) : null}
         <p className="text-xs text-zinc-500">
           {o.place_name} · {formatStay(o.checkin, o.checkout)}
           {f.hotel.stars ? <span className="ml-1 text-amber-600">{'★'.repeat(Math.round(f.hotel.stars))}</span> : null}
@@ -198,6 +203,7 @@ export function FinaleView({
   goal,
   onGoalChange,
   onShowUnrated,
+  placeLevels,
 }: {
   searchId: string;
   token: string;
@@ -209,6 +215,8 @@ export function FinaleView({
   onGoalChange: (goal: Goal) => void;
   /** Scrolls to the sorted-out houses without reviews below all offers, when there are any. */
   onShowUnrated?: (() => void) | undefined;
+  /** What the places of the search offer (Aufgabe 8), by place id. */
+  placeLevels?: ReadonlyMap<string, AttractivenessDto>;
 }) {
   const [data, setData] = useState<FinaleResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -252,7 +260,7 @@ export function FinaleView({
             <>
               <ol className="max-w-3xl divide-y divide-zinc-200 overflow-hidden rounded-xl bg-white ring-1 ring-zinc-200" data-testid="finalists">
                 {data.finalists.map((f) => (
-                  <Row key={f.hotel.id} f={f} isBase={f === base} href={detailHref(f.hotel.id)} />
+                  <Row key={f.hotel.id} f={f} isBase={f === base} href={detailHref(f.hotel.id)} littleToOffer={placeLevels?.get(f.offer.place_id)?.level === 'wenig'} />
                 ))}
               </ol>
               <Legend osm={data.finalists.some((f) => f.features.some((x) => x.minutes !== undefined))} />

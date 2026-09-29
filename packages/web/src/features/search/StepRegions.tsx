@@ -5,6 +5,7 @@ import type { MetaConfigResponse, RegionSuggestionDto } from '@reiseplaner/contr
 import { AiLabel, Alert, Button, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
+import { AttractivenessBadge } from './AttractivenessBadge';
 import { fetchRegions } from './api';
 import { catalogLabel } from './labels';
 import { toggle, type WizardState, keepOwnSelection } from './state';
@@ -76,7 +77,7 @@ export function StepRegions({
           const selected = state.selectedRegionIds.includes(region.id);
           const full = !selected && state.selectedRegionIds.length >= MAX_REGIONS;
           return (
-            <li key={region.id}>
+            <li key={region.id} className="relative">
               <button
                 type="button"
                 aria-pressed={selected}
@@ -85,6 +86,7 @@ export function StepRegions({
                 onClick={() => update({ selectedRegionIds: toggle(state.selectedRegionIds, region.id), places: [], selectedPlaceIds: keepOwnSelection(state) })}
                 className={cx(
                   'block h-full w-full rounded-xl bg-white p-5 text-left shadow-sm ring-1 transition',
+                  region.attractiveness && 'pb-14',
                   selected ? 'ring-2 ring-brand-600' : 'ring-zinc-200 hover:ring-zinc-300',
                   full && 'opacity-50',
                 )}
@@ -107,6 +109,17 @@ export function StepRegions({
                 <p className="mt-2 text-sm text-zinc-600">{region.description}</p>
                 {region.ai_assisted ? <AiLabel className="mt-3" text={catalogLabel(meta, region.verified)} /> : null}
               </button>
+              {region.attractiveness ? (
+                // Outside the card's button (no button inside a button); sits on the card's last line.
+                <div className="absolute bottom-4 left-5">
+                  <AttractivenessBadge
+                    level={region.attractiveness.level}
+                    score={region.attractiveness.score}
+                    topPlaces={region.attractiveness.top_places}
+                    name={region.name}
+                  />
+                </div>
+              ) : null}
             </li>
           );
         })}

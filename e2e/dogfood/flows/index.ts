@@ -5,6 +5,7 @@ import { orteFlow } from './orte';
 import { naechteFlow } from './naechte';
 import { zimmerFlow } from './zimmer';
 import { bewertungFlow } from './bewertung';
+import { attraktivitaetFlow } from './attraktivitaet';
 import { buchungFlow } from './buchung';
 import { entwicklerFlow } from './entwickler';
 import { ergebnisseFlow } from './ergebnisse';
@@ -15,4 +16,4 @@ import { sucheFlow } from './suche';
 import { suchrahmenFlow } from './suchrahmen';
 import { warnungenFlow } from './warnungen';
 
-export const flows: Flow[] = [startFlow, startseiteFlow, pflichtseitenFlow, suchrahmenFlow, orteFlow, naechteFlow, zimmerFlow, bewertungFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow, langsamFlow];
+export const flows: Flow[] = [startFlow, startseiteFlow, pflichtseitenFlow, suchrahmenFlow, orteFlow, naechteFlow, zimmerFlow, bewertungFlow, attraktivitaetFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow, langsamFlow];

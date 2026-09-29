@@ -18,7 +18,7 @@ import {
 } from '@reiseplaner/contracts';
 import { productConfig } from '@reiseplaner/config';
 import { blocksLanguage, DEFAULT_GOAL, textBlocks } from '@reiseplaner/domain';
-import { getSearchOffer, searchPlaces } from '@reiseplaner/db';
+import { getSearchOffer, placesByIds, searchPlaces } from '@reiseplaner/db';
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import type { AppEnv } from '../app';
 import { ApiError } from '../http/errors';
@@ -63,6 +63,7 @@ export const resultRoutes = new Hono<AppEnv>()
       ? data.evaluated.filter((o) => o.placeId === cell.place_id && o.checkin === cell.checkin && (cell.checkout === null || o.checkout === cell.checkout))
       : data.evaluated;
     const places = await searchPlaces(db, search.id);
+    const placeRows = new Map((await placesByIds(db, places.map((p) => p.placeId))).map((p) => [p.id, p]));
     const dates = [...new Map(data.combinations.map((x) => [`${x.checkin}|${x.checkout}`, { checkin: x.checkin, checkout: x.checkout }])).values()].sort(
       (a, b) => a.checkin.localeCompare(b.checkin) || a.checkout.localeCompare(b.checkout),
     );
@@ -79,7 +80,7 @@ export const resultRoutes = new Hono<AppEnv>()
       },
       filters: effectiveFilters(filters),
       matrix: {
-        places: places.map((p) => ({ id: p.placeId, name: p.name, drive_minutes: p.driveMinutes })),
+        places: places.map((p) => ({ id: p.placeId, name: p.name, drive_minutes: p.driveMinutes, attractiveness: placeRows.get(p.placeId)?.attractiveness ?? null })),
         dates,
         cells: matrixCells(data.combinations, data.evaluated, admissible, data.hotelsById),
       },

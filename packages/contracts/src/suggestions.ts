@@ -15,6 +15,14 @@ export const originSchema = z.object({ geonameid: z.number().int(), label: z.str
 
 export const travelStatsSchema = z.object({ cached: z.number().int(), routed: z.number().int(), estimated: z.number().int() });
 
+/** What a traveller can do in a place (Aufgabe 8, docs/logik/orts-attraktivitaet.md). */
+export const attractivenessSchema = z.object({
+  score: z.number(),
+  level: z.enum(['top', 'beliebt', 'ruhig', 'wenig']),
+  parts: z.object({ fame: z.number(), attractions: z.number(), trails: z.number(), variety: z.number(), infrastructure: z.number() }),
+});
+export type AttractivenessDto = z.infer<typeof attractivenessSchema>;
+
 export const regionSuggestionSchema = z.object({
   id: z.string(),
   slug: z.string(),
@@ -28,6 +36,11 @@ export const regionSuggestionSchema = z.object({
   min_minutes: z.number().int(),
   max_minutes: z.number().int(),
   estimated: z.boolean(),
+  /** The region by its best places (Aufgabe 8). */
+  attractiveness: z
+    .object({ score: z.number(), level: z.enum(['top', 'beliebt', 'ruhig', 'wenig']), top_places: z.array(z.string()) })
+    .nullable()
+    .default(null),
 });
 export type RegionSuggestionDto = z.infer<typeof regionSuggestionSchema>;
 
@@ -62,6 +75,7 @@ export const placeDtoSchema = z.object({
   matched_themes: z.array(z.string()),
   minutes: z.number().int().nullable(),
   estimated: z.boolean(),
+  attractiveness: attractivenessSchema.nullable().default(null),
 });
 export type PlaceDto = z.infer<typeof placeDtoSchema>;
 

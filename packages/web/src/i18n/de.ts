@@ -3,6 +3,8 @@
 // Product values (name, e-mails, operator) are never written here; they are
 // passed in from @reiseplaner/config.
 
+const formatNumber = (n: number) => n.toLocaleString('de-DE');
+
 export const de = {
   common: {
     loading: 'Wird geladen …',
@@ -252,6 +254,26 @@ export const de = {
     noData: 'keine Daten',
     pending: 'wird gesucht',
     newSearch: 'Neue Suche',
+  },
+  attractiveness: {
+    levels: { top: 'Top-Urlaubsort', beliebt: 'Beliebter Urlaubsort', ruhig: 'Ruhiger Ort', wenig: 'Wenig los' },
+    short: { top: 'Top-Ort', beliebt: 'beliebt', ruhig: 'ruhig', wenig: 'wenig los' },
+    infoLabel: (name: string) => `Was bietet ${name}?`,
+    intro: 'So viel kannst du hier im Urlaub unternehmen. Je Punkt ein Drittel:',
+    regionIntro: 'Eine Region zählt so viel wie ihre besten Orte.',
+    parts: {
+      fame: 'Bekanntheit als Urlaubsort',
+      attractions: 'Bergbahnen, Skigebiet, Sehenswürdigkeiten',
+      trails: 'Wander- und Radwege',
+      variety: 'Vielfalt der Aktivitäten',
+      infrastructure: 'Restaurants, Läden, Gästeinfo',
+    },
+    outOf: (n: number) => `${n} von 3`,
+    topPlaces: (names: string) => `Die besten Orte: ${names}.`,
+    cheapNote: 'Hier ist es oft günstiger, du hast aber auch weniger vom Urlaub.',
+    listNote: (place: string) => `${place}: günstiger, hat aber wenig zu bieten`,
+    matrixHint: (place: string, level: string) => `${place}: ${level}`,
+    more: 'So bewerten wir Orte',
   },
   rating: {
     guestTitle: 'Durchschnitt der Gästebewertungen',
@@ -507,6 +529,9 @@ export const de = {
       `Ein Angebot ist ein Schnäppchen, wenn dasselbe Zimmer mit derselben Verpflegung und denselben Stornobedingungen an diesem Termin mindestens ${percent} % unter seinem Durchschnittspreis an deinen anderen Terminen liegt; dafür muss es an mindestens ${dates} Terminen angeboten werden. Der Termin selbst und andere Zimmer zählen beim Durchschnitt nicht mit. Ein Doppelzimmer, das nur an einem Termin frei ist, vergleichen wir also nicht mit der Suite, die an den anderen Terminen übrig ist. Jede Markierung nennt ihre Begründung mit dem Gesamtpreis dieses Angebots und dem durchschnittlichen Gesamtpreis desselben Zimmers an deinen anderen Terminen, also den Zahlen, die auch in der Liste und der Preis-Matrix stehen; in der Preis-Matrix erscheint sie, wenn du mit der Maus auf den Preis zeigst.`,
     otherTitle: 'Was nicht einfließt',
     other: 'Unterkünfte können sich keine bessere Platzierung kaufen. Provisionen oder Margen haben keinen Einfluss auf die Reihenfolge.',
+    placesTitle: 'So bewerten wir Orte und Regionen',
+    places: (top: number, beliebt: number, ruhig: number) =>
+      `Ein abgelegener Nebenort ohne Bergbahn und Wanderwege ist oft deutlich günstiger als ein bekannter Urlaubsort – im Urlaub hat man dort aber weniger davon. Deshalb zeigen wir bei jedem Ort, wie viel er bietet, und markieren Orte, in denen wenig los ist; aussortiert wird dadurch nichts. Wir schauen auf fünf Punkte: Bekanntheit als Urlaubsort, Bergbahnen, Skigebiet oder große Sehenswürdigkeiten, Wander- und Radwege, die Vielfalt der Aktivitäten und die Versorgung vor Ort (Restaurants, Läden, Gästeinformation). Bekanntheit und Attraktionen zählen doppelt. Daraus entsteht ein Wert von 0 bis 10: ab ${formatNumber(top)} „Top-Urlaubsort“, ab ${formatNumber(beliebt)} „Beliebter Urlaubsort“, ab ${formatNumber(ruhig)} „Ruhiger Ort“, darunter „Wenig los“. Orte, die du selbst eingibst, schätzen wir aus ihrer Größe und bekannten Urlaubsorten in der Nähe. Eine Region zählt so viel wie ihre drei besten Orte.`,
     sortTitle: 'Sortierungen',
     sort: 'Standard ist der Preis, die günstigste Unterkunft zuerst. Du kannst die Liste auch nach „Unsere Wahl zuerst“ (Vergleichspreis) oder nach Bewertung (absteigend) sortieren.',
     finaleTitle: '„Deine Auswahl“: So sortieren wir vor',

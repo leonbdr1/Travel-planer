@@ -19,6 +19,7 @@ const place = (id: string, kind: 'catalog' | 'user' = 'user'): PlaceDto => ({
   matched_themes: [],
   minutes: null,
   estimated: false,
+  attractiveness: null,
 });
 
 describe('own places', () => {

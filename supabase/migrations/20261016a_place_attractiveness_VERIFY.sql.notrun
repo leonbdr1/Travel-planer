@@ -1,0 +1,5 @@
+-- Verification for 20261016a_place_attractiveness: both columns exist and are
+-- nullable smallints, and row security is still enabled on places.
+SELECT column_name, data_type, is_nullable FROM information_schema.columns
+ WHERE table_schema = 'app' AND table_name = 'places' AND column_name IN ('fame', 'attractions');
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'places';

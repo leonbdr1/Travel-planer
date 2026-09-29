@@ -102,6 +102,10 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
   }, [searchId, token, sort, filterParams, cell, goal]);
 
   const placeName = useMemo(() => new Map(data?.matrix.places.map((p) => [p.id, p.name]) ?? []), [data]);
+  const placeLevels = useMemo(
+    () => new Map((data?.matrix.places ?? []).flatMap((p) => (p.attractiveness ? [[p.id, p.attractiveness] as const] : []))),
+    [data],
+  );
   const aiLabel = meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : '';
   const detailHref = (hotelId: string) => `/suche/${searchId}/unterkunft/${encodeURIComponent(hotelId)}#t=${token}`;
 
@@ -119,6 +123,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         detailHref={detailHref}
         goal={goal}
         onGoalChange={setGoal}
+        placeLevels={placeLevels}
         // Not a hash link: the hash carries the search token.
         onShowUnrated={data.unrated.length > 0 ? () => document.getElementById(UNRATED_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' }) : undefined}
       />
@@ -266,13 +271,13 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         ) : null}
 
         {loading ? <Spinner label={de.common.loading} /> : null}
-        {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} />}
+        {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} places={placeLevels} />}
 
         {data.oversized.length > 0 ? (
           <section className="space-y-3 border-t border-zinc-200 pt-6" data-testid="oversized-section">
             <Heading level={3}>{t.oversizedTitle(data.oversized.length)}</Heading>
             <Text className="max-w-3xl text-sm">{t.oversizedLead}</Text>
-            <ResultList items={data.oversized} detailHref={detailHref} aiLabel={aiLabel} testId="oversized-list" />
+            <ResultList items={data.oversized} detailHref={detailHref} aiLabel={aiLabel} testId="oversized-list" places={placeLevels} />
           </section>
         ) : null}
 
@@ -280,7 +285,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
           <section id={UNRATED_SECTION_ID} className="space-y-3 border-t border-zinc-200 pt-6" data-testid="unrated-section">
             <Heading level={3}>{t.unratedTitle(data.unrated.length)}</Heading>
             <Text className="max-w-3xl text-sm">{t.unratedLead}</Text>
-            <ResultList items={data.unrated} detailHref={detailHref} aiLabel={aiLabel} testId="unrated-list" />
+            <ResultList items={data.unrated} detailHref={detailHref} aiLabel={aiLabel} testId="unrated-list" places={placeLevels} />
           </section>
         ) : null}
       </section>

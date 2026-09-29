@@ -14,7 +14,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 5** – Personenzahl und Zimmerlogik
 - [x] **Aufgabe 6** – Hotels und Ferienwohnungen fair unterscheiden (Bewertungsanzahl, Schimmel)
 - [x] **Aufgabe 7** – Qualitätswert und Bewertungsanzeige (echte Note und unser Wert nebeneinander)
-- [ ] **Aufgabe 8** – Attraktivität von Regionen und Orten
+- [x] **Aufgabe 8** – Attraktivität von Regionen und Orten
 - [ ] **Aufgabe 9** – Info-Button an der Preismatrix und Seite zum Filtersystem
 - [ ] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
 - [ ] **Aufgabe 11** – Bilder vergrößerbar (Lightbox)
@@ -90,3 +90,13 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Anzeige in Liste, „Deine Auswahl“ und Detailansicht: **beide Werte nebeneinander** – die Gästebewertung (umrandet, z. B. „8,7 · 17 Gästebewertungen“) und **unser Wert** (gefüllt) mit kleinem „i“.
 - Das „i“ öffnet beim Draufhalten (Handy: Tippen) ein kleines Info-Panel wie bei Reiseportalen: Überschrift „Warum 8,5 statt 8,7?“, ein Satz zum Unterschied und nur die Gründe, die bei dieser Unterkunft zutreffen (z. B. „Bei Ferienwohnungen zählt die Note ab 20 Bewertungen voll. Bei 17 gleichen wir sie etwas an den Durchschnitt aller Unterkünfte (7,5) an.“, „Neuere Bewertungen fallen schlechter aus (−0,1).“, „Abzug für gemeldete Mängel (−0,6).“), dazu Link „So berechnen wir unseren Wert“. Neues UI-Bauteil `InfoPopover` (`packages/ui`), bleibt auf schmalen Bildschirmen im Bild.
 - Beleg: Walkthrough `bewertung` in `docs/demos/F7/walkthrough-P/` (Liste, Info-Panel, Detail, Handy 390 px), Screenshots gelesen; `npm test` 433 grün.
+
+### Aufgabe 8 – erledigt
+- Ansatz: `docs/logik/orts-attraktivitaet.md`. Fünf Kriterien je 0–3: Bekanntheit, Bergbahnen/Skigebiet/Sehenswürdigkeiten (beide für alle 308 Katalogorte von Hand eingeschätzt in `data/catalog/attraktivitaet.yaml`, doppelt gewichtet), Wander- und Radwege und Vielfalt (aus den Katalog-Themen), Infrastruktur (Einwohnerzahl). Wert 0–10, Stufen „Top-Urlaubsort“ (ab 8), „Beliebter Urlaubsort“ (ab 6), „Ruhiger Ort“ (ab 4), „Wenig los“.
+- Eigene Orte (nicht im Katalog): aus Einwohnerzahl und dem nächsten Katalogort in 8 km (eine Stufe schwächer); Großstädte gelten als gut, abgelegene Dörfer als „Wenig los“.
+- Regionen: Mittel der drei besten Orte, mit Stufe und Hauptorten.
+- Anzeige: Stufe an Regionen (Schritt 2) und Orten (Schritt 3) mit „i“ und Kriterien; in der Preis-Matrix unter jedem Ortsnamen; „Wenig los“-Orte in Liste und „Deine Auswahl“ orange markiert: „Balderschwang: günstiger, hat aber wenig zu bieten“. Nichts wird aussortiert. Rechenweise auf der Seite „So berechnen wir die Rangliste“ (Abschnitt „So bewerten wir Orte und Regionen“).
+- St. Anton am Arlberg in den Katalog aufgenommen (Region „Bregenzerwald und Montafon“, KI-Entwurf).
+- Datenbank: Migration `20261016a_place_attractiveness.sql` (nur lokal), pgTAP-Test; lokale Datenbanken importieren den Katalog automatisch nach.
+- Beleg: Walkthrough `attraktivitaet` in `docs/demos/F8/walkthrough-P/` (Regionen mit Stufe, Info-Panel, Balderschwang als „wenig los“ in Matrix und Liste), Screenshots gelesen; Tests `packages/domain/test/attractiveness.test.ts`; `npm test` 442 grün.
+- Offen: Einschätzungen redaktionell prüfen (BG-11); Ausbau mit OpenStreetMap-Zählung von Bergbahnen und Wanderrouten möglich.

@@ -98,6 +98,8 @@ export async function importCatalog(db: Db, catalog: LoadedCatalog, options: { i
       );
       if (!row) continue;
       stats.places += 1;
+      const rated = catalog.attractiveness.get(`${region}|${place.name}`) ?? null;
+      await tx.query('UPDATE app.places SET fame = $2, attractions = $3 WHERE id = $1::uuid', [row.id, rated?.[0] ?? null, rated?.[1] ?? null]);
       await tx.query('DELETE FROM app.place_themes WHERE place_id = $1', [row.id]);
       for (const [code, strength] of Object.entries(place.themes)) {
         await tx.query('INSERT INTO app.place_themes (place_id, theme_code, strength) VALUES ($1, $2, $3)', [row.id, code, strength]);

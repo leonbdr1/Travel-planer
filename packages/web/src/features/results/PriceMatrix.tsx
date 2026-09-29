@@ -2,9 +2,10 @@
 // colour by price quintile, bargains marked, empty and failed cells distinct;
 // a click scopes the list to that combination. Hovering or focusing a price
 // names the house and room behind it and, for a bargain (★), why it is one.
-import type { MatrixCellDto } from '@reiseplaner/contracts';
+import type { AttractivenessDto, MatrixCellDto } from '@reiseplaner/contracts';
 import { Tooltip, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
+import { LEVEL_TONE } from '../search/AttractivenessBadge';
 import { formatDay, formatEuro, formatStay, hasNightVariants, nightsBetween } from '../../lib/format';
 
 const t = de.results;
@@ -50,7 +51,7 @@ export function PriceMatrix({
   selected,
   onSelect,
 }: {
-  places: Array<{ id: string; name: string }>;
+  places: Array<{ id: string; name: string; attractiveness?: AttractivenessDto | null }>;
   dates: Array<{ checkin: string; checkout: string }>;
   cells: MatrixCellDto[];
   selected: { place_id: string; checkin: string; checkout: string | null } | null;
@@ -80,6 +81,26 @@ export function PriceMatrix({
               <tr key={p.id} className="border-t border-zinc-100">
                 <th scope="row" className="sticky left-0 z-10 whitespace-nowrap bg-white px-3 py-2 text-left font-medium text-zinc-900">
                   {p.name}
+                  {p.attractiveness ? (
+                    <Tooltip
+                      content={
+                        <>
+                          <span className="block font-semibold">{de.attractiveness.levels[p.attractiveness.level]}</span>
+                          {p.attractiveness.level === 'wenig' ? <span className="block">{de.attractiveness.cheapNote}</span> : null}
+                        </>
+                      }
+                    >
+                      <span
+                        data-testid="matrix-place-level"
+                        data-level={p.attractiveness.level}
+                        tabIndex={0}
+                        aria-label={de.attractiveness.matrixHint(p.name, de.attractiveness.levels[p.attractiveness.level])}
+                        className={cx('mt-0.5 inline-block rounded-full px-1.5 text-[11px] font-medium ring-1 ring-inset', LEVEL_TONE[p.attractiveness.level])}
+                      >
+                        {de.attractiveness.short[p.attractiveness.level]}
+                      </span>
+                    </Tooltip>
+                  ) : null}
                 </th>
                 {dates.map((d) => {
                   const cell = byKey.get(`${p.id}|${d.checkin}|${d.checkout}`);

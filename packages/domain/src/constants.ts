@@ -109,6 +109,15 @@ export const ROOM_OVERSIZE_EXTRA = 2;
 export const COMFORT_CHEAPEST_WEIGHT = 0.5;
 
 /**
+ * Attractiveness of places (Aufgabe 8, docs/logik/orts-attraktivitaet.md):
+ * five criteria 0–3, fame and attractions count double; levels from the score.
+ */
+export const ATTRACTIVENESS_WEIGHTS = { fame: 2, attractions: 2, trails: 1.5, variety: 1, infrastructure: 1 } as const;
+export const ATTRACTIVENESS_LEVELS = { top: 8, beliebt: 6, ruhig: 4 } as const;
+/** A place outside the catalog borrows from a catalog place at most this far away. */
+export const ATTRACTIVENESS_NEIGHBOUR_KM = 8;
+
+/**
  * Flexible nights (Aufgabe 4, docs/logik/flexible-naechte.md): the extra night
  * of the same stay is "cheap" at most at this share of the nightly price of the
  * shorter stay, "expensive" from this share on.
