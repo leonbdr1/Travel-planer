@@ -5,6 +5,7 @@ Stand: 29.09.2026 · autonome Sitzung (Auftrag: „Arbeite autonom ohne Rückfra
 
 ## 1. Frontier
 
+- **Aufgabenliste vom 29.09.2026 abends (Aufgaben 0–13, `FORTSCHRITT.md`):** alles erledigt und auf `claude/hopeful-fermat-jechzj` gepusht, nicht deployt. Neue Logik dokumentiert in `docs/logik/` (flexible Nächte, Zimmer und Personen, Unterkunftsarten, Orts-Attraktivität); Änderungen an `architektur.md` gesammelt in `docs/architektur-nachtrag.md` (wartet auf Freigabe). Neue lokale Migrationen `20261015a_offer_rooms`, `20261016a_place_attractiveness` (Staging/Produktion: BEN-GATE). Belege je Aufgabe unter `docs/demos/F1` bis `F13`.
 - **Priorität (Ben, 29.09.2026 abends):** Ziel „Günstig und sauber“ zuerst finalisieren. ⚠️ **Aktuell unfertig: „Preis-Leistung“ und „Komfort“** funktionieren noch nicht wie gewollt; Ben geht das später an. Laufende Aufgabenliste (Startseite, Zimmerlogik, Bewertungslogik, Orts-Attraktivität …): `FORTSCHRITT.md`.
 - **Fertig:** M1 Grundgerüst; M2 im Fake-Modus (Provider-Ports mit simulierten Anbietern, LiteAPI-Client, ORS-Client mit Fahrzeit-Cache, Budget- und Rate-Limit-RPCs); M3 (Ortsdatenbank aus dem GeoNames-Entwicklungsauszug, Skill-Infrastruktur mit vier Bundles, Katalog-Pipeline, Katalog-Entwurf mit 49 Regionen und 307 Orten, Import). Belege unter `docs/demos/S1.*` bis `S3.*`.
 - **Fertig (M4):** Assistent Schritt 1–3 auf `/suche` mit Autovervollständigung, Terminanzahl, KI-Wunschübersetzung, Regions- und Ortsvorschlägen (Walkthrough `docs/demos/S4.4/`).

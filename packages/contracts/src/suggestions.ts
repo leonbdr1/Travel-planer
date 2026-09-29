@@ -36,6 +36,8 @@ export const regionSuggestionSchema = z.object({
   min_minutes: z.number().int(),
   max_minutes: z.number().int(),
   estimated: z.boolean(),
+  /** Rough centre of the region's places, for the orientation map (Aufgabe 13). */
+  center: z.object({ lat: z.number(), lng: z.number() }).nullable().default(null),
   /** The region by its best places (Aufgabe 8). */
   attractiveness: z
     .object({ score: z.number(), level: z.enum(['top', 'beliebt', 'ruhig', 'wenig']), top_places: z.array(z.string()) })

@@ -60,6 +60,13 @@ export function placeDto(
   };
 }
 
+/** Mean position of a region's places (Aufgabe 13); null without places. */
+function regionCenter(places: readonly { lat: number; lng: number }[]): RegionSuggestionDto['center'] {
+  if (places.length === 0) return null;
+  const round = (v: number) => Math.round(v * 1000) / 1000;
+  return { lat: round(places.reduce((s, p) => s + p.lat, 0) / places.length), lng: round(places.reduce((s, p) => s + p.lng, 0) / places.length) };
+}
+
 /** A region by its best places (Aufgabe 8): score and level, and the names of those places. */
 function regionAttractivenessDto(rows: readonly CatalogPlace[]): RegionSuggestionDto['attractiveness'] {
   const best = [...rows].sort((a, b) => b.attractiveness.score - a.attractiveness.score).slice(0, 3);
@@ -115,6 +122,7 @@ export async function suggestRegions(
       max_minutes: Math.round(r.maxMinutes),
       estimated: r.estimated,
       attractiveness: regionAttractivenessDto(all.filter((p) => p.regionId === r.regionId).map((p) => p.row)),
+      center: regionCenter(all.filter((p) => p.regionId === r.regionId)),
     });
   }
   return { regions, stats: publicStats(stats) };

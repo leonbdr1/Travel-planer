@@ -19,7 +19,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 - [x] **Aufgabe 10** – Labels, Legende und Texte in „Deine Auswahl“
 - [x] **Aufgabe 11** – Bilder vergrößerbar (Lightbox)
 - [x] **Aufgabe 12** – Ausstattungs-Labels auf Deutsch
-- [ ] **Aufgabe 13** – Kartenansicht für Regionen
+- [x] **Aufgabe 13** – Kartenansicht für Regionen
 
 ## Notizen je Aufgabe
 
@@ -125,3 +125,13 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Die simulierten Unterkünfte liefern ihre Ausstattung jetzt wie die echte LiteAPI auf Englisch (vorher schon deutsch), damit die Übersetzung sichtbar geprüft wird.
 - Weitere englische Labels im Code: keine gefunden (Verpflegung, Wünsche, Lob, Badges sind bereits deutsch). Zimmernamen und Beschreibungen kommen vom Anbieter (Beschreibungen fordern wir auf Deutsch an, Drift 38) – Zimmernamen wie „Double Room“ werden nicht übersetzt; bitte melden, falls gewünscht.
 - Beleg: Walkthrough `ausstattung` in `docs/demos/F12/walkthrough-P/` (prüft, dass keine englischen Begriffe erscheinen), Tests `packages/domain/test/facilities-de.test.ts`; `npm test` 446 grün.
+
+### Aufgabe 13 – erledigt
+- Schritt „Regionen“ zeigt oben eine grobe Übersichtskarte (Deutschland, Österreich, Schweiz, Südtirol als vereinfachte Umrisse, einige Großstädte zur Orientierung), darauf dein Startort und alle vorgeschlagenen Regionen; ausgewählte Regionen sind hervorgehoben, beim Draufzeigen auf eine Regionskarte wird genau diese Region markiert und beschriftet.
+- Jede Regionskarte hat zusätzlich eine kleine Mini-Karte mit ihrer Lage (z. B. Allgäu im Süden an der Grenze, Schwarzwald im Südwesten).
+- Umsetzung ohne Kartenbibliothek und ohne externe Anfragen (neue Abhängigkeiten sind ein BEN-GATE): selbst gezeichnetes SVG (`packages/web/src/features/search/OverviewMap.tsx`); die Lage einer Region ist der Mittelpunkt ihrer Katalogorte (`center` im Vertrag).
+- Beleg: Walkthrough `karte` in `docs/demos/F13/walkthrough-P/` (Desktop, Hervorhebung, 390 px), Screenshots gelesen; `npm test` 446 grün.
+- Offen: bewusst grob; bei Wunsch nach echter Karte (z. B. OpenStreetMap-Kacheln) wäre das eine neue Abhängigkeit/ein neuer Anbieter (Ben entscheidet).
+
+## Stand nach allen Aufgaben (29.09.2026)
+Alle 14 Aufgaben (0–13) erledigt, committet und auf `claude/hopeful-fermat-jechzj` gepusht; nichts deployt. Offene Punkte für Ben: `architektur.md`-Nachtrag freigeben (`docs/architektur-nachtrag.md`), Migrationen `20261015a`/`20261016a` gegen Staging/Produktion, redaktionelle Prüfung der Orts-Attraktivität (BG-11), „Preis-Leistung“ und „Komfort“ überarbeiten (Aufgabe 0), Schwellen mit echten Daten kalibrieren.
