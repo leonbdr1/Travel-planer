@@ -37,13 +37,13 @@ function Cell({ label, htmlFor, icon, children }: { label: string; htmlFor: stri
 }
 
 /** Start location and drive time, the frame of "Orte vorschlagen lassen". */
-export function OriginFields({ state, update, touched }: { state: WizardState; update: Update; touched: boolean }) {
+export function OriginFields({ state, update, touched, optional = false }: { state: WizardState; update: Update; touched: boolean; optional?: boolean }) {
   const loadLocalities = useCallback((q: string, signal: AbortSignal) => fetchLocalities(q, signal).then((r) => r.items), []);
-  const originMissing = state.origin === null;
+  const originMissing = state.origin === null && !optional;
   return (
-    <div className="space-y-2" data-testid="origin-fields">
+    <div className="space-y-2" data-testid={optional ? 'origin-optional' : 'origin-fields'}>
       <div className="grid gap-2">
-        <Cell label={t.origin} htmlFor="origin" icon={<MapPinIcon aria-hidden="true" className="size-5" />}>
+        <Cell label={optional ? t.originOptional : t.origin} htmlFor="origin" icon={<MapPinIcon aria-hidden="true" className="size-5" />}>
           <div
             data-origin={state.origin?.geonameid ?? ''}
             className="[&_input]:bg-transparent [&_input]:p-0 [&_input]:font-semibold [&_input]:shadow-none [&_input]:ring-0 [&_input]:focus:ring-0 [&_input]:sm:text-sm/6"
@@ -63,6 +63,7 @@ export function OriginFields({ state, update, touched }: { state: WizardState; u
             />
           </div>
         </Cell>
+        {optional ? null : (
         <Cell label={t.maxDriveShort} htmlFor="max-drive" icon={<ClockIcon aria-hidden="true" className="size-5" />}>
           <select
             id="max-drive"
@@ -79,9 +80,10 @@ export function OriginFields({ state, update, touched }: { state: WizardState; u
             ))}
           </select>
         </Cell>
+        )}
       </div>
       <p id="origin-hint" className="text-sm text-zinc-500">
-        {t.originHint}
+        {optional ? t.originOptionalHint : t.originHint}
       </p>
       {touched && originMissing ? <ErrorMessage>{t.originRequired}</ErrorMessage> : null}
     </div>

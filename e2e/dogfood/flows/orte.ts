@@ -38,10 +38,13 @@ export const orteFlow: Flow = {
       { expectText: ['Köln', 'Frankfurt am Main', 'Berlin', 'Weiter zu den Regionen'] },
     );
     await step(
-      'Häkchen „Orte vorschlagen lassen“ raus → Startort verschwindet, Ortsliste mit genau diesen Orten',
+      'Häkchen „Orte vorschlagen lassen“ raus → Startort nur noch optional, Fahrzeiten bleiben an den Orten, Ortsliste mit genau diesen Orten',
       async () => {
         await page.getByTestId('toggle-suggest').uncheck();
-        await page.getByTestId('origin-input').waitFor({ state: 'detached' });
+        // Only the optional start location stays (for the drive times); no drive time field.
+        await page.getByTestId('origin-fields').waitFor({ state: 'detached' });
+        await page.getByTestId('origin-optional').waitFor();
+        await page.getByTestId('own-place-chip').filter({ hasText: /\d+ h|\d+ min/ }).first().waitFor();
         await page.getByTestId('frame-next').click();
         await page.getByTestId('combination-count').filter({ hasText: '3 Orte × 2 Termine = 6 Kombinationen' }).waitFor();
       },

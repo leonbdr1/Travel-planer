@@ -139,6 +139,7 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - **Startseite:** nur noch ein Button „Suche starten“ (keine Eingabefelder mehr); alles Weitere auf `/suche`.
 - **Passende Regionen:** das große Übersichtsbild ist raus, die kleinen Karten je Region bleiben.
 - Technik: Zustand `suggest` und `pickOwn`; der Startort ist in der Anfrage leer, wenn nur eigene Orte gewählt sind (`origin` im Vertrag optional, Migration `20261017a_search_origin_optional.sql` mit pgTAP-Test `supabase/tests/search_origin_optional.sql`, nur lokal ausgeführt, Staging/Produktion bleibt BEN-GATE).
+- **Korrektur (Ben, 29.09.):** Bei „nur eigene Orte“ fehlten die Fahrzeiten, weil ich den Startort ausgeblendet hatte. Jetzt gibt es dort ein optionales Feld „Startort (optional)“; mit Startort stehen die Fahrzeiten wieder neben den Orten (auch bei Vorschlägen und gemischt).
 - Beleg: Walkthroughs `startseite`, `orte`, `karte`, `naechte`, `zimmer` angepasst und Screenshots gelesen; `npm test` 448 grün, `npm run db:test` grün.
 
 ## Stand nach allen Aufgaben (29.09.2026)

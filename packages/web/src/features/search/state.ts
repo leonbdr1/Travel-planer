@@ -122,9 +122,12 @@ export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Dat
   );
 }
 
-/** The start location counts only while places are suggested; own places alone need none. */
+/**
+ * The start location, when there is one: needed for suggestions, optional for own places
+ * (then it only gives the drive times next to the places).
+ */
 export function activeOrigin(state: Pick<WizardState, 'suggest' | 'origin'>): LocalityDto | null {
-  return state.suggest ? state.origin : null;
+  return state.origin;
 }
 
 /** Suggested and own places in one list (own places after the suggestions, without duplicates). */

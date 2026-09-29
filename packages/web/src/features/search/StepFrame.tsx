@@ -4,14 +4,14 @@
 // departure (calendar) and travellers that counts for both. Then the travel pattern with live date count, themes, budget,
 // goal (one tap), wish chips and free text translated by AI (with the visible
 // AI notice). Stars and rating minimums are "Weitere Filter" in the results.
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { MetaConfigResponse } from '@reiseplaner/contracts';
 import { MapPinIcon, SparklesIcon } from '@heroicons/react/20/solid';
 import { AiLabel, Alert, Button, Card, Checkbox, Chip, Description, ErrorMessage, Fieldset, Heading, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
-import { parseWish } from './api';
+import { parseWish, resolvePlace } from './api';
 import { OwnPlacesPicker } from './OwnPlacesPicker';
 import { DateTravellersBar, OriginFields } from './SearchBar';
 import { activeOrigin, resetSuggestions, stayDates, toggle, type WizardState } from './state';
@@ -59,6 +59,21 @@ export function StepFrame({
   const ownMissing = !state.suggest && state.ownPlaces.length === 0;
   const adultsInvalid = state.adults < 1;
   const aiOff = !meta.llm_enabled;
+
+  // Own places picked before the start location changed get their drive times again.
+  const originId = state.origin?.geonameid ?? null;
+  useEffect(() => {
+    if (state.ownPlaces.length === 0 || state.ownPlacesOrigin === originId) return;
+    let cancelled = false;
+    Promise.all(state.ownPlaces.map((p) => (p.geonameid !== null ? resolvePlace(p.geonameid, originId).then((r) => r.place) : Promise.resolve(p))))
+      .then((ownPlaces) => {
+        if (!cancelled) update({ ownPlaces, ownPlacesOrigin: originId });
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [originId, state.ownPlacesOrigin, state.ownPlaces.length]);
 
   async function translate() {
     const text = state.wishText.trim();
@@ -154,6 +169,7 @@ export function StepFrame({
                 }}
               />
             ) : null}
+            {state.pickOwn && !state.suggest ? <OriginFields state={state} update={update} touched={touched} optional /> : null}
             {touched && ownMissing ? <ErrorMessage>{o.needOne}</ErrorMessage> : null}
           </div>
         </div>
