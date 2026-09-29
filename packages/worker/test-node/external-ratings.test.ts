@@ -101,7 +101,11 @@ describe('step external-ratings', () => {
     const after = await loadEvaluationData(test.db, id);
     const fused = after.hotels.filter((h) => h.ratingFused);
     expect(fused.length).toBe(first.found);
-    for (const h of fused) expect(h.rating).not.toBeNull();
+    for (const h of fused) {
+      expect(h.rating).not.toBeNull();
+      expect(h.ratingSources).toEqual(['Tripadvisor']);
+    }
+    for (const h of after.hotels.filter((x) => !x.ratingFused)) expect(h.ratingSources).toEqual([]);
     // Houses with enough own ratings are untouched.
     for (const h of before.hotels.filter((x) => !weak.includes(x))) expect(after.hotels.find((a) => a.id === h.id)).toEqual(h);
 

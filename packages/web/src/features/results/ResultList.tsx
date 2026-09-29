@@ -18,12 +18,17 @@ export function cancellationText(refundable: boolean, until: string | null): str
   return until ? t.refundableUntil(formatDateTime(until)) : t.refundable_;
 }
 
-export function QualityBadge({ score, reviews }: { score: number | null; reviews: number | null }) {
+export function QualityBadge({ score, reviews, sources = [] }: { score: number | null; reviews: number | null; sources?: readonly string[] }) {
   if (score === null) return <span className="text-sm text-zinc-500">{t.noReviews}</span>;
   return (
     <span className="inline-flex items-baseline gap-1.5">
       <span className="rounded-md bg-brand-700 px-1.5 py-0.5 text-sm font-bold text-white tabular-nums">{formatScore(score)}</span>
-      {reviews !== null ? <span className="text-xs text-zinc-500">{t.reviews(reviews)}</span> : null}
+      {reviews !== null ? (
+        <span className="text-xs text-zinc-500" data-testid={sources.length > 0 ? 'rating-sources' : undefined}>
+          {t.reviews(reviews)}
+          {sources.length > 0 ? ` ${t.ratingSources(sources.join(', '))}` : ''}
+        </span>
+      ) : null}
     </span>
   );
 }
@@ -59,7 +64,7 @@ export function ResultList({
                     {item.hotel.name}
                   </Link>
                   {item.hotel.stars ? <span className="text-sm text-amber-600">{'★'.repeat(Math.round(item.hotel.stars))}</span> : null}
-                  <QualityBadge score={item.quality.score} reviews={item.hotel.review_count} />
+                  <QualityBadge score={item.quality.score} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} />
                   {item.recommended ? (
                     <Badge tone="brand" data-testid="recommended">
                       {t.recommended}

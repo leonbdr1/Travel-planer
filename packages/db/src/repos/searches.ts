@@ -490,6 +490,8 @@ export interface EvaluationHotelRow {
   rating: number | null;
   reviewCount: number | null;
   ratingFused: boolean;
+  /** Names of the external sources behind a fused rating. */
+  ratingSources: string[];
   hotelType: string | null;
   mainPhotoUrl: string | null;
   facilityIds: number[];
@@ -695,6 +697,7 @@ export async function loadEvaluationData(db: Queryable, searchId: string) {
         rating: fused ? fused.rating : own.rating,
         reviewCount: fused ? fused.count : own.count,
         ratingFused: fused?.fused ?? false,
+        ratingSources: fused?.fused ? externalSourceNames(h.external_ratings) : [],
         hotelType: h.hotel_type,
         mainPhotoUrl: h.main_photo_url,
         facilityIds: h.facility_ids.map(Number),
@@ -758,6 +761,14 @@ export interface ExternalRatings {
 function externalEvidence(value: ExternalRatings | null): RatingEvidence[] {
   if (!value || typeof value.sources !== 'object' || value.sources === null) return [];
   return Object.values(value.sources).map((e) => ({ rating: Number(e.rating), count: Number(e.count) }));
+}
+
+function externalSourceNames(value: ExternalRatings | null): string[] {
+  if (!value || typeof value.sources !== 'object' || value.sources === null) return [];
+  return Object.entries(value.sources)
+    .filter(([, e]) => Number.isInteger(e.count) && e.count > 0)
+    .map(([name]) => name)
+    .sort();
 }
 
 export interface RatingLookupRow {

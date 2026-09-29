@@ -235,6 +235,8 @@ export const de = {
     score: 'Qualität',
     noReviews: 'noch keine Bewertungen',
     reviews: (n: number) => `${n} Bewertungen`,
+    /** Fused rating: the note also rests on reviews from these sources. */
+    ratingSources: (names: string) => `inkl. ${names}`,
     otherDates: (n: number) => (n === 1 ? '1 weiterer Termin' : `${n} weitere Termine`),
     details: 'Details und alle Termine',
     bargain: 'Schnäppchen',
@@ -367,6 +369,8 @@ export const de = {
     scoreCleanlinessNone: 'kein gesonderter Sauberkeitswert',
     scorePenalty: 'Abzüge aus Warnhinweisen',
     scoreFinal: 'Qualitätswert',
+    ratingSourcesNote: (names: string) =>
+      `Die Note fasst die Bewertungen der Unterkunft mit Bewertungen von ${names} zusammen, weil die Unterkunft dort mehr Bewertungen hat. Bewertungen von ${names} zählen dabei halb.`,
     noScore: 'Diese Unterkunft hat noch keine Bewertungen und daher keinen Qualitätswert.',
     importantInfo: 'Wichtige Hinweise der Unterkunft',
     onlyEnglish: 'Diesen Text der Unterkunft haben wir nur auf Englisch erhalten.',

@@ -128,6 +128,7 @@ export const resultRoutes = new Hono<AppEnv>()
         stars: hotel.stars,
         rating: hotel.rating,
         review_count: hotel.reviewCount,
+        rating_sources: hotel.ratingSources,
         hotel_type: hotel.hotelType,
         city: hotel.city,
         photo_url: hotel.mainPhotoUrl,

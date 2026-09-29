@@ -132,7 +132,7 @@ function Row({ f, isBase, href }: { f: FinalistDto; isBase: boolean; href: strin
               {t.unrated}
             </Badge>
           ) : (
-            <span className="rounded-md bg-brand-700 px-1.5 py-0.5 text-sm font-bold text-white tabular-nums" title={de.results.reviews(f.hotel.review_count ?? 0)}>
+            <span className="rounded-md bg-brand-700 px-1.5 py-0.5 text-sm font-bold text-white tabular-nums" title={`${de.results.reviews(f.hotel.review_count ?? 0)}${f.hotel.rating_sources.length > 0 ? ` ${de.results.ratingSources(f.hotel.rating_sources.join(', '))}` : ''}`}>
               {formatScore(f.quality.score)}
             </span>
           )}

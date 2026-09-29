@@ -19,7 +19,7 @@ import { tokenFromHash } from './SearchRun';
 const t = de.detail;
 const r = de.results;
 
-function ScoreBreakdown({ score }: { score: HotelDetailResponse['score'] }) {
+function ScoreBreakdown({ score, sources }: { score: HotelDetailResponse['score']; sources: readonly string[] }) {
   if (score.quality === null) return <Text>{t.noScore}</Text>;
   const rows: Array<[string, string]> = [
     [t.scoreRating(formatScore(score.rating ?? 0), score.reviewCount), ''],
@@ -46,6 +46,11 @@ function ScoreBreakdown({ score }: { score: HotelDetailResponse['score'] }) {
         <dt className="font-semibold text-zinc-900">{t.scoreFinal}</dt>
         <dd className="font-bold tabular-nums text-zinc-950">{formatScore(score.quality)}</dd>
       </div>
+      {sources.length > 0 ? (
+        <p className="py-2 text-xs text-zinc-600" data-testid="rating-sources-note">
+          {t.ratingSourcesNote(sources.join(', '))}
+        </p>
+      ) : null}
     </dl>
   );
 }
@@ -132,7 +137,7 @@ export function HotelDetail() {
             </p>
           ) : null}
         </div>
-        <QualityBadge score={data.score.quality} reviews={h.review_count} />
+        <QualityBadge score={data.score.quality} reviews={h.review_count} sources={h.rating_sources} />
       </div>
       {h.photos.length > 0 ? (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -210,7 +215,7 @@ export function HotelDetail() {
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="space-y-3">
           <Heading level={2}>{t.scoreTitle}</Heading>
-          <ScoreBreakdown score={data.score} />
+          <ScoreBreakdown score={data.score} sources={h.rating_sources} />
         </Card>
         <ReviewCheckPanel check={data.review_check} aiLabel={meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : ''} />
       </div>

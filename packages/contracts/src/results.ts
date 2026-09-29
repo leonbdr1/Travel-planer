@@ -95,6 +95,8 @@ export const hotelSummarySchema = z.object({
   stars: z.number().nullable(),
   rating: z.number().nullable(),
   review_count: z.number().int().nullable(),
+  /** Names of external rating sources fused into `rating` and `review_count` (empty: LiteAPI only). */
+  rating_sources: z.array(z.string()).default([]),
   hotel_type: z.string().nullable(),
   city: z.string().nullable(),
   photo_url: z.string().nullable(),

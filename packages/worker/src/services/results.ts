@@ -132,7 +132,7 @@ export function unratedFor(goal: Goal, evaluated: readonly EvaluatedOffer[], hot
   return unratedDoubts({ goal, evaluated, hotels: preselectHotels(hotels), evidence: reviews.evidence ?? new Map() });
 }
 
-type SummaryHotel = Pick<EvaluationHotelRow, 'id' | 'name' | 'stars' | 'rating' | 'reviewCount' | 'hotelType' | 'city' | 'mainPhotoUrl'>;
+type SummaryHotel = Pick<EvaluationHotelRow, 'id' | 'name' | 'stars' | 'rating' | 'reviewCount' | 'ratingSources' | 'hotelType' | 'city' | 'mainPhotoUrl'>;
 type ListHotel = SummaryHotel & Pick<EvaluationHotelRow, 'facilityIds'>;
 
 export function hotelSummary(hotelId: string, hotels: ReadonlyMap<string, SummaryHotel>): ResultItem['hotel'] {
@@ -143,6 +143,7 @@ export function hotelSummary(hotelId: string, hotels: ReadonlyMap<string, Summar
     stars: h?.stars ?? null,
     rating: h?.rating ?? null,
     review_count: h?.reviewCount ?? null,
+    rating_sources: h?.ratingSources ?? [],
     hotel_type: h?.hotelType ?? null,
     city: h?.city ?? null,
     photo_url: h?.mainPhotoUrl ?? null,
