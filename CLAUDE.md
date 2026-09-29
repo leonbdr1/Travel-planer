@@ -36,6 +36,7 @@ Bei Widersprüchen gilt: Konzept vor Architektur vor Plan. Widersprüche werden 
 7. **Lanes:** Fleet-Worker ändern keine ausführungssteuernden Dateien (`.github/workflows/*`, `.githooks/*`, `package.json`-Skripte und Abhängigkeiten, `package-lock.json`, `toolchain/*`, `.gitattributes`). Solche Änderungen laufen in der Operator-Lane mit Ben.
 8. **Höchstens zwei schreibende Linien gleichzeitig.** Eine neue Linie auf derselben Fläche startet vom Stand der laufenden.
 9. **Beweise in den Baum:** früh und oft committen; jede Zahl, die ein Ergebnis belegt, steht in einer committeten Datei.
+10. **Standardmäßig committen, nie deployen.** Jede fertige Änderung wird direkt committet (Slice-Loop, Schritt 7). Online schalten (Deploy, Migrationen gegen Staging/Produktion) macht nur Ben; das bleibt ein BEN-GATE (Regel 6). Nach dem Commit den Stand nennen und sagen, dass er noch nicht online ist.
 
 ## Tech-Stack
 
