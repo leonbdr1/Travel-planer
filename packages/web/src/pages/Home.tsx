@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { ClockIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { productConfig } from '@reiseplaner/config';
 import { buttonClasses, Card, Heading, Text } from '@reiseplaner/ui';
 import { StatusLine } from '../components/StatusLine';
 import { SearchBar } from '../features/search/SearchBar';
+import { forgetSearch, loadRecent, type RecentSearch } from '../features/search/recent';
 import { loadState, saveState, type WizardState } from '../features/search/state';
 import { de } from '../i18n/de';
 import { useMeta } from '../lib/meta';
@@ -52,6 +53,38 @@ function HeroSearch() {
   );
 }
 
+/** Links to the last searches of this browser (B3), newest first. */
+function RecentSearches() {
+  const [entries, setEntries] = useState<RecentSearch[]>(() => loadRecent(new Date(), productConfig.compliance.retention.searches_days));
+  if (entries.length === 0) return null;
+  return (
+    <section className="space-y-2" data-testid="recent-searches">
+      <h2 className="text-sm font-semibold text-zinc-900">{de.home.recentTitle}</h2>
+      <ul className="flex flex-wrap gap-2">
+        {entries.map((e) => (
+          <li key={e.id} className="inline-flex items-center rounded-full bg-white text-sm ring-1 ring-zinc-200">
+            <Link to={`/suche/${e.id}#t=${e.token}`} className="inline-flex items-center gap-1.5 py-1.5 pr-1 pl-3 text-zinc-800 hover:text-brand-700" data-testid="recent-search">
+              <ClockIcon aria-hidden="true" className="size-4 text-zinc-400" />
+              {e.label}
+            </Link>
+            <button
+              type="button"
+              aria-label={de.home.recentRemove(e.label)}
+              className="mr-1 rounded-full p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700"
+              onClick={() => {
+                forgetSearch(e.id);
+                setEntries((list) => list.filter((x) => x.id !== e.id));
+              }}
+            >
+              <XMarkIcon aria-hidden="true" className="size-4" />
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function Home() {
   const t = de.home;
   return (
@@ -63,6 +96,7 @@ export function Home() {
           <Text className="text-lg">{t.heroLead}</Text>
         </div>
         <HeroSearch />
+        <RecentSearches />
         <StatusLine />
       </section>
       <section className="mt-16 space-y-6">

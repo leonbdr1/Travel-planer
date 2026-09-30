@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Alert, Button, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
-import { ApiRequestError } from '../api/client';
+import { startErrorText } from '../features/results/PriceFreshness';
+import { recentLabel, rememberSearch } from '../features/search/recent';
 import { toSearchRequest } from '../features/search/request';
 import { startSearch } from '../features/search/run-api';
 import { StepFrame } from '../features/search/StepFrame';
@@ -52,13 +53,14 @@ function StartSearch({ state, onBack }: { state: WizardState; onBack: () => void
     setError(null);
     try {
       const created = await startSearch(request);
+      const names = allPlaces(state)
+        .filter((p) => state.selectedPlaceIds.includes(p.id))
+        .map((p) => p.name);
+      rememberSearch({ id: created.search_id, token: created.token, label: recentLabel(names, request.window), createdAt: new Date().toISOString() });
       navigate(`/suche/${created.search_id}#t=${created.token}`);
     } catch (err) {
       setBusy(false);
-      if (err instanceof ApiRequestError && err.status === 429) setError(r.errors.rate_limited);
-      else if (err instanceof ApiRequestError && err.status === 402) setError(r.errors.quota);
-      else if (err instanceof ApiRequestError && err.code !== 'http_error') setError(err.message);
-      else setError(r.errors.generic);
+      setError(startErrorText(err));
     }
   }
   return (

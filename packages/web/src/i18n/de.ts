@@ -26,6 +26,8 @@ export const de = {
       'Gib deinen Rahmen an – Startort, Fahrzeit, Zeitfenster und Reisemuster. Wir durchsuchen alle passenden Orte und Termine gleichzeitig und zeigen dir die besten Angebote innerhalb deines Rahmens.',
     cta: 'Suche starten',
     search: 'Suchen',
+    recentTitle: 'Letzte Suchen',
+    recentRemove: (label: string) => `${label} entfernen`,
     stepsTitle: 'In drei Schritten zum passenden Angebot',
     steps: [
       { title: 'Rahmen angeben', text: 'Startort, maximale Fahrzeit, Zeitfenster, Nächte und Wünsche.' },
@@ -338,7 +340,9 @@ export const de = {
   },
   results: {
     title: 'Ergebnisse',
-    fetchedAt: (time: string) => `Preise abgerufen um ${time} Uhr. Preise können sich bis zur Buchung ändern.`,
+    fetchedAt: (time: string) => `Preise von ${time} Uhr`,
+    stale: (time: string) => `Preise von ${time} Uhr – sie können sich inzwischen geändert haben.`,
+    refresh: 'Preise aktualisieren',
     counts: (listed: number, hidden: number) =>
       `${listed === 1 ? '1 Unterkunft passt' : `${listed} Unterkünfte passen`} zu deinem Ziel${hidden > 0 ? `, ${hidden === 1 ? '1 weitere haben' : `${hidden} weitere haben`} wir aussortiert` : ''}.`,
     countsUnrated: (n: number) => (n === 1 ? 'Eine davon hat keine Bewertungen und steht ganz unten.' : `${n} davon haben keine Bewertungen und stehen ganz unten.`),
@@ -773,7 +777,8 @@ export const de = {
     privacyProcessors:
       'Cloudflare (Hosting), Supabase (Datenbank, Region Frankfurt), Anthropic (KI, USA, nur Inhalte ohne Personenbezug), Resend (E-Mail), HeiGIT (openrouteservice, Deutschland), LiteAPI/Nuitée (Buchung und Zahlung). [Platzhalter: Verträge und Übermittlungsgrundlagen]',
     privacyCookiesTitle: 'Cookies und Tracking',
-    privacyCookies: 'Wir setzen keine Tracking-Cookies und keine Analyse-Werkzeuge ein. Die Sicherheitsprüfung (ALTCHA) arbeitet ohne Cookies. Während einer Buchung speichert dein Browser das Sitzungstoken nur im aktuellen Tab.',
+    privacyCookies: (recent: number, days: number) =>
+      `Wir setzen keine Tracking-Cookies und keine Analyse-Werkzeuge ein. Die Sicherheitsprüfung (ALTCHA) arbeitet ohne Cookies. Während einer Buchung speichert dein Browser das Sitzungstoken nur im aktuellen Tab. Die Links zu deinen letzten ${recent} Suchen speichert nur dein Browser, höchstens ${days} Tage; du kannst sie auf der Startseite entfernen.`,
     privacyRightsTitle: 'Deine Rechte',
     privacyRights: 'Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie das Recht, dich bei einer Aufsichtsbehörde zu beschweren. [Platzhalter: zuständige Behörde]',
     contactTitle: 'Kontakt',

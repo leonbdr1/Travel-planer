@@ -10,7 +10,7 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 
 - [x] **B1** – Ergebnisfilter vollständig: Unterkunftsart, Ausstattungs-Wünsche und Namenssuche im Ergebnis änderbar (konzept.md F5)
 - [x] **B2** – Liste seitenweise („Weitere anzeigen“), Sortierung nach Fahrzeit
-- [ ] **B3** – Preise aktualisieren (dieselbe Suche neu) und „Letzte Suchen“ im Browser
+- [x] **B3** – Preise aktualisieren (dieselbe Suche neu) und „Letzte Suchen“ im Browser
 - [ ] **B4** – Buchungsübersicht ohne Konto: nur E-Mail eingeben, Liste aller Buchungen per E-Mail
 - [ ] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
 - [ ] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
@@ -34,6 +34,12 @@ Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffe
 - Nebenbei: Die drei Lesezugriffe von `loadEvaluationData` und die unabhängigen Lesezugriffe der Ergebnis-Route laufen parallel (postgres.js reiht sie auf einer Verbindung ohne Warten hintereinander).
 - Walkthrough-Runner: `DOGFOOD_BROWSER_CHANNEL=chrome` nutzt ein installiertes Chrome statt Playwrights Chromium-Download.
 - Beleg: Walkthrough `listenfilter` (neu) in `docs/demos/B1/walkthrough-P/` (7/7, Screenshots gelesen); Integrationstest `worker/test/searches.test.ts` (Seiten, Name, Art, Fahrzeit), Domain-Test Unterkunftsart; `npm test` 447 grün.
+
+### B3 – erledigt
+- **Preise aktualisieren:** Über „Deine Auswahl“ steht „Preise von HH:MM Uhr“ mit dem Knopf „Preise aktualisieren“. Sind die Preise älter als `RATE_CACHE_TTL_MIN` (30 min), wird daraus ein gelber Hinweis mit hervorgehobenem Knopf. Der Knopf startet dieselbe Suche neu (gleicher Suchrahmen, ALTCHA und Suchgrenzen wie jede Suche) und öffnet sie. Dafür liefert `GET /results` den Suchrahmen mit (`request`, additiv).
+- **Letzte Suchen:** Die Startseite zeigt die letzten 5 Suchen dieses Browsers als Links („Füssen · 01.10.–12.10.2026“), einzeln entfernbar (`features/search/recent.ts`, `localStorage`). Einträge älter als die Aufbewahrungsfrist der Suchen (30 Tage) fallen weg, eine gelöschte Suche (404) auch. Die Datenschutzerklärung nennt das.
+- Ersatz für „Buchungsverlauf/gespeicherte Suchen“ ohne Nutzerkonto (konzept.md 2 und 11).
+- Beleg: Walkthrough `suchverlauf` (neu) in `docs/demos/B3/walkthrough-P/` (6/6, mit vorgestellter Uhr; Screenshots gelesen); Unit-Test `web/test/recent-searches.test.ts`; `npm test` 451 grün.
 
 ---
 

@@ -83,6 +83,7 @@ export const resultRoutes = new Hono<AppEnv>()
         combos_failed: search.combosFailed,
       },
       filters: effectiveFilters(filters),
+      request,
       matrix: {
         places: places.map((p) => ({ id: p.placeId, name: p.name, drive_minutes: p.driveMinutes, attractiveness: placeRows.get(p.placeId)?.attractiveness ?? null })),
         dates,

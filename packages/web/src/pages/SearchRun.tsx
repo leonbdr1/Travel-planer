@@ -9,6 +9,7 @@ import { Alert, buttonClasses, Card, Heading, ProgressBar, Spinner, Text } from 
 import { ApiRequestError } from '../api/client';
 import { Matrix } from '../features/search/Matrix';
 import { ResultsView } from '../features/results/ResultsView';
+import { forgetSearch } from '../features/search/recent';
 import { fetchProgress } from '../features/search/run-api';
 import { de } from '../i18n/de';
 
@@ -38,7 +39,11 @@ export function SearchRun() {
         if (!FINAL.has(p.search.status)) timer = setTimeout(poll, constants.STATUS_POLL_INTERVAL_MS);
       } catch (err) {
         if (stopped) return;
-        if (err instanceof ApiRequestError && err.status === 404) setError(t.notFound);
+        if (err instanceof ApiRequestError && err.status === 404) {
+          // Deleted after the retention period or a wrong link: no longer a "last search".
+          forgetSearch(id);
+          setError(t.notFound);
+        }
         else timer = setTimeout(poll, constants.STATUS_POLL_INTERVAL_MS * 2);
       }
     };

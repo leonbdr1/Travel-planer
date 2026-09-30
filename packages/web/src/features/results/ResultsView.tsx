@@ -11,10 +11,11 @@ import type { EffectiveFilters, MatrixCellDto, ResultItem, ResultSort, SearchRes
 import { chipDefinition, constants, isChipCode, PROPERTY_KINDS, type Goal } from '@reiseplaner/domain';
 import { Alert, Button, Card, Checkbox, Chip, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
-import { formatDay, formatEuro, formatStay, formatTime } from '../../lib/format';
+import { formatDay, formatEuro, formatStay } from '../../lib/format';
 import { useMeta } from '../../lib/meta';
 import { fetchResults } from './api';
 import { FinaleView } from './FinaleView';
+import { PriceFreshness } from './PriceFreshness';
 import { PriceMatrix } from './PriceMatrix';
 import { ResultList } from './ResultList';
 
@@ -161,6 +162,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
 
   return (
     <section className="space-y-10" data-testid="results">
+      <PriceFreshness fetchedAt={data.meta.prices_fetched_at} request={data.request} places={data.matrix.places} />
       <FinaleView
         searchId={searchId}
         token={token}
@@ -182,11 +184,6 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
               {t.counts(data.counts.listed, data.counts.hidden)}
               {data.counts.unrated_hidden > 0 ? ` ${t.countsUnrated(data.counts.unrated_hidden)}` : ''}
             </Text>
-            {data.meta.prices_fetched_at ? (
-              <p className="text-xs text-zinc-500" data-testid="fetched-at">
-                {t.fetchedAt(formatTime(data.meta.prices_fetched_at))}
-              </p>
-            ) : null}
           </div>
           <div className="flex items-center gap-2">
             <Label htmlFor="sort" className="sr-only">

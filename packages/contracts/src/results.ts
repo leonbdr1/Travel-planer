@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { goalSchema } from './searches';
+import { goalSchema, searchRequestSchema } from './searches';
 import { attractivenessSchema } from './suggestions';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
@@ -213,6 +213,8 @@ export const searchResultsResponseSchema = z.object({
     combos_failed: z.number().int(),
   }),
   filters: effectiveFiltersSchema,
+  /** The search frame as sent, so the same search can run again with fresh prices. */
+  request: searchRequestSchema,
   matrix: z.object({
     places: z.array(
       z.object({ id: z.string(), name: z.string(), drive_minutes: z.number().int().nullable(), attractiveness: attractivenessSchema.nullable().default(null) }),
