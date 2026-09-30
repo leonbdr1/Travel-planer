@@ -1,7 +1,7 @@
 $ npm run demo -- f20
-# recorded 2026-09-30T11:56:52.119Z
+# recorded 2026-09-30T14:07:16.793Z
 
-seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, IT 6572, FR 8833, ES 2943, PT 752, NL 1404, BE 541, LU 82, DK 329, CZ 1284, PL 2476, HU 874, HR 452, SI 215, SK 153, GR 1015, GB 3641, IE 351, NO 313, SE 815, AL 68, AD 10, BA 226, BG 273, CY 86, EE 92, FI 429, IS 32, LV 99, LI 10, LT 122, MT 64, MC 6, ME 35, MK 200, RO 4293, RS 317, Postleitzahlen 17081)
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, IT 11474, FR 15255, ES 7210, PT 926, NL 1843, BE 1058, LU 197, DK 409, CZ 2564, PL 3689, HU 997, HR 1108, SI 599, SK 339, GR 1877, GB 5556, IE 547, NO 594, SE 1314, AL 337, AD 15, BA 276, BG 317, CY 122, EE 195, FI 501, IS 47, LV 130, LI 11, LT 148, MT 69, MC 6, ME 62, MK 299, RO 7140, RS 453, TR 3169, Postleitzahlen 17081)
 seed: Katalog-Entwurf importiert (125 Regionen, 577 Orte)
 Reiseländer der Auswahl (GET /meta/config):
   Albanien, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Finnland, Frankreich, Griechenland, Großbritannien, Irland, Island, Italien, Kroatien, Lettland, Litauen, Luxemburg, Malta, Montenegro, Niederlande, Norwegen, Österreich, Polen, Portugal, Rumänien, Schweden, Schweiz, Slowakei, Slowenien, Spanien, Tschechien, Ungarn, Zypern
@@ -25,11 +25,11 @@ Flug, Strand, Reiseland Malta und Zypern:
     Zypern Südküste (zypern-suedkueste) – 5 passende Orte für Strand und Meer, ca. 3 h 45 min bis 3 h 55 min Flug
     Sliema (malta) – 2 passende Orte für Strand und Meer, ca. 2 h 35 min Flug
   ok     Malta und Zypern kommen
-Ein kleiner Ort ohne Katalog (Tante wohnt dort): Vimeiro (Portugal, 1.470 Einwohner) und Obzor (Bulgarien, 2.000 Einwohner):
-  ok     „Vimeiro“ gefunden: Vimeiro, Portugal
-    → Ort angelegt, ca. 1474 min Fahrt/Luftlinie ab München
+Ein kleiner Ort ohne Katalog (Tante wohnt dort): Serra do Bouro (Portugal, 703 Einwohner) und Obzor (Bulgarien, 2.000 Einwohner):
+  ok     „Serra do Bouro“ gefunden: Serra do Bouro, Portugal
+    → Ort angelegt, ca. 1452 min Fahrt/Luftlinie ab München
   ok     „Obzor“ gefunden: Obzor, Bulgarien
     → Ort angelegt, ca. 1060 min Fahrt/Luftlinie ab München
   ok     Suche über beide Orte gestartet (HTTP 202)
-  ok     Suche partial, 304 Angebote
+  ok     Suche done, 368 Angebote
 Ergebnis: alle Prüfungen ok

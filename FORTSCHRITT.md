@@ -239,4 +239,5 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - **Strand in Gehminuten** (bis zum Rand der Strandfläche) in Preisleiter und Detail.
 - Beleg: Walkthrough `komfortlabels` in `docs/demos/F21/walkthrough-P/` (Screenshot gelesen: „Strand 10 min“, „Klimaanlage“ als Label, durchgestrichen, wo es fehlt); `npm test` grün.
 - **Offen:** Ausstattungsnummern gegen die echte LiteAPI-Liste; Orte unter 1.000 Einwohnern (Ben entscheidet Vollimport gegen LiteAPI-Ortssuche); Katalog für Türkei nicht angelegt.
+- **Kleine Orte (Ben, 30.09.: „das Leichtere, kostenlos und schneller“):** Der Ortsauszug enthält jetzt auch Orte mit 500 bis 999 Einwohnern in ganz Europa (+30.354, GeoNames `cities500`, kostenlos, lokal, keine Anbieterabfrage). Beispiel Serra do Bouro (703 Einwohner) wird gefunden und durchsucht (`npm run demo -- f20`, 368 Angebote). Weiler unter 500 Einwohnern bleiben offen (Vollimport O3.1 oder Anbieter-Ortssuche, nur bei Bedarf).
 

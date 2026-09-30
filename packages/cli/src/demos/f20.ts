@@ -54,9 +54,9 @@ export async function run(out: DemoOutput): Promise<number> {
     for (const r of islands) out.log(`    ${r.title} (${r.slug}) – ${r.reason}`);
     check(islands.some((r) => r.slug === 'malta') && islands.some((r) => r.slug === 'zypern-suedkueste'), 'Malta und Zypern kommen');
 
-    out.log('Ein kleiner Ort ohne Katalog (Tante wohnt dort): Vimeiro (Portugal, 1.470 Einwohner) und Obzor (Bulgarien, 2.000 Einwohner):');
+    out.log('Ein kleiner Ort ohne Katalog (Tante wohnt dort): Serra do Bouro (Portugal, 703 Einwohner) und Obzor (Bulgarien, 2.000 Einwohner):');
     const ids: string[] = [];
-    for (const q of ['Vimeiro', 'Obzor']) {
+    for (const q of ['Serra do Bouro', 'Obzor']) {
       const found = await api<{ localities: Array<{ geonameid: number; label: string }>; catalog: Array<{ geonameid: number | null; name: string }> }>(
         `/places/search?q=${encodeURIComponent(q)}&origin=${MUENCHEN}`,
       );

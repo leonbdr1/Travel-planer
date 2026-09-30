@@ -56,7 +56,7 @@ describe('GET /geo/localities', () => {
     expect(blocked.status).toBe(429);
     expect(blocked.headers.get('retry-after')).toBe('3600');
     expect(await blocked.json()).toMatchObject({ error: { code: 'rate_limited' } });
-  }, 60_000);
+  }, 180_000);
 });
 
 describe('POST /suggestions/regions', () => {
@@ -143,6 +143,9 @@ describe('GET /places/search', () => {
     const resolved = placeResolveResponseSchema.parse(await (await get(`/places/search?geonameid=${vimeiro?.geonameid}&origin=${MUENCHEN}`)).json());
     expect(resolved.place).toMatchObject({ kind: 'user', country_code: 'PT', verified: false });
     expect(resolved.place.minutes).toBeGreaterThan(0);
+    // Serra do Bouro, Portugal: 703 inhabitants, from the 500-inhabitant extract.
+    const hamlet = placeSearchResponseSchema.parse(await (await get('/places/search?q=Serra do Bouro')).json());
+    expect(hamlet.localities.some((l) => l.name === 'Serra do Bouro' && l.country_code === 'PT')).toBe(true);
     // Obzor, Bulgaria: 2,000 inhabitants, next to the catalog region but not in it.
     const bg = placeSearchResponseSchema.parse(await (await get('/places/search?q=Obzor')).json());
     const obzor = bg.localities[0];

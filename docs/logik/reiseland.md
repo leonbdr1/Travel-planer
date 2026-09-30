@@ -15,7 +15,7 @@ Das Produkt soll nicht nach „Wandern in DACH“ aussehen, sondern in ganz Euro
 
 ## Länder
 
-Die Ortsdatenbank kennt jetzt alle europäischen Länder mit Urlaubsverkehr (`GEO_COUNTRIES`, 40 Länder): zu den bisherigen kamen Albanien, Andorra, Bosnien und Herzegowina, Bulgarien, Estland, Finnland, Island, Lettland, Liechtenstein, Litauen, Malta, Monaco, Montenegro, Nordmazedonien, Rumänien, Serbien und Zypern. Der Entwicklungsauszug enthält Orte **ab 1.000 Einwohnern** (vorher 3.000): 40.499 Orte in Europa außerhalb DACH.
+Die Ortsdatenbank kennt jetzt alle europäischen Länder mit Urlaubsverkehr (`GEO_COUNTRIES`, 40 Länder): zu den bisherigen kamen Albanien, Andorra, Bosnien und Herzegowina, Bulgarien, Estland, Finnland, Island, Lettland, Liechtenstein, Litauen, Malta, Monaco, Montenegro, Nordmazedonien, Rumänien, Serbien und Zypern. Der Entwicklungsauszug enthält Orte **ab 500 Einwohnern** (vorher 3.000): 40.499 Orte ab 1.000 und 30.354 Orte mit 500 bis 999 Einwohnern in Europa außerhalb DACH.
 
 Die **Türkei zählt als Europa** (Ben, 30.09.2026): Land 40 in der Liste, Kontinent Europa, Migration `20261020a_turkey` (nur lokal); ein Katalog für türkische Regionen ist bewusst nicht angelegt, Orte sind manuell auffindbar (Ben: Vorschläge nur, wo der Katalog dicht ist).
 
