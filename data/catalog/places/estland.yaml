@@ -1,0 +1,30 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: estland
+places:
+  - name: Tallinn
+    themes:
+      staedte_kultur: 3
+      shopping: 1
+    description_de: Hansestadt mit intakter Altstadt, Domberg und Stadtmauer.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 588409
+  - name: Pärnu
+    themes:
+      strand: 2
+      wellness: 2
+      familie: 2
+    description_de: Sommerhauptstadt am Sandstrand mit Kurhäusern und Spa-Hotels.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 589580
+  - name: Tartu
+    themes:
+      staedte_kultur: 2
+    description_de: Universitätsstadt mit Rathausplatz, Museen und Cafés.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 588335

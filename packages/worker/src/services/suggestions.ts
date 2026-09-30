@@ -5,6 +5,7 @@ import {
   candidatePlaces,
   catalogCountry,
   continentOf,
+  countrySelected,
   estimateFlightMinutes,
   fitsThemes,
   gateApplies,
@@ -47,14 +48,18 @@ export function toDomainPlace(row: CatalogPlace): Candidate {
   };
 }
 
-/** How the traveller gets there (Aufgabe F19): the request's mode, continents and flight limit. */
+/**
+ * How the traveller gets there (Aufgabe F19): the request's mode, continents
+ * and flight limit; and where to (F20): ticked countries, none = everywhere.
+ */
 export interface TravelOptions {
   mode: TravelMode;
   continents: readonly ContinentCode[];
   maxFlightMinutes: number | null;
+  countries: readonly string[];
 }
 
-export const CAR_ONLY: TravelOptions = { mode: 'car', continents: [], maxFlightMinutes: null };
+export const CAR_ONLY: TravelOptions = { mode: 'car', continents: [], maxFlightMinutes: null, countries: [] };
 
 /** Flight mode: places on the ticked continents (none ticked = all) that are far enough away for a flight. */
 function flightCandidates(all: readonly Candidate[], origin: Locality, themes: readonly string[], continents: readonly ContinentCode[]): Candidate[] {
@@ -83,12 +88,14 @@ async function reachableFor(
   themes: readonly string[],
   travel: TravelOptions,
 ) {
+  // Whoever names a country is not after "the best of Europe": only that country counts.
+  const pool = travel.countries.length > 0 ? all.filter((p) => countrySelected(p.row.countryCode, travel.countries)) : all;
   if (travel.mode === 'flight') {
-    const candidates = flightCandidates(all, origin, themes, travel.continents);
+    const candidates = flightCandidates(pool, origin, themes, travel.continents);
     const reachable = reachablePlaces(candidates, flightTimes(origin, candidates), travel.maxFlightMinutes);
     return { reachable, stats: { cached: 0, routed: 0, estimated: 0, coarse: 0, routingCalls: 0 } satisfies TravelTimeStats };
   }
-  const candidates = candidatePlaces(all, origin, themes, maxDriveMinutes);
+  const candidates = candidatePlaces(pool, origin, themes, maxDriveMinutes);
   const { map, stats } = await times(deps, origin, candidates);
   return { reachable: reachablePlaces(candidates, map, maxDriveMinutes), stats };
 }
@@ -157,14 +164,16 @@ export async function suggestRegions(
   const all = (await listCatalogPlaces(deps.db, { includeDrafts: deps.includeDrafts })).map(toDomainPlace);
   const { reachable: inRange, stats } = await reachableFor(deps, origin, all, maxDriveMinutes, selectedThemes, travel);
   // The further away, the better the places must be (F19); close by everything fitting stays.
-  const strict = gateApplies(inRange, selectedThemes, travel.mode);
-  const reachable = qualityGate(inRange, selectedThemes, travel.mode);
+  // With a named country (F20) the traveller has narrowed it down: no minimum, the best places first.
+  const picked = travel.countries.length > 0;
+  const strict = !picked && gateApplies(inRange, selectedThemes, travel.mode);
+  const reachable = picked ? inRange : qualityGate(inRange, selectedThemes, travel.mode);
   const ranked = rankRegions(
     reachable,
     selectedThemes,
     themeLabel,
     strict ? constants.SUGGEST_MAX_REGIONS_FAR : constants.SUGGEST_MAX_REGIONS_NEAR,
-    strict ? 'quality' : 'themes',
+    strict || picked ? 'quality' : 'themes',
     travel.mode,
   );
   const regionRows = await getRegions(
@@ -220,7 +229,7 @@ export async function suggestPlaces(
     .filter((p) => p.regionId !== null && regionIds.includes(p.regionId))
     .map(toDomainPlace);
   const { reachable: inRange, stats } = await reachableFor(deps, origin, all, maxDriveMinutes, selectedThemes, travel);
-  const reachable = qualityGate(inRange, selectedThemes, travel.mode);
+  const reachable = travel.countries.length > 0 ? inRange : qualityGate(inRange, selectedThemes, travel.mode);
   const regions = regionIds
     .map((id) => {
       const ranked = rankPlaces(

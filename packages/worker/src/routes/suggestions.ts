@@ -35,10 +35,16 @@ async function originOrThrow(c: Context<AppEnv>, geonameid: number) {
   return origin;
 }
 
-const travelOptions = (req: { travel_mode: 'car' | 'flight'; continents: TravelOptions['continents']; max_flight_minutes: number | null }): TravelOptions => ({
+const travelOptions = (req: {
+  travel_mode: 'car' | 'flight';
+  continents: TravelOptions['continents'];
+  max_flight_minutes: number | null;
+  countries: readonly string[];
+}): TravelOptions => ({
   mode: req.travel_mode,
   continents: req.continents,
   maxFlightMinutes: req.max_flight_minutes,
+  countries: req.countries,
 });
 
 const originDto = (o: { geonameid: number; displayName: string; lat: number; lng: number }) => ({

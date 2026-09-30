@@ -2,6 +2,7 @@
 // or the step is skipped to enter places directly.
 import { useEffect, useState } from 'react';
 import type { MetaConfigResponse, RegionSuggestionDto } from '@reiseplaner/contracts';
+import { formatList } from '@reiseplaner/domain';
 import { AiLabel, Alert, Button, Card, Heading, Spinner, Text, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
@@ -58,12 +59,13 @@ export function StepRegions({
   }, [origin?.geonameid, needsLoad, attempt]);
 
   const regions: RegionSuggestionDto[] = state.regions ?? [];
+  const countryNames = meta.countries.filter((c) => state.countries.includes(c.code)).map((c) => c.label);
 
   return (
     <div className="space-y-6">
       <div className="space-y-2">
         <Heading level={2}>{t.title}</Heading>
-        <Text>{state.travelMode === 'flight' ? t.leadFlight : t.lead}</Text>
+        <Text data-testid="regions-lead">{countryNames.length > 0 ? t.leadCountries(formatList(countryNames)) : state.travelMode === 'flight' ? t.leadFlight : t.lead}</Text>
       </div>
       {error ? (
         <Alert tone="error">

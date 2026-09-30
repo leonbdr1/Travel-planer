@@ -1,0 +1,38 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: siebenbuergen
+places:
+  - name: Brașov
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+      wintersport: 1
+    description_de: Altstadt mit Schwarzer Kirche, Karpaten im Rücken und Skiort Poiana Brașov.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 683844
+  - name: Sibiu
+    themes:
+      staedte_kultur: 3
+    description_de: Kulturhauptstadt mit Großem Ring, Brückenplätzen und Dächern mit Augen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 667268
+  - name: Sighișoara
+    themes:
+      staedte_kultur: 3
+    description_de: Bewohnte Zitadelle auf dem Berg, Geburtsort von Vlad Țepeș.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 8436351
+  - name: Cluj-Napoca
+    themes:
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Universitätsstadt mit Altstadt, Cafés und Kulturleben.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 681290

@@ -4,7 +4,8 @@
 import { Hono } from 'hono';
 import { productConfig } from '@reiseplaner/config';
 import type { MetaConfigResponse } from '@reiseplaner/contracts';
-import { CHIPS, THEME_CODES, THEME_LABELS, constants } from '@reiseplaner/domain';
+import { listCatalogCountries } from '@reiseplaner/db';
+import { CHIPS, THEME_CODES, THEME_LABELS, constants, destinationCountryOptions } from '@reiseplaner/domain';
 import type { AppEnv } from '../app';
 import { ConfigurationError, configuredSources } from '../env';
 import { newChallenge } from '../services/altcha';
@@ -29,6 +30,13 @@ export const metaRoutes = new Hono<AppEnv>()
   } catch {
     // keep the configured maximum
   }
+  // Destination countries come from the catalog; without a readable catalog the picker stays hidden.
+  let countries: MetaConfigResponse['countries'] = [];
+  try {
+    countries = destinationCountryOptions(await listCatalogCountries(db(), { includeDrafts: config.CATALOG_ALLOW_DRAFTS }));
+  } catch {
+    // no picker
+  }
   const body: MetaConfigResponse = {
     app_env: config.APP_ENV,
     providers_mode: config.PROVIDERS_MODE,
@@ -41,6 +49,7 @@ export const metaRoutes = new Hono<AppEnv>()
     catalog_drafts: config.CATALOG_ALLOW_DRAFTS,
     chips: CHIPS.map((chip) => ({ code: chip.code, label: chip.label })),
     themes: THEME_CODES.map((code) => ({ code, label: THEME_LABELS[code] })),
+    countries,
     limits: {
       max_places: s.max_places,
       max_dates: s.max_dates,

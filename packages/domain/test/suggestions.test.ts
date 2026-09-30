@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { candidatePlaces, placeLimit, preselectPlaceIds, rankPlaces, rankRegions, reachablePlaces, type CatalogPlace } from '../src/suggestions';
+import { countrySelected, destinationCountryOptions } from '../src/countries';
 import { formatDuration, formatList, regionReason } from '../src/texts';
 import { fitsThemes, matchingThemes, themeScore } from '../src/themes';
 
@@ -101,5 +102,21 @@ describe('texts', () => {
     expect(formatList(['Wandern'])).toBe('Wandern');
     expect(formatList(['Wandern', 'Seen', 'Wellness'])).toBe('Wandern, Seen und Wellness');
     expect(regionReason({ places: 3, themeLabels: [], minMinutes: 60, maxMinutes: 60, estimated: false })).toBe('3 passende Orte, 1 h Fahrt');
+  });
+});
+
+describe('destination countries (Aufgabe F20)', () => {
+  it('nothing ticked means every country, Italy includes South Tyrol', () => {
+    expect(countrySelected('ES', [])).toBe(true);
+    expect(countrySelected('ES', ['ES', 'PT'])).toBe(true);
+    expect(countrySelected('FR', ['ES'])).toBe(false);
+    expect(countrySelected('IT-BZ', ['IT'])).toBe(true);
+    expect(countrySelected('IT', ['IT-BZ'])).toBe(false);
+  });
+
+  it('the picker lists each country once, sorted by German name, without a separate South Tyrol', () => {
+    const options = destinationCountryOptions(['DE', 'IT-BZ', 'IT', 'ES', 'AT', 'XX']);
+    expect(options.map((o) => o.label)).toEqual(['Deutschland', 'Italien', 'Österreich', 'Spanien']);
+    expect(destinationCountryOptions(['IT-BZ']).map((o) => o.code)).toEqual(['IT']);
   });
 });

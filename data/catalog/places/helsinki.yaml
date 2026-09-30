@@ -1,0 +1,22 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: helsinki
+places:
+  - name: Helsinki
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+      seen: 1
+    description_de: Hafenstadt mit Jugendstil, Dom, Designviertel und Fähre zur Festungsinsel.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 658225
+  - name: Turku
+    themes:
+      staedte_kultur: 2
+      seen: 1
+    description_de: Älteste Stadt Finnlands mit Burg, Dom und Schärenmeer.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 633679

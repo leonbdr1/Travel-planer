@@ -1,0 +1,35 @@
+$ npm run demo -- f20
+# recorded 2026-09-30T11:56:52.119Z
+
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, IT 6572, FR 8833, ES 2943, PT 752, NL 1404, BE 541, LU 82, DK 329, CZ 1284, PL 2476, HU 874, HR 452, SI 215, SK 153, GR 1015, GB 3641, IE 351, NO 313, SE 815, AL 68, AD 10, BA 226, BG 273, CY 86, EE 92, FI 429, IS 32, LV 99, LI 10, LT 122, MT 64, MC 6, ME 35, MK 200, RO 4293, RS 317, Postleitzahlen 17081)
+seed: Katalog-Entwurf importiert (125 Regionen, 577 Orte)
+Reiseländer der Auswahl (GET /meta/config):
+  Albanien, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Finnland, Frankreich, Griechenland, Großbritannien, Irland, Island, Italien, Kroatien, Lettland, Litauen, Luxemburg, Malta, Montenegro, Niederlande, Norwegen, Österreich, Polen, Portugal, Rumänien, Schweden, Schweiz, Slowakei, Slowenien, Spanien, Tschechien, Ungarn, Zypern
+  ok     33 Länder, Südtirol unter Italien
+  ok     Spanien, Malta, Bulgarien, Finnland, Island dabei
+Von München: Flug, Strand und Meer, Reiseland Spanien:
+    Barcelona (barcelona-costa-brava) – 4 passende Orte für Strand und Meer, ca. 2 h 5 min bis 2 h 10 min Flug
+    Ibiza (ibiza-menorca) – 5 passende Orte für Strand und Meer, ca. 2 h 10 min bis 2 h 30 min Flug
+    Costa Dorada (costa-dorada) – 3 passende Orte für Strand und Meer, ca. 2 h 15 min Flug
+    Palma (mallorca) – 3 passende Orte für Strand und Meer, ca. 2 h 15 min bis 2 h 20 min Flug
+    Valencia und Costa Blanca (costa-blanca) – 4 passende Orte für Strand und Meer, ca. 2 h 35 min bis 2 h 40 min Flug
+    San Sebastián (nordspanien) – 2 passende Orte für Strand und Meer, ca. 2 h 20 min bis 2 h 30 min Flug
+    Andalusien und Costa del Sol (andalusien) – 3 passende Orte für Strand und Meer, ca. 3 h 10 min bis 3 h 15 min Flug
+    Kanarische Inseln (kanaren) – 3 passende Orte für Strand und Meer, ca. 5 h bis 5 h 10 min Flug
+  ok     nur spanische Regionen, 8 Vorschläge
+Von München: Auto bis 20 h, Strand, Reiseland Montenegro und Albanien:
+    Budva (montenegro-kueste) – 4 passende Orte für Strand und Meer, über 10 h Fahrt
+    Albanische Riviera (albanische-riviera) – 4 passende Orte für Strand und Meer, über 10 h Fahrt
+  ok     nur Montenegro und Albanien
+Flug, Strand, Reiseland Malta und Zypern:
+    Zypern Südküste (zypern-suedkueste) – 5 passende Orte für Strand und Meer, ca. 3 h 45 min bis 3 h 55 min Flug
+    Sliema (malta) – 2 passende Orte für Strand und Meer, ca. 2 h 35 min Flug
+  ok     Malta und Zypern kommen
+Ein kleiner Ort ohne Katalog (Tante wohnt dort): Vimeiro (Portugal, 1.470 Einwohner) und Obzor (Bulgarien, 2.000 Einwohner):
+  ok     „Vimeiro“ gefunden: Vimeiro, Portugal
+    → Ort angelegt, ca. 1474 min Fahrt/Luftlinie ab München
+  ok     „Obzor“ gefunden: Obzor, Bulgarien
+    → Ort angelegt, ca. 1060 min Fahrt/Luftlinie ab München
+  ok     Suche über beide Orte gestartet (HTTP 202)
+  ok     Suche partial, 304 Angebote
+Ergebnis: alle Prüfungen ok

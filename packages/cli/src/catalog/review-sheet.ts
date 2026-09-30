@@ -16,7 +16,7 @@ interface GeoRow {
   country: string;
 }
 
-const EXTRACTS = ['DACH-cities1000.tsv', 'DACH-cities500-extra.tsv', 'EU-cities3000.tsv'];
+const EXTRACTS = ['DACH-cities1000.tsv', 'DACH-cities500-extra.tsv', 'EU-cities1000.tsv'];
 
 export function loadGeoFacts(geoDir: string): Map<number, GeoRow> {
   const facts = new Map<number, GeoRow>();

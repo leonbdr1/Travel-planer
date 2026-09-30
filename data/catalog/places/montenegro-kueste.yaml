@@ -1,0 +1,49 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: montenegro-kueste
+places:
+  - name: Budva
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Badeort mit ummauerter Altstadt und vielen Stränden.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3203106
+  - name: Kotor
+    themes:
+      staedte_kultur: 3
+      bergpanorama: 3
+      strand: 1
+    description_de: Altstadt am Ende einer Fjordbucht, Welterbe mit Festung am Berg.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3197538
+  - name: Tivat
+    themes:
+      strand: 2
+      staedte_kultur: 1
+    description_de: Hafenort an der Bucht mit Yachthafen und Flughafen.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3189073
+  - name: Herceg Novi
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Stadt an der Einfahrt der Bucht mit Festung und Strandpromenade.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3199394
+  - name: Ulcinj
+    themes:
+      strand: 3
+      staedte_kultur: 1
+    description_de: Südlichster Badeort mit langem Sandstrand und Altstadt.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3188516

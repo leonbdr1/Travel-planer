@@ -22,6 +22,8 @@ export const metaConfigResponseSchema = z.object({
   catalog_drafts: z.boolean(),
   chips: z.array(z.object({ code: z.string(), label: z.string() })),
   themes: z.array(z.object({ code: z.string(), label: z.string() })),
+  /** Countries the catalog has destinations in (destination picker, F20); empty when the catalog cannot be read. */
+  countries: z.array(z.object({ code: z.string(), label: z.string() })).default([]),
   limits: z.object({
     max_places: z.number().int(),
     max_dates: z.number().int(),

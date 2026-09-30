@@ -1,0 +1,38 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: litauen
+places:
+  - name: Vilnius
+    themes:
+      staedte_kultur: 3
+    description_de: Hauptstadt mit großer Barockaltstadt und Kirchen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 593116
+  - name: Kaunas
+    themes:
+      staedte_kultur: 2
+    description_de: Zweitgrößte Stadt mit Altstadt und Architektur der Zwischenkriegszeit.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 598316
+  - name: Palanga
+    themes:
+      strand: 3
+      wellness: 2
+      familie: 2
+    description_de: Badeort mit Seebrücke, Sandstrand und Bernsteinmuseum.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 596238
+  - name: Klaipėda
+    themes:
+      staedte_kultur: 2
+      strand: 1
+    description_de: Hafenstadt mit Fachwerk-Altstadt und Fähre zur Kurischen Nehrung.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 598098

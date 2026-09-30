@@ -2,8 +2,8 @@
 // fields (part of "Orte vorschlagen lassen") and the bar with arrival,
 // departure (calendar popover) and travellers that sits below "Wohin soll es
 // gehen?" and counts for both ways to a place.
-import { useCallback } from 'react';
-import { ClockIcon, MapPinIcon, PaperAirplaneIcon, TruckIcon } from '@heroicons/react/20/solid';
+import { useCallback, useState } from 'react';
+import { ClockIcon, GlobeEuropeAfricaIcon, MapPinIcon, PaperAirplaneIcon, TruckIcon } from '@heroicons/react/20/solid';
 import type { LocalityDto, MetaConfigResponse } from '@reiseplaner/contracts';
 import { CONTINENT_CODES, CONTINENT_LABELS, type ContinentCode } from '@reiseplaner/domain';
 import { Chip, ErrorMessage, cx } from '@reiseplaner/ui';
@@ -11,7 +11,7 @@ import { de } from '../../i18n/de';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchLocalities } from './api';
 import { DateRangePicker } from './DateRangePicker';
-import { resetSuggestions, todayIso, type WizardState } from './state';
+import { resetSuggestions, toggle, todayIso, type WizardState } from './state';
 import { TravellersPicker } from './TravellersPicker';
 
 const t = de.wizard.frame;
@@ -90,6 +90,37 @@ function FlightFields({ state, update }: { state: WizardState; update: Update })
   );
 }
 
+/** Destination countries (F20): "Ich will nach Spanien". Folded away, because most searches name no country. */
+function CountryFields({ state, update, countries }: { state: WizardState; update: Update; countries: ReadonlyArray<{ code: string; label: string }> }) {
+  // Open from the start when a country is already chosen; afterwards only the traveller opens and closes it.
+  const [open, setOpen] = useState(state.countries.length > 0);
+  if (countries.length === 0) return null;
+  const chosen = countries.filter((c) => state.countries.includes(c.code)).map((c) => c.label);
+  return (
+    <details className="group rounded-lg bg-white ring-1 ring-inset ring-zinc-300" open={open} onToggle={(e) => setOpen(e.currentTarget.open)} data-testid="country-fields">
+      <summary className="flex h-14 cursor-pointer list-none items-center gap-3 px-3">
+        <GlobeEuropeAfricaIcon aria-hidden="true" className="size-5 shrink-0 text-zinc-500" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-xs font-medium text-zinc-500">{t.countries}</span>
+          <span className="block truncate text-sm/6 font-semibold text-zinc-950" data-testid="country-summary">
+            {chosen.length > 0 ? chosen.join(', ') : t.countriesAll}
+          </span>
+        </span>
+      </summary>
+      <div className="space-y-2 px-3 pb-3">
+        <p className="text-sm text-zinc-500">{t.countriesHint}</p>
+        <div className="flex flex-wrap gap-2" data-testid="country-chips">
+          {countries.map((c) => (
+            <Chip key={c.code} selected={state.countries.includes(c.code)} onToggle={() => update({ countries: toggle(state.countries, c.code), ...resetSuggestions(state) })}>
+              {c.label}
+            </Chip>
+          ))}
+        </div>
+      </div>
+    </details>
+  );
+}
+
 /** White field: small label on top, value below (like booking sites). */
 export const fieldShell =
   'flex h-14 w-full items-center gap-3 rounded-lg bg-white px-3 text-left ring-1 ring-inset ring-zinc-300 focus-within:ring-2 focus-within:ring-brand-600';
@@ -109,7 +140,19 @@ function Cell({ label, htmlFor, icon, children }: { label: string; htmlFor: stri
 }
 
 /** Start location and drive time, the frame of "Orte vorschlagen lassen". */
-export function OriginFields({ state, update, touched, optional = false }: { state: WizardState; update: Update; touched: boolean; optional?: boolean }) {
+export function OriginFields({
+  state,
+  update,
+  touched,
+  optional = false,
+  countries = [],
+}: {
+  state: WizardState;
+  update: Update;
+  touched: boolean;
+  optional?: boolean;
+  countries?: ReadonlyArray<{ code: string; label: string }>;
+}) {
   const loadLocalities = useCallback((q: string, signal: AbortSignal) => fetchLocalities(q, signal).then((r) => r.items), []);
   const originMissing = state.origin === null && !optional;
   return (
@@ -135,6 +178,7 @@ export function OriginFields({ state, update, touched, optional = false }: { sta
             />
           </div>
         </Cell>
+        {optional ? null : <CountryFields state={state} update={update} countries={countries} />}
         {optional ? null : <TravelModeSwitch state={state} update={update} />}
         {optional ? null : state.travelMode === 'flight' ? (
         <FlightFields state={state} update={update} />

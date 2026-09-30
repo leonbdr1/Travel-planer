@@ -46,7 +46,7 @@ export const themenFlow: Flow = {
         const names = await page.getByTestId('region-card').locator('h3').allInnerTexts();
         note(`Regionen bei Kultur: ${names.join(', ')}`);
       },
-      { expectText: ['Romantische Straße', 'Kultur und Sehenswürdigkeiten'] },
+      { expectText: ['Heidelberg', 'Kultur und Sehenswürdigkeiten'] },
     );
   },
 };

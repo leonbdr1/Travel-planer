@@ -1,0 +1,52 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: ibiza-menorca
+places:
+  - name: Ibiza
+    themes:
+      strand: 2
+      staedte_kultur: 2
+      shopping: 1
+    description_de: Inselhauptstadt mit Festungsaltstadt Dalt Vila, Hafen und Nachtleben.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2516479
+  - name: Sant Antoni de Portmany
+    themes:
+      strand: 2
+      familie: 1
+    description_de: Ferienort an der Bucht mit Sonnenuntergangs-Lokalen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2511448
+  - name: Santa Eulària des Riu
+    themes:
+      strand: 3
+      familie: 3
+      natur_ruhe: 1
+    description_de: Familienfreundlicher Ort mit Promenade, Hafen und Sandstrand.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2511162
+  - name: Maó
+    themes:
+      strand: 2
+      natur_ruhe: 2
+      staedte_kultur: 2
+    description_de: Hauptort von Menorca am längsten Naturhafen Europas.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2514301
+  - name: Ciutadella
+    themes:
+      strand: 2
+      natur_ruhe: 3
+      staedte_kultur: 2
+    description_de: Alte Hafenstadt im Westen Menorcas, nah an den Buchten der Südküste.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3124967

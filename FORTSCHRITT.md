@@ -221,3 +221,14 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - **Hinweis** „Je weiter das Ziel entfernt ist, desto bekannter muss es sein“ erscheint, sobald etwas ausgefiltert wurde.
 - Offen: Katalog nur Europa (andere Kontinente: leere Liste mit Hinweis); keine Jahreszeit; Flugkosten nicht im Preisvergleich; Inseln beim Auto ohne Fähre. Details L1–L10 in der Analyse.
 - Beleg: `npm run demo -- f19` → `docs/demos/F19/demo-output.txt`; Walkthrough `flugzeug` in `docs/demos/F19/`, Screenshots gelesen (auch 390 px).
+
+### F20 – Ganz Europa, Reiseland, jeder Ort suchbar (30.09.2026)
+- Ansatz: `docs/logik/reiseland.md`; Reifebericht: `docs/analyse-europa-reife.md`.
+- **Reiseland:** In „Wohin soll es gehen?“ aufklappbares Feld „Reiseland“ (33 Länder, mehrere möglich). Mit Land kommen nur Regionen und Orte daraus, ohne Mindestwert nach Entfernung (Spanien ab München im Flug: 8 Regionen, Ibiza, Costa Dorada, Nordspanien u. a.). Vorher: Flug + Strand lieferte 6 Regionen aus ganz Europa, nur 2 davon in Spanien.
+- **Jeder Ort suchbar:** Die Ortsdatenbank kennt 39 Länder (17 neue, u. a. Bulgarien, Malta, Zypern, Finnland, Island, Baltikum, Balkan) und Orte ab 1.000 Einwohnern (vorher 3.000; DACH ab 500). Vimeiro (Portugal, 1.470 Einwohner) und Obzor (Bulgarien) werden gefunden und über die Suche bis zu 304 Angeboten durchgesucht.
+- **Katalog-Entwurf:** 16 neue Regionen, 57 Orte (Malta, Zypern, Bulgarien, Montenegro, Albanien, Hohe Tatra, Siebenbürgen, Island, Lappland, Helsinki, Baltikum, Ibiza/Menorca, Costa Dorada, Nordspanien). Alles `verified: false` (BG-11).
+- Kleinigkeiten: Einleitung der Regionsliste nennt das gewählte Land; Erklärtext zur Attraktivität nennt auch Strand statt nur Berge.
+- Beleg: `npm run demo -- f20` → `docs/demos/F20/demo-output.txt`; Walkthrough `reiseland` in `docs/demos/F20/walkthrough-P/`, Screenshots gelesen. Migration `20261019a_more_countries` nur lokal.
+- Alle Pfad-Walkthroughs (`npm run dogfood -- --mode P`, 26 Flows inkl. `reiseland`): 419/424. Die 5 Fehlschläge lagen **nicht an F20**: Die Flows `themen` und `regionsname` erwarteten noch Ergebnisse von vor F19 („Romantische Straße“, Bozen, Elsass bei Kultur bis 7 h; gleiches Ergebnis ohne meine Änderungen geprüft). Erwartungen nachgezogen, beide Flows einzeln bestanden. Bericht: `docs/demos/F20/report-P-all.md` (vor dem Nachziehen). `npm test` 502 grün, Typecheck und Claims grün.
+- **Offen (groß, nicht angefasst):** siehe `docs/analyse-europa-reife.md` §Offen (Orte unter 1.000 Einwohnern per Vollimport oder Anbieter-Ortssuche, Jahreszeit, Strand-Entfernung, Fähren/Inseln, Flugkosten, Türkei, Katalogdichte).
+

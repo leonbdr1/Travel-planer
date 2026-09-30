@@ -12,6 +12,8 @@ export interface WizardState {
   travelMode: 'car' | 'flight';
   continents: ContinentCode[];
   maxFlightMinutes: number | null;
+  /** Destination countries as catalog codes (F20), "Spanien"; empty = everywhere. */
+  countries: string[];
   themes: string[];
   windowStart: string;
   windowEnd: string;
@@ -65,6 +67,7 @@ export function initialState(now: Date = new Date()): WizardState {
     travelMode: 'car',
     continents: ['europa'],
     maxFlightMinutes: null,
+    countries: [],
     themes: [],
     windowStart: start,
     windowEnd: addDays(start, 42),
@@ -164,11 +167,12 @@ export function toggle<T>(list: readonly T[], value: T): T[] {
 }
 
 /** What the suggestion requests carry for the way of travel (F19); in flight mode the drive time does not apply. */
-export function travelParams(state: Pick<WizardState, 'travelMode' | 'maxDriveMinutes' | 'continents' | 'maxFlightMinutes'>) {
+export function travelParams(state: Pick<WizardState, 'travelMode' | 'maxDriveMinutes' | 'continents' | 'maxFlightMinutes' | 'countries'>) {
   return {
     travel_mode: state.travelMode,
     max_drive_minutes: state.travelMode === 'flight' ? null : state.maxDriveMinutes,
     continents: state.travelMode === 'flight' ? state.continents : [],
     max_flight_minutes: state.travelMode === 'flight' ? state.maxFlightMinutes : null,
+    countries: state.countries,
   };
 }

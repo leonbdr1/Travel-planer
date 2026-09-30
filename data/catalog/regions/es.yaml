@@ -29,3 +29,19 @@
   country: ES
   description_de: Atlantikinseln mit mildem Klima, Vulkanlandschaft und Stränden, nur mit Flug oder Fähre erreichbar.
   themes: [strand, wandern, natur_ruhe, familie]
+
+- slug: ibiza-menorca
+  name: Ibiza und Menorca
+  country: ES
+  description_de: Balearen abseits von Mallorca, Partyinsel mit stillen Buchten und das ruhigere Menorca.
+  themes: [strand, natur_ruhe, familie]
+- slug: costa-dorada
+  name: Costa Dorada
+  country: ES
+  description_de: Flache Sandstrände südlich von Barcelona, Familienurlaub mit Tarragona und Salou.
+  themes: [strand, familie, staedte_kultur]
+- slug: nordspanien
+  name: Nordspanien
+  country: ES
+  description_de: Atlantikküste von Baskenland bis Galicien mit Pintxos, Kliffen, Jakobsweg und milden Sommern.
+  themes: [staedte_kultur, wein_kulinarik, strand]

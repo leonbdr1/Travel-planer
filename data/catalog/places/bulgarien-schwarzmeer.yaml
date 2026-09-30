@@ -1,0 +1,50 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: bulgarien-schwarzmeer
+places:
+  - name: Nessebar
+    themes:
+      strand: 2
+      staedte_kultur: 3
+    description_de: Altstadt auf einer Halbinsel, Unesco-Welterbe mit Kirchenruinen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 728825
+  - name: Sosopol
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Fischerort mit Holzhäusern in der Altstadt und Stränden in der Nähe.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 726963
+  - name: Warna
+    themes:
+      strand: 2
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Große Hafenstadt mit Seegarten, Stadtstrand und Museen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 726050
+  - name: Burgas
+    themes:
+      strand: 2
+      shopping: 1
+    description_de: Hafenstadt mit Seegarten und Zugang zu den Stränden im Süden.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 732770
+  - name: Balchik
+    themes:
+      strand: 1
+      natur_ruhe: 2
+      staedte_kultur: 2
+    description_de: Kleinstadt an weißen Klippen mit Botanischem Garten und Palast.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 733515

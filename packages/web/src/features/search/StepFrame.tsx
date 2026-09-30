@@ -133,7 +133,7 @@ export function StepFrame({
               }
               description={o.suggestText}
             />
-            {state.suggest ? <OriginFields state={state} update={update} touched={touched} /> : null}
+            {state.suggest ? <OriginFields state={state} update={update} touched={touched} countries={meta.countries} /> : null}
           </div>
           <div className={cx('space-y-3 rounded-lg p-4 ring-1', state.pickOwn ? 'bg-zinc-50 ring-zinc-300' : 'bg-white ring-zinc-200')} data-testid="way-own">
             <Checkbox

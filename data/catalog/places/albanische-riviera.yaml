@@ -1,0 +1,39 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: albanische-riviera
+places:
+  - name: Sarandë
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Hafenstadt mit Promenade, Blick nach Korfu und der Ausgrabung Butrint.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 363243
+  - name: Himarë
+    themes:
+      strand: 3
+      natur_ruhe: 2
+    description_de: Küstenort mit Buchten unter den Bergen und ruhiger Altstadt.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3185377
+  - name: Vlorë
+    themes:
+      strand: 2
+      shopping: 1
+    description_de: Hafenstadt an der Adria mit Strandpromenade und Ausflügen zur Küste.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3183719
+  - name: Durrës
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Hafenstadt mit römischem Amphitheater und Stadtstrand.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3185728

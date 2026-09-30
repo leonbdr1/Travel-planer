@@ -143,6 +143,18 @@ export async function listCatalogPlaces(db: Queryable, v: CatalogVisibility): Pr
   return rows.map(toPlace);
 }
 
+/** Catalog country keys that have at least one visible region with a place (destination picker, F20). */
+export async function listCatalogCountries(db: Queryable, v: CatalogVisibility): Promise<string[]> {
+  const rows = await db.query<{ country_code: string }>(
+    `SELECT DISTINCT r.country_code FROM app.regions r
+      WHERE r.active AND ($1::boolean OR r.verified)
+        AND EXISTS (SELECT 1 FROM app.places p WHERE p.region_id = r.id AND p.active AND ($1::boolean OR p.verified))
+      ORDER BY 1`,
+    [v.includeDrafts],
+  );
+  return rows.map((r) => r.country_code);
+}
+
 export async function getPlacesByIds(db: Queryable, ids: readonly string[], v: CatalogVisibility): Promise<CatalogPlace[]> {
   if (ids.length === 0) return [];
   const rows = await db.query<PlaceRow>(`${SELECT_PLACES} WHERE p.id = ANY($2::uuid[]) AND ${VISIBLE}`, [v.includeDrafts, [...ids]]);

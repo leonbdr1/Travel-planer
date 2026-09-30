@@ -139,3 +139,4 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | F17 | Regionsname nach einzigem Highlight-Ort | `live-verified` | `docs/demos/F17/` | Liste der umbenannten Regionen zur Prüfung in `docs/demos/F17/demo-output.txt`. |
 | F19 | Vorschläge nach Entfernung, Auto/Flug, Kontinente | `live-verified` | `docs/demos/F19/` | Katalog nur Europa; Schwellen ungeprüft (BG-11). |
 | F18 | Rezensionen in 15 Sprachen | `live-verified` | `docs/demos/F18/` | `review-verify` 1.1.0; echte Eval-Läufe brauchen BG-07. |
+| F20 | Ganz Europa: Reiseland, jeder Ort suchbar | `live-verified` | `docs/demos/F20/` | Feld „Reiseland“, 39 Länder in der Ortsdatenbank (Orte ab 1.000 Einwohnern), 16 Katalog-Regionen als Entwurf (BG-11), Migration `20261019a` nur lokal (Staging/Produktion: BEN-GATE). Orte unter 1.000 Einwohnern: Vollimport oder Anbieter-Ortssuche offen. |

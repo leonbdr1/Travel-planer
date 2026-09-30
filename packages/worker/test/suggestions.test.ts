@@ -133,6 +133,23 @@ describe('GET /places/search', () => {
     const again = placeResolveResponseSchema.parse(await (await get(`/places/search?geonameid=${tuebingen?.geonameid}`)).json());
     expect(again.place.id).toBe(resolved.place.id);
   });
+
+  it('finds a small village and a place in a country without catalog entries (F20)', async () => {
+    const get = client();
+    // Vimeiro, Portugal: 1,470 inhabitants, in no catalog region.
+    const village = placeSearchResponseSchema.parse(await (await get('/places/search?q=Vimeiro')).json());
+    const vimeiro = village.localities.find((l) => l.country_code === 'PT');
+    expect(vimeiro?.label).toBe(`${vimeiro?.name}, Portugal`);
+    const resolved = placeResolveResponseSchema.parse(await (await get(`/places/search?geonameid=${vimeiro?.geonameid}&origin=${MUENCHEN}`)).json());
+    expect(resolved.place).toMatchObject({ kind: 'user', country_code: 'PT', verified: false });
+    expect(resolved.place.minutes).toBeGreaterThan(0);
+    // Obzor, Bulgaria: 2,000 inhabitants, next to the catalog region but not in it.
+    const bg = placeSearchResponseSchema.parse(await (await get('/places/search?q=Obzor')).json());
+    const obzor = bg.localities[0];
+    expect(obzor?.label).toBe('Obzor, Bulgarien');
+    const place = placeResolveResponseSchema.parse(await (await get(`/places/search?geonameid=${obzor?.geonameid}`)).json());
+    expect(place.place).toMatchObject({ name: 'Obzor', kind: 'user', country_code: 'BG' });
+  });
 });
 
 describe('GET /meta/config (wizard data)', () => {
@@ -143,6 +160,14 @@ describe('GET /meta/config (wizard data)', () => {
     expect(body.limits).toMatchObject({ max_places: 10, max_dates: 12, max_combinations: 120, wish_text_max_chars: 300 });
     expect(body.ai_labels.wish_parse).toContain('KI');
     expect(body.catalog_drafts).toBe(true);
+  });
+
+  it('lists the destination countries of the catalog, South Tyrol under Italy (F20)', async () => {
+    const body = metaConfigResponseSchema.parse(await (await client()('/meta/config')).json());
+    const codes = body.countries.map((c) => c.code);
+    expect(codes).toEqual(expect.arrayContaining(['ES', 'IT', 'HR', 'GR', 'PT', 'DE', 'AT']));
+    expect(codes).not.toContain('IT-BZ');
+    expect(body.countries.find((c) => c.code === 'ES')?.label).toBe('Spanien');
   });
 });
 
@@ -199,5 +224,32 @@ describe('suggestion quality grows with the distance (F19)', () => {
     expect(nature.regions.map((r) => r.name)).toContain('Fjordnorwegen');
     const beach = await regionsFor({ travel_mode: 'flight', continents: ['europa'], max_drive_minutes: null, themes: ['strand'] });
     expect(beach.regions.map((r) => r.name)).not.toContain('Fjordnorwegen');
+  });
+
+  it('a named country: only that country, also places that are no top destinations (F20)', async () => {
+    const open = await regionsFor({ travel_mode: 'flight', continents: ['europa'], max_drive_minutes: null, themes: ['strand'] });
+    const spain = await regionsFor({ travel_mode: 'flight', continents: ['europa'], max_drive_minutes: null, themes: ['strand'], countries: ['ES'] });
+    expect(open.regions.some((r) => !/Barcelona|Palma/.test(r.title))).toBe(true);
+    expect(spain.regions.length).toBeGreaterThanOrEqual(3);
+    const slugs = spain.regions.map((r) => r.slug);
+    expect(slugs).toEqual(expect.arrayContaining(['barcelona-costa-brava', 'mallorca']));
+    for (const slug of slugs) expect(['barcelona-costa-brava', 'mallorca', 'andalusien', 'costa-blanca', 'kanaren', 'madrid', 'ibiza-menorca', 'costa-dorada', 'nordspanien']).toContain(slug);
+    expect(spain.quality_filter).toBe(false);
+  });
+
+  it('a named country works by car as well and "Italien" includes South Tyrol', async () => {
+    const italy = await regionsFor({ max_drive_minutes: 300, themes: ['wandern'], countries: ['IT'] });
+    expect(italy.regions.length).toBeGreaterThan(0);
+    expect(italy.regions.some((r) => /Südtirol|Dolomiten|Bozen|Meran|Gröden|Eisack/i.test(`${r.name} ${r.title}`))).toBe(true);
+    const croatia = await regionsFor({ max_drive_minutes: 600, themes: ['strand'], countries: ['HR'] });
+    expect(croatia.regions.length).toBeGreaterThan(0);
+  });
+
+  it('rejects a country code that is no code', async () => {
+    const res = await client()('/suggestions/regions', {
+      method: 'POST',
+      body: JSON.stringify({ origin: { geonameid: MUENCHEN }, max_drive_minutes: 180, themes: [], countries: ['spanien'] }),
+    });
+    expect(res.status).toBe(400);
   });
 });

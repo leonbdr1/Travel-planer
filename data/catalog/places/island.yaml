@@ -1,0 +1,32 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: island
+places:
+  - name: Reykjavík
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 2
+      shopping: 1
+    description_de: Hauptstadt mit Hallgrímskirkja, Museen und Ausflügen zum Golden Circle.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3413829
+  - name: Selfoss
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Ort im Süden, nah an Geysir, Gullfoss und Þingvellir.
+    search_radius_km: 15
+    ai_assisted: true
+    verified: false
+    geonameid: 3413604
+  - name: Akureyri
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+      bergpanorama: 2
+    description_de: Hauptort des Nordens am Fjord, Walbeobachtung und Botanischer Garten.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 2633274
