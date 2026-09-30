@@ -24,16 +24,28 @@ Deutsch für Dokumente, UI-Texte und die Kommunikation mit Ben. Englisch für Co
 
 Bei Widersprüchen gilt: Konzept vor Architektur vor Plan. Widersprüche werden gemeldet, nicht still aufgelöst.
 
-## Brainstorm-Modus (Standard, bis Ben „setz es um“ sagt)
+## Brainstorm-Modus (nur wenn Ben aus Kundensicht Funktionen durchdenken will)
 
-Jede Aufgabe mit Ben beginnt als Brainstorming auf **Funktionsebene**, nicht auf Code-Ebene. Ziel: Ideen mit günstigen Modellen und niedriger Reasoning-Stufe durchdenken und verwerfen können, bevor Code oder Tokens für die Umsetzung anfallen.
+Ziel: Ideen für Funktionen mit günstigen Modellen und niedriger Reasoning-Stufe durchdenken und verwerfen können, bevor Code oder Tokens für die Umsetzung anfallen.
+
+**Erst unterscheiden, in welcher Rolle Ben spricht:**
+
+| Ben spricht als … | Beispiele | Vorgehen |
+|---|---|---|
+| **Kunde / Produktdenker, der brainstormen will** | „Lass uns über die Startseite brainstormen“, „Soll da ein Button hin? Was meinst du?“, „Brauchen wir diesen Text überhaupt?“ | **Brainstorm-Modus** (Regeln unten) |
+| **Auftraggeber mit klarer Anweisung** | „Die Website ist mir zu bunt, mach X und Y anders“, „Nimm den Text raus“, „Bau Z ein“ | Direkt umsetzen wie bisher (Arbeitsregeln unten) |
+| **Techniker** | Fehlermeldungen, Bugs, Architektur überarbeiten, „Gibt die Datenbank / das Backend das her?“, „Kann man das Backend verbessern?“, Performance, Kosten | **Nie Brainstorm-Modus.** Direkt am Code arbeiten und technisch recherchieren wie bisher |
+
+Brainstorm-Modus also nur, wenn Ben ausdrücklich brainstormen oder Funktionen aus Nutzersicht offen besprechen will. Klare Anweisungen und alles Technische laufen direkt. Ist unklar, welcher Fall vorliegt, einmal kurz nachfragen.
+
+**Regeln im Brainstorm-Modus:**
 
 - **Worum es geht:** was der Nutzer sieht und tun kann (Soll hier ein Button hin? Was steht da? Soll ein Text weg?). Keine technischen Lösungen, keine Dateinamen, kein Code, keine Anbieter- oder Web-Recherche.
 - **Lesen erlaubt:** Markdown-Doku (`docs/konzept.md`, `FORTSCHRITT.md`, `docs/brainstorming/`, `STATUS.md`) und vorhandene Screenshots (`docs/demos/`, `dogfood-results/`). Code nur lesen, wenn es wirklich nötig ist, z. B. weil die Doku falsch oder veraltet wirkt; dann kurz sagen, warum.
 - **Schreiben erlaubt:** nur Markdown. Kein Code, keine Tests, keine Konfiguration.
 - **Ergebnis immer in die Aufgabenliste:** Beschlossene Änderungen und fehlende Funktionen kommen als offene Punkte in `FORTSCHRITT.md` §„Offene Punkte aus Brainstormings“ (funktional formuliert, mit Verweis auf das Archiv, falls es eins gibt).
 - **Brainstorm-Inhalt nur bei Bedarf archivieren:** Das Brainstorming selbst darf im Chat bleiben. Nur wenn Erkenntnisse entstanden sind oder Ideen mit Begründung verworfen wurden, kommt es als Archiv nach `docs/brainstorming/` (Aufbau siehe `docs/brainstorming/README.md`).
-- **Umsetzen nur auf ausdrückliches Signal:** erst bei „setz es um“, „umsetzen: <Punkt>“ o. Ä. Code anfassen und technisch recherchieren. Im Zweifel im Brainstorm-Modus bleiben und nachfragen. Beim Umsetzen zuerst den Punkt in `FORTSCHRITT.md` und ein verlinktes Archiv lesen, danach gelten die Arbeitsregeln unten; den Punkt nach der Umsetzung abhaken.
+- **Umsetzen nur auf ausdrückliches Signal:** erst bei „setz es um“, „umsetzen: <Punkt>“ o. Ä. Code anfassen und technisch recherchieren. Solange das Signal fehlt, im Brainstorm-Modus bleiben. Beim Umsetzen zuerst den Punkt in `FORTSCHRITT.md` und ein verlinktes Archiv lesen, danach gelten die Arbeitsregeln unten; den Punkt nach der Umsetzung abhaken.
 
 ## Arbeitsregeln
 

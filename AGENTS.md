@@ -31,4 +31,4 @@ Diese Datei steuert das Pflicht-Review jedes Pull Requests. Grundlage: `CLAUDE.m
 
 - Plan-Abweichungen werden nicht still akzeptiert: Der PR muss sie als `⟂ drift` im Plan und in `HANDOFF.md` §Frontier nennen.
 - Ein PR, der eine STATUS-Zeile hochstuft, enthält den Beleg unter `docs/demos/<slice-id>/`.
-- Für jeden Agenten, nicht nur fürs Review: Aufgaben mit Ben laufen zuerst im Brainstorm-Modus (`CLAUDE.md` §Brainstorm-Modus). Nur Funktionsebene und Markdown; Code wird erst nach ausdrücklichem „setz es um“ angefasst.
+- Für jeden Agenten, nicht nur fürs Review: Will Ben aus Kundensicht über Funktionen brainstormen, gilt der Brainstorm-Modus (`CLAUDE.md` §Brainstorm-Modus): nur Funktionsebene und Markdown, Code erst nach ausdrücklichem „setz es um“. Klare Anweisungen und technische Themen (Fehler, Architektur, Backend, Datenbank) werden direkt am Code bearbeitet.
