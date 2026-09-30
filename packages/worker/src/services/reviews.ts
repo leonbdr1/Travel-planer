@@ -128,11 +128,11 @@ async function reviewCandidatesFor(deps: ReviewRunDeps, searchId: string, round:
   const filters = filtersFromRequest(request);
   const goal = request.goal ?? DEFAULT_GOAL;
   if (round === 1) {
-    const { evaluated, hotels } = await evaluateSearch(deps.db, searchId, filters);
+    const { evaluated, hotels } = await evaluateSearch(deps.db, searchId, filters, undefined, deps.now());
     return reviewCandidateIds({ goal, evaluated, hotels: preselectHotels(hotels), evidence: new Map() }, constants.REVIEW_TOP_N);
   }
   const reviews = await loadReviewData(deps.db, searchId, filters.chips);
-  const { evaluated, hotels } = await evaluateSearch(deps.db, searchId, filters, reviews);
+  const { evaluated, hotels } = await evaluateSearch(deps.db, searchId, filters, reviews, deps.now());
   const known = new Set(reviews.checks?.keys() ?? []);
   return finalistIdsAcrossGoals({ goal, evaluated, hotels: preselectHotels(hotels), evidence: reviews.evidence ?? new Map() })
     .filter((id) => !known.has(id))

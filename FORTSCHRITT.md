@@ -11,7 +11,7 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 - [x] **B1** – Ergebnisfilter vollständig: Unterkunftsart, Ausstattungs-Wünsche und Namenssuche im Ergebnis änderbar (konzept.md F5)
 - [x] **B2** – Liste seitenweise („Weitere anzeigen“), Sortierung nach Fahrzeit
 - [x] **B3** – Preise aktualisieren (dieselbe Suche neu) und „Letzte Suchen“ im Browser
-- [ ] **B4** – Buchungsübersicht ohne Konto: nur E-Mail eingeben, Liste aller Buchungen per E-Mail
+- [x] **B4** – Buchungsübersicht ohne Konto: nur E-Mail eingeben, Liste aller Buchungen per E-Mail
 - [ ] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
 - [ ] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
 - [ ] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
@@ -40,6 +40,12 @@ Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffe
 - **Letzte Suchen:** Die Startseite zeigt die letzten 5 Suchen dieses Browsers als Links („Füssen · 01.10.–12.10.2026“), einzeln entfernbar (`features/search/recent.ts`, `localStorage`). Einträge älter als die Aufbewahrungsfrist der Suchen (30 Tage) fallen weg, eine gelöschte Suche (404) auch. Die Datenschutzerklärung nennt das.
 - Ersatz für „Buchungsverlauf/gespeicherte Suchen“ ohne Nutzerkonto (konzept.md 2 und 11).
 - Beleg: Walkthrough `suchverlauf` (neu) in `docs/demos/B3/walkthrough-P/` (6/6, mit vorgestellter Uhr; Screenshots gelesen); Unit-Test `web/test/recent-searches.test.ts`; `npm test` 451 grün.
+
+### B4 – erledigt
+- **Buchungsübersicht ohne Konto:** Unter „Meine Buchung“ ist die Buchungsnummer jetzt optional. Nur mit E-Mail schickt der Worker eine E-Mail „Deine Buchungen“ mit allen bestätigten und stornierten Buchungen dieser Adresse (neueste Anreise zuerst, höchstens `BOOKINGS_OVERVIEW_MAX` = 20), jede mit eigenem Zugangslink. Die Antwort bleibt immer 202 (verrät nicht, ob es Buchungen gibt); ALTCHA und 5 Anfragen pro Stunde wie bisher. Kein neuer E-Mail-Typ (Vorlage `access_link` mit zweiter Payload-Form), keine Migration.
+- **Randfall Storno-Frist:** Angebote, deren kostenlose Stornierung zum Zeitpunkt der Ansicht schon abgelaufen ist (Ergebnisse später geöffnet oder Anreise in wenigen Tagen), zählen nicht mehr als „kostenlos stornierbar“ – Filter, Finale-Badge, Liste und Detail sehen dasselbe (`freeCancellationAt` in `domain/pricing.ts`, angewandt in `evaluateSearch` mit `now`). Gebuchte Buchungen behalten die echte Frist; Ansicht und Bestätigungs-Mail sagen „(abgelaufen)“ bzw. „Die kostenlose Stornierung endete am …“, die Storno-Vorschau nennt dann Gebühren laut Bedingungen. „nicht stornierbar“ heißt jetzt genauer „nicht kostenlos stornierbar“. Gefunden, weil der Buchungs-Walkthrough heute (01.10.) einen Tarif mit Frist 30.09. als „kostenlos stornierbar“ zeigte.
+- Beleg: Walkthrough `buchung` (neuer Schritt 08 „nur mit E-Mail“) in `docs/demos/B4/walkthrough-P/` (8/8, frischer Stack); gerenderte Übersichts-Mail aus dem Postausgang `docs/demos/B4/uebersicht-mail.txt`; Tests `worker/test-node/bookings.test.ts` (Übersicht, Link öffnet die eigene Buchung, unbekannte Adresse), `mail.test.ts`, `domain/test/pricing.test.ts`; `npm test` 455 grün.
+- Offen: Ein Index auf `lower(holder_email)` wäre bei vielen Buchungen sinnvoll (heute Tabellenscan, begrenzt durch 5 Anfragen/Stunde); das wäre eine neue Migration (Staging/Produktion: BEN-GATE).
 
 ---
 

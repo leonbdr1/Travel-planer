@@ -21,7 +21,7 @@ export async function buildFinale(
 ): Promise<FinaleResponse> {
   const filters = filtersFromQuery(query, filtersFromRequest(request));
   const reviews = await loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA);
-  const data = await evaluateSearch(db, search.id, filters, reviews);
+  const data = await evaluateSearch(db, search.id, filters, reviews, location.now);
   const goal = query.goal ?? request.goal ?? DEFAULT_GOAL;
   const evidence: ReadonlyMap<string, HotelEvidence> = reviews.evidence ?? new Map();
   // Location facts exist for the likely finalists (step `location-facts`); others compare without them.

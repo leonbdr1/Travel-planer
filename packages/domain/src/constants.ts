@@ -289,6 +289,8 @@ export const SEARCH_TOKEN_TTL_DAYS = 30;
 export const BOOKING_SESSION_TOKEN_TTL_S = 2 * 60 * 60;
 export const BOOKING_ACCESS_TOKEN_TTL_S = 30 * 24 * 60 * 60;
 export const BOOKING_REF_LENGTH = 8;
+/** "Meine Buchungen" without a reference: at most this many bookings in the overview e-mail, the latest stays first. */
+export const BOOKINGS_OVERVIEW_MAX = 20;
 /** E-mail outbox (architektur.md 6.12): attempts and the wait before attempt n+1, in minutes. */
 export const EMAIL_MAX_ATTEMPTS = 5;
 export const EMAIL_RETRY_BACKOFF_MIN = [2, 10, 30, 120] as const;

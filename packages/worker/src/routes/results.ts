@@ -56,7 +56,7 @@ export const resultRoutes = new Hono<AppEnv>()
     const filters = filtersFromQuery(query, filtersFromRequest(request));
     // Independent reads go out together (one connection pipelines them).
     const [reviews, places] = await Promise.all([loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA), searchPlaces(db, search.id)]);
-    const [data, placeRowList] = await Promise.all([evaluateSearch(db, search.id, filters, reviews), placesByIds(db, places.map((p) => p.placeId))]);
+    const [data, placeRowList] = await Promise.all([evaluateSearch(db, search.id, filters, reviews, c.get('deps').now()), placesByIds(db, places.map((p) => p.placeId))]);
     const placeRows = new Map(placeRowList.map((p) => [p.id, p]));
     const goal = query.goal ?? request.goal ?? DEFAULT_GOAL;
     const admissible = admissibleFor(goal, data.evaluated, data.hotels, reviews);
@@ -124,7 +124,7 @@ export const resultRoutes = new Hono<AppEnv>()
     const request = searchRequestSchema.parse(search.request);
     const filters = filtersFromQuery(c.req.query(), filtersFromRequest(request));
     const reviews = await loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA);
-    const data = await evaluateSearch(db, search.id, filters, reviews);
+    const data = await evaluateSearch(db, search.id, filters, reviews, deps.now());
     const offers = data.evaluated.filter((o) => o.hotelId === hotelId);
     const hotel = data.hotelsById.get(hotelId);
     if (!hotel || offers.length === 0) throw new ApiError(404, 'not_found', 'Diese Unterkunft gehört nicht zu dieser Suche.');

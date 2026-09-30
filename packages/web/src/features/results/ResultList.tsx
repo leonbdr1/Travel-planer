@@ -15,8 +15,10 @@ import { RatingPair } from './RatingPair';
 const t = de.results;
 const rc = de.reviewCheck;
 
-export function cancellationText(refundable: boolean, until: string | null): string {
+/** A deadline in the past (a booking viewed later) says so instead of promising free cancellation. */
+export function cancellationText(refundable: boolean, until: string | null, now: Date = new Date()): string {
   if (!refundable) return t.nonRefundable;
+  if (until && Date.parse(until) <= now.getTime()) return t.freeCancelEnded(formatDateTime(until));
   return until ? t.refundableUntil(formatDateTime(until)) : t.refundable_;
 }
 

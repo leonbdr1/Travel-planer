@@ -23,6 +23,7 @@ import {
   comparisonOf,
   evaluateOffers,
   extraNights,
+  freeCancellationAt,
   hotelList,
   offerFeatures,
   recommendedIndex,
@@ -110,10 +111,15 @@ export interface ReviewData {
 
 export const NO_REVIEWS: ReviewData = { signals: new Map(), warnings: new Map(), status: new Map() };
 
-export async function evaluateSearch(db: Queryable, searchId: string, filters: FilterSettings, reviews: ReviewData = NO_REVIEWS) {
+/**
+ * `now`: offers whose free cancellation has already ended count as not free to
+ * cancel (freeCancellationAt); without it the stored flags are taken as they are.
+ */
+export async function evaluateSearch(db: Queryable, searchId: string, filters: FilterSettings, reviews: ReviewData = NO_REVIEWS, now?: Date) {
   const data = await loadEvaluationData(db, searchId);
   const hotels = new Map<string, EvalHotel>(data.hotels.map((h) => [h.id, h]));
-  const evaluated = evaluateOffers(data.offers, hotels, filters, reviews.signals);
+  const offers = now ? data.offers.map((o) => ({ ...o, ...freeCancellationAt(o, now) })) : data.offers;
+  const evaluated = evaluateOffers(offers, hotels, filters, reviews.signals);
   return { ...data, hotelsById: new Map(data.hotels.map((h) => [h.id, h])), evaluated };
 }
 

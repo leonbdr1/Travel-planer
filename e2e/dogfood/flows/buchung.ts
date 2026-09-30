@@ -5,7 +5,7 @@ export const buchungFlow: Flow = {
   name: 'buchung',
   mode: 'P',
   description:
-    'Buchung (F11–F13, Akzeptanzbeispiel 5): Suche Füssen × 2 Freitage → Detailansicht → Buchungsformular mit Pflicht-Bestätigungen → simulierte Zahlung (Fake-Modus) → Bestätigung mit Buchungsnummer und Hotel-Bestätigungsnummer → Buchungsansicht → Stornierung mit Kostenvorschau → Zugangslink unter „Meine Buchung“.',
+    'Buchung (F11–F13, Akzeptanzbeispiel 5): Suche Füssen × 2 Freitage → Detailansicht → Buchungsformular mit Pflicht-Bestätigungen → simulierte Zahlung (Fake-Modus) → Bestätigung mit Buchungsnummer und Hotel-Bestätigungsnummer → Buchungsansicht → Stornierung mit Kostenvorschau → Zugangslink unter „Meine Buchung“, auch nur mit E-Mail als Übersicht aller Buchungen.',
   async run({ page, baseUrl, step, note }) {
     let bookingRef = '';
     await step(
@@ -24,7 +24,8 @@ export const buchungFlow: Flow = {
     await step(
       'Buchungsformular mit Angebot, Pflicht-Bestätigungen und Hinweis auf Beträge vor Ort',
       async () => {
-        await page.getByTestId('book-offer').first().click();
+        // A tariff that is still free to cancel today (the step after next cancels it free of charge).
+        await page.getByTestId('detail-offers').locator('tr').filter({ hasText: 'kostenlos stornierbar bis' }).first().getByTestId('book-offer').click();
         await page.getByTestId('booking-form').waitFor({ timeout: 15_000 });
         await page.locator('#holder-first').fill('Erika');
         await page.locator('#holder-last').fill('Mustermann');
@@ -105,7 +106,18 @@ export const buchungFlow: Flow = {
         await page.getByTestId('access-link-submit').click();
         await page.getByTestId('access-link-sent').waitFor({ timeout: 30_000 });
       },
-      { expectText: ['Meine Buchung', 'Wenn die Angaben zu einer Buchung passen'] },
+      { expectText: ['Meine Buchung', 'Wenn es zu deinen Angaben Buchungen gibt'] },
+    );
+
+    await step(
+      '„Meine Buchung“ nur mit E-Mail: Übersicht aller Buchungen anfordern (B4)',
+      async () => {
+        await page.goto(`${baseUrl}/buchung`);
+        await page.locator('#my-email').fill('erika@example.org');
+        await page.getByTestId('access-link-submit').click();
+        await page.getByTestId('access-link-sent').waitFor({ timeout: 30_000 });
+      },
+      { expectText: ['Wenn es zu deinen Angaben Buchungen gibt'] },
     );
   },
 };
