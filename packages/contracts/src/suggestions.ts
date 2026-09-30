@@ -4,12 +4,30 @@ const themeCode = z.string().regex(/^[a-z][a-z_]*$/).max(40);
 /** Largest selectable maximum drive time, 30 h (Aufgabe F16); equals MAX_DRIVE_MINUTES in packages/domain (drift test in packages/web). */
 export const MAX_DRIVE_MINUTES = 1800;
 
+/** Continents of the flight mode (Aufgabe F19); equal to CONTINENT_CODES in packages/domain (drift test in packages/web). */
+export const CONTINENT_CODES = ['europa', 'afrika', 'asien', 'nordamerika', 'suedamerika', 'ozeanien'] as const;
+export const travelModeSchema = z.enum(['car', 'flight']);
+export type TravelModeDto = z.infer<typeof travelModeSchema>;
+
+/**
+ * How the traveller gets there (F19): by car (max_drive_minutes) or by plane
+ * (continents, optional max_flight_minutes; shown only, no flight is sold).
+ */
+const travelFields = {
+  travel_mode: travelModeSchema.default('car'),
+  /** Flight mode: ticked continents; empty means all. */
+  continents: z.array(z.enum(CONTINENT_CODES)).max(6).default([]),
+  /** Flight mode: optional limit of the flight time (air distance estimate). */
+  max_flight_minutes: z.number().int().min(30).max(1200).nullable().default(null),
+};
+
 export const originRefSchema = z.object({ geonameid: z.number().int().positive() });
 
 export const regionSuggestionsRequestSchema = z.object({
   origin: originRefSchema,
   max_drive_minutes: z.number().int().min(15).max(MAX_DRIVE_MINUTES).nullable(),
   themes: z.array(themeCode).max(12),
+  ...travelFields,
 });
 export type RegionSuggestionsRequest = z.infer<typeof regionSuggestionsRequestSchema>;
 
@@ -56,6 +74,8 @@ export const regionSuggestionsResponseSchema = z.object({
   origin: originSchema,
   regions: z.array(regionSuggestionSchema),
   travel_times: travelStatsSchema,
+  /** true when distant places were left out because only well-known destinations count that far (F19). */
+  quality_filter: z.boolean().default(false),
 });
 export type RegionSuggestionsResponse = z.infer<typeof regionSuggestionsResponseSchema>;
 
@@ -64,6 +84,7 @@ export const placeSuggestionsRequestSchema = z.object({
   max_drive_minutes: z.number().int().min(15).max(MAX_DRIVE_MINUTES).nullable(),
   themes: z.array(themeCode).max(12),
   region_ids: z.array(z.uuid()).min(1).max(5),
+  ...travelFields,
 });
 export type PlaceSuggestionsRequest = z.infer<typeof placeSuggestionsRequestSchema>;
 

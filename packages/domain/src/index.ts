@@ -15,6 +15,8 @@ export * from './dates';
 export * from './texts';
 export * from './themes';
 export * from './suggestions';
+export * from './destinations';
+export * from './destination-quality';
 export * from './pricing';
 export * from './rooms';
 export * from './property-kind';

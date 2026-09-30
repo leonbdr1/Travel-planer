@@ -10,7 +10,7 @@ import { FlightBadge } from './FlightBadge';
 import { OverviewMap } from './OverviewMap';
 import { fetchRegions } from './api';
 import { catalogLabel } from './labels';
-import { toggle, type WizardState, keepOwnSelection } from './state';
+import { toggle, travelParams, type WizardState, keepOwnSelection } from './state';
 
 const t = de.wizard.regions;
 const MAX_REGIONS = 5;
@@ -32,6 +32,7 @@ export function StepRegions({
 }) {
   const [error, setError] = useState<string | null>(null);
   const [estimated, setEstimated] = useState(false);
+  const [qualityFilter, setQualityFilter] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [touched, setTouched] = useState(false);
   const origin = state.origin;
@@ -41,10 +42,11 @@ export function StepRegions({
     if (!origin || !needsLoad) return;
     let cancelled = false;
     setError(null);
-    fetchRegions({ origin: { geonameid: origin.geonameid }, max_drive_minutes: state.maxDriveMinutes, themes: state.themes })
+    fetchRegions({ origin: { geonameid: origin.geonameid }, themes: state.themes, ...travelParams(state) })
       .then((res) => {
         if (cancelled) return;
         setEstimated(res.travel_times.estimated > 0);
+        setQualityFilter(res.quality_filter);
         update({ regions: res.regions, selectedRegionIds: res.regions.slice(0, 1).map((r) => r.id) });
       })
       .catch((err: unknown) => {
@@ -61,7 +63,7 @@ export function StepRegions({
     <div className="space-y-6">
       <div className="space-y-2">
         <Heading level={2}>{t.title}</Heading>
-        <Text>{t.lead}</Text>
+        <Text>{state.travelMode === 'flight' ? t.leadFlight : t.lead}</Text>
       </div>
       {error ? (
         <Alert tone="error">
@@ -73,7 +75,8 @@ export function StepRegions({
       ) : null}
       {state.regions === null && !error ? <Spinner label={t.loading} /> : null}
       {estimated ? <Alert tone="warning">{t.estimated}</Alert> : null}
-      {state.regions !== null && regions.length === 0 ? <Alert tone="info">{t.empty}</Alert> : null}
+      {qualityFilter && state.travelMode === 'car' ? <Text data-testid="quality-note">{t.qualityNote}</Text> : null}
+      {state.regions !== null && regions.length === 0 ? <Alert tone="info">{state.travelMode === 'flight' ? t.emptyFlight : t.empty}</Alert> : null}
       <ul className="grid gap-4 md:grid-cols-2" data-testid="region-list">
         {regions.map((region) => {
           // Aufgabe F17: a region with a single highlight is named after it ("Venedig").
@@ -130,9 +133,9 @@ export function StepRegions({
                 <p className="mt-2 text-sm font-medium text-brand-800" data-testid="region-reason">
                   {region.reason}
                 </p>
-                {/* The whole region lies beyond 30 hours by car. */}
+                {/* The whole region lies beyond 30 hours by car (by plane the times are flight times already). */}
                 <div className="mt-2 empty:hidden">
-                  <FlightBadge minutes={region.min_minutes} />
+                  {state.travelMode === 'car' ? <FlightBadge minutes={region.min_minutes} /> : null}
                 </div>
                 <p className="mt-2 text-sm text-zinc-600">{region.description}</p>
                 {region.ai_assisted ? <AiLabel className="mt-3" text={catalogLabel(meta, region.verified)} /> : null}

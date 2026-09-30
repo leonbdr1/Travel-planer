@@ -3,9 +3,10 @@
 // departure (calendar popover) and travellers that sits below "Wohin soll es
 // gehen?" and counts for both ways to a place.
 import { useCallback } from 'react';
-import { ClockIcon, MapPinIcon } from '@heroicons/react/20/solid';
+import { ClockIcon, MapPinIcon, PaperAirplaneIcon, TruckIcon } from '@heroicons/react/20/solid';
 import type { LocalityDto, MetaConfigResponse } from '@reiseplaner/contracts';
-import { ErrorMessage } from '@reiseplaner/ui';
+import { CONTINENT_CODES, CONTINENT_LABELS, type ContinentCode } from '@reiseplaner/domain';
+import { Chip, ErrorMessage, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchLocalities } from './api';
@@ -16,8 +17,78 @@ import { TravellersPicker } from './TravellersPicker';
 const t = de.wizard.frame;
 // Up to 7 h in fine steps, then the coarse blocks of Aufgabe F16 (10, 20, 30 h); "egal" = all of Europe.
 export const DRIVE_OPTIONS = [60, 90, 120, 150, 180, 240, 300, 360, 420, 600, 1200, 1800];
+// Optional flight time limit in hours (F19).
+export const FLIGHT_HOURS_OPTIONS = [2, 3, 4, 5, 6, 8, 12];
 
 type Update = (patch: Partial<WizardState>) => void;
+
+/** Car or plane (F19): the way the suggested places are found. Flights are only shown, never sold. */
+function TravelModeSwitch({ state, update }: { state: WizardState; update: Update }) {
+  const options = [
+    { mode: 'car', label: t.modeCar, icon: <TruckIcon aria-hidden="true" className="size-4" /> },
+    { mode: 'flight', label: t.modeFlight, icon: <PaperAirplaneIcon aria-hidden="true" className="size-4" /> },
+  ] as const;
+  return (
+    <div role="radiogroup" aria-label={t.travelMode} className="flex gap-1 rounded-lg bg-zinc-100 p-1" data-testid="travel-mode">
+      {options.map((o) => (
+        <button
+          key={o.mode}
+          type="button"
+          role="radio"
+          aria-checked={state.travelMode === o.mode}
+          data-testid={`mode-${o.mode}`}
+          onClick={() => state.travelMode !== o.mode && update({ travelMode: o.mode, ...resetSuggestions(state) })}
+          className={cx(
+            'inline-flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition-colors',
+            state.travelMode === o.mode ? 'bg-white text-brand-800 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-600 hover:text-zinc-900',
+          )}
+        >
+          {o.icon}
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** Flight mode: continents to tick, flight time optional. */
+function FlightFields({ state, update }: { state: WizardState; update: Update }) {
+  const toggleContinent = (code: ContinentCode) =>
+    update({ continents: state.continents.includes(code) ? state.continents.filter((c) => c !== code) : [...state.continents, code], ...resetSuggestions(state) });
+  return (
+    <div className="space-y-2" data-testid="flight-fields">
+      <fieldset>
+        <legend className="text-sm font-medium text-zinc-700">
+          {t.continents} <span className="font-normal text-zinc-500">({t.continentsHint})</span>
+        </legend>
+        <div className="mt-1.5 flex flex-wrap gap-2" data-testid="continent-chips">
+          {CONTINENT_CODES.map((code) => (
+            <Chip key={code} selected={state.continents.includes(code)} onToggle={() => toggleContinent(code)}>
+              {CONTINENT_LABELS[code]}
+            </Chip>
+          ))}
+        </div>
+      </fieldset>
+      <Cell label={t.maxFlight} htmlFor="max-flight" icon={<ClockIcon aria-hidden="true" className="size-5" />}>
+        <select
+          id="max-flight"
+          title={t.maxFlightTitle}
+          className="block w-full cursor-pointer appearance-none border-0 bg-transparent p-0 text-sm/6 font-semibold text-zinc-950 focus:ring-0 focus:outline-none"
+          value={state.maxFlightMinutes ?? ''}
+          onChange={(e) => update({ maxFlightMinutes: e.target.value === '' ? null : Number(e.target.value), ...resetSuggestions(state) })}
+        >
+          <option value="">{t.flightNoLimit}</option>
+          {FLIGHT_HOURS_OPTIONS.map((h) => (
+            <option key={h} value={h * 60}>
+              {t.flightUpTo(h)}
+            </option>
+          ))}
+        </select>
+      </Cell>
+      <p className="text-sm text-zinc-500">{t.flightHint}</p>
+    </div>
+  );
+}
 
 /** White field: small label on top, value below (like booking sites). */
 export const fieldShell =
@@ -64,7 +135,10 @@ export function OriginFields({ state, update, touched, optional = false }: { sta
             />
           </div>
         </Cell>
-        {optional ? null : (
+        {optional ? null : <TravelModeSwitch state={state} update={update} />}
+        {optional ? null : state.travelMode === 'flight' ? (
+        <FlightFields state={state} update={update} />
+        ) : (
         <Cell label={t.maxDriveShort} htmlFor="max-drive" icon={<ClockIcon aria-hidden="true" className="size-5" />}>
           <select
             id="max-drive"

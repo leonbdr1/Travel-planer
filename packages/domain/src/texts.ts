@@ -1,6 +1,7 @@
 // German text templates produced by the domain (reasons, durations). They
 // are checked by `npm run check:claims` like the UI texts.
 import { formatDriveRange, formatDuration } from './drive-bands';
+import { formatFlightRange } from './destinations';
 
 export { formatDuration };
 
@@ -11,10 +12,11 @@ export function formatList(items: readonly string[]): string {
 }
 
 /** Region reason (architektur.md 6.2 point 7): "{n} passende Orte für {Themen}, {min}–{max} Fahrt". */
-export function regionReason(args: { places: number; themeLabels: readonly string[]; minMinutes: number; maxMinutes: number; estimated: boolean }): string {
+export function regionReason(args: { places: number; themeLabels: readonly string[]; minMinutes: number; maxMinutes: number; estimated: boolean; mode?: 'car' | 'flight' }): string {
   const count = args.places === 1 ? '1 passender Ort' : `${args.places} passende Orte`;
   const themes = args.themeLabels.length > 0 ? ` für ${formatList(args.themeLabels)}` : '';
   // Exact up to 7 h, coarser beyond (Aufgabe F16): "4 h 6 min–4 h 48 min", "über 20 h".
+  if (args.mode === 'flight') return `${count}${themes}, ca. ${formatFlightRange(args.minMinutes, args.maxMinutes)} Flug`;
   const span = formatDriveRange(args.minMinutes, args.maxMinutes);
   return `${count}${themes}, ${args.estimated ? 'geschätzt ' : ''}${span} Fahrt`;
 }

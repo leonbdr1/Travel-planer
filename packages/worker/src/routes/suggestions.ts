@@ -13,7 +13,7 @@ import type { AppEnv } from '../app';
 import { ApiError } from '../http/errors';
 import { rateLimit } from '../http/rate-limit';
 import { parseJsonBody } from '../http/validate';
-import { resolveOrigin, suggestPlaces, suggestRegions, type SuggestionDeps } from '../services/suggestions';
+import { resolveOrigin, suggestPlaces, suggestRegions, type SuggestionDeps, type TravelOptions } from '../services/suggestions';
 
 const HOUR_S = 3600;
 
@@ -35,6 +35,12 @@ async function originOrThrow(c: Context<AppEnv>, geonameid: number) {
   return origin;
 }
 
+const travelOptions = (req: { travel_mode: 'car' | 'flight'; continents: TravelOptions['continents']; max_flight_minutes: number | null }): TravelOptions => ({
+  mode: req.travel_mode,
+  continents: req.continents,
+  maxFlightMinutes: req.max_flight_minutes,
+});
+
 const originDto = (o: { geonameid: number; displayName: string; lat: number; lng: number }) => ({
   geonameid: o.geonameid,
   label: o.displayName,
@@ -47,14 +53,14 @@ export const suggestionRoutes = new Hono<AppEnv>()
   .post('/regions', async (c) => {
     const req = await parseJsonBody(c, regionSuggestionsRequestSchema);
     const origin = await originOrThrow(c, req.origin.geonameid);
-    const { regions, stats } = await suggestRegions(suggestionDeps(c), origin, req.max_drive_minutes, req.themes);
-    const body: RegionSuggestionsResponse = { origin: originDto(origin), regions, travel_times: stats };
+    const { regions, stats, qualityFilter } = await suggestRegions(suggestionDeps(c), origin, req.max_drive_minutes, req.themes, travelOptions(req));
+    const body: RegionSuggestionsResponse = { origin: originDto(origin), regions, travel_times: stats, quality_filter: qualityFilter };
     return c.json(body);
   })
   .post('/places', async (c) => {
     const req = await parseJsonBody(c, placeSuggestionsRequestSchema);
     const origin = await originOrThrow(c, req.origin.geonameid);
-    const { regions, stats } = await suggestPlaces(suggestionDeps(c), origin, req.max_drive_minutes, req.themes, req.region_ids);
+    const { regions, stats } = await suggestPlaces(suggestionDeps(c), origin, req.max_drive_minutes, req.themes, req.region_ids, travelOptions(req));
     const body: PlaceSuggestionsResponse = { regions, travel_times: stats };
     return c.json(body);
   });

@@ -3,7 +3,7 @@
 // explicit confirmation before the search starts.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { LocalityDto, MetaConfigResponse, PlaceDto } from '@reiseplaner/contracts';
-import { checkCombinations, placeLimit, preselectPlaceIds } from '@reiseplaner/domain';
+import { checkCombinations, formatDuration, placeLimit, preselectPlaceIds } from '@reiseplaner/domain';
 import { AiLabel, Alert, Badge, Button, Card, Heading, Label, Spinner, Text, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
@@ -12,7 +12,7 @@ import { AsyncCombobox } from './AsyncCombobox';
 import { fetchPlaces, resolvePlace, searchPlaces } from './api';
 import { FlightBadge } from './FlightBadge';
 import { catalogLabel, formatMinutes } from './labels';
-import { activeOrigin, keepOwnSelection, stayDates, toggle, type WizardState } from './state';
+import { activeOrigin, keepOwnSelection, stayDates, toggle, travelParams, type WizardState } from './state';
 
 const t = de.wizard.places;
 
@@ -23,12 +23,15 @@ function PlaceRow({
   selected,
   disabled,
   meta,
+  flightMode,
   onToggle,
 }: {
   place: PlaceDto;
   selected: boolean;
   disabled: boolean;
   meta: MetaConfigResponse;
+  /** Flight mode (F19): catalog places show the estimated flight time. */
+  flightMode: boolean;
   onToggle: () => void;
 }) {
   return (
@@ -58,9 +61,11 @@ function PlaceRow({
             <span className="text-sm text-zinc-600" data-testid="place-drive">
               {place.minutes === null
                 ? t.noDrive
-                : `${t.drive} ${formatMinutes(place.minutes)}${place.estimated ? ` (${t.estimated})` : ''}`}
+                : place.kind === 'catalog' && flightMode
+                  ? `${t.flightTime} ${formatDuration(place.minutes)} (${t.estimated})`
+                  : `${t.drive} ${formatMinutes(place.minutes)}${place.estimated ? ` (${t.estimated})` : ''}`}
             </span>
-            <FlightBadge minutes={place.minutes} />
+            {flightMode && place.kind === 'catalog' ? null : <FlightBadge minutes={place.minutes} />}
           </div>
           {place.description ? <p className="text-sm text-zinc-600">{place.description}</p> : null}
           <div className="flex flex-wrap items-center gap-1.5">
@@ -104,9 +109,9 @@ export function StepPlaces({
     setError(null);
     fetchPlaces({
       origin: { geonameid: origin.geonameid },
-      max_drive_minutes: state.maxDriveMinutes,
       themes: state.themes,
       region_ids: state.selectedRegionIds,
+      ...travelParams(state),
     })
       .then((res) => {
         if (cancelled) return;
@@ -218,6 +223,7 @@ export function StepPlaces({
                   key={place.id}
                   place={place}
                   meta={meta}
+                  flightMode={state.travelMode === 'flight'}
                   selected={selected}
                   disabled={!selected && selectedCount >= max}
                   onToggle={() => update({ selectedPlaceIds: toggle(state.selectedPlaceIds, place.id) })}

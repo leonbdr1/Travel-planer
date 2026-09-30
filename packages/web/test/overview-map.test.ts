@@ -30,3 +30,11 @@ describe('drive time options (Aufgabe F16)', () => {
     expect(api).toBe(1800);
   });
 });
+
+describe('flight mode continents (Aufgabe F19)', () => {
+  it('the API and the domain know the same continents (drift check)', async () => {
+    const { CONTINENT_CODES: api } = await import('@reiseplaner/contracts');
+    const { CONTINENT_CODES: domain } = await import('@reiseplaner/domain');
+    expect([...api]).toEqual([...domain]);
+  });
+});

@@ -55,6 +55,12 @@ export const MAX_DRIVE_MINUTES = 1800;
 
 export const SUGGEST_MIN_REGIONS = 2;
 export const SUGGEST_MAX_REGIONS = 5;
+/** Close by (no quality gate yet) more regions may be shown than far away (F19). */
+export const SUGGEST_MAX_REGIONS_NEAR = 8;
+/** Far away or by plane (quality gate on): a short list of hotspots. */
+export const SUGGEST_MAX_REGIONS_FAR = 6;
+/** Region quality (F19): its best place, plus this much for each further fitting place (at most three). */
+export const REGION_QUALITY_SUPPORT_BONUS = 0.3;
 export const SUGGEST_MAX_PLACES_PER_REGION = 10;
 export const THEME_MIN_STRENGTH = 2;
 export const DEFAULT_SEARCH_RADIUS_KM = 10;
@@ -334,3 +340,33 @@ export const LLM_BATCH_POLL_INTERVAL_MS = 30_000;
 export const CATALOG_DUPLICATE_KM = 3;
 export const CATALOG_REGION_MAX_SPREAD_KM = 100;
 export const CATALOG_FAKE_POLL_INTERVAL_MS = 10;
+
+/**
+ * Suggestion quality grows with the distance (Aufgabe F19, docs/logik/ziel-qualitaet.md):
+ * up to QUALITY_NEAR_MAX_MIN of driving every fitting place is welcome; further
+ * out a region needs a place of at least the given attractiveness score (the
+ * step applies from its `fromMin` on). Beach, culture and shopping trips are
+ * judged as if the way were QUALITY_PICKY_FACTOR times as long: nobody drives
+ * four hours to a mediocre beach. A flight leads to top destinations only.
+ */
+export const QUALITY_NEAR_MAX_MIN = 240;
+export const QUALITY_STEPS = [
+  { fromMin: 240, minScore: 4 },
+  { fromMin: 420, minScore: 6 },
+  { fromMin: 720, minScore: 8 },
+] as const;
+export const QUALITY_PICKY_THEMES = ['strand', 'staedte_kultur', 'shopping'] as const;
+export const QUALITY_PICKY_FACTOR = 2;
+export const QUALITY_FLIGHT_MIN_SCORE = 8;
+/** Inside a region with a hotspot, places up to this far below the required score are still shown ("not only Barcelona"). */
+export const QUALITY_PLACE_SLACK = 1.5;
+
+/**
+ * Flights (F19), shown only, nothing is booked: flight time estimated from the
+ * air distance (cruise speed plus a fixed part for climb and descent), without
+ * the way to the airport. Destinations closer than FLIGHT_MIN_KM are not a
+ * flight trip.
+ */
+export const FLIGHT_SPEED_KMH = 750;
+export const FLIGHT_OVERHEAD_MIN = 45;
+export const FLIGHT_MIN_KM = 500;

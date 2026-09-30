@@ -137,4 +137,5 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | F15 | Europa-Erweiterung | `live-verified` | `docs/demos/F15/` | 19 weitere Länder in der Ortsdatenbank, 53 Regionen, Europa-Karte, Migration `20261018a` nur lokal (Staging/Produktion: BEN-GATE), KI-Entwurf (BG-11). |
 | F16 | Fahrzeit-Blöcke, Flug-Hinweis ab 30 h | `live-verified` | `docs/demos/F16/` | Kein Routing für ferne Ziele. |
 | F17 | Regionsname nach einzigem Highlight-Ort | `live-verified` | `docs/demos/F17/` | Liste der umbenannten Regionen zur Prüfung in `docs/demos/F17/demo-output.txt`. |
+| F19 | Vorschläge nach Entfernung, Auto/Flug, Kontinente | `live-verified` | `docs/demos/F19/` | Katalog nur Europa; Schwellen ungeprüft (BG-11). |
 | F18 | Rezensionen in 15 Sprachen | `live-verified` | `docs/demos/F18/` | `review-verify` 1.1.0; echte Eval-Läufe brauchen BG-07. |

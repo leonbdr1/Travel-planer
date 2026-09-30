@@ -13,6 +13,7 @@ import { karteFlow } from './karte';
 import { themenFlow } from './themen';
 import { europaFlow } from './europa';
 import { fahrzeitFlow } from './fahrzeit';
+import { flugzeugFlow } from './flugzeug';
 import { regionsnameFlow } from './regionsname';
 import { rezensionenFlow } from './rezensionen';
 import { buchungFlow } from './buchung';
@@ -25,4 +26,4 @@ import { sucheFlow } from './suche';
 import { suchrahmenFlow } from './suchrahmen';
 import { warnungenFlow } from './warnungen';
 
-export const flows: Flow[] = [startFlow, startseiteFlow, pflichtseitenFlow, suchrahmenFlow, orteFlow, naechteFlow, zimmerFlow, bewertungFlow, attraktivitaetFlow, filterFlow, bilderFlow, ausstattungFlow, karteFlow, themenFlow, europaFlow, fahrzeitFlow, regionsnameFlow, rezensionenFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow, langsamFlow];
+export const flows: Flow[] = [startFlow, startseiteFlow, pflichtseitenFlow, suchrahmenFlow, orteFlow, naechteFlow, zimmerFlow, bewertungFlow, attraktivitaetFlow, filterFlow, bilderFlow, ausstattungFlow, karteFlow, themenFlow, europaFlow, fahrzeitFlow, flugzeugFlow, regionsnameFlow, rezensionenFlow, sucheFlow, ergebnisseFlow, finaleFlow, warnungenFlow, buchungFlow, entwicklerFlow, langsamFlow];

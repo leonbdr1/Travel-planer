@@ -8,21 +8,23 @@ import {
   wishParseResponseSchema,
 } from '@reiseplaner/contracts';
 import { apiRequest } from '../../api/client';
+import type { travelParams } from './state';
 
 export function fetchLocalities(q: string, signal?: AbortSignal) {
   return apiRequest(`/geo/localities?q=${encodeURIComponent(q)}`, localitiesResponseSchema, signal ? { signal } : {});
 }
 
-export function fetchRegions(body: { origin: { geonameid: number }; max_drive_minutes: number | null; themes: string[] }) {
+type TravelBody = ReturnType<typeof travelParams>;
+
+export function fetchRegions(body: { origin: { geonameid: number }; themes: string[] } & TravelBody) {
   return apiRequest('/suggestions/regions', regionSuggestionsResponseSchema, { body });
 }
 
 export function fetchPlaces(body: {
   origin: { geonameid: number };
-  max_drive_minutes: number | null;
   themes: string[];
   region_ids: string[];
-}) {
+} & TravelBody) {
   return apiRequest('/suggestions/places', placeSuggestionsResponseSchema, { body });
 }
 

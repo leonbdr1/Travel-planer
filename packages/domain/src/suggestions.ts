@@ -1,6 +1,7 @@
 // Region and place suggestions (architektur.md 6.2 points 3–8, 10, 11). Pure:
 // the caller supplies catalog places and travel times.
-import { SUGGEST_MAX_PLACES_PER_REGION, SUGGEST_MAX_REGIONS, SUGGEST_MIN_REGIONS } from './constants';
+import { REGION_QUALITY_SUPPORT_BONUS, SUGGEST_MAX_PLACES_PER_REGION, SUGGEST_MAX_REGIONS, SUGGEST_MIN_REGIONS } from './constants';
+import type { ScoredPlace, TravelMode } from './destination-quality';
 import { withinPrefilter, type LatLng } from './geo';
 import { regionReason } from './texts';
 import { fitsThemes, matchingThemes, themeScore, type PlaceThemes } from './themes';
@@ -28,6 +29,8 @@ export interface RegionSuggestion {
   regionId: string;
   name: string;
   score: number;
+  /** Best fitting place's attractiveness plus a bonus for good neighbours (0 when unknown). */
+  quality: number;
   places: number;
   minMinutes: number;
   maxMinutes: number;
@@ -69,6 +72,9 @@ export function rankRegions(
   selectedThemes: readonly string[],
   themeLabel: (code: string) => string,
   maxRegions: number = SUGGEST_MAX_REGIONS,
+  /** 'quality' (F19, far destinations): the best places decide, not the number of fitting places. */
+  rankBy: 'themes' | 'quality' = 'themes',
+  mode: TravelMode = 'car',
 ): RegionSuggestion[] {
   const byRegion = new Map<string, ReachablePlace[]>();
   for (const r of reachable) byRegion.set(r.place.regionId, [...(byRegion.get(r.place.regionId) ?? []), r]);
@@ -82,18 +88,34 @@ export function rankRegions(
     const estimated = list.some((r) => r.estimated);
     const minMinutes = Math.min(...minutes);
     const maxMinutes = Math.max(...minutes);
+    const scores = list.map((r) => (r.place as ScoredPlace).attractivenessScore ?? 0).sort((a, b) => b - a);
     suggestions.push({
       regionId,
+      // A hotspot with a few good neighbours ranks above a hotspot alone, not above a better hotspot.
+      quality: (scores[0] ?? 0) + REGION_QUALITY_SUPPORT_BONUS * Math.min(3, Math.max(0, scores.length - 1)),
       name: first.place.regionName,
       score: list.reduce((s, r) => s + themeScore(r.place.themes, selectedThemes), 0),
       places: list.length,
       minMinutes,
       maxMinutes,
       estimated,
-      reason: regionReason({ places: list.length, themeLabels: labels, minMinutes, maxMinutes, estimated }),
+      reason: regionReason({ places: list.length, themeLabels: labels, minMinutes, maxMinutes, estimated, mode }),
     });
   }
-  suggestions.sort((a, b) => b.score - a.score || a.minMinutes - b.minMinutes || a.name.localeCompare(b.name, 'de'));
+  if (rankBy === 'quality') {
+    // Hotspot tiers first (whole score points); inside a tier the nearer one by car, the better fitting one by plane.
+    const tier = (r: RegionSuggestion) => Math.floor(r.quality);
+    suggestions.sort(
+      (a, b) =>
+        tier(b) - tier(a) ||
+        (mode === 'car' ? a.minMinutes - b.minMinutes : 0) ||
+        b.score - a.score ||
+        a.minMinutes - b.minMinutes ||
+        a.name.localeCompare(b.name, 'de'),
+    );
+  } else {
+    suggestions.sort((a, b) => b.score - a.score || a.minMinutes - b.minMinutes || a.name.localeCompare(b.name, 'de'));
+  }
   return suggestions.slice(0, Math.max(SUGGEST_MIN_REGIONS, maxRegions));
 }
 

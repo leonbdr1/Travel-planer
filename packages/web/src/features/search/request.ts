@@ -8,7 +8,7 @@ export function toSearchRequest(state: WizardState): SearchRequest | null {
   return {
     goal: state.goal,
     origin: origin ? { geonameid: origin.geonameid, label: origin.name, lat: origin.lat, lng: origin.lng } : null,
-    max_drive_minutes: state.maxDriveMinutes,
+    max_drive_minutes: state.travelMode === 'flight' ? null : state.maxDriveMinutes,
     themes: state.themes,
     window: { start: state.windowStart, end: state.windowEnd },
     nights: state.nights,

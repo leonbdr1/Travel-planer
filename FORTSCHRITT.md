@@ -204,3 +204,12 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - Alle Pfad-Walkthroughs zusammen (`npm run dogfood -- --mode P`, 25 Flows inkl. der neuen `themen`, `europa`, `fahrzeit`, `regionsname`, `rezensionen`): **405/405 Prüfungen bestanden**, keine Konsolenfehler; Bericht `docs/demos/Aufgaben-F14-F18/report-P-all.md`.
 - Dabei behoben: Im Gesamtlauf liefen die letzten Flows in das Stundenlimit für Abfragen (HTTP 429), weil alle Flows als derselbe Besucher zählen. Das Walkthrough-Werkzeug setzt die Zähler jetzt vor jedem Flow zurück; die Limits im Produkt sind unverändert.
 - `npm test` 478 grün, `npm run db:test` grün, Typecheck und Claims-Prüfung grün.
+
+### F19 – Vorschläge nach Entfernung, Auto oder Flugzeug (30.09.2026)
+- Ansatz: `docs/logik/ziel-qualitaet.md`; Gesamtanalyse: `docs/analyse-suche-buchung.md`.
+- **Je weiter weg, desto besser der Ort:** Bis 4 h Fahrt ist alles willkommen (Wandern ab München: 8 Regionen inkl. ruhigerer Gebiete). Danach braucht eine Region einen Ort mit 4, ab 7 h 6, ab 12 h 8 Punkten (Top-Urlaubsort). Strand, Kultur und Shopping zählen die Fahrzeit doppelt: Strand ab München bis 20 h zeigt Rovinj, Barcelona, Cinque Terre (Monterosso), Dalmatien, Côte d’Azur – keine Nachbarorte. In einer Hotspot-Region bleiben auch etwas kleinere Orte (bis 1,5 Punkte darunter).
+- **Schalter Auto / Flugzeug:** Im Flugmodus Kontinente zum Ankreuzen (ohne Häkchen alle), Flugzeit optional, keine Inlandsflüge, nur Top-Ziele (Barcelona, Kreta, Algarve, Mallorca …). Flugzeit ist Luftlinie/750 km/h + 45 min, nur Anzeige.
+- **Norwegen:** Fjordnorwegen kommt im Flugmodus bei Bergpanorama und Natur (Bergen), nicht beim Strand.
+- **Hinweis** „Je weiter das Ziel entfernt ist, desto bekannter muss es sein“ erscheint, sobald etwas ausgefiltert wurde.
+- Offen: Katalog nur Europa (andere Kontinente: leere Liste mit Hinweis); keine Jahreszeit; Flugkosten nicht im Preisvergleich; Inseln beim Auto ohne Fähre. Details L1–L10 in der Analyse.
+- Beleg: `npm run demo -- f19` → `docs/demos/F19/demo-output.txt`; Walkthrough `flugzeug` in `docs/demos/F19/`, Screenshots gelesen (auch 390 px).

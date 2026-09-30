@@ -1,0 +1,62 @@
+$ npm run demo -- f19
+# recorded 2026-09-30T08:39:14.271Z
+
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, IT 3031, FR 3258, ES 1728, PT 587, NL 760, BE 508, LU 29, DK 212, CZ 448, PL 1055, HU 499, HR 140, SI 71, SK 134, GR 351, GB 2131, IE 189, NO 133, SE 404, Postleitzahlen 17081)
+seed: Katalog-Entwurf importiert (109 Regionen, 520 Orte)
+Auto bis 3 h, Wandern: 8 Regionen
+    Allgäu – top 9.3 – 8 passende Orte für Wandern, 1 h 19 min–2 h 3 min Fahrt
+    Bregenzerwald und Montafon – top 9.5 – 7 passende Orte für Wandern, 2 h 12 min–2 h 44 min Fahrt
+    Bayerischer Wald – beliebt 7 – 7 passende Orte für Wandern, 2 h 15 min–2 h 32 min Fahrt
+    Gröden und Seiser Alm – top 9.1 – 6 passende Orte für Wandern, 2 h 27 min–2 h 44 min Fahrt
+    Bruneck (Region Pustertal und Drei Zinnen) – top 8 – 7 passende Orte für Wandern, 1 h 58 min–2 h 43 min Fahrt
+    Meran (Region Meraner Land) – top 8.7 – 7 passende Orte für Wandern, 2 h 20 min–2 h 38 min Fahrt
+    Werdenfelser Land – top 9 – 5 passende Orte für Wandern, 1 h 15 min–1 h 23 min Fahrt
+    Ötztal und Stubaital – beliebt 7.9 – 6 passende Orte für Wandern, 1 h 40 min–2 h 4 min Fahrt
+  ok     nah dran und Wandern: viele Vorschläge, auch ruhigere Gebiete
+  ok     darunter Regionen, die keine Top-Ziele sind
+Auto bis 3 h, Strand und Meer: 0 Regionen
+    (0 Treffer)
+Auto bis 20 h, Strand und Meer: 6 Regionen
+    Dalmatien – top 8.7 – 3 passende Orte für Strand und Meer, ca. 9 h bis über 10 h Fahrt
+    Barcelona (Region Barcelona und Costa Brava) – top 9.6 – 3 passende Orte für Strand und Meer, über 10 h Fahrt
+    Rovinj (Region Istrien und Kvarner) – top 8.7 – 5 passende Orte für Strand und Meer, 4 h 35 min–5 h 55 min Fahrt
+    Monterosso al Mare (Region Cinque Terre und Ligurische Küste) – top 8.7 – 2 passende Orte für Strand und Meer, 6 h 59 min bis ca. 7 h Fahrt
+    Côte d’Azur – top 8.4 – 4 passende Orte für Strand und Meer, ca. 8 h bis über 10 h Fahrt
+    Ostseeküste Mecklenburg-Vorpommern – top 8.2 – 5 passende Orte für Strand und Meer, ca. 9 h bis über 10 h Fahrt
+  ok     weit weg und Strand: höchstens sechs Regionen
+  ok     alle Strandregionen sind Top-Ziele
+Flugzeug, Europa, Strand und Meer: 6 Regionen
+    Barcelona (Region Barcelona und Costa Brava) – top 9.6 – 3 passende Orte für Strand und Meer, ca. 2 h 5 min bis 2 h 10 min Flug
+    Dalmatien – top 8.7 – 3 passende Orte für Strand und Meer, ca. 1 h 35 min bis 1 h 50 min Flug
+    Côte d’Azur – top 8.4 – 4 passende Orte für Strand und Meer, ca. 1 h 35 min bis 1 h 40 min Flug
+    Chania (Region Kreta) – top 8.7 – 2 passende Orte für Strand und Meer, ca. 3 h 5 min Flug
+    Lagos (Region Algarve) – top 8.7 – 2 passende Orte für Strand und Meer, ca. 3 h 25 min bis 3 h 30 min Flug
+    Palma (Region Mallorca) – top 8.7 – 2 passende Orte für Strand und Meer, ca. 2 h 15 min bis 2 h 20 min Flug
+  ok     Flug: höchstens sechs Regionen
+  ok     Flug: nur Top-Ziele, Flugzeit statt Fahrzeit
+  ok     Flug: nichts, was man mit dem Auto erreicht
+Flugzeug, Europa, Strand, höchstens 2,5 h Flug: 6 Regionen
+    Barcelona (Region Barcelona und Costa Brava) – top 9.6 – 3 passende Orte für Strand und Meer, ca. 2 h 5 min bis 2 h 10 min Flug
+    Dalmatien – top 8.7 – 3 passende Orte für Strand und Meer, ca. 1 h 35 min bis 1 h 50 min Flug
+    Côte d’Azur – top 8.4 – 4 passende Orte für Strand und Meer, ca. 1 h 35 min bis 1 h 40 min Flug
+    Palma (Region Mallorca) – top 8.7 – 2 passende Orte für Strand und Meer, ca. 2 h 15 min bis 2 h 20 min Flug
+    Taormina (Region Sizilien) – top 9.6 – 2 passende Orte für Strand und Meer, ca. 2 h 15 min bis 2 h 20 min Flug
+    Neapel und Amalfiküste – top 8.5 – 4 passende Orte für Strand und Meer, ca. 1 h 55 min Flug
+  ok     Flugzeit-Grenze wirkt
+Flugzeug, Europa, Bergpanorama und Natur: 3 Regionen
+    Zakopane (Region Krakau und Tatra) – top 9.6 – 1 passender Ort für Bergpanorama, ca. 1 h 35 min Flug
+    Bergen (Region Fjordnorwegen) – top 8 – 2 passende Orte für Bergpanorama und Natur und Ruhe, ca. 2 h 25 min bis 2 h 40 min Flug
+    Funchal (Region Madeira) – top 8.7 – 1 passender Ort für Bergpanorama, ca. 4 h 40 min Flug
+  ok     Norwegen kommt über Bergpanorama und Natur
+  ok     Norwegen kommt nicht als Strandurlaub
+Flugzeug, Europa, Kultur und Sehenswürdigkeiten: 6 Regionen
+    Flandern und Brüssel – top 8.5 – 4 passende Orte für Kultur und Sehenswürdigkeiten, ca. 1 h 35 min bis 1 h 40 min Flug
+    Provence – top 8.7 – 4 passende Orte für Kultur und Sehenswürdigkeiten, ca. 1 h 40 min bis 1 h 45 min Flug
+    Neapel und Amalfiküste – top 8.5 – 5 passende Orte für Kultur und Sehenswürdigkeiten, ca. 1 h 50 min bis 1 h 55 min Flug
+    Sizilien – top 9.1 – 4 passende Orte für Kultur und Sehenswürdigkeiten, ca. 2 h 15 min bis 2 h 25 min Flug
+    Andalusien und Costa del Sol – top 9 – 4 passende Orte für Kultur und Sehenswürdigkeiten, ca. 3 h 5 min bis 3 h 15 min Flug
+    Madrid und Kastilien – top 8.7 – 3 passende Orte für Kultur und Sehenswürdigkeiten, ca. 2 h 45 min bis 2 h 50 min Flug
+  ok     Flug: keine Inlandsziele
+Flugzeug, nur Asien: 0 Regionen
+  ok     Asien: der Katalog hat dort noch keine Ziele, leere Liste
+Ergebnis: alle Prüfungen ok

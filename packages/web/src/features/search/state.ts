@@ -1,12 +1,17 @@
 // Wizard state (steps 1–3). Kept in sessionStorage so a reload keeps the
 // progress; nothing leaves the browser except the API calls.
 import { addDays, DEFAULT_GOAL, formatIsoDate, generateStayDates, type DatesResult, type Goal } from '@reiseplaner/domain';
+import type { ContinentCode } from '@reiseplaner/domain';
 import type { LocalityDto, MetaConfigResponse, PlaceDto, RegionSuggestionDto } from '@reiseplaner/contracts';
 
 export interface WizardState {
   step: 1 | 2 | 3 | 4;
   origin: LocalityDto | null;
   maxDriveMinutes: number | null;
+  /** How the suggestions are found (F19): by car (drive time) or by plane (continents, optional flight time). */
+  travelMode: 'car' | 'flight';
+  continents: ContinentCode[];
+  maxFlightMinutes: number | null;
   themes: string[];
   windowStart: string;
   windowEnd: string;
@@ -57,6 +62,9 @@ export function initialState(now: Date = new Date()): WizardState {
     step: 1,
     origin: null,
     maxDriveMinutes: 180,
+    travelMode: 'car',
+    continents: ['europa'],
+    maxFlightMinutes: null,
     themes: [],
     windowStart: start,
     windowEnd: addDays(start, 42),
@@ -153,4 +161,14 @@ export function resetSuggestions(state: Pick<WizardState, 'ownPlaces' | 'selecte
 
 export function toggle<T>(list: readonly T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+}
+
+/** What the suggestion requests carry for the way of travel (F19); in flight mode the drive time does not apply. */
+export function travelParams(state: Pick<WizardState, 'travelMode' | 'maxDriveMinutes' | 'continents' | 'maxFlightMinutes'>) {
+  return {
+    travel_mode: state.travelMode,
+    max_drive_minutes: state.travelMode === 'flight' ? null : state.maxDriveMinutes,
+    continents: state.travelMode === 'flight' ? state.continents : [],
+    max_flight_minutes: state.travelMode === 'flight' ? state.maxFlightMinutes : null,
+  };
 }

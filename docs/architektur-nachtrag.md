@@ -67,3 +67,10 @@
 - Stichwortlisten (`review-lexicon.yaml`, `praise-lexicon.yaml`) zusätzlich in Spanisch, Portugiesisch, Polnisch, Tschechisch, Kroatisch, Ungarisch, Dänisch, Schwedisch, Norwegisch und Griechisch (15 Sprachen), jeweils mit Verneinungen bzw. „nichts zu bemängeln“-Wörtern. Bewertungen werden nicht übersetzt; die für unsere Kriterien wichtigen Wörter werden direkt erkannt. Norwegisch `nb`/`nn` gilt als `no` (`lexiconLanguageCode`).
 - Skill `reiseplaner.review-verify` Version 1.1.0: Prompt nennt die 15 Sprachen, 52 Evals (8 neue in sechs Sprachen).
 - Simulierte Welt: Häuser außerhalb des DACH-Ausschnitts bekommen 40 % ihrer Bewertungen und alle Beschwerden zu ihrem Mangel in der Landessprache (`packages/providers/src/fake/local-reviews.ts`).
+
+## 6.2 Vorschläge nach Entfernung, Auto oder Flugzeug (Aufgabe F19)
+
+- Vorschlagsfilter je Entfernung (`destination-quality.ts`): ab 4 h Fahrt Mindest-Attraktivität 4, ab 7 h 6, ab 12 h 8; Strand, Kultur, Shopping zählen die Fahrzeit doppelt; Flug nur Top-Ziele; Spielraum 1,5 Punkte in Hotspot-Regionen. Rangfolge mit Filter nach Qualität statt nach Anzahl passender Orte; höchstens 8 (nah) bzw. 6 Regionen.
+- Anfragen `POST /suggestions/regions` und `/places` zusätzlich `travel_mode` (`car`|`flight`, Standard `car`), `continents` (Standard leer = alle), `max_flight_minutes` (optional); Antwort der Regionen zusätzlich `quality_filter`. Alles additiv, Standardwerte erhalten das bisherige Verhalten (bis auf die Qualitätsstufen).
+- Flugzeit-Schätzung 45 min + Luftlinie/750 km/h ohne Routendienst und ohne Cache; keine Inlandsflüge, mindestens 500 km. Flüge werden nicht verkauft.
+- Kontinente je Katalogland (`destinations.ts`); Katalog derzeit nur Europa.
