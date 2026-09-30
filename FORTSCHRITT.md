@@ -12,7 +12,7 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 - [x] **B2** – Liste seitenweise („Weitere anzeigen“), Sortierung nach Fahrzeit
 - [x] **B3** – Preise aktualisieren (dieselbe Suche neu) und „Letzte Suchen“ im Browser
 - [x] **B4** – Buchungsübersicht ohne Konto: nur E-Mail eingeben, Liste aller Buchungen per E-Mail
-- [ ] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
+- [x] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
 - [ ] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
 - [ ] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
 - [ ] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
@@ -46,6 +46,11 @@ Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffe
 - **Randfall Storno-Frist:** Angebote, deren kostenlose Stornierung zum Zeitpunkt der Ansicht schon abgelaufen ist (Ergebnisse später geöffnet oder Anreise in wenigen Tagen), zählen nicht mehr als „kostenlos stornierbar“ – Filter, Finale-Badge, Liste und Detail sehen dasselbe (`freeCancellationAt` in `domain/pricing.ts`, angewandt in `evaluateSearch` mit `now`). Gebuchte Buchungen behalten die echte Frist; Ansicht und Bestätigungs-Mail sagen „(abgelaufen)“ bzw. „Die kostenlose Stornierung endete am …“, die Storno-Vorschau nennt dann Gebühren laut Bedingungen. „nicht stornierbar“ heißt jetzt genauer „nicht kostenlos stornierbar“. Gefunden, weil der Buchungs-Walkthrough heute (01.10.) einen Tarif mit Frist 30.09. als „kostenlos stornierbar“ zeigte.
 - Beleg: Walkthrough `buchung` (neuer Schritt 08 „nur mit E-Mail“) in `docs/demos/B4/walkthrough-P/` (8/8, frischer Stack); gerenderte Übersichts-Mail aus dem Postausgang `docs/demos/B4/uebersicht-mail.txt`; Tests `worker/test-node/bookings.test.ts` (Übersicht, Link öffnet die eigene Buchung, unbekannte Adresse), `mail.test.ts`, `domain/test/pricing.test.ts`; `npm test` 455 grün.
 - Offen: Ein Index auf `lower(holder_email)` wäre bei vielen Buchungen sinnvoll (heute Tabellenscan, begrenzt durch 5 Anfragen/Stunde); das wäre eine neue Migration (Staging/Produktion: BEN-GATE).
+
+### B5 – erledigt
+- `npm run cli -- buchungen [--status …] [--limit …]` listet die letzten Buchungen, `npm run cli -- buchungen <NUMMER>` zeigt eine mit Status, Zeiten (Europe/Berlin), Hotel-Bestätigungsnummer, LiteAPI-Kennung, letztem Fehler und dem Versandstand aller E-Mails; bei einer vertippten Nummer nennt es ähnliche. Nur lesend, E-Mail maskiert. Neue Repo-Funktionen `listBookings`, `bookingsByRefPrefix`, `outboxForBooking`.
+- Ein Admin-Bereich im Browser ist bewusst nicht gebaut: Zahlung und Abwicklung liegen bei LiteAPI, die Entwicklerseite ist nur lokal; für den Support genügt das Werkzeug. Anleitung: `docs/runbooks/support-buchungen.md`.
+- Beleg: `docs/demos/B5/cli-output.txt` (gegen die lokale Datenbank nach den Buchungs-Walkthroughs); Test `packages/cli/test/bookings.test.ts`.
 
 ---
 
