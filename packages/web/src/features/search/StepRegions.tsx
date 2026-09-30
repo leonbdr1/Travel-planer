@@ -86,7 +86,6 @@ export function StepRegions({
           />
           <div className="space-y-2 text-sm text-zinc-600">
             <p className="font-semibold text-zinc-900">{t.mapTitle}</p>
-            <p>{t.mapLead}</p>
             <p className="flex items-center gap-2">
               <span className="inline-block size-2.5 bg-zinc-800" aria-hidden="true" /> {t.mapStart(origin?.name ?? '')}
             </p>

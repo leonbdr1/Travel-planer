@@ -180,7 +180,6 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="space-y-1">
             <Heading level={2}>{t.allOffers}</Heading>
-            <Text className="text-sm">{t.allOffersLead}</Text>
             <Text className="text-sm" data-testid="results-counts">
               {t.counts(data.counts.listed, data.counts.hidden)}
               {data.counts.unrated_hidden > 0 ? ` ${t.countsUnrated(data.counts.unrated_hidden)}` : ''}
@@ -253,7 +252,6 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
             ) : null}
             <details data-testid="more-filters" open={Boolean(form.minStars || form.minRating || form.minReviews)}>
               <summary className="cursor-pointer text-sm font-medium text-brand-700">{t.moreFilters}</summary>
-              <p className="mt-1 text-xs text-zinc-500">{t.moreFiltersHint}</p>
               <div className="mt-3 grid gap-4 sm:grid-cols-3">
                 <div>
                   <Label htmlFor="f-stars">{t.minStars}</Label>

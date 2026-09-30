@@ -41,7 +41,7 @@ function StepIndicator({ step }: { step: number }) {
   );
 }
 
-function StartSearch({ state, onBack }: { state: WizardState; onBack: () => void }) {
+function StartSearch({ state, summary, onBack }: { state: WizardState; summary: string; onBack: () => void }) {
   const navigate = useNavigate();
   const r = de.searchRun;
   const [busy, setBusy] = useState(false);
@@ -65,8 +65,12 @@ function StartSearch({ state, onBack }: { state: WizardState; onBack: () => void
   }
   return (
     <Card className="space-y-4" data-testid="places-confirmed">
-      <Heading level={2}>{r.startTitle}</Heading>
-      <Text>{r.startLead}</Text>
+      <div className="space-y-1">
+        <Heading level={2}>{r.startTitle}</Heading>
+        <Text className="font-medium" data-testid="combination-summary">
+          {summary}
+        </Text>
+      </div>
       <ul className="list-inside list-disc text-sm text-zinc-700">
         {allPlaces(state)
           .filter((p) => state.selectedPlaceIds.includes(p.id))
@@ -83,7 +87,6 @@ function StartSearch({ state, onBack }: { state: WizardState; onBack: () => void
           {busy ? r.starting : r.start}
         </Button>
       </div>
-      <p className="text-xs text-zinc-500">{r.altchaNote}</p>
     </Card>
   );
 }
@@ -121,7 +124,7 @@ export function Search() {
     <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6">
       <div className="space-y-4">
         <div className="space-y-1">
-          <p className="text-sm font-medium text-brand-700" data-testid="step-of">
+          <p className="sr-only" data-testid="step-of">
             {t.stepOf(Math.min(state.step, 3), 3)}
           </p>
           <Heading level={1}>{t.title}</Heading>
@@ -157,15 +160,11 @@ export function Search() {
         />
       ) : null}
       {state.step === 4 ? (
-        <>
-          <Card className="space-y-1">
-            <Heading level={2}>{t.places.confirmedTitle}</Heading>
-            <Text className="font-medium" data-testid="combination-summary">
-              {t.places.combinations(state.selectedPlaceIds.length, dates.ok ? dates.dates.length : 0)}
-            </Text>
-          </Card>
-          <StartSearch state={state} onBack={() => update({ step: 3 })} />
-        </>
+        <StartSearch
+          state={state}
+          summary={t.places.combinations(state.selectedPlaceIds.length, dates.ok ? dates.dates.length : 0)}
+          onBack={() => update({ step: 3 })}
+        />
       ) : null}
     </div>
   );

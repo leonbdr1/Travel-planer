@@ -120,11 +120,12 @@ export function ResultList({
                 ) : null}
               </div>
               <div className="flex shrink-0 flex-col items-start gap-1 sm:items-end sm:text-right">
-                <span className="text-xs uppercase tracking-wide text-zinc-500">{t.total}</span>
                 <span className="text-2xl font-bold text-zinc-950 tabular-nums" data-testid="result-total" data-total-eur={o.total_price_eur}>
                   {formatEuro(o.total_price_eur)}
                 </span>
-                <span className="text-xs text-zinc-500">{t.perNight(formatEuroCents(o.price_per_night_eur))}</span>
+                <span className="text-xs text-zinc-500">
+                  {t.totalShort} · {t.perNight(formatEuroCents(o.price_per_night_eur))}
+                </span>
                 <span className="max-w-56 text-xs text-zinc-500">
                   {o.pay_at_property_known
                     ? o.pay_at_property_eur > 0

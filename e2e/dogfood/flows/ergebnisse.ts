@@ -36,7 +36,7 @@ export const ergebnisseFlow: Flow = {
         note(`Beschriftung für Screenreader: ${await cell.getAttribute('aria-label')}`);
       },
       {
-        expectText: ['günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier', 'pro Nacht', 'Klick: nur diese Kombination'],
+        expectText: ['günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer:', 'pro Nacht', 'Klick: nur diese Kombination'],
         expectSelector: ['[data-testid="tooltip"] [data-testid="matrix-bargain-reason"]'],
         fullPage: false,
       },
