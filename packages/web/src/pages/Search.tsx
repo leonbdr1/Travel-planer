@@ -89,8 +89,13 @@ function StartSearch({ state, onBack }: { state: WizardState; onBack: () => void
 export function Search() {
   const meta = useMeta();
   const [state, setState] = useState<WizardState>(() => loadState());
-  useEffect(() => saveState(state), [state]);
-  useEffect(() => window.scrollTo({ top: 0 }), [state.step]);
+  useEffect(() => {
+    saveState(state);
+  }, [state]);
+  // Braces matter: current browsers return a promise from scrollTo, and an effect may only return a cleanup function.
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [state.step]);
   const update = (patch: Partial<WizardState>) => setState((s) => ({ ...s, ...patch }));
 
   if (meta.status === 'loading') {

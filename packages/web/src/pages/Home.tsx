@@ -15,7 +15,9 @@ function HeroSearch() {
   const navigate = useNavigate();
   const [state, setState] = useState<WizardState>(() => ({ ...loadState(), step: 1 }));
   const [touched, setTouched] = useState(false);
-  useEffect(() => saveState(state), [state]);
+  useEffect(() => {
+    saveState(state);
+  }, [state]);
   if (meta.status !== 'ready') {
     return (
       <Link to="/suche" className={buttonClasses('primary', 'lg')}>
