@@ -38,12 +38,18 @@ Ziel: Ideen für Funktionen mit günstigen Modellen und niedriger Reasoning-Stuf
 
 Brainstorm-Modus also nur, wenn Ben ausdrücklich brainstormen oder Funktionen aus Nutzersicht offen besprechen will. Klare Anweisungen und alles Technische laufen direkt. Ist unklar, welcher Fall vorliegt, einmal kurz nachfragen.
 
+**Mischfälle während eines laufenden Brainstormings:**
+
+- **Machbarkeitsfrage** („Gibt das Backend das überhaupt her?“): gezielt im Code oder in der Doku nachsehen und die Antwort in Nutzersprache geben (geht / geht mit Aufwand / geht nicht, weil …). Dabei nichts ändern, danach zurück zum Brainstorming.
+- **Klare Aussage** („Der Text kommt weg“): Sie gilt als Entscheidung und wird als B-Punkt notiert, nicht sofort umgesetzt. Sonst würde das günstige Brainstorm-Modell anfangen, Code zu schreiben.
+- **Ende des Brainstormings:** wenn Ben „setz es um“ sagt, das Thema wechselt oder eine technische Aufgabe stellt. Offene Ergebnisse vorher als B-Punkte sichern.
+
 **Regeln im Brainstorm-Modus:**
 
 - **Worum es geht:** was der Nutzer sieht und tun kann (Soll hier ein Button hin? Was steht da? Soll ein Text weg?). Keine technischen Lösungen, keine Dateinamen, kein Code, keine Anbieter- oder Web-Recherche.
 - **Lesen erlaubt:** Markdown-Doku (`docs/konzept.md`, `FORTSCHRITT.md`, `docs/brainstorming/`, `STATUS.md`) und vorhandene Screenshots (`docs/demos/`, `dogfood-results/`). Code nur lesen, wenn es wirklich nötig ist, z. B. weil die Doku falsch oder veraltet wirkt; dann kurz sagen, warum.
-- **Schreiben erlaubt:** nur Markdown. Kein Code, keine Tests, keine Konfiguration.
-- **Ergebnis immer in die Aufgabenliste:** Beschlossene Änderungen und fehlende Funktionen kommen als offene Punkte in `FORTSCHRITT.md` §„Offene Punkte aus Brainstormings“ (funktional formuliert, mit Verweis auf das Archiv, falls es eins gibt).
+- **Schreiben erlaubt:** nur Markdown. Kein Code, keine Tests, keine Konfiguration. Die Markdown-Änderungen werden committet (Regel 10), damit ein anderes Modell in einer neuen Sitzung darauf aufbauen kann.
+- **Ergebnis immer in die Aufgabenliste:** Beschlossene Änderungen und fehlende Funktionen kommen als offene Punkte in `FORTSCHRITT.md` §„Offene Punkte aus Brainstormings“ (funktional formuliert, mit Verweis auf das Archiv, falls es eins gibt). Widerspricht ein Ergebnis `docs/konzept.md`, wird das im B-Punkt vermerkt. Beim Umsetzen wird das Konzept dann angepasst oder Ben gefragt, nicht still übergangen.
 - **Brainstorm-Inhalt nur bei Bedarf archivieren:** Das Brainstorming selbst darf im Chat bleiben. Nur wenn Erkenntnisse entstanden sind oder Ideen mit Begründung verworfen wurden, kommt es als Archiv nach `docs/brainstorming/` (Aufbau siehe `docs/brainstorming/README.md`).
 - **Umsetzen nur auf ausdrückliches Signal:** erst bei „setz es um“, „umsetzen: <Punkt>“ o. Ä. Code anfassen und technisch recherchieren. Solange das Signal fehlt, im Brainstorm-Modus bleiben. Beim Umsetzen zuerst den Punkt in `FORTSCHRITT.md` und ein verlinktes Archiv lesen, danach gelten die Arbeitsregeln unten; den Punkt nach der Umsetzung abhaken.
 
