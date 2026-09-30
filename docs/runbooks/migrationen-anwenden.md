@@ -1,5 +1,7 @@
 # Runbook: Migrationen gegen Staging und Produktion (⛔ BEN-GATE)
 
+> **Erst relevant beim Online-Gang.** Stand 30.09.2026 gibt es kein Supabase-Konto; lokal laufen alle Migrationen automatisch. Eine neu angelegte Datenbank bekommt beim Einrichten alle Migrationen auf einmal.
+
 Das kann nur Ben (Konten, Schlüssel): Diese Sitzung hat keinen Zugang zu Supabase. Ausgeführt und geprüft sind die Migrationen bisher **nur lokal** (`npm run db:local`, `npm run db:test`).
 
 ## Ausstehende Migrationen (alle additiv, Reihenfolge einhalten)
