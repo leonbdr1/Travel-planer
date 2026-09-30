@@ -15,7 +15,7 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 - [x] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
 - [x] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
 - [x] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
-- [ ] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
+- [x] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
 - [ ] **P2** – Aufräumen: toter Code, doppelte Texte
 - [ ] **T1** – Text-Entrümpelung über alle Seiten
 - [ ] **Z** – Abschluss: Tests, Walkthroughs, Doku, Push, PR
@@ -63,6 +63,11 @@ Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffe
 - **Fotos in der Liste:** Jede Unterkunft der Ergebnisliste zeigt ihr Hauptfoto (`photo_url` gab es schon, es wurde nicht angezeigt), verlinkt auf die Detailansicht, `loading="lazy"`.
 - **Karte:** Die Detailansicht hat neben der Adresse „Karte ↗“: OpenStreetMap an der Position der Unterkunft (neues Feld `hotel.location`, additiv), ohne Position eine Suche nach Name und Adresse. Die Karte wird nicht eingebettet (keine Drittanbieter-Anfragen beim Seitenaufruf).
 - Beleg: Walkthrough `listenfilter` prüft die Fotos (`docs/demos/B7/walkthrough-listenfilter/`), `buchung` den Kartenlink; Screenshots gelesen.
+
+### P1 – erledigt
+- **Code-Splitting:** Startseite und Such-Assistent im Hauptbundle, alle anderen Seiten laden beim ersten Aufruf (`router.tsx`, `lazy`); React und Router in einem eigenen Chunk, der über Releases im Browser-Cache bleibt. Hauptbundle 802 kB (249 kB gzip) → 389 kB (123 kB gzip) + React-Chunk 317 kB (101 kB gzip); Ergebnisseite 32 kB, Detail 28 kB extra.
+- **Datenbank:** Unabhängige Lesezugriffe gehen gemeinsam raus (postgres.js reiht sie auf einer Verbindung ohne Warten hintereinander): `loadEvaluationData` (3 Abfragen), Ergebnis-Route (Rezensionen ∥ Orte, dann Auswertung ∥ Ortsdaten: 6 → 2 Wartezeiten), Detail-Route (Rezensionen ∥ zwischengespeicherte Details). Indizes für die heißen Abfragen (`offers(search_id)`, `search_combinations(search_id, id)`) bestehen schon.
+- **Rendering:** Ergebnisliste seitenweise (B2), Fotos mit `loading="lazy"` und fester Höhe (kein Springen beim Laden).
 
 ---
 

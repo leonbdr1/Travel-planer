@@ -53,14 +53,6 @@ export function forgetSearch(id: string, storage: Store | null = browserStorage(
   );
 }
 
-export function clearRecent(storage: Store | null = browserStorage()): void {
-  try {
-    storage?.removeItem(KEY);
-  } catch {
-    // ignore
-  }
-}
-
 const day = (iso: string) => `${iso.slice(8, 10)}.${iso.slice(5, 7)}.`;
 
 /** "Füssen, Oberstdorf · 05.10.–15.11.2026": up to three places, then "+n". */

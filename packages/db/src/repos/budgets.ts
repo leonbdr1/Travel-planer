@@ -53,10 +53,3 @@ export async function incrementRateLimit(db: Queryable, key: string, max: number
     return { count: 0, allowed: false, failed: true };
   }
 }
-
-export async function deleteExpiredRateLimits(db: Queryable): Promise<number> {
-  const rows = await db.query<{ n: number }>(
-    'WITH d AS (DELETE FROM app.rate_limits WHERE reset_at < now() RETURNING 1) SELECT count(*)::int AS n FROM d',
-  );
-  return rows[0]?.n ?? 0;
-}

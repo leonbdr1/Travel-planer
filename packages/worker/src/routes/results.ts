@@ -123,13 +123,14 @@ export const resultRoutes = new Hono<AppEnv>()
     const db = deps.db();
     const request = searchRequestSchema.parse(search.request);
     const filters = filtersFromQuery(c.req.query(), filtersFromRequest(request));
-    const reviews = await loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA);
+    // The cached provider details do not depend on the evaluation: read them alongside.
+    const [reviews, cached] = await Promise.all([loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA), cachedHotelDetails(db, hotelId, deps.now())]);
     const data = await evaluateSearch(db, search.id, filters, reviews, deps.now());
     const offers = data.evaluated.filter((o) => o.hotelId === hotelId);
     const hotel = data.hotelsById.get(hotelId);
     if (!hotel || offers.length === 0) throw new ApiError(404, 'not_found', 'Diese Unterkunft gehört nicht zu dieser Suche.');
 
-    let details = await cachedHotelDetails(db, hotelId, deps.now());
+    let details = cached;
     if (!details) details = await fetchHotelDetails(db, deps.providers().liteapi, hotelId, deps.now()).catch(() => null);
     const first = offers[0];
     // Provider texts come as HTML or lines; the SPA gets plain blocks.

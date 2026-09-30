@@ -39,11 +39,3 @@ export async function upsertTravelTimes(db: Queryable, originCell: string, rows:
     );
   }
 }
-
-export async function deleteStaleTravelTimes(db: Queryable, olderThan: Date): Promise<number> {
-  const rows = await db.query<{ n: number }>(
-    'WITH d AS (DELETE FROM app.travel_time_cache WHERE fetched_at < $1 RETURNING 1) SELECT count(*)::int AS n FROM d',
-    [olderThan],
-  );
-  return rows[0]?.n ?? 0;
-}

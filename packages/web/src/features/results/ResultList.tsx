@@ -22,21 +22,6 @@ export function cancellationText(refundable: boolean, until: string | null, now:
   return until ? t.refundableUntil(formatDateTime(until)) : t.refundable_;
 }
 
-export function QualityBadge({ score, reviews, sources = [] }: { score: number | null; reviews: number | null; sources?: readonly string[] }) {
-  if (score === null) return <span className="text-sm text-zinc-500">{t.noReviews}</span>;
-  return (
-    <span className="inline-flex items-baseline gap-1.5">
-      <span className="rounded-md bg-brand-700 px-1.5 py-0.5 text-sm font-bold text-white tabular-nums">{formatScore(score)}</span>
-      {reviews !== null ? (
-        <span className="text-xs text-zinc-500" data-testid={sources.length > 0 ? 'rating-sources' : undefined}>
-          {t.reviews(reviews)}
-          {sources.length > 0 ? ` ${t.ratingSources(sources.join(', '))}` : ''}
-        </span>
-      ) : null}
-    </span>
-  );
-}
-
 export function doubtText(doubt: UnratedDoubtDto): string {
   const reference = doubt.reference_per_night_eur === null ? '' : formatEuro(doubt.reference_per_night_eur);
   if (doubt.code === 'cheap') return t.doubt.cheap(reference);
