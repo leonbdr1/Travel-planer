@@ -8,7 +8,7 @@ Erzeugt mit `npm run cli -- catalog review-sheet`. Nichts hiervon ist geprüft, 
 2. **Stichprobe** (Abschnitt B): pro Region drei Orte, darunter der beste. Frage: Gibt es den Ort, taugt er als Unterkunftsbasis, passen Themen und Bekanntheit ungefähr?
 3. Wenn eine Region durch ist: Sag „Region X geprüft“, ich setze `verified: true` (Runbook `docs/runbooks/katalogpruefung.md`).
 
-Stand: 520 Orte in 109 Regionen; 1 Orte und 17 Regionen mit Auffälligkeit.
+Stand: 520 Orte in 109 Regionen; 0 Orte und 17 Regionen mit Auffälligkeit.
 
 ## A. Auffälligkeiten
 
@@ -38,7 +38,6 @@ Stand: 520 Orte in 109 Regionen; 1 Orte und 17 Regionen mit Auffälligkeit.
 
 | ☐ | Region | Ort | Auffälligkeit | Bekanntheit / Attraktionen | Punkte |
 |---|---|---|---|---|---|
-| ☐ | Stockholm | Uppsala | Bekanntheit 1 bei 149245 Einwohnern | 1 / 1 | 4.9 |
 
 ## B. Stichprobe je Region
 
@@ -366,7 +365,7 @@ Sortiert nach dem besten Ort der Region. Die ersten 84 Regionen (bester Ort ab 8
 | ☐ | Ort | Einwohner | B / A | Punkte | Stufe | Themen |
 |---|---|---|---|---|---|---|
 | ☐ | Stockholm | 1515017 | 3 / 3 | 9.6 | top | staedte_kultur 3, shopping 3, natur_ruhe 1 |
-| ☐ | Uppsala | 149245 | 1 / 1 | 4.9 | ruhig | staedte_kultur 2 |
+| ☐ | Uppsala | 149245 | 2 / 1 | 5.8 | ruhig | staedte_kultur 2 |
 
 ### Tannheimer Tal und Zugspitzarena
 
