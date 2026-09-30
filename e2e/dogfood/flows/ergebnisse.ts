@@ -17,7 +17,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('result-list').waitFor({ timeout: 30_000 });
       },
       {
-        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise abgerufen um', 'Unsere Wahl zuerst', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen', 'dasselbe Zimmer'],
+        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise von', 'Unsere Wahl zuerst', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen', 'dasselbe Zimmer'],
         expectSelector: ['[data-testid="result-matrix"]', '[data-testid="bargain-reason"]', '[data-testid="result-filters"]'],
         fullPage: true,
       },

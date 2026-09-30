@@ -186,11 +186,8 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
               {data.counts.unrated_hidden > 0 ? ` ${t.countsUnrated(data.counts.unrated_hidden)}` : ''}
             </Text>
           </div>
-          <div className="flex items-center gap-2">
-            <Label htmlFor="sort" className="sr-only">
-              {t.sortLabel}
-            </Label>
-            <div role="radiogroup" aria-label={t.sortLabel} className="inline-flex rounded-lg bg-white p-1 shadow-sm ring-1 ring-zinc-200" data-testid="sort">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <div role="radiogroup" aria-label={t.sortLabel} className="inline-flex flex-wrap rounded-lg bg-white p-1 shadow-sm ring-1 ring-zinc-200" data-testid="sort">
               {sorts.map((key) => (
                 <button
                   key={key}
