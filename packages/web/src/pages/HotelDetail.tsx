@@ -179,6 +179,10 @@ export function HotelDetail() {
   );
   const town = h.city ?? data.offers[0]?.place_name ?? null;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([h.name, h.address, town].filter(Boolean).join(', '))}`;
+  // Where the house is (B7): OpenStreetMap at its position, else a search by name and address.
+  const locationUrl = h.location
+    ? `https://www.openstreetmap.org/?mlat=${h.location.lat}&mlon=${h.location.lng}#map=16/${h.location.lat}/${h.location.lng}`
+    : mapUrl;
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-10 sm:px-6">
       <Link to={back} className="text-sm font-medium text-brand-700 hover:underline">
@@ -191,6 +195,10 @@ export function HotelDetail() {
             {h.stars ? `${'★'.repeat(Math.round(h.stars))} · ` : ''}
             {h.hotel_type ?? ''}
             {h.address ? ` · ${h.address}` : ''}
+            {' · '}
+            <a href={locationUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-brand-700 hover:underline" data-testid="map-link">
+              {t.map} ↗
+            </a>
           </p>
           {testbetrieb && !bookingEnabled ? (
             <p className="text-sm text-zinc-600">

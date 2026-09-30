@@ -18,7 +18,7 @@ export const buchungFlow: Flow = {
         await page.getByTestId('result-name').first().click();
         await page.getByTestId('detail-offers').waitFor({ timeout: 15_000 });
       },
-      { expectText: ['Alle Termine und Tarife', 'Buchen'], expectSelector: ['[data-testid="book-offer"]'] },
+      { expectText: ['Alle Termine und Tarife', 'Buchen', 'Karte ↗'], expectSelector: ['[data-testid="book-offer"]', 'a[data-testid="map-link"][href^="https://www.openstreetmap.org/?mlat="]'] },
     );
 
     await step(

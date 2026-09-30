@@ -527,6 +527,7 @@ export const de = {
   detail: {
     back: 'Zurück zu den Ergebnissen',
     findOnMap: 'auf Google Maps ansehen',
+    map: 'Karte',
     offers: 'Alle Termine und Tarife',
     date: 'Termin',
     room: 'Zimmer und Tarif',

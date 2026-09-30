@@ -21,7 +21,7 @@ export const listenfilterFlow: Flow = {
         if (names.length > 20) throw new Error(`first page shows ${names.length} houses`);
         note(`Erste Seite: ${names.length} Unterkünfte; Knopf: ${await page.getByTestId('show-more').innerText()}`);
       },
-      { expectSelector: ['[data-testid="show-more"]', '[data-testid="filter-kinds"]', '[data-testid="filter-facilities"]', '[data-testid="name-search"]'] },
+      { expectSelector: ['[data-testid="show-more"]', '[data-testid="filter-kinds"]', '[data-testid="filter-facilities"]', '[data-testid="name-search"]', '[data-testid="result-photo"] img'] },
     );
 
     await step(

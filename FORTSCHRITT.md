@@ -14,7 +14,7 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 - [x] **B4** – Buchungsübersicht ohne Konto: nur E-Mail eingeben, Liste aller Buchungen per E-Mail
 - [x] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
 - [x] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
-- [ ] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
+- [x] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
 - [ ] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
 - [ ] **P2** – Aufräumen: toter Code, doppelte Texte
 - [ ] **T1** – Text-Entrümpelung über alle Seiten
@@ -58,6 +58,11 @@ Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffe
 - **Worker:** Jede Antwort trägt `X-Request-Id` (Cloudflare-Ray-ID oder UUID); Fehler (≥ 500) und langsame Anfragen (≥ 3 s, `SLOW_REQUEST_MS`) schreiben eine Logzeile mit Methode, Routenmuster (ohne IDs und Buchungsnummern), Status, Dauer und Request-ID; auch „unhandled“ trägt die ID. So findet der Support zur Fehler-ID des Gastes die Logzeile.
 - **Seiten:** Detailansicht, Buchungsformular und Ergebnisliste unterscheiden „gibt es nicht“ (404) von Verbindungs- und Serverfehlern; die Detailansicht bietet im Fehlerfall den Weg zurück. Der Suchlauf zeigt nach drei gescheiterten Abfragen „Verbindung unterbrochen – wir versuchen es weiter …“ und setzt eine Fehlermeldung zurück, wenn der Link korrigiert wird (vorher blieb „Diese Suche gibt es nicht“ stehen). Das Buchungsformular prüft die E-Mail-Adresse und schneidet Leerzeichen ab.
 - Beleg: Walkthrough `fehler` (neu) in `docs/demos/B6/walkthrough-P/` (7/7, Fehler per Netzwerk-Abfangen erzeugt); Tests `web/test/api-client.test.ts`, `worker/test-node/hardening.test.ts` (Request-ID); `npm test` 463 grün.
+
+### B7 – erledigt
+- **Fotos in der Liste:** Jede Unterkunft der Ergebnisliste zeigt ihr Hauptfoto (`photo_url` gab es schon, es wurde nicht angezeigt), verlinkt auf die Detailansicht, `loading="lazy"`.
+- **Karte:** Die Detailansicht hat neben der Adresse „Karte ↗“: OpenStreetMap an der Position der Unterkunft (neues Feld `hotel.location`, additiv), ohne Position eine Suche nach Name und Adresse. Die Karte wird nicht eingebettet (keine Drittanbieter-Anfragen beim Seitenaufruf).
+- Beleg: Walkthrough `listenfilter` prüft die Fotos (`docs/demos/B7/walkthrough-listenfilter/`), `buchung` den Kartenlink; Screenshots gelesen.
 
 ---
 

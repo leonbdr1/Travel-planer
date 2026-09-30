@@ -150,6 +150,7 @@ export const resultRoutes = new Hono<AppEnv>()
         city: hotel.city,
         photo_url: hotel.mainPhotoUrl,
         address: details?.address ?? hotel.address,
+        location: hotel.lat !== null && hotel.lng !== null ? { lat: hotel.lat, lng: hotel.lng } : null,
         description,
         description_language: blocksLanguage(description),
         photos: details?.photos.slice(0, 12) ?? [],

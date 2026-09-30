@@ -68,6 +68,11 @@ export function ResultList({
         return (
           <li key={item.hotel.id}>
             <Card className={cx('flex flex-col gap-4 sm:flex-row', o.bargain && 'ring-2 ring-emerald-500')}>
+              {item.hotel.photo_url ? (
+                <Link to={detailHref(item.hotel.id)} tabIndex={-1} aria-hidden="true" className="shrink-0" data-testid="result-photo">
+                  <img src={item.hotel.photo_url} alt="" loading="lazy" className="h-40 w-full rounded-lg object-cover sm:h-32 sm:w-44" />
+                </Link>
+              ) : null}
               <div className="min-w-0 flex-1 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <Link to={detailHref(item.hotel.id)} className="text-lg font-semibold text-zinc-950 hover:underline" data-testid="result-name">

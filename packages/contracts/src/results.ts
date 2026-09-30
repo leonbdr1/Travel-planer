@@ -297,6 +297,8 @@ const textLanguageSchema = z.enum(['de', 'en']).nullable();
 export const hotelDetailResponseSchema = z.object({
   hotel: hotelSummarySchema.extend({
     address: z.string().nullable(),
+    /** Position of the house for the map link (B7); null when the provider has none. */
+    location: z.object({ lat: z.number(), lng: z.number() }).nullable().default(null),
     description: z.array(textBlockSchema),
     description_language: textLanguageSchema,
     photos: z.array(z.string()),
