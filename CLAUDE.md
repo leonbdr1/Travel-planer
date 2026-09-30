@@ -20,8 +20,20 @@ Deutsch für Dokumente, UI-Texte und die Kommunikation mit Ben. Englisch für Co
 | `STATUS.md` | Baustand je Slice, einzige Wahrheit |
 | `HANDOFF.md` | Frontier, offene Entscheidungen, Stolperfallen |
 | `AGENTS.md` | Review-Richtlinien für Codex |
+| `docs/brainstorming/` | Archiv begründeter Brainstormings (Ergebnisse stehen in `FORTSCHRITT.md`) |
 
 Bei Widersprüchen gilt: Konzept vor Architektur vor Plan. Widersprüche werden gemeldet, nicht still aufgelöst.
+
+## Brainstorm-Modus (Standard, bis Ben „setz es um“ sagt)
+
+Jede Aufgabe mit Ben beginnt als Brainstorming auf **Funktionsebene**, nicht auf Code-Ebene. Ziel: Ideen mit günstigen Modellen und niedriger Reasoning-Stufe durchdenken und verwerfen können, bevor Code oder Tokens für die Umsetzung anfallen.
+
+- **Worum es geht:** was der Nutzer sieht und tun kann (Soll hier ein Button hin? Was steht da? Soll ein Text weg?). Keine technischen Lösungen, keine Dateinamen, kein Code, keine Anbieter- oder Web-Recherche.
+- **Lesen erlaubt:** Markdown-Doku (`docs/konzept.md`, `FORTSCHRITT.md`, `docs/brainstorming/`, `STATUS.md`) und vorhandene Screenshots (`docs/demos/`, `dogfood-results/`). Code nur lesen, wenn es wirklich nötig ist, z. B. weil die Doku falsch oder veraltet wirkt; dann kurz sagen, warum.
+- **Schreiben erlaubt:** nur Markdown. Kein Code, keine Tests, keine Konfiguration.
+- **Ergebnis immer in die Aufgabenliste:** Beschlossene Änderungen und fehlende Funktionen kommen als offene Punkte in `FORTSCHRITT.md` §„Offene Punkte aus Brainstormings“ (funktional formuliert, mit Verweis auf das Archiv, falls es eins gibt).
+- **Brainstorm-Inhalt nur bei Bedarf archivieren:** Das Brainstorming selbst darf im Chat bleiben. Nur wenn Erkenntnisse entstanden sind oder Ideen mit Begründung verworfen wurden, kommt es als Archiv nach `docs/brainstorming/` (Aufbau siehe `docs/brainstorming/README.md`).
+- **Umsetzen nur auf ausdrückliches Signal:** erst bei „setz es um“, „umsetzen: <Punkt>“ o. Ä. Code anfassen und technisch recherchieren. Im Zweifel im Brainstorm-Modus bleiben und nachfragen. Beim Umsetzen zuerst den Punkt in `FORTSCHRITT.md` und ein verlinktes Archiv lesen, danach gelten die Arbeitsregeln unten; den Punkt nach der Umsetzung abhaken.
 
 ## Arbeitsregeln
 

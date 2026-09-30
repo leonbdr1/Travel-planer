@@ -2,6 +2,14 @@
 
 Arbeitsweise: strikt der Reihe nach, eine Aufgabe gleichzeitig, jede Aufgabe mindestens ein eigener Commit. Zu Beginn jeder Sitzung zuerst diese Datei lesen und bei der ersten offenen Aufgabe weitermachen. Commit-Kennung der Aufgaben: `F<n>` (z. B. `F2`).
 
+**Achtung:** Punkte im Abschnitt „Offene Punkte aus Brainstormings“ werden erst umgesetzt, wenn Ben ausdrücklich „setz es um“ sagt (siehe `CLAUDE.md` §Brainstorm-Modus). Nicht automatisch weitermachen.
+
+## Offene Punkte aus Brainstormings
+
+Ergebnisse der Brainstormings, funktional formuliert. Format: `- [ ] **B<n>** – <was der Nutzer sehen oder tun können soll> (<Datum>[, Archiv: docs/brainstorming/<datei>.md])`. Nach der Umsetzung abhaken und die `F<n>`-Kennung mit Commit ergänzen.
+
+- (noch keine)
+
 Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalten macht Ben).
 
 ## Übersicht
