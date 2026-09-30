@@ -31,6 +31,7 @@ import {
   evaluateSearch,
   filtersFromQuery,
   filtersFromRequest,
+  matchingName,
   matrixCells,
   nightsSummary,
   offerDto,
@@ -49,12 +50,14 @@ const MINUTE_S = 60;
 export const resultRoutes = new Hono<AppEnv>()
   .get('/:id/results', async (c) => {
     const search = await authorizedSearch(c, c.req.param('id'));
-    const query = parseQuery(c, resultsQuerySchema);
+    const { offset = 0, limit, q, ...query } = parseQuery(c, resultsQuerySchema);
     const db = c.get('deps').db();
     const request = searchRequestSchema.parse(search.request);
     const filters = filtersFromQuery(query, filtersFromRequest(request));
-    const reviews = await loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA);
-    const data = await evaluateSearch(db, search.id, filters, reviews);
+    // Independent reads go out together (one connection pipelines them).
+    const [reviews, places] = await Promise.all([loadReviewData(db, search.id, filters.chips).catch(() => NO_REVIEW_DATA), searchPlaces(db, search.id)]);
+    const [data, placeRowList] = await Promise.all([evaluateSearch(db, search.id, filters, reviews), placesByIds(db, places.map((p) => p.placeId))]);
+    const placeRows = new Map(placeRowList.map((p) => [p.id, p]));
     const goal = query.goal ?? request.goal ?? DEFAULT_GOAL;
     const admissible = admissibleFor(goal, data.evaluated, data.hotels, reviews);
     const doubts = unratedFor(goal, data.evaluated, data.hotels, reviews);
@@ -62,12 +65,13 @@ export const resultRoutes = new Hono<AppEnv>()
     const scoped = cell
       ? data.evaluated.filter((o) => o.placeId === cell.place_id && o.checkin === cell.checkin && (cell.checkout === null || o.checkout === cell.checkout))
       : data.evaluated;
-    const places = await searchPlaces(db, search.id);
-    const placeRows = new Map((await placesByIds(db, places.map((p) => p.placeId))).map((p) => [p.id, p]));
     const dates = [...new Map(data.combinations.map((x) => [`${x.checkin}|${x.checkout}`, { checkin: x.checkin, checkout: x.checkout }])).values()].sort(
       (a, b) => a.checkin.localeCompare(b.checkin) || a.checkout.localeCompare(b.checkout),
     );
-    const items = resultItems(scoped, data.hotelsById, query.sort, reviews, { goal, admissible });
+    const driveMinutes = new Map(places.map((p) => [p.placeId, p.driveMinutes]));
+    const all = resultItems(scoped, data.hotelsById, query.sort, reviews, { goal, admissible, driveMinutes });
+    // The name search narrows the lists, the page cuts the main list; the summary looks at all.
+    const items = matchingName(all, q);
     const passing = data.evaluated.filter((o) => o.passes);
     const fetched = data.combinations.map((x) => x.updatedAt).sort().at(-1) ?? null;
     const body: SearchResultsResponse = {
@@ -84,9 +88,10 @@ export const resultRoutes = new Hono<AppEnv>()
         dates,
         cells: matrixCells(data.combinations, data.evaluated, admissible, data.hotelsById),
       },
-      items,
-      unrated: unratedItems(scoped, data.hotelsById, doubts),
-      oversized: oversizedItems(scoped, data.hotelsById),
+      items: limit === undefined ? items.slice(offset) : items.slice(offset, offset + limit),
+      unrated: matchingName(unratedItems(scoped, data.hotelsById, doubts), q),
+      oversized: matchingName(oversizedItems(scoped, data.hotelsById), q),
+      page: { offset, limit: limit ?? null, total: items.length },
       counts: {
         offers: data.evaluated.length,
         passing: passing.length,
@@ -97,7 +102,7 @@ export const resultRoutes = new Hono<AppEnv>()
         unrated_hidden: doubts.size,
       },
       meta: { prices_fetched_at: fetched, sort: query.sort, goal, cell },
-      nights_summary: nightsSummary(items),
+      nights_summary: nightsSummary(all),
     };
     return c.json(body);
   })

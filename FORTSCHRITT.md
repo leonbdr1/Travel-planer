@@ -1,4 +1,43 @@
-# FORTSCHRITT – Aufgabenliste vom 29.09.2026
+# FORTSCHRITT – Aufgabenliste vom 01.10.2026 (Abgleich mit dem Buchungsportal-Standard)
+
+Auftrag (Leon, nachts, autonom): Funktionsumfang gegen den Standard großer Buchungsportale prüfen, funktionale Lücken schließen, Code und Performance optimieren, UI-Texte entrümpeln. Keine Architektur-Umbauten, nichts deployen, bestehende Funktionen nur verfeinern. Commit-Kennung: `B<n>` (Funktion), `P<n>` (Optimierung), `T<n>` (Text).
+
+Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv58jh`, Stand 3242944). Nichts davon ist deployt.
+
+**Bewusst nicht gebaut:** Nutzerkonten (konzept.md 2: „Kein Nutzerkonto im MVP“) – stattdessen Buchungsübersicht per E-Mail und „Letzte Suchen“ im Browser. Rezensionsauszüge (konzept.md 15.10, rechtlich offen). Ziele „Preis-Leistung“ und „Komfort“ (Ben geht sie selbst an).
+
+## Übersicht
+
+- [x] **B1** – Ergebnisfilter vollständig: Unterkunftsart, Ausstattungs-Wünsche und Namenssuche im Ergebnis änderbar (konzept.md F5)
+- [x] **B2** – Liste seitenweise („Weitere anzeigen“), Sortierung nach Fahrzeit
+- [ ] **B3** – Preise aktualisieren (dieselbe Suche neu) und „Letzte Suchen“ im Browser
+- [ ] **B4** – Buchungsübersicht ohne Konto: nur E-Mail eingeben, Liste aller Buchungen per E-Mail
+- [ ] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
+- [ ] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
+- [ ] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
+- [ ] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
+- [ ] **P2** – Aufräumen: toter Code, doppelte Texte
+- [ ] **T1** – Text-Entrümpelung über alle Seiten
+- [ ] **Z** – Abschluss: Tests, Walkthroughs, Doku, Push, PR
+
+## Notizen je Aufgabe
+
+### Vorab – Absturz im Such-Assistenten mit aktuellem Chrome (behoben, 3c3c0e5)
+Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffect(() => window.scrollTo(…))` gab es an React zurück, das darauf „destroy is not a function“ warf – `/suche` zeigte nur „Unexpected Application Error!“. Gefunden beim ersten Walkthrough mit dem installierten Chrome (Playwrights eigenes Chromium ist älter und zeigte es nicht). Effekte in `Search.tsx` und `Home.tsx` haben jetzt einen Block-Rumpf.
+
+### B1 und B2 – erledigt
+- **Unterkunftsart** (Hotel, Pension, Ferienwohnung) als Chips im Filterkasten. Der bestehende Filter `types` nimmt jetzt auch die drei Arten; die Art kommt wie beim Qualitätswert aus Typ und Name der Unterkunft (`domain/filters.ts`, `property-kind.ts`), rohe Anbietertypen gehen weiter.
+- **Ausstattung** (Parkplatz, Hund, Sauna, WLAN, Küche, barrierefrei, Familienzimmer) im Ergebnis änderbar; das sind die Wunsch-Chips mit Filterwirkung. Die übrigen Wünsche der Suche (sauber, ruhig, Frühstück, stornierbar) laufen unverändert mit. Damit erfüllt das Ergebnis konzept.md F5 („Unterkunftsart“, Filter der Suche im Ergebnis änderbar).
+- **Namenssuche** über der Liste (`q`, Groß-/Kleinschreibung und Akzente egal, 300 ms Pause); sie grenzt die Listen ein, nicht Matrix und Finale.
+- **Seitenweise Liste:** `offset`/`limit` an `GET /results` (ohne `limit` wie bisher die ganze Liste), Antwort mit `page: {offset, limit, total}`; die SPA lädt 20 Häuser und hängt mit „Weitere anzeigen (n)“ die nächste Seite an. „Unsere Wahl“ und der Nächte-Hinweis rechnen weiter über die ganze Liste.
+- **Sortierung „Fahrzeit“** (nächster Ort zuerst, innerhalb eines Orts nach Preis), nur wenn Fahrzeiten bekannt sind; die Liste nennt die Fahrzeit am Ort („1 h 5 min Fahrt“).
+- Nebenbei: Die drei Lesezugriffe von `loadEvaluationData` und die unabhängigen Lesezugriffe der Ergebnis-Route laufen parallel (postgres.js reiht sie auf einer Verbindung ohne Warten hintereinander).
+- Walkthrough-Runner: `DOGFOOD_BROWSER_CHANNEL=chrome` nutzt ein installiertes Chrome statt Playwrights Chromium-Download.
+- Beleg: Walkthrough `listenfilter` (neu) in `docs/demos/B1/walkthrough-P/` (7/7, Screenshots gelesen); Integrationstest `worker/test/searches.test.ts` (Seiten, Name, Art, Fahrzeit), Domain-Test Unterkunftsart; `npm test` 447 grün.
+
+---
+
+# Aufgabenliste vom 29.09.2026 (abgeschlossen)
 
 Arbeitsweise: strikt der Reihe nach, eine Aufgabe gleichzeitig, jede Aufgabe mindestens ein eigener Commit. Zu Beginn jeder Sitzung zuerst diese Datei lesen und bei der ersten offenen Aufgabe weitermachen. Commit-Kennung der Aufgaben: `F<n>` (z. B. `F2`).
 

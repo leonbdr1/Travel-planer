@@ -5,11 +5,11 @@
 // pre-selection already judges quality from the reviews. Below the list the
 // houses without reviews the goal's rules sort out, so the traveller can
 // still pick one (Ben, 2026-09-29).
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import type { EffectiveFilters, MatrixCellDto, SearchResultsResponse } from '@reiseplaner/contracts';
-import type { Goal } from '@reiseplaner/domain';
-import { Alert, Button, Card, Checkbox, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
+import type { EffectiveFilters, MatrixCellDto, ResultItem, ResultSort, SearchResultsResponse } from '@reiseplaner/contracts';
+import { chipDefinition, constants, isChipCode, PROPERTY_KINDS, type Goal } from '@reiseplaner/domain';
+import { Alert, Button, Card, Checkbox, Chip, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
 import { formatDay, formatEuro, formatStay, formatTime } from '../../lib/format';
 import { useMeta } from '../../lib/meta';
@@ -19,7 +19,7 @@ import { PriceMatrix } from './PriceMatrix';
 import { ResultList } from './ResultList';
 
 const t = de.results;
-type Sort = 'best' | 'price' | 'quality';
+type Sort = ResultSort;
 const UNRATED_SECTION_ID = 'ohne-bewertungen';
 
 interface FilterForm {
@@ -29,6 +29,10 @@ interface FilterForm {
   minReviews: string;
   refundable: boolean;
   board: string;
+  /** Kinds of accommodation (hotel, pension, ferienwohnung); none = all. */
+  kinds: string[];
+  /** All wishes of the search; the form toggles only the facility ones, the others pass through. */
+  chips: string[];
 }
 
 function formFrom(f: EffectiveFilters): FilterForm {
@@ -39,8 +43,14 @@ function formFrom(f: EffectiveFilters): FilterForm {
     minReviews: f.min_reviews === null ? '' : String(f.min_reviews),
     refundable: f.refundable_only,
     board: f.board ?? '',
+    kinds: f.property_types,
+    chips: f.chips,
   };
 }
+
+/** Wishes that are facility filters (parking, dog, sauna …): these can change in the results. */
+const isFacilityChip = (code: string) => isChipCode(code) && chipDefinition(code).effect.kind === 'facility';
+const toggled = (list: readonly string[], value: string) => (list.includes(value) ? list.filter((x) => x !== value) : [...list, value]);
 
 /** Applied filters as query parameters; none before the user applies any (the search's own filters hold). */
 function filterParamsFrom(form: FilterForm | null): Record<string, string> {
@@ -52,6 +62,8 @@ function filterParamsFrom(form: FilterForm | null): Record<string, string> {
     min_reviews: form.minReviews,
     refundable: String(form.refundable),
     board: form.board,
+    types: form.kinds.join(','),
+    chips: form.chips.join(','),
   };
 }
 
@@ -77,15 +89,31 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchDefaults, setSearchDefaults] = useState<FilterForm | null>(null);
+  // Name search: typed text, sent after a short pause; narrows the list only.
+  const [nameInput, setNameInput] = useState('');
+  const [name, setName] = useState('');
+  // Further pages of the list ("Weitere anzeigen"), for the parameters in `pageKey`.
+  const [more, setMore] = useState<ResultItem[]>([]);
+  const [moreLoading, setMoreLoading] = useState(false);
+  const pageKey = useRef('');
   // Memoised: the finale refetches only when the applied filters change.
   const filterParams = useMemo(() => filterParamsFrom(applied), [applied]);
+  const listParams = useMemo(() => ({ ...paramsFrom(filterParams, sort, cell, goal), ...(name ? { q: name } : {}) }), [filterParams, sort, cell, goal, name]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setName(nameInput.trim()), constants.RESULTS_NAME_SEARCH_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [nameInput]);
 
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
-    fetchResults(searchId, token, paramsFrom(filterParams, sort, cell, goal), controller.signal)
+    const key = JSON.stringify(listParams);
+    pageKey.current = key;
+    fetchResults(searchId, token, { ...listParams, limit: String(constants.RESULTS_PAGE_SIZE) }, controller.signal)
       .then((r) => {
         setData(r);
+        setMore([]);
         setError(null);
         // Prefill once from the search's own filters; later answers never
         // overwrite what the user is typing.
@@ -99,13 +127,26 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, [searchId, token, sort, filterParams, cell, goal]);
+  }, [searchId, token, listParams]);
+
+  function loadMore(offset: number) {
+    const key = pageKey.current;
+    setMoreLoading(true);
+    fetchResults(searchId, token, { ...listParams, offset: String(offset), limit: String(constants.RESULTS_PAGE_SIZE) })
+      .then((r) => {
+        // Parameters changed meanwhile: that page belongs to another list.
+        if (pageKey.current === key) setMore((items) => [...items, ...r.items]);
+      })
+      .catch(() => setError(de.status.apiUnreachable))
+      .finally(() => setMoreLoading(false));
+  }
 
   const placeName = useMemo(() => new Map(data?.matrix.places.map((p) => [p.id, p.name]) ?? []), [data]);
   const placeLevels = useMemo(
     () => new Map((data?.matrix.places ?? []).flatMap((p) => (p.attractiveness ? [[p.id, p.attractiveness] as const] : []))),
     [data],
   );
+  const driveMinutes = useMemo(() => new Map((data?.matrix.places ?? []).map((p) => [p.id, p.drive_minutes])), [data]);
   const aiLabel = meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : '';
   const detailHref = (hotelId: string) => `/suche/${searchId}/unterkunft/${encodeURIComponent(hotelId)}#t=${token}`;
 
@@ -113,6 +154,10 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
 
   const update = (patch: Partial<FilterForm>) => setForm((f) => (f ? { ...f, ...patch } : f));
   const selectCell = (c: MatrixCellDto | null) => setCell(c ? { place_id: c.place_id, checkin: c.checkin, checkout: c.checkout } : null);
+  const listItems = [...data.items, ...more];
+  const remaining = Math.max(0, data.page.total - data.page.offset - listItems.length);
+  const facilityChips = meta.status === 'ready' ? meta.meta.chips.filter((c) => isFacilityChip(c.code)) : [];
+  const sorts: Sort[] = data.matrix.places.some((p) => p.drive_minutes !== null) ? ['price', 'best', 'quality', 'drive'] : ['price', 'best', 'quality'];
 
   return (
     <section className="space-y-10" data-testid="results">
@@ -148,7 +193,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
               {t.sortLabel}
             </Label>
             <div role="radiogroup" aria-label={t.sortLabel} className="inline-flex rounded-lg bg-white p-1 shadow-sm ring-1 ring-zinc-200" data-testid="sort">
-              {(['price', 'best', 'quality'] as const).map((key) => (
+              {sorts.map((key) => (
                 <button
                   key={key}
                   type="button"
@@ -189,6 +234,28 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
                 <Checkbox label={t.refundable} checked={form.refundable} onChange={(e) => update({ refundable: e.target.checked })} />
               </div>
             </div>
+            <div className="space-y-2" data-testid="filter-kinds">
+              <p className="text-sm/6 font-medium text-zinc-950">{t.kinds}</p>
+              <div className="flex flex-wrap gap-2">
+                {PROPERTY_KINDS.map((kind) => (
+                  <Chip key={kind} selected={form.kinds.includes(kind)} onToggle={() => update({ kinds: toggled(form.kinds, kind) })}>
+                    {t.kindNames[kind]}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+            {facilityChips.length > 0 ? (
+              <div className="space-y-2" data-testid="filter-facilities">
+                <p className="text-sm/6 font-medium text-zinc-950">{t.facilities}</p>
+                <div className="flex flex-wrap gap-2">
+                  {facilityChips.map((chip) => (
+                    <Chip key={chip.code} selected={form.chips.includes(chip.code)} onToggle={() => update({ chips: toggled(form.chips, chip.code) })}>
+                      {chip.label}
+                    </Chip>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <details data-testid="more-filters" open={Boolean(form.minStars || form.minRating || form.minReviews)}>
               <summary className="cursor-pointer text-sm font-medium text-brand-700">{t.moreFilters}</summary>
               <p className="mt-1 text-xs text-zinc-500">{t.moreFiltersHint}</p>
@@ -270,8 +337,33 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
           </Alert>
         ) : null}
 
+        <div className="max-w-xs">
+          <Label htmlFor="name-search" className="sr-only">
+            {t.nameSearch}
+          </Label>
+          <Input
+            id="name-search"
+            type="search"
+            placeholder={t.nameSearch}
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            maxLength={80}
+            data-testid="name-search"
+          />
+        </div>
+
         {loading ? <Spinner label={de.common.loading} /> : null}
-        {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} places={placeLevels} />}
+        {error ? <Alert tone="error">{error}</Alert> : null}
+        {listItems.length === 0 ? (
+          <Alert tone="info">{name ? t.nameEmpty : t.empty}</Alert>
+        ) : (
+          <ResultList items={listItems} detailHref={detailHref} aiLabel={aiLabel} places={placeLevels} driveMinutes={driveMinutes} />
+        )}
+        {remaining > 0 ? (
+          <Button variant="secondary" disabled={moreLoading} onClick={() => loadMore(data.page.offset + listItems.length)} data-testid="show-more">
+            {moreLoading ? de.common.loading : t.showMore(remaining)}
+          </Button>
+        ) : null}
 
         {data.oversized.length > 0 ? (
           <section className="space-y-3 border-t border-zinc-200 pt-6" data-testid="oversized-section">

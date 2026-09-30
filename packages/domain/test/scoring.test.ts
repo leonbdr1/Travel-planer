@@ -192,6 +192,20 @@ describe('scoring stage 2 and filters', () => {
     expect(median([3, 1, 2, 4])).toBe(2.5);
   });
 
+  it('filters by kind of accommodation from the provider type or the name', () => {
+    const offer = { totalCents: 30_000, refundable: false, boardType: 'RO' as const };
+    const f = (hotel: { hotelType: string | null; name?: string }, kinds: string[]) =>
+      passesFilters(offer, { stars: null, rating: null, reviewCount: null, facilityIds: [], ...hotel }, { ...NO_FILTERS, propertyTypes: kinds });
+    expect(f({ hotelType: 'Apartments' }, ['ferienwohnung'])).toBe(true);
+    expect(f({ hotelType: 'Apartments' }, ['hotel', 'pension'])).toBe(false);
+    expect(f({ hotelType: 'Guest house' }, ['pension'])).toBe(true);
+    // Unknown type: the name decides ("Gasthof …" is a guesthouse).
+    expect(f({ hotelType: null, name: 'Gasthof Adler' }, ['pension'])).toBe(true);
+    expect(f({ hotelType: null, name: 'Gasthof Adler' }, ['hotel'])).toBe(false);
+    // Raw provider types still work as before.
+    expect(f({ hotelType: 'Hotel' }, ['Hotel'])).toBe(true);
+  });
+
   it('marks failed and pending combinations in the matrix', () => {
     const cells = buildMatrix(
       [

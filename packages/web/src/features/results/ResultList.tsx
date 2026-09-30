@@ -48,6 +48,7 @@ export function ResultList({
   aiLabel,
   testId = 'result-list',
   places,
+  driveMinutes,
 }: {
   items: Array<ResultItem & { doubt?: UnratedDoubtDto }>;
   detailHref: (hotelId: string) => string;
@@ -55,6 +56,8 @@ export function ResultList({
   testId?: string;
   /** What the places of the search offer (Aufgabe 8), by place id. */
   places?: ReadonlyMap<string, AttractivenessDto>;
+  /** Drive time from the start location, by place id. */
+  driveMinutes?: ReadonlyMap<string, number | null>;
 }) {
   return (
     <ol className="space-y-3" data-testid={testId}>
@@ -82,8 +85,9 @@ export function ResultList({
                   </p>
                 ) : null}
                 <p className="text-sm text-zinc-600">
-                  {o.place_name}
-                  {places?.get(o.place_id)?.level === 'top' ? <span className="text-emerald-700"> ({de.attractiveness.levels.top})</span> : null} ·{' '}
+                  <span data-testid="result-place">{o.place_name}</span>
+                  {places?.get(o.place_id)?.level === 'top' ? <span className="text-emerald-700"> ({de.attractiveness.levels.top})</span> : null}
+                  {driveMinutes?.get(o.place_id) ? ` · ${t.drive(de.wizard.frame.minutes(driveMinutes.get(o.place_id) as number))}` : ''} ·{' '}
                   {formatStay(o.checkin, o.checkout)}
                   {item.other_dates_count > 0 ? ` · ${t.otherDates(item.other_dates_count)}` : ''}
                 </p>

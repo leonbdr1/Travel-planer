@@ -298,6 +298,10 @@ export const WISH_TEXT_MAX_CHARS = 300;
 export const ALTCHA_COST = 5_000;
 export const ALTCHA_EXPIRES_S = 10 * 60;
 export const STATUS_POLL_INTERVAL_MS = 2_000;
+/** Houses per page of the result list ("Weitere anzeigen" loads the next page). */
+export const RESULTS_PAGE_SIZE = 20;
+/** Waiting before the name search in the result list asks the API. */
+export const RESULTS_NAME_SEARCH_DEBOUNCE_MS = 300;
 export const HEALTH_DB_TIMEOUT_MS = 3_000;
 export const BUDGET_WARN_RATIO = 0.8;
 

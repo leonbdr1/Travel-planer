@@ -4,9 +4,13 @@ import { attractivenessSchema } from './suggestions';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
+/** Sort keys of the list; `drive`: nearest place first (drive time from the start location). */
+export const resultSortSchema = z.enum(['best', 'price', 'quality', 'drive']);
+export type ResultSort = z.infer<typeof resultSortSchema>;
+
 export const resultsQuerySchema = z.object({
-  /** price: cheapest first (default); best: by comparison price; quality: best score first. */
-  sort: z.enum(['best', 'price', 'quality']).default('price'),
+  /** price: cheapest first (default); best: by comparison price; quality: best score first; drive: nearest place first. */
+  sort: resultSortSchema.default('price'),
   /** The goal whose rules decide which houses the list and the matrix show (default: the search's goal). */
   goal: goalSchema.optional(),
   budget: z.string().optional(),
@@ -15,8 +19,14 @@ export const resultsQuerySchema = z.object({
   min_reviews: z.string().optional(),
   refundable: z.enum(['true', 'false']).optional(),
   board: z.string().optional(),
+  /** Kinds (hotel, pension, ferienwohnung) or the provider's raw types, comma-separated. */
   types: z.string().optional(),
   chips: z.string().optional(),
+  /** Part of the name: narrows the lists (not the matrix). */
+  q: z.string().max(80).optional(),
+  /** Page of the list: without `limit` the whole list (as before). */
+  offset: z.coerce.number().int().min(0).max(10_000).optional(),
+  limit: z.coerce.number().int().min(1).max(100).optional(),
   place_id: z.string().optional(),
   checkin: isoDate.optional(),
   /** With a night range the cell is (place, arrival, departure). */
@@ -227,9 +237,11 @@ export const searchResultsResponseSchema = z.object({
     /** Of these, houses without reviews (listed apart in `unrated`). */
     unrated_hidden: z.number().int(),
   }),
+  /** The page of `items`: `total` houses in the list, `limit` null = all at once. */
+  page: z.object({ offset: z.number().int(), limit: z.number().int().nullable(), total: z.number().int() }),
   meta: z.object({
     prices_fetched_at: z.string().nullable(),
-    sort: z.enum(['best', 'price', 'quality']),
+    sort: resultSortSchema,
     goal: goalSchema,
     cell: z.object({ place_id: z.string(), checkin: isoDate, checkout: isoDate.nullable().default(null) }).nullable(),
   }),
