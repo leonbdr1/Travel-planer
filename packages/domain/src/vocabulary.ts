@@ -49,6 +49,9 @@ export const CHIP_CODES = [
   'kueche',
   'barrierefrei',
   'familienzimmer',
+  'pool',
+  'klimaanlage',
+  'meerblick',
 ] as const;
 export type ChipCode = (typeof CHIP_CODES)[number];
 

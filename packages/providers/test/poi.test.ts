@@ -14,7 +14,9 @@ describe('Overpass client', () => {
     expect(q).toContain('node(around:1200,47.40912,10.27794)[highway=bus_stop];');
     expect(q).toContain('node(around:1200,47.40912,10.27794)[aerialway=station];');
     expect(q).toContain('nwr(around:300,47.50000,10.30000)[amenity~"^(restaurant|cafe|pub|bar|biergarten)$"];');
-    expect(q.endsWith('out center;')).toBe(true);
+    expect(q).toContain(');out center;(');
+    expect(q).toContain('nwr(around:1200,47.50000,10.30000)[natural=beach];');
+    expect(q.endsWith('out geom;')).toBe(true);
   });
 
   it('maps OSM tags to kinds', () => {
@@ -22,6 +24,7 @@ describe('Overpass client', () => {
     expect(poiKind({ railway: 'halt' })).toBe('bahn');
     expect(poiKind({ aerialway: 'station' })).toBe('lift');
     expect(poiKind({ shop: 'supermarket' })).toBe('supermarkt');
+    expect(poiKind({ natural: 'beach' })).toBe('strand');
     expect(poiKind({ amenity: 'biergarten' })).toBe('gastro');
     expect(poiKind({ amenity: 'bank' })).toBeNull();
   });
@@ -57,5 +60,32 @@ describe('Overpass client', () => {
     expect(a).toEqual(b);
     expect(a.length).toBeGreaterThan(0);
     expect(locationFacts(house, a).walk).toBeDefined();
+  });
+
+  it('measures a beach by its outline, not its middle (Aufgabe F20)', async () => {
+    const fetch: FetchLike = async () =>
+      Response.json({
+        elements: [
+          // A 3 km beach: the middle is far away, its western end is right at the house.
+          {
+            type: 'way',
+            tags: { natural: 'beach' },
+            center: { lat: house.lat, lon: house.lng + 0.02 },
+            geometry: [
+              { lat: house.lat, lon: house.lng + 0.001 },
+              { lat: house.lat, lon: house.lng + 0.02 },
+              { lat: house.lat, lon: house.lng + 0.04 },
+            ],
+          },
+        ],
+      });
+    const client = createOverpassClient({ baseUrl: 'https://overpass.test/api/interpreter', fetch, userAgent: 'reiseplaner (test)' });
+    const pois = await client.around([house], 1200, 300);
+    expect(pois.every((p) => p.kind === 'strand')).toBe(true);
+    expect(locationFacts(house, pois).walk.strand).toBeLessThanOrEqual(3);
+  });
+
+  it('asks for beaches with their outline', () => {
+    expect(overpassQuery([house], 1200, 300, 20)).toMatch(/\[natural=beach\];\);out geom;$/);
   });
 });

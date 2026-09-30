@@ -38,6 +38,10 @@ export const CHIPS: readonly ChipDefinition[] = [
   },
   { code: 'barrierefrei', label: 'Barrierefrei', effect: { kind: 'facility', anyOf: [7] } },
   { code: 'familienzimmer', label: 'Familienzimmer', effect: { kind: 'facility', anyOf: [8] } },
+  // Aufgabe F20 (Ben, 30.09.): filter like the other facility chips; ids from the simulated world, ⟂ re-map against the real list.
+  { code: 'pool', label: 'Pool', effect: { kind: 'facility', anyOf: [18, 24] } },
+  { code: 'klimaanlage', label: 'Klimaanlage', effect: { kind: 'facility', anyOf: [25] } },
+  { code: 'meerblick', label: 'Meerblick', effect: { kind: 'facility', anyOf: [26] } },
 ];
 
 export function chipDefinition(code: ChipCode): ChipDefinition {

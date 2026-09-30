@@ -11,6 +11,8 @@ const ICONS: Record<string, ReactNode> = {
   kostenlos_stornierbar: <path {...stroke} d="M4 12l5 5L20 6" />,
   sauna_wellness: <path {...stroke} d="M7 3c-2 3 2 4 0 7M12 3c-2 3 2 4 0 7M17 3c-2 3 2 4 0 7M3 14h18v6H3z" />,
   schwimmbad: <path {...stroke} d="M2 18c2.5 2 4.5 2 7 0s4.5-2 7 0 4 2 6 0M8 15V5a2 2 0 0 1 4 0M16 15V5a2 2 0 0 0-4 0M8 10h8" />,
+  klimaanlage: <path {...stroke} d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9M9 4l3 2 3-2M9 20l3-2 3 2" />,
+  meerblick: <path {...stroke} d="M2 16c2.5 2 4.5 2 7 0s4.5-2 7 0 4 2 6 0M6 11a6 6 0 0 1 12 0M12 2v2M4 6l1.5 1.5M20 6l-1.5 1.5" />,
   parkplatz: (
     <>
       <rect {...stroke} x="3" y="3" width="18" height="18" rx="3" />
@@ -18,6 +20,7 @@ const ICONS: Record<string, ReactNode> = {
     </>
   ),
   kueche: <path {...stroke} d="M3 11h13a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5Zm13 1h5" />,
+  lage_strand: <path {...stroke} d="M2 19c2.5 2 4.5 2 7 0s4.5-2 7 0 4 2 6 0M12 4v9M12 4c4 0 7 2 8 5H4c1-3 4-5 8-5Z" />,
   lage_lift: <path {...stroke} d="M2 5l20-3M12 3.5V9M7 9h10v8H7zM7 13h10" />,
   lage_bus: <path {...stroke} d="M5 3h14a1 1 0 0 1 1 1v13H4V4a1 1 0 0 1 1-1ZM4 11h16M7 17v3M17 17v3M8 14h.01M16 14h.01" />,
   lage_bahn: <path {...stroke} d="M6 3h12v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V3Zm0 7h12M8 21l2-4M16 21l-2-4" />,

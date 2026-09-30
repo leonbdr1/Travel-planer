@@ -29,7 +29,7 @@ export interface LocationFactsResult {
 
 const minutes = z.number().int().min(1).nullable();
 const factsSchema = z.object({
-  walk: z.object({ lift: minutes, bahn: minutes, bus: minutes, supermarkt: minutes }),
+  walk: z.object({ lift: minutes, bahn: minutes, bus: minutes, supermarkt: minutes, strand: minutes.default(null) }),
   gastro: z.number().int().min(0),
 });
 

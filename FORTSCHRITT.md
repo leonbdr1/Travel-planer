@@ -232,3 +232,11 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - Alle Pfad-Walkthroughs (`npm run dogfood -- --mode P`, 26 Flows inkl. `reiseland`): 419/424. Die 5 Fehlschläge lagen **nicht an F20**: Die Flows `themen` und `regionsname` erwarteten noch Ergebnisse von vor F19 („Romantische Straße“, Bozen, Elsass bei Kultur bis 7 h; gleiches Ergebnis ohne meine Änderungen geprüft). Erwartungen nachgezogen, beide Flows einzeln bestanden. Bericht: `docs/demos/F20/report-P-all.md` (vor dem Nachziehen). `npm test` 502 grün, Typecheck und Claims grün.
 - **Offen (groß, nicht angefasst):** siehe `docs/analyse-europa-reife.md` §Offen (Orte unter 1.000 Einwohnern per Vollimport oder Anbieter-Ortssuche, Jahreszeit, Strand-Entfernung, Fähren/Inseln, Flugkosten, Türkei, Katalogdichte).
 
+### F21 – Türkei, Strandentfernung, Pool/Klima/Meerblick (30.09.2026)
+- Entscheidungen Ben: Türkei zählt als Europa; Strandentfernung wichtig; Pool, Klima und Meerblick als Chip (filtert knallhart) **und** als positives Label bei jeder Unterkunft, die es hat; Anreisekosten gestrichen; Regionsvorschläge nur, wo der Katalog dicht ist, alles andere manuell auffindbar. Ansatz: `docs/logik/reiseland.md` §F21.
+- **Türkei:** Land 40, Kontinent Europa, Orte ab 1.000 Einwohnern (1.092), Migration `20261020a_turkey` (nur lokal).
+- **Chips** Pool, Klimaanlage, Meerblick unten im Suchrahmen (filtern hart), Labels immer sichtbar (nicht in der Rangfolge/„Komfort“-Wertung, Vorbehalt vom 29.09.). KI-Skill `wish-parse` 1.3.0.
+- **Strand in Gehminuten** (bis zum Rand der Strandfläche) in Preisleiter und Detail.
+- Beleg: Walkthrough `komfortlabels` in `docs/demos/F21/walkthrough-P/` (Screenshot gelesen: „Strand 10 min“, „Klimaanlage“ als Label, durchgestrichen, wo es fehlt); `npm test` grün.
+- **Offen:** Ausstattungsnummern gegen die echte LiteAPI-Liste; Orte unter 1.000 Einwohnern (Ben entscheidet Vollimport gegen LiteAPI-Ortssuche); Katalog für Türkei nicht angelegt.
+

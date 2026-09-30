@@ -36,3 +36,8 @@
 {"id": "wp-36", "input": {"text": "Museen und Altstadt anschauen"}, "assertions": [{"path": "$.themes", "op": "contains", "value": "staedte_kultur"}, {"path": "$.themes", "op": "not_contains", "value": "shopping"}]}
 {"id": "wp-37", "input": {"text": "Kultur und Shopping"}, "assertions": [{"path": "$.themes", "op": "set_equals", "value": ["staedte_kultur", "shopping"]}]}
 {"id": "wp-38", "input": {"text": "Strand und Meer"}, "assertions": [{"path": "$.themes", "op": "set_equals", "value": ["strand"]}, {"path": "$.themes", "op": "not_contains", "value": "seen"}]}
+{"id": "wp-pool", "input": {"text": "Ich möchte einen Pool"}, "assertions": [{"path": "$.chips", "op": "set_equals", "value": ["pool"]}]}
+{"id": "wp-klima", "input": {"text": "mit Klimaanlage bitte"}, "assertions": [{"path": "$.chips", "op": "contains", "value": "klimaanlage"}]}
+{"id": "wp-meerblick", "input": {"text": "Zimmer mit Meerblick"}, "assertions": [{"path": "$.chips", "op": "contains", "value": "meerblick"}]}
+{"id": "wp-seeblick", "input": {"text": "Blick auf den See"}, "assertions": [{"path": "$.chips", "op": "count_eq", "value": 0}, {"path": "$.unmatched", "op": "count_eq", "value": 1}]}
+{"id": "wp-pool-klima-en", "input": {"text": "pool and air conditioning, sea view"}, "assertions": [{"path": "$.chips", "op": "set_equals", "value": ["pool", "klimaanlage", "meerblick"]}]}

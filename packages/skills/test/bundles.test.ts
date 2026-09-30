@@ -65,7 +65,7 @@ describe('skill bundles', () => {
     const dir = mkdtempSync(join(tmpdir(), 'skill-'));
     const target = join(dir, 'reiseplaner.wish-parse');
     cpSync(join(bundlesDir, 'reiseplaner.wish-parse'), target, { recursive: true });
-    writeFileSync(join(target, 'v1.2.0/user.template.md'), '{{text}} {{secret}}');
+    writeFileSync(join(target, 'v1.3.0/user.template.md'), '{{text}} {{secret}}');
     expect(() => loadBundle(target, productConfig.ai)).toThrow(/secret/);
   });
 });

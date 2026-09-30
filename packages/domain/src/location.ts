@@ -1,5 +1,5 @@
 // Location facts of a house (S11.5, architektur.md 6.15): walking minutes to
-// the nearest bus stop, railway station, ski or cable-car station and
+// the nearest beach (Aufgabe F20; measured to the edge of the beach, not its middle), bus stop, railway station, ski or cable-car station and
 // supermarket, and restaurants close by. Points of interest come from
 // OpenStreetMap through the POI port; this module only measures them.
 import {
@@ -11,10 +11,10 @@ import {
 } from './constants';
 import { haversineKm, type LatLng } from './geo';
 
-export const POI_KINDS = ['lift', 'bahn', 'bus', 'supermarkt', 'gastro'] as const;
+export const POI_KINDS = ['lift', 'bahn', 'bus', 'supermarkt', 'strand', 'gastro'] as const;
 export type PoiKind = (typeof POI_KINDS)[number];
 export type WalkKind = Exclude<PoiKind, 'gastro'>;
-export const WALK_KINDS: readonly WalkKind[] = ['lift', 'bahn', 'bus', 'supermarkt'];
+export const WALK_KINDS: readonly WalkKind[] = ['strand', 'lift', 'bahn', 'bus', 'supermarkt'];
 
 export interface Poi extends LatLng {
   kind: PoiKind;
@@ -27,7 +27,7 @@ export interface LocationFacts {
   gastro: number;
 }
 
-export const NO_LOCATION_FACTS: LocationFacts = { walk: { lift: null, bahn: null, bus: null, supermarkt: null }, gastro: 0 };
+export const NO_LOCATION_FACTS: LocationFacts = { walk: { lift: null, bahn: null, bus: null, supermarkt: null, strand: null }, gastro: 0 };
 
 export function walkMinutes(meters: number): number {
   return Math.max(1, Math.round((meters * WALK_DETOUR_FACTOR) / WALK_METERS_PER_MIN));

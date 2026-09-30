@@ -49,6 +49,7 @@ export const BOUNDS: Record<CatalogCountry, { lat: [number, number]; lng: [numbe
   MK: { lat: [40.8, 42.4], lng: [20.4, 23.1] },
   RO: { lat: [43.6, 48.3], lng: [20.2, 29.8] },
   RS: { lat: [42.2, 46.2], lng: [18.8, 23.1] },
+  TR: { lat: [35.8, 42.2], lng: [25.6, 44.9] },
 };
 const DUPLICATE_KM = constants.CATALOG_DUPLICATE_KM;
 

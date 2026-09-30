@@ -1,5 +1,5 @@
 // Simulated Overpass API: for every house in the query a deterministic set of
-// bus stops, stations, lift stations, supermarkets and restaurants around it,
+// bus stops, stations, lift stations, supermarkets, beaches (as outlines) and restaurants around it,
 // so the finale shows walking minutes without network access.
 import type { FetchLike } from '../http/request';
 import { between, intBetween, seeded } from './random';
@@ -20,9 +20,25 @@ function offset(lat: number, lng: number, meters: number, angle: number) {
   return { lat: lat + dLat, lon: lng + dLng };
 }
 
-export function fakePoisAround(lat: number, lng: number): Array<{ type: 'node'; lat: number; lon: number; tags: Record<string, string> }> {
+type FakeElement =
+  | { type: 'node'; lat: number; lon: number; tags: Record<string, string> }
+  | { type: 'way'; geometry: Array<{ lat: number; lon: number }>; tags: Record<string, string> };
+
+/** A beach is an outline of five points, 60 m apart, at some distance from the house (Aufgabe F20). */
+function fakeBeach(lat: number, lng: number, key: string): FakeElement | null {
+  const r = seeded('poi', key, 'beach');
+  if (r() > 0.3) return null;
+  const angle = between(r, 0, 2 * Math.PI);
+  const start = offset(lat, lng, between(r, 80, 1000), angle);
+  const geometry = Array.from({ length: 5 }, (_, i) => offset(start.lat, start.lon, 60 * i, angle + Math.PI / 2));
+  return { type: 'way', geometry, tags: { natural: 'beach' } };
+}
+
+export function fakePoisAround(lat: number, lng: number): FakeElement[] {
   const key = `${lat.toFixed(5)}|${lng.toFixed(5)}`;
-  const out: Array<{ type: 'node'; lat: number; lon: number; tags: Record<string, string> }> = [];
+  const out: FakeElement[] = [];
+  const beach = fakeBeach(lat, lng, key);
+  if (beach) out.push(beach);
   for (const kind of KINDS) {
     const r = seeded('poi', key, Object.values(kind.tags).join());
     if (r() > kind.chance) continue;

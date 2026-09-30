@@ -6,7 +6,7 @@
 // covers, France, Spain, Portugal, Benelux, Nordics, Baltics, Balkans, Malta,
 // Cyprus, Greece, Great Britain, Ireland ... (Aufgabe F20 added Albania to
 // Serbia, Finland, Iceland, the Baltics, Malta, Cyprus, Andorra, Monaco,
-// Liechtenstein). Settlements from MIN_POPULATION inhabitants (default 1,000,
+// Liechtenstein; Turkey counts as Europe, Ben 30.09.2026). Settlements from MIN_POPULATION inhabitants (default 1,000,
 // so that a small village is found: "meine Tante wohnt dort"), plus the
 // smaller catalog places listed in eu-keep-ids.json (Vernazza ...).
 // German names (Venedig, Rom, Lissabon …) come from alt-names-eu.json.
@@ -34,7 +34,7 @@ const tz = {
   SI: 'Europe/Ljubljana', SK: 'Europe/Bratislava', GR: 'Europe/Athens', GB: 'Europe/London', IE: 'Europe/Dublin', NO: 'Europe/Oslo',
   SE: 'Europe/Stockholm', AL: 'Europe/Tirane', AD: 'Europe/Andorra', BA: 'Europe/Sarajevo', BG: 'Europe/Sofia', CY: 'Asia/Nicosia',
   EE: 'Europe/Tallinn', FI: 'Europe/Helsinki', IS: 'Atlantic/Reykjavik', LV: 'Europe/Riga', LI: 'Europe/Vaduz', LT: 'Europe/Vilnius',
-  MT: 'Europe/Malta', MC: 'Europe/Monaco', ME: 'Europe/Podgorica', MK: 'Europe/Skopje', RO: 'Europe/Bucharest', RS: 'Europe/Belgrade',
+  MT: 'Europe/Malta', MC: 'Europe/Monaco', ME: 'Europe/Podgorica', MK: 'Europe/Skopje', RO: 'Europe/Bucharest', RS: 'Europe/Belgrade', TR: 'Europe/Istanbul',
 };
 
 const pbf = new Pbf(readFileSync(process.argv[2]));

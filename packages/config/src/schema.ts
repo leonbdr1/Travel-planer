@@ -4,7 +4,7 @@ const hexColor = z.string().regex(/^#[0-9a-f]{6}$/i, 'expected a hex color like 
 // Catalog country keys; identical to CATALOG_COUNTRIES in packages/domain (drift test in packages/cli).
 const countryCode = z.enum([
   'DE', 'AT', 'CH', 'IT-BZ', 'IT', 'FR', 'ES', 'PT', 'NL', 'BE', 'LU', 'DK', 'CZ', 'PL', 'HU', 'HR', 'SI', 'SK', 'GR', 'GB', 'IE', 'NO', 'SE',
-  'AL', 'AD', 'BA', 'BG', 'CY', 'EE', 'FI', 'IS', 'LV', 'LI', 'LT', 'MT', 'MC', 'ME', 'MK', 'RO', 'RS',
+  'AL', 'AD', 'BA', 'BG', 'CY', 'EE', 'FI', 'IS', 'LV', 'LI', 'LT', 'MT', 'MC', 'ME', 'MK', 'RO', 'RS', 'TR',
 ]);
 const positiveInt = z.int().positive();
 

@@ -5,14 +5,14 @@
 /** GeoNames country codes of app.geo_localities (start locations, own places, catalog matching). */
 export const GEO_COUNTRIES = [
   'DE', 'AT', 'CH', 'IT', 'FR', 'ES', 'PT', 'NL', 'BE', 'LU', 'DK', 'CZ', 'PL', 'HU', 'HR', 'SI', 'SK', 'GR', 'GB', 'IE', 'NO', 'SE',
-  'AL', 'AD', 'BA', 'BG', 'CY', 'EE', 'FI', 'IS', 'LV', 'LI', 'LT', 'MT', 'MC', 'ME', 'MK', 'RO', 'RS',
+  'AL', 'AD', 'BA', 'BG', 'CY', 'EE', 'FI', 'IS', 'LV', 'LI', 'LT', 'MT', 'MC', 'ME', 'MK', 'RO', 'RS', 'TR',
 ] as const;
 export type GeoCountry = (typeof GEO_COUNTRIES)[number];
 
 /** Catalog country keys (regions/<key>.yaml, app.regions.country_code). */
 export const CATALOG_COUNTRIES = [
   'DE', 'AT', 'CH', 'IT-BZ', 'IT', 'FR', 'ES', 'PT', 'NL', 'BE', 'LU', 'DK', 'CZ', 'PL', 'HU', 'HR', 'SI', 'SK', 'GR', 'GB', 'IE', 'NO', 'SE',
-  'AL', 'AD', 'BA', 'BG', 'CY', 'EE', 'FI', 'IS', 'LV', 'LI', 'LT', 'MT', 'MC', 'ME', 'MK', 'RO', 'RS',
+  'AL', 'AD', 'BA', 'BG', 'CY', 'EE', 'FI', 'IS', 'LV', 'LI', 'LT', 'MT', 'MC', 'ME', 'MK', 'RO', 'RS', 'TR',
 ] as const;
 export type CatalogCountry = (typeof CATALOG_COUNTRIES)[number];
 
@@ -58,6 +58,7 @@ export const COUNTRY_NAMES_DE: Record<CatalogCountry, string> = {
   MK: 'Nordmazedonien',
   RO: 'Rumänien',
   RS: 'Serbien',
+  TR: 'Türkei',
 };
 
 export function isGeoCountry(code: string): code is GeoCountry {

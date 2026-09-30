@@ -293,7 +293,7 @@ describe('finale', () => {
   });
 
   it('compares walking distances from OpenStreetMap: whether is the difference, how far the label', () => {
-    const facts = (lift: number | null, bus: number | null, gastro = 0) => ({ walk: { lift, bahn: null, bus, supermarkt: null }, gastro });
+    const facts = (lift: number | null, bus: number | null, gastro = 0) => ({ walk: { lift, bahn: null, bus, supermarkt: null, strand: null }, gastro });
     const withFacts = (id: string, f: ReturnType<typeof facts>) => input(id, { hotel: { ...hotels.get(id)!, location: { lat: 47.5712, lng: 10.7011 }, facts: f } });
     const [base, near] = compareFinalists([withFacts('W1', facts(null, 3, 5)), withFacts('W2', facts(2, 6))]);
     expect(base?.features.map((f) => f.label)).toContain('3 min zur Bushaltestelle');

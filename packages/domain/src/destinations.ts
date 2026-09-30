@@ -23,7 +23,7 @@ const CONTINENT_OF_COUNTRY: Record<CatalogCountry, ContinentCode> = {
   DE: 'europa', AT: 'europa', CH: 'europa', 'IT-BZ': 'europa', IT: 'europa', FR: 'europa', ES: 'europa', PT: 'europa', NL: 'europa',
   BE: 'europa', LU: 'europa', DK: 'europa', CZ: 'europa', PL: 'europa', HU: 'europa', HR: 'europa', SI: 'europa', SK: 'europa',
   GR: 'europa', GB: 'europa', IE: 'europa', NO: 'europa', SE: 'europa',
-  AL: 'europa', AD: 'europa', BA: 'europa', BG: 'europa', CY: 'europa', EE: 'europa', FI: 'europa', IS: 'europa', LV: 'europa', LI: 'europa', LT: 'europa', MT: 'europa', MC: 'europa', ME: 'europa', MK: 'europa', RO: 'europa', RS: 'europa',
+  AL: 'europa', AD: 'europa', BA: 'europa', BG: 'europa', CY: 'europa', EE: 'europa', FI: 'europa', IS: 'europa', LV: 'europa', LI: 'europa', LT: 'europa', MT: 'europa', MC: 'europa', ME: 'europa', MK: 'europa', RO: 'europa', RS: 'europa', TR: 'europa',
 };
 
 export function continentOf(countryKey: string): ContinentCode | null {

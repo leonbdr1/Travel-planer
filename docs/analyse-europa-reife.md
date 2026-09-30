@@ -20,10 +20,9 @@ Anlass: Das Produkt wurde zuerst für Wandern in Österreich und Deutschland geb
 ## Was ein Buchungsportal hat und uns fehlt
 
 - **Karte mit den Unterkünften** in den Ergebnissen (es gibt die Regionskarte und im Detail einen Link zu einer externen Karte, aber keine eigene Unterkunftskarte).
-- **Strandentfernung** als Lage-Fakt (die Lage-Fakten kennen nur Bahnhof, Bus, Lift, Supermarkt, Restaurants; für Strandurlaub ist die Entfernung zum Strand der wichtigste Wert).
-- **Wünsche** „Pool“, „Klimaanlage“, „Meerblick“ (Filter und Chips; die Anbieter-Ausstattungsnummern sind noch nicht gegen die echte Liste geprüft, siehe Drift 8 in `HANDOFF.md`).
+- ~~Strandentfernung~~ und ~~Wünsche Pool, Klimaanlage, Meerblick~~: in F21 umgesetzt (`reiseland.md`, Abschnitt F21); die Ausstattungsnummern sind noch nicht gegen die echte Liste geprüft (Drift 8).
 - **Jahreszeit** (L2 in `analyse-suche-buchung.md`): Strand im Januar an der Ostsee wird wie im Juli vorgeschlagen.
-- **Anreisekosten** (L3): Flug- und Fährkosten fehlen im Vergleich.
+- ~~Anreisekosten~~ (L3): von Ben gestrichen.
 - **Inseln und Fähren beim Auto** (L4).
 - **Sortierung** gibt es nach „Beste“, Preis und Qualität; nach Entfernung zum Zentrum oder Strand nicht.
 
@@ -38,7 +37,7 @@ Anlass: Das Produkt wurde zuerst für Wandern in Österreich und Deutschland geb
 
 1. **Orte unter 1.000 Einwohnern.** Die Tante im Weiler: braucht entweder den Vollimport von GeoNames (`cities500` oder alle besiedelten Orte; Download und Import sind Operator-Schritte, O3.1, BEN-GATE) **oder** eine Ortssuche über die Anbieter-Daten. Die LiteAPI hat nach meiner Kenntnis eine Orte-Suche (Text → Ort mit Koordinaten) und bietet Hotels auch nach Ort an; **der Vertrag ließ sich hier nicht prüfen** (Doku-Host im Netz gesperrt), deshalb nicht gebaut (`CLAUDE.md`: nie einen Contract aus dem Gedächtnis nachbauen). Vorschlag: Doku prüfen, dann die Ortssuche als zweite Quelle hinter GeoNames setzen; jeder Treffer wird ein eigener Ort. Entscheidung Ben.
 2. **Jahreszeit je Ort/Region** (Migration, BEN-GATE).
-3. **Strandentfernung und Lage-Fakten für Küste** (OSM `natural=beach`, Änderung an Port, Fakes, Finale).
-4. **Katalog verdichten und freigeben:** Türkei (Kontinentfrage), Baltikum als Reiseziel über mehrere Länder, Katalog für Italien Süd, Frankreich Atlantik, Kroatien Inseln usw.; redaktionelle Prüfung BG-11.
-5. **Fähren/Inseln, Flugkosten, Flughäfen** (L3, L4, L7).
+3. ~~Strandentfernung~~ erledigt (F21).
+4. **Katalog verdichten und freigeben:** Baltikum als Reiseziel über mehrere Länder, Katalog für Italien Süd, Frankreich Atlantik, Kroatien Inseln usw.; redaktionelle Prüfung BG-11.
+5. **Fähren/Inseln, Flughäfen** (L4, L7); Flugkosten gestrichen.
 6. Migration `20261019a_more_countries` (und die davor) auf Staging/Produktion anwenden (BEN-GATE).
