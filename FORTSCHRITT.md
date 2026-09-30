@@ -12,6 +12,10 @@ Ergebnisse der Brainstormings, funktional formuliert. Format: `- [ ] **B<n>** �
 
 - (noch keine)
 
+## Aufgaben zurückgestellt (Ben, 30.09.2026, nicht jetzt umsetzen)
+
+- [ ] **T1 – Rezensionsprüfung nur für neue Rezensionen.** Heute gilt eine bestätigte Prüfung 30 Tage je Unterkunft (`REVIEW_CACHE_DAYS`), danach werden die letzten 100 Rezensionen (höchstens 24 Monate) neu geladen und alle Treffer-Ausschnitte erneut der KI vorgelegt. Neue Rezensionen innerhalb der 30 Tage bleiben unsichtbar. Ziel: pro Rezension speichern, ob sie schon bewertet wurde (stabile Rezensions-ID, eigene Tabelle), und bei Ablauf oder Bedarf nur die neuen prüfen; dazu Frist je Unterkunft nach Aufkommen neuer Rezensionen statt fester 30 Tage. Betrifft `packages/worker/src/services/reviews.ts`, `packages/db/src/repos/reviews.ts`, neue Migration (BEN-GATE), pgTAP, Konstanten in `constants.ts`. Vorher klären: echte Rezensions-IDs der LiteAPI (Vertrag ungeprüft).
+
 ## Übersicht
 
 - [x] **Aufgabe 0** – Priorisierung vermerkt: „Günstig und sauber“ zuerst, „Preis-Leistung“ und „Komfort“ aktuell unfertig
