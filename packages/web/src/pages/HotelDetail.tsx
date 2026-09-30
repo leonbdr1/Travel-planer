@@ -21,6 +21,7 @@ import type { ComponentType, SVGProps } from 'react';
 import type { HotelDetailResponse, TextBlockDto } from '@reiseplaner/contracts';
 import { constants, extraNights } from '@reiseplaner/domain';
 import { Alert, Badge, buttonClasses, Card, Heading, Lightbox, Spinner, Text, cx } from '@reiseplaner/ui';
+import { loadErrorText } from '../api/load-error';
 import { fetchHotelDetail } from '../features/results/api';
 import { ExtraNightNote } from '../features/results/ExtraNightNote';
 import { ReferencePrice } from '../features/results/ReferencePrice';
@@ -135,14 +136,23 @@ export function HotelDetail() {
     const controller = new AbortController();
     fetchHotelDetail(id, token, hotelId, controller.signal)
       .then(setData)
-      .catch(() => {
-        if (!controller.signal.aborted) setError(de.searchRun.notFound);
+      .catch((err: unknown) => {
+        if (!controller.signal.aborted) setError(loadErrorText(err, de.searchRun.notFound));
       });
     return () => controller.abort();
   }, [id, hotelId, token]);
 
   const back = `/suche/${id}#t=${token}`;
-  if (error) return <div className="mx-auto max-w-4xl px-4 py-12"><Alert tone="error">{error}</Alert></div>;
+  if (error) {
+    return (
+      <div className="mx-auto max-w-4xl space-y-4 px-4 py-12">
+        <Alert tone="error">{error}</Alert>
+        <Link to={back} className="text-sm font-medium text-brand-700 hover:underline">
+          ← {t.back}
+        </Link>
+      </div>
+    );
+  }
   if (!data) return <div className="mx-auto max-w-4xl px-4 py-12"><Spinner label={de.common.loading} /></div>;
   const h = data.hotel;
   const bookingEnabled = meta.status !== 'ready' || meta.meta.booking_enabled;

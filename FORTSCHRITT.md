@@ -13,7 +13,7 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 - [x] **B3** – Preise aktualisieren (dieselbe Suche neu) und „Letzte Suchen“ im Browser
 - [x] **B4** – Buchungsübersicht ohne Konto: nur E-Mail eingeben, Liste aller Buchungen per E-Mail
 - [x] **B5** – Support-Werkzeug: `npm run cli -- buchungen` (Liste und Einzelansicht mit E-Mail-Status)
-- [ ] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
+- [x] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
 - [ ] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
 - [ ] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
 - [ ] **P2** – Aufräumen: toter Code, doppelte Texte
@@ -51,6 +51,13 @@ Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffe
 - `npm run cli -- buchungen [--status …] [--limit …]` listet die letzten Buchungen, `npm run cli -- buchungen <NUMMER>` zeigt eine mit Status, Zeiten (Europe/Berlin), Hotel-Bestätigungsnummer, LiteAPI-Kennung, letztem Fehler und dem Versandstand aller E-Mails; bei einer vertippten Nummer nennt es ähnliche. Nur lesend, E-Mail maskiert. Neue Repo-Funktionen `listBookings`, `bookingsByRefPrefix`, `outboxForBooking`.
 - Ein Admin-Bereich im Browser ist bewusst nicht gebaut: Zahlung und Abwicklung liegen bei LiteAPI, die Entwicklerseite ist nur lokal; für den Support genügt das Werkzeug. Anleitung: `docs/runbooks/support-buchungen.md`.
 - Beleg: `docs/demos/B5/cli-output.txt` (gegen die lokale Datenbank nach den Buchungs-Walkthroughs); Test `packages/cli/test/bookings.test.ts`.
+
+### B6 – erledigt
+- **Fehlerseite:** Der Router zeigt statt „Unexpected Application Error!“ (englisch, mit Stacktrace) eine kurze deutsche Seite mit „Neu laden“ und „Zur Startseite“, Kopf und Fuß bleiben (`components/RouteError.tsx`). Kann ein Tab nach einem Deploy den Seitencode nicht mehr laden, heißt sie „Neue Version verfügbar“.
+- **API-Client:** Zeitlimit 30 s (`API_REQUEST_TIMEOUT_MS`), verlorene Verbindung und Zeitüberschreitung als deutsche Meldung, ein eigener Abbruch (neue Filter, Seite verlassen) bleibt ein Abbruch. Serverfehler nennen eine kurze Fehler-ID.
+- **Worker:** Jede Antwort trägt `X-Request-Id` (Cloudflare-Ray-ID oder UUID); Fehler (≥ 500) und langsame Anfragen (≥ 3 s, `SLOW_REQUEST_MS`) schreiben eine Logzeile mit Methode, Routenmuster (ohne IDs und Buchungsnummern), Status, Dauer und Request-ID; auch „unhandled“ trägt die ID. So findet der Support zur Fehler-ID des Gastes die Logzeile.
+- **Seiten:** Detailansicht, Buchungsformular und Ergebnisliste unterscheiden „gibt es nicht“ (404) von Verbindungs- und Serverfehlern; die Detailansicht bietet im Fehlerfall den Weg zurück. Der Suchlauf zeigt nach drei gescheiterten Abfragen „Verbindung unterbrochen – wir versuchen es weiter …“ und setzt eine Fehlermeldung zurück, wenn der Link korrigiert wird (vorher blieb „Diese Suche gibt es nicht“ stehen). Das Buchungsformular prüft die E-Mail-Adresse und schneidet Leerzeichen ab.
+- Beleg: Walkthrough `fehler` (neu) in `docs/demos/B6/walkthrough-P/` (7/7, Fehler per Netzwerk-Abfangen erzeugt); Tests `web/test/api-client.test.ts`, `worker/test-node/hardening.test.ts` (Request-ID); `npm test` 463 grün.
 
 ---
 

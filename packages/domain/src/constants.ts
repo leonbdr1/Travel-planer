@@ -305,6 +305,10 @@ export const RESULTS_PAGE_SIZE = 20;
 /** Waiting before the name search in the result list asks the API. */
 export const RESULTS_NAME_SEARCH_DEBOUNCE_MS = 300;
 export const HEALTH_DB_TIMEOUT_MS = 3_000;
+/** API requests slower than this are logged (with route pattern and request id) even when they succeed. */
+export const SLOW_REQUEST_MS = 3_000;
+/** The SPA gives up on an API call after this long (search starts and hotel details can take seconds). */
+export const API_REQUEST_TIMEOUT_MS = 30_000;
 export const BUDGET_WARN_RATIO = 0.8;
 
 // Skill runner and evals (architektur.md 9.1). Token estimates are deliberately

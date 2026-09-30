@@ -15,6 +15,7 @@ import { de } from '../i18n/de';
 
 const t = de.searchRun;
 const FINAL = new Set(['done', 'partial', 'failed']);
+const RECONNECT_NOTICE_AFTER = 3;
 
 export function tokenFromHash(hash: string): string {
   return new URLSearchParams(hash.replace(/^#/, '')).get('t') ?? '';
@@ -26,16 +27,22 @@ export function SearchRun() {
   const token = tokenFromHash(location.hash);
   const [progress, setProgress] = useState<SearchProgressResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Consecutive failed polls (offline, server busy): after a few the page says so and keeps trying.
+  const [failures, setFailures] = useState(0);
 
   useEffect(() => {
     let stopped = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const controller = new AbortController();
+    // Another search or a corrected link (only the fragment changed): start over.
+    setError(null);
+    setFailures(0);
     const poll = async () => {
       try {
         const p = await fetchProgress(id, token, controller.signal);
         if (stopped) return;
         setProgress(p);
+        setFailures(0);
         if (!FINAL.has(p.search.status)) timer = setTimeout(poll, constants.STATUS_POLL_INTERVAL_MS);
       } catch (err) {
         if (stopped) return;
@@ -44,7 +51,10 @@ export function SearchRun() {
           forgetSearch(id);
           setError(t.notFound);
         }
-        else timer = setTimeout(poll, constants.STATUS_POLL_INTERVAL_MS * 2);
+        else {
+          setFailures((n) => n + 1);
+          timer = setTimeout(poll, constants.STATUS_POLL_INTERVAL_MS * 2);
+        }
       }
     };
     void poll();
@@ -62,9 +72,15 @@ export function SearchRun() {
       </div>
     );
   }
+  const reconnecting = failures >= RECONNECT_NOTICE_AFTER ? (
+    <div data-testid="reconnecting">
+      <Alert tone="warning">{de.status.reconnecting}</Alert>
+    </div>
+  ) : null;
   if (!progress) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-12">
+      <div className="mx-auto max-w-4xl space-y-4 px-4 py-12">
+        {reconnecting}
         <Spinner label={de.common.loading} />
       </div>
     );
@@ -90,6 +106,7 @@ export function SearchRun() {
             <Alert tone="info">{t.reviewing}</Alert>
           </div>
         ) : null}
+        {reconnecting}
         {s.status === 'partial' ? <Alert tone="warning">{t.partial}</Alert> : null}
         {s.status === 'failed' ? <Alert tone="error">{t.failed}</Alert> : null}
       </div>

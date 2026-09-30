@@ -43,7 +43,11 @@ export const de = {
     down: 'nicht erreichbar',
     unknown: 'unbekannt',
     checking: 'wird geprüft …',
-    apiUnreachable: 'Die API ist gerade nicht erreichbar. Bitte versuche es in einem Moment erneut.',
+    apiUnreachable: 'Der Dienst ist gerade nicht erreichbar. Bitte versuche es gleich noch einmal.',
+    offline: 'Keine Verbindung. Bitte prüfe dein Internet und versuche es noch einmal.',
+    timeout: 'Das dauert gerade zu lange. Bitte versuche es noch einmal.',
+    errorId: (id: string) => `(Fehler-ID ${id})`,
+    reconnecting: 'Verbindung unterbrochen – wir versuchen es weiter …',
   },
   devBanner: {
     fake: 'Entwicklungsmodus: Alle Anbieter (Unterkünfte, Fahrzeiten, KI, E-Mail) sind simuliert. Es werden keine echten Buchungen ausgelöst.',
@@ -684,6 +688,7 @@ export const de = {
     submit: 'Weiter zur Zahlung',
     submitting: 'Angebot wird reserviert …',
     required: 'Bitte fülle alle Pflichtfelder aus und bestätige beide Hinweise.',
+    emailInvalid: 'Bitte prüfe deine E-Mail-Adresse.',
     disabled: 'Buchungen sind vorübergehend nicht verfügbar.',
     disabledTestbetrieb: 'Buchen ist im Testbetrieb aus. Buche direkt bei der Unterkunft:',
     offerMissing: 'Dieses Angebot gibt es nicht mehr. Bitte gehe zurück zur Unterkunft.',
@@ -798,6 +803,12 @@ export const de = {
     ] as ReadonlyArray<readonly [string, string]>,
     howRankingLink: 'So berechnen wir die Rangliste',
     howAiLabels: 'Diese Kennzeichnungen siehst du auf der Seite:',
+  },
+  routeError: {
+    title: 'Da ist etwas schiefgelaufen',
+    text: 'Bitte lade die Seite neu.',
+    staleTitle: 'Neue Version verfügbar',
+    reload: 'Neu laden',
   },
   notFound: {
     title: 'Seite nicht gefunden',

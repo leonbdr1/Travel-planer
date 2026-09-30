@@ -69,4 +69,16 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  environments: {
+    client: {
+      build: {
+        rollupOptions: {
+          output: {
+            // React and the router change rarely: their own chunk stays cached across releases.
+            manualChunks: (id) => (/node_modules[\\/](react|react-dom|react-router|scheduler)[\\/]/.test(id) ? 'react' : undefined),
+          },
+        },
+      },
+    },
+  },
 });

@@ -70,6 +70,27 @@ describe('headers', () => {
   });
 });
 
+describe('request id', () => {
+  it('tags every response and logs failures with it, the route pattern and the duration, never the path values', async () => {
+    const lines: string[] = [];
+    vi.spyOn(console, 'error').mockImplementation((...args: unknown[]) => void lines.push(args.map(String).join(' ')));
+    const broken: Db = { ...test.db, query: async () => Promise.reject(new Error('connection reset')), close: async () => undefined };
+    const app = createApp({ dbFactory: () => broken });
+    const id = '00000000-0000-4000-8000-000000000001';
+    const res = await app.request(`/api/v1/searches/${id}`, { headers: { 'x-search-token': 'x'.repeat(30) } }, env as never);
+    expect(res.status).toBe(500);
+    const requestId = res.headers.get('x-request-id') ?? '';
+    expect(requestId).toMatch(/^[0-9a-f-]{36}$/);
+    const logged = lines.map((l) => JSON.parse(l) as Record<string, unknown>).filter((l) => l.request_id === requestId);
+    expect(logged.map((l) => l.msg)).toEqual(['unhandled', 'request']);
+    expect(logged[1]).toMatchObject({ level: 'error', method: 'GET', route: '/api/v1/searches/:id', status: 500 });
+    expect(JSON.stringify(logged)).not.toContain(id);
+    // Behind Cloudflare the ray id is the request id, so support can find the request in both logs.
+    const ray = await app.request('/api/v1/meta/config', { headers: { 'cf-ray': '8c9f3b2a1d4e5f6a-FRA' } }, env as never);
+    expect(ray.headers.get('x-request-id')).toBe('8c9f3b2a1d4e5f6a-FRA');
+  });
+});
+
 describe('coarse rate limit (RATE_LIMITER binding)', () => {
   const request = (app: ReturnType<typeof createApp>, path: string, e: Env, ip = '203.0.113.7') =>
     app.request(`/api/v1${path}`, { headers: { 'cf-connecting-ip': ip } }, e as never);

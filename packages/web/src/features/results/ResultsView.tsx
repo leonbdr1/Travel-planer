@@ -10,6 +10,7 @@ import { Link } from 'react-router';
 import type { EffectiveFilters, MatrixCellDto, ResultItem, ResultSort, SearchResultsResponse } from '@reiseplaner/contracts';
 import { chipDefinition, constants, isChipCode, PROPERTY_KINDS, type Goal } from '@reiseplaner/domain';
 import { Alert, Button, Card, Checkbox, Chip, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
+import { loadErrorText } from '../../api/load-error';
 import { de } from '../../i18n/de';
 import { formatDay, formatEuro, formatStay } from '../../lib/format';
 import { useMeta } from '../../lib/meta';
@@ -121,8 +122,8 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         setForm((current) => current ?? formFrom(r.filters));
         setSearchDefaults((current) => current ?? formFrom(r.filters));
       })
-      .catch(() => {
-        if (!controller.signal.aborted) setError(de.status.apiUnreachable);
+      .catch((err: unknown) => {
+        if (!controller.signal.aborted) setError(loadErrorText(err, de.searchRun.notFound));
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
@@ -138,7 +139,7 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         // Parameters changed meanwhile: that page belongs to another list.
         if (pageKey.current === key) setMore((items) => [...items, ...r.items]);
       })
-      .catch(() => setError(de.status.apiUnreachable))
+      .catch((err: unknown) => setError(loadErrorText(err, de.searchRun.notFound)))
       .finally(() => setMoreLoading(false));
   }
 
