@@ -1,6 +1,6 @@
 # Ziel-Qualität nach Entfernung, Auto oder Flugzeug (Aufgabe F19)
 
-Stand 30.09.2026. Ergänzt `architektur.md` 6.2 (Vorschläge); Übernahme dort braucht Bens Freigabe (`docs/architektur-nachtrag.md`).
+Stand 30.09.2026. Ergänzt `architektur.md` 6.2 (Vorschläge); Übernommen in `architektur.md` 6.16 (Freigabe 30.09.2026).
 
 ## Wunsch (Ben)
 

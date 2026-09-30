@@ -1,6 +1,6 @@
 # Attraktivität von Regionen und Orten (Aufgabe 8, Entwurf und Umsetzung)
 
-Stand 29.09.2026. Ergänzt `architektur.md` 5.2 (Katalog) und 6.2 (Vorschläge); Übernahme dort braucht Bens Freigabe (`docs/architektur-nachtrag.md`).
+Stand 29.09.2026. Ergänzt `architektur.md` 5.2 (Katalog) und 6.2 (Vorschläge); Übernommen in `architektur.md` 6.16 (Freigabe 30.09.2026).
 
 ## Problem
 

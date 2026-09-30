@@ -1,6 +1,6 @@
 # Fahrzeiten in groben Blöcken (Aufgabe F16, Europa-Erweiterung)
 
-Stand 29.09.2026. Ergänzt `architektur.md` 6.2 (Vorschläge, Fahrzeiten); Übernahme dort braucht Bens Freigabe (`docs/architektur-nachtrag.md`).
+Stand 29.09.2026. Ergänzt `architektur.md` 6.2 (Vorschläge, Fahrzeiten); Übernommen in `architektur.md` 6.16 (Freigabe 30.09.2026).
 
 ## Wunsch (Ben)
 

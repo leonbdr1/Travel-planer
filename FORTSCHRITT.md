@@ -40,7 +40,7 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - **Andere Stellen geprüft:** Plausibilitätsprüfung für Häuser ohne Bewertungen (Median bewerteter Häuser – das geprüfte Haus ist unbewertet, zählt also nicht mit), Sterne-Falle (Median der Häuser mit weniger Sternen – das geprüfte Haus hat mehr Sterne, zählt nicht mit), Zimmergruppen in der Detailansicht (je Zimmer „ab“-Preis, korrekt), Aufpreis im Finale (Differenz zum günstigsten Finalisten, gewollt verschiedene Häuser). Kein weiterer Fall derselben Fehlerquelle gefunden.
 - Texte: Seite „So berechnen wir die Rangliste“ nennt jetzt den Durchschnitt der anderen Termine.
 - Beleg: `npm run demo -- f2` → `docs/demos/F2/demo-output.txt` (Bens Beispiel ok; echte Suche über den lokalen Stack: 28 Schnäppchen-Begründungen gegen die Angebote der Detailansicht nachgerechnet, 0 abweichend); `npm test` 410 grün.
-- Offen: `architektur.md` 6.8 nennt noch den Median – Nachtrag in `docs/architektur-nachtrag.md`, Übernahme braucht Bens Freigabe.
+- Offen: `architektur.md` 6.8 nennt noch den Median – Nachtrag inzwischen in `architektur.md` 6.16 übernommen (Freigabe 30.09.2026).
 
 ### Aufgabe 3 – erledigt
 **Teilschritt 3a – Ortsdaten (erledigt):**
@@ -65,7 +65,7 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Schnäppchen vergleichen nur gleiche Nächtezahlen.
 - Simulierte Unterkünfte: ab der 3. Nacht gibt jedes vierte Haus Rabatt, jedes vierte verlangt deutlich mehr (nur Aufenthalte ab 3 Nächten betroffen), damit alle drei Fälle vorführbar sind.
 - Beleg: Walkthrough `naechte` in `docs/demos/F4/walkthrough-P/` (6 Termine, 8 Hinweise: 2 günstig, 5 normal, 1 teuer), Screenshots gelesen; Unit-Tests `packages/domain/test/nights.test.ts`, `dates.test.ts`, `scoring.test.ts`; `npm test` 419 grün.
-- Offen/bekannte Grenze: Vorauswahl und Finale nehmen je Haus das günstigste Angebot nach Gesamtpreis (meist die kürzere Variante); Nachtrag für `architektur.md` in `docs/architektur-nachtrag.md` wartet auf Freigabe.
+- Offen/bekannte Grenze: Vorauswahl und Finale nehmen je Haus das günstigste Angebot nach Gesamtpreis (meist die kürzere Variante); Nachtrag für `architektur.md` in `architektur.md` 6.16 (freigegeben 30.09.2026) wartet auf Freigabe.
 
 ### Aufgabe 5 – erledigt
 - Ansatz: `docs/logik/zimmer-und-personen.md`.
@@ -144,7 +144,7 @@ Vermerkt in `CLAUDE.md` (Abschnitt „Aktueller Fokus“), `README.md`, `STATUS.
 - Beleg: Walkthroughs `startseite`, `orte`, `karte`, `naechte`, `zimmer` angepasst und Screenshots gelesen; `npm test` 448 grün, `npm run db:test` grün.
 
 ## Stand nach allen Aufgaben (29.09.2026)
-Alle 14 Aufgaben (0–13) erledigt, committet und auf `claude/hopeful-fermat-jechzj` gepusht; nichts deployt. Offene Punkte für Ben: `architektur.md`-Nachtrag freigeben (`docs/architektur-nachtrag.md`), Migrationen `20261015a`/`20261016a` gegen Staging/Produktion, redaktionelle Prüfung der Orts-Attraktivität (BG-11), „Preis-Leistung“ und „Komfort“ überarbeiten (Aufgabe 0), Schwellen mit echten Daten kalibrieren.
+Alle 14 Aufgaben (0–13) erledigt, committet und auf `claude/hopeful-fermat-jechzj` gepusht; nichts deployt. Offene Punkte für Ben: `architektur.md`-Nachtrag freigeben (`architektur.md` 6.16 (freigegeben 30.09.2026)), Migrationen `20261015a`/`20261016a` gegen Staging/Produktion, redaktionelle Prüfung der Orts-Attraktivität (BG-11), „Preis-Leistung“ und „Komfort“ überarbeiten (Aufgabe 0), Schwellen mit echten Daten kalibrieren.
 
 ### Abschlussprüfung
 - Alle Pfad-Walkthroughs zusammen (`npm run dogfood -- --mode P`): 366/366 Prüfungen bestanden, Bericht in `docs/demos/Aufgaben-Gesamt/report-P-all.md`. Dabei behoben: lange Labels in „Deine Auswahl“ brechen auf 390 px jetzt um; eine veraltete Textprüfung im Walkthrough `ergebnisse` angepasst.

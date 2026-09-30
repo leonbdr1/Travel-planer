@@ -14,8 +14,19 @@ export async function catalogCommand(args: string[], log: (line: string) => void
     const { catalogGenerateCommand } = await import('./catalog-generate');
     return catalogGenerateCommand(args.slice(1), log);
   }
+  if (sub === 'review-sheet') {
+    const { writeFileSync, mkdirSync } = await import('node:fs');
+    const { buildReviewSheet, loadGeoFacts } = await import('../catalog/review-sheet');
+    const catalog = loadCatalog(resolve(repoRoot, flag(args, 'dir') ?? 'data/catalog'));
+    const sheet = buildReviewSheet(catalog, loadGeoFacts(resolve(repoRoot, 'data/geonames/dev-extract')));
+    const target = resolve(repoRoot, flag(args, 'out') ?? 'docs/redaktion/pruefliste.md');
+    mkdirSync(resolve(target, '..'), { recursive: true });
+    writeFileSync(target, `${sheet.markdown}\n`);
+    log(`Prüfliste geschrieben: ${target} (${sheet.total} Orte, ${sheet.flagged} mit Auffälligkeit)`);
+    return 0;
+  }
   if (sub !== 'match' && sub !== 'validate' && sub !== 'import') {
-    log('usage: catalog match | validate | import [--include-drafts] | generate --country <DE|AT|CH|IT-BZ|IT|FR|…> [--fake]');
+    log('usage: catalog match | validate | review-sheet [--out <datei>] | import [--include-drafts] | generate --country <DE|AT|CH|IT-BZ|IT|FR|…> [--fake]');
     return 2;
   }
   const dir = resolve(repoRoot, flag(args, 'dir') ?? 'data/catalog');

@@ -1,6 +1,6 @@
 # Hotels, Pensionen und Ferienwohnungen fair bewerten (Aufgaben 6 und 7)
 
-Stand 29.09.2026. Ergänzt `architektur.md` 6.7 (Qualitätswert), 6.10 (Vergleichspreis) und 6.15 (Warnsignale); Übernahme dort braucht Bens Freigabe (`docs/architektur-nachtrag.md`).
+Stand 29.09.2026. Ergänzt `architektur.md` 6.7 (Qualitätswert), 6.10 (Vergleichspreis) und 6.15 (Warnsignale); Übernommen in `architektur.md` 6.16 (Freigabe 30.09.2026).
 
 ## Unterkunftsarten
 
