@@ -103,7 +103,7 @@ export const ergebnisseFlow: Flow = {
       },
       { expectText: ['Keine Unterkunft erfüllt diese Filter'] },
     );
-    await page.getByRole('button', { name: 'Filter der Suche' }).click();
+    await page.getByRole('button', { name: 'Zurücksetzen' }).click();
     await page.getByTestId('result-list').waitFor();
 
     await step(

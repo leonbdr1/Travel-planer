@@ -65,7 +65,7 @@ export const listenfilterFlow: Flow = {
       },
       { expectSelector: ['[data-testid="filter-facilities"] [aria-pressed="true"]'] },
     );
-    await page.getByRole('button', { name: 'Filter der Suche' }).click();
+    await page.getByRole('button', { name: 'Zurücksetzen' }).click();
     await page.getByTestId('result-list').first().waitFor();
 
     await step(

@@ -16,8 +16,8 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 - [x] **B6** – Fehlerbehandlung: deutsche Fehlerseite, Zeitlimit für API-Aufrufe, 404 und Netzfehler getrennt, Request-ID in Log und Antwort
 - [x] **B7** – Fotos in der Ergebnisliste, Kartenlink in der Detailansicht
 - [x] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
-- [ ] **P2** – Aufräumen: toter Code, doppelte Texte
-- [ ] **T1** – Text-Entrümpelung über alle Seiten
+- [x] **P2** – Aufräumen: toter Code, doppelte Texte
+- [x] **T1** – Text-Entrümpelung über alle Seiten
 - [ ] **Z** – Abschluss: Tests, Walkthroughs, Doku, Push, PR
 
 ## Notizen je Aufgabe
@@ -68,6 +68,22 @@ Aktuelles Google Chrome gibt bei `window.scrollTo` ein Promise zurück; `useEffe
 - **Code-Splitting:** Startseite und Such-Assistent im Hauptbundle, alle anderen Seiten laden beim ersten Aufruf (`router.tsx`, `lazy`); React und Router in einem eigenen Chunk, der über Releases im Browser-Cache bleibt. Hauptbundle 802 kB (249 kB gzip) → 389 kB (123 kB gzip) + React-Chunk 317 kB (101 kB gzip); Ergebnisseite 32 kB, Detail 28 kB extra.
 - **Datenbank:** Unabhängige Lesezugriffe gehen gemeinsam raus (postgres.js reiht sie auf einer Verbindung ohne Warten hintereinander): `loadEvaluationData` (3 Abfragen), Ergebnis-Route (Rezensionen ∥ Orte, dann Auswertung ∥ Ortsdaten: 6 → 2 Wartezeiten), Detail-Route (Rezensionen ∥ zwischengespeicherte Details). Indizes für die heißen Abfragen (`offers(search_id)`, `search_combinations(search_id, id)`) bestehen schon.
 - **Rendering:** Ergebnisliste seitenweise (B2), Fotos mit `loading="lazy"` und fester Höhe (kein Springen beim Laden).
+
+### P2 – erledigt
+- Entfernt: `deleteExpiredRateLimits` und `deleteStaleTravelTimes` (Dubletten, die Wartung löscht inline in `repos/maintenance.ts`), `QualityBadge` (durch `RatingPair` ersetzt), `clearState`, `formatKm`, rund 25 nicht mehr genutzte UI-Texte (alte Satz-Variante des Finales, Schritt-Kacheln, Hinweise). Ein `<Label>` ohne Feld in der Sortierleiste entfernt.
+- TODO/FIXME: keine im Code. Die „⟂“-Vermerke (ungeprüfte Anbieter-Verträge in `providers/liteapi`, `reference-price`, Ausstattungs-IDs in `chips.ts`/`features.ts`) bleiben bewusst stehen: sie brauchen echte Sandbox-Antworten (BG-05).
+- Ungenutzte Domain-Konstanten (`SEARCH_TOKEN_TTL_DAYS`, `LITEAPI_MAX_RETRIES`, `LITEAPI_MAX_CONCURRENCY_SANDBOX`) und `isGoal` bleiben: sie stehen als Startwerte in `architektur.md` 6.14.
+- Formatierung/Linting: Das Repo hat keinen Formatter oder Linter (neue Abhängigkeit wäre BEN-GATE); strenger Typecheck (`strict`, `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`) ist grün. `npm run check:status` war schon vor dieser Liste rot (S11.12 bis S11.15 fehlten im Plan) – im Plan nachgetragen, jetzt grün.
+
+### T1 – erledigt
+Grundsatz: Text nur, wo er Information trägt; Pflichtangaben (Vertragspartner, kein Widerrufsrecht, Stornobedingungen, Beträge vor Ort vor der Zahlung, KI-Kennzeichnung, Quellenangaben, Ranking-Kriterien) bleiben.
+- **Startseite:** Großbuchstaben-Zeile über der Überschrift und die drei Schritt-Kacheln weg; Unterzeile auf einen Satz („Viele Orte und Termine in einer Suche.“). Die Statuszeile „API: ok · Datenbank: ok“ sehen Gäste nur noch, wenn etwas ausfällt (lokal weiter immer).
+- **Suchassistent:** Hilfeabsätze zu Reiseart, Reisemuster, Nächten, Budget und Ziel entfernt (der Ziel-Umschalter erklärt sich mit einer Zeile); „Schritt 1 von 3“ nur noch für Screenreader (die Schrittleiste zeigt es); Karten- und Ortslisten-Einleitungen gekürzt; die zwei Karten „Ortsliste bestätigt“ und „Suche starten“ zu einer zusammengelegt, ohne Erklärsatz und ohne ALTCHA-Hinweis (steht in der Datenschutzerklärung).
+- **Ergebnisse:** Zähler kurz („25 Unterkünfte passen, 13 aussortiert.“), keine Einleitung unter „Alle Angebote“, Matrix-Legende auf eine Zeile, Legende des Finales einklappbar (OSM-Quellenangabe bleibt sichtbar), Aussortier-Gründe kürzer, kein Erklärsatz unter der Preisleiter, „Gesamtpreis“ in Großbuchstaben über jedem Preis durch „gesamt · … pro Nacht“ ersetzt, „Details und alle Termine“ → „Details“, der Hinweis „Mögliche Gebühren vor Ort … nicht bekannt“ auf jeder Karte → „evtl. zzgl. Kurtaxe“ (vor der Zahlung steht er weiter ausführlich), Begründung beim Schnäppchen „(gleiches Zimmer: 85 € statt im Mittel 138 €)“, Abschnitte „Nur größere Unterkünfte“ und „Ohne Bewertungen“ mit je einem Satz.
+- **Detail:** Zimmerübersicht, Qualitätswert („Unser Qualitätswert“), Rezensionscheck, Vergleichspreis und Ausstattung mit kurzen Sätzen; die Zahl geprüfter Bewertungen steht nur noch einmal.
+- **Buchung:** kürzere Hinweise (E-Mail, Preisänderung, Zahlung offen/fehlgeschlagen, Storno-Vorschau), AGB-Bestätigung in einem Satz, Gast-Feld „Gast in Zimmer 1“; „Meine Buchung“ in einem Satz.
+- **Info-Seiten:** Einleitungen gekürzt; „So funktioniert's“ behauptete noch, die Standardsortierung verbinde Qualität und Preis – korrigiert (Standard ist der Preis); die Rangliste-Seite nennt die neue Sortierung nach Fahrzeit.
+- Beleg: Screenshots von Start, Assistent, Ergebnis, Detail und Buchungsformular gelesen; alle Pfad-Walkthroughs auf dem Endstand (siehe Z).
 
 ---
 
