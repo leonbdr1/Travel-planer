@@ -1,3 +1,4 @@
+import { openFilters } from './helpers';
 import type { Flow } from '../types';
 import { choosePlaces, fillSearchFrame } from './suche';
 
@@ -14,7 +15,7 @@ export const finaleFlow: Flow = {
         await page.getByTestId('goal').scrollIntoViewIfNeeded();
       },
       {
-        expectText: ['Worauf legst du Wert?', 'Günstig und sauber', 'Preis-Leistung', 'Komfort', 'Der Preis zählt am meisten, Sauberkeit ist Pflicht.', 'Weitere Filter'],
+        expectText: ['Worauf legst du Wert?', 'Günstig und sauber', 'Preis-Leistung', 'Komfort', 'Der Preis zählt am meisten, Sauberkeit ist Pflicht.'],
         expectSelector: ['[data-testid="goal-switch"] [aria-checked="true"][data-goal="sparen"]'],
         // The old form fields are gone (their labels were "Mindestens Sterne" and "Mindeststandard").
         rejectText: ['Mindestens Sterne', 'Mindeststandard'],
@@ -38,7 +39,7 @@ export const finaleFlow: Flow = {
         note(`${totals.length} Finalisten, Gesamtpreise ${totals.join(' € · ')} €; Aufpreise ${surcharges.map((v) => `+${v} €`).join(', ') || 'keine'}.`);
       },
       {
-        expectText: ['Deine Auswahl', 'Wir haben aussortiert', 'günstigste', 'aussortiert', 'Legende', 'zusätzlich', 'fehlt', 'Lob und Kritik stammen aus Bewertungen von Gästen', 'Unsere Wahl', 'Alle Angebote'],
+        expectText: ['Deine Auswahl', 'Wir haben aussortiert', 'günstigste', 'aussortiert', 'Legende', 'Unsere Wahl', 'Alle Angebote'],
         expectSelector: ['[data-testid="finalist"]', '[data-testid="excluded"]', '[data-testid="feature-badge"]', '[data-testid="finale-legend"]'],
         rejectText: ['Unsere Empfehlung', 'Testsieger'],
         fullPage: true,
@@ -80,12 +81,13 @@ export const finaleFlow: Flow = {
     );
 
     await step(
-      'Legende unter der Auswahl (Aufgabe 10)',
+      'Legende unter der Auswahl (Aufgabe 10), aufgeklappt',
       async () => {
+        await page.getByTestId('finale-legend').locator('summary').click();
         await page.getByTestId('finale-legend').scrollIntoViewIfNeeded();
         await page.mouse.wheel(0, 250);
       },
-      { expectText: ['Verglichen mit der günstigsten Unterkunft', 'Aus Gästebewertungen', 'Lob', 'Kritik'], fullPage: false },
+      { expectText: ['Verglichen mit der günstigsten Unterkunft', 'zusätzlich', 'fehlt', 'Aus Gästebewertungen', 'Lob', 'Kritik', 'Lob und Kritik stammen aus Bewertungen von Gästen'], fullPage: false },
     );
 
     await step(
@@ -173,7 +175,7 @@ export const finaleFlow: Flow = {
         note(`Detail: ${(await page.getByTestId('praise-count').allInnerTexts()).join(' | ')}`);
       },
       {
-        expectText: ['Was Gäste loben', '× gelobt', '× kritisiert', 'ohne KI'],
+        expectText: ['Was Gäste loben', '× gelobt', '× kritisiert', 'Ohne KI'],
         expectSelector: ['[data-testid="praise"] [data-testid="praise-label"]', '[data-testid="praise-count"]'],
         fullPage: true,
       },
@@ -183,11 +185,11 @@ export const finaleFlow: Flow = {
       'Sterne und Mindestbewertung unter „Weitere Filter“',
       async () => {
         await page.goBack();
-        await page.getByTestId('result-filters').waitFor({ timeout: 15_000 });
+        await openFilters(page);
         await page.getByTestId('more-filters').locator('summary').click();
         await page.getByTestId('more-filters').scrollIntoViewIfNeeded();
       },
-      { expectText: ['Weitere Filter: Sterne und Bewertungen', 'Sterne ab', 'Bewertung ab', 'Sterne sagen wenig über Sauberkeit und Zustand.'] },
+      { expectText: ['Weitere Filter: Sterne und Bewertungen', 'Sterne ab', 'Bewertung ab'] },
     );
   },
 };

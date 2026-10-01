@@ -7,7 +7,7 @@ export const filterFlow: Flow = {
   name: 'filter',
   mode: 'P',
   description:
-    'Info-Symbol an der Preis-Matrix: beim Draufhalten kurzer Hinweis, dass vorgefiltert wurde und was, mit Link „Mehr Details hier“ auf die Seite „So filtern wir“.',
+    'Info-Symbol an der Preis-Matrix: beim Draufhalten kurzer Hinweis, dass vorgefiltert wurde und was, mit Link auf die Seite „So filtern wir“.',
   async run({ page, baseUrl, step }) {
     await page.setViewportSize({ width: 1280, height: 900 });
     await step(
@@ -27,10 +27,10 @@ export const filterFlow: Flow = {
         await page.getByTestId('matrix-filter-info').hover();
         await page.getByTestId('matrix-filter-info-panel').waitFor();
       },
-      { expectText: ['Vorgefiltert', 'Nicht eingerechnet', 'Schimmel', 'Mehr Details hier'] },
+      { expectText: ['Vorgefiltert', 'Nicht eingerechnet', 'Schimmel', 'So filtern wir'] },
     );
     await step(
-      '„Mehr Details hier“ → Seite „So filtern wir“',
+      'Link → Seite „So filtern wir“',
       async () => {
         await page.getByTestId('matrix-filter-more').click();
         await page.getByTestId('filter-page').waitFor();

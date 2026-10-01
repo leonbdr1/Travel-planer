@@ -1,6 +1,7 @@
 // Offer filters (architektur.md 6.6): budget (total price), stars, rating,
 // review count, property type, refundable, board and the chip filters.
 import { chipDefinition } from './chips';
+import { PROPERTY_KINDS, propertyKind, type PropertyKind } from './property-kind';
 import type { BoardType } from './types';
 import { isChipCode } from './vocabulary';
 
@@ -21,6 +22,8 @@ export interface FilterHotel {
   reviewCount: number | null;
   hotelType: string | null;
   facilityIds: readonly number[];
+  /** The name decides the kind when the provider's type is unknown. */
+  name?: string | null;
 }
 
 export interface FilterOffer {
@@ -41,13 +44,20 @@ export const NO_FILTERS: FilterSettings = {
 };
 
 const lower = (v: string | null) => (v ?? '').toLocaleLowerCase('de-DE');
+const isKind = (v: string): v is PropertyKind => (PROPERTY_KINDS as readonly string[]).includes(v);
+
+/** A type filter holds kinds (hotel, pension, ferienwohnung) or the provider's raw types. */
+function matchesType(types: readonly string[], hotel: FilterHotel): boolean {
+  const kind = propertyKind(hotel.hotelType, hotel.name);
+  return types.some((t) => (isKind(t) ? t === kind : lower(t) === lower(hotel.hotelType)));
+}
 
 export function passesFilters(offer: FilterOffer, hotel: FilterHotel, f: FilterSettings): boolean {
   if (f.budgetTotalCents !== null && offer.totalCents > f.budgetTotalCents) return false;
   if (f.minStars !== null && (hotel.stars ?? 0) < f.minStars) return false;
   if (f.minRating !== null && (hotel.rating ?? -1) < f.minRating) return false;
   if (f.minReviews !== null && (hotel.reviewCount ?? 0) < f.minReviews) return false;
-  if (f.propertyTypes.length > 0 && !f.propertyTypes.map((t) => lower(t)).includes(lower(hotel.hotelType))) return false;
+  if (f.propertyTypes.length > 0 && !matchesType(f.propertyTypes, hotel)) return false;
   if (f.refundableOnly && !offer.refundable) return false;
   if (f.board !== null && offer.boardType !== f.board) return false;
   for (const code of f.chips) {

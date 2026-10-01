@@ -15,24 +15,11 @@ import { RatingPair } from './RatingPair';
 const t = de.results;
 const rc = de.reviewCheck;
 
-export function cancellationText(refundable: boolean, until: string | null): string {
+/** A deadline in the past (a booking viewed later) says so instead of promising free cancellation. */
+export function cancellationText(refundable: boolean, until: string | null, now: Date = new Date()): string {
   if (!refundable) return t.nonRefundable;
+  if (until && Date.parse(until) <= now.getTime()) return t.freeCancelEnded(formatDateTime(until));
   return until ? t.refundableUntil(formatDateTime(until)) : t.refundable_;
-}
-
-export function QualityBadge({ score, reviews, sources = [] }: { score: number | null; reviews: number | null; sources?: readonly string[] }) {
-  if (score === null) return <span className="text-sm text-zinc-500">{t.noReviews}</span>;
-  return (
-    <span className="inline-flex items-baseline gap-1.5">
-      <span className="rounded-md bg-brand-700 px-1.5 py-0.5 text-sm font-bold text-white tabular-nums">{formatScore(score)}</span>
-      {reviews !== null ? (
-        <span className="text-xs text-zinc-500" data-testid={sources.length > 0 ? 'rating-sources' : undefined}>
-          {t.reviews(reviews)}
-          {sources.length > 0 ? ` ${t.ratingSources(sources.join(', '))}` : ''}
-        </span>
-      ) : null}
-    </span>
-  );
 }
 
 export function doubtText(doubt: UnratedDoubtDto): string {
@@ -48,6 +35,7 @@ export function ResultList({
   aiLabel,
   testId = 'result-list',
   places,
+  driveMinutes,
 }: {
   items: Array<ResultItem & { doubt?: UnratedDoubtDto }>;
   detailHref: (hotelId: string) => string;
@@ -55,6 +43,8 @@ export function ResultList({
   testId?: string;
   /** What the places of the search offer (Aufgabe 8), by place id. */
   places?: ReadonlyMap<string, AttractivenessDto>;
+  /** Drive time from the start location, by place id. */
+  driveMinutes?: ReadonlyMap<string, number | null>;
 }) {
   return (
     <ol className="space-y-3" data-testid={testId}>
@@ -63,13 +53,18 @@ export function ResultList({
         return (
           <li key={item.hotel.id}>
             <Card className={cx('flex flex-col gap-4 sm:flex-row', o.bargain && 'ring-2 ring-emerald-500')}>
+              {item.hotel.photo_url ? (
+                <Link to={detailHref(item.hotel.id)} tabIndex={-1} aria-hidden="true" className="shrink-0" data-testid="result-photo">
+                  <img src={item.hotel.photo_url} alt="" loading="lazy" className="h-40 w-full rounded-lg object-cover sm:h-32 sm:w-44" />
+                </Link>
+              ) : null}
               <div className="min-w-0 flex-1 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <Link to={detailHref(item.hotel.id)} className="text-lg font-semibold text-zinc-950 hover:underline" data-testid="result-name">
                     {item.hotel.name}
                   </Link>
                   {item.hotel.stars ? <span className="text-sm text-amber-600">{'★'.repeat(Math.round(item.hotel.stars))}</span> : null}
-                  <RatingPair quality={item.quality} rating={item.hotel.rating} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} />
+                  <RatingPair quality={item.quality} rating={item.hotel.rating} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} warnings={item.warnings} />
                   {item.recommended ? (
                     <Badge tone="brand" data-testid="recommended">
                       {t.recommended}
@@ -82,8 +77,9 @@ export function ResultList({
                   </p>
                 ) : null}
                 <p className="text-sm text-zinc-600">
-                  {o.place_name}
-                  {places?.get(o.place_id)?.level === 'top' ? <span className="text-emerald-700"> ({de.attractiveness.levels.top})</span> : null} ·{' '}
+                  <span data-testid="result-place">{o.place_name}</span>
+                  {places?.get(o.place_id)?.level === 'top' ? <span className="text-emerald-700"> ({de.attractiveness.levels.top})</span> : null}
+                  {driveMinutes?.get(o.place_id) ? ` · ${t.drive(de.wizard.frame.minutes(driveMinutes.get(o.place_id) as number))}` : ''} ·{' '}
                   {formatStay(o.checkin, o.checkout)}
                   {item.other_dates_count > 0 ? ` · ${t.otherDates(item.other_dates_count)}` : ''}
                 </p>
@@ -124,11 +120,12 @@ export function ResultList({
                 ) : null}
               </div>
               <div className="flex shrink-0 flex-col items-start gap-1 sm:items-end sm:text-right">
-                <span className="text-xs uppercase tracking-wide text-zinc-500">{t.total}</span>
                 <span className="text-2xl font-bold text-zinc-950 tabular-nums" data-testid="result-total" data-total-eur={o.total_price_eur}>
                   {formatEuro(o.total_price_eur)}
                 </span>
-                <span className="text-xs text-zinc-500">{t.perNight(formatEuroCents(o.price_per_night_eur))}</span>
+                <span className="text-xs text-zinc-500">
+                  {t.totalShort} · {t.perNight(formatEuroCents(o.price_per_night_eur))}
+                </span>
                 <span className="max-w-56 text-xs text-zinc-500">
                   {o.pay_at_property_known
                     ? o.pay_at_property_eur > 0

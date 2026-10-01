@@ -39,6 +39,21 @@ export function freeCancelUntil(option: Pick<RateOption, 'refundable' | 'cancelP
   return penalties[0] ?? null;
 }
 
+/**
+ * Free cancellation as it stands at `now`: once the deadline has passed the
+ * tariff's fees apply, so the offer no longer counts as free to cancel (the
+ * filter, the badges and the booking see the same). Without a known deadline
+ * a refundable tariff stays refundable.
+ */
+export function freeCancellationAt(
+  offer: { refundable: boolean; freeCancelUntil: IsoTimestamp | null },
+  now: Date,
+): { refundable: boolean; freeCancelUntil: IsoTimestamp | null } {
+  if (!offer.refundable) return { refundable: false, freeCancelUntil: null };
+  if (offer.freeCancelUntil !== null && Date.parse(offer.freeCancelUntil) <= now.getTime()) return { refundable: false, freeCancelUntil: null };
+  return { refundable: true, freeCancelUntil: offer.freeCancelUntil };
+}
+
 export function payAtProperty(option: Pick<RateOption, 'taxes'>): { cents: number; known: boolean } {
   if (option.taxes === null) return { cents: 0, known: false };
   return { cents: option.taxes.filter((t) => !t.included).reduce((s, t) => s + t.amountCents, 0), known: true };

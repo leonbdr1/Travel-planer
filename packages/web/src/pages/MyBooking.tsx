@@ -1,5 +1,7 @@
-// "Meine Buchung": request an access link by booking number and e-mail
-// (ALTCHA in the browser). The answer never reveals whether a booking exists.
+// "Meine Buchung": request an access link by booking number and e-mail, or
+// with the e-mail alone a list of all bookings of that address (B4, booking
+// history without an account). ALTCHA in the browser; the answer never
+// reveals whether a booking exists.
 import { useState, type FormEvent } from 'react';
 import { Alert, Button, Card, Heading, Input, Label, Text } from '@reiseplaner/ui';
 import { ApiRequestError } from '../api/client';
@@ -17,14 +19,14 @@ export function MyBooking() {
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (!ref.trim() || !email.trim()) {
-      setError(t.required);
+    if (!email.trim()) {
+      setError(t.myEmailRequired);
       return;
     }
     setBusy(true);
     setError(null);
     try {
-      await requestAccessLink(ref.trim(), email.trim());
+      await requestAccessLink(ref.trim() || null, email.trim());
       setSent(true);
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : de.status.apiUnreachable);
@@ -45,14 +47,14 @@ export function MyBooking() {
         ) : (
           <form className="space-y-4" onSubmit={(e) => void submit(e)} data-testid="access-link-form" noValidate>
             <div className="space-y-1">
-              <Label htmlFor="my-ref">{t.myRef}</Label>
-              <Input id="my-ref" value={ref} onChange={(e) => setRef(e.target.value)} placeholder={t.myRefPlaceholder} maxLength={20} autoComplete="off" />
-            </div>
-            <div className="space-y-1">
               <Label htmlFor="my-email">{t.email}</Label>
               <Input id="my-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={254} autoComplete="email" />
             </div>
-            <Text className="text-xs">{t.mySecurity}</Text>
+            <div className="space-y-1">
+              <Label htmlFor="my-ref">{t.myRef}</Label>
+              <Input id="my-ref" value={ref} onChange={(e) => setRef(e.target.value)} placeholder={t.myRefPlaceholder} maxLength={20} autoComplete="off" />
+              <Text className="text-xs">{t.myRefHint}</Text>
+            </div>
             {error ? <Alert tone="error">{error}</Alert> : null}
             <Button type="submit" disabled={busy} data-testid="access-link-submit">
               {busy ? t.mySubmitting : t.mySubmit}

@@ -313,6 +313,8 @@ export const SEARCH_TOKEN_TTL_DAYS = 30;
 export const BOOKING_SESSION_TOKEN_TTL_S = 2 * 60 * 60;
 export const BOOKING_ACCESS_TOKEN_TTL_S = 30 * 24 * 60 * 60;
 export const BOOKING_REF_LENGTH = 8;
+/** "Meine Buchungen" without a reference: at most this many bookings in the overview e-mail, the latest stays first. */
+export const BOOKINGS_OVERVIEW_MAX = 20;
 /** E-mail outbox (architektur.md 6.12): attempts and the wait before attempt n+1, in minutes. */
 export const EMAIL_MAX_ATTEMPTS = 5;
 export const EMAIL_RETRY_BACKOFF_MIN = [2, 10, 30, 120] as const;
@@ -322,7 +324,15 @@ export const WISH_TEXT_MAX_CHARS = 300;
 export const ALTCHA_COST = 5_000;
 export const ALTCHA_EXPIRES_S = 10 * 60;
 export const STATUS_POLL_INTERVAL_MS = 2_000;
+/** Houses per page of the result list ("Weitere anzeigen" loads the next page). */
+export const RESULTS_PAGE_SIZE = 20;
+/** Waiting before the name search in the result list asks the API. */
+export const RESULTS_NAME_SEARCH_DEBOUNCE_MS = 300;
 export const HEALTH_DB_TIMEOUT_MS = 3_000;
+/** API requests slower than this are logged (with route pattern and request id) even when they succeed. */
+export const SLOW_REQUEST_MS = 3_000;
+/** The SPA gives up on an API call after this long (search starts and hotel details can take seconds). */
+export const API_REQUEST_TIMEOUT_MS = 30_000;
 export const BUDGET_WARN_RATIO = 0.8;
 
 // Skill runner and evals (architektur.md 9.1). Token estimates are deliberately

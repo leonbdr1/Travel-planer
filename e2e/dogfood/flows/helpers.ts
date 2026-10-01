@@ -38,3 +38,10 @@ export async function prepareSinglePlaceSearch(page: Page, baseUrl: string, plac
   await page.getByTestId('places-confirm').click();
   await page.getByTestId('start-search').waitFor();
 }
+
+/** Opens the result filters (closed by default); no-op when they are open. */
+export async function openFilters(page: Page) {
+  await page.getByTestId('result-filters').waitFor({ timeout: 15_000 });
+  const open = await page.getByTestId('filters-panel').evaluate((el) => (el as HTMLDetailsElement).open);
+  if (!open) await page.getByTestId('filters-toggle').click();
+}

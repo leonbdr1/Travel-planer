@@ -181,7 +181,6 @@ export function StepFrame({
 
       <Card className="space-y-6">
         <Fieldset legend={t.pattern}>
-          <Description>{t.patternHint}</Description>
           <div className="grid gap-4 sm:grid-cols-[14rem_1fr]">
             <div>
               <span className="block text-sm/6 font-medium text-zinc-900">{t.nights}</span>
@@ -215,7 +214,7 @@ export function StepFrame({
                   ))}
                 </Select>
               </div>
-              <Description>{state.nightsMax > state.nights ? t.nightsRangeHint(state.nights, state.nightsMax) : t.nightsFixedHint}</Description>
+              {state.nightsMax > state.nights ? <Description>{t.nightsRangeHint(state.nights, state.nightsMax)}</Description> : null}
             </div>
             <div>
               <span className="block text-sm/6 font-medium text-zinc-900">{t.weekdays}</span>
@@ -257,7 +256,6 @@ export function StepFrame({
 
       <Card className="space-y-6">
         <Fieldset legend={t.themes}>
-          <Description>{t.themesHint}</Description>
           <div className="flex flex-wrap gap-2" data-testid="theme-chips">
             {meta.themes.map((theme) => (
               <Chip
@@ -285,12 +283,10 @@ export function StepFrame({
               value={state.budgetEur ?? ''}
               onChange={(e) => update({ budgetEur: e.target.value === '' ? null : Math.max(1, Math.round(Number(e.target.value))) })}
             />
-            <Description>{t.budgetHint}</Description>
           </div>
           <div className="space-y-2 sm:col-span-2" data-testid="goal">
             <p className="text-sm/6 font-medium text-zinc-950">{de.goals.label}</p>
             <GoalSwitch value={state.goal} onChange={(goal) => update({ goal })} />
-            <Description>{t.goalHint}</Description>
           </div>
         </div>
       </Card>

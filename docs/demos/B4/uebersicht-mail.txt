@@ -1,0 +1,17 @@
+An: e***@example.org · Status im Postausgang: sent · erstellt 2026-09-30 23:54:48.949+01
+Betreff: Deine Buchungen
+
+Deine Buchungen
+
+Alle Buchungen mit dieser E-Mail-Adresse. Jeder Link ist 30 Tage gültig.
+
+Ferienwohnung Sonnenhof, Fr., 02.10.2026 – So., 04.10.2026 · 8JAGTZVV · storniert
+http://localhost:5391/buchung/8JAGTZVV#a=[Zugangstoken]
+
+Du hast das nicht angefordert? Dann kannst du diese E-Mail ignorieren.
+
+--
+Wir vermitteln Unterkünfte. Vertragspartner für die Beherbergung ist die jeweilige Unterkunft; Zahlung und Buchungsabwicklung übernimmt LiteAPI (Nuitée) als Merchant of Record.
+Fragen? Schreib uns an support@reiseplaner.example.
+Reiseplaner · Fischermann Intelligence
+

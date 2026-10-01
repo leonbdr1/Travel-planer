@@ -9,6 +9,7 @@ import {
   type OfferDto,
   type PraiseLabelDto,
   type ResultItem,
+  type ResultSort,
   type SearchRequest,
   type SearchResultsResponse,
   type UnratedItem,
@@ -22,6 +23,7 @@ import {
   comparisonOf,
   evaluateOffers,
   extraNights,
+  freeCancellationAt,
   hotelList,
   offerFeatures,
   recommendedIndex,
@@ -35,7 +37,6 @@ import {
   type LocationFacts,
   type PreselectHotel,
   type ReviewSignals,
-  type SortKey,
   type UnratedDoubt,
 } from '@reiseplaner/domain';
 
@@ -110,10 +111,15 @@ export interface ReviewData {
 
 export const NO_REVIEWS: ReviewData = { signals: new Map(), warnings: new Map(), status: new Map() };
 
-export async function evaluateSearch(db: Queryable, searchId: string, filters: FilterSettings, reviews: ReviewData = NO_REVIEWS) {
+/**
+ * `now`: offers whose free cancellation has already ended count as not free to
+ * cancel (freeCancellationAt); without it the stored flags are taken as they are.
+ */
+export async function evaluateSearch(db: Queryable, searchId: string, filters: FilterSettings, reviews: ReviewData = NO_REVIEWS, now?: Date) {
   const data = await loadEvaluationData(db, searchId);
   const hotels = new Map<string, EvalHotel>(data.hotels.map((h) => [h.id, h]));
-  const evaluated = evaluateOffers(data.offers, hotels, filters, reviews.signals);
+  const offers = now ? data.offers.map((o) => ({ ...o, ...freeCancellationAt(o, now) })) : data.offers;
+  const evaluated = evaluateOffers(offers, hotels, filters, reviews.signals);
   return { ...data, hotelsById: new Map(data.hotels.map((h) => [h.id, h])), evaluated };
 }
 
@@ -166,6 +172,7 @@ export function qualityDto(o: EvaluatedOffer): ResultItem['quality'] {
     recency_delta: b.s0 !== null && b.recency.applied && b.recency.s1 !== null ? round(b.recency.s1 - b.s0) : 0,
     cleanliness_delta: b.cleanliness.applied && b.cleanliness.s2 !== null && b.recency.s1 !== null ? round(b.cleanliness.s2 - b.recency.s1) : 0,
     penalty: b.penalty.total,
+    penalty_items: b.penalty.items.map((i) => ({ topic: i.topic, weight: i.weight })),
   };
 }
 
@@ -267,15 +274,16 @@ export function nightsSummary(items: readonly Pick<ResultItem, 'extra_night'>[])
 
 /**
  * The list: every admissible house once with its cheapest passing offer,
- * cheapest first (or by comparison price or quality). The house with the
- * lowest comparison price among the listed ones is the recommendation.
+ * cheapest first (or by comparison price, quality or the drive time to its
+ * place). The house with the lowest comparison price among the listed ones is
+ * the recommendation.
  */
 export function resultItems(
   evaluated: readonly EvaluatedOffer[],
   hotels: ReadonlyMap<string, ListHotel>,
-  sort: SortKey,
+  sort: ResultSort,
   reviews: ReviewData,
-  scope: { goal: Goal; admissible: ReadonlySet<string> | null },
+  scope: { goal: Goal; admissible: ReadonlySet<string> | null; driveMinutes?: ReadonlyMap<string, number | null> },
 ): ResultItem[] {
   const listed = hotelList(
     evaluated.filter((o) => !scope.admissible || scope.admissible.has(o.hotelId)),
@@ -289,6 +297,11 @@ export function resultItems(
   const cmp = byComparison(scope.goal);
   if (sort === 'best') listed.sort((a, b) => cmp(a.comparison, b.comparison));
   if (sort === 'quality') listed.sort((a, b) => (b.offer.quality ?? -1) - (a.offer.quality ?? -1) || a.offer.totalCents - b.offer.totalCents);
+  if (sort === 'drive') {
+    // Unknown drive times last; within a place the cheapest first.
+    const minutes = (placeId: string) => scope.driveMinutes?.get(placeId) ?? Number.POSITIVE_INFINITY;
+    listed.sort((a, b) => minutes(a.offer.placeId) - minutes(b.offer.placeId) || a.offer.totalCents - b.offer.totalCents);
+  }
   const recommended = recommendedIndex(listed.map((x) => x.comparison), scope.goal);
   const steps = extraNightsFor(evaluated);
   return listed.map(({ offer, otherDatesCount }, i) => ({
@@ -359,6 +372,14 @@ export function unratedItems(evaluated: readonly EvaluatedOffer[], hotels: Reado
       },
     };
   });
+}
+
+const fold = (text: string) => text.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase('de-DE').trim();
+
+/** Houses whose name contains the query (case and accents ignored); an empty query keeps all. */
+export function matchingName<T extends { hotel: { name: string } }>(items: readonly T[], query: string | undefined): T[] {
+  const q = fold(query ?? '');
+  return q ? items.filter((i) => fold(i.hotel.name).includes(q)) : [...items];
 }
 
 /** Workflow step `score-1`: evaluation for the search's own filters, stored with the offers. */

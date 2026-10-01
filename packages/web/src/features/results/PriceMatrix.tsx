@@ -151,7 +151,7 @@ export function PriceMatrix({
         </table>
       </div>
       <p className="text-xs text-zinc-500" data-testid="matrix-legend">
-        {t.matrixHint} ★ = {t.legendBargain} · – = {t.legendEmpty} · „{t.legendFailed}“ = {t.legendFailedHint}
+        {t.matrixHint} ★ {t.legendBargain} · – {t.legendEmpty}
       </p>
     </div>
   );

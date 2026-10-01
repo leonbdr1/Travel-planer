@@ -9,8 +9,6 @@ export const formatEuroCents = (v: number) => euro2.format(v);
 export const formatScore = (v: number) => one.format(v);
 /** "+0,5" or "−0,4" (quality differences). */
 export const formatSignedScore = (v: number) => `${v > 0 ? '+' : '−'}${one.format(Math.abs(v))}`;
-/** "2,3" (kilometres, one decimal). */
-export const formatKm = (v: number) => one.format(v);
 
 /** "Fr 02.10." */
 export function formatDay(iso: string): string {

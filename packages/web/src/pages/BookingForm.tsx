@@ -9,6 +9,7 @@ import { Alert, Button, Card, Checkbox, Dialog, Fieldset, Heading, Input, Label,
 import { ApiRequestError } from '../api/client';
 import { confirmPrice, createBooking } from '../features/booking/api';
 import { saveFlow } from '../features/booking/session';
+import { loadErrorText } from '../api/load-error';
 import { fetchHotelDetail } from '../features/results/api';
 import { cancellationText } from '../features/results/ResultList';
 import { de } from '../i18n/de';
@@ -18,6 +19,8 @@ import { tokenFromHash } from './SearchRun';
 
 const t = de.booking;
 const r = de.results;
+/** Plausible address; the API checks it again. */
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 interface GuestInput {
   first: string;
@@ -74,8 +77,8 @@ export function BookingForm() {
         setDetail(d);
         setGuests(Array.from({ length: d.occupancy.rooms }, () => ({ first: '', last: '' })));
       })
-      .catch(() => {
-        if (!controller.signal.aborted) setLoadError(de.searchRun.notFound);
+      .catch((err: unknown) => {
+        if (!controller.signal.aborted) setLoadError(loadErrorText(err, de.searchRun.notFound));
       });
     return () => controller.abort();
   }, [searchId, hotelId, token]);
@@ -95,6 +98,10 @@ export function BookingForm() {
       setError(t.required);
       return;
     }
+    if (!EMAIL.test(holder.email.trim())) {
+      setError(t.emailInvalid);
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
@@ -102,12 +109,12 @@ export function BookingForm() {
         search_id: searchId,
         search_token: token,
         offer_id: offer.id,
-        holder: { first_name: holder.first, last_name: holder.last, email: holder.email, phone: holder.phone.trim() || null },
+        holder: { first_name: holder.first.trim(), last_name: holder.last.trim(), email: holder.email.trim(), phone: holder.phone.trim() || null },
         guests: guestNames.map((g, i) => ({ room: i + 1, first_name: g.first, last_name: g.last })),
         accepted_terms: true,
         acknowledged_no_withdrawal: true,
       });
-      saveFlow({ create: created, hotelName: detail.hotel.name, email: holder.email });
+      saveFlow({ create: created, hotelName: detail.hotel.name, email: holder.email.trim() });
       if (created.price_changed) setChanged(created);
       else goToPayment(created);
     } catch (err) {

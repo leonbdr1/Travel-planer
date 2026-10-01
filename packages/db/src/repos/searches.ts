@@ -636,67 +636,70 @@ export async function getSearchOffer(db: Queryable, searchId: string, offerId: s
 }
 
 export async function loadEvaluationData(db: Queryable, searchId: string) {
-  const offers = await db.query<{
-    id: number;
-    hotel_id: string;
-    place_id: string;
-    place_name: string;
-    checkin: string;
-    checkout: string;
-    offer_kind: 'cheapest' | 'cheapest_refundable';
-    liteapi_offer_id: string;
-    room_name: string;
-    board_type: EvaluationOfferRow['boardType'];
-    refundable: boolean;
-    free_cancel_until: string | null;
-    total_price_cents: number;
-    price_per_night_cents: number;
-    pay_at_property_cents: number;
-    pay_at_property_known: boolean;
-    currency: string;
-    nights: number;
-    room_fit: RoomFit;
-    room_capacity: number | null;
-    room_options: string;
-  }>(
-    `SELECT o.id, o.hotel_id, c.place_id::text AS place_id, p.name AS place_name, c.checkin::text AS checkin, c.checkout::text AS checkout,
-            o.offer_kind, o.liteapi_offer_id, o.room_name, o.board_type, o.refundable,
-            to_char(o.free_cancel_until AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS free_cancel_until,
-            o.total_price_cents, o.price_per_night_cents, o.pay_at_property_cents, o.pay_at_property_known, o.currency, o.nights,
-            o.room_fit, o.room_capacity, o.room_options::text AS room_options
-       FROM app.offers o
-       JOIN app.search_combinations c ON c.id = o.combination_id
-       JOIN app.places p ON p.id = c.place_id
-      WHERE o.search_id = $1::uuid
-      ORDER BY o.id`,
-    [searchId],
-  );
-  const hotels = await db.query<{
-    id: string;
-    name: string;
-    address: string | null;
-    city: string | null;
-    stars: number | null;
-    rating: number | null;
-    review_count: number | null;
-    hotel_type: string | null;
-    main_photo_url: string | null;
-    facility_ids: number[];
-    lat: number | null;
-    lng: number | null;
-    external_ratings: ExternalRatings | null;
-  }>(
-    `SELECT h.id, h.name, h.address, h.city, h.stars::float8 AS stars, h.rating::float8 AS rating, h.review_count, h.hotel_type,
-            h.main_photo_url, h.facility_ids, h.lat::float8 AS lat, h.lng::float8 AS lng, h.external_ratings
-       FROM app.hotels h WHERE h.id IN (SELECT DISTINCT hotel_id FROM app.offers WHERE search_id = $1::uuid)`,
-    [searchId],
-  );
-  const combinations = await db.query<{ place_id: string; checkin: string; checkout: string; status: CombinationStatus; updated_at: string }>(
-    `SELECT place_id::text AS place_id, checkin::text AS checkin, checkout::text AS checkout, status,
-            to_char(updated_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS updated_at
-       FROM app.search_combinations WHERE search_id = $1::uuid ORDER BY id`,
-    [searchId],
-  );
+  // Three independent reads: sent together, one connection pipelines them.
+  const [offers, hotels, combinations] = await Promise.all([
+    db.query<{
+      id: number;
+      hotel_id: string;
+      place_id: string;
+      place_name: string;
+      checkin: string;
+      checkout: string;
+      offer_kind: 'cheapest' | 'cheapest_refundable';
+      liteapi_offer_id: string;
+      room_name: string;
+      board_type: EvaluationOfferRow['boardType'];
+      refundable: boolean;
+      free_cancel_until: string | null;
+      total_price_cents: number;
+      price_per_night_cents: number;
+      pay_at_property_cents: number;
+      pay_at_property_known: boolean;
+      currency: string;
+      nights: number;
+      room_fit: RoomFit;
+      room_capacity: number | null;
+      room_options: string;
+    }>(
+      `SELECT o.id, o.hotel_id, c.place_id::text AS place_id, p.name AS place_name, c.checkin::text AS checkin, c.checkout::text AS checkout,
+              o.offer_kind, o.liteapi_offer_id, o.room_name, o.board_type, o.refundable,
+              to_char(o.free_cancel_until AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS free_cancel_until,
+              o.total_price_cents, o.price_per_night_cents, o.pay_at_property_cents, o.pay_at_property_known, o.currency, o.nights,
+              o.room_fit, o.room_capacity, o.room_options::text AS room_options
+         FROM app.offers o
+         JOIN app.search_combinations c ON c.id = o.combination_id
+         JOIN app.places p ON p.id = c.place_id
+        WHERE o.search_id = $1::uuid
+        ORDER BY o.id`,
+      [searchId],
+    ),
+    db.query<{
+      id: string;
+      name: string;
+      address: string | null;
+      city: string | null;
+      stars: number | null;
+      rating: number | null;
+      review_count: number | null;
+      hotel_type: string | null;
+      main_photo_url: string | null;
+      facility_ids: number[];
+      lat: number | null;
+      lng: number | null;
+      external_ratings: ExternalRatings | null;
+    }>(
+      `SELECT h.id, h.name, h.address, h.city, h.stars::float8 AS stars, h.rating::float8 AS rating, h.review_count, h.hotel_type,
+              h.main_photo_url, h.facility_ids, h.lat::float8 AS lat, h.lng::float8 AS lng, h.external_ratings
+         FROM app.hotels h WHERE h.id IN (SELECT DISTINCT hotel_id FROM app.offers WHERE search_id = $1::uuid)`,
+      [searchId],
+    ),
+    db.query<{ place_id: string; checkin: string; checkout: string; status: CombinationStatus; updated_at: string }>(
+      `SELECT place_id::text AS place_id, checkin::text AS checkin, checkout::text AS checkout, status,
+              to_char(updated_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS updated_at
+         FROM app.search_combinations WHERE search_id = $1::uuid ORDER BY id`,
+      [searchId],
+    ),
+  ]);
   return {
     offers: offers.map(
       (o): EvaluationOfferRow => ({

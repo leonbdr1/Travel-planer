@@ -24,7 +24,7 @@ export function ReviewCheckPanel({ check, aiLabel }: { check: ReviewCheckDto | n
       {check?.status === 'failed' ? <Text className="text-sm">{t.failed}</Text> : null}
       {check && (check.status === 'ok' || check.status === 'skipped_budget') && check.warnings.length === 0 ? (
         <Text className="text-sm" data-testid="review-no-issues">
-          {t.noIssues(check.reviews_checked)}
+          {t.noIssues}
         </Text>
       ) : null}
       {check && check.warnings.length > 0 ? (

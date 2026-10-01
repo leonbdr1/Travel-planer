@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import { productConfig } from '@reiseplaner/config';
 import { AiLabel, Alert, Card, Heading, Text } from '@reiseplaner/ui';
+import { RECENT_MAX } from '../features/search/recent';
 import { de } from '../i18n/de';
 import { useMeta } from '../lib/meta';
 
@@ -108,7 +109,7 @@ export function Privacy() {
         <p>{t.privacyProcessors}</p>
       </Section>
       <Section title={t.privacyCookiesTitle}>
-        <p>{t.privacyCookies}</p>
+        <p>{t.privacyCookies(RECENT_MAX, productConfig.compliance.retention.searches_days)}</p>
       </Section>
       <Section title={t.privacyRightsTitle}>
         <p>{t.privacyRights}</p>

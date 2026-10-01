@@ -109,14 +109,6 @@ export function saveState(state: WizardState): void {
   }
 }
 
-export function clearState(): void {
-  try {
-    sessionStorage.removeItem(KEY);
-  } catch {
-    // ignore
-  }
-}
-
 export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Date = new Date()): DatesResult {
   return generateStayDates(
     {

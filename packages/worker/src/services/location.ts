@@ -55,7 +55,7 @@ export async function runLocationFacts(deps: LocationRunDeps, searchId: string):
   const request = await loadSearchRequest(deps.db, searchId);
   const filters = filtersFromRequest(request);
   const reviews = await loadReviewData(deps.db, searchId, filters.chips);
-  const { evaluated, hotels } = await evaluateSearch(deps.db, searchId, filters, reviews);
+  const { evaluated, hotels } = await evaluateSearch(deps.db, searchId, filters, reviews, now);
   const ids = finalistIdsAcrossGoals({ goal: request.goal ?? DEFAULT_GOAL, evaluated, hotels: preselectHotels(hotels), evidence: reviews.evidence ?? new Map() });
   const known = await loadLocationFacts(deps.db, deps.poiSource, ids, now);
   const byId = new Map(hotels.map((h) => [h.id, h]));

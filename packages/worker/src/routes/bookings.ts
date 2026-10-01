@@ -71,7 +71,7 @@ export const bookingRoutes = new Hono<AppEnv>()
     async (c) => {
       const req = c.get('accessLinkRequest');
       try {
-        await requestAccessLink(bookingDeps(c), req.booking_ref, req.email);
+        await requestAccessLink(bookingDeps(c), req.booking_ref || null, req.email);
       } catch (err) {
         // Always 202: the answer must not reveal whether a booking exists.
         console.error(JSON.stringify({ level: 'warn', msg: 'access link failed', name: (err as Error).name }));

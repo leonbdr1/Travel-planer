@@ -377,6 +377,32 @@ describe('booking flow (architektur.md 6.11, 7.2)', () => {
     expect(fakeMailbox().length).toBe(mails + 1);
   });
 
+  it('sends one overview of all bookings of an e-mail address when no reference is given', async () => {
+    const [a, b] = (await offers(test.db, 'refundable')).slice(0, 2);
+    const first = await createBooking(deps, request(a?.id ?? ''));
+    if (first.price_changed) await confirmPrice(deps, first.booking_ref, first.session_token);
+    await completeBooking(deps, first.booking_ref, first.session_token);
+    const second = await createBooking(deps, request(b?.id ?? ''));
+    if (second.price_changed) await confirmPrice(deps, second.booking_ref, second.session_token);
+    await completeBooking(deps, second.booking_ref, second.session_token);
+    // A draft that never reached the payment is not a booking of the guest.
+    await createBooking(deps, request(a?.id ?? ''));
+    const mails = fakeMailbox().length;
+    expect(await requestAccessLink(deps, null, ' Max@Example.org ')).toBe(true);
+    expect(fakeMailbox().length).toBe(mails + 1);
+    const mail = fakeMailbox().at(-1);
+    expect(mail?.subject).toBe('Deine Buchungen');
+    expect(mail?.text).toContain(`/buchung/${first.booking_ref}#a=`);
+    expect(mail?.text).toContain(`/buchung/${second.booking_ref}#a=`);
+    expect(mail?.text.match(/#a=/g)).toHaveLength(2);
+    // Each link opens its own booking.
+    const token = /#a=([^\s]+)/.exec(mail?.text.slice(mail.text.indexOf(first.booking_ref)) ?? '')?.[1] ?? '';
+    expect((await viewBooking(deps, first.booking_ref, token)).booking_ref).toBe(first.booking_ref);
+    // Unknown address: nothing sent, the caller still answers 202.
+    expect(await requestAccessLink(deps, null, 'nobody@example.org')).toBe(false);
+    expect(fakeMailbox().length).toBe(mails + 1);
+  });
+
   it('refuses bookings when the emergency brake is on, and bookings for other searches', async () => {
     const [first] = await offers(test.db);
     expect(await apiError(createBooking({ ...deps, bookingEnabled: false }, request(first?.id ?? '')))).toEqual({ status: 503, code: 'booking_disabled' });

@@ -1,0 +1,22 @@
+# Prüfungen auf dem Endstand (Commit d9df346, nach Merge von claude/main, 2026-10-01)
+
+== typecheck
+15 Projekte ohne Fehler (npm run typecheck)
+== test
+ Test Files  76 passed (76)
+      Tests  465 passed (465)
+== db:test
+# 94 assertions, all files passed
+== build
+✓ built in 859ms
+dist/client/assets/react-D9iSz372.js           317.25 kB │ gzip: 101.06 kB │ map: 1,626.82 kB
+dist/client/assets/index-W6DPyl7_.js           381.28 kB │ gzip: 120.70 kB │ map: 1,718.97 kB
+✓ built in 1.35s
+== claims
+check:claims: ok (9 file(s), 15 forbidden claims checked)
+== status
+check-status-rows: alle 66 Slice-IDs aus umsetzungsplan.md haben genau eine STATUS-Zeile
+== supply-chain
+supply-chain: ok (393 lock entries checked)
+== tree unchanged after gen
+(keine Änderungen unter packages/ nach npm run gen)

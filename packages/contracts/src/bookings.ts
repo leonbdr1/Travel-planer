@@ -90,7 +90,8 @@ export const cancelResponseSchema = z.discriminatedUnion('dry_run', [
 export type CancelResponse = z.infer<typeof cancelResponseSchema>;
 
 export const accessLinkRequestSchema = z.object({
-  booking_ref: z.string().trim().min(8).max(20),
+  /** Empty or missing: one e-mail with all bookings of this address. */
+  booking_ref: z.string().trim().max(20).optional(),
   email: z.email().max(254),
   altcha: z.string().min(1).max(10_000),
 });

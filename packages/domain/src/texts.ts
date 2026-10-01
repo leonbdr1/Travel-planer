@@ -34,7 +34,7 @@ const wholeEuro = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
  * against, so the percentage can be checked.
  */
 export function bargainReasonDate(percent: number, othersMeanTotalCents: number, totalCents: number): string {
-  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier ${wholeEuro.format(Math.round(totalCents / 100))} € gesamt, an deinen anderen Terminen im Mittel ${wholeEuro.format(Math.round(othersMeanTotalCents / 100))} € gesamt)`;
+  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: ${wholeEuro.format(Math.round(totalCents / 100))} € statt im Mittel ${wholeEuro.format(Math.round(othersMeanTotalCents / 100))} €)`;
 }
 
 /** Board labels for e-mails and server texts (the SPA has the same in i18n/de.ts). */

@@ -20,13 +20,16 @@ export const bookingConfirmationPayload = z.object({
   payAtPropertyKnown: z.boolean(),
   refundable: z.boolean(),
   freeCancelUntil: z.string().nullable(),
+  /** The free cancellation had already ended when the booking was confirmed. */
+  freeCancelEnded: z.boolean().default(false),
   hotelConfirmationCode: z.string().nullable(),
   accessUrl: z.string().url(),
 });
 export type BookingConfirmationPayload = z.infer<typeof bookingConfirmationPayload>;
 
-export function cancellationLine(p: { refundable: boolean; freeCancelUntil: string | null }): string {
+export function cancellationLine(p: { refundable: boolean; freeCancelUntil: string | null; freeCancelEnded?: boolean }): string {
   if (!p.refundable) return 'Nicht stornierbar: Bei Stornierung wird der volle Betrag fällig.';
+  if (p.freeCancelUntil && p.freeCancelEnded) return `Die kostenlose Stornierung endete am ${formatDateTime(p.freeCancelUntil)}; es gelten die Stornobedingungen der Unterkunft.`;
   if (p.freeCancelUntil) return `Kostenlos stornierbar bis ${formatDateTime(p.freeCancelUntil)}; danach gelten die Stornobedingungen der Unterkunft.`;
   return 'Kostenlos stornierbar.';
 }
