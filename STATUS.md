@@ -19,7 +19,7 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | B6 | Fehlerseite, Zeitlimit, Request-ID | `live-verified` | `docs/demos/B6/` | Walkthrough `fehler` 7/7. |
 | B7 | Fotos in der Liste, Kartenlink | `live-verified` | `docs/demos/B7/` | Walkthroughs `listenfilter`, `buchung`. |
 | P1 | Code-Splitting, parallele Abfragen | `demonstrated` | `FORTSCHRITT.md` | Bundle-Größen im Build. |
-| T1 | Text-Entrümpelung | `live-verified` | `docs/demos/Abschluss-B/` | Alle Pfad-Walkthroughs auf dem Endstand. |
+| T1 | Text-Entrümpelung | `live-verified` | `docs/demos/Abschluss-B/` | Alle Pfad-Walkthroughs 410/410 auf dem Merge-Stand. |
 
 ## M1 Grundgerüst
 

@@ -2,7 +2,7 @@
 
 Auftrag (Leon, nachts, autonom): Funktionsumfang gegen den Standard großer Buchungsportale prüfen, funktionale Lücken schließen, Code und Performance optimieren, UI-Texte entrümpeln. Keine Architektur-Umbauten, nichts deployen, bestehende Funktionen nur verfeinern. Commit-Kennung: `B<n>` (Funktion), `P<n>` (Optimierung), `T<n>` (Text).
 
-Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv58jh`, Stand 3242944). Nichts davon ist deployt.
+Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv58jh`, Stand 3242944; später `claude/main` hineingemergt). Nichts davon ist deployt.
 
 **Bewusst nicht gebaut:** Nutzerkonten (konzept.md 2: „Kein Nutzerkonto im MVP“) – stattdessen Buchungsübersicht per E-Mail und „Letzte Suchen“ im Browser. Rezensionsauszüge (konzept.md 15.10, rechtlich offen). Ziele „Preis-Leistung“ und „Komfort“ (Ben geht sie selbst an).
 
@@ -86,9 +86,10 @@ Grundsatz: Text nur, wo er Information trägt; Pflichtangaben (Vertragspartner, 
 - Beleg: Screenshots von Start, Assistent, Ergebnis, Detail und Buchungsformular gelesen; alle Pfad-Walkthroughs auf dem Endstand (siehe Z).
 
 ### Z – erledigt
-- Alle Pfad-Walkthroughs 401/401 (110 Schritte, 21 Flows) und Rundgang 30/30 auf dem Endstand, Typecheck, 463 Tests, 91 pgTAP-Zusicherungen, Build, Claims, STATUS, Lieferkette grün: `docs/demos/Abschluss-B/`.
+- `claude/main` hatte inzwischen 5 neue Commits (Suchformular neu geordnet, Startort optional, Startseite mit einem Knopf, Gate mit weiteren Passwörtern, Kritik-Labels). Gemergt; Konflikte so gelöst, dass deren Entscheidungen gelten (ein Knopf auf der Startseite, keine große Regionenkarte) und meine Ergänzungen dazukommen („Letzte Suchen“, kürzere Texte auch für die neuen Felder).
+- Auf dem Merge-Stand: alle Pfad-Walkthroughs 410/410 (111 Schritte, 21 Flows), Rundgang 30/30, Typecheck, 465 Tests, 94 pgTAP-Zusicherungen, Build, Claims, STATUS, Lieferkette grün: `docs/demos/Abschluss-B/`.
 - Nebenbei behoben: Der Rundgang `start` war seit F1 rot (erwartete den Knopf „Suche starten“, die Suchleiste hat „Suchen“); `npm run check:status` war rot (S11.12–S11.15 fehlten im Plan).
-- Branch gepusht, Pull Request gegen `claude/software-entwicklung-konzept-gv58jh`. Nicht deployt.
+- Branch gepusht, Pull Request gegen `claude/main` (der frühere Basis-Branch `claude/software-entwicklung-konzept-gv58jh` existiert auf GitHub nicht mehr). Nicht deployt.
 
 ---
 

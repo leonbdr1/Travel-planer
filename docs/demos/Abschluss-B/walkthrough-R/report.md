@@ -1,9 +1,9 @@
-# Dogfood-Walkthrough 2026-10-01T03-31-32-R-all
+# Dogfood-Walkthrough 2026-10-01T03-40-02-R-all
 
 - Modus: R – Rundgang (erster Besuch, nur Navigation)
 - Flows: start, pflichtseiten
-- Basis-URL: http://localhost:56418 (echter lokaler Stack, Anbieter im Fake-Modus)
-- Stand: 5228e46, gestartet 2026-10-01T03:31:32.088Z
+- Basis-URL: http://localhost:58907 (echter lokaler Stack, Anbieter im Fake-Modus)
+- Stand: d9df346, gestartet 2026-10-01T03:40:02.490Z
 - Ergebnis: ✅ bestanden (30/30 Prüfungen erfüllt)
 
 ## Flow „start“
@@ -16,7 +16,7 @@ Erster Besuch der Startseite: Die Statuszeile belegt den Pfad Browser → Worker
 - Screenshot: ![Startseite](01-startseite.png)
 - Prüfungen:
   - [x] enthält „API: ok · Datenbank: ok“
-  - [x] enthält „Suchen“
+  - [x] enthält „Suche starten“
   - [x] enthält „Impressum“
   - [x] enthält „Datenschutz“
   - [x] enthält „AGB“
@@ -41,29 +41,10 @@ Flexibel reisen, besser wohnen.
 
 Viele Orte und Termine in einer Suche.
 
-Startort
-Fahrzeit (Auto)
-egal
-bis 1 Stunde
-bis 1 h 30 min
-bis 2 Stunden
-bis 2 h 30 min
-bis 3 Stunden
-bis 4 Stunden
-bis 5 Stunden
-bis 6 Stunden
-Anreise frühestens
-Do, 08.10.2026
-Abreise spätestens
-Do, 19.11.2026
-Reisende
-2 Erwachsene · 1 Zimmer
-Suchen
-
-Deutschland, Österreich, Schweiz und Südtirol
+Suche starten
 
 API: ok · Datenbank: ok
-(5228e46)
+(d9df346)
 
 Reiseplaner
 
