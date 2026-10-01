@@ -12,7 +12,7 @@ Alle Änderungen sind additiv; bestehende Aufrufer verhalten sich wie bisher.
 - **7.2 `POST /bookings/access-link`:** `booking_ref` optional. Ohne Nummer eine E-Mail mit allen bestätigten und stornierten Buchungen der Adresse (höchstens `BOOKINGS_OVERVIEW_MAX` = 20), jede mit eigenem Zugangslink; E-Mail-Typ `access_link` mit zweiter Payload-Form, keine Migration. Antwort weiter immer 202. Offen: Index auf `lower(holder_email)` bei vielen Buchungen (neue Migration, BEN-GATE).
 - **7.1/11.1 Request-ID:** jede API-Antwort trägt `X-Request-Id` (Cloudflare-Ray-ID oder UUID); Fehler ≥ 500 und Anfragen ≥ `SLOW_REQUEST_MS` (3 s) loggen Methode, Routenmuster, Status, Dauer und ID; die SPA zeigt bei Serverfehlern „Fehler-ID“ (erste 8 Zeichen).
 - **SPA:** Zeitlimit `API_REQUEST_TIMEOUT_MS` (30 s); Seiten außer Start und Assistent laden bei Bedarf, React in eigenem Chunk; „Letzte Suchen“ im `localStorage` (höchstens 5, Aufbewahrungsfrist der Suchen), in der Datenschutzerklärung genannt.
-- **Antwort-Ergänzung (S11.16):** `quality.penalty_items` (`topic`, `weight` je gemeldetem Mangel) für die Erklärung von „Unser Wert“.
+- **Antwort-Ergänzung:** `quality.penalty_items` (`topic`, `weight` je gemeldetem Mangel) für die Erklärung von „Unser Wert“.
 - **CLI:** `npm run cli -- buchungen` (Support, nur lesend).
 - **Neue Konstanten:** `RESULTS_PAGE_SIZE` 20, `RESULTS_NAME_SEARCH_DEBOUNCE_MS` 300, `BOOKINGS_OVERVIEW_MAX` 20, `SLOW_REQUEST_MS` 3000, `API_REQUEST_TIMEOUT_MS` 30000.
 - **Schnäppchen-Begründung (6.8):** kürzer, gleiche Zahlen: „… (gleiches Zimmer: 85 € statt im Mittel 138 €)“.
