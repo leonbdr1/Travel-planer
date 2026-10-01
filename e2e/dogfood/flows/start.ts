@@ -12,7 +12,7 @@ export const startFlow: Flow = {
         await page.getByTestId('status-line').filter({ hasText: 'Datenbank: ok' }).waitFor({ timeout: 20_000 });
       },
       {
-        expectText: ['API: ok · Datenbank: ok', 'Suchen', 'Impressum', 'Datenschutz', 'AGB', 'Kontakt'],
+        expectText: ['API: ok · Datenbank: ok', 'Suche starten', 'Impressum', 'Datenschutz', 'AGB', 'Kontakt'],
         expectSelector: ['[data-testid="site-footer"]', '[data-testid="attribution"]'],
       },
     );
