@@ -1,6 +1,7 @@
 // Parsers for the GeoNames exports (https://download.geonames.org/export/dump/readme.txt):
 // the country dumps (19 tab-separated columns), the postal code exports
 // (12 columns) and alternateNamesV2 (language-tagged names).
+import { isGeoCountry } from '@reiseplaner/domain';
 
 export interface GeoNamesRow {
   geonameid: number;
@@ -79,9 +80,7 @@ export function parseAlternateNameLine(line: string): AlternateName | null {
   };
 }
 
-/** Market filter: settlements (class P) in DE, AT, CH and the province of Bolzano. */
+/** Market filter: settlements (class P) in the product countries (DACH and, since F15, the European destinations). */
 export function inMarket(row: GeoNamesRow): boolean {
-  if (row.featureClass !== 'P') return false;
-  if (row.countryCode === 'DE' || row.countryCode === 'AT' || row.countryCode === 'CH') return true;
-  return row.countryCode === 'IT' && row.admin2 === 'BZ';
+  return row.featureClass === 'P' && isGeoCountry(row.countryCode);
 }

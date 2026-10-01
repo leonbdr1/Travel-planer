@@ -1,8 +1,9 @@
 // YAML format of the place catalog (data/catalog, see its README).
+import { CATALOG_COUNTRIES, type CatalogCountry } from '@reiseplaner/domain';
 import { z } from 'zod';
 
-export const catalogCountries = ['DE', 'AT', 'CH', 'IT-BZ'] as const;
-export type CatalogCountry = (typeof catalogCountries)[number];
+export const catalogCountries = CATALOG_COUNTRIES;
+export type { CatalogCountry };
 
 export const themeSchema = z.strictObject({
   code: z.string().regex(/^[a-z][a-z_]*$/),

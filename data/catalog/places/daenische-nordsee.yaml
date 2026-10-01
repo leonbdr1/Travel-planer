@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: daenische-nordsee
+places:
+  - name: Skagen
+    themes:
+      strand: 3
+      natur_ruhe: 3
+      staedte_kultur: 1
+    description_de: Ort an der Nordspitze Dänemarks, wo Nord- und Ostsee sich treffen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2613939
+  - name: Løkken
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Badeort mit Strandhäusern und Dünen.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2617443
+  - name: Hvide Sande
+    themes:
+      strand: 2
+      natur_ruhe: 2
+    description_de: Fischerort zwischen Nordsee und Ringkøbing Fjord, Revier für Wassersport.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2619537
+  - name: Ribe
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 1
+    description_de: Älteste Stadt Dänemarks mit Dom und Fachwerk am Wattenmeer.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2614813

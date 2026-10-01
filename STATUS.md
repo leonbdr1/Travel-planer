@@ -7,6 +7,20 @@ Einzige Wahrheit über den Baustand (`CLAUDE.md`, `docs/umsetzungsplan.md`). Rei
 
 Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schlüssel). Stand: 29.09.2026.
 
+## Aufgabenliste vom 01.10.2026 (Buchungsportal-Abgleich, `FORTSCHRITT.md`)
+
+| ID | Zeile | Reifegrad | Beleg | Anmerkung |
+|---|---|---|---|---|
+| B1 | Ergebnisfilter Art, Ausstattung, Name | `live-verified` | `docs/demos/B1/` | Walkthrough `listenfilter`, Screenshots gelesen. |
+| B2 | Liste seitenweise, Sortierung Fahrzeit | `live-verified` | `docs/demos/B1/` | dito. |
+| B3 | Preise aktualisieren, Letzte Suchen | `live-verified` | `docs/demos/B3/` | Walkthrough `suchverlauf` mit vorgestellter Uhr. |
+| B4 | Buchungsübersicht ohne Konto; abgelaufene Storno-Frist | `live-verified` | `docs/demos/B4/` | Walkthrough `buchung` 8/8; Mail aus dem Postausgang. |
+| B5 | Support-Befehl `buchungen` | `demonstrated` | `docs/demos/B5/` | Gegen die lokale Datenbank. |
+| B6 | Fehlerseite, Zeitlimit, Request-ID | `live-verified` | `docs/demos/B6/` | Walkthrough `fehler` 7/7. |
+| B7 | Fotos in der Liste, Kartenlink | `live-verified` | `docs/demos/B7/` | Walkthroughs `listenfilter`, `buchung`. |
+| P1 | Code-Splitting, parallele Abfragen | `demonstrated` | `FORTSCHRITT.md` | Bundle-Größen im Build. |
+| T1 | Text-Entrümpelung | `live-verified` | `docs/demos/Abschluss-B/` | Alle Pfad-Walkthroughs 410/410 auf dem Merge-Stand. |
+
 ## M1 Grundgerüst
 
 | ID | Zeile | Reifegrad | Beleg | Anmerkung |
@@ -124,7 +138,18 @@ Alle Anbieter laufen bis auf Weiteres im Modus `fake` (keine Konten, keine Schl�
 | S11.9 | Bewertung nach dem ersten Test | `live-verified` | `docs/demos/S11.10/walkthrough-P/` | Note ab 30 Bewertungen voll, ältere als 36 Monate ein Drittel; „Unsere Wahl“ nach Vergleichspreis; Liste und Matrix nach Preis, nur Häuser, die die Regeln des Ziels bestehen; Schnäppchen nur nach Termin. Tests am 29.09. nachgezogen; `architektur.md` am 29.09. nachgezogen (S11.11). |
 | S11.10 | Rückmeldungen vom 29.09. | `live-verified` | `docs/demos/S11.10/` | Schnäppchen nur beim selben Zimmer, Begründung beim Draufhalten in der Matrix; Häuser ohne Bewertungen unter „Alle Angebote“; Beschreibung und Hinweise lesbar, Deutsch angefordert (`language=de` gegen die echte LiteAPI ungeprüft); lokale Datenbank: vorher 8 × HTTP 500 bei 4 s Anbieterlatenz, nachher 0; Orte-Vorauswahl füllt auf. |
 | S11.11 | Warnsignale nach Anteil | `live-verified` | `docs/demos/S11.11/` | Schimmel und Ungeziefer ab 3 Gästen und 10 % der geprüften Bewertungen, Schmutz ab 4 und 15 %, neuere Bewertungen doppelt; darunter Warnhinweis mit Abzug und normal gelistet. Walkthrough `warnungen`: 3 Meldungen bei 483 Bewertungen gelistet, 3 bei 38 aussortiert. `architektur.md` und `konzept.md` nachgezogen, `pglite-socket` entfernt. |
-| S11.12 | Zweite Bewertungsquelle | `wired` (Anzeige `live-verified` im Fake-Stack) | `docs/demos/S11.12/` | Port `RatingSourcePort` mit Fake, Schritt `external-ratings`, Fusion nach Anzahl (externe zählen halb), Anzeige „inkl. Tripadvisor“ in Liste, Finale und Detail; Walkthrough `ergebnisse` 65/65. Echter Tripadvisor-Adapter fehlt (Konto, Doku-Prüfung, BEN-GATE), bis dahin `contract_unverified`. Anleitung: `docs/runbooks/tripadvisor.md`. |
+| S11.12 | Zweite Bewertungsquelle | `wired` | `docs/demos/S11.12/` | Anzeige im Fake-Stack `live-verified`. Port `RatingSourcePort` mit Fake, Schritt `external-ratings`, Fusion nach Anzahl (externe zählen halb), Anzeige „inkl. Tripadvisor“ in Liste, Finale und Detail; Walkthrough `ergebnisse` 65/65. Echter Tripadvisor-Adapter fehlt (Konto, Doku-Prüfung, BEN-GATE), bis dahin `contract_unverified`. Anleitung: `docs/runbooks/tripadvisor.md`. |
 | S11.13 | Passwort-Schutz der Entwicklerseite | `demonstrated` | `docs/demos/S11.13/` | Gate im Worker (`SITE_GATE=password`), öffentlich nur Passwortseite, Health und robots.txt; Lauf über den echten Worker und 11 Tests. Nicht deployt (Konten, Secrets, Deploy sind BEN-GATE), Anleitung `docs/runbooks/entwicklerseite-online.md`. |
 | S11.14 | Lokal rechnen, online erreichbar | `demonstrated` | `docs/demos/S11.14/` | `npm run serve` (Worker mit Passwort-Schutz auf Port 8787) und Tunnel-Anleitung (`docs/runbooks/von-ueberall.md`); Lauf mit `curl` über den echten Serve-Modus. Der Tunnel (Tailscale Funnel) ist nicht geprüft, er braucht Bens Konto. |
 | S11.15 | Passwort-Ersteinrichtung, Admin- und Nutzer-Passwort | `demonstrated` | `docs/demos/S11.15/` | Erster Besuch legt zwei Passwörter fest; Nutzer sehen die Endkunden-Ansicht ohne Entwicklerwerkzeuge. Browser-Screenshot der Endkunden-Ansicht steht aus. |
+
+## Aufgabenliste vom 29.09.2026, spät (F14–F18, `FORTSCHRITT.md`)
+
+| ID | Zeile | Reifegrad | Beleg | Anmerkung |
+|---|---|---|---|---|
+| F14 | Kultur und Shopping getrennt, Strand | `live-verified` | `docs/demos/F14/` | Neue Themen, Großstadt-Regionen DE, Skills 1.1.0. |
+| F15 | Europa-Erweiterung | `live-verified` | `docs/demos/F15/` | 19 weitere Länder in der Ortsdatenbank, 53 Regionen, Europa-Karte, Migration `20261018a` nur lokal (Staging/Produktion: BEN-GATE), KI-Entwurf (BG-11). |
+| F16 | Fahrzeit-Blöcke, Flug-Hinweis ab 30 h | `live-verified` | `docs/demos/F16/` | Kein Routing für ferne Ziele. |
+| F17 | Regionsname nach einzigem Highlight-Ort | `live-verified` | `docs/demos/F17/` | Liste der umbenannten Regionen zur Prüfung in `docs/demos/F17/demo-output.txt`. |
+| F19 | Vorschläge nach Entfernung, Auto/Flug, Kontinente | `live-verified` | `docs/demos/F19/` | Katalog nur Europa; Schwellen ungeprüft (BG-11). |
+| F18 | Rezensionen in 15 Sprachen | `live-verified` | `docs/demos/F18/` | `review-verify` 1.1.0; echte Eval-Läufe brauchen BG-07. |

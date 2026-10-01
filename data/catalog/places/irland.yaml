@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: irland
+places:
+  - name: Dublin
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+    description_de: Hauptstadt mit Trinity College, Temple Bar und Grafton Street.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2964574
+  - name: Galway
+    themes:
+      staedte_kultur: 2
+      natur_ruhe: 1
+    description_de: Stadt an der Westküste mit Latin Quarter und Musik in den Pubs.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2964180
+  - name: Killarney
+    themes:
+      wandern: 3
+      natur_ruhe: 3
+      seen: 2
+    description_de: Ort am Nationalpark mit Seen, Ausgangspunkt für den Ring of Kerry.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2963370
+  - name: Dingle
+    themes:
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Hafenort auf der gleichnamigen Halbinsel mit Küstenstraße Slea Head.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2964782

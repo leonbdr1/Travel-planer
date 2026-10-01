@@ -1,0 +1,41 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: elsass
+places:
+  - name: Straßburg
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+      radfahren: 2
+    description_de: Stadt mit Münster, Petite France und dem Europaparlament.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2973783
+  - name: Colmar
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+    description_de: Stadt mit Fachwerk, Kanälen in Klein-Venedig und dem Isenheimer Altar.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3024297
+  - name: Riquewihr
+    themes:
+      staedte_kultur: 2
+      wein_kulinarik: 3
+    description_de: Weindorf mit Stadtmauer und Fachwerkhäusern an der Elsässer Weinstraße.
+    search_radius_km: 4
+    ai_assisted: true
+    verified: false
+    geonameid: 2983451
+  - name: Obernai
+    themes:
+      wein_kulinarik: 2
+      staedte_kultur: 2
+      wandern: 1
+    description_de: Städtchen am Fuß des Odilienbergs mit Marktplatz und Weinbergen.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2989796

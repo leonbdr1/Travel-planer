@@ -27,7 +27,8 @@ export const fetchBooking = (ref: string, token: string, signal?: AbortSignal) =
 export const cancelBooking = (ref: string, token: string, dryRun: boolean) =>
   apiRequest(`/bookings/${encodeURIComponent(ref)}/cancel`, cancelResponseSchema, { method: 'POST', body: { dry_run: dryRun }, headers: auth(token) });
 
-export async function requestAccessLink(ref: string, email: string) {
+/** Without a reference the e-mail lists every booking of the address. */
+export async function requestAccessLink(ref: string | null, email: string) {
   const altcha = await solveAltcha();
-  return apiRequest('/bookings/access-link', accessLinkResponseSchema, { body: { booking_ref: ref, email, altcha }, acceptStatuses: [202] });
+  return apiRequest('/bookings/access-link', accessLinkResponseSchema, { body: { ...(ref ? { booking_ref: ref } : {}), email, altcha }, acceptStatuses: [202] });
 }

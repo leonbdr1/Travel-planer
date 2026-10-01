@@ -1,0 +1,22 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: krakau-tatra
+places:
+  - name: Krakau
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Stadt mit Rynek, Tuchhallen, Wawel und dem Viertel Kazimierz.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3094802
+  - name: Zakopane
+    themes:
+      wandern: 3
+      wintersport: 3
+      bergpanorama: 3
+    description_de: Bergort am Fuß der Hohen Tatra mit Seilbahn auf den Kasprowy Wierch.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3080866

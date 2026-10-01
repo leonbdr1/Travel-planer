@@ -46,7 +46,25 @@ export const productConfig: ProductConfig = {
       "DE",
       "AT",
       "CH",
-      "IT-BZ"
+      "IT-BZ",
+      "IT",
+      "FR",
+      "ES",
+      "PT",
+      "NL",
+      "BE",
+      "LU",
+      "DK",
+      "CZ",
+      "PL",
+      "HU",
+      "HR",
+      "SI",
+      "GR",
+      "GB",
+      "IE",
+      "NO",
+      "SE"
     ]
   },
   "support": {

@@ -1,6 +1,6 @@
 # Flexible Nächtezahl (Aufgabe 4, Entwurf und Umsetzung)
 
-Stand 29.09.2026. Ergänzt `architektur.md` 6.1 (Termine) und 6.8 (Schnäppchen); Übernahme dort braucht Bens Freigabe (`docs/architektur-nachtrag.md`).
+Stand 29.09.2026. Ergänzt `architektur.md` 6.1 (Termine) und 6.8 (Schnäppchen); Übernommen in `architektur.md` 6.16 (Freigabe 30.09.2026).
 
 ## Ziel
 

@@ -1,0 +1,35 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: dresden-elbland
+places:
+  - name: Dresden
+    admin1: '13'
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+      radfahren: 2
+    description_de: Barockstadt mit Frauenkirche, Zwinger, Semperoper und Elbradweg.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2935022
+  - name: Meißen
+    admin1: '13'
+    themes:
+      staedte_kultur: 2
+      wein_kulinarik: 2
+      radfahren: 2
+    description_de: Porzellanstadt mit Albrechtsburg und Dom über der Elbe, umgeben von Weinbergen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2872155
+  - name: Radebeul
+    admin1: '13'
+    themes:
+      wein_kulinarik: 2
+      staedte_kultur: 1
+    description_de: Weinort zwischen Dresden und Meißen mit Karl-May-Museum und Schloss Wackerbarth.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2851077

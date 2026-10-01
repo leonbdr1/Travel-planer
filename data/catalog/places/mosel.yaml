@@ -49,6 +49,7 @@ places:
     themes:
       staedte_kultur: 3
       wein_kulinarik: 2
+      shopping: 1
     description_de: Römerstadt mit Porta Nigra, Dom und Kaiserthermen.
     search_radius_km: 10
     ai_assisted: true

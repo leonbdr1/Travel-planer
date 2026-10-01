@@ -74,19 +74,21 @@ export async function matchLocality(
   countryCode: string,
   admin1: string | null,
 ): Promise<{ locality: Locality; exact: boolean } | null> {
+  // Catalog key IT-BZ is South Tyrol (admin2 BZ); IT is the rest of Italy.
   const country = countryCode === 'IT-BZ' ? 'IT' : countryCode;
+  const bz = countryCode === 'IT-BZ' ? true : countryCode === 'IT' ? false : null;
   const q = normalizeQuery(name);
   const exact = await db.query<LocalityRow>(
     `SELECT geonameid, name, alt_names_de, country_code::text AS country_code, admin1, admin2, lat, lng, population, postal_codes
        FROM app.geo_localities
-      WHERE country_code = $1 AND ($2::text IS NULL OR admin1 = $2)
+      WHERE country_code = $1 AND ($2::text IS NULL OR admin1 = $2) AND ($5::boolean IS NULL OR (admin2 = 'BZ') = $5)
         AND (lower(name) = lower($3) OR lower($3) = ANY(SELECT lower(a) FROM unnest(alt_names_de) a) OR lower(ascii_name) = $4)
       ORDER BY population DESC LIMIT 1`,
-    [country, admin1, name, q],
+    [country, admin1, name, q, bz],
   );
   if (exact[0]) return { locality: toLocality(exact[0]), exact: true };
   const fuzzy = (await searchLocalities(db, name, 5)).filter(
-    (l) => l.countryCode === country && (admin1 === null || l.admin1 === admin1),
+    (l) => l.countryCode === country && (admin1 === null || l.admin1 === admin1) && (bz === null || (l.admin2 === 'BZ') === bz),
   );
   return fuzzy[0] ? { locality: fuzzy[0], exact: false } : null;
 }
@@ -99,7 +101,7 @@ export async function countLocalitiesWithPostalCodes(db: Queryable): Promise<num
 
 export async function countLocalities(db: Queryable): Promise<Record<string, number>> {
   const rows = await db.query<{ key: string; n: number }>(
-    `SELECT CASE WHEN country_code = 'IT' THEN 'IT-BZ' ELSE country_code::text END AS key, count(*)::int AS n
+    `SELECT CASE WHEN country_code = 'IT' AND admin2 = 'BZ' THEN 'IT-BZ' ELSE country_code::text END AS key, count(*)::int AS n
        FROM app.geo_localities GROUP BY 1 ORDER BY 1`,
   );
   return Object.fromEntries(rows.map((r) => [r.key, r.n]));

@@ -1,0 +1,30 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: boehmen
+places:
+  - name: Karlsbad
+    themes:
+      wellness: 3
+      staedte_kultur: 2
+    description_de: Kurstadt mit Kolonnaden, Heilquellen und Grandhotels.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3073803
+  - name: Marienbad
+    themes:
+      wellness: 3
+      natur_ruhe: 2
+    description_de: Kurort mit Kolonnade, singender Fontäne und Parks.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3071024
+  - name: Krumau
+    themes:
+      staedte_kultur: 3
+      natur_ruhe: 1
+    description_de: Städtchen in einer Moldauschleife mit Schloss und mittelalterlicher Altstadt.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3077889

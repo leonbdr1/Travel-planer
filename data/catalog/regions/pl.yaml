@@ -1,0 +1,11 @@
+# Regionen in Polen – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: krakau-tatra
+  name: Krakau und Tatra
+  country: PL
+  description_de: Königsstadt Krakau mit Marktplatz und Wawel, dazu Zakopane in der Hohen Tatra.
+  themes: [staedte_kultur, wandern, wintersport]
+- slug: polnische-ostsee
+  name: Danzig und polnische Ostsee
+  country: PL
+  description_de: Hansestadt Danzig und die Seebäder an der polnischen Ostseeküste.
+  themes: [strand, staedte_kultur, wellness]

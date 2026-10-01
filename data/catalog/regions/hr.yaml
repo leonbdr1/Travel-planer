@@ -1,0 +1,11 @@
+# Regionen in Kroatien – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: istrien
+  name: Istrien und Kvarner
+  country: HR
+  description_de: Halbinsel mit venezianischen Hafenstädten, Buchten und Trüffeln im Hinterland.
+  themes: [strand, staedte_kultur, wein_kulinarik]
+- slug: dalmatien
+  name: Dalmatien
+  country: HR
+  description_de: Adriaküste mit Inseln, Kalkbergen und den Altstädten von Split, Trogir und Dubrovnik.
+  themes: [strand, staedte_kultur, natur_ruhe]

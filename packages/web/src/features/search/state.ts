@@ -1,12 +1,22 @@
 // Wizard state (steps 1–3). Kept in sessionStorage so a reload keeps the
 // progress; nothing leaves the browser except the API calls.
 import { addDays, DEFAULT_GOAL, formatIsoDate, generateStayDates, type DatesResult, type Goal } from '@reiseplaner/domain';
+import type { ContinentCode } from '@reiseplaner/domain';
 import type { LocalityDto, MetaConfigResponse, PlaceDto, RegionSuggestionDto } from '@reiseplaner/contracts';
 
 export interface WizardState {
   step: 1 | 2 | 3 | 4;
   origin: LocalityDto | null;
+  /**
+   * Optional start location of the own places: only gives the drive times next to them
+   * (later prefilled from the home address in the account). Does not switch suggestions on.
+   */
+  ownOrigin: LocalityDto | null;
   maxDriveMinutes: number | null;
+  /** How the suggestions are found (F19): by car (drive time) or by plane (continents, optional flight time). */
+  travelMode: 'car' | 'flight';
+  continents: ContinentCode[];
+  maxFlightMinutes: number | null;
   themes: string[];
   windowStart: string;
   windowEnd: string;
@@ -30,12 +40,6 @@ export interface WizardState {
   /** true when the user skipped the region step (places entered directly). */
   direct: boolean;
   /**
-   * The two ways to a place, one or both on: let places be suggested (needs a
-   * start location and drive time) and/or pick places by name (needs neither).
-   */
-  suggest: boolean;
-  pickOwn: boolean;
-  /**
    * Places the traveller picked by name (Aufgabe 3), kept next to the
    * suggestions: they survive a new suggestion round and stay selected.
    */
@@ -56,7 +60,11 @@ export function initialState(now: Date = new Date()): WizardState {
   return {
     step: 1,
     origin: null,
+    ownOrigin: null,
     maxDriveMinutes: 180,
+    travelMode: 'car',
+    continents: ['europa'],
+    maxFlightMinutes: null,
     themes: [],
     windowStart: start,
     windowEnd: addDays(start, 42),
@@ -76,8 +84,6 @@ export function initialState(now: Date = new Date()): WizardState {
     places: [],
     selectedPlaceIds: [],
     direct: false,
-    suggest: true,
-    pickOwn: true,
     ownPlaces: [],
     ownPlacesOrigin: null,
   };
@@ -101,14 +107,6 @@ export function saveState(state: WizardState): void {
   }
 }
 
-export function clearState(): void {
-  try {
-    sessionStorage.removeItem(KEY);
-  } catch {
-    // ignore
-  }
-}
-
 export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Date = new Date()): DatesResult {
   return generateStayDates(
     {
@@ -123,11 +121,24 @@ export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Dat
 }
 
 /**
- * The start location, when there is one: needed for suggestions, optional for own places
- * (then it only gives the drive times next to the places).
+ * The start location, when there is one: it switches the suggestions on and gives
+ * the drive times next to own places.
  */
-export function activeOrigin(state: Pick<WizardState, 'suggest' | 'origin'>): LocalityDto | null {
-  return state.origin;
+export function activeOrigin(state: Pick<WizardState, 'origin' | 'ownOrigin'>): LocalityDto | null {
+  return state.origin ?? state.ownOrigin;
+}
+
+/** The start location the drive times of own places refer to: their own field first, else the suggestion one. */
+export function ownPlacesStart(state: Pick<WizardState, 'origin' | 'ownOrigin'>): LocalityDto | null {
+  return state.ownOrigin ?? state.origin;
+}
+
+/**
+ * The input decides the way to a place: a start location means "suggest places",
+ * picked places mean "own places". No tick boxes.
+ */
+export function wantsSuggestions(state: Pick<WizardState, 'origin'>): boolean {
+  return state.origin !== null;
 }
 
 /** Suggested and own places in one list (own places after the suggestions, without duplicates). */
@@ -153,4 +164,14 @@ export function resetSuggestions(state: Pick<WizardState, 'ownPlaces' | 'selecte
 
 export function toggle<T>(list: readonly T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+}
+
+/** What the suggestion requests carry for the way of travel (F19); in flight mode the drive time does not apply. */
+export function travelParams(state: Pick<WizardState, 'travelMode' | 'maxDriveMinutes' | 'continents' | 'maxFlightMinutes'>) {
+  return {
+    travel_mode: state.travelMode,
+    max_drive_minutes: state.travelMode === 'flight' ? null : state.maxDriveMinutes,
+    continents: state.travelMode === 'flight' ? state.continents : [],
+    max_flight_minutes: state.travelMode === 'flight' ? state.maxFlightMinutes : null,
+  };
 }

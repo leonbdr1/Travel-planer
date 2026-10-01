@@ -1,0 +1,15 @@
+$ npm run demo -- f18
+# recorded 2026-09-29T22:20:42.782Z
+
+Suche Rovinj, Split, Barcelona, Chania, Krakau, Lagos, Budapest, Stockholm × 2 Freitage: done, 49 Unterkünfte in der Liste
+  Hotel Edelweiß: laerm: 4× von der KI bestätigt (medium)
+    Bewertung (hu): „Éjjel nagy zaj volt.“
+  Pension Almrausch: schimmel: 3× von der KI bestätigt (high) (aussortiert)
+    Bewertung (pt): „Havia bolor no duche.“
+  Pension Am Markt: laerm: 4× von der KI bestätigt (medium) (aussortiert)
+    Bewertung (hu): „Éjjel nagy zaj volt.“
+  Pension Weinberg: schimmel: 3× von der KI bestätigt (high)
+    Bewertung (el): „Υπήρχε μούχλα στο μπάνιο.“
+  ok     alle Treffer vom Prüfschritt (Fake-Modell) bestätigt
+  ok     Beschwerden erkannt in 3 Sprachen: el, hu, pt
+Ergebnis: alle Prüfungen ok

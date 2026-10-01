@@ -1,0 +1,18 @@
+id: reiseplaner.review-verify
+version: 1.1.0
+description: Prüft Stichwort-Treffer aus Gästebewertungen, ob sie eine tatsächliche Beschwerde zum Thema beschreiben.
+model: claude-haiku-4-5-20251001
+temperature: 0
+maxTokens: 1200
+costCapUsdPerCall: 0.01
+systemRef: system.md
+userTemplateRef: user.template.md
+inputSchemaRef: input.schema.json
+outputSchemaRef: output.schema.json
+tool:
+  name: submit_review_findings
+  description: Gibt für jeden Ausschnitt genau eine Einschätzung zurück.
+owners:
+  - reiseplaner
+triggers:
+  - workflow step reviews-verify

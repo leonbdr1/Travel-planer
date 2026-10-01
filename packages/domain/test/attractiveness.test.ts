@@ -1,6 +1,6 @@
 // Attractiveness of places and regions (Aufgabe 8, docs/logik/orts-attraktivitaet.md).
 import { describe, expect, it } from 'vitest';
-import { attractivenessOf, catalogAttractiveness, regionAttractiveness, userPlaceAttractiveness } from '../src/attractiveness';
+import { attractivenessOf, catalogAttractiveness, regionAttractiveness, regionTitle, userPlaceAttractiveness } from '../src/attractiveness';
 
 describe('catalogAttractiveness', () => {
   it('a famous mountain resort is a top place', () => {
@@ -50,5 +50,38 @@ describe('levels and regions', () => {
   it('a region is as good as its three best places', () => {
     expect(regionAttractiveness([10, 9, 8, 2, 1])).toEqual({ score: 9, level: 'top' });
     expect(regionAttractiveness([])).toBeNull();
+  });
+});
+
+describe('F14: cities and beach resorts by their main activity', () => {
+  it('counts shopping and beaches like trails', () => {
+    const frankfurt = catalogAttractiveness({ fame: 3, attractions: 2, themes: { shopping: 3, staedte_kultur: 2, familie: 1 }, population: 650_000 });
+    expect(frankfurt.parts.trails).toBe(3);
+    expect(frankfurt.level).toBe('top');
+    const binz = catalogAttractiveness({ fame: 3, attractions: 1, themes: { strand: 3, wellness: 2 }, population: 5_000 });
+    expect(binz.parts.trails).toBe(3);
+  });
+});
+
+describe('F15: a city of sights is a top place', () => {
+  it('counts sightseeing as the main activity', () => {
+    const venedig = catalogAttractiveness({ fame: 3, attractions: 3, themes: { staedte_kultur: 3, shopping: 1 }, population: 51_298 });
+    expect(venedig.parts.trails).toBe(3);
+    expect(venedig.level).toBe('top');
+  });
+});
+
+describe('F17: region title', () => {
+  it('names the place when a region has exactly one highlight', () => {
+    expect(regionTitle('Venedig und Obere Adria', [
+      { name: 'Venedig', level: 'top' },
+      { name: 'Jesolo', level: 'beliebt' },
+      { name: 'Caorle', level: 'beliebt' },
+    ])).toEqual({ title: 'Venedig', highlight: 'Venedig' });
+  });
+
+  it('keeps the region name with two highlights or none', () => {
+    expect(regionTitle('Allgäu', [{ name: 'Oberstdorf', level: 'top' }, { name: 'Füssen', level: 'top' }])).toEqual({ title: 'Allgäu', highlight: null });
+    expect(regionTitle('Eifel', [{ name: 'Monschau', level: 'beliebt' }])).toEqual({ title: 'Eifel', highlight: null });
   });
 });

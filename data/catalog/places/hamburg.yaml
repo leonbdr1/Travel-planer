@@ -1,0 +1,25 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: hamburg
+places:
+  - name: Hamburg
+    admin1: '04'
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      familie: 2
+    description_de: Hafenstadt mit Speicherstadt, Elbphilharmonie, Alster und Einkaufspassagen in der Innenstadt.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2911298
+  - name: Lübeck
+    admin1: '10'
+    themes:
+      staedte_kultur: 3
+      shopping: 1
+      strand: 2
+    description_de: Hansestadt mit Holstentor und Altstadtinsel, das Seebad Travemünde gehört dazu.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2875601

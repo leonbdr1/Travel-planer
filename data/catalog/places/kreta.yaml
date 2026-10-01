@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: kreta
+places:
+  - name: Chania
+    themes:
+      staedte_kultur: 2
+      strand: 3
+    description_de: Stadt mit venezianischem Hafen und Stränden im Westen der Insel.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 260114
+  - name: Heraklion
+    themes:
+      staedte_kultur: 2
+      strand: 1
+      shopping: 1
+    description_de: Inselhauptstadt nahe dem Palast von Knossos.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 261745
+  - name: Rethymno
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Stadt mit Fortezza, Altstadt und langem Sandstrand.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 254352
+  - name: Agios Nikolaos
+    themes:
+      strand: 2
+      staedte_kultur: 1
+    description_de: Ort am Mirabello-Golf mit See in der Stadt.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 263824

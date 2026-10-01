@@ -6,10 +6,11 @@ import { AiLabel, Alert, Button, Card, Heading, Spinner, Text, cx } from '@reise
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
 import { AttractivenessBadge } from './AttractivenessBadge';
+import { FlightBadge } from './FlightBadge';
 import { OverviewMap } from './OverviewMap';
 import { fetchRegions } from './api';
 import { catalogLabel } from './labels';
-import { toggle, type WizardState, keepOwnSelection } from './state';
+import { toggle, travelParams, type WizardState, keepOwnSelection } from './state';
 
 const t = de.wizard.regions;
 const MAX_REGIONS = 5;
@@ -31,6 +32,7 @@ export function StepRegions({
 }) {
   const [error, setError] = useState<string | null>(null);
   const [estimated, setEstimated] = useState(false);
+  const [qualityFilter, setQualityFilter] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [touched, setTouched] = useState(false);
   const origin = state.origin;
@@ -40,10 +42,11 @@ export function StepRegions({
     if (!origin || !needsLoad) return;
     let cancelled = false;
     setError(null);
-    fetchRegions({ origin: { geonameid: origin.geonameid }, max_drive_minutes: state.maxDriveMinutes, themes: state.themes })
+    fetchRegions({ origin: { geonameid: origin.geonameid }, themes: state.themes, ...travelParams(state) })
       .then((res) => {
         if (cancelled) return;
         setEstimated(res.travel_times.estimated > 0);
+        setQualityFilter(res.quality_filter);
         update({ regions: res.regions, selectedRegionIds: res.regions.slice(0, 1).map((r) => r.id) });
       })
       .catch((err: unknown) => {
@@ -60,7 +63,7 @@ export function StepRegions({
     <div className="space-y-6">
       <div className="space-y-2">
         <Heading level={2}>{t.title}</Heading>
-        <Text>{t.lead}</Text>
+        <Text>{state.travelMode === 'flight' ? t.leadFlight : t.lead}</Text>
       </div>
       {error ? (
         <Alert tone="error">
@@ -72,9 +75,12 @@ export function StepRegions({
       ) : null}
       {state.regions === null && !error ? <Spinner label={t.loading} /> : null}
       {estimated ? <Alert tone="warning">{t.estimated}</Alert> : null}
-      {state.regions !== null && regions.length === 0 ? <Alert tone="info">{t.empty}</Alert> : null}
+      {qualityFilter && state.travelMode === 'car' ? <Text data-testid="quality-note">{t.qualityNote}</Text> : null}
+      {state.regions !== null && regions.length === 0 ? <Alert tone="info">{state.travelMode === 'flight' ? t.emptyFlight : t.empty}</Alert> : null}
       <ul className="grid gap-4 md:grid-cols-2" data-testid="region-list">
         {regions.map((region) => {
+          // Aufgabe F17: a region with a single highlight is named after it ("Venedig").
+          const title = region.title || region.name;
           const selected = state.selectedRegionIds.includes(region.id);
           const full = !selected && state.selectedRegionIds.length >= MAX_REGIONS;
           return (
@@ -93,17 +99,24 @@ export function StepRegions({
                 )}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <Heading level={3}>{region.name}</Heading>
+                  <div className="min-w-0">
+                    <Heading level={3}>{title}</Heading>
+                    {region.highlight_place ? (
+                      <p className="mt-0.5 text-sm text-zinc-500" data-testid="region-subtitle">
+                        {t.regionOf(region.name)}
+                      </p>
+                    ) : null}
+                  </div>
                   <span className="flex shrink-0 items-start gap-2">
                     {region.center ? (
                       <OverviewMap
                         className="w-14"
                         size="mini"
-                        markers={[{ id: region.id, label: region.name, lat: region.center.lat, lng: region.center.lng }]}
+                        markers={[{ id: region.id, label: title, lat: region.center.lat, lng: region.center.lng }]}
                         highlight={[region.id]}
                         showCities={false}
                         showLabels={false}
-                        title={t.miniMap(region.name)}
+                        title={t.miniMap(title)}
                       />
                     ) : null}
                   <span
@@ -120,6 +133,10 @@ export function StepRegions({
                 <p className="mt-2 text-sm font-medium text-brand-800" data-testid="region-reason">
                   {region.reason}
                 </p>
+                {/* The whole region lies beyond 30 hours by car (by plane the times are flight times already). */}
+                <div className="mt-2 empty:hidden">
+                  {state.travelMode === 'car' ? <FlightBadge minutes={region.min_minutes} /> : null}
+                </div>
                 <p className="mt-2 text-sm text-zinc-600">{region.description}</p>
                 {region.ai_assisted ? <AiLabel className="mt-3" text={catalogLabel(meta, region.verified)} /> : null}
               </button>
@@ -130,7 +147,7 @@ export function StepRegions({
                     level={region.attractiveness.level}
                     score={region.attractiveness.score}
                     topPlaces={region.attractiveness.top_places}
-                    name={region.name}
+                    name={title}
                   />
                 </div>
               ) : null}

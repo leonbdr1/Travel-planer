@@ -38,13 +38,12 @@ export const orteFlow: Flow = {
       { expectText: ['Köln', 'Frankfurt am Main', 'Berlin', 'Weiter zu den Regionen'] },
     );
     await step(
-      'Häkchen „Orte vorschlagen lassen“ raus → Startort nur noch optional, Fahrzeiten bleiben an den Orten, Ortsliste mit genau diesen Orten',
+      'Startort leeren → keine Vorschläge (Kasten grau), Ortsliste mit genau diesen Orten',
       async () => {
-        await page.getByTestId('toggle-suggest').uncheck();
-        // Only the optional start location stays (for the drive times); no drive time field.
-        await page.getByTestId('origin-fields').waitFor({ state: 'detached' });
-        await page.getByTestId('origin-optional').waitFor();
-        await page.getByTestId('own-place-chip').filter({ hasText: /\d+ h|\d+ min/ }).first().waitFor();
+        await page.getByTestId('origin-clear').click();
+        // No tick boxes: the empty start location switches the suggestions off.
+        await page.locator('[data-testid="way-suggest"][data-active="false"]').waitFor();
+        await page.locator('[data-testid="way-own"][data-active="true"]').waitFor();
         await page.getByTestId('frame-next').click();
         await page.getByTestId('combination-count').filter({ hasText: '3 Orte × 2 Termine = 6 Kombinationen' }).waitFor();
       },
@@ -54,7 +53,10 @@ export const orteFlow: Flow = {
       'Zurück, Frankfurt entfernen, Wandern, Weiter zu den Regionen: eigene Orte und Vorschläge zusammen',
       async () => {
         await page.getByRole('button', { name: 'Zurück' }).click();
-        await page.getByTestId('toggle-suggest').check();
+        // Start location again → suggestions on, own places stay.
+        await page.getByTestId('origin-input').fill('70173');
+        await page.getByRole('option', { name: /^Stuttgart, Baden-Württemberg, DE/ }).click();
+        await page.locator('[data-testid="way-suggest"][data-active="true"]').waitFor();
         await page.getByRole('button', { name: 'Frankfurt am Main entfernen' }).click();
         await page.getByTestId('theme-chips').getByRole('button', { name: 'Wandern' }).click();
         await page.getByTestId('frame-next').click();

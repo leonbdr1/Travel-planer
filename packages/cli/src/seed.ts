@@ -7,7 +7,7 @@ import { countLocalities, countLocalitiesWithPostalCodes, type Db } from '@reise
 import { repoRoot } from '@reiseplaner/db/node';
 import { catalogCounts, importCatalog } from './catalog/import';
 import { loadCatalog } from './catalog/load';
-import { importGeoNames } from './geonames/import';
+import { formatCountryCounts, importGeoNames } from './geonames/import';
 
 /** Rows of the extract's dump files: a local database with fewer localities predates an extended extract. */
 function extractRows(dir: string): number {
@@ -23,8 +23,7 @@ export async function seedDevData(db: Db, log: (line: string) => void): Promise<
   const outdated = localities < extractRows(dir) || (existsSync(join(dir, 'zip')) && (await countLocalitiesWithPostalCodes(db)) === 0);
   if (localities === 0 || outdated) {
     const stats = await importGeoNames(db, dir);
-    const b = stats.byCountry;
-    log(`seed: Ortsdatenbank importiert (DE ${b.DE}, AT ${b.AT}, CH ${b.CH}, IT-BZ ${b['IT-BZ']}, Postleitzahlen ${stats.postalCodesAssigned})`);
+    log(`seed: Ortsdatenbank importiert (${formatCountryCounts(stats.byCountry)}, Postleitzahlen ${stats.postalCodesAssigned})`);
   }
   // Also when the catalog predates the attractiveness ratings (Aufgabe 8); the import is an idempotent upsert.
   const rated = await db.query<{ n: number }>(`SELECT count(*)::int AS n FROM app.places WHERE kind = 'catalog' AND fame IS NOT NULL`);

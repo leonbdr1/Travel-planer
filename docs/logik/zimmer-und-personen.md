@@ -1,6 +1,6 @@
 # Personenzahl und Zimmerlogik (Aufgabe 5, Entwurf und Umsetzung)
 
-Stand 29.09.2026. Ergänzt `architektur.md` 6.5 (Angebote) und 6.15 (Vorauswahl); Übernahme dort braucht Bens Freigabe (`docs/architektur-nachtrag.md`).
+Stand 29.09.2026. Ergänzt `architektur.md` 6.5 (Angebote) und 6.15 (Vorauswahl); Übernommen in `architektur.md` 6.16 (Freigabe 30.09.2026).
 
 ## Grundprinzip
 

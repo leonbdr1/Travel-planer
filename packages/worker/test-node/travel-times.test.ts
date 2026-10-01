@@ -30,14 +30,14 @@ describe('travel times', () => {
     const { routing } = createProviders(config, { onCall: (p, e) => usage.record(p, e) });
     const deps = { db: test.db, routing, routingSource: 'fake' as const, now, orsDailyCap: 450 };
     const first = await getTravelTimes(deps, stuttgart, places);
-    expect(first.stats).toEqual({ cached: 0, routed: 2, estimated: 0, routingCalls: 1 });
+    expect(first.stats).toEqual({ cached: 0, routed: 2, estimated: 0, coarse: 0, routingCalls: 1 });
     const oberstdorf = first.times.get(places[0]!.id)!;
     expect(oberstdorf.estimated).toBe(false);
     expect(oberstdorf.durationMin).toBeGreaterThan(120);
     await usage.flush(test.db, '2026-09-27');
 
     const second = await getTravelTimes(deps, { lat: 48.781, lng: 9.183 }, places);
-    expect(second.stats).toEqual({ cached: 2, routed: 0, estimated: 0, routingCalls: 0 });
+    expect(second.stats).toEqual({ cached: 2, routed: 0, estimated: 0, coarse: 0, routingCalls: 0 });
     await usage.flush(test.db, '2026-09-27');
     expect(await usageSince(test.db, '2026-09-27')).toEqual([{ day: '2026-09-27', provider: 'ors', endpoint: 'matrix', calls: 1 }]);
   });
@@ -59,6 +59,18 @@ describe('travel times', () => {
       places,
     );
     expect(cachedAfter.stats.cached).toBe(0);
+  });
+
+  it('does not route far destinations: coarse motorway estimate, not a fallback (Aufgabe F16)', async () => {
+    const usage = new UsageRecorder();
+    const { routing } = createProviders(config, { onCall: (p, e) => usage.record(p, e) });
+    const lissabon = { id: '00000000-0000-4000-8000-0000000000f1', lat: 38.72, lng: -9.13 };
+    const result = await getTravelTimes({ db: test.db, routing, routingSource: 'fake', now, orsDailyCap: 450 }, stuttgart, [lissabon]);
+    expect(result.stats).toEqual({ cached: 0, routed: 0, estimated: 0, coarse: 1, routingCalls: 0 });
+    const t = result.times.get(lissabon.id)!;
+    expect(t.estimated).toBe(false);
+    expect(t.durationMin).toBeGreaterThan(1200);
+    expect(t.durationMin).toBeLessThan(1800);
   });
 
   it('chunks large requests (50 destinations per matrix call)', async () => {

@@ -1,0 +1,39 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: balaton
+places:
+  - name: Siófok
+    themes:
+      seen: 3
+      familie: 2
+    description_de: Badeort am Südufer mit flachem Wasser und Strandbädern.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3045332
+  - name: Keszthely
+    themes:
+      seen: 2
+      staedte_kultur: 2
+    description_de: Stadt am Westende mit Schloss Festetics.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3050212
+  - name: Hévíz
+    themes:
+      wellness: 3
+    description_de: Kurort am größten Thermalbadesee Europas.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3051477
+  - name: Balatonfüred
+    themes:
+      seen: 2
+      wein_kulinarik: 2
+      wellness: 1
+    description_de: Kurort am Nordufer mit Promenade und Weinbergen.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3055566

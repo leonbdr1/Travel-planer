@@ -1,0 +1,41 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: fjordnorwegen
+places:
+  - name: Bergen
+    themes:
+      staedte_kultur: 2
+      bergpanorama: 2
+      wandern: 2
+    description_de: Hansestadt mit Bryggen, Fischmarkt und Standseilbahn auf den Fløyen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3161732
+  - name: Stavanger
+    themes:
+      wandern: 3
+      natur_ruhe: 2
+      staedte_kultur: 1
+    description_de: Stadt mit Altstadt aus Holzhäusern, nahe Preikestolen und Lysefjord.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3137115
+  - name: Ålesund
+    themes:
+      staedte_kultur: 2
+      bergpanorama: 2
+    description_de: Jugendstilstadt auf Inseln, Tor zum Geirangerfjord.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3163392
+  - name: Voss
+    themes:
+      wandern: 3
+      wintersport: 2
+    description_de: Ort zwischen Hardanger- und Sognefjord mit Seilbahn und Wasserfällen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3131329

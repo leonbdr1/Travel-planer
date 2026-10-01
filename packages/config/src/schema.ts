@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
 const hexColor = z.string().regex(/^#[0-9a-f]{6}$/i, 'expected a hex color like #0f766e');
-const countryCode = z.enum(['DE', 'AT', 'CH', 'IT-BZ']);
+// Catalog country keys; identical to CATALOG_COUNTRIES in packages/domain (drift test in packages/cli).
+const countryCode = z.enum([
+  'DE', 'AT', 'CH', 'IT-BZ', 'IT', 'FR', 'ES', 'PT', 'NL', 'BE', 'LU', 'DK', 'CZ', 'PL', 'HU', 'HR', 'SI', 'SK', 'GR', 'GB', 'IE', 'NO', 'SE',
+]);
 const positiveInt = z.int().positive();
 
 export const productConfigSchema = z.strictObject({

@@ -1,0 +1,11 @@
+# Regionen in Tschechien – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: prag
+  name: Prag
+  country: CZ
+  description_de: Goldene Stadt mit Karlsbrücke, Burg und Altstädter Ring, dazu Kutná Hora.
+  themes: [staedte_kultur, shopping]
+- slug: boehmen
+  name: Westböhmen und Südböhmen
+  country: CZ
+  description_de: Kurorte Karlsbad und Marienbad, dazu die Altstadt von Český Krumlov an der Moldau.
+  themes: [wellness, staedte_kultur, natur_ruhe]

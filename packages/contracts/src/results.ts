@@ -1,12 +1,16 @@
 import { z } from 'zod';
-import { goalSchema } from './searches';
+import { goalSchema, searchRequestSchema } from './searches';
 import { attractivenessSchema } from './suggestions';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
+/** Sort keys of the list; `drive`: nearest place first (drive time from the start location). */
+export const resultSortSchema = z.enum(['best', 'price', 'quality', 'drive']);
+export type ResultSort = z.infer<typeof resultSortSchema>;
+
 export const resultsQuerySchema = z.object({
-  /** price: cheapest first (default); best: by comparison price; quality: best score first. */
-  sort: z.enum(['best', 'price', 'quality']).default('price'),
+  /** price: cheapest first (default); best: by comparison price; quality: best score first; drive: nearest place first. */
+  sort: resultSortSchema.default('price'),
   /** The goal whose rules decide which houses the list and the matrix show (default: the search's goal). */
   goal: goalSchema.optional(),
   budget: z.string().optional(),
@@ -15,8 +19,14 @@ export const resultsQuerySchema = z.object({
   min_reviews: z.string().optional(),
   refundable: z.enum(['true', 'false']).optional(),
   board: z.string().optional(),
+  /** Kinds (hotel, pension, ferienwohnung) or the provider's raw types, comma-separated. */
   types: z.string().optional(),
   chips: z.string().optional(),
+  /** Part of the name: narrows the lists (not the matrix). */
+  q: z.string().max(80).optional(),
+  /** Page of the list: without `limit` the whole list (as before). */
+  offset: z.coerce.number().int().min(0).max(10_000).optional(),
+  limit: z.coerce.number().int().min(1).max(100).optional(),
   place_id: z.string().optional(),
   checkin: isoDate.optional(),
   /** With a night range the cell is (place, arrival, departure). */
@@ -127,6 +137,8 @@ export const qualityDtoSchema = z.object({
   cleanliness_delta: z.number().default(0),
   /** Deduction for confirmed complaints. */
   penalty: z.number().default(0),
+  /** The complaints behind the deduction, one per topic (weights before the cap). */
+  penalty_items: z.array(z.object({ topic: z.string(), weight: z.number() })).default([]),
 });
 
 /** One night more of the same stay (Aufgabe 4, docs/logik/flexible-naechte.md). */
@@ -203,6 +215,8 @@ export const searchResultsResponseSchema = z.object({
     combos_failed: z.number().int(),
   }),
   filters: effectiveFiltersSchema,
+  /** The search frame as sent, so the same search can run again with fresh prices. */
+  request: searchRequestSchema,
   matrix: z.object({
     places: z.array(
       z.object({ id: z.string(), name: z.string(), drive_minutes: z.number().int().nullable(), attractiveness: attractivenessSchema.nullable().default(null) }),
@@ -227,9 +241,11 @@ export const searchResultsResponseSchema = z.object({
     /** Of these, houses without reviews (listed apart in `unrated`). */
     unrated_hidden: z.number().int(),
   }),
+  /** The page of `items`: `total` houses in the list, `limit` null = all at once. */
+  page: z.object({ offset: z.number().int(), limit: z.number().int().nullable(), total: z.number().int() }),
   meta: z.object({
     prices_fetched_at: z.string().nullable(),
-    sort: z.enum(['best', 'price', 'quality']),
+    sort: resultSortSchema,
     goal: goalSchema,
     cell: z.object({ place_id: z.string(), checkin: isoDate, checkout: isoDate.nullable().default(null) }).nullable(),
   }),
@@ -283,6 +299,8 @@ const textLanguageSchema = z.enum(['de', 'en']).nullable();
 export const hotelDetailResponseSchema = z.object({
   hotel: hotelSummarySchema.extend({
     address: z.string().nullable(),
+    /** Position of the house for the map link (B7); null when the provider has none. */
+    location: z.object({ lat: z.number(), lng: z.number() }).nullable().default(null),
     description: z.array(textBlockSchema),
     description_language: textLanguageSchema,
     photos: z.array(z.string()),

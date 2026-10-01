@@ -41,6 +41,15 @@ const regions: Record<string, FakeRegion[]> = {
     { name: 'Vinschgau', descriptionDe: 'Tal im Westen Südtirols mit Apfelgärten, Waalwegen und Radweg entlang der Etsch.', themes: ['wandern', 'radfahren', 'wein_kulinarik'] },
     { name: 'Meraner Land', descriptionDe: 'Gebiet um die Kurstadt Meran mit Weinbergen, Gärten und Wegen bis ins Hochgebirge.', themes: ['wellness', 'wein_kulinarik', 'wandern', 'staedte_kultur'] },
   ],
+  IT: [
+    { name: 'Gardasee', descriptionDe: 'Größter See Italiens mit Zitronengärten, Burgen und Radwegen zwischen Riva und Sirmione.', themes: ['seen', 'radfahren', 'wandern', 'familie'] },
+    { name: 'Toskana', descriptionDe: 'Hügelland mit Weingütern und den Kunststädten Florenz, Siena und Pisa.', themes: ['staedte_kultur', 'wein_kulinarik', 'radfahren'] },
+    { name: 'Cinque Terre', descriptionDe: 'Fünf Dörfer an der ligurischen Steilküste mit Küstenwanderweg und Badebuchten.', themes: ['wandern', 'staedte_kultur', 'strand'] },
+  ],
+  ES: [
+    { name: 'Mallorca', descriptionDe: 'Baleareninsel mit Palma, Buchten, Tramuntana-Gebirge und langen Sandstränden.', themes: ['strand', 'wandern', 'familie'] },
+    { name: 'Andalusien', descriptionDe: 'Sevilla, Granada und Córdoba mit maurischem Erbe, dazu die Strände der Costa del Sol.', themes: ['staedte_kultur', 'strand', 'shopping'] },
+  ],
 };
 
 const p = (name: string, subdivision: string, themes: Themes, descriptionDe: string, searchRadiusKm = 10): FakePlace => ({

@@ -1,0 +1,6 @@
+# Regionen in Schweden – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: stockholm
+  name: Stockholm
+  country: SE
+  description_de: Hauptstadt auf vierzehn Inseln mit Gamla Stan, Museen und Schären.
+  themes: [staedte_kultur, shopping, natur_ruhe]

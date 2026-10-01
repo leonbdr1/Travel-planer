@@ -16,6 +16,7 @@ places:
     admin1: SG
     themes:
       staedte_kultur: 3
+      shopping: 1
     description_de: Stadt mit Stiftsbezirk und Stiftsbibliothek (UNESCO-Welterbe).
     search_radius_km: 10
     ai_assisted: true

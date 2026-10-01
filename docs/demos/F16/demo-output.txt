@@ -1,0 +1,26 @@
+$ npm run demo -- f16
+# recorded 2026-09-29T21:55:10.501Z
+
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, IT 3031, FR 3258, ES 1728, PT 587, NL 760, BE 508, LU 29, DK 212, CZ 448, PL 1055, HU 499, HR 140, SI 71, SK 134, GR 351, GB 2131, IE 189, NO 133, SE 404, Postleitzahlen 17081)
+seed: Katalog-Entwurf importiert (109 Regionen, 520 Orte)
+Fahrzeit ab München je Ort (GET /api/v1/places/search?geonameid=…):
+  ok     Venedig: 257 min → angezeigt „4 h 17 min“
+  ok     Split: 568 min → angezeigt „ca. 9 h“
+  ok     Barcelona: 799 min → angezeigt „über 10 h“
+  ok     Lissabon: 1488 min → angezeigt „über 20 h“
+  ok     Adeje (Teneriffa): 2497 min → angezeigt „über 30 h“ mit Flugzeug „Flug empfohlen“
+Regionen ab München, Fahrzeit egal, Strand und Wandern (Fahrzeiten: {"cached":1,"routed":254,"estimated":0}):
+    Schwarzwald – 9 passende Orte für Wandern, 3 h 30 min–4 h 2 min Fahrt
+    Cinque Terre und Ligurische Küste – 5 passende Orte für Strand und Meer und Wandern, 6 h 36 min bis ca. 7 h Fahrt
+    Allgäu – 8 passende Orte für Wandern, 1 h 19 min–2 h 3 min Fahrt
+    Ostseeküste Mecklenburg-Vorpommern – 6 passende Orte für Strand und Meer, ca. 9 h bis über 10 h Fahrt
+    Berner Oberland – 7 passende Orte für Wandern, 4 h 12 min–5 h 16 min Fahrt
+  ok     minutengenau nur unter 7 Stunden
+Regionen ab München, bis 20 h, Strand und Meer:
+    Ostseeküste Mecklenburg-Vorpommern – 6 passende Orte für Strand und Meer, ca. 9 h bis über 10 h Fahrt
+    Côte d’Azur – 5 passende Orte für Strand und Meer, ca. 8 h bis über 10 h Fahrt
+    Nordseeküste – 5 passende Orte für Strand und Meer, ca. 9 h bis über 10 h Fahrt
+    Istrien und Kvarner – 5 passende Orte für Strand und Meer, 4 h 35 min–5 h 55 min Fahrt
+    Dalmatien – 5 passende Orte für Strand und Meer, ca. 8 h bis über 10 h Fahrt
+  ok     bis 20 h: keine Kanaren, kein Madeira, keine Algarve
+Ergebnis: alle Prüfungen ok

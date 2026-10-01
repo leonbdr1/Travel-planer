@@ -17,7 +17,6 @@ export const zimmerFlow: Flow = {
         await page.goto(`${baseUrl}/suche`);
         await page.evaluate(() => sessionStorage.clear());
         await page.goto(`${baseUrl}/suche`);
-        await page.getByTestId('toggle-suggest').uncheck();
         await pickWindow(page, '2026-10-01', '2026-10-26');
         await page.locator('#travellers').click();
         await page.getByTestId('count-adults').getByRole('button', { name: 'Erwachsene: eins weniger' }).click();
@@ -46,7 +45,7 @@ export const zimmerFlow: Flow = {
         await page.getByTestId('detail-offers').first().waitFor({ timeout: 30_000 });
         await page.getByTestId('room-overview').scrollIntoViewIfNeeded();
       },
-      { expectText: ['Zimmer dieser Unterkunft an deinen Terminen (du suchst für 1 Person)', 'für bis zu'], expectSelector: ['[data-testid="room-overview"]'] },
+      { expectText: ['Zimmer an deinen Terminen (für 1 Person)', 'für bis zu'], expectSelector: ['[data-testid="room-overview"]'] },
     );
     note(`Zimmerübersicht: ${(await page.getByTestId('room-overview').innerText()).replace(/\n/g, ' | ')}`);
   },

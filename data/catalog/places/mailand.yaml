@@ -1,0 +1,21 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: mailand
+places:
+  - name: Mailand
+    themes:
+      shopping: 3
+      staedte_kultur: 3
+    description_de: Stadt mit Dom, Galleria Vittorio Emanuele, Scala und den Modestraßen um die Via Montenapoleone.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3173435
+  - name: Bergamo
+    themes:
+      staedte_kultur: 3
+      shopping: 1
+    description_de: Stadt mit ummauerter Oberstadt, Piazza Vecchia und Standseilbahn.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3182164

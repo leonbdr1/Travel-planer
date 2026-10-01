@@ -1,7 +1,7 @@
 // Generated from src/review-lexicon.yaml by src/bin/generate.ts (`npm run gen`). Do not edit.
 import type { ReviewTopic } from '../vocabulary';
 
-export const REVIEW_LEXICON_LANGUAGES = ["de","en","fr","it","nl"] as const;
+export const REVIEW_LEXICON_LANGUAGES = ["de","en","fr","it","nl","es","pt","pl","cs","hr","hu","da","sv","no","el"] as const;
 export type LexiconLanguage = (typeof REVIEW_LEXICON_LANGUAGES)[number];
 
 export interface ReviewLexicon {
@@ -78,6 +78,108 @@ export const REVIEW_LEXICON: ReviewLexicon = {
         "stoffig",
         "haren in",
         "haren op"
+      ],
+      "es": [
+        "sucio",
+        "sucia",
+        "sucios",
+        "sucias",
+        "suciedad",
+        "manchas",
+        "manchado*",
+        "no estaba limpio",
+        "no estaba limpia",
+        "polvo",
+        "pelos en",
+        "pelo en"
+      ],
+      "pt": [
+        "sujo",
+        "suja",
+        "sujos",
+        "sujas",
+        "sujidade",
+        "sujeira",
+        "manchas",
+        "manchad*",
+        "não estava limpo",
+        "não estava limpa",
+        "poeira",
+        "cabelos no"
+      ],
+      "pl": [
+        "brudn*",
+        "brud",
+        "brudem",
+        "plamy",
+        "plamami",
+        "nie było czysto",
+        "kurzu",
+        "zakurzon*",
+        "włosy w",
+        "włosy na"
+      ],
+      "cs": [
+        "špinav*",
+        "nebylo čisto",
+        "skvrn*",
+        "prach",
+        "prachu",
+        "zaprášen*",
+        "vlasy v"
+      ],
+      "hr": [
+        "prljav*",
+        "nije bilo čisto",
+        "mrlj*",
+        "prašin*",
+        "kose u",
+        "dlake u"
+      ],
+      "hu": [
+        "koszos*",
+        "piszkos*",
+        "nem volt tiszta",
+        "foltos*",
+        "poros*",
+        "hajszál*"
+      ],
+      "da": [
+        "beskidt*",
+        "snavset*",
+        "ikke rent",
+        "ikke ren",
+        "pletter",
+        "plettet*",
+        "støvet*",
+        "hår i"
+      ],
+      "sv": [
+        "smutsig*",
+        "inte rent",
+        "inte städat",
+        "fläckar",
+        "fläckig*",
+        "dammig*",
+        "hår i"
+      ],
+      "no": [
+        "skitten*",
+        "skittent",
+        "ikke rent",
+        "flekker",
+        "flekket*",
+        "støvete",
+        "hår i"
+      ],
+      "el": [
+        "βρώμικ*",
+        "λεκέδες",
+        "λερωμέν*",
+        "δεν ήταν καθαρό",
+        "σκόνη",
+        "τρίχες στο",
+        "τρίχες στη"
       ]
     },
     "schimmel": {
@@ -118,6 +220,72 @@ export const REVIEW_LEXICON: ReviewLexicon = {
         "schimmelige",
         "vochtige muren",
         "vochtplekken"
+      ],
+      "es": [
+        "moho",
+        "mohos",
+        "hongos",
+        "manchas de humedad",
+        "paredes húmedas"
+      ],
+      "pt": [
+        "mofo",
+        "bolor",
+        "paredes húmidas",
+        "paredes úmidas",
+        "manchas de humidade"
+      ],
+      "pl": [
+        "pleśń",
+        "pleśni",
+        "pleśnią",
+        "zagrzybi*",
+        "wilgoć",
+        "wilgoci"
+      ],
+      "cs": [
+        "plíseň",
+        "plísně",
+        "plísní",
+        "vlhké stěny",
+        "vlhkost"
+      ],
+      "hr": [
+        "plijesan",
+        "plijesni",
+        "buđ*",
+        "vlaga",
+        "vlage"
+      ],
+      "hu": [
+        "penész*",
+        "nedves fal*",
+        "dohos*"
+      ],
+      "da": [
+        "skimmel",
+        "skimmelsvamp",
+        "fugtige vægge",
+        "fugtpletter"
+      ],
+      "sv": [
+        "mögel",
+        "mögligt",
+        "möglig*",
+        "fuktiga väggar",
+        "fuktfläckar"
+      ],
+      "no": [
+        "mugg",
+        "muggsopp",
+        "fuktige vegger",
+        "fuktflekker"
+      ],
+      "el": [
+        "μούχλα",
+        "μούχλας",
+        "υγρασία",
+        "υγρασίας"
       ]
     },
     "ungeziefer": {
@@ -166,6 +334,82 @@ export const REVIEW_LEXICON: ReviewLexicon = {
         "vlooien",
         "ongedierte",
         "zilvervisjes"
+      ],
+      "es": [
+        "chinches",
+        "chinche",
+        "cucarachas",
+        "cucaracha",
+        "ratones",
+        "pulgas",
+        "bichos"
+      ],
+      "pt": [
+        "percevejos",
+        "percevejo",
+        "baratas",
+        "ratos",
+        "pulgas",
+        "bichos"
+      ],
+      "pl": [
+        "pluskw*",
+        "karaluch*",
+        "myszy",
+        "pchły",
+        "robactw*",
+        "insekty"
+      ],
+      "cs": [
+        "štěnice",
+        "šváb*",
+        "myši",
+        "blechy",
+        "hmyz"
+      ],
+      "hr": [
+        "stjenice",
+        "stjenica",
+        "žohar*",
+        "miševi",
+        "buhe",
+        "kukci"
+      ],
+      "hu": [
+        "poloska",
+        "poloskák",
+        "poloskát",
+        "csótány*",
+        "egerek",
+        "bolhák"
+      ],
+      "da": [
+        "væggelus",
+        "kakerlakker",
+        "lopper",
+        "utøj",
+        "skadedyr"
+      ],
+      "sv": [
+        "vägglöss",
+        "kackerlackor",
+        "möss",
+        "loppor",
+        "ohyra"
+      ],
+      "no": [
+        "veggdyr",
+        "kakerlakker",
+        "lopper",
+        "skadedyr"
+      ],
+      "el": [
+        "κοριοί",
+        "κοριούς",
+        "κατσαρίδες",
+        "κατσαρίδα",
+        "ποντίκια",
+        "ψύλλοι"
       ]
     },
     "laerm": {
@@ -215,6 +459,69 @@ export const REVIEW_LEXICON: ReviewLexicon = {
         "herrie",
         "dunne muren",
         "erg luid"
+      ],
+      "es": [
+        "ruido",
+        "ruidos",
+        "ruidoso",
+        "ruidosa",
+        "paredes finas",
+        "muy ruidoso"
+      ],
+      "pt": [
+        "barulho",
+        "barulhento*",
+        "ruído",
+        "ruídos",
+        "paredes finas"
+      ],
+      "pl": [
+        "hałas*",
+        "głośno",
+        "głośny",
+        "głośna",
+        "cienkie ściany"
+      ],
+      "cs": [
+        "hluk*",
+        "hlučn*",
+        "tenké stěny"
+      ],
+      "hr": [
+        "buka",
+        "buke",
+        "bučn*",
+        "tanki zidovi",
+        "glasno"
+      ],
+      "hu": [
+        "zaj*",
+        "hangos*",
+        "vékony fal*"
+      ],
+      "da": [
+        "larm",
+        "støj*",
+        "tynde vægge",
+        "lydt"
+      ],
+      "sv": [
+        "buller",
+        "oljud",
+        "bullrig*",
+        "lyhört",
+        "tunna väggar"
+      ],
+      "no": [
+        "bråk",
+        "støy*",
+        "lytt",
+        "tynne vegger"
+      ],
+      "el": [
+        "θόρυβος",
+        "θόρυβο",
+        "θορυβώδ*"
       ]
     },
     "geruch": {
@@ -262,6 +569,71 @@ export const REVIEW_LEXICON: ReviewLexicon = {
         "muf",
         "muffe",
         "muffig*"
+      ],
+      "es": [
+        "olor",
+        "olores",
+        "mal olor",
+        "apestaba",
+        "peste",
+        "huele",
+        "olía"
+      ],
+      "pt": [
+        "cheiro",
+        "cheiros",
+        "mau cheiro",
+        "fedor",
+        "fedia",
+        "cheirava a"
+      ],
+      "pl": [
+        "smród",
+        "śmierdział*",
+        "zapach*",
+        "stęchlizn*"
+      ],
+      "cs": [
+        "zápach*",
+        "smrad",
+        "smrděl*",
+        "páchl*"
+      ],
+      "hr": [
+        "smrad",
+        "smrdi",
+        "smrdjel*",
+        "neugodan miris",
+        "miris"
+      ],
+      "hu": [
+        "szag*",
+        "bűz*",
+        "büdös"
+      ],
+      "da": [
+        "lugt*",
+        "stank",
+        "stinker",
+        "muggen"
+      ],
+      "sv": [
+        "lukt*",
+        "stank",
+        "stinker",
+        "unken"
+      ],
+      "no": [
+        "lukt*",
+        "stank",
+        "stinker",
+        "muggen lukt"
+      ],
+      "el": [
+        "μυρωδιά",
+        "μύριζε",
+        "δυσοσμία",
+        "βρώμα"
       ]
     },
     "zustand": {
@@ -317,6 +689,85 @@ export const REVIEW_LEXICON: ReviewLexicon = {
         "verouderd*",
         "defect",
         "werkte niet"
+      ],
+      "es": [
+        "roto",
+        "rota",
+        "rotos",
+        "rotas",
+        "estropeado*",
+        "desgastad*",
+        "no funcionaba",
+        "averiado*",
+        "deteriorad*"
+      ],
+      "pt": [
+        "partido",
+        "avariad*",
+        "estragad*",
+        "desgastad*",
+        "não funcionava",
+        "degradad*"
+      ],
+      "pl": [
+        "zepsut*",
+        "zniszczon*",
+        "nie działał",
+        "nie działała",
+        "nie działało",
+        "zużyt*",
+        "obskurn*"
+      ],
+      "cs": [
+        "rozbit*",
+        "nefungoval",
+        "nefungovala",
+        "nefungovalo",
+        "opotřeben*",
+        "zchátral*"
+      ],
+      "hr": [
+        "pokvaren*",
+        "slomljen*",
+        "nije radio",
+        "nije radila",
+        "dotrajal*",
+        "istrošen*"
+      ],
+      "hu": [
+        "törött*",
+        "elromlott",
+        "nem működött",
+        "kopott*",
+        "lepusztult*",
+        "elhasznált*"
+      ],
+      "da": [
+        "ødelagt*",
+        "slidt*",
+        "virkede ikke",
+        "nedslidt*"
+      ],
+      "sv": [
+        "trasig*",
+        "sliten",
+        "slitet",
+        "slitna",
+        "fungerade inte",
+        "nedgången*"
+      ],
+      "no": [
+        "ødelagt*",
+        "slitt",
+        "slitte",
+        "virket ikke",
+        "nedslitt*"
+      ],
+      "el": [
+        "χαλασμέν*",
+        "σπασμέν*",
+        "δεν λειτουργούσε",
+        "φθαρμέν*"
       ]
     },
     "abweichung_beschreibung": {
@@ -359,6 +810,59 @@ export const REVIEW_LEXICON: ReviewLexicon = {
         "anders dan op de foto",
         "foto's kloppen niet",
         "misleidende foto's"
+      ],
+      "es": [
+        "no como en las fotos",
+        "diferente a las fotos",
+        "no corresponde",
+        "fotos engañosas",
+        "no como se describe"
+      ],
+      "pt": [
+        "diferente das fotos",
+        "não corresponde",
+        "fotos enganosas",
+        "não como descrito"
+      ],
+      "pl": [
+        "inaczej niż na zdjęciach",
+        "niezgodne z opisem",
+        "niezgodny z opisem",
+        "zdjęcia są stare"
+      ],
+      "cs": [
+        "jinak než na fotkách",
+        "neodpovídá popisu",
+        "neodpovídá fotkám"
+      ],
+      "hr": [
+        "drugačije nego na slikama",
+        "ne odgovara opisu",
+        "ne odgovara slikama"
+      ],
+      "hu": [
+        "nem olyan mint a képeken",
+        "nem felel meg a leírásnak",
+        "félrevezető képek"
+      ],
+      "da": [
+        "ikke som på billederne",
+        "ikke som beskrevet",
+        "misvisende billeder"
+      ],
+      "sv": [
+        "inte som på bilderna",
+        "inte som beskrivet",
+        "missvisande bilder"
+      ],
+      "no": [
+        "ikke som på bildene",
+        "ikke som beskrevet",
+        "misvisende bilder"
+      ],
+      "el": [
+        "όχι όπως στις φωτογραφίες",
+        "δεν αντιστοιχεί"
       ]
     }
   },
@@ -408,6 +912,91 @@ export const REVIEW_LEXICON: ReviewLexicon = {
       "niet",
       "zonder",
       "nooit"
+    ],
+    "es": [
+      "no",
+      "nunca",
+      "sin",
+      "ningún",
+      "ninguna",
+      "nada",
+      "ni"
+    ],
+    "pt": [
+      "não",
+      "nunca",
+      "sem",
+      "nenhum",
+      "nenhuma",
+      "nada"
+    ],
+    "pl": [
+      "nie",
+      "bez",
+      "żadnego",
+      "żadnej",
+      "żadnych",
+      "nigdy",
+      "brak"
+    ],
+    "cs": [
+      "ne",
+      "bez",
+      "žádný",
+      "žádná",
+      "žádné",
+      "nikdy",
+      "nebyl",
+      "nebyla",
+      "nebylo",
+      "nebyly"
+    ],
+    "hr": [
+      "ne",
+      "bez",
+      "nema",
+      "nikad",
+      "nije",
+      "nisu",
+      "nimalo"
+    ],
+    "hu": [
+      "nem",
+      "nincs",
+      "sem",
+      "nélkül",
+      "soha",
+      "semmi",
+      "semmilyen"
+    ],
+    "da": [
+      "ikke",
+      "ingen",
+      "intet",
+      "uden",
+      "aldrig"
+    ],
+    "sv": [
+      "inte",
+      "ingen",
+      "inga",
+      "inget",
+      "utan",
+      "aldrig"
+    ],
+    "no": [
+      "ikke",
+      "ingen",
+      "intet",
+      "uten",
+      "aldri"
+    ],
+    "el": [
+      "δεν",
+      "όχι",
+      "χωρίς",
+      "καθόλου",
+      "ποτέ"
     ]
   }
 };

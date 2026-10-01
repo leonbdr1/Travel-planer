@@ -3,15 +3,16 @@
 // explicit confirmation before the search starts.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { LocalityDto, MetaConfigResponse, PlaceDto } from '@reiseplaner/contracts';
-import { checkCombinations, placeLimit, preselectPlaceIds } from '@reiseplaner/domain';
+import { checkCombinations, formatDuration, placeLimit, preselectPlaceIds } from '@reiseplaner/domain';
 import { AiLabel, Alert, Badge, Button, Card, Heading, Label, Spinner, Text, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { de } from '../../i18n/de';
 import { AttractivenessBadge } from './AttractivenessBadge';
 import { AsyncCombobox } from './AsyncCombobox';
 import { fetchPlaces, resolvePlace, searchPlaces } from './api';
+import { FlightBadge } from './FlightBadge';
 import { catalogLabel, formatMinutes } from './labels';
-import { activeOrigin, keepOwnSelection, stayDates, toggle, type WizardState } from './state';
+import { keepOwnSelection, ownPlacesStart, stayDates, toggle, travelParams, type WizardState } from './state';
 
 const t = de.wizard.places;
 
@@ -22,12 +23,15 @@ function PlaceRow({
   selected,
   disabled,
   meta,
+  flightMode,
   onToggle,
 }: {
   place: PlaceDto;
   selected: boolean;
   disabled: boolean;
   meta: MetaConfigResponse;
+  /** Flight mode (F19): catalog places show the estimated flight time. */
+  flightMode: boolean;
   onToggle: () => void;
 }) {
   return (
@@ -57,8 +61,11 @@ function PlaceRow({
             <span className="text-sm text-zinc-600" data-testid="place-drive">
               {place.minutes === null
                 ? t.noDrive
-                : `${t.drive} ${formatMinutes(place.minutes)}${place.estimated ? ` (${t.estimated})` : ''}`}
+                : place.kind === 'catalog' && flightMode
+                  ? `${t.flightTime} ${formatDuration(place.minutes)} (${t.estimated})`
+                  : `${t.drive} ${formatMinutes(place.minutes)}${place.estimated ? ` (${t.estimated})` : ''}`}
             </span>
+            {flightMode && place.kind === 'catalog' ? null : <FlightBadge minutes={place.minutes} />}
           </div>
           {place.description ? <p className="text-sm text-zinc-600">{place.description}</p> : null}
           <div className="flex flex-wrap items-center gap-1.5">
@@ -92,7 +99,8 @@ export function StepPlaces({
   const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState(false);
   const max = meta.limits.max_places;
-  const origin = activeOrigin(state);
+  const origin = state.origin;
+  const driveOrigin = ownPlacesStart(state);
   const needsLoad = !state.direct && state.places.length === 0 && state.selectedRegionIds.length > 0;
 
   useEffect(() => {
@@ -102,9 +110,9 @@ export function StepPlaces({
     setError(null);
     fetchPlaces({
       origin: { geonameid: origin.geonameid },
-      max_drive_minutes: state.maxDriveMinutes,
       themes: state.themes,
       region_ids: state.selectedRegionIds,
+      ...travelParams(state),
     })
       .then((res) => {
         if (cancelled) return;
@@ -130,7 +138,7 @@ export function StepPlaces({
 
   // Own places picked before the start location changed get their drive times again.
   useEffect(() => {
-    const originId = origin?.geonameid ?? null;
+    const originId = driveOrigin?.geonameid ?? null;
     if (state.ownPlaces.length === 0 || state.ownPlacesOrigin === originId) return;
     let cancelled = false;
     Promise.all(state.ownPlaces.map((p) => (p.geonameid !== null ? resolvePlace(p.geonameid, originId).then((r) => r.place) : Promise.resolve(p))))
@@ -141,7 +149,7 @@ export function StepPlaces({
     return () => {
       cancelled = true;
     };
-  }, [origin?.geonameid, state.ownPlacesOrigin]);
+  }, [driveOrigin?.geonameid, state.ownPlacesOrigin]);
 
   const dates = useMemo(() => stayDates(state, meta), [state, meta]);
   const dateCount = dates.ok ? dates.dates.length : 0;
@@ -150,13 +158,13 @@ export function StepPlaces({
 
   const loadHits = useCallback(
     async (q: string, signal: AbortSignal): Promise<SearchHit[]> => {
-      const res = await searchPlaces(q, origin?.geonameid ?? null, signal);
+      const res = await searchPlaces(q, driveOrigin?.geonameid ?? null, signal);
       return [
         ...res.catalog.map((place) => ({ kind: 'place' as const, place })),
         ...res.localities.map((locality) => ({ kind: 'locality' as const, locality })),
       ];
     },
-    [origin?.geonameid],
+    [driveOrigin?.geonameid],
   );
 
   async function addHit(hit: SearchHit | null) {
@@ -166,13 +174,13 @@ export function StepPlaces({
       if (hit.kind === 'place' && hit.place.geonameid === null) {
         place = hit.place;
       } else if (hit.kind === 'place') {
-        place = (await resolvePlace(hit.place.geonameid as number, origin?.geonameid ?? null)).place;
+        place = (await resolvePlace(hit.place.geonameid as number, driveOrigin?.geonameid ?? null)).place;
       } else {
-        place = (await resolvePlace(hit.locality.geonameid, origin?.geonameid ?? null)).place;
+        place = (await resolvePlace(hit.locality.geonameid, driveOrigin?.geonameid ?? null)).place;
       }
       const known = state.places.some((p) => p.id === place.id) || state.ownPlaces.some((p) => p.id === place.id);
       const selected = state.selectedPlaceIds.includes(place.id) || selectedCount >= max ? state.selectedPlaceIds : [...state.selectedPlaceIds, place.id];
-      update({ ...(known ? {} : { ownPlaces: [...state.ownPlaces, place], ownPlacesOrigin: origin?.geonameid ?? null }), selectedPlaceIds: selected });
+      update({ ...(known ? {} : { ownPlaces: [...state.ownPlaces, place], ownPlacesOrigin: driveOrigin?.geonameid ?? null }), selectedPlaceIds: selected });
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : de.status.apiUnreachable);
     }
@@ -216,6 +224,7 @@ export function StepPlaces({
                   key={place.id}
                   place={place}
                   meta={meta}
+                  flightMode={state.travelMode === 'flight'}
                   selected={selected}
                   disabled={!selected && selectedCount >= max}
                   onToggle={() => update({ selectedPlaceIds: toggle(state.selectedPlaceIds, place.id) })}

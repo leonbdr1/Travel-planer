@@ -6,6 +6,7 @@ places:
     themes:
       staedte_kultur: 3
       seen: 3
+      shopping: 2
     description_de: Stadt am Luganersee mit Monte Brè und Monte San Salvatore.
     search_radius_km: 10
     ai_assisted: true

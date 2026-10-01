@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: sardinien
+places:
+  - name: Alghero
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Hafenstadt im Nordwesten mit katalanischer Altstadt und Stränden.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3183284
+  - name: Cagliari
+    themes:
+      staedte_kultur: 2
+      strand: 2
+      shopping: 1
+    description_de: Inselhauptstadt mit Burgviertel und dem Poetto-Strand.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2525473
+  - name: San Teodoro
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Badeort im Nordosten mit Lagune und Sandstränden.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3167329
+  - name: Villasimius
+    themes:
+      strand: 3
+      natur_ruhe: 2
+    description_de: Badeort an der Südostspitze mit hellen Stränden und Meeresschutzgebiet.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2522727

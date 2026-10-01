@@ -1,0 +1,41 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: savoyen
+places:
+  - name: Chamonix
+    themes:
+      bergpanorama: 3
+      wandern: 3
+      wintersport: 3
+    description_de: Bergort unter dem Mont Blanc mit Seilbahn zur Aiguille du Midi.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 3027301
+  - name: Annecy
+    themes:
+      seen: 3
+      staedte_kultur: 2
+      radfahren: 2
+    description_de: Stadt am klaren Lac d’Annecy mit Kanälen und Radweg ums Ufer.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3037543
+  - name: Megève
+    themes:
+      wintersport: 3
+      wandern: 2
+    description_de: Wintersportort mit Dorfplatz und Almen am Mont-Blanc-Massiv.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2994768
+  - name: Évian-les-Bains
+    themes:
+      seen: 2
+      wellness: 2
+    description_de: Kurort am französischen Genferseeufer mit Thermalbad und Promenade.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3019280

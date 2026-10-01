@@ -1,0 +1,61 @@
+# Regionen in Italien – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: gardasee
+  name: Gardasee
+  country: IT
+  description_de: Größter See Italiens mit Zitronengärten, Olivenhainen, Burgen und Radwegen zwischen Riva und Sirmione.
+  themes: [seen, radfahren, wandern, wein_kulinarik, familie]
+- slug: venedig-adria
+  name: Venedig und Obere Adria
+  country: IT
+  description_de: Lagunenstadt Venedig mit Kanälen und Palästen, dazu die Badeorte an der Oberen Adria.
+  themes: [staedte_kultur, strand, familie]
+- slug: dolomiten-trentino
+  name: Dolomiten und Trentino
+  country: IT
+  description_de: Dolomitengipfel um Cortina und das Fassatal, dazu Trient und der Norden des Trentino.
+  themes: [bergpanorama, wandern, wintersport, radfahren]
+- slug: oberitalienische-seen
+  name: Comer See und Lago Maggiore
+  country: IT
+  description_de: Oberitalienische Seen mit Villen, Gärten und Uferorten zwischen Como und Stresa.
+  themes: [seen, staedte_kultur, wandern]
+- slug: mailand
+  name: Mailand und Bergamo
+  country: IT
+  description_de: Modestadt Mailand mit Dom und Galleria, dazu die Oberstadt von Bergamo.
+  themes: [shopping, staedte_kultur]
+- slug: cinque-terre
+  name: Cinque Terre und Ligurische Küste
+  country: IT
+  description_de: Fünf Dörfer an der Steilküste mit Weinterrassen, Küstenwanderweg und Badebuchten, dazu Portofino.
+  themes: [wandern, staedte_kultur, strand]
+- slug: toskana
+  name: Toskana
+  country: IT
+  description_de: Hügelland mit Zypressen, Weingütern und den Kunststädten Florenz, Siena und Pisa.
+  themes: [staedte_kultur, wein_kulinarik, radfahren, wandern]
+- slug: rom
+  name: Rom und Latium
+  country: IT
+  description_de: Ewige Stadt mit Kolosseum, Forum und Vatikan, dazu Tivoli und die Weinorte der Albaner Berge.
+  themes: [staedte_kultur, shopping]
+- slug: amalfikueste
+  name: Neapel und Amalfiküste
+  country: IT
+  description_de: Golf von Neapel mit Vesuv und Pompeji, die Steilküste von Amalfi und die Insel Capri.
+  themes: [staedte_kultur, strand, wandern]
+- slug: sizilien
+  name: Sizilien
+  country: IT
+  description_de: Mittelmeerinsel mit Ätna, griechischen Tempeln, Barockstädten und Badebuchten.
+  themes: [staedte_kultur, strand, wandern]
+- slug: sardinien
+  name: Sardinien
+  country: IT
+  description_de: Mittelmeerinsel mit hellen Sandstränden, türkisem Wasser und Küstenorten.
+  themes: [strand, natur_ruhe, familie]
+- slug: emilia-riviera
+  name: Bologna und Riviera Romagnola
+  country: IT
+  description_de: Universitätsstadt Bologna mit Arkaden und Küche, dazu die Badeorte an der Adria.
+  themes: [strand, familie, staedte_kultur, wein_kulinarik]

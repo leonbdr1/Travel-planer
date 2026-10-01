@@ -49,12 +49,27 @@ export const bewertungFlow: Flow = {
     );
     await page.mouse.move(0, 0);
     await step(
+      'Abzug für Mängel: das „i“ nennt die gemeldeten Mängel einzeln',
+      async () => {
+        const target = page.getByTestId('result-list').locator('[data-testid="rating-pair"]:not([data-penalty="0"])').first();
+        await target.scrollIntoViewIfNeeded();
+        await target.getByTestId('rating-info').hover();
+        const defects = target.getByTestId('rating-defects');
+        await defects.waitFor();
+        const lines = await defects.locator('li').allInnerTexts();
+        if (lines.length === 0 || !lines.every((l) => /: \d+× gemeldet.*\(−\d+,\d\)$/.test(l))) throw new Error(`defect lines: ${lines.join(' | ')}`);
+        note(`Mängel: ${lines.join(' | ')}`);
+      },
+      { expectText: ['Abzug für gemeldete Mängel', 'gemeldet'], expectSelector: ['[data-testid="rating-defects"] li'], fullPage: false },
+    );
+    await page.mouse.move(0, 0);
+    await step(
       'Detailansicht: beide Werte oben, Aufschlüsselung mit Art der Unterkunft',
       async () => {
         await page.getByTestId('result-list').getByTestId('result-name').first().click();
         await page.getByTestId('score-breakdown').waitFor({ timeout: 30_000 });
       },
-      { expectText: ['Unser Wert', 'Gästebewertungen', 'So setzt sich der Qualitätswert zusammen'], expectSelector: ['[data-testid="rating-pair"]'] },
+      { expectText: ['Unser Wert', 'Gästebewertungen', 'Unser Qualitätswert'], expectSelector: ['[data-testid="rating-pair"]'] },
     );
     await page.setViewportSize({ width: 390, height: 844 });
     await step(

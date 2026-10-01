@@ -1,0 +1,27 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: berlin
+places:
+  - name: Berlin
+    admin1: '16'
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+      familie: 2
+      radfahren: 1
+    description_de: Hauptstadt mit Museumsinsel, Brandenburger Tor, Kurfürstendamm und vielen Kiezen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2950159
+  - name: Potsdam
+    admin1: '11'
+    themes:
+      staedte_kultur: 3
+      seen: 2
+      radfahren: 2
+      shopping: 1
+    description_de: Residenzstadt mit Schloss Sanssouci, Holländischem Viertel und Havelseen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2852458

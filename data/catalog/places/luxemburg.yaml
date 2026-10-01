@@ -1,0 +1,30 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: luxemburg
+places:
+  - name: Luxemburg
+    themes:
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Hauptstadt mit Kasematten, Altstadt und Einkaufsstraßen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2960316
+  - name: Echternach
+    themes:
+      wandern: 3
+      staedte_kultur: 2
+    description_de: Abteistadt an der Sauer, Ausgangspunkt des Müllerthal-Trails.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2960630
+  - name: Vianden
+    themes:
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Städtchen an der Our unter einer großen Burg.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2960021

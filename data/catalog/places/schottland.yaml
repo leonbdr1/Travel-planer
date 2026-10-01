@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: schottland
+places:
+  - name: Edinburgh
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Hauptstadt mit Burg, Royal Mile und georgianischer Neustadt.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2650225
+  - name: Glasgow
+    themes:
+      shopping: 3
+      staedte_kultur: 2
+    description_de: Größte Stadt Schottlands mit Buchanan Street und Museen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2648579
+  - name: Inverness
+    themes:
+      natur_ruhe: 2
+      wandern: 2
+      staedte_kultur: 1
+    description_de: Hauptort der Highlands nahe Loch Ness.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2646088
+  - name: Fort William
+    themes:
+      wandern: 3
+      bergpanorama: 3
+    description_de: Ort am Fuß des Ben Nevis, Ausgangspunkt für Touren in Glen Coe.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2649169

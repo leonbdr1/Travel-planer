@@ -1,0 +1,33 @@
+$ DB_PORT=54391 npm run cli -- buchungen --limit 5
+Datenbank: 127.0.0.1:54391
+| Buchungsnummer | Status | Unterkunft | Aufenthalt | Betrag | angelegt | E-Mail |
+|---|---|---|---|---|---|---|
+| TW8BD46N | storniert | Ferienwohnung Sonnenhof, Füssen | 09.10.2026–11.10.2026 | 183,27 € | 01.10.2026, 00:59 Uhr | e***@example.org |
+| 5VFWN0X4 | storniert | Ferienwohnung Sonnenhof, Füssen | 09.10.2026–11.10.2026 | 183,27 € | 01.10.2026, 00:58 Uhr | e***@example.org |
+| 8JAGTZVV | storniert | Ferienwohnung Sonnenhof, Füssen | 02.10.2026–04.10.2026 | 124,27 € | 01.10.2026, 00:54 Uhr | e***@example.org |
+
+$ DB_PORT=54391 npm run cli -- buchungen TW8BD46N
+Datenbank: 127.0.0.1:54391
+Buchung TW8BD46N – storniert
+
+Unterkunft:        Ferienwohnung Sonnenhof, Füssen (LiteAPI-Hotel lpf-4757-1070-10)
+Aufenthalt:        09.10.2026 – 11.10.2026, 2 Nächte, 1 Zimmer, 2 Gäste
+Zimmer:            Apartment mit Küche (RO)
+Betrag:            183,27 €
+Stornierung:       kostenlos bis 07.10.2026, 18:00 Uhr
+Gebucht von:       Erika Mustermann, e***@example.org
+Bestätigung Hotel: HCN-791822
+LiteAPI-Buchung:   [simulierte LiteAPI-ID gekürzt]
+Angelegt:          01.10.2026, 00:59 Uhr
+Bestätigt:         01.10.2026, 00:59 Uhr
+Storniert:         01.10.2026, 00:59 Uhr, Gebühr 0,00 €, Erstattung 183,27 €
+Letzter Fehler:    –
+
+E-Mails:
+  booking_confirmation: sent, 1 Versuch(e), angelegt 01.10.2026, 00:59 Uhr, gesendet 01.10.2026, 00:59 Uhr
+  booking_cancelled: sent, 1 Versuch(e), angelegt 01.10.2026, 00:59 Uhr, gesendet 01.10.2026, 00:59 Uhr
+  access_link: sent, 1 Versuch(e), angelegt 01.10.2026, 00:59 Uhr, gesendet 01.10.2026, 00:59 Uhr
+
+$ DB_PORT=54391 npm run cli -- buchungen TW8BD4XX
+Datenbank: 127.0.0.1:54391
+Keine Buchung TW8BD4XX. Ähnlich: TW8BD46N

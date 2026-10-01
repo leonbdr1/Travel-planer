@@ -6,6 +6,7 @@ places:
     themes:
       staedte_kultur: 3
       wandern: 2
+      shopping: 1
     description_de: Universitätsstadt mit Schlossruine, Alter Brücke und Philosophenweg.
     search_radius_km: 10
     ai_assisted: true

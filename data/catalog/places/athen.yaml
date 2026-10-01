@@ -1,0 +1,21 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: athen
+places:
+  - name: Athen
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Hauptstadt mit Akropolis, Plaka und Akropolis-Museum.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 264371
+  - name: Nafplio
+    themes:
+      staedte_kultur: 2
+      strand: 2
+    description_de: Hafenstadt mit venezianischer Festung Palamidi.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 256637

@@ -2,6 +2,10 @@
 // Tyrol as simplified outlines, a few big cities, the start location and the
 // regions as markers. Deliberately coarse – it only answers "where is that?".
 // Drawn as inline SVG (no map library, no tiles, no external requests).
+// Since F15 a second, coarser frame shows Europe when a marker lies outside
+// the DACH frame (Venedig, Lissabon, Kreta …).
+import { EUROPE_OUTLINES } from './europe-outlines';
+import { DACH, EUROPE, mapFrame, projection } from './map-frame';
 
 /** [lng, lat] outlines, simplified by hand to a few dozen points each. */
 const COUNTRIES: Array<{ code: 'DE' | 'AT' | 'CH' | 'BZ'; points: Array<[number, number]> }> = [
@@ -52,17 +56,14 @@ const CITIES: Array<{ name: string; lng: number; lat: number; left?: boolean }> 
   { name: 'Zürich', lng: 8.54, lat: 47.37 },
 ];
 
-// Equirectangular projection around 48.5° N: good enough at this scale.
-const LNG0 = 5.6;
-const LAT0 = 55.2;
-const COS = Math.cos((48.5 * Math.PI) / 180);
-const SCALE = 60;
-const WIDTH = Math.round((17.3 - LNG0) * COS * SCALE);
-const HEIGHT = Math.round((LAT0 - 45.7) * SCALE);
+const EUROPE_CITIES: Array<{ name: string; lng: number; lat: number; left?: boolean }> = [
+  { name: 'Berlin', lng: 13.4, lat: 52.52 },
+  { name: 'Paris', lng: 2.35, lat: 48.86, left: true },
+  { name: 'Rom', lng: 12.5, lat: 41.9 },
+  { name: 'Madrid', lng: -3.7, lat: 40.42 },
+  { name: 'London', lng: -0.13, lat: 51.51, left: true },
+];
 
-const x = (lng: number) => (lng - LNG0) * COS * SCALE;
-const y = (lat: number) => (LAT0 - lat) * SCALE;
-const path = (points: Array<[number, number]>) => `M${points.map(([lng, lat]) => `${x(lng).toFixed(1)},${y(lat).toFixed(1)}`).join('L')}Z`;
 
 export interface MapMarker {
   id: string;
@@ -93,23 +94,37 @@ export function OverviewMap({
   size?: 'full' | 'mini';
 }) {
   const strong = new Set(highlight ?? []);
+  const frame = mapFrame([...markers, ...(origin ? [origin] : [])]) === 'dach' ? DACH : EUROPE;
+  const { x, y, path, width: WIDTH, height: HEIGHT } = projection(frame);
+  const outlines =
+    frame.id === 'dach'
+      ? COUNTRIES.map((c) => ({ code: c.code, points: c.points, home: c.code === 'DE' }))
+      : EUROPE_OUTLINES.map((c) => ({ code: c.code, points: c.points, home: c.code === '276' }));
+  const cities = frame.id === 'dach' ? CITIES : EUROPE_CITIES;
   // The map is drawn in about 465 × 570 units and shown at 250 px or less: sizes in map units.
   const r = size === 'mini' ? { dot: 38, strong: 44, halo: 80, stroke: 8 } : { dot: 9, strong: 12, halo: 26, stroke: 3 };
   const font = { city: 20, label: 24 };
   return (
-    <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-label={title} className={className} data-testid="overview-map">
+    <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-label={title} className={className} data-testid="overview-map" data-frame={frame.id}>
       <title>{title}</title>
-      {COUNTRIES.map((c) => (
+      {outlines.map((c, i) => (
         <path
-          key={c.code}
+          key={`${c.code}-${i}`}
           d={path(c.points)}
-          className={c.code === 'DE' ? 'fill-zinc-100 stroke-zinc-400' : 'fill-zinc-50 stroke-zinc-300'}
-          strokeWidth={size === 'mini' ? 6 : 2}
+          className={
+            frame.id === 'europe' && size === 'mini'
+              ? // A plain land silhouette: country borders would only be grey noise at thumbnail size.
+                c.home ? 'fill-zinc-400' : 'fill-zinc-300'
+              : c.home
+                ? 'fill-zinc-100 stroke-zinc-400'
+                : 'fill-zinc-50 stroke-zinc-300'
+          }
+          strokeWidth={frame.id === 'europe' && size === 'mini' ? 0 : size === 'mini' ? 6 : 2}
           strokeLinejoin="round"
         />
       ))}
       {showCities
-        ? CITIES.map((c) => (
+        ? cities.map((c) => (
             <g key={c.name} className="fill-zinc-400">
               <circle cx={x(c.lng)} cy={y(c.lat)} r={5} />
               <text x={x(c.lng) + (c.left ? -9 : 9)} y={y(c.lat) + 7} textAnchor={c.left ? 'end' : 'start'} className="fill-zinc-500" fontSize={font.city}>

@@ -1,0 +1,31 @@
+# Regionen in Spanien – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: barcelona-costa-brava
+  name: Barcelona und Costa Brava
+  country: ES
+  description_de: Barcelona mit Gaudí-Bauten und Einkaufsstraßen, dazu Buchten und Badeorte der Costa Brava.
+  themes: [staedte_kultur, shopping, strand]
+- slug: mallorca
+  name: Mallorca
+  country: ES
+  description_de: Baleareninsel mit Palma, Buchten, dem Tramuntana-Gebirge und langen Sandstränden.
+  themes: [strand, wandern, staedte_kultur, familie]
+- slug: madrid
+  name: Madrid und Kastilien
+  country: ES
+  description_de: Hauptstadt mit Prado und Gran Vía, dazu Toledo und Segovia.
+  themes: [staedte_kultur, shopping]
+- slug: andalusien
+  name: Andalusien und Costa del Sol
+  country: ES
+  description_de: Maurisches Erbe in Sevilla, Granada und Córdoba, dazu Strände an der Costa del Sol.
+  themes: [staedte_kultur, strand, shopping]
+- slug: costa-blanca
+  name: Valencia und Costa Blanca
+  country: ES
+  description_de: Valencia mit Altstadt und Stadt der Künste, dazu die Badeorte der Costa Blanca.
+  themes: [strand, staedte_kultur, familie]
+- slug: kanaren
+  name: Kanarische Inseln
+  country: ES
+  description_de: Atlantikinseln mit mildem Klima, Vulkanlandschaft und Stränden, nur mit Flug oder Fähre erreichbar.
+  themes: [strand, wandern, natur_ruhe, familie]

@@ -1,0 +1,49 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: amalfikueste
+places:
+  - name: Neapel
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Stadt am Golf mit Altstadt, Archäologischem Museum und Blick auf den Vesuv.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3172394
+  - name: Sorrent
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Stadt auf den Klippen über dem Golf, Ausgangspunkt nach Capri und Pompeji.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3166350
+  - name: Positano
+    themes:
+      strand: 2
+      staedte_kultur: 2
+      wandern: 2
+    description_de: Ort an der Steilküste mit bunten Häusern, Kiesstrand und dem Pfad der Götter.
+    search_radius_km: 4
+    ai_assisted: true
+    verified: false
+    geonameid: 3170051
+  - name: Amalfi
+    themes:
+      staedte_kultur: 2
+      strand: 2
+    description_de: Namensgebender Ort der Küste mit Dom und kleinem Hafen.
+    search_radius_km: 4
+    ai_assisted: true
+    verified: false
+    geonameid: 3183130
+  - name: Capri
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Inselort mit Piazzetta, Blauer Grotte und Felsen im Meer.
+    search_radius_km: 4
+    ai_assisted: true
+    verified: false
+    geonameid: 3180630

@@ -26,6 +26,7 @@ places:
     themes:
       staedte_kultur: 3
       seen: 2
+      shopping: 1
     description_de: Landeshauptstadt mit Lindwurmbrunnen und Strandbad am Wörthersee.
     search_radius_km: 10
     ai_assisted: true

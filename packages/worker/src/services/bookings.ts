@@ -6,6 +6,7 @@ import type { BookingCompleteResponse, BookingCreateRequest, BookingCreateRespon
 import { searchRequestSchema } from '@reiseplaner/contracts';
 import {
   applyBookingEvent,
+  bookingsByHolderEmail,
   budgetReserve,
   budgetSettle,
   confirmBookingPrice,
@@ -303,6 +304,11 @@ async function confirmationPayload(deps: BookingDeps, b: Booking, token: string)
     payAtPropertyKnown: b.offer.payAtPropertyKnown,
     refundable: b.cancellationPolicy?.refundable ?? b.offer.refundable,
     freeCancelUntil: b.cancellationPolicy?.freeCancelUntil ?? b.offer.freeCancelUntil,
+    // Booked after the deadline (last minute): the e-mail must not promise free cancellation.
+    freeCancelEnded: (() => {
+      const until = b.cancellationPolicy?.freeCancelUntil ?? b.offer.freeCancelUntil;
+      return until !== null && Date.parse(until) <= deps.now().getTime();
+    })(),
     hotelConfirmationCode: b.hotelConfirmationCode,
     accessUrl: accessUrl(deps, b.bookingRef, token),
   };
@@ -409,8 +415,14 @@ export async function cancelBooking(deps: BookingDeps, ref: string, token: strin
   return { dry_run: false, booking: bookingView(cancelled.booking, deps.now()) };
 }
 
-/** Sends a fresh access link when reference and e-mail match; the caller always answers 202. */
-export async function requestAccessLink(deps: BookingDeps, refInput: string, email: string): Promise<boolean> {
+/**
+ * Sends fresh access links; the caller always answers 202. With a reference:
+ * the link to that booking when reference and e-mail match. Without one: one
+ * e-mail listing every booking of the address with its own link (the booking
+ * history without an account).
+ */
+export async function requestAccessLink(deps: BookingDeps, refInput: string | null, email: string): Promise<boolean> {
+  if (!refInput?.trim()) return sendBookingsOverview(deps, email);
   const ref = normalizeBookingRef(refInput);
   if (!ref) return false;
   const booking = await getBookingByRef(deps.db, ref);
@@ -424,6 +436,32 @@ export async function requestAccessLink(deps: BookingDeps, refInput: string, ema
       toEmail: booking.holder.email,
       bookingId: booking.id,
       payload: { bookingRef: booking.bookingRef, hotelName: booking.offer.hotelName, accessUrl: accessUrl(deps, ref, token), validDays: Math.round(constants.BOOKING_ACCESS_TOKEN_TTL_S / 86_400) },
+    },
+  );
+  return true;
+}
+
+async function sendBookingsOverview(deps: BookingDeps, email: string): Promise<boolean> {
+  const bookings = await bookingsByHolderEmail(deps.db, email, constants.BOOKINGS_OVERVIEW_MAX);
+  const first = bookings[0];
+  if (!first?.holder) return false;
+  const entries = await Promise.all(
+    bookings.map(async (b) => ({
+      bookingRef: b.bookingRef,
+      hotelName: b.offer.hotelName,
+      checkin: b.checkin,
+      checkout: b.checkout,
+      cancelled: b.status === 'cancelled',
+      accessUrl: accessUrl(deps, b.bookingRef, (await accessToken(deps, b)) as string),
+    })),
+  );
+  await sendViaOutbox(
+    { db: deps.db, mail: deps.mail, now: deps.now },
+    {
+      type: 'access_link',
+      toEmail: first.holder.email,
+      bookingId: first.id,
+      payload: { bookings: entries, validDays: Math.round(constants.BOOKING_ACCESS_TOKEN_TTL_S / 86_400) },
     },
   );
   return true;

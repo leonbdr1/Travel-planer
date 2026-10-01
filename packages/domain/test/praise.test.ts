@@ -57,11 +57,12 @@ describe('countPraise', () => {
         review('Great breakfast.', null, 'en-gb'),
         review('朝食が美味しかった。', null, 'ja'),
         review('Отличный завтрак, breakfast.', null, 'ru'),
+        // Since F18 Spanish is readable; Japanese and Russian are not.
         review('Desayuno excelente.', null, 'es'),
       ],
       today,
     );
-    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 2, reviewsWeighted: 2 * constants.MENTION_RECENT_WEIGHT });
+    expect(c).toMatchObject({ topic: 'fruehstueck', praised: 3, reviewsWeighted: 3 * constants.MENTION_RECENT_WEIGHT });
   });
 
   it('weights reviews of the last months up, for the praise and for the base', () => {

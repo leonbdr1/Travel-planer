@@ -1,0 +1,11 @@
+# Regionen in den Niederlanden – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: amsterdam
+  name: Amsterdam und Nordholland
+  country: NL
+  description_de: Grachtenstadt Amsterdam mit Museen und Geschäften, dazu Haarlem und der Strand von Zandvoort.
+  themes: [staedte_kultur, shopping, radfahren, strand]
+- slug: niederlaendische-kueste
+  name: Den Haag und Zeeland
+  country: NL
+  description_de: Nordseeküste mit Scheveningen, breiten Stränden und den Inseln und Deichen Zeelands.
+  themes: [strand, radfahren, familie]

@@ -158,13 +158,14 @@ export function DateRangePicker({
         aria-expanded={selected}
         onClick={() => (selected ? close() : openAt(which))}
         className={cx(
-          'flex h-14 min-w-0 flex-1 items-center gap-3 px-3 text-left transition-colors hover:bg-zinc-50',
+          'flex h-14 min-w-0 flex-1 items-center gap-3 px-2.5 text-left sm:px-3 transition-colors hover:bg-zinc-50',
           'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-600',
           which === 'start' ? 'rounded-l-lg' : 'rounded-r-lg',
           selected && 'bg-brand-50 ring-2 ring-inset ring-brand-600 hover:bg-brand-50',
         )}
       >
-        <CalendarDaysIcon aria-hidden="true" className="size-5 shrink-0 text-zinc-500" />
+        {/* No icon on phones: the full date ("Mo, 12.10.2026") needs the room. */}
+        <CalendarDaysIcon aria-hidden="true" className="hidden size-5 shrink-0 text-zinc-500 sm:block" />
         <span className="min-w-0">
           <span className="block text-xs font-medium text-zinc-500">{which === 'start' ? t.arrival : t.departure}</span>
           <span className={cx('block truncate text-sm font-semibold', value ? 'text-zinc-950' : 'text-zinc-400')}>

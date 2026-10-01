@@ -1,0 +1,39 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: sizilien
+places:
+  - name: Taormina
+    themes:
+      staedte_kultur: 3
+      strand: 2
+    description_de: Ort über dem Meer mit antikem Theater und Blick auf den Ätna.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2522975
+  - name: Palermo
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Inselhauptstadt mit arabisch-normannischen Bauten, Märkten und Kathedrale.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2523920
+  - name: Cefalù
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Fischerort mit normannischem Dom und Sandstrand unter dem Felsen.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2525041
+  - name: Syrakus
+    themes:
+      staedte_kultur: 3
+      strand: 1
+    description_de: Antike Stadt mit Altstadtinsel Ortigia und griechischem Theater.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2523083

@@ -1,3 +1,4 @@
+import { openFilters } from './helpers';
 import type { Flow } from '../types';
 import { prepareSixtyCombinations } from './suche';
 
@@ -17,7 +18,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('result-list').waitFor({ timeout: 30_000 });
       },
       {
-        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise abgerufen um', 'Unsere Wahl zuerst', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen', 'dasselbe Zimmer'],
+        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise von', 'Unsere Wahl zuerst', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen', 'gleiches Zimmer'],
         expectSelector: ['[data-testid="result-matrix"]', '[data-testid="bargain-reason"]', '[data-testid="result-filters"]'],
         fullPage: true,
       },
@@ -36,7 +37,7 @@ export const ergebnisseFlow: Flow = {
         note(`Beschriftung für Screenreader: ${await cell.getAttribute('aria-label')}`);
       },
       {
-        expectText: ['günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier', 'pro Nacht', 'Klick: nur diese Kombination'],
+        expectText: ['günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer:', 'pro Nacht', 'Klick: nur diese Kombination'],
         expectSelector: ['[data-testid="tooltip"] [data-testid="matrix-bargain-reason"]'],
         fullPage: false,
       },
@@ -78,6 +79,7 @@ export const ergebnisseFlow: Flow = {
     await step(
       'Filter ohne neue Suche: Budget 200 € lässt einen Teil übrig',
       async () => {
+        await openFilters(page);
         await page.locator('#f-budget').fill('200');
         await page.getByTestId('apply-filters').click();
         await page.waitForFunction(
@@ -97,13 +99,14 @@ export const ergebnisseFlow: Flow = {
     await step(
       'Filter ohne neue Suche: Budget 50 €',
       async () => {
+        await openFilters(page);
         await page.locator('#f-budget').fill('50');
         await page.getByTestId('apply-filters').click();
         await page.getByText('Keine Unterkunft erfüllt diese Filter').waitFor({ timeout: 15_000 });
       },
       { expectText: ['Keine Unterkunft erfüllt diese Filter'] },
     );
-    await page.getByRole('button', { name: 'Filter der Suche' }).click();
+    await page.getByRole('button', { name: 'Zurücksetzen' }).click();
     await page.getByTestId('result-list').waitFor();
 
     await step(
@@ -156,7 +159,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('detail-offers').waitFor({ timeout: 15_000 });
       },
       {
-        expectText: ['Alle Termine und Tarife', 'So setzt sich der Qualitätswert zusammen', 'Aktualität', 'Rezensionscheck', 'Bewertungen geprüft am', 'Buchen', 'Beschreibung', 'Wichtige Hinweise der Unterkunft', 'Junggesellenabschiede'],
+        expectText: ['Alle Termine und Tarife', 'Unser Qualitätswert', 'Aktualität', 'Rezensionscheck', 'Bewertungen geprüft am', 'Buchen', 'Beschreibung', 'Wichtige Hinweise der Unterkunft', 'Junggesellenabschiede'],
         expectSelector: ['[data-testid="score-breakdown"]', '[data-testid="book-offer"]', '[data-testid="hotel-description"] h3', '[data-testid="important-information"]'],
         // Provider markup never shows, and the texts came in German.
         rejectText: ['<p>', '<strong>', '&amp;', 'This property', 'nur auf Englisch'],

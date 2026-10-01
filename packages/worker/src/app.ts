@@ -1,6 +1,7 @@
 // Hono API under /api/v1 (architektur.md 7). Middleware order:
-// security headers → body limit → per-request dependencies → coarse rate
-// limit (RATE_LIMITER binding) → routes (ALTCHA, RPC rate limits, budgets).
+// request id → security headers → body limit → per-request dependencies →
+// coarse rate limit (RATE_LIMITER binding) → routes (ALTCHA, RPC rate limits,
+// budgets).
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import type { CreateSearchRequest } from '@reiseplaner/contracts';
@@ -27,7 +28,14 @@ import { wishRoutes } from './routes/wishes';
 
 export type AppEnv = {
   Bindings: Env;
-  Variables: { deps: RequestDeps; searchRequest: CreateSearchRequest; search: SearchRow; accessLinkRequest: z.infer<typeof accessLinkRequestSchema> };
+  Variables: {
+    deps: RequestDeps;
+    searchRequest: CreateSearchRequest;
+    search: SearchRow;
+    accessLinkRequest: z.infer<typeof accessLinkRequestSchema>;
+    /** Cloudflare's ray id or a random UUID: in the X-Request-Id header and every log line of the request. */
+    requestId: string;
+  };
 };
 
 export interface AppOptions {
@@ -39,10 +47,28 @@ export interface AppOptions {
 
 declare const __GIT_SHA__: string | undefined;
 const buildVersion = typeof __GIT_SHA__ === 'string' ? __GIT_SHA__ : 'dev';
+const RAY_ID = /^[0-9a-f]{16}(?:-[A-Z]{3})?$/i;
 
 export function createApp(options: AppOptions = {}) {
   const app = new Hono<AppEnv>().basePath('/api/v1');
 
+  // Request id and a log line for failed or slow requests: method, route
+  // pattern (never the path values: ids, booking numbers), status, duration.
+  app.use('*', async (c, next) => {
+    const ray = c.req.header('cf-ray');
+    const requestId = ray && RAY_ID.test(ray) ? ray : crypto.randomUUID();
+    c.set('requestId', requestId);
+    const started = Date.now();
+    await next();
+    c.header('X-Request-Id', requestId);
+    const ms = Date.now() - started;
+    const status = c.res.status;
+    if (status >= 500 || ms >= constants.SLOW_REQUEST_MS) {
+      const line = JSON.stringify({ level: status >= 500 ? 'error' : 'warn', msg: 'request', method: c.req.method, route: c.req.routePath, status, ms, request_id: requestId });
+      if (status >= 500) console.error(line);
+      else console.warn(line);
+    }
+  });
   app.use('*', securityHeaders());
   app.use(
     '*',
@@ -88,7 +114,13 @@ export function createApp(options: AppOptions = {}) {
     const dev = c.env.APP_ENV === 'dev' || c.env.APP_ENV === 'test';
     // Messages may carry data values; only local environments log them.
     console.error(
-      JSON.stringify({ level: 'error', msg: 'unhandled', name: (err as Error).name, ...(dev ? { detail: redactForLog(String((err as Error).message)).slice(0, 300) } : {}) }),
+      JSON.stringify({
+        level: 'error',
+        msg: 'unhandled',
+        name: (err as Error).name,
+        request_id: c.get('requestId'),
+        ...(dev ? { detail: redactForLog(String((err as Error).message)).slice(0, 300) } : {}),
+      }),
     );
     return c.json(errorBody('internal', 'Interner Fehler. Bitte versuche es später erneut.'), 500);
   });

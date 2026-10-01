@@ -113,12 +113,12 @@
   name: Ostseeküste Mecklenburg-Vorpommern
   country: DE
   description_de: Seebäder mit Bäderarchitektur auf Rügen und Usedom sowie am Fischland-Darß.
-  themes: [natur_ruhe, radfahren, wellness, familie]
+  themes: [strand, natur_ruhe, radfahren, wellness, familie]
 - slug: nordsee
   name: Nordseeküste
   country: DE
   description_de: Wattenmeer, Inseln und Küstenorte zwischen Ostfriesland und Nordfriesland.
-  themes: [natur_ruhe, radfahren, wellness, familie]
+  themes: [strand, natur_ruhe, radfahren, wellness, familie]
 - slug: mecklenburgische-seenplatte
   name: Mecklenburgische Seenplatte
   country: DE
@@ -129,3 +129,38 @@
   country: DE
   description_de: Heidelandschaften mit Wacholder, Heideblüte im Spätsommer und die Hansestadt Lüneburg.
   themes: [wandern, radfahren, natur_ruhe, familie, staedte_kultur]
+- slug: berlin
+  name: Berlin und Potsdam
+  country: DE
+  description_de: Hauptstadt mit Museumsinsel, großen Einkaufsstraßen und Clubs, dazu Potsdam mit Schlössern und Seen.
+  themes: [staedte_kultur, shopping, familie]
+- slug: hamburg
+  name: Hamburg und Lübeck
+  country: DE
+  description_de: Hafenstadt mit Speicherstadt, Elbphilharmonie und Einkaufspassagen, dazu die Hansestadt Lübeck.
+  themes: [staedte_kultur, shopping, familie]
+- slug: muenchen
+  name: München
+  country: DE
+  description_de: Landeshauptstadt mit Altstadt, Pinakotheken, Englischem Garten und Einkaufsmeilen rund um den Marienplatz.
+  themes: [staedte_kultur, shopping, familie]
+- slug: rhein-main
+  name: Frankfurt und Rhein-Main
+  country: DE
+  description_de: Frankfurt mit Zeil, Museumsufer und Skyline, dazu die Kurstadt Wiesbaden und Mainz am Rhein.
+  themes: [shopping, staedte_kultur, wein_kulinarik]
+- slug: koeln-duesseldorf
+  name: Köln und Düsseldorf
+  country: DE
+  description_de: Rheinmetropolen mit Dom, Altstädten, Königsallee und Schildergasse sowie Bonn.
+  themes: [shopping, staedte_kultur, familie]
+- slug: dresden-elbland
+  name: Dresden und Elbland
+  country: DE
+  description_de: Barockstadt Dresden mit Frauenkirche und Zwinger, dazu Meißen und die Weinorte an der Elbe.
+  themes: [staedte_kultur, shopping, wein_kulinarik]
+- slug: stuttgart
+  name: Stuttgart
+  country: DE
+  description_de: Landeshauptstadt mit Königstraße, Auto-Museen und Weinbergen, dazu das Residenzschloss Ludwigsburg.
+  themes: [shopping, staedte_kultur, wein_kulinarik]

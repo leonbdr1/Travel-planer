@@ -1,0 +1,16 @@
+# Regionen in Griechenland – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: athen
+  name: Athen und Peloponnes
+  country: GR
+  description_de: Hauptstadt mit Akropolis und Plaka, dazu Nafplio auf dem Peloponnes.
+  themes: [staedte_kultur, shopping, strand]
+- slug: kreta
+  name: Kreta
+  country: GR
+  description_de: Größte griechische Insel mit Schluchten, minoischen Stätten und Stränden.
+  themes: [strand, staedte_kultur, wandern]
+- slug: korfu
+  name: Korfu
+  country: GR
+  description_de: Grüne Ionische Insel mit venezianischer Altstadt und Badebuchten.
+  themes: [strand, staedte_kultur, natur_ruhe]

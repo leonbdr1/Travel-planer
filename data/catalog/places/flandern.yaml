@@ -1,0 +1,47 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: flandern
+places:
+  - name: Brügge
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit Kanälen, Belfried und Grote Markt.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2800931
+  - name: Gent
+    themes:
+      staedte_kultur: 3
+      shopping: 1
+    description_de: Stadt mit Genter Altar, Burg Gravensteen und Kais an der Leie.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2797656
+  - name: Brüssel
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+    description_de: Hauptstadt mit Grand-Place, Atomium und Einkaufsgalerien.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2800866
+  - name: Antwerpen
+    themes:
+      shopping: 3
+      staedte_kultur: 2
+    description_de: Hafenstadt mit Kathedrale, Rubenshaus und der Einkaufsstraße Meir.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2803138
+  - name: Knokke-Heist
+    themes:
+      strand: 3
+      shopping: 2
+    description_de: Seebad an der belgischen Küste mit Boutiquen und Naturschutzgebiet Zwin.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2794210

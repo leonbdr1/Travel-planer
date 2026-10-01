@@ -90,3 +90,31 @@ export async function markEmailAttemptFailed(db: Queryable, id: string, error: s
   );
   return rows[0]?.status === 'failed' ? 'failed' : 'pending';
 }
+
+export interface OutboxStatusRow {
+  type: EmailType;
+  status: 'pending' | 'sent' | 'failed';
+  attempts: number;
+  lastError: string | null;
+  createdAt: string;
+  sentAt: string | null;
+}
+
+/** The e-mails of one booking with their delivery state, oldest first (support tool). */
+export async function outboxForBooking(db: Queryable, bookingId: string): Promise<OutboxStatusRow[]> {
+  const rows = await db.query<{ type: string; status: string; attempts: number; last_error: string | null; created_at: string; sent_at: string | null }>(
+    `SELECT type, status, attempts, last_error,
+            to_char(created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS created_at,
+            to_char(sent_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS sent_at
+       FROM app.email_outbox WHERE booking_id = $1::uuid ORDER BY id`,
+    [bookingId],
+  );
+  return rows.map((r) => ({
+    type: z.enum(EMAIL_TYPES).parse(r.type),
+    status: z.enum(['pending', 'sent', 'failed']).parse(r.status),
+    attempts: Number(r.attempts),
+    lastError: r.last_error,
+    createdAt: r.created_at,
+    sentAt: r.sent_at,
+  }));
+}

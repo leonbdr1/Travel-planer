@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { adminAreaName, catalogCountry, displayName } from '../src/admin-areas';
+import { adminAreaName, displayName } from '../src/admin-areas';
+import { catalogCountry } from '../src/countries';
 import { germanTranslit, normalizeQuery, searchText, slugify, stripDiacritics } from '../src/text';
 
 describe('text normalisation', () => {
@@ -32,7 +33,9 @@ describe('admin areas', () => {
 
   it('maps catalog countries and prefers German names in South Tyrol', () => {
     expect(catalogCountry('IT', 'BZ')).toBe('IT-BZ');
-    expect(catalogCountry('FR')).toBeNull();
+    expect(catalogCountry('IT', '')).toBe('IT');
+    expect(catalogCountry('FR')).toBe('FR');
+    expect(catalogCountry('US')).toBeNull();
     expect(displayName('Merano', ['Meran'], 'IT')).toBe('Meran');
     expect(displayName('Oberstdorf', [], 'DE')).toBe('Oberstdorf');
     expect(displayName('Munich', ['München'], 'DE')).toBe('München');

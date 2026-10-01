@@ -3,22 +3,35 @@
 import { getLocality, getRegions, listCatalogPlaces, type CatalogPlace, type Locality, type Queryable } from '@reiseplaner/db';
 import {
   candidatePlaces,
+  catalogCountry,
+  continentOf,
+  estimateFlightMinutes,
+  fitsThemes,
+  gateApplies,
+  haversineKm,
+  isFlightDistanceKm,
+  qualityGate,
   rankPlaces,
   rankRegions,
   reachablePlaces,
   regionAttractiveness,
+  regionTitle,
   themeLabel,
   type CatalogPlace as DomainPlace,
+  type ContinentCode,
+  type ScoredPlace,
+  type TravelMode,
   type TravelTime as DomainTravelTime,
 } from '@reiseplaner/domain';
 import type { PlaceDto, RegionSuggestionDto } from '@reiseplaner/contracts';
+import { constants } from '@reiseplaner/domain';
 import { getTravelTimes, type TravelTimeDeps, type TravelTimeStats } from './travel-times';
 
 export interface SuggestionDeps extends TravelTimeDeps {
   includeDrafts: boolean;
 }
 
-type Candidate = DomainPlace & { row: CatalogPlace };
+type Candidate = DomainPlace & ScoredPlace & { row: CatalogPlace };
 
 export function toDomainPlace(row: CatalogPlace): Candidate {
   return {
@@ -29,8 +42,55 @@ export function toDomainPlace(row: CatalogPlace): Candidate {
     lat: row.lat,
     lng: row.lng,
     themes: row.themes,
+    attractivenessScore: row.attractiveness.score,
     row,
   };
+}
+
+/** How the traveller gets there (Aufgabe F19): the request's mode, continents and flight limit. */
+export interface TravelOptions {
+  mode: TravelMode;
+  continents: readonly ContinentCode[];
+  maxFlightMinutes: number | null;
+}
+
+export const CAR_ONLY: TravelOptions = { mode: 'car', continents: [], maxFlightMinutes: null };
+
+/** Flight mode: places on the ticked continents (none ticked = all) that are far enough away for a flight. */
+function flightCandidates(all: readonly Candidate[], origin: Locality, themes: readonly string[], continents: readonly ContinentCode[]): Candidate[] {
+  const home = catalogCountry(origin.countryCode, origin.admin2);
+  return all.filter((p) => {
+    if (!fitsThemes(p.themes, themes)) return false;
+    const continent = continentOf(catalogCountry(p.row.countryCode) ?? p.row.countryCode) ?? 'europa';
+    if (continents.length > 0 && !continents.includes(continent)) return false;
+    // No domestic flights: a Hamburg-Munich flight is not a holiday flight.
+    if (p.row.countryCode === home) return false;
+    return isFlightDistanceKm(haversineKm(origin, p));
+  });
+}
+
+/** Flight times are estimates from the air distance; no routing and no cache is involved. */
+function flightTimes(origin: Locality, places: readonly Candidate[]): Map<string, DomainTravelTime> {
+  return new Map(places.map((p) => [p.id, { minutes: estimateFlightMinutes(origin, p), estimated: true }]));
+}
+
+/** Candidates and their travel times for a mode; the quality gate follows (F19). */
+async function reachableFor(
+  deps: SuggestionDeps,
+  origin: Locality,
+  all: readonly Candidate[],
+  maxDriveMinutes: number | null,
+  themes: readonly string[],
+  travel: TravelOptions,
+) {
+  if (travel.mode === 'flight') {
+    const candidates = flightCandidates(all, origin, themes, travel.continents);
+    const reachable = reachablePlaces(candidates, flightTimes(origin, candidates), travel.maxFlightMinutes);
+    return { reachable, stats: { cached: 0, routed: 0, estimated: 0, coarse: 0, routingCalls: 0 } satisfies TravelTimeStats };
+  }
+  const candidates = candidatePlaces(all, origin, themes, maxDriveMinutes);
+  const { map, stats } = await times(deps, origin, candidates);
+  return { reachable: reachablePlaces(candidates, map, maxDriveMinutes), stats };
 }
 
 export function placeDto(
@@ -92,12 +152,21 @@ export async function suggestRegions(
   origin: Locality,
   maxDriveMinutes: number | null,
   selectedThemes: readonly string[],
-): Promise<{ regions: RegionSuggestionDto[]; stats: ReturnType<typeof publicStats> }> {
+  travel: TravelOptions = CAR_ONLY,
+): Promise<{ regions: RegionSuggestionDto[]; stats: ReturnType<typeof publicStats>; qualityFilter: boolean }> {
   const all = (await listCatalogPlaces(deps.db, { includeDrafts: deps.includeDrafts })).map(toDomainPlace);
-  const candidates = candidatePlaces(all, origin, selectedThemes, maxDriveMinutes);
-  const { map, stats } = await times(deps, origin, candidates);
-  const reachable = reachablePlaces(candidates, map, maxDriveMinutes);
-  const ranked = rankRegions(reachable, selectedThemes, themeLabel);
+  const { reachable: inRange, stats } = await reachableFor(deps, origin, all, maxDriveMinutes, selectedThemes, travel);
+  // The further away, the better the places must be (F19); close by everything fitting stays.
+  const strict = gateApplies(inRange, selectedThemes, travel.mode);
+  const reachable = qualityGate(inRange, selectedThemes, travel.mode);
+  const ranked = rankRegions(
+    reachable,
+    selectedThemes,
+    themeLabel,
+    strict ? constants.SUGGEST_MAX_REGIONS_FAR : constants.SUGGEST_MAX_REGIONS_NEAR,
+    strict ? 'quality' : 'themes',
+    travel.mode,
+  );
   const regionRows = await getRegions(
     deps.db,
     ranked.map((r) => r.regionId),
@@ -108,10 +177,21 @@ export async function suggestRegions(
   for (const r of ranked) {
     const row = byId.get(r.regionId);
     if (!row) continue;
+    const regionPlaces = all.filter((p) => p.regionId === r.regionId);
+    // Highlights among the places that fit this search (a beach search names no mountain village).
+    const matching = reachable.filter((x) => x.place.regionId === r.regionId).map((x) => x.place);
+    const { title, highlight } = regionTitle(r.name, matching.map((p) => ({ name: p.name, level: p.row.attractiveness.level })));
+    const regionScore = regionAttractivenessDto(regionPlaces.map((p) => p.row));
+    // A card named after its highlight shows that place's level ("Bozen · Top-Urlaubsort"), not the region mean.
+    const highlightRow = highlight ? matching.find((p) => p.name === highlight)?.row : undefined;
+    const attractiveness =
+      regionScore && highlightRow ? { ...regionScore, score: highlightRow.attractiveness.score, level: highlightRow.attractiveness.level } : regionScore;
     regions.push({
       id: r.regionId,
       slug: row.slug,
       name: r.name,
+      title,
+      highlight_place: highlight,
       description: row.descriptionDe,
       ai_assisted: row.aiAssisted,
       verified: row.verified,
@@ -121,11 +201,11 @@ export async function suggestRegions(
       min_minutes: Math.round(r.minMinutes),
       max_minutes: Math.round(r.maxMinutes),
       estimated: r.estimated,
-      attractiveness: regionAttractivenessDto(all.filter((p) => p.regionId === r.regionId).map((p) => p.row)),
-      center: regionCenter(all.filter((p) => p.regionId === r.regionId)),
+      attractiveness,
+      center: regionCenter(regionPlaces),
     });
   }
-  return { regions, stats: publicStats(stats) };
+  return { regions, stats: publicStats(stats), qualityFilter: strict && reachable.length < inRange.length };
 }
 
 export async function suggestPlaces(
@@ -134,13 +214,13 @@ export async function suggestPlaces(
   maxDriveMinutes: number | null,
   selectedThemes: readonly string[],
   regionIds: readonly string[],
+  travel: TravelOptions = CAR_ONLY,
 ): Promise<{ regions: Array<{ id: string; name: string; places: PlaceDto[] }>; stats: ReturnType<typeof publicStats> }> {
   const all = (await listCatalogPlaces(deps.db, { includeDrafts: deps.includeDrafts }))
     .filter((p) => p.regionId !== null && regionIds.includes(p.regionId))
     .map(toDomainPlace);
-  const candidates = candidatePlaces(all, origin, selectedThemes, maxDriveMinutes);
-  const { map, stats } = await times(deps, origin, candidates);
-  const reachable = reachablePlaces(candidates, map, maxDriveMinutes);
+  const { reachable: inRange, stats } = await reachableFor(deps, origin, all, maxDriveMinutes, selectedThemes, travel);
+  const reachable = qualityGate(inRange, selectedThemes, travel.mode);
   const regions = regionIds
     .map((id) => {
       const ranked = rankPlaces(

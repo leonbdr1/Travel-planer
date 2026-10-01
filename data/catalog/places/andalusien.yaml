@@ -1,0 +1,57 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: andalusien
+places:
+  - name: Sevilla
+    themes:
+      staedte_kultur: 3
+      shopping: 2
+    description_de: Stadt mit Kathedrale, Alcázar, Plaza de España und Flamenco.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2510911
+  - name: Granada
+    themes:
+      staedte_kultur: 3
+      wandern: 1
+    description_de: Stadt unter der Sierra Nevada mit Alhambra und Albaicín.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2517117
+  - name: Córdoba
+    themes:
+      staedte_kultur: 3
+    description_de: Stadt mit der Mezquita und blumengeschmückten Patios.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2519240
+  - name: Málaga
+    themes:
+      staedte_kultur: 2
+      strand: 2
+      shopping: 2
+    description_de: Hafenstadt mit Picasso-Museum, Alcazaba und Stadtstrand.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2514256
+  - name: Marbella
+    themes:
+      strand: 3
+      shopping: 2
+    description_de: Badeort mit Altstadt, Yachthafen Puerto Banús und Boutiquen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2514169
+  - name: Nerja
+    themes:
+      strand: 2
+      natur_ruhe: 2
+    description_de: Ort mit Balcón de Europa, Buchten und Tropfsteinhöhle.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2513240

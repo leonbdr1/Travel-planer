@@ -1,0 +1,49 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: cote-d-azur
+places:
+  - name: Nizza
+    themes:
+      strand: 3
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Stadt an der Baie des Anges mit Promenade des Anglais und Altstadt.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2990440
+  - name: Cannes
+    themes:
+      strand: 3
+      shopping: 2
+    description_de: Badeort mit Croisette, Filmfestspielpalast und Boutiquen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3028808
+  - name: Antibes
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Hafenstadt mit Altstadt, Picasso-Museum und Stränden am Cap d’Antibes.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3037456
+  - name: Menton
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Ort an der italienischen Grenze mit Gärten und bunter Altstadt am Hang.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2994497
+  - name: Saint-Tropez
+    themes:
+      strand: 3
+      staedte_kultur: 1
+    description_de: Hafenort mit Zitadelle und Stränden an der Bucht von Pampelonne.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2976742

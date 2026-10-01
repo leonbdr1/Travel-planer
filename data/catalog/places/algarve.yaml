@@ -1,0 +1,39 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: algarve
+places:
+  - name: Lagos
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Hafenstadt mit Altstadt und den Felsen der Ponta da Piedade.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2267226
+  - name: Albufeira
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Badeort mit Altstadt am Felsen und vielen Stränden.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2272222
+  - name: Portimão
+    themes:
+      strand: 3
+      shopping: 1
+    description_de: Stadt mit der Praia da Rocha und Hafen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2264456
+  - name: Tavira
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Städtchen am Gilão mit römischer Brücke und Inselstränden.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2262744

@@ -1,0 +1,30 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: lissabon
+places:
+  - name: Lissabon
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+    description_de: Hauptstadt mit Alfama, Belém, Aussichtspunkten und der Straßenbahn 28.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2267057
+  - name: Sintra
+    themes:
+      staedte_kultur: 3
+      wandern: 2
+    description_de: Ort in bewaldeten Hügeln mit Pena-Palast und Maurenburg.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2262912
+  - name: Cascais
+    themes:
+      strand: 3
+      staedte_kultur: 2
+    description_de: Badeort westlich von Lissabon mit Bucht und Promenade.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2269594

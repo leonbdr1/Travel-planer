@@ -4,6 +4,7 @@ import { Hono } from 'hono';
 import { productConfig } from '@reiseplaner/config';
 import { localitiesQuerySchema, type LocalitiesResponse, type LocalityDto } from '@reiseplaner/contracts';
 import { searchLocalities, type Locality } from '@reiseplaner/db';
+import { countryNameDe } from '@reiseplaner/domain';
 import type { AppEnv } from '../app';
 import { rateLimit } from '../http/rate-limit';
 import { parseQuery } from '../http/validate';
@@ -12,7 +13,9 @@ const HOUR_S = 3600;
 const AUTOCOMPLETE_LIMIT = 8;
 
 export function localityDto(l: Locality): LocalityDto {
-  const country = l.countryCode === 'IT' ? 'IT' : l.countryCode;
+  // DACH keeps the short code ("Stuttgart, Baden-Württemberg, DE"); Europe shows the country ("Venedig, Italien").
+  const dach = l.countryCode === 'DE' || l.countryCode === 'AT' || l.countryCode === 'CH' || l.admin2 === 'BZ';
+  const country = dach ? l.countryCode : (countryNameDe(l.countryCode, l.admin2) ?? l.countryCode);
   return {
     geonameid: l.geonameid,
     name: l.displayName,

@@ -32,3 +32,7 @@
 {"id": "wp-32", "input": {"text": "Blick auf den See"}, "assertions": [{"path": "$.themes", "op": "not_contains", "value": "seen"}, {"path": "$.chips", "op": "count_eq", "value": 0}, {"path": "$.unmatched", "op": "count_eq", "value": 1}]}
 {"id": "wp-33", "input": {"text": "Küchenzeile und Waschmaschine"}, "assertions": [{"path": "$.chips", "op": "set_equals", "value": ["kueche"]}, {"path": "$.unmatched", "op": "contains", "value": "Waschmaschine"}]}
 {"id": "wp-34", "input": {"text": "rollstuhlgerecht"}, "assertions": [{"path": "$.chips", "op": "set_equals", "value": ["barrierefrei"]}]}
+{"id": "wp-35", "input": {"text": "Einkaufsbummel in der Großstadt"}, "assertions": [{"path": "$.themes", "op": "contains", "value": "shopping"}, {"path": "$.chips", "op": "count_eq", "value": 0}]}
+{"id": "wp-36", "input": {"text": "Museen und Altstadt anschauen"}, "assertions": [{"path": "$.themes", "op": "contains", "value": "staedte_kultur"}, {"path": "$.themes", "op": "not_contains", "value": "shopping"}]}
+{"id": "wp-37", "input": {"text": "Kultur und Shopping"}, "assertions": [{"path": "$.themes", "op": "set_equals", "value": ["staedte_kultur", "shopping"]}]}
+{"id": "wp-38", "input": {"text": "Strand und Meer"}, "assertions": [{"path": "$.themes", "op": "set_equals", "value": ["strand"]}, {"path": "$.themes", "op": "not_contains", "value": "seen"}]}

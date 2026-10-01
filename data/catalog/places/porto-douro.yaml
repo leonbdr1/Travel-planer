@@ -1,0 +1,22 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: porto-douro
+places:
+  - name: Porto
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 3
+      shopping: 2
+    description_de: Stadt am Douro mit Ribeira, Brücke Dom Luís I. und Portweinkellern.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2735943
+  - name: Peso da Régua
+    themes:
+      wein_kulinarik: 3
+      natur_ruhe: 2
+    description_de: Ort im Douro-Tal mit Weinterrassen und Flussschiffen.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2736316

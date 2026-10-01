@@ -6,6 +6,7 @@ places:
     themes:
       staedte_kultur: 3
       seen: 3
+      shopping: 2
     description_de: Stadt am Vierwaldstättersee mit Kapellbrücke und Altstadt.
     search_radius_km: 10
     ai_assisted: true

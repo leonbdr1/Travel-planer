@@ -1,0 +1,29 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: rom
+places:
+  - name: Rom
+    themes:
+      staedte_kultur: 3
+      shopping: 3
+    description_de: Hauptstadt mit Kolosseum, Forum Romanum, Petersdom, Trevi-Brunnen und Via del Corso.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3169070
+  - name: Tivoli
+    themes:
+      staedte_kultur: 2
+    description_de: Stadt in den Hügeln östlich von Rom mit Villa d’Este und Hadriansvilla.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3165624
+  - name: Frascati
+    themes:
+      wein_kulinarik: 2
+      staedte_kultur: 1
+    description_de: Weinstadt in den Albaner Bergen mit Villen und Blick auf Rom.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3176589

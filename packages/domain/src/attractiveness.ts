@@ -11,7 +11,7 @@ export interface AttractivenessParts {
   fame: number;
   /** A: lifts, ski area or major sights. */
   attractions: number;
-  /** W: hiking and cycling routes. */
+  /** W: the main activity: hiking, cycling, beach, shopping or sightseeing (F14, F15). */
   trails: number;
   /** V: variety of activities. */
   variety: number;
@@ -33,6 +33,12 @@ export interface CatalogAttractivenessInput {
   themes: Readonly<Record<string, number>>;
   population: number | null;
 }
+
+/**
+ * Themes that count for W. Since F14/F15 a city, an old town or a beach resort
+ * is judged by its sights, shopping streets or beaches, not only by hiking trails.
+ */
+export const ACTIVITY_THEMES = ['wandern', 'radfahren', 'strand', 'shopping', 'staedte_kultur'] as const;
 
 const clamp3 = (v: number) => Math.max(0, Math.min(3, Math.round(v)));
 
@@ -67,7 +73,7 @@ export function catalogAttractiveness(input: CatalogAttractivenessInput): Attrac
   return attractivenessOf({
     fame,
     attractions: clamp3(input.attractions ?? 1),
-    trails: clamp3(Math.max(input.themes['wandern'] ?? 0, input.themes['radfahren'] ?? 0)),
+    trails: clamp3(Math.max(...ACTIVITY_THEMES.map((code) => input.themes[code] ?? 0))),
     variety: varietyFromThemes(input.themes),
     // A famous resort village has the infrastructure of a town.
     infrastructure: fame === 3 ? 3 : infrastructure,
@@ -105,3 +111,18 @@ export function regionAttractiveness(placeScores: readonly number[], top = 3): {
 }
 
 export { ATTRACTIVENESS_NEIGHBOUR_KM };
+
+/**
+ * Title of a region card (Aufgabe F17): a region with exactly one highlight
+ * (a top place) is named after that place – "Venedig" instead of "Venedig und
+ * Obere Adria"; with two or more highlights, or none, the region keeps its name.
+ * The caller passes the places that fit the search, so the title follows it.
+ */
+export function regionTitle(
+  regionName: string,
+  places: ReadonlyArray<{ name: string; level: AttractivenessLevel }>,
+): { title: string; highlight: string | null } {
+  const highlights = places.filter((p) => p.level === 'top');
+  const only = highlights.length === 1 ? highlights[0] : undefined;
+  return only ? { title: only.name, highlight: only.name } : { title: regionName, highlight: null };
+}

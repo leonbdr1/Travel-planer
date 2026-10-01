@@ -5,21 +5,24 @@
 // pre-selection already judges quality from the reviews. Below the list the
 // houses without reviews the goal's rules sort out, so the traveller can
 // still pick one (Ben, 2026-09-29).
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import type { EffectiveFilters, MatrixCellDto, SearchResultsResponse } from '@reiseplaner/contracts';
-import type { Goal } from '@reiseplaner/domain';
-import { Alert, Button, Card, Checkbox, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
+import { AdjustmentsHorizontalIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
+import type { EffectiveFilters, MatrixCellDto, ResultItem, ResultSort, SearchResultsResponse } from '@reiseplaner/contracts';
+import { chipDefinition, constants, isChipCode, PROPERTY_KINDS, type Goal } from '@reiseplaner/domain';
+import { Alert, Button, Card, Checkbox, Chip, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
+import { loadErrorText } from '../../api/load-error';
 import { de } from '../../i18n/de';
-import { formatDay, formatEuro, formatStay, formatTime } from '../../lib/format';
+import { formatDay, formatEuro, formatStay } from '../../lib/format';
 import { useMeta } from '../../lib/meta';
 import { fetchResults } from './api';
 import { FinaleView } from './FinaleView';
+import { PriceFreshness } from './PriceFreshness';
 import { PriceMatrix } from './PriceMatrix';
 import { ResultList } from './ResultList';
 
 const t = de.results;
-type Sort = 'best' | 'price' | 'quality';
+type Sort = ResultSort;
 const UNRATED_SECTION_ID = 'ohne-bewertungen';
 
 interface FilterForm {
@@ -29,6 +32,10 @@ interface FilterForm {
   minReviews: string;
   refundable: boolean;
   board: string;
+  /** Kinds of accommodation (hotel, pension, ferienwohnung); none = all. */
+  kinds: string[];
+  /** All wishes of the search; the form toggles only the facility ones, the others pass through. */
+  chips: string[];
 }
 
 function formFrom(f: EffectiveFilters): FilterForm {
@@ -39,8 +46,24 @@ function formFrom(f: EffectiveFilters): FilterForm {
     minReviews: f.min_reviews === null ? '' : String(f.min_reviews),
     refundable: f.refundable_only,
     board: f.board ?? '',
+    kinds: f.property_types,
+    chips: f.chips,
   };
 }
+
+/** How many filters are set (for the closed filter panel): budget, board, refundable, kinds, facilities, minimums. */
+function activeFilterCount(f: FilterForm): number {
+  return (
+    [f.budget, f.board, f.minStars, f.minRating, f.minReviews].filter((v) => v !== '').length +
+    (f.refundable ? 1 : 0) +
+    f.kinds.length +
+    f.chips.filter((c) => isFacilityChip(c)).length
+  );
+}
+
+/** Wishes that are facility filters (parking, dog, sauna …): these can change in the results. */
+const isFacilityChip = (code: string) => isChipCode(code) && chipDefinition(code).effect.kind === 'facility';
+const toggled = (list: readonly string[], value: string) => (list.includes(value) ? list.filter((x) => x !== value) : [...list, value]);
 
 /** Applied filters as query parameters; none before the user applies any (the search's own filters hold). */
 function filterParamsFrom(form: FilterForm | null): Record<string, string> {
@@ -52,6 +75,8 @@ function filterParamsFrom(form: FilterForm | null): Record<string, string> {
     min_reviews: form.minReviews,
     refundable: String(form.refundable),
     board: form.board,
+    types: form.kinds.join(','),
+    chips: form.chips.join(','),
   };
 }
 
@@ -77,35 +102,64 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchDefaults, setSearchDefaults] = useState<FilterForm | null>(null);
+  // Name search: typed text, sent after a short pause; narrows the list only.
+  const [nameInput, setNameInput] = useState('');
+  const [name, setName] = useState('');
+  // Further pages of the list ("Weitere anzeigen"), for the parameters in `pageKey`.
+  const [more, setMore] = useState<ResultItem[]>([]);
+  const [moreLoading, setMoreLoading] = useState(false);
+  const pageKey = useRef('');
   // Memoised: the finale refetches only when the applied filters change.
   const filterParams = useMemo(() => filterParamsFrom(applied), [applied]);
+  const listParams = useMemo(() => ({ ...paramsFrom(filterParams, sort, cell, goal), ...(name ? { q: name } : {}) }), [filterParams, sort, cell, goal, name]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setName(nameInput.trim()), constants.RESULTS_NAME_SEARCH_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [nameInput]);
 
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
-    fetchResults(searchId, token, paramsFrom(filterParams, sort, cell, goal), controller.signal)
+    const key = JSON.stringify(listParams);
+    pageKey.current = key;
+    fetchResults(searchId, token, { ...listParams, limit: String(constants.RESULTS_PAGE_SIZE) }, controller.signal)
       .then((r) => {
         setData(r);
+        setMore([]);
         setError(null);
         // Prefill once from the search's own filters; later answers never
         // overwrite what the user is typing.
         setForm((current) => current ?? formFrom(r.filters));
         setSearchDefaults((current) => current ?? formFrom(r.filters));
       })
-      .catch(() => {
-        if (!controller.signal.aborted) setError(de.status.apiUnreachable);
+      .catch((err: unknown) => {
+        if (!controller.signal.aborted) setError(loadErrorText(err, de.searchRun.notFound));
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, [searchId, token, sort, filterParams, cell, goal]);
+  }, [searchId, token, listParams]);
+
+  function loadMore(offset: number) {
+    const key = pageKey.current;
+    setMoreLoading(true);
+    fetchResults(searchId, token, { ...listParams, offset: String(offset), limit: String(constants.RESULTS_PAGE_SIZE) })
+      .then((r) => {
+        // Parameters changed meanwhile: that page belongs to another list.
+        if (pageKey.current === key) setMore((items) => [...items, ...r.items]);
+      })
+      .catch((err: unknown) => setError(loadErrorText(err, de.searchRun.notFound)))
+      .finally(() => setMoreLoading(false));
+  }
 
   const placeName = useMemo(() => new Map(data?.matrix.places.map((p) => [p.id, p.name]) ?? []), [data]);
   const placeLevels = useMemo(
     () => new Map((data?.matrix.places ?? []).flatMap((p) => (p.attractiveness ? [[p.id, p.attractiveness] as const] : []))),
     [data],
   );
+  const driveMinutes = useMemo(() => new Map((data?.matrix.places ?? []).map((p) => [p.id, p.drive_minutes])), [data]);
   const aiLabel = meta.status === 'ready' ? (meta.meta.ai_labels.review_analysis ?? '') : '';
   const detailHref = (hotelId: string) => `/suche/${searchId}/unterkunft/${encodeURIComponent(hotelId)}#t=${token}`;
 
@@ -113,9 +167,14 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
 
   const update = (patch: Partial<FilterForm>) => setForm((f) => (f ? { ...f, ...patch } : f));
   const selectCell = (c: MatrixCellDto | null) => setCell(c ? { place_id: c.place_id, checkin: c.checkin, checkout: c.checkout } : null);
+  const listItems = [...data.items, ...more];
+  const remaining = Math.max(0, data.page.total - data.page.offset - listItems.length);
+  const facilityChips = meta.status === 'ready' ? meta.meta.chips.filter((c) => isFacilityChip(c.code)) : [];
+  const sorts: Sort[] = data.matrix.places.some((p) => p.drive_minutes !== null) ? ['price', 'best', 'quality', 'drive'] : ['price', 'best', 'quality'];
 
   return (
     <section className="space-y-10" data-testid="results">
+      <PriceFreshness fetchedAt={data.meta.prices_fetched_at} request={data.request} places={data.matrix.places} />
       <FinaleView
         searchId={searchId}
         token={token}
@@ -132,23 +191,14 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="space-y-1">
             <Heading level={2}>{t.allOffers}</Heading>
-            <Text className="text-sm">{t.allOffersLead}</Text>
             <Text className="text-sm" data-testid="results-counts">
               {t.counts(data.counts.listed, data.counts.hidden)}
               {data.counts.unrated_hidden > 0 ? ` ${t.countsUnrated(data.counts.unrated_hidden)}` : ''}
             </Text>
-            {data.meta.prices_fetched_at ? (
-              <p className="text-xs text-zinc-500" data-testid="fetched-at">
-                {t.fetchedAt(formatTime(data.meta.prices_fetched_at))}
-              </p>
-            ) : null}
           </div>
-          <div className="flex items-center gap-2">
-            <Label htmlFor="sort" className="sr-only">
-              {t.sortLabel}
-            </Label>
-            <div role="radiogroup" aria-label={t.sortLabel} className="inline-flex rounded-lg bg-white p-1 shadow-sm ring-1 ring-zinc-200" data-testid="sort">
-              {(['price', 'best', 'quality'] as const).map((key) => (
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <div role="radiogroup" aria-label={t.sortLabel} className="inline-flex flex-wrap rounded-lg bg-white p-1 shadow-sm ring-1 ring-zinc-200" data-testid="sort">
+              {sorts.map((key) => (
                 <button
                   key={key}
                   type="button"
@@ -168,8 +218,17 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         </div>
 
         {form ? (
-          <Card className="space-y-4" data-testid="result-filters">
-            <Heading level={3}>{t.filters}</Heading>
+          <Card className="py-0! sm:py-0!" data-testid="result-filters">
+            <details className="group" data-testid="filters-panel">
+              <summary className="flex cursor-pointer list-none items-center gap-2 py-4 [&::-webkit-details-marker]:hidden" data-testid="filters-toggle">
+                <AdjustmentsHorizontalIcon aria-hidden="true" className="size-5 text-zinc-500" />
+                <span className="font-semibold text-zinc-900">{t.filters}</span>
+                {activeFilterCount(applied ?? form) > 0 ? (
+                  <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-800 tabular-nums">{activeFilterCount(applied ?? form)}</span>
+                ) : null}
+                <ChevronDownIcon aria-hidden="true" className="ml-auto size-5 text-zinc-400 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="space-y-4 pb-5">
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <Label htmlFor="f-budget">{t.budget}</Label>
@@ -189,9 +248,30 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
                 <Checkbox label={t.refundable} checked={form.refundable} onChange={(e) => update({ refundable: e.target.checked })} />
               </div>
             </div>
+            <div className="space-y-2" data-testid="filter-kinds">
+              <p className="text-sm/6 font-medium text-zinc-950">{t.kinds}</p>
+              <div className="flex flex-wrap gap-2">
+                {PROPERTY_KINDS.map((kind) => (
+                  <Chip key={kind} selected={form.kinds.includes(kind)} onToggle={() => update({ kinds: toggled(form.kinds, kind) })}>
+                    {t.kindNames[kind]}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+            {facilityChips.length > 0 ? (
+              <div className="space-y-2" data-testid="filter-facilities">
+                <p className="text-sm/6 font-medium text-zinc-950">{t.facilities}</p>
+                <div className="flex flex-wrap gap-2">
+                  {facilityChips.map((chip) => (
+                    <Chip key={chip.code} selected={form.chips.includes(chip.code)} onToggle={() => update({ chips: toggled(form.chips, chip.code) })}>
+                      {chip.label}
+                    </Chip>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <details data-testid="more-filters" open={Boolean(form.minStars || form.minRating || form.minReviews)}>
               <summary className="cursor-pointer text-sm font-medium text-brand-700">{t.moreFilters}</summary>
-              <p className="mt-1 text-xs text-zinc-500">{t.moreFiltersHint}</p>
               <div className="mt-3 grid gap-4 sm:grid-cols-3">
                 <div>
                   <Label htmlFor="f-stars">{t.minStars}</Label>
@@ -238,6 +318,8 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
                 </Button>
               ) : null}
             </div>
+              </div>
+            </details>
           </Card>
         ) : null}
 
@@ -270,8 +352,33 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
           </Alert>
         ) : null}
 
+        <div className="max-w-xs">
+          <Label htmlFor="name-search" className="sr-only">
+            {t.nameSearch}
+          </Label>
+          <Input
+            id="name-search"
+            type="search"
+            placeholder={t.nameSearch}
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            maxLength={80}
+            data-testid="name-search"
+          />
+        </div>
+
         {loading ? <Spinner label={de.common.loading} /> : null}
-        {data.items.length === 0 ? <Alert tone="info">{t.empty}</Alert> : <ResultList items={data.items} detailHref={detailHref} aiLabel={aiLabel} places={placeLevels} />}
+        {error ? <Alert tone="error">{error}</Alert> : null}
+        {listItems.length === 0 ? (
+          <Alert tone="info">{name ? t.nameEmpty : t.empty}</Alert>
+        ) : (
+          <ResultList items={listItems} detailHref={detailHref} aiLabel={aiLabel} places={placeLevels} driveMinutes={driveMinutes} />
+        )}
+        {remaining > 0 ? (
+          <Button variant="secondary" disabled={moreLoading} onClick={() => loadMore(data.page.offset + listItems.length)} data-testid="show-more">
+            {moreLoading ? de.common.loading : t.showMore(remaining)}
+          </Button>
+        ) : null}
 
         {data.oversized.length > 0 ? (
           <section className="space-y-3 border-t border-zinc-200 pt-6" data-testid="oversized-section">

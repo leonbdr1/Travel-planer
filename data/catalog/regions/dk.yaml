@@ -1,0 +1,11 @@
+# Regionen in Dänemark – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Europa-Erweiterung (F15).
+- slug: kopenhagen
+  name: Kopenhagen
+  country: DK
+  description_de: Hauptstadt mit Nyhavn, Tivoli und Strøget, auf dem Rad gut zu erkunden.
+  themes: [staedte_kultur, shopping, radfahren]
+- slug: daenische-nordsee
+  name: Dänische Nordseeküste
+  country: DK
+  description_de: Weite Strände, Dünen und Leuchttürme an der Westküste Jütlands bis nach Skagen.
+  themes: [strand, natur_ruhe, familie, radfahren]

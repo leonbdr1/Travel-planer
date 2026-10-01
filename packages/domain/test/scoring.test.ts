@@ -75,7 +75,7 @@ describe('acceptance examples (konzept.md 5.1)', () => {
       { ...stay, id: '3', checkin: '2026-10-16', pricePerNightCents: 10_000 },
       { ...stay, id: '4', checkin: '2026-10-23', pricePerNightCents: 7_000 },
     ]);
-    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 140 € gesamt, an deinen anderen Terminen im Mittel 200 € gesamt)' });
+    expect(bargains.get('4')).toEqual({ types: ['date'], reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: 140 € statt im Mittel 200 €)' });
     expect(bargains.size).toBe(1);
   });
 });
@@ -103,7 +103,7 @@ describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
     // Doppelzimmer on its other dates: 120 € and 135.40 € → mean 127.70 € → 90 € is 30 % below.
     expect(bargains.get('4')).toEqual({
       types: ['date'],
-      reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 180 € gesamt, an deinen anderen Terminen im Mittel 255 € gesamt)',
+      reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: 180 € statt im Mittel 255 €)',
     });
     expect(bargains.size).toBe(1);
   });
@@ -122,7 +122,7 @@ describe('date bargains compare the same room (Ben, 2026-09-29)', () => {
     // (182 € + 184.08 €) / 2 = 183.04 € → 1 − 128.42 / 183.04 = 29.8 % → 30 %.
     expect(bargains.get('k3')).toEqual({
       types: ['date'],
-      reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier 128 € gesamt, an deinen anderen Terminen im Mittel 183 € gesamt)',
+      reason: '30 % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: 128 € statt im Mittel 183 €)',
     });
     expect(bargains.size).toBe(1);
   });
@@ -190,6 +190,20 @@ describe('scoring stage 2 and filters', () => {
     expect(f({ chips: ['kueche'] })).toBe(true);
     expect(f({ chips: ['fruehstueck'] })).toBe(false);
     expect(median([3, 1, 2, 4])).toBe(2.5);
+  });
+
+  it('filters by kind of accommodation from the provider type or the name', () => {
+    const offer = { totalCents: 30_000, refundable: false, boardType: 'RO' as const };
+    const f = (hotel: { hotelType: string | null; name?: string }, kinds: string[]) =>
+      passesFilters(offer, { stars: null, rating: null, reviewCount: null, facilityIds: [], ...hotel }, { ...NO_FILTERS, propertyTypes: kinds });
+    expect(f({ hotelType: 'Apartments' }, ['ferienwohnung'])).toBe(true);
+    expect(f({ hotelType: 'Apartments' }, ['hotel', 'pension'])).toBe(false);
+    expect(f({ hotelType: 'Guest house' }, ['pension'])).toBe(true);
+    // Unknown type: the name decides ("Gasthof …" is a guesthouse).
+    expect(f({ hotelType: null, name: 'Gasthof Adler' }, ['pension'])).toBe(true);
+    expect(f({ hotelType: null, name: 'Gasthof Adler' }, ['hotel'])).toBe(false);
+    // Raw provider types still work as before.
+    expect(f({ hotelType: 'Hotel' }, ['Hotel'])).toBe(true);
   });
 
   it('marks failed and pending combinations in the matrix', () => {

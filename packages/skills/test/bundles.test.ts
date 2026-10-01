@@ -55,7 +55,7 @@ describe('skill bundles', () => {
     const dir = mkdtempSync(join(tmpdir(), 'skill-'));
     const target = join(dir, 'reiseplaner.catalog-places');
     cpSync(join(bundlesDir, 'reiseplaner.catalog-places'), target, { recursive: true });
-    const yamlPath = join(target, 'v1.0.0/skill.yaml');
+    const yamlPath = join(target, 'v1.2.0/skill.yaml');
     writeFileSync(yamlPath, readFileSync(yamlPath, 'utf8').replace('temperature: null', 'temperature: 0'));
     expect(() => loadBundle(target, productConfig.ai)).toThrow(BundleError);
     expect(() => loadBundle(target, productConfig.ai)).toThrow(/rejects sampling parameters/);
@@ -65,7 +65,7 @@ describe('skill bundles', () => {
     const dir = mkdtempSync(join(tmpdir(), 'skill-'));
     const target = join(dir, 'reiseplaner.wish-parse');
     cpSync(join(bundlesDir, 'reiseplaner.wish-parse'), target, { recursive: true });
-    writeFileSync(join(target, 'v1.0.0/user.template.md'), '{{text}} {{secret}}');
+    writeFileSync(join(target, 'v1.2.0/user.template.md'), '{{text}} {{secret}}');
     expect(() => loadBundle(target, productConfig.ai)).toThrow(/secret/);
   });
 });

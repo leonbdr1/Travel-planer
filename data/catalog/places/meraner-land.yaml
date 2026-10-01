@@ -6,6 +6,7 @@ places:
       wellness: 3
       staedte_kultur: 3
       wandern: 2
+      shopping: 1
     description_de: Kurstadt mit Therme, Passerpromenade und den Gärten von Schloss Trauttmansdorff.
     search_radius_km: 10
     ai_assisted: true

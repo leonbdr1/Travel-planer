@@ -1,20 +1,20 @@
 // Step 1: search frame (F1, F15). On top "Wohin soll es gehen?": places
 // suggested from a start location and drive time and/or picked by name (one or
-// both, each with a tick box), and below it, joined, the bar with arrival,
+// both; the input decides, no tick boxes: an empty box is tinted grey, a filled
+// one in the brand colour), and below it, joined, the bar with arrival,
 // departure (calendar) and travellers that counts for both. Then the travel pattern with live date count, themes, budget,
 // goal (one tap), wish chips and free text translated by AI (with the visible
 // AI notice). Stars and rating minimums are "Weitere Filter" in the results.
 import { useEffect, useMemo, useState } from 'react';
 import type { MetaConfigResponse } from '@reiseplaner/contracts';
-import { MapPinIcon, SparklesIcon } from '@heroicons/react/20/solid';
-import { AiLabel, Alert, Button, Card, Checkbox, Chip, Description, ErrorMessage, Fieldset, Heading, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
+import { AiLabel, Alert, Button, Card, Chip, Description, ErrorMessage, Fieldset, Heading, Input, Label, Select, Textarea, cx } from '@reiseplaner/ui';
 import { ApiRequestError } from '../../api/client';
 import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
 import { parseWish, resolvePlace } from './api';
 import { OwnPlacesPicker } from './OwnPlacesPicker';
-import { DateTravellersBar, OriginFields } from './SearchBar';
-import { activeOrigin, resetSuggestions, stayDates, toggle, type WizardState } from './state';
+import { DateTravellersBar, OriginFields, OwnOriginField } from './SearchBar';
+import { ownPlacesStart, resetSuggestions, stayDates, toggle, wantsSuggestions, type WizardState } from './state';
 
 const t = de.wizard.frame;
 const o = de.wizard.ownPlaces;
@@ -36,6 +36,20 @@ export function dateError(result: ReturnType<typeof stayDates>, meta: MetaConfig
   }
 }
 
+/** Filled way: brand tint. Empty way: a light grey that still reads as "type here", not as disabled. */
+function wayTone(active: boolean): string {
+  return active ? 'bg-brand-50 ring-brand-300' : 'bg-zinc-50 ring-zinc-200';
+}
+
+function WayHeading({ active, title, text }: { active: boolean; title: string; text: string }) {
+  return (
+    <div>
+      <p className={cx('text-base font-semibold', active ? 'text-zinc-950' : 'text-zinc-600')}>{title}</p>
+      <p className="mt-1 text-sm text-zinc-500">{text}</p>
+    </div>
+  );
+}
+
 export function StepFrame({
   state,
   update,
@@ -54,14 +68,15 @@ export function StepFrame({
   const [wishNotice, setWishNotice] = useState<string | null>(null);
   const dates = useMemo(() => stayDates(state, meta), [state, meta]);
   const dateMessage = dateError(dates, meta);
-  const originMissing = state.suggest && state.origin === null;
-  // Without suggestions the places must come from the traveller.
-  const ownMissing = !state.suggest && state.ownPlaces.length === 0;
+  const suggest = wantsSuggestions(state);
+  const pickOwn = state.ownPlaces.length > 0;
+  // A start location or at least one own place: otherwise there is nowhere to search.
+  const nowhere = !suggest && !pickOwn;
   const adultsInvalid = state.adults < 1;
   const aiOff = !meta.llm_enabled;
 
   // Own places picked before the start location changed get their drive times again.
-  const originId = state.origin?.geonameid ?? null;
+  const originId = ownPlacesStart(state)?.geonameid ?? null;
   useEffect(() => {
     if (state.ownPlaces.length === 0 || state.ownPlacesOrigin === originId) return;
     let cancelled = false;
@@ -101,8 +116,8 @@ export function StepFrame({
 
   function next() {
     setTouched(true);
-    if (originMissing || ownMissing || adultsInvalid || !dates.ok) return;
-    if (state.suggest) onNext();
+    if (nowhere || adultsInvalid || !dates.ok) return;
+    if (suggest) onNext();
     else onDirect();
   }
 
@@ -118,61 +133,30 @@ export function StepFrame({
       <Card className="space-y-5" data-testid="where">
         <Heading level={2}>{de.wizard.ownPlaces.title}</Heading>
         <div className="grid gap-4 md:grid-cols-2">
-          <div className={cx('space-y-3 rounded-lg p-4 ring-1', state.suggest ? 'bg-zinc-50 ring-zinc-300' : 'bg-white ring-zinc-200')} data-testid="way-suggest">
-            <Checkbox
-              checked={state.suggest}
-              disabled={state.suggest && !state.pickOwn}
-              title={state.suggest && !state.pickOwn ? o.lastOne : undefined}
-              data-testid="toggle-suggest"
-              onChange={(e) => update({ suggest: e.target.checked, ...resetSuggestions(state) })}
-              label={
-                <span className="inline-flex items-center gap-2 text-base font-semibold">
-                  <SparklesIcon aria-hidden="true" className="size-5 text-brand-600" />
-                  {o.suggestTitle}
-                </span>
-              }
-              description={o.suggestText}
-            />
-            {state.suggest ? <OriginFields state={state} update={update} touched={touched} /> : null}
+          <div className={cx('space-y-3 rounded-lg p-4 ring-1 transition-colors', wayTone(suggest))} data-testid="way-suggest" data-active={suggest}>
+            <WayHeading active={suggest} title={o.suggestTitle} text={o.suggestText} />
+            <OriginFields state={state} update={update} invalid={touched && nowhere} />
           </div>
-          <div className={cx('space-y-3 rounded-lg p-4 ring-1', state.pickOwn ? 'bg-zinc-50 ring-zinc-300' : 'bg-white ring-zinc-200')} data-testid="way-own">
-            <Checkbox
-              checked={state.pickOwn}
-              disabled={state.pickOwn && !state.suggest}
-              title={state.pickOwn && !state.suggest ? o.lastOne : undefined}
-              data-testid="toggle-own"
-              onChange={(e) => {
-                if (e.target.checked) update({ pickOwn: true });
-                else update({ pickOwn: false, ownPlaces: [], ownPlacesOrigin: null, selectedPlaceIds: state.selectedPlaceIds.filter((id) => !state.ownPlaces.some((p) => p.id === id)) });
+          <div className={cx('space-y-3 rounded-lg p-4 ring-1 transition-colors', wayTone(pickOwn))} data-testid="way-own" data-active={pickOwn}>
+            <WayHeading active={pickOwn} title={o.pickTitle} text={o.pickText} />
+            <OwnPlacesPicker
+              places={state.ownPlaces}
+              origin={ownPlacesStart(state)?.geonameid ?? null}
+              max={meta.limits.max_places}
+              onChange={(ownPlaces, ownPlacesOrigin) => {
+                const removed = state.ownPlaces.filter((p) => !ownPlaces.some((x) => x.id === p.id)).map((p) => p.id);
+                const added = ownPlaces.filter((p) => !state.ownPlaces.some((x) => x.id === p.id)).map((p) => p.id);
+                update({
+                  ownPlaces,
+                  ownPlacesOrigin,
+                  selectedPlaceIds: [...state.selectedPlaceIds.filter((id) => !removed.includes(id)), ...added.filter((id) => !state.selectedPlaceIds.includes(id))],
+                });
               }}
-              label={
-                <span className="inline-flex items-center gap-2 text-base font-semibold">
-                  <MapPinIcon aria-hidden="true" className="size-5 text-brand-600" />
-                  {o.pickTitle}
-                </span>
-              }
-              description={state.suggest ? o.pickText : o.pickTextOnly}
             />
-            {state.pickOwn ? (
-              <OwnPlacesPicker
-                places={state.ownPlaces}
-                origin={activeOrigin(state)?.geonameid ?? null}
-                max={meta.limits.max_places}
-                onChange={(ownPlaces, ownPlacesOrigin) => {
-                  const removed = state.ownPlaces.filter((p) => !ownPlaces.some((x) => x.id === p.id)).map((p) => p.id);
-                  const added = ownPlaces.filter((p) => !state.ownPlaces.some((x) => x.id === p.id)).map((p) => p.id);
-                  update({
-                    ownPlaces,
-                    ownPlacesOrigin,
-                    selectedPlaceIds: [...state.selectedPlaceIds.filter((id) => !removed.includes(id)), ...added.filter((id) => !state.selectedPlaceIds.includes(id))],
-                  });
-                }}
-              />
-            ) : null}
-            {state.pickOwn && !state.suggest ? <OriginFields state={state} update={update} touched={touched} optional /> : null}
-            {touched && ownMissing ? <ErrorMessage>{o.needOne}</ErrorMessage> : null}
+            <OwnOriginField state={state} update={update} />
           </div>
         </div>
+        {touched && nowhere ? <ErrorMessage>{o.needOne}</ErrorMessage> : null}
         <div className="space-y-2">
           <p className="text-sm font-semibold text-zinc-900">{o.whenTitle}</p>
           <DateTravellersBar state={state} update={update} meta={meta} />
@@ -181,7 +165,6 @@ export function StepFrame({
 
       <Card className="space-y-6">
         <Fieldset legend={t.pattern}>
-          <Description>{t.patternHint}</Description>
           <div className="grid gap-4 sm:grid-cols-[14rem_1fr]">
             <div>
               <span className="block text-sm/6 font-medium text-zinc-900">{t.nights}</span>
@@ -215,7 +198,7 @@ export function StepFrame({
                   ))}
                 </Select>
               </div>
-              <Description>{state.nightsMax > state.nights ? t.nightsRangeHint(state.nights, state.nightsMax) : t.nightsFixedHint}</Description>
+              {state.nightsMax > state.nights ? <Description>{t.nightsRangeHint(state.nights, state.nightsMax)}</Description> : null}
             </div>
             <div>
               <span className="block text-sm/6 font-medium text-zinc-900">{t.weekdays}</span>
@@ -257,7 +240,6 @@ export function StepFrame({
 
       <Card className="space-y-6">
         <Fieldset legend={t.themes}>
-          <Description>{t.themesHint}</Description>
           <div className="flex flex-wrap gap-2" data-testid="theme-chips">
             {meta.themes.map((theme) => (
               <Chip
@@ -285,12 +267,10 @@ export function StepFrame({
               value={state.budgetEur ?? ''}
               onChange={(e) => update({ budgetEur: e.target.value === '' ? null : Math.max(1, Math.round(Number(e.target.value))) })}
             />
-            <Description>{t.budgetHint}</Description>
           </div>
           <div className="space-y-2 sm:col-span-2" data-testid="goal">
             <p className="text-sm/6 font-medium text-zinc-950">{de.goals.label}</p>
             <GoalSwitch value={state.goal} onChange={(goal) => update({ goal })} />
-            <Description>{t.goalHint}</Description>
           </div>
         </div>
       </Card>
@@ -345,7 +325,7 @@ export function StepFrame({
 
       <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" size="lg" data-testid="frame-next">
-          {state.suggest ? t.next : t.nextPlaces}
+          {suggest ? t.next : t.nextPlaces}
         </Button>
       </div>
     </form>

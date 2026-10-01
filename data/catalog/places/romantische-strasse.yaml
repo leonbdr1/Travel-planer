@@ -26,6 +26,7 @@ places:
     themes:
       staedte_kultur: 3
       wein_kulinarik: 3
+      shopping: 1
     description_de: Stadt mit Residenz (UNESCO-Welterbe), Festung Marienberg und Frankenwein.
     search_radius_km: 10
     ai_assisted: true

@@ -34,9 +34,33 @@ export const ORS_PER_MIN_CAP = 35;
 /** Straight-line fallback: road factor and average speed for estimates. */
 export const ESTIMATE_ROAD_FACTOR = 1.3;
 export const ESTIMATE_AVG_SPEED_KMH = 70;
+/**
+ * Drive-time bands (Aufgabe F15/F16, docs/logik/fahrzeit-bloecke.md): the
+ * nearer, the more exact. Under DRIVE_EXACT_MAX_MIN the routed minutes, up to
+ * DRIVE_HOURS_MAX_MIN the full hours ("ca. 8 h"), beyond that coarse blocks
+ * ("über 10 h", "über 20 h"); from DRIVE_FLIGHT_MIN "über 30 h" with a plane
+ * (a hint only, no flights are sold).
+ */
+export const DRIVE_EXACT_MAX_MIN = 420;
+export const DRIVE_HOURS_MAX_MIN = 600;
+export const DRIVE_BLOCK_MIN = [600, 1200] as const;
+export const DRIVE_FLIGHT_MIN = 1800;
+/** Places whose long-distance estimate exceeds this are not routed: the coarse estimate is enough for a block. */
+export const DRIVE_ROUTE_MAX_MIN = 540;
+/** Long-distance estimate (motorways): road factor and average speed incl. breaks. */
+export const LONG_DRIVE_ROAD_FACTOR = 1.2;
+export const LONG_DRIVE_SPEED_KMH = 95;
+/** Largest selectable maximum drive time (30 h); "egal" means no limit. */
+export const MAX_DRIVE_MINUTES = 1800;
 
 export const SUGGEST_MIN_REGIONS = 2;
 export const SUGGEST_MAX_REGIONS = 5;
+/** Close by (no quality gate yet) more regions may be shown than far away (F19). */
+export const SUGGEST_MAX_REGIONS_NEAR = 8;
+/** Far away or by plane (quality gate on): a short list of hotspots. */
+export const SUGGEST_MAX_REGIONS_FAR = 6;
+/** Region quality (F19): its best place, plus this much for each further fitting place (at most three). */
+export const REGION_QUALITY_SUPPORT_BONUS = 0.3;
 export const SUGGEST_MAX_PLACES_PER_REGION = 10;
 export const THEME_MIN_STRENGTH = 2;
 export const DEFAULT_SEARCH_RADIUS_KM = 10;
@@ -289,6 +313,8 @@ export const SEARCH_TOKEN_TTL_DAYS = 30;
 export const BOOKING_SESSION_TOKEN_TTL_S = 2 * 60 * 60;
 export const BOOKING_ACCESS_TOKEN_TTL_S = 30 * 24 * 60 * 60;
 export const BOOKING_REF_LENGTH = 8;
+/** "Meine Buchungen" without a reference: at most this many bookings in the overview e-mail, the latest stays first. */
+export const BOOKINGS_OVERVIEW_MAX = 20;
 /** E-mail outbox (architektur.md 6.12): attempts and the wait before attempt n+1, in minutes. */
 export const EMAIL_MAX_ATTEMPTS = 5;
 export const EMAIL_RETRY_BACKOFF_MIN = [2, 10, 30, 120] as const;
@@ -298,7 +324,15 @@ export const WISH_TEXT_MAX_CHARS = 300;
 export const ALTCHA_COST = 5_000;
 export const ALTCHA_EXPIRES_S = 10 * 60;
 export const STATUS_POLL_INTERVAL_MS = 2_000;
+/** Houses per page of the result list ("Weitere anzeigen" loads the next page). */
+export const RESULTS_PAGE_SIZE = 20;
+/** Waiting before the name search in the result list asks the API. */
+export const RESULTS_NAME_SEARCH_DEBOUNCE_MS = 300;
 export const HEALTH_DB_TIMEOUT_MS = 3_000;
+/** API requests slower than this are logged (with route pattern and request id) even when they succeed. */
+export const SLOW_REQUEST_MS = 3_000;
+/** The SPA gives up on an API call after this long (search starts and hotel details can take seconds). */
+export const API_REQUEST_TIMEOUT_MS = 30_000;
 export const BUDGET_WARN_RATIO = 0.8;
 
 // Skill runner and evals (architektur.md 9.1). Token estimates are deliberately
@@ -316,3 +350,33 @@ export const LLM_BATCH_POLL_INTERVAL_MS = 30_000;
 export const CATALOG_DUPLICATE_KM = 3;
 export const CATALOG_REGION_MAX_SPREAD_KM = 100;
 export const CATALOG_FAKE_POLL_INTERVAL_MS = 10;
+
+/**
+ * Suggestion quality grows with the distance (Aufgabe F19, docs/logik/ziel-qualitaet.md):
+ * up to QUALITY_NEAR_MAX_MIN of driving every fitting place is welcome; further
+ * out a region needs a place of at least the given attractiveness score (the
+ * step applies from its `fromMin` on). Beach, culture and shopping trips are
+ * judged as if the way were QUALITY_PICKY_FACTOR times as long: nobody drives
+ * four hours to a mediocre beach. A flight leads to top destinations only.
+ */
+export const QUALITY_NEAR_MAX_MIN = 240;
+export const QUALITY_STEPS = [
+  { fromMin: 240, minScore: 4 },
+  { fromMin: 420, minScore: 6 },
+  { fromMin: 720, minScore: 8 },
+] as const;
+export const QUALITY_PICKY_THEMES = ['strand', 'staedte_kultur', 'shopping'] as const;
+export const QUALITY_PICKY_FACTOR = 2;
+export const QUALITY_FLIGHT_MIN_SCORE = 8;
+/** Inside a region with a hotspot, places up to this far below the required score are still shown ("not only Barcelona"). */
+export const QUALITY_PLACE_SLACK = 1.5;
+
+/**
+ * Flights (F19), shown only, nothing is booked: flight time estimated from the
+ * air distance (cruise speed plus a fixed part for climb and descent), without
+ * the way to the airport. Destinations closer than FLIGHT_MIN_KM are not a
+ * flight trip.
+ */
+export const FLIGHT_SPEED_KMH = 750;
+export const FLIGHT_OVERHEAD_MIN = 45;
+export const FLIGHT_MIN_KM = 500;

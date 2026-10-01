@@ -146,11 +146,19 @@ try {
   }
   const baseUrl = externalBase ?? stack!.baseUrl;
   // German UI locale for the whole browser process (date inputs follow it, not the context locale).
-  const browser = await chromium.launch({ headless: !process.argv.includes('--headed'), args: ['--lang=de-DE'], env: { ...process.env, LANG: 'de_DE.UTF-8' } });
+  // DOGFOOD_BROWSER_CHANNEL=chrome uses an installed Google Chrome instead of Playwright's Chromium download.
+  const channel = process.env.DOGFOOD_BROWSER_CHANNEL;
+  const browser = await chromium.launch({
+    headless: !process.argv.includes('--headed'),
+    args: ['--lang=de-DE'],
+    env: { ...process.env, LANG: 'de_DE.UTF-8' },
+    ...(channel ? { channel } : {}),
+  });
   const summary: RunSummary = { runId, mode, flows: [], baseUrl, gitSha, startedAt };
   const counter = { n: 0 };
   try {
     for (const flow of selected) {
+      await stack?.resetRateLimits();
       const context = await browser.newContext({ locale: 'de-DE', timezoneId: 'Europe/Berlin', viewport: { width: 1280, height: 900 } });
       const page = await context.newPage();
       summary.flows.push(await runFlow(flow, page, baseUrl, counter));

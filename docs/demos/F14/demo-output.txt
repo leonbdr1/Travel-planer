@@ -1,0 +1,24 @@
+$ npm run demo -- f14
+# recorded 2026-09-29T21:20:46.377Z
+
+seed: Ortsdatenbank importiert (DE 11884, AT 3047, CH 1898, IT-BZ 153, Postleitzahlen 17081)
+seed: Katalog-Entwurf importiert (56 Regionen, 325 Orte)
+Themen (GET /api/v1/meta/config): Wandern, Bergpanorama, Seen, Natur und Ruhe, Radfahren, Wellness, Wintersport, Kultur und Sehenswürdigkeiten, Wein und Kulinarik, Familie, Shopping und Großstadt, Strand und Meer
+  ok     Thema „Shopping und Großstadt“ ist wählbar
+  ok     Thema „Kultur und Sehenswürdigkeiten“ ist wählbar
+Regionen ab Stuttgart, 6 h, Thema shopping (POST /api/v1/suggestions/regions):
+    Köln und Düsseldorf – 2 passende Orte für Shopping und Großstadt, 4 h 6 min–4 h 48 min Fahrt
+    Frankfurt und Rhein-Main – 2 passende Orte für Shopping und Großstadt, 2 h 12 min–2 h 26 min Fahrt
+    Stuttgart – 1 passender Ort für Shopping und Großstadt, 4 min Fahrt
+    München – 1 passender Ort für Shopping und Großstadt, 3 h Fahrt
+    Bodensee – 1 passender Ort für Shopping und Großstadt, 1 h 48 min Fahrt
+  ok     Frankfurt steht bei Shopping unter den ersten drei
+  ok     Allgäu (Füssen: Kultur, kein Shopping) fehlt bei Shopping
+Regionen ab Stuttgart, 6 h, Thema staedte_kultur (POST /api/v1/suggestions/regions):
+    Franken und Romantische Straße – 6 passende Orte für Kultur und Sehenswürdigkeiten, 1 h 22 min–2 h 38 min Fahrt
+    Bodensee – 5 passende Orte für Kultur und Sehenswürdigkeiten, 1 h 42 min–2 h 16 min Fahrt
+    Mittelrhein und Rheingau – 5 passende Orte für Kultur und Sehenswürdigkeiten, 2 h 30 min–2 h 58 min Fahrt
+    Eisacktal und Bozen – 4 passende Orte für Kultur und Sehenswürdigkeiten, 3 h 51 min–4 h 44 min Fahrt
+    Mosel – 4 passende Orte für Kultur und Sehenswürdigkeiten, 2 h 46 min–3 h 22 min Fahrt
+  ok     Franken und Romantische Straße (Altstädte) erscheint bei Kultur
+Ergebnis: alle Prüfungen ok

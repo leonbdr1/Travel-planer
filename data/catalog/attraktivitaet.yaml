@@ -364,3 +364,277 @@ zillertal:
   Tux: [2, 3]
   Gerlos: [2, 3]
   Kaltenbach: [1, 2]
+berlin:
+  Berlin: [3, 3]
+  Potsdam: [3, 3]
+hamburg:
+  Hamburg: [3, 3]
+  Lübeck: [3, 2]
+muenchen:
+  München: [3, 3]
+  Freising: [1, 1]
+rhein-main:
+  Frankfurt am Main: [3, 2]
+  Wiesbaden: [2, 2]
+  Mainz: [2, 2]
+koeln-duesseldorf:
+  Köln: [3, 3]
+  Düsseldorf: [3, 2]
+  Bonn: [2, 2]
+dresden-elbland:
+  Dresden: [3, 3]
+  Meißen: [2, 2]
+  Radebeul: [1, 1]
+stuttgart:
+  Stuttgart: [2, 2]
+  Ludwigsburg: [2, 2]
+
+# Europa-Erweiterung (F15), KI-Entwurf wie der Rest des Katalogs.
+gardasee:
+  Riva del Garda: [3, 2]
+  Malcesine: [3, 3]
+  Limone sul Garda: [2, 1]
+  Sirmione: [3, 3]
+  Bardolino: [2, 1]
+  Lazise: [2, 2]
+venedig-adria:
+  Venedig: [3, 3]
+  Jesolo: [2, 1]
+  Caorle: [2, 1]
+  Chioggia: [1, 1]
+dolomiten-trentino:
+  Cortina d’Ampezzo: [3, 3]
+  Canazei: [3, 3]
+  Trient: [2, 2]
+  Arco: [2, 2]
+oberitalienische-seen:
+  Como: [3, 2]
+  Bellagio: [3, 2]
+  Menaggio: [2, 1]
+  Stresa: [3, 3]
+  Verbania: [2, 2]
+mailand:
+  Mailand: [3, 3]
+  Bergamo: [2, 2]
+cinque-terre:
+  Monterosso al Mare: [3, 2]
+  Vernazza: [3, 2]
+  Riomaggiore: [3, 2]
+  Levanto: [2, 1]
+  Santa Margherita Ligure: [2, 2]
+toskana:
+  Florenz: [3, 3]
+  Siena: [3, 3]
+  Pisa: [3, 3]
+  Lucca: [2, 2]
+  San Gimignano: [3, 2]
+  Montepulciano: [2, 1]
+rom:
+  Rom: [3, 3]
+  Tivoli: [2, 2]
+  Frascati: [1, 1]
+amalfikueste:
+  Neapel: [3, 3]
+  Sorrent: [3, 2]
+  Positano: [3, 2]
+  Amalfi: [3, 2]
+  Capri: [3, 2]
+sizilien:
+  Taormina: [3, 3]
+  Palermo: [3, 3]
+  Cefalù: [2, 2]
+  Syrakus: [2, 3]
+sardinien:
+  Alghero: [2, 2]
+  Cagliari: [2, 2]
+  San Teodoro: [2, 1]
+  Villasimius: [2, 1]
+emilia-riviera:
+  Bologna: [2, 2]
+  Rimini: [2, 1]
+  Riccione: [2, 1]
+paris:
+  Paris: [3, 3]
+  Versailles: [2, 3]
+elsass:
+  Straßburg: [3, 3]
+  Colmar: [3, 2]
+  Riquewihr: [2, 1]
+  Obernai: [2, 1]
+cote-d-azur:
+  Nizza: [3, 2]
+  Cannes: [3, 2]
+  Antibes: [2, 2]
+  Menton: [2, 1]
+  Saint-Tropez: [3, 1]
+provence:
+  Avignon: [3, 3]
+  Aix-en-Provence: [2, 2]
+  Arles: [2, 2]
+  Gordes: [2, 1]
+  Marseille: [3, 2]
+savoyen:
+  Chamonix: [3, 3]
+  Annecy: [3, 2]
+  Megève: [2, 3]
+  Évian-les-Bains: [2, 1]
+bretagne-normandie:
+  Saint-Malo: [3, 2]
+  Dinard: [2, 1]
+  Honfleur: [2, 1]
+  Étretat: [2, 2]
+  Bayeux: [2, 2]
+loire:
+  Amboise: [2, 3]
+  Blois: [2, 3]
+  Tours: [2, 1]
+  Saumur: [2, 2]
+barcelona-costa-brava:
+  Barcelona: [3, 3]
+  Girona: [2, 2]
+  Lloret de Mar: [2, 1]
+  Tossa de Mar: [2, 1]
+  Sitges: [2, 1]
+mallorca:
+  Palma: [3, 2]
+  Alcúdia: [2, 1]
+  Sóller: [2, 2]
+  Pollença: [2, 1]
+madrid:
+  Madrid: [3, 3]
+  Toledo: [2, 3]
+  Segovia: [2, 3]
+andalusien:
+  Sevilla: [3, 3]
+  Granada: [3, 3]
+  Córdoba: [2, 3]
+  Málaga: [2, 2]
+  Marbella: [2, 1]
+  Nerja: [2, 2]
+costa-blanca:
+  Valencia: [2, 2]
+  Benidorm: [2, 1]
+  Altea: [2, 1]
+  Dénia: [2, 1]
+kanaren:
+  Puerto de la Cruz: [2, 2]
+  Adeje: [2, 1]
+  Las Palmas de Gran Canaria: [2, 1]
+lissabon:
+  Lissabon: [3, 3]
+  Sintra: [2, 3]
+  Cascais: [2, 1]
+porto-douro:
+  Porto: [3, 2]
+  Peso da Régua: [1, 1]
+algarve:
+  Lagos: [3, 2]
+  Albufeira: [2, 1]
+  Portimão: [2, 1]
+  Tavira: [2, 1]
+madeira:
+  Funchal: [3, 2]
+  Machico: [1, 1]
+amsterdam:
+  Amsterdam: [3, 3]
+  Haarlem: [2, 2]
+  Zandvoort: [2, 1]
+niederlaendische-kueste:
+  Den Haag: [2, 2]
+  Noordwijk: [2, 1]
+  Domburg: [2, 1]
+  Vlissingen: [1, 1]
+flandern:
+  Brügge: [3, 2]
+  Gent: [2, 2]
+  Brüssel: [3, 3]
+  Antwerpen: [2, 2]
+  Knokke-Heist: [2, 1]
+luxemburg:
+  Luxemburg: [2, 2]
+  Echternach: [2, 1]
+  Vianden: [2, 2]
+kopenhagen:
+  Kopenhagen: [3, 3]
+  Helsingør: [2, 2]
+daenische-nordsee:
+  Skagen: [2, 2]
+  Løkken: [2, 1]
+  Hvide Sande: [1, 1]
+  Ribe: [2, 1]
+prag:
+  Prag: [3, 3]
+  Kutná Hora: [1, 2]
+boehmen:
+  Karlsbad: [2, 2]
+  Marienbad: [2, 1]
+  Krumau: [2, 2]
+krakau-tatra:
+  Krakau: [3, 3]
+  Zakopane: [3, 3]
+polnische-ostsee:
+  Danzig: [3, 2]
+  Zoppot: [2, 1]
+  Kolberg: [2, 1]
+  Swinemünde: [1, 1]
+budapest:
+  Budapest: [3, 3]
+  Szentendre: [1, 1]
+balaton:
+  Siófok: [2, 1]
+  Keszthely: [2, 2]
+  Hévíz: [2, 2]
+  Balatonfüred: [2, 1]
+istrien:
+  Rovinj: [3, 2]
+  Poreč: [2, 2]
+  Pula: [2, 2]
+  Opatija: [2, 1]
+  Umag: [1, 1]
+dalmatien:
+  Split: [3, 3]
+  Dubrovnik: [3, 3]
+  Trogir: [2, 1]
+  Makarska: [2, 1]
+  Zadar: [2, 1]
+slowenien:
+  Bled: [3, 2]
+  Kranjska Gora: [2, 2]
+  Bovec: [2, 1]
+  Laibach: [2, 2]
+  Piran: [2, 1]
+athen:
+  Athen: [3, 3]
+  Nafplio: [2, 2]
+kreta:
+  Chania: [3, 2]
+  Heraklion: [2, 3]
+  Rethymno: [2, 1]
+  Agios Nikolaos: [2, 1]
+korfu:
+  Korfu: [3, 2]
+london:
+  London: [3, 3]
+  Windsor: [2, 2]
+schottland:
+  Edinburgh: [3, 3]
+  Glasgow: [2, 2]
+  Inverness: [2, 2]
+  Fort William: [2, 2]
+cornwall:
+  St Ives: [2, 1]
+  Newquay: [2, 1]
+  Falmouth: [1, 1]
+irland:
+  Dublin: [3, 2]
+  Galway: [2, 1]
+  Killarney: [2, 2]
+  Dingle: [2, 1]
+fjordnorwegen:
+  Bergen: [3, 2]
+  Stavanger: [2, 2]
+  Ålesund: [2, 1]
+  Voss: [2, 2]
+stockholm:
+  Stockholm: [3, 3]
+  Uppsala: [2, 1]

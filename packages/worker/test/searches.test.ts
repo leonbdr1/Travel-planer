@@ -11,6 +11,7 @@ import {
   searchResultsResponseSchema,
 } from '@reiseplaner/contracts';
 import { createPostgresDb } from '@reiseplaner/db';
+import { propertyKind } from '@reiseplaner/domain';
 
 let n = 0;
 const ip = () => `192.0.2.${++n}`;
@@ -125,6 +126,35 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
       await (await api(`/searches/${created.search_id}/results?token=${created.token}&place_id=${cell?.place_id}&checkin=${cell?.checkin}`)).json(),
     );
     expect(scoped.items.every((i) => i.best_offer.place_id === cell?.place_id && i.best_offer.checkin === cell?.checkin)).toBe(true);
+
+    // Pages: without a limit the whole list (as before), with one a slice and the total.
+    const resultsOf = async (params: string) =>
+      searchResultsResponseSchema.parse(await (await api(`/searches/${created.search_id}/results?token=${created.token}${params}`)).json());
+    expect(results.page).toEqual({ offset: 0, limit: null, total: results.items.length });
+    const page1 = await resultsOf('&limit=2');
+    const page2 = await resultsOf('&limit=2&offset=2');
+    expect(page1.items.map((i) => i.hotel.id)).toEqual(results.items.slice(0, 2).map((i) => i.hotel.id));
+    expect(page2.items.map((i) => i.hotel.id)).toEqual(results.items.slice(2, 4).map((i) => i.hotel.id));
+    expect(page2.page).toEqual({ offset: 2, limit: 2, total: results.items.length });
+    expect((await api(`/searches/${created.search_id}/results?token=${created.token}&limit=0`)).status).toBe(400);
+    // Name search: part of the name, case and accents ignored; the matrix stays whole.
+    const named = results.items[0]?.hotel.name ?? '';
+    const byName = await resultsOf(`&q=${encodeURIComponent(named.slice(0, 6).toUpperCase())}`);
+    expect(byName.items.map((i) => i.hotel.name)).toContain(named);
+    expect(byName.items.every((i) => i.hotel.name.toLowerCase().includes(named.slice(0, 6).toLowerCase()))).toBe(true);
+    expect(byName.matrix.cells).toEqual(results.matrix.cells);
+    expect((await resultsOf('&q=zzzz-kein-haus')).items).toEqual([]);
+    // Kind of accommodation: only holiday flats, the filter comes back as set.
+    const flats = await resultsOf('&types=ferienwohnung');
+    expect(flats.filters.property_types).toEqual(['ferienwohnung']);
+    expect(flats.items.length).toBeLessThan(results.items.length);
+    expect(flats.items.every((i) => propertyKind(i.hotel.hotel_type, i.hotel.name) === 'ferienwohnung')).toBe(true);
+    // Nearest place first: drive times never decrease down the list.
+    const byDrive = await resultsOf('&sort=drive');
+    expect(byDrive.meta.sort).toBe('drive');
+    const minutes = new Map(byDrive.matrix.places.map((p) => [p.id, p.drive_minutes ?? Number.POSITIVE_INFINITY]));
+    const driveOrder = byDrive.items.map((i) => minutes.get(i.best_offer.place_id) ?? Number.POSITIVE_INFINITY);
+    expect([...driveOrder].sort((a, b) => a - b)).toEqual(driveOrder);
 
     // Detail: all dates of one hotel with the score breakdown.
     const top = results.items[0];

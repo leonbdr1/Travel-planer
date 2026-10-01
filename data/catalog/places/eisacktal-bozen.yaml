@@ -32,6 +32,7 @@ places:
     themes:
       staedte_kultur: 3
       wein_kulinarik: 3
+      shopping: 2
     description_de: Landeshauptstadt mit Südtiroler Archäologiemuseum und Lauben.
     search_radius_km: 10
     ai_assisted: true

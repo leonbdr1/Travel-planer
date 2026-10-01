@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { findEquivalentOption, freeCancelUntil, normalizedRating, normalizeOffers } from '../src/pricing';
+import { findEquivalentOption, freeCancellationAt, freeCancelUntil, normalizedRating, normalizeOffers } from '../src/pricing';
 import type { RateOption } from '../src/types';
 
 const option = (id: string, totalCents: number, refundable: boolean, extra: Partial<RateOption> = {}): RateOption => ({
@@ -91,5 +91,17 @@ describe('findEquivalentOption', () => {
 
   it('is null when the tariff is gone', () => {
     expect(findEquivalentOption([], room)).toBeNull();
+  });
+});
+
+describe('freeCancellationAt', () => {
+  const now = new Date('2026-10-01T08:00:00Z');
+
+  it('keeps free cancellation until its deadline and drops it afterwards', () => {
+    expect(freeCancellationAt({ refundable: true, freeCancelUntil: '2026-10-05T16:00:00Z' }, now)).toEqual({ refundable: true, freeCancelUntil: '2026-10-05T16:00:00Z' });
+    // The deadline passed (e.g. results opened days later): no longer free, from now on the fees of the tariff apply.
+    expect(freeCancellationAt({ refundable: true, freeCancelUntil: '2026-09-30T16:00:00Z' }, now)).toEqual({ refundable: false, freeCancelUntil: null });
+    expect(freeCancellationAt({ refundable: true, freeCancelUntil: null }, now)).toEqual({ refundable: true, freeCancelUntil: null });
+    expect(freeCancellationAt({ refundable: false, freeCancelUntil: null }, now)).toEqual({ refundable: false, freeCancelUntil: null });
   });
 });

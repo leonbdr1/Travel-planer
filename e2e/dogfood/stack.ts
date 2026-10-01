@@ -4,6 +4,7 @@ import { spawn, type ChildProcess } from 'node:child_process';
 import { mkdirSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { join } from 'node:path';
+import { createPostgresDb } from '@reiseplaner/db';
 
 export async function freePort(): Promise<number> {
   return new Promise((done, fail) => {
@@ -19,6 +20,12 @@ export async function freePort(): Promise<number> {
 
 export interface Stack {
   baseUrl: string;
+  /**
+   * Clears the per-visitor rate-limit counters of the throwaway stack: each
+   * flow is a new visitor, so a full run (many flows, one IP) does not hit
+   * the hourly lookup limit. The product limits themselves are unchanged.
+   */
+  resetRateLimits(): Promise<void>;
   stop(): Promise<void>;
   log(): string;
 }
@@ -77,5 +84,13 @@ export async function startStack(repoRoot: string, workDir: string): Promise<Sta
     await stop();
     throw new Error(`stack did not become healthy:\n${output.slice(-4000)}`);
   }
-  return { baseUrl, stop, log: () => output };
+  const resetRateLimits = async () => {
+    const db = createPostgresDb(`postgres://postgres:postgres@127.0.0.1:${dbPort}/postgres`, { max: 1 });
+    try {
+      await db.query('DELETE FROM app.rate_limits');
+    } finally {
+      await db.close();
+    }
+  };
+  return { baseUrl, resetRateLimits, stop, log: () => output };
 }

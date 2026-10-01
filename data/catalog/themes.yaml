@@ -1,5 +1,8 @@
 # Themenvokabular (architektur.md 6.3). Themen beschreiben Zielorte, nicht
-# Unterkünfte. Erweiterbar (z. B. strand, schwarzer_sandstrand).
+# Unterkünfte. Erweiterbar (z. B. schwarzer_sandstrand).
+# staedte_kultur = Kultur und Sehenswürdigkeiten (Altstädte, Museen, Bauwerke),
+# shopping = Einkaufen und Großstadt; getrennt seit Aufgabe F14 (Cinque Terre
+# ist Kultur, aber kein Shopping; Frankfurt ist Shopping).
 - code: wandern
   label_de: Wandern
   category: aktivitaet
@@ -22,7 +25,7 @@
   label_de: Wintersport
   category: aktivitaet
 - code: staedte_kultur
-  label_de: Städte und Kultur
+  label_de: Kultur und Sehenswürdigkeiten
   category: kultur
 - code: wein_kulinarik
   label_de: Wein und Kulinarik
@@ -30,3 +33,9 @@
 - code: familie
   label_de: Familie
   category: erholung
+- code: shopping
+  label_de: Shopping und Großstadt
+  category: kultur
+- code: strand
+  label_de: Strand und Meer
+  category: landschaft

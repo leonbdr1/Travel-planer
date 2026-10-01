@@ -1,0 +1,49 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: oberitalienische-seen
+places:
+  - name: Como
+    themes:
+      seen: 3
+      staedte_kultur: 2
+      shopping: 2
+    description_de: Stadt am Südende des Comer Sees mit Dom, Seepromenade und Standseilbahn nach Brunate.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3178229
+  - name: Bellagio
+    themes:
+      seen: 3
+      staedte_kultur: 2
+    description_de: Ort an der Landspitze zwischen den Seearmen mit Villengärten und Gassen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3182230
+  - name: Menaggio
+    themes:
+      seen: 3
+      wandern: 2
+    description_de: Uferort am Westufer mit Fähren über den See und Wegen ins Hinterland.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3173598
+  - name: Stresa
+    themes:
+      seen: 3
+      staedte_kultur: 2
+    description_de: Ort am Lago Maggiore mit Blick auf die Borromäischen Inseln und Seilbahn auf den Mottarone.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3166101
+  - name: Verbania
+    themes:
+      seen: 3
+      staedte_kultur: 1
+    description_de: Stadt am Westufer des Lago Maggiore mit dem Botanischen Garten der Villa Taranto.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 6457398

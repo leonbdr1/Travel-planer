@@ -191,6 +191,34 @@ export async function getBookingByRef(db: Queryable, ref: string): Promise<Booki
   return rows[0] ? toBooking(rows[0]) : null;
 }
 
+/** The latest bookings, optionally of one status (support tool `npm run cli -- buchungen`). */
+export async function listBookings(db: Queryable, options: { status?: BookingState; limit: number }): Promise<Booking[]> {
+  const rows = await db.query<BookingDbRow>(
+    `SELECT ${COLUMNS} FROM app.bookings WHERE ($1::text IS NULL OR status = $1) ORDER BY created_at DESC LIMIT $2`,
+    [options.status ?? null, options.limit],
+  );
+  return rows.map(toBooking);
+}
+
+/** Bookings whose reference starts with `prefix` (letters and digits only), for typos in support requests. */
+export async function bookingsByRefPrefix(db: Queryable, prefix: string, limit: number): Promise<Booking[]> {
+  const clean = prefix.toUpperCase().replace(/[^0-9A-Z]/g, '');
+  if (!clean) return [];
+  const rows = await db.query<BookingDbRow>(`SELECT ${COLUMNS} FROM app.bookings WHERE booking_ref LIKE $1 ORDER BY created_at DESC LIMIT $2`, [`${clean}%`, limit]);
+  return rows.map(toBooking);
+}
+
+/** Confirmed and cancelled bookings of a holder's e-mail address (case ignored), the latest stay first. */
+export async function bookingsByHolderEmail(db: Queryable, email: string, limit: number): Promise<Booking[]> {
+  const rows = await db.query<BookingDbRow>(
+    `SELECT ${COLUMNS} FROM app.bookings
+      WHERE lower(holder_email) = lower($1) AND status IN ('confirmed', 'cancelled')
+      ORDER BY checkin DESC, created_at DESC LIMIT $2`,
+    [email.trim(), limit],
+  );
+  return rows.map(toBooking);
+}
+
 export async function getBookingById(db: Queryable, id: string): Promise<Booking | null> {
   const rows = await db.query<BookingDbRow>(`SELECT ${COLUMNS} FROM app.bookings WHERE id = $1::uuid`, [id]);
   return rows[0] ? toBooking(rows[0]) : null;

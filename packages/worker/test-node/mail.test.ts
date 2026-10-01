@@ -59,6 +59,26 @@ describe('e-mail templates', () => {
     expect(mail.html).not.toContain('<Schwanen>');
   });
 
+  it('says when free cancellation had already ended at booking time', () => {
+    expect(renderEmail('booking_confirmation', { ...confirmation, freeCancelEnded: true }).text).toContain(
+      'Die kostenlose Stornierung endete am 07.10.2026, 18:00 Uhr; es gelten die Stornobedingungen der Unterkunft.',
+    );
+  });
+
+  it('lists every booking of an address with its own link', () => {
+    const mail = renderEmail('access_link', {
+      bookings: [
+        { bookingRef: 'K7M2Q9XZ', hotelName: 'Hotel <Schwanen>', checkin: '2026-10-09', checkout: '2026-10-11', cancelled: false, accessUrl: 'https://reiseplaner.example/buchung/K7M2Q9XZ#a=t1' },
+        { bookingRef: 'Q2W3E4R5', hotelName: 'Gasthof Rose', checkin: '2026-08-01', checkout: '2026-08-03', cancelled: true, accessUrl: 'https://reiseplaner.example/buchung/Q2W3E4R5#a=t2' },
+      ],
+      validDays: 30,
+    });
+    expect(mail.subject).toBe('Deine Buchungen');
+    expect(mail.text).toContain('Gasthof Rose, Sa., 01.08.2026 – Mo., 03.08.2026 · Q2W3E4R5 · storniert');
+    expect(mail.html).toContain('#a=t1');
+    expect(mail.html).not.toContain('<Schwanen>');
+  });
+
   it('rejects payloads that do not match the template', () => {
     expect(() => renderEmail('booking_confirmation', { bookingRef: 'X' })).toThrow();
   });

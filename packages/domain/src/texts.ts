@@ -1,13 +1,9 @@
 // German text templates produced by the domain (reasons, durations). They
 // are checked by `npm run check:claims` like the UI texts.
+import { formatDriveRange, formatDuration } from './drive-bands';
+import { formatFlightRange } from './destinations';
 
-export function formatDuration(minutes: number): string {
-  const m = Math.max(0, Math.round(minutes));
-  if (m < 60) return `${m} min`;
-  const h = Math.floor(m / 60);
-  const rest = m % 60;
-  return rest === 0 ? `${h} h` : `${h} h ${rest} min`;
-}
+export { formatDuration };
 
 /** "Wandern", "Wandern und Seen", "Wandern, Seen und Wellness". */
 export function formatList(items: readonly string[]): string {
@@ -16,13 +12,12 @@ export function formatList(items: readonly string[]): string {
 }
 
 /** Region reason (architektur.md 6.2 point 7): "{n} passende Orte für {Themen}, {min}–{max} Fahrt". */
-export function regionReason(args: { places: number; themeLabels: readonly string[]; minMinutes: number; maxMinutes: number; estimated: boolean }): string {
+export function regionReason(args: { places: number; themeLabels: readonly string[]; minMinutes: number; maxMinutes: number; estimated: boolean; mode?: 'car' | 'flight' }): string {
   const count = args.places === 1 ? '1 passender Ort' : `${args.places} passende Orte`;
   const themes = args.themeLabels.length > 0 ? ` für ${formatList(args.themeLabels)}` : '';
-  const span =
-    args.minMinutes === args.maxMinutes
-      ? formatDuration(args.minMinutes)
-      : `${formatDuration(args.minMinutes)}–${formatDuration(args.maxMinutes)}`;
+  // Exact up to 7 h, coarser beyond (Aufgabe F16): "4 h 6 min–4 h 48 min", "über 20 h".
+  if (args.mode === 'flight') return `${count}${themes}, ca. ${formatFlightRange(args.minMinutes, args.maxMinutes)} Flug`;
+  const span = formatDriveRange(args.minMinutes, args.maxMinutes);
   return `${count}${themes}, ${args.estimated ? 'geschätzt ' : ''}${span} Fahrt`;
 }
 
@@ -39,7 +34,7 @@ const wholeEuro = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
  * against, so the percentage can be checked.
  */
 export function bargainReasonDate(percent: number, othersMeanTotalCents: number, totalCents: number): string {
-  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: hier ${wholeEuro.format(Math.round(totalCents / 100))} € gesamt, an deinen anderen Terminen im Mittel ${wholeEuro.format(Math.round(othersMeanTotalCents / 100))} € gesamt)`;
+  return `${percent} % günstiger als dieselbe Unterkunft an deinen anderen Terminen (gleiches Zimmer: ${wholeEuro.format(Math.round(totalCents / 100))} € statt im Mittel ${wholeEuro.format(Math.round(othersMeanTotalCents / 100))} €)`;
 }
 
 /** Board labels for e-mails and server texts (the SPA has the same in i18n/de.ts). */

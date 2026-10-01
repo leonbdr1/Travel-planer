@@ -1,7 +1,8 @@
 // Drive times from a start location to catalog places (architektur.md 6.2
 // steps 2, 5, 11): cache per origin cell, routing only for missing pairs in
 // chunks, minute and daily quota (fail-closed), straight-line estimate as
-// the clearly marked fallback.
+// the clearly marked fallback. Far destinations (Aufgabe F16) are not routed:
+// they are shown in coarse blocks, so the motorway estimate is enough.
 import {
   budgetReserve,
   budgetSettle,
@@ -10,7 +11,7 @@ import {
   upsertTravelTimes,
   type Queryable,
 } from '@reiseplaner/db';
-import { constants, estimateDrive, originCell, type LatLng } from '@reiseplaner/domain';
+import { constants, estimateDrive, estimateLongDrive, originCell, type LatLng } from '@reiseplaner/domain';
 import type { ProviderSource, RoutingPort } from '@reiseplaner/providers';
 
 export interface PlacePoint extends LatLng {
@@ -37,6 +38,8 @@ export interface TravelTimeStats {
   cached: number;
   routed: number;
   estimated: number;
+  /** Far places with the coarse motorway estimate (no routing call, not a fallback). */
+  coarse: number;
   routingCalls: number;
 }
 
@@ -47,7 +50,7 @@ export async function getTravelTimes(
 ): Promise<{ times: Map<string, TravelTime>; stats: TravelTimeStats }> {
   const cell = originCell(origin);
   const provider = deps.routingSource === 'fake' ? 'fake' : 'ors';
-  const stats: TravelTimeStats = { cached: 0, routed: 0, estimated: 0, routingCalls: 0 };
+  const stats: TravelTimeStats = { cached: 0, routed: 0, estimated: 0, coarse: 0, routingCalls: 0 };
   const times = new Map<string, TravelTime>();
   const ttlStart = new Date(deps.now.getTime() - constants.TRAVEL_TIME_CACHE_TTL_DAYS * 86_400_000);
   const cached = await getCachedTravelTimes(
@@ -62,7 +65,17 @@ export async function getTravelTimes(
     stats.cached += 1;
   }
 
-  const missing = places.filter((p) => !times.has(p.id));
+  const missing: PlacePoint[] = [];
+  for (const place of places) {
+    if (times.has(place.id)) continue;
+    const far = estimateLongDrive(origin, place);
+    if (far.durationMin > constants.DRIVE_ROUTE_MAX_MIN) {
+      times.set(place.id, { ...far, estimated: false });
+      stats.coarse += 1;
+    } else {
+      missing.push(place);
+    }
+  }
   for (let i = 0; i < missing.length; i += constants.ORS_MATRIX_CHUNK) {
     const chunk = missing.slice(i, i + constants.ORS_MATRIX_CHUNK);
     let results: Array<{ durationMin: number; distanceKm: number } | null> | null = null;

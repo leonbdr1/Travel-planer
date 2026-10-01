@@ -138,7 +138,7 @@ function Row({ f, isBase, href, littleToOffer }: { f: FinalistDto; isBase: boole
               {t.unrated}
             </Badge>
           ) : (
-            <RatingPair quality={f.quality} rating={f.hotel.rating} reviews={f.hotel.review_count} sources={f.hotel.rating_sources} size="sm" />
+            <RatingPair quality={f.quality} rating={f.hotel.rating} reviews={f.hotel.review_count} sources={f.hotel.rating_sources} warnings={f.warnings} size="sm" />
           )}
         </div>
         {littleToOffer ? (
@@ -169,9 +169,10 @@ function LegendItem({ className, children, text }: { className: string; children
 function Legend({ osm }: { osm: boolean }) {
   const l = t.legend;
   return (
-    <div className="max-w-3xl space-y-2 rounded-xl bg-zinc-50 p-3 text-xs text-zinc-600 ring-1 ring-zinc-200" data-testid="finale-legend">
-      <p className="font-semibold text-zinc-800">{l.title}</p>
-      <div className="grid gap-3 sm:grid-cols-2">
+    <div className="max-w-3xl space-y-2 text-xs text-zinc-600" data-testid="finale-legend">
+      <details className="rounded-xl bg-zinc-50 p-3 ring-1 ring-zinc-200">
+      <summary className="cursor-pointer font-semibold text-zinc-800">{l.title}</summary>
+      <div className="mt-2 grid gap-3 sm:grid-cols-2">
         <div>
           <p className="mb-1 font-medium text-zinc-700">{l.compareTitle}</p>
           <ul className="space-y-1">
@@ -204,6 +205,7 @@ function Legend({ osm }: { osm: boolean }) {
           </p>
         </div>
       </div>
+      </details>
       {osm ? <p data-testid="osm-attribution">{t.osm}</p> : null}
     </div>
   );
@@ -311,10 +313,11 @@ export function FinaleView({
                 ))}
               </ol>
               <Legend osm={data.finalists.some((f) => f.features.some((x) => x.minutes !== undefined))} />
-              <p className="text-xs text-zinc-500" data-testid="finale-note">
-                {t.decide}
-                {data.runners_up > 0 ? ` ${t.runnersUp(data.runners_up)}` : ''}
-              </p>
+              {data.runners_up > 0 ? (
+                <p className="text-xs text-zinc-500" data-testid="finale-note">
+                  {t.runnersUp(data.runners_up)}
+                </p>
+              ) : null}
             </>
           )}
         </>

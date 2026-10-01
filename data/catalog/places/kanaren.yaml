@@ -1,0 +1,32 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). geonameid schreibt `npm run cli -- catalog match`.
+region: kanaren
+places:
+  - name: Puerto de la Cruz
+    themes:
+      strand: 2
+      wandern: 2
+      natur_ruhe: 2
+    description_de: Ort an der Nordküste Teneriffas mit Meerwasserpools und Blick auf den Teide.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2512196
+  - name: Adeje
+    themes:
+      strand: 3
+      familie: 3
+    description_de: Badeort im Süden Teneriffas mit Costa Adeje und Wasserpark.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2522437
+  - name: Las Palmas de Gran Canaria
+    themes:
+      strand: 2
+      shopping: 2
+      staedte_kultur: 1
+    description_de: Stadt auf Gran Canaria mit Playa de las Canteras und Altstadt Vegueta.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 2515270
