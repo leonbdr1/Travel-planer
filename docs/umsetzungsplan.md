@@ -634,6 +634,18 @@ Contracts, auf die sich dieser Plan stützt. Jeder Slice verifiziert die von ihm
   - STATUS: „Warnsignale nach Anteil“ → `live-verified`.
 - [x] `architektur.md` (2, 3.5, 6.4, 6.7 bis 6.10, 6.14, 6.15, 7.3, 8.1, 12 bis 14, 18) und `konzept.md` (9.3 bis 9.5, 9.9, 9.10, F16) an den gebauten Stand angepasst; `@electric-sql/pglite-socket` aus `packages/db` entfernt (Operator-Lane). Beides von Ben am 29.09.2026 freigegeben. (224cf1c, 86f8d1f, 2026-09-29)
 
+**S11.12 Zweite Bewertungsquelle** (Fleet-Lane; nachgetragen 01.10.2026, gebaut 29.09.2026)
+- [x] Port `RatingSourcePort` mit Fake, Schritt `external-ratings`, Fusion nach Anzahl (externe zählen halb), Anzeige „inkl. Tripadvisor“. Stand und Belege: `STATUS.md` S11.12, `docs/demos/S11.12/`.
+
+**S11.13 Passwort-Schutz der Entwicklerseite** (Operator-Lane; nachgetragen 01.10.2026, gebaut 29.09.2026)
+- [x] Gate im Worker (`SITE_GATE=password`). Stand: `STATUS.md` S11.13, `docs/demos/S11.13/`.
+
+**S11.14 Lokal rechnen, online erreichbar** (Operator-Lane; nachgetragen 01.10.2026, gebaut 29.09.2026)
+- [x] `npm run serve` und Tunnel-Anleitung. Stand: `STATUS.md` S11.14, `docs/demos/S11.14/`.
+
+**S11.15 Passwort-Ersteinrichtung** (Operator-Lane; nachgetragen 01.10.2026, gebaut 29.09.2026, cbe77f3)
+- [x] Erster Besuch legt Admin- und Nutzer-Passwort fest. Stand: `STATUS.md` S11.15, `docs/demos/S11.15/`.
+
 **Abnahme M11:** F15 bis F17 erfüllt; jede Unterkunft der Suche ist Finalist, Nachrücker oder hat genau einen Grund; Sterne-Fallen und Warnsignale erreichen das Finale nicht; Walkthrough `finale` gelesen.
 **Rollback:** Die Liste „Alle Angebote“ bleibt vollständig; das Finale ist eine zusätzliche Sicht und lässt sich in `ResultsView` ausblenden.
 

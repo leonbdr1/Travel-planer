@@ -51,7 +51,7 @@ export const sucheFlow: Flow = {
       async () => {
         await prepareSixtyCombinations(page, baseUrl);
       },
-      { expectText: ['Ortsliste bestätigt', '5 Orte × 12 Termine = 60 Kombinationen', 'Suche starten', 'Rechenaufgabe'] },
+      { expectText: ['5 Orte × 12 Termine = 60 Kombinationen', 'Suche starten'] },
     );
 
     await step(

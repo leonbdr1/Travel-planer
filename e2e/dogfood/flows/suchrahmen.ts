@@ -108,7 +108,7 @@ export const suchrahmenFlow: Flow = {
         await page.getByTestId('places-confirm').click();
         await page.getByTestId('places-confirmed').waitFor();
       },
-      { expectText: ['Ortsliste bestätigt', 'Kombinationen'] },
+      { expectText: ['Suche starten', 'Kombinationen'] },
     );
   },
 };

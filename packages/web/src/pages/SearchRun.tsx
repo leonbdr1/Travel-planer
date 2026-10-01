@@ -34,7 +34,9 @@ export function SearchRun() {
     let stopped = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const controller = new AbortController();
-    // Another search or a corrected link (only the fragment changed): start over.
+    // Another search or a corrected link (only the fragment changed): start over,
+    // so the old search is never shown (or asked for) with the new token.
+    setProgress(null);
     setError(null);
     setFailures(0);
     const poll = async () => {

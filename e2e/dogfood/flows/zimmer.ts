@@ -47,7 +47,7 @@ export const zimmerFlow: Flow = {
         await page.getByTestId('detail-offers').first().waitFor({ timeout: 30_000 });
         await page.getByTestId('room-overview').scrollIntoViewIfNeeded();
       },
-      { expectText: ['Zimmer dieser Unterkunft an deinen Terminen (du suchst für 1 Person)', 'für bis zu'], expectSelector: ['[data-testid="room-overview"]'] },
+      { expectText: ['Zimmer an deinen Terminen (für 1 Person)', 'für bis zu'], expectSelector: ['[data-testid="room-overview"]'] },
     );
     note(`Zimmerübersicht: ${(await page.getByTestId('room-overview').innerText()).replace(/\n/g, ' | ')}`);
   },

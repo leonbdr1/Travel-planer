@@ -515,7 +515,7 @@ export const de = {
     description: 'Beschreibung',
     facilities: 'Ausstattung',
     checkinTimes: (ci: string, co: string) => `Anreise ab ${ci}, Abreise bis ${co}`,
-    scoreTitle: 'So setzt sich der Qualitätswert zusammen',
+    scoreTitle: 'Unser Qualitätswert',
     scoreRating: (r: string, n: number) => `Durchschnitt ${r} aus ${n} Bewertungen`,
     scorePrior: (mean: string, weight: number, kind: string, full: number) => `${kind}, unter ${full} Bewertungen: angeglichen an das Mittel ${mean} (Gewicht ${weight})`,
     scoreFullWeight: (full: number, kind: string) => `${kind}: ab ${full} Bewertungen zählt der Durchschnitt voll`,
@@ -568,7 +568,7 @@ export const de = {
     places: (top: number, beliebt: number, ruhig: number) =>
       `Ein abgelegener Nebenort ohne Bergbahn und Wanderwege ist oft deutlich günstiger als ein bekannter Urlaubsort – im Urlaub hat man dort aber weniger davon. Deshalb zeigen wir bei jedem Ort, wie viel er bietet, und markieren Orte, in denen wenig los ist; aussortiert wird dadurch nichts. Wir schauen auf fünf Punkte: Bekanntheit als Urlaubsort, Bergbahnen, Skigebiet oder große Sehenswürdigkeiten, Wander- und Radwege, die Vielfalt der Aktivitäten und die Versorgung vor Ort (Restaurants, Läden, Gästeinformation). Bekanntheit und Attraktionen zählen doppelt. Daraus entsteht ein Wert von 0 bis 10: ab ${formatNumber(top)} „Top-Urlaubsort“, ab ${formatNumber(beliebt)} „Beliebter Urlaubsort“, ab ${formatNumber(ruhig)} „Ruhiger Ort“, darunter „Wenig los“. Orte, die du selbst eingibst, schätzen wir aus ihrer Größe und bekannten Urlaubsorten in der Nähe. Eine Region zählt so viel wie ihre drei besten Orte.`,
     sortTitle: 'Sortierungen',
-    sort: 'Standard ist der Preis, die günstigste Unterkunft zuerst. Du kannst die Liste auch nach „Unsere Wahl zuerst“ (Vergleichspreis) oder nach Bewertung (absteigend) sortieren.',
+    sort: 'Standard ist der Preis, die günstigste Unterkunft zuerst. Du kannst die Liste auch nach „Unsere Wahl zuerst“ (Vergleichspreis), nach Bewertung (absteigend) oder nach Fahrzeit (nächster Ort zuerst, dann Preis) sortieren. Die Namenssuche grenzt die Liste nur ein, sie ändert die Reihenfolge nicht.',
     finaleTitle: '„Deine Auswahl“: So sortieren wir vor',
     finale: (stars: number, max: number) =>
       `Je nach deinem Ziel sortieren wir Unterkünfte aus, die deine Filter nicht erfüllen, die keine Bewertungen haben und dabei auffällig billig oder auffällig gut ausgestattet oder für dein Ziel nicht einschätzbar sind, bei denen sich Beschwerden über Schimmel, Ungeziefer oder Schmutz häufen (siehe „Warnsignale“), die ${stars} oder mehr Sterne zum Preis eines einfachen Hauses haben, aber keine geprüften guten Bewertungen, die für dein Ziel zu schwach bewertet oder zu teuer sind, oder für die es ein Angebot gibt, das nicht teurer, mindestens gleich gut bewertet ist und alles bietet, was dieses bietet. Von den übrigen zeigen wir höchstens ${max}, die günstigste zuerst, und nennen bei den anderen den Aufpreis und was er bringt. Unter „Alle Angebote“ stehen alle Unterkünfte, die zu deinem Ziel passen. Aussortierte Unterkünfte ohne Bewertungen findest du dort ganz unten: Ohne Bewertungen ist eine Unterkunft nicht zwingend schlecht, die Entscheidung liegt bei dir.`,
@@ -591,7 +591,7 @@ export const de = {
     praiseCount: (topic: string, praised: number, criticized: number) => `${topic}: ${praised}× gelobt, ${criticized}× kritisiert`,
     praiseNote: (min: number, share: number, months: number) =>
       `Ohne KI gezählt aus „Positiv“ und „Negativ“ der letzten ${months} Monate; Label ab ${min} lobenden Gästen und ${share} % Lob.`,
-    noIssues: (n: number) => `Keine Auffälligkeiten in den geprüften Rezensionen (${n} geprüft).`,
+    noIssues: 'Keine Auffälligkeiten in den geprüften Rezensionen.',
     noReviews: 'Keine aktuellen Bewertungen zum Prüfen.',
     failed: 'Die Rezensionen konnten nicht abgerufen werden.',
     mentions: (count: number, recent: number, months: number) =>
@@ -620,7 +620,7 @@ export const de = {
     emailHint: 'Für Bestätigung und Link zur Buchung.',
     phone: 'Telefon (optional)',
     guestsTitle: 'Gäste je Zimmer',
-    room: (n: number) => `Zimmer ${n}: Name eines Gastes`,
+    room: (n: number) => `Gast in Zimmer ${n}`,
     sameAsHolder: 'wie oben',
     termsTitle: 'Bestätigungen',
     terms: (name: string) => `Ich akzeptiere die AGB. ${name} vermittelt nur; Vertragspartner für den Aufenthalt ist die Unterkunft.`,

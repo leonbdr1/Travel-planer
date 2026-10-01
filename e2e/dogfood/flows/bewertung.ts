@@ -54,7 +54,7 @@ export const bewertungFlow: Flow = {
         await page.getByTestId('result-list').getByTestId('result-name').first().click();
         await page.getByTestId('score-breakdown').waitFor({ timeout: 30_000 });
       },
-      { expectText: ['Unser Wert', 'Gästebewertungen', 'So setzt sich der Qualitätswert zusammen'], expectSelector: ['[data-testid="rating-pair"]'] },
+      { expectText: ['Unser Wert', 'Gästebewertungen', 'Unser Qualitätswert'], expectSelector: ['[data-testid="rating-pair"]'] },
     );
     await page.setViewportSize({ width: 390, height: 844 });
     await step(

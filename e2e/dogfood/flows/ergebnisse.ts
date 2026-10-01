@@ -17,7 +17,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('result-list').waitFor({ timeout: 30_000 });
       },
       {
-        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise von', 'Unsere Wahl zuerst', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen', 'dasselbe Zimmer'],
+        expectText: ['45 von 45 Kombinationen', 'Deine Auswahl', 'Alle Angebote', 'Preise von', 'Unsere Wahl zuerst', 'So berechnen wir die Rangliste', 'pro Nacht', 'Schnäppchen', 'gleiches Zimmer'],
         expectSelector: ['[data-testid="result-matrix"]', '[data-testid="bargain-reason"]', '[data-testid="result-filters"]'],
         fullPage: true,
       },
@@ -156,7 +156,7 @@ export const ergebnisseFlow: Flow = {
         await page.getByTestId('detail-offers').waitFor({ timeout: 15_000 });
       },
       {
-        expectText: ['Alle Termine und Tarife', 'So setzt sich der Qualitätswert zusammen', 'Aktualität', 'Rezensionscheck', 'Bewertungen geprüft am', 'Buchen', 'Beschreibung', 'Wichtige Hinweise der Unterkunft', 'Junggesellenabschiede'],
+        expectText: ['Alle Termine und Tarife', 'Unser Qualitätswert', 'Aktualität', 'Rezensionscheck', 'Bewertungen geprüft am', 'Buchen', 'Beschreibung', 'Wichtige Hinweise der Unterkunft', 'Junggesellenabschiede'],
         expectSelector: ['[data-testid="score-breakdown"]', '[data-testid="book-offer"]', '[data-testid="hotel-description"] h3', '[data-testid="important-information"]'],
         // Provider markup never shows, and the texts came in German.
         rejectText: ['<p>', '<strong>', '&amp;', 'This property', 'nur auf Englisch'],
