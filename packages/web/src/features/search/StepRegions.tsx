@@ -33,7 +33,6 @@ export function StepRegions({
   const [estimated, setEstimated] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [touched, setTouched] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
   const origin = state.origin;
   const needsLoad = state.regions === null;
 
@@ -56,7 +55,6 @@ export function StepRegions({
   }, [origin?.geonameid, needsLoad, attempt]);
 
   const regions: RegionSuggestionDto[] = state.regions ?? [];
-  const markers = regions.flatMap((r) => (r.center ? [{ id: r.id, label: r.name, lat: r.center.lat, lng: r.center.lng }] : []));
 
   return (
     <div className="space-y-6">
@@ -75,32 +73,12 @@ export function StepRegions({
       {state.regions === null && !error ? <Spinner label={t.loading} /> : null}
       {estimated ? <Alert tone="warning">{t.estimated}</Alert> : null}
       {state.regions !== null && regions.length === 0 ? <Alert tone="info">{t.empty}</Alert> : null}
-      {markers.length > 0 ? (
-        <Card className="flex flex-col items-center gap-4 sm:flex-row sm:items-start" data-testid="region-map">
-          <OverviewMap
-            className="w-full max-w-72 shrink-0"
-            markers={markers}
-            highlight={hovered ? [hovered] : state.selectedRegionIds}
-            origin={origin ? { label: origin.name, lat: origin.lat, lng: origin.lng } : null}
-            title={t.mapTitle}
-          />
-          <div className="space-y-2 text-sm text-zinc-600">
-            <p className="font-semibold text-zinc-900">{t.mapTitle}</p>
-            <p className="flex items-center gap-2">
-              <span className="inline-block size-2.5 bg-zinc-800" aria-hidden="true" /> {t.mapStart(origin?.name ?? '')}
-            </p>
-            <p className="flex items-center gap-2">
-              <span className="inline-block size-3 rounded-full bg-brand-600" aria-hidden="true" /> {t.mapRegions}
-            </p>
-          </div>
-        </Card>
-      ) : null}
       <ul className="grid gap-4 md:grid-cols-2" data-testid="region-list">
         {regions.map((region) => {
           const selected = state.selectedRegionIds.includes(region.id);
           const full = !selected && state.selectedRegionIds.length >= MAX_REGIONS;
           return (
-            <li key={region.id} className="relative" onMouseEnter={() => setHovered(region.id)} onMouseLeave={() => setHovered(null)}>
+            <li key={region.id} className="relative">
               <button
                 type="button"
                 aria-pressed={selected}

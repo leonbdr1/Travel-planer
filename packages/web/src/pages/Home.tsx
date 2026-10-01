@@ -1,55 +1,19 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useState } from 'react';
+import { Link } from 'react-router';
 import { ClockIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { productConfig } from '@reiseplaner/config';
 import { buttonClasses, Heading, Text } from '@reiseplaner/ui';
 import { StatusLine } from '../components/StatusLine';
-import { SearchBar } from '../features/search/SearchBar';
 import { forgetSearch, loadRecent, type RecentSearch } from '../features/search/recent';
-import { loadState, saveState, type WizardState } from '../features/search/state';
 import { de } from '../i18n/de';
-import { useMeta } from '../lib/meta';
 
-/** Search bar of the hero: filled in here, continued on /suche with the same state. */
+/** One button to the search: the frame (where, when, who) is filled in on /suche. */
 function HeroSearch() {
-  const meta = useMeta();
-  const navigate = useNavigate();
-  const [state, setState] = useState<WizardState>(() => ({ ...loadState(), step: 1 }));
-  const [touched, setTouched] = useState(false);
-  useEffect(() => {
-    saveState(state);
-  }, [state]);
-  if (meta.status !== 'ready') {
-    return (
-      <Link to="/suche" className={buttonClasses('primary', 'lg')}>
-        {de.home.cta}
-      </Link>
-    );
-  }
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault();
-        setTouched(true);
-        if (state.origin === null) return;
-        saveState(state);
-        navigate('/suche');
-      }}
-    >
-      <SearchBar
-        state={state}
-        update={(patch) => setState((s) => ({ ...s, ...patch }))}
-        meta={meta.meta}
-        touched={touched}
-        action={
-          <button type="submit" className={buttonClasses('primary', 'lg', 'h-12 lg:h-auto')} data-testid="hero-search">
-            <MagnifyingGlassIcon aria-hidden="true" className="size-5" />
-            {de.home.search}
-          </button>
-        }
-      />
-    </form>
+    <Link to="/suche" className={buttonClasses('primary', 'lg')} data-testid="hero-search">
+      <MagnifyingGlassIcon aria-hidden="true" className="size-5" />
+      {de.home.cta}
+    </Link>
   );
 }
 

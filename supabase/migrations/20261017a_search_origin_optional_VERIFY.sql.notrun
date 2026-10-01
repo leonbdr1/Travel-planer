@@ -1,0 +1,5 @@
+-- Verification for 20261017a_search_origin_optional: both origin columns of
+-- app.searches are nullable, and row security is still enabled.
+SELECT column_name, is_nullable FROM information_schema.columns
+ WHERE table_schema = 'app' AND table_name = 'searches' AND column_name IN ('origin_lat', 'origin_lng');
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename = 'searches';

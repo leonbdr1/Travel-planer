@@ -60,10 +60,10 @@ export const REVIEW_TOPICS = [
 export type ReviewTopic = (typeof REVIEW_TOPICS)[number];
 
 export const REVIEW_TOPIC_LABELS: Record<ReviewTopic, string> = {
-  sauberkeit: 'Sauberkeit',
+  sauberkeit: 'Nicht sauber',
   schimmel: 'Schimmel',
   ungeziefer: 'Ungeziefer',
-  laerm: 'Lärm',
+  laerm: 'Lautstärke',
   geruch: 'Geruch',
   zustand: 'Baulicher Zustand',
   abweichung_beschreibung: 'Abweichung von Fotos oder Beschreibung',

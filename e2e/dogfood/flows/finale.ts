@@ -90,6 +90,28 @@ export const finaleFlow: Flow = {
     );
 
     await step(
+      'Infofeld „i“ neben „Unser Wert“ wird in der Auswahl nicht abgeschnitten',
+      async () => {
+        await page.getByTestId('finalists').scrollIntoViewIfNeeded();
+        const last = page.getByTestId('finalist').last().getByTestId('rating-info');
+        await last.hover();
+        const panel = page.getByTestId('finalist').last().getByTestId('rating-info-panel');
+        await panel.waitFor();
+        // Fully visible: the topmost element at the panel's corners and centre is the panel itself.
+        const clipped = await panel.evaluate((el) => {
+          const r = el.getBoundingClientRect();
+          const points: Array<[number, number]> = [[r.left + 4, r.top + 4], [r.right - 4, r.top + 4], [r.left + 4, r.bottom - 4], [r.right - 4, r.bottom - 4], [r.left + r.width / 2, r.top + r.height / 2]];
+          return points.filter(([x, y]) => !el.contains(document.elementFromPoint(x, y))).length;
+        });
+        if (clipped > 0) throw new Error(`the info panel is cut off at ${clipped} of 5 points`);
+        note('Infofeld vollständig sichtbar (5 Prüfpunkte).');
+      },
+      { expectSelector: ['[data-testid="rating-info-panel"]'], fullPage: false },
+    );
+    await page.mouse.move(0, 0);
+    await page.getByTestId('rating-info-panel').waitFor({ state: 'detached' });
+
+    await step(
       'Preisleiter auf dem Handy (390 px)',
       async () => {
         await page.setViewportSize({ width: 390, height: 844 });

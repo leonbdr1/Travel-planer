@@ -17,8 +17,7 @@ export const zimmerFlow: Flow = {
         await page.goto(`${baseUrl}/suche`);
         await page.evaluate(() => sessionStorage.clear());
         await page.goto(`${baseUrl}/suche`);
-        await page.getByTestId('origin-input').fill('Stutt');
-        await page.getByRole('option', { name: /^Stuttgart, Baden-Württemberg, DE/ }).click();
+        await page.getByTestId('toggle-suggest').uncheck();
         await pickWindow(page, '2026-10-01', '2026-10-26');
         await page.locator('#travellers').click();
         await page.getByTestId('count-adults').getByRole('button', { name: 'Erwachsene: eins weniger' }).click();
@@ -27,7 +26,7 @@ export const zimmerFlow: Flow = {
           await page.getByTestId('own-places-input').fill(q);
           await page.getByRole('option', { name: new RegExp(`^${q}`) }).first().click();
         }
-        await page.getByTestId('own-only').click();
+        await page.getByTestId('frame-next').click();
         await page.getByTestId('places-confirm').click();
         await page.getByTestId('start-search').click();
         await page.waitForURL(/\/suche\/[0-9a-f-]{36}#t=/, { timeout: 30_000 });
