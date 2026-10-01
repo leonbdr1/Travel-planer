@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { ClockIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { productConfig } from '@reiseplaner/config';
-import { buttonClasses, Heading, Text } from '@reiseplaner/ui';
+import { buttonClasses, Card, Heading, Text } from '@reiseplaner/ui';
 import { StatusLine } from '../components/StatusLine';
 import { forgetSearch, loadRecent, type RecentSearch } from '../features/search/recent';
 import { de } from '../i18n/de';
@@ -61,6 +61,22 @@ export function Home() {
         <HeroSearch />
         <RecentSearches />
         <StatusLine />
+      </section>
+      <section className="mt-14 space-y-6" data-testid="home-steps">
+        <Heading level={2}>{t.stepsTitle}</Heading>
+        <ol className="grid gap-4 sm:grid-cols-3">
+          {t.steps.map((step, index) => (
+            <li key={step.title}>
+              <Card className="h-full space-y-2">
+                <span className="inline-flex size-8 items-center justify-center rounded-full bg-brand-50 text-sm font-bold text-brand-700">
+                  {index + 1}
+                </span>
+                <Heading level={3}>{step.title}</Heading>
+                <Text className="text-sm">{step.text}</Text>
+              </Card>
+            </li>
+          ))}
+        </ol>
       </section>
     </div>
   );

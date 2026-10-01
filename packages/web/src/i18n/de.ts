@@ -26,6 +26,12 @@ export const de = {
     search: 'Suchen',
     recentTitle: 'Letzte Suchen',
     recentRemove: (label: string) => `${label} entfernen`,
+    stepsTitle: "So geht's",
+    steps: [
+      { title: 'Rahmen angeben', text: 'Zeitfenster, Nächte und Wünsche – auf Wunsch Startort und maximale Fahrzeit.' },
+      { title: 'Orte wählen', text: 'Wir schlagen Regionen und Orte vor, du entscheidest.' },
+      { title: 'Vergleichen und buchen', text: 'Alle Orte und Termine auf einen Blick, Buchung direkt hier.' },
+    ],
   },
   status: {
     label: 'Systemstatus',
