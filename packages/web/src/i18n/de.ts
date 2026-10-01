@@ -179,6 +179,7 @@ export const de = {
       suggestTitle: 'Orte vorschlagen lassen',
       suggestText: 'Startort eingeben, dann schlagen wir Orte passend zu Fahr- oder Flugzeit und Reiseart vor. Leer lassen, wenn du nur eigene Orte willst.',
       pickTitle: 'Orte selbst wählen',
+      destination: 'Zielort',
       pickText: 'Mehrere möglich, auch zusätzlich zu den Vorschlägen.',
       needOne: 'Bitte gib einen Startort ein oder wähle mindestens einen Ort.',
       whenTitle: 'Wann und mit wem?',

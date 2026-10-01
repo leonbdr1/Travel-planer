@@ -139,7 +139,6 @@ export function StepFrame({
           </div>
           <div className={cx('space-y-3 rounded-lg p-4 ring-1 transition-colors', wayTone(pickOwn))} data-testid="way-own" data-active={pickOwn}>
             <WayHeading active={pickOwn} title={o.pickTitle} text={o.pickText} />
-            <OwnOriginField state={state} update={update} />
             <OwnPlacesPicker
               places={state.ownPlaces}
               origin={ownPlacesStart(state)?.geonameid ?? null}
@@ -154,6 +153,7 @@ export function StepFrame({
                 });
               }}
             />
+            <OwnOriginField state={state} update={update} />
           </div>
         </div>
         {touched && nowhere ? <ErrorMessage>{o.needOne}</ErrorMessage> : null}

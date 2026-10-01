@@ -94,7 +94,7 @@ function FlightFields({ state, update }: { state: WizardState; update: Update })
 export const fieldShell =
   'flex h-14 w-full items-center gap-3 rounded-lg bg-white px-3 text-left ring-1 ring-inset ring-zinc-300 focus-within:ring-2 focus-within:ring-brand-600';
 
-function Cell({ label, htmlFor, icon, children }: { label: string; htmlFor: string; icon: React.ReactNode; children: React.ReactNode }) {
+export function Cell({ label, htmlFor, icon, children }: { label: string; htmlFor: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className={fieldShell}>
       <span className="shrink-0 text-zinc-500">{icon}</span>
@@ -186,11 +186,14 @@ export function OwnOriginField({ state, update }: { state: WizardState; update: 
   const loadLocalities = useCallback((q: string, signal: AbortSignal) => fetchLocalities(q, signal).then((r) => r.items), []);
   return (
     <div className="space-y-2" data-testid="own-origin-fields">
-      <Cell label={t.originOptional} htmlFor="own-origin" icon={<MapPinIcon aria-hidden="true" className="size-5" />}>
+      <div className="rounded-lg bg-white px-3 py-1.5 ring-1 ring-inset ring-zinc-300 focus-within:ring-2 focus-within:ring-brand-600">
+        <label htmlFor="own-origin" className="block text-xs font-medium text-zinc-500">
+          {t.originOptional}
+        </label>
         <div className="flex items-center gap-2">
           <div
             data-origin={state.ownOrigin?.geonameid ?? ''}
-            className="min-w-0 flex-1 [&_input]:bg-transparent [&_input]:p-0 [&_input]:font-semibold [&_input]:shadow-none [&_input]:ring-0 [&_input]:focus:ring-0 [&_input]:sm:text-sm/6"
+            className="min-w-0 flex-1 [&_input]:bg-transparent [&_input]:p-0 [&_input]:font-semibold [&_input]:shadow-none [&_input]:ring-0 [&_input]:focus:ring-0 [&_input]:text-sm/5"
           >
             <AsyncCombobox<LocalityDto>
               id="own-origin"
@@ -218,8 +221,8 @@ export function OwnOriginField({ state, update }: { state: WizardState; update: 
             </button>
           ) : null}
         </div>
-      </Cell>
-      <p id="own-origin-hint" className="text-sm text-zinc-500">
+      </div>
+      <p id="own-origin-hint" className="text-xs text-zinc-500">
         {t.originOptionalHint}
       </p>
     </div>
