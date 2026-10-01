@@ -1,0 +1,25 @@
+# Prüfungen auf dem Endstand (Commit 9d44ab3, 2026-10-01)
+
+== typecheck
+15 Projekte ohne Fehler (npm run typecheck)
+== test
+ Test Files  76 passed (76)
+      Tests  463 passed (463)
+== db:test
+ok 6 - input_hash must be a SHA-256 hex digest
+ok 7 - outcome is constrained
+# 91 assertions, all files passed
+== build
+✓ built in 883ms
+dist/client/assets/index-CQR0pRwW.css           43.12 kB │ gzip:   8.31 kB
+dist/client/assets/react-D9iSz372.js           317.25 kB │ gzip: 101.06 kB │ map: 1,626.82 kB
+dist/client/assets/index-CZ1RTnY0.js           381.39 kB │ gzip: 120.61 kB │ map: 1,717.96 kB
+✓ built in 1.56s
+== claims
+check:claims: ok (9 file(s), 15 forbidden claims checked)
+== status
+check-status-rows: alle 66 Slice-IDs aus umsetzungsplan.md haben genau eine STATUS-Zeile
+== supply-chain
+supply-chain: ok (393 lock entries checked)
+== tree unchanged after gen
+(keine Änderungen unter packages/ nach npm run gen)

@@ -18,7 +18,7 @@ Branch: `feature/booking-complete` (von `claude/software-entwicklung-konzept-gv5
 - [x] **P1** – Performance: Code-Splitting je Seite, parallele Datenbankabfragen
 - [x] **P2** – Aufräumen: toter Code, doppelte Texte
 - [x] **T1** – Text-Entrümpelung über alle Seiten
-- [ ] **Z** – Abschluss: Tests, Walkthroughs, Doku, Push, PR
+- [x] **Z** – Abschluss: Tests, Walkthroughs, Doku, Push, PR
 
 ## Notizen je Aufgabe
 
@@ -84,6 +84,11 @@ Grundsatz: Text nur, wo er Information trägt; Pflichtangaben (Vertragspartner, 
 - **Buchung:** kürzere Hinweise (E-Mail, Preisänderung, Zahlung offen/fehlgeschlagen, Storno-Vorschau), AGB-Bestätigung in einem Satz, Gast-Feld „Gast in Zimmer 1“; „Meine Buchung“ in einem Satz.
 - **Info-Seiten:** Einleitungen gekürzt; „So funktioniert's“ behauptete noch, die Standardsortierung verbinde Qualität und Preis – korrigiert (Standard ist der Preis); die Rangliste-Seite nennt die neue Sortierung nach Fahrzeit.
 - Beleg: Screenshots von Start, Assistent, Ergebnis, Detail und Buchungsformular gelesen; alle Pfad-Walkthroughs auf dem Endstand (siehe Z).
+
+### Z – erledigt
+- Alle Pfad-Walkthroughs 401/401 (110 Schritte, 21 Flows) und Rundgang 30/30 auf dem Endstand, Typecheck, 463 Tests, 91 pgTAP-Zusicherungen, Build, Claims, STATUS, Lieferkette grün: `docs/demos/Abschluss-B/`.
+- Nebenbei behoben: Der Rundgang `start` war seit F1 rot (erwartete den Knopf „Suche starten“, die Suchleiste hat „Suchen“); `npm run check:status` war rot (S11.12–S11.15 fehlten im Plan).
+- Branch gepusht, Pull Request gegen `claude/software-entwicklung-konzept-gv58jh`. Nicht deployt.
 
 ---
 
