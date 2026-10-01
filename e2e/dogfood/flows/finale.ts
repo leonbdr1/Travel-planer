@@ -1,3 +1,4 @@
+import { openFilters } from './helpers';
 import type { Flow } from '../types';
 import { choosePlaces, fillSearchFrame } from './suche';
 
@@ -184,7 +185,7 @@ export const finaleFlow: Flow = {
       'Sterne und Mindestbewertung unter „Weitere Filter“',
       async () => {
         await page.goBack();
-        await page.getByTestId('result-filters').waitFor({ timeout: 15_000 });
+        await openFilters(page);
         await page.getByTestId('more-filters').locator('summary').click();
         await page.getByTestId('more-filters').scrollIntoViewIfNeeded();
       },

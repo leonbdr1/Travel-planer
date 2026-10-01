@@ -137,6 +137,8 @@ export const qualityDtoSchema = z.object({
   cleanliness_delta: z.number().default(0),
   /** Deduction for confirmed complaints. */
   penalty: z.number().default(0),
+  /** The complaints behind the deduction, one per topic (weights before the cap). */
+  penalty_items: z.array(z.object({ topic: z.string(), weight: z.number() })).default([]),
 });
 
 /** One night more of the same stay (Aufgabe 4, docs/logik/flexible-naechte.md). */

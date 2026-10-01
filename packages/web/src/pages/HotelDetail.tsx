@@ -221,10 +221,12 @@ export function HotelDetail() {
             cleanliness_delta:
               data.score.cleanliness.applied && data.score.cleanliness.s2 !== null && data.score.recency.s1 !== null ? data.score.cleanliness.s2 - data.score.recency.s1 : 0,
             penalty: data.score.penalty.total,
+            penalty_items: data.score.penalty.items.map((i) => ({ topic: i.topic, weight: i.weight })),
           }}
           rating={h.rating}
           reviews={h.review_count}
           sources={h.rating_sources}
+          warnings={data.review_check?.warnings ?? []}
         />
       </div>
       {h.photos.length > 0 ? (

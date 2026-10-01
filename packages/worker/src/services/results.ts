@@ -172,6 +172,7 @@ export function qualityDto(o: EvaluatedOffer): ResultItem['quality'] {
     recency_delta: b.s0 !== null && b.recency.applied && b.recency.s1 !== null ? round(b.recency.s1 - b.s0) : 0,
     cleanliness_delta: b.cleanliness.applied && b.cleanliness.s2 !== null && b.recency.s1 !== null ? round(b.cleanliness.s2 - b.recency.s1) : 0,
     penalty: b.penalty.total,
+    penalty_items: b.penalty.items.map((i) => ({ topic: i.topic, weight: i.weight })),
   };
 }
 

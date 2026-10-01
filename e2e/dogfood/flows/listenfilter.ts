@@ -1,3 +1,4 @@
+import { openFilters } from './helpers';
 import type { Flow } from '../types';
 import { prepareSixtyCombinations } from './suche';
 
@@ -21,7 +22,7 @@ export const listenfilterFlow: Flow = {
         if (names.length > 20) throw new Error(`first page shows ${names.length} houses`);
         note(`Erste Seite: ${names.length} Unterkünfte; Knopf: ${await page.getByTestId('show-more').innerText()}`);
       },
-      { expectSelector: ['[data-testid="show-more"]', '[data-testid="filter-kinds"]', '[data-testid="filter-facilities"]', '[data-testid="name-search"]', '[data-testid="result-photo"] img'] },
+      { expectSelector: ['[data-testid="show-more"]', '[data-testid="filters-toggle"]', '[data-testid="name-search"]', '[data-testid="result-photo"] img'] },
     );
 
     await step(
@@ -41,6 +42,7 @@ export const listenfilterFlow: Flow = {
     await step(
       'Unterkunftsart „Ferienwohnung“: nur Wohnungen',
       async () => {
+        await openFilters(page);
         await page.getByTestId('filter-kinds').getByRole('button', { name: 'Ferienwohnung' }).click();
         await page.getByTestId('apply-filters').click();
         await page.waitForFunction(() => {
@@ -56,6 +58,7 @@ export const listenfilterFlow: Flow = {
       'Ausstattung „Parkplatz“ dazu: Liste schrumpft oder bleibt, Filter bleibt gesetzt',
       async () => {
         const before = (await listNames(page)).length;
+        await openFilters(page);
         await page.getByTestId('filter-facilities').getByRole('button', { name: 'Parkplatz' }).click();
         await page.getByTestId('apply-filters').click();
         await page.waitForTimeout(1500);

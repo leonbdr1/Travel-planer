@@ -1,3 +1,4 @@
+import { openFilters } from './helpers';
 import type { Flow } from '../types';
 import { prepareSixtyCombinations } from './suche';
 
@@ -78,6 +79,7 @@ export const ergebnisseFlow: Flow = {
     await step(
       'Filter ohne neue Suche: Budget 200 € lässt einen Teil übrig',
       async () => {
+        await openFilters(page);
         await page.locator('#f-budget').fill('200');
         await page.getByTestId('apply-filters').click();
         await page.waitForFunction(
@@ -97,6 +99,7 @@ export const ergebnisseFlow: Flow = {
     await step(
       'Filter ohne neue Suche: Budget 50 €',
       async () => {
+        await openFilters(page);
         await page.locator('#f-budget').fill('50');
         await page.getByTestId('apply-filters').click();
         await page.getByText('Keine Unterkunft erfüllt diese Filter').waitFor({ timeout: 15_000 });

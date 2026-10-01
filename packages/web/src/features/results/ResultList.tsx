@@ -64,7 +64,7 @@ export function ResultList({
                     {item.hotel.name}
                   </Link>
                   {item.hotel.stars ? <span className="text-sm text-amber-600">{'★'.repeat(Math.round(item.hotel.stars))}</span> : null}
-                  <RatingPair quality={item.quality} rating={item.hotel.rating} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} />
+                  <RatingPair quality={item.quality} rating={item.hotel.rating} reviews={item.hotel.review_count} sources={item.hotel.rating_sources} warnings={item.warnings} />
                   {item.recommended ? (
                     <Badge tone="brand" data-testid="recommended">
                       {t.recommended}

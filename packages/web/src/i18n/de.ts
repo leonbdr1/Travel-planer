@@ -320,7 +320,10 @@ export const de = {
     recentWorse: (d: string) => `Neuere Bewertungen fallen schlechter aus (${d}).`,
     recentBetter: (d: string) => `Neuere Bewertungen fallen besser aus (${d}).`,
     cleanliness: (d: string) => `Sauberkeit laut Gästen (${d}).`,
-    penalty: (d: string) => `Abzug für gemeldete Mängel (${d}).`,
+    penaltyPrefix: 'Abzug für gemeldete Mängel',
+    penalty: (d: string) => `Abzug für gemeldete Mängel (${d}):`,
+    penaltyItem: (label: string, count: number, latest: string | null, d: string) =>
+      `${label}: ${count === 1 ? '1×' : `${count}×`} gemeldet${latest ? `, zuletzt ${latest}` : ''} (${d})`,
     enough: 'Genug Bewertungen, keine Auffälligkeiten: der Durchschnitt zählt, wie er ist.',
     more: 'So berechnen wir unseren Wert',
   },

@@ -7,6 +7,7 @@
 // still pick one (Ben, 2026-09-29).
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
+import { AdjustmentsHorizontalIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import type { EffectiveFilters, MatrixCellDto, ResultItem, ResultSort, SearchResultsResponse } from '@reiseplaner/contracts';
 import { chipDefinition, constants, isChipCode, PROPERTY_KINDS, type Goal } from '@reiseplaner/domain';
 import { Alert, Button, Card, Checkbox, Chip, Heading, Input, Label, Select, Spinner, Text } from '@reiseplaner/ui';
@@ -48,6 +49,16 @@ function formFrom(f: EffectiveFilters): FilterForm {
     kinds: f.property_types,
     chips: f.chips,
   };
+}
+
+/** How many filters are set (for the closed filter panel): budget, board, refundable, kinds, facilities, minimums. */
+function activeFilterCount(f: FilterForm): number {
+  return (
+    [f.budget, f.board, f.minStars, f.minRating, f.minReviews].filter((v) => v !== '').length +
+    (f.refundable ? 1 : 0) +
+    f.kinds.length +
+    f.chips.filter((c) => isFacilityChip(c)).length
+  );
 }
 
 /** Wishes that are facility filters (parking, dog, sauna …): these can change in the results. */
@@ -207,8 +218,17 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
         </div>
 
         {form ? (
-          <Card className="space-y-4" data-testid="result-filters">
-            <Heading level={3}>{t.filters}</Heading>
+          <Card className="py-0! sm:py-0!" data-testid="result-filters">
+            <details className="group" data-testid="filters-panel">
+              <summary className="flex cursor-pointer list-none items-center gap-2 py-4 [&::-webkit-details-marker]:hidden" data-testid="filters-toggle">
+                <AdjustmentsHorizontalIcon aria-hidden="true" className="size-5 text-zinc-500" />
+                <span className="font-semibold text-zinc-900">{t.filters}</span>
+                {activeFilterCount(applied ?? form) > 0 ? (
+                  <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-800 tabular-nums">{activeFilterCount(applied ?? form)}</span>
+                ) : null}
+                <ChevronDownIcon aria-hidden="true" className="ml-auto size-5 text-zinc-400 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="space-y-4 pb-5">
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <Label htmlFor="f-budget">{t.budget}</Label>
@@ -298,6 +318,8 @@ export function ResultsView({ searchId, token }: { searchId: string; token: stri
                 </Button>
               ) : null}
             </div>
+              </div>
+            </details>
           </Card>
         ) : null}
 

@@ -3,11 +3,11 @@
 // as it is, our value next to it, and on hover why the two differ for this
 // house (few reviews for its kind, recent reviews, cleanliness, complaints).
 import { Link } from 'react-router';
-import type { ResultItem } from '@reiseplaner/contracts';
+import type { ResultItem, WarningDto } from '@reiseplaner/contracts';
 import { constants } from '@reiseplaner/domain';
 import { InfoPopover, cx } from '@reiseplaner/ui';
 import { de } from '../../i18n/de';
-import { formatScore, formatSignedScore } from '../../lib/format';
+import { formatDate, formatScore, formatSignedScore } from '../../lib/format';
 
 const t = de.rating;
 const NOTICEABLE = 0.05;
@@ -21,11 +21,25 @@ export function ratingReasons(q: ResultItem['quality'], reviews: number | null):
   return out;
 }
 
+/** One line per complaint behind the deduction: what, how often, when last, how much. */
+export function penaltyLines(q: ResultItem['quality'], warnings: readonly WarningDto[]): string[] {
+  return q.penalty_items.map((item) => {
+    const w = warnings.find((x) => x.topic === item.topic);
+    return t.penaltyItem(
+      w?.label ?? item.topic,
+      w?.count ?? 0,
+      w?.latest_date ? formatDate(w.latest_date.slice(0, 10)) : null,
+      formatSignedScore(-item.weight),
+    );
+  });
+}
+
 export function RatingPair({
   quality,
   rating,
   reviews,
   sources = [],
+  warnings = [],
   size = 'md',
 }: {
   quality: ResultItem['quality'];
@@ -33,14 +47,17 @@ export function RatingPair({
   rating: number | null;
   reviews: number | null;
   sources?: readonly string[];
+  /** Complaints of this house, to name the ones behind the deduction. */
+  warnings?: readonly WarningDto[];
   size?: 'sm' | 'md';
 }) {
   if (quality.score === null || rating === null) return <span className="text-sm text-zinc-500">{de.results.noReviews}</span>;
   const reasons = ratingReasons(quality, reviews);
+  const defects = penaltyLines(quality, warnings);
   const same = Math.abs(quality.score - rating) < NOTICEABLE;
   const badge = size === 'sm' ? 'px-1 py-0.5 text-xs' : 'px-1.5 py-0.5 text-sm';
   return (
-    <span className="inline-flex min-w-0 max-w-full flex-wrap items-center gap-x-2 gap-y-1" data-testid="rating-pair" data-guest={rating} data-ours={quality.score}>
+    <span className="inline-flex min-w-0 max-w-full flex-wrap items-center gap-x-2 gap-y-1" data-testid="rating-pair" data-guest={rating} data-ours={quality.score} data-penalty={quality.penalty}>
       <span className="inline-flex min-w-0 flex-wrap items-baseline gap-x-1.5" title={t.guestTitle}>
         <span className={cx('rounded-md font-bold text-brand-800 ring-1 ring-brand-700 tabular-nums', badge)} data-testid="guest-rating">
           {formatScore(rating)}
@@ -63,7 +80,16 @@ export function RatingPair({
           {reasons.length > 0 ? (
             <ul className="mt-2 list-disc space-y-1 pl-4">
               {reasons.map((r) => (
-                <li key={r}>{r}</li>
+                <li key={r}>
+                  {r}
+                  {r.startsWith(t.penaltyPrefix) && defects.length > 0 ? (
+                    <ul className="mt-1 list-[circle] space-y-0.5 pl-4" data-testid="rating-defects">
+                      {defects.map((d) => (
+                        <li key={d}>{d}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
               ))}
             </ul>
           ) : (

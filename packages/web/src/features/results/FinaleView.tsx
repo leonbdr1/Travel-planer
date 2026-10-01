@@ -138,7 +138,7 @@ function Row({ f, isBase, href, littleToOffer }: { f: FinalistDto; isBase: boole
               {t.unrated}
             </Badge>
           ) : (
-            <RatingPair quality={f.quality} rating={f.hotel.rating} reviews={f.hotel.review_count} sources={f.hotel.rating_sources} size="sm" />
+            <RatingPair quality={f.quality} rating={f.hotel.rating} reviews={f.hotel.review_count} sources={f.hotel.rating_sources} warnings={f.warnings} size="sm" />
           )}
         </div>
         {littleToOffer ? (
