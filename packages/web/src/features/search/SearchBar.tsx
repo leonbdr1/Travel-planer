@@ -3,7 +3,7 @@
 // departure (calendar popover) and travellers that sits below "Wohin soll es
 // gehen?" and counts for both ways to a place.
 import { useCallback } from 'react';
-import { ClockIcon, MapPinIcon, PaperAirplaneIcon, TruckIcon } from '@heroicons/react/20/solid';
+import { ClockIcon, MapPinIcon, PaperAirplaneIcon, TruckIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import type { LocalityDto, MetaConfigResponse } from '@reiseplaner/contracts';
 import { CONTINENT_CODES, CONTINENT_LABELS, type ContinentCode } from '@reiseplaner/domain';
 import { Chip, ErrorMessage, cx } from '@reiseplaner/ui';
@@ -108,35 +108,52 @@ function Cell({ label, htmlFor, icon, children }: { label: string; htmlFor: stri
   );
 }
 
-/** Start location and drive time, the frame of "Orte vorschlagen lassen". */
-export function OriginFields({ state, update, touched, optional = false }: { state: WizardState; update: Update; touched: boolean; optional?: boolean }) {
+/**
+ * Start location and drive time, the frame of "Orte vorschlagen lassen". A filled
+ * start location switches the suggestions on; emptying it (or the clear button)
+ * switches them off.
+ */
+export function OriginFields({ state, update, invalid }: { state: WizardState; update: Update; invalid: boolean }) {
   const loadLocalities = useCallback((q: string, signal: AbortSignal) => fetchLocalities(q, signal).then((r) => r.items), []);
-  const originMissing = state.origin === null && !optional;
   return (
-    <div className="space-y-2" data-testid={optional ? 'origin-optional' : 'origin-fields'}>
+    <div className="space-y-2" data-testid="origin-fields">
       <div className="grid gap-2">
-        <Cell label={optional ? t.originOptional : t.origin} htmlFor="origin" icon={<MapPinIcon aria-hidden="true" className="size-5" />}>
-          <div
-            data-origin={state.origin?.geonameid ?? ''}
-            className="[&_input]:bg-transparent [&_input]:p-0 [&_input]:font-semibold [&_input]:shadow-none [&_input]:ring-0 [&_input]:focus:ring-0 [&_input]:sm:text-sm/6"
-          >
-            <AsyncCombobox<LocalityDto>
-              id="origin"
-              testId="origin-input"
-              value={state.origin}
-              onChange={(origin) => update({ origin, ...resetSuggestions(state) })}
-              load={loadLocalities}
-              itemKey={(l) => String(l.geonameid)}
-              itemLabel={(l) => l.label}
-              placeholder={t.originPlaceholder}
-              emptyText={t.originNoResults}
-              invalid={touched && originMissing}
-              describedBy="origin-hint"
-            />
+        <Cell label={t.origin} htmlFor="origin" icon={<MapPinIcon aria-hidden="true" className="size-5" />}>
+          <div className="flex items-center gap-2">
+            <div
+              data-origin={state.origin?.geonameid ?? ''}
+              className="min-w-0 flex-1 [&_input]:bg-transparent [&_input]:p-0 [&_input]:font-semibold [&_input]:shadow-none [&_input]:ring-0 [&_input]:focus:ring-0 [&_input]:sm:text-sm/6"
+            >
+              <AsyncCombobox<LocalityDto>
+                id="origin"
+                testId="origin-input"
+                value={state.origin}
+                onChange={(origin) => update({ origin, ...resetSuggestions(state) })}
+                load={loadLocalities}
+                itemKey={(l) => String(l.geonameid)}
+                itemLabel={(l) => l.label}
+                placeholder={t.originPlaceholder}
+                emptyText={t.originNoResults}
+                invalid={invalid}
+                describedBy="origin-hint"
+              />
+            </div>
+            {state.origin ? (
+              <button
+                type="button"
+                className="shrink-0 rounded-full p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
+                aria-label={t.originClear}
+                title={t.originClear}
+                data-testid="origin-clear"
+                onClick={() => update({ origin: null, ...resetSuggestions(state) })}
+              >
+                <XMarkIcon aria-hidden="true" className="size-4" />
+              </button>
+            ) : null}
           </div>
         </Cell>
-        {optional ? null : <TravelModeSwitch state={state} update={update} />}
-        {optional ? null : state.travelMode === 'flight' ? (
+        <TravelModeSwitch state={state} update={update} />
+        {state.travelMode === 'flight' ? (
         <FlightFields state={state} update={update} />
         ) : (
         <Cell label={t.maxDriveShort} htmlFor="max-drive" icon={<ClockIcon aria-hidden="true" className="size-5" />}>
@@ -158,9 +175,8 @@ export function OriginFields({ state, update, touched, optional = false }: { sta
         )}
       </div>
       <p id="origin-hint" className="text-sm text-zinc-500">
-        {optional ? t.originOptionalHint : t.originHint}
+        {t.originHint}
       </p>
-      {touched && originMissing ? <ErrorMessage>{t.originRequired}</ErrorMessage> : null}
     </div>
   );
 }

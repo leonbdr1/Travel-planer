@@ -41,7 +41,6 @@ export const fahrzeitFlow: Flow = {
       'Eigener Ort Adeje (Teneriffa): über 30 h mit Flugzeug-Hinweis',
       async () => {
         await page.getByRole('button', { name: 'Zurück' }).first().click();
-        await page.getByTestId('toggle-own').check();
         await page.getByTestId('own-places-input').fill('Adeje');
         await page.getByRole('option', { name: /^Adeje/ }).first().click();
         await page.getByTestId('own-place-chip').filter({ hasText: 'über 30 h' }).waitFor({ timeout: 30_000 });

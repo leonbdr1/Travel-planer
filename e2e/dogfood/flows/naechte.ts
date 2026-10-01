@@ -16,8 +16,7 @@ export const naechteFlow: Flow = {
         await page.goto(`${baseUrl}/suche`);
         await page.evaluate(() => sessionStorage.clear());
         await page.goto(`${baseUrl}/suche`);
-        // Only own places: no suggestions, so no start location is needed.
-        await page.getByTestId('toggle-suggest').uncheck();
+        // Only own places: the start location stays empty, so no suggestions.
         await pickWindow(page, '2026-10-01', '2026-10-19');
         await page.locator('#nights').selectOption('2');
         await page.locator('#nights-max').selectOption('3');

@@ -35,12 +35,6 @@ export interface WizardState {
   /** true when the user skipped the region step (places entered directly). */
   direct: boolean;
   /**
-   * The two ways to a place, one or both on: let places be suggested (needs a
-   * start location and drive time) and/or pick places by name (needs neither).
-   */
-  suggest: boolean;
-  pickOwn: boolean;
-  /**
    * Places the traveller picked by name (Aufgabe 3), kept next to the
    * suggestions: they survive a new suggestion round and stay selected.
    */
@@ -84,8 +78,6 @@ export function initialState(now: Date = new Date()): WizardState {
     places: [],
     selectedPlaceIds: [],
     direct: false,
-    suggest: true,
-    pickOwn: true,
     ownPlaces: [],
     ownPlacesOrigin: null,
   };
@@ -123,11 +115,19 @@ export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Dat
 }
 
 /**
- * The start location, when there is one: needed for suggestions, optional for own places
- * (then it only gives the drive times next to the places).
+ * The start location, when there is one: it switches the suggestions on and gives
+ * the drive times next to own places.
  */
-export function activeOrigin(state: Pick<WizardState, 'suggest' | 'origin'>): LocalityDto | null {
+export function activeOrigin(state: Pick<WizardState, 'origin'>): LocalityDto | null {
   return state.origin;
+}
+
+/**
+ * The input decides the way to a place: a start location means "suggest places",
+ * picked places mean "own places". No tick boxes.
+ */
+export function wantsSuggestions(state: Pick<WizardState, 'origin'>): boolean {
+  return state.origin !== null;
 }
 
 /** Suggested and own places in one list (own places after the suggestions, without duplicates). */

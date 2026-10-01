@@ -17,7 +17,6 @@ export const zimmerFlow: Flow = {
         await page.goto(`${baseUrl}/suche`);
         await page.evaluate(() => sessionStorage.clear());
         await page.goto(`${baseUrl}/suche`);
-        await page.getByTestId('toggle-suggest').uncheck();
         await pickWindow(page, '2026-10-01', '2026-10-26');
         await page.locator('#travellers').click();
         await page.getByTestId('count-adults').getByRole('button', { name: 'Erwachsene: eins weniger' }).click();

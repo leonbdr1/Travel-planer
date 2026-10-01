@@ -4,7 +4,6 @@ import { activeOrigin, type WizardState } from './state';
 
 export function toSearchRequest(state: WizardState): SearchRequest | null {
   const origin = activeOrigin(state);
-  if (state.suggest && !origin) return null;
   return {
     goal: state.goal,
     origin: origin ? { geonameid: origin.geonameid, label: origin.name, lat: origin.lat, lng: origin.lng } : null,

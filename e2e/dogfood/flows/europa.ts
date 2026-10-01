@@ -35,11 +35,12 @@ export const europaFlow: Flow = {
       'Zurück: Venedig als eigenen Ort wählen, nur diesen Ort suchen',
       async () => {
         await page.getByRole('button', { name: 'Zurück' }).first().click();
-        await page.getByTestId('toggle-own').check();
         await page.getByTestId('own-places-input').fill('Venedig');
         await page.getByRole('option', { name: /^Venedig/ }).first().click();
         await page.getByTestId('own-place-chip').first().waitFor();
-        await page.getByTestId('toggle-suggest').uncheck();
+        // Only Venice: emptying the start location switches the suggestions off.
+        await page.getByTestId('origin-clear').click();
+        await page.locator('[data-testid="way-suggest"][data-active="false"]').waitFor();
         await page.locator('#nights').selectOption('2');
       },
       { expectText: ['Venedig'] },

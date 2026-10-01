@@ -72,7 +72,11 @@ export function AsyncCombobox<T>(props: AsyncComboboxProps<T>) {
           autoComplete="off"
           placeholder={props.placeholder}
           displayValue={(item: T | null) => (item && !props.clearOnSelect ? props.itemLabel(item) : '')}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            // Emptying the field clears the value (the input decides, e.g. no start location).
+            if (e.target.value === '' && props.value !== null && !props.clearOnSelect) props.onChange(null);
+          }}
           className="block w-full rounded-lg border-0 bg-white px-3 py-2 text-base text-zinc-950 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:text-sm/6 aria-[invalid=true]:ring-red-400"
         />
         {loading ? <Spinner className="absolute right-3 top-2.5 size-4" /> : null}
