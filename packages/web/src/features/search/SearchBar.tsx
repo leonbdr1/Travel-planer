@@ -181,6 +181,51 @@ export function OriginFields({ state, update, invalid }: { state: WizardState; u
   );
 }
 
+/** Optional start location of "Orte selbst wählen": only for the drive time next to each own place. */
+export function OwnOriginField({ state, update }: { state: WizardState; update: Update }) {
+  const loadLocalities = useCallback((q: string, signal: AbortSignal) => fetchLocalities(q, signal).then((r) => r.items), []);
+  return (
+    <div className="space-y-2" data-testid="own-origin-fields">
+      <Cell label={t.originOptional} htmlFor="own-origin" icon={<MapPinIcon aria-hidden="true" className="size-5" />}>
+        <div className="flex items-center gap-2">
+          <div
+            data-origin={state.ownOrigin?.geonameid ?? ''}
+            className="min-w-0 flex-1 [&_input]:bg-transparent [&_input]:p-0 [&_input]:font-semibold [&_input]:shadow-none [&_input]:ring-0 [&_input]:focus:ring-0 [&_input]:sm:text-sm/6"
+          >
+            <AsyncCombobox<LocalityDto>
+              id="own-origin"
+              testId="own-origin-input"
+              value={state.ownOrigin}
+              onChange={(ownOrigin) => update({ ownOrigin })}
+              load={loadLocalities}
+              itemKey={(l) => String(l.geonameid)}
+              itemLabel={(l) => l.label}
+              placeholder={t.originPlaceholder}
+              emptyText={t.originNoResults}
+              describedBy="own-origin-hint"
+            />
+          </div>
+          {state.ownOrigin ? (
+            <button
+              type="button"
+              className="shrink-0 rounded-full p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
+              aria-label={t.originClear}
+              title={t.originClear}
+              data-testid="own-origin-clear"
+              onClick={() => update({ ownOrigin: null })}
+            >
+              <XMarkIcon aria-hidden="true" className="size-4" />
+            </button>
+          ) : null}
+        </div>
+      </Cell>
+      <p id="own-origin-hint" className="text-sm text-zinc-500">
+        {t.originOptionalHint}
+      </p>
+    </div>
+  );
+}
+
 /** Arrival, departure and travellers as one bar, valid for suggested and own places alike. */
 export function DateTravellersBar({ state, update, meta }: { state: WizardState; update: Update; meta: MetaConfigResponse }) {
   return (

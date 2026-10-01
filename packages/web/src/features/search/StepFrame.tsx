@@ -13,8 +13,8 @@ import { GoalSwitch } from '../../components/GoalSwitch';
 import { de } from '../../i18n/de';
 import { parseWish, resolvePlace } from './api';
 import { OwnPlacesPicker } from './OwnPlacesPicker';
-import { DateTravellersBar, OriginFields } from './SearchBar';
-import { activeOrigin, resetSuggestions, stayDates, toggle, wantsSuggestions, type WizardState } from './state';
+import { DateTravellersBar, OriginFields, OwnOriginField } from './SearchBar';
+import { ownPlacesStart, resetSuggestions, stayDates, toggle, wantsSuggestions, type WizardState } from './state';
 
 const t = de.wizard.frame;
 const o = de.wizard.ownPlaces;
@@ -76,7 +76,7 @@ export function StepFrame({
   const aiOff = !meta.llm_enabled;
 
   // Own places picked before the start location changed get their drive times again.
-  const originId = state.origin?.geonameid ?? null;
+  const originId = ownPlacesStart(state)?.geonameid ?? null;
   useEffect(() => {
     if (state.ownPlaces.length === 0 || state.ownPlacesOrigin === originId) return;
     let cancelled = false;
@@ -139,9 +139,10 @@ export function StepFrame({
           </div>
           <div className={cx('space-y-3 rounded-lg p-4 ring-1 transition-colors', wayTone(pickOwn))} data-testid="way-own" data-active={pickOwn}>
             <WayHeading active={pickOwn} title={o.pickTitle} text={o.pickText} />
+            <OwnOriginField state={state} update={update} />
             <OwnPlacesPicker
               places={state.ownPlaces}
-              origin={activeOrigin(state)?.geonameid ?? null}
+              origin={ownPlacesStart(state)?.geonameid ?? null}
               max={meta.limits.max_places}
               onChange={(ownPlaces, ownPlacesOrigin) => {
                 const removed = state.ownPlaces.filter((p) => !ownPlaces.some((x) => x.id === p.id)).map((p) => p.id);

@@ -7,6 +7,11 @@ import type { LocalityDto, MetaConfigResponse, PlaceDto, RegionSuggestionDto } f
 export interface WizardState {
   step: 1 | 2 | 3 | 4;
   origin: LocalityDto | null;
+  /**
+   * Optional start location of the own places: only gives the drive times next to them
+   * (later prefilled from the home address in the account). Does not switch suggestions on.
+   */
+  ownOrigin: LocalityDto | null;
   maxDriveMinutes: number | null;
   /** How the suggestions are found (F19): by car (drive time) or by plane (continents, optional flight time). */
   travelMode: 'car' | 'flight';
@@ -55,6 +60,7 @@ export function initialState(now: Date = new Date()): WizardState {
   return {
     step: 1,
     origin: null,
+    ownOrigin: null,
     maxDriveMinutes: 180,
     travelMode: 'car',
     continents: ['europa'],
@@ -118,8 +124,13 @@ export function stayDates(state: WizardState, meta: MetaConfigResponse, now: Dat
  * The start location, when there is one: it switches the suggestions on and gives
  * the drive times next to own places.
  */
-export function activeOrigin(state: Pick<WizardState, 'origin'>): LocalityDto | null {
-  return state.origin;
+export function activeOrigin(state: Pick<WizardState, 'origin' | 'ownOrigin'>): LocalityDto | null {
+  return state.origin ?? state.ownOrigin;
+}
+
+/** The start location the drive times of own places refer to: their own field first, else the suggestion one. */
+export function ownPlacesStart(state: Pick<WizardState, 'origin' | 'ownOrigin'>): LocalityDto | null {
+  return state.ownOrigin ?? state.origin;
 }
 
 /**

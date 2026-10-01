@@ -105,7 +105,7 @@ Branch: `claude/hopeful-fermat-jechzj`. Nichts davon ist deployt (Online schalte
 
 Ergebnisse der Brainstormings, funktional formuliert. Format: `- [ ] **B<n>** – <was der Nutzer sehen oder tun können soll> (<Datum>[, Archiv: docs/brainstorming/<datei>.md])`. Nach der Umsetzung abhaken und die `F<n>`-Kennung mit Commit ergänzen.
 
-- (noch keine)
+- [ ] **B1** – Das optionale Startort-Feld bei „Orte selbst wählen“ wird später automatisch mit der freiwillig hinterlegten Heimatadresse aus dem Nutzerkonto vorbelegt (vom Nutzer änderbar). (01.10.2026)
 
 ## Übersicht
 
