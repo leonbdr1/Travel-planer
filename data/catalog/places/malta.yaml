@@ -1,0 +1,41 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: malta
+places:
+  - name: Valletta
+    themes:
+      staedte_kultur: 3
+      strand: 1
+    description_de: Hauptstadt auf einer Halbinsel mit Johanniterbauten, Hafenblick und engen Gassen.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 2562305
+  - name: Sliema
+    themes:
+      strand: 2
+      shopping: 2
+      staedte_kultur: 1
+    description_de: Promenadenstadt mit Felsstränden, Einkaufsstraßen und Fähre nach Valletta.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2562501
+  - name: Marsaskala
+    themes:
+      strand: 2
+      familie: 2
+    description_de: Ruhiger Badeort im Südosten mit Bucht, Hafen und Fischrestaurants.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 2562750
+  - name: Victoria
+    themes:
+      natur_ruhe: 2
+      staedte_kultur: 2
+      wandern: 1
+    description_de: Hauptort von Gozo mit Zitadelle, Märkten und Wegen durch die Insel.
+    search_radius_km: 7
+    ai_assisted: true
+    verified: false
+    geonameid: 2562619

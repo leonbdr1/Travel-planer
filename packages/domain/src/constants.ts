@@ -278,7 +278,7 @@ export const CENTER_DISTANCE_TOWN_KM = 2;
  */
 export const WALK_METERS_PER_MIN = 80;
 export const WALK_DETOUR_FACTOR = 1.3;
-export const LOCATION_MAX_WALK_MIN = { lift: 15, bahn: 15, bus: 10, supermarkt: 10 } as const;
+export const LOCATION_MAX_WALK_MIN = { lift: 15, bahn: 15, bus: 10, supermarkt: 10, strand: 20 } as const;
 export const LOCATION_GASTRO_RADIUS_M = 300;
 export const LOCATION_GASTRO_MIN = 3;
 /** Overpass search radius around a house: covers the longest walking limit. */

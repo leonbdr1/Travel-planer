@@ -1,0 +1,7 @@
+-- Verification for 20261020a_turkey: the country checks list the
+-- Turkey, and row security is still enabled.
+SELECT conrelid::regclass AS tbl, conname, pg_get_constraintdef(oid) AS def
+  FROM pg_constraint
+ WHERE conrelid IN ('app.geo_localities'::regclass, 'app.regions'::regclass, 'app.places'::regclass) AND contype = 'c'
+ ORDER BY 1, 2;
+SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'app' AND tablename IN ('geo_localities', 'regions', 'places');

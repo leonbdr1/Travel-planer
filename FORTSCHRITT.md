@@ -107,6 +107,10 @@ Ergebnisse der Brainstormings, funktional formuliert. Format: `- [ ] **B<n>** �
 
 - [ ] **B1** – Das optionale Startort-Feld bei „Orte selbst wählen“ wird später automatisch mit der freiwillig hinterlegten Heimatadresse aus dem Nutzerkonto vorbelegt (vom Nutzer änderbar). (01.10.2026)
 
+## Aufgaben zurückgestellt (Ben, 30.09.2026, nicht jetzt umsetzen)
+
+- [ ] **T1 – Rezensionsprüfung nur für neue Rezensionen.** Heute gilt eine bestätigte Prüfung 30 Tage je Unterkunft (`REVIEW_CACHE_DAYS`), danach werden die letzten 100 Rezensionen (höchstens 24 Monate) neu geladen und alle Treffer-Ausschnitte erneut der KI vorgelegt. Neue Rezensionen innerhalb der 30 Tage bleiben unsichtbar. Ziel: pro Rezension speichern, ob sie schon bewertet wurde (stabile Rezensions-ID, eigene Tabelle), und bei Ablauf oder Bedarf nur die neuen prüfen; dazu Frist je Unterkunft nach Aufkommen neuer Rezensionen statt fester 30 Tage. Betrifft `packages/worker/src/services/reviews.ts`, `packages/db/src/repos/reviews.ts`, neue Migration (BEN-GATE), pgTAP, Konstanten in `constants.ts`. Vorher klären: echte Rezensions-IDs der LiteAPI (Vertrag ungeprüft).
+
 ## Übersicht
 
 - [x] **Aufgabe 0** – Priorisierung vermerkt: „Günstig und sauber“ zuerst, „Preis-Leistung“ und „Komfort“ aktuell unfertig
@@ -316,3 +320,23 @@ Auftrag von Ben: Regionensystem überarbeiten (ein Highlight-Ort → Ortsname), 
 - **Hinweis** „Je weiter das Ziel entfernt ist, desto bekannter muss es sein“ erscheint, sobald etwas ausgefiltert wurde.
 - Offen: Katalog nur Europa (andere Kontinente: leere Liste mit Hinweis); keine Jahreszeit; Flugkosten nicht im Preisvergleich; Inseln beim Auto ohne Fähre. Details L1–L10 in der Analyse.
 - Beleg: `npm run demo -- f19` → `docs/demos/F19/demo-output.txt`; Walkthrough `flugzeug` in `docs/demos/F19/`, Screenshots gelesen (auch 390 px).
+
+### F20 – Ganz Europa, Reiseland, jeder Ort suchbar (30.09.2026)
+- Ansatz: `docs/logik/reiseland.md`; Reifebericht: `docs/analyse-europa-reife.md`.
+- **Reiseland:** In „Wohin soll es gehen?“ aufklappbares Feld „Reiseland“ (33 Länder, mehrere möglich). Mit Land kommen nur Regionen und Orte daraus, ohne Mindestwert nach Entfernung (Spanien ab München im Flug: 8 Regionen, Ibiza, Costa Dorada, Nordspanien u. a.). Vorher: Flug + Strand lieferte 6 Regionen aus ganz Europa, nur 2 davon in Spanien.
+- **Jeder Ort suchbar:** Die Ortsdatenbank kennt 39 Länder (17 neue, u. a. Bulgarien, Malta, Zypern, Finnland, Island, Baltikum, Balkan) und Orte ab 1.000 Einwohnern (vorher 3.000; DACH ab 500). Vimeiro (Portugal, 1.470 Einwohner) und Obzor (Bulgarien) werden gefunden und über die Suche bis zu 304 Angeboten durchgesucht.
+- **Katalog-Entwurf:** 16 neue Regionen, 57 Orte (Malta, Zypern, Bulgarien, Montenegro, Albanien, Hohe Tatra, Siebenbürgen, Island, Lappland, Helsinki, Baltikum, Ibiza/Menorca, Costa Dorada, Nordspanien). Alles `verified: false` (BG-11).
+- Kleinigkeiten: Einleitung der Regionsliste nennt das gewählte Land; Erklärtext zur Attraktivität nennt auch Strand statt nur Berge.
+- Beleg: `npm run demo -- f20` → `docs/demos/F20/demo-output.txt`; Walkthrough `reiseland` in `docs/demos/F20/walkthrough-P/`, Screenshots gelesen. Migration `20261019a_more_countries` nur lokal.
+- Alle Pfad-Walkthroughs (`npm run dogfood -- --mode P`, 26 Flows inkl. `reiseland`): 419/424. Die 5 Fehlschläge lagen **nicht an F20**: Die Flows `themen` und `regionsname` erwarteten noch Ergebnisse von vor F19 („Romantische Straße“, Bozen, Elsass bei Kultur bis 7 h; gleiches Ergebnis ohne meine Änderungen geprüft). Erwartungen nachgezogen, beide Flows einzeln bestanden. Bericht: `docs/demos/F20/report-P-all.md` (vor dem Nachziehen). `npm test` 502 grün, Typecheck und Claims grün.
+- **Offen (groß, nicht angefasst):** siehe `docs/analyse-europa-reife.md` §Offen (Orte unter 1.000 Einwohnern per Vollimport oder Anbieter-Ortssuche, Jahreszeit, Strand-Entfernung, Fähren/Inseln, Flugkosten, Türkei, Katalogdichte).
+
+### F21 – Türkei, Strandentfernung, Pool/Klima/Meerblick (30.09.2026)
+- Entscheidungen Ben: Türkei zählt als Europa; Strandentfernung wichtig; Pool, Klima und Meerblick als Chip (filtert knallhart) **und** als positives Label bei jeder Unterkunft, die es hat; Anreisekosten gestrichen; Regionsvorschläge nur, wo der Katalog dicht ist, alles andere manuell auffindbar. Ansatz: `docs/logik/reiseland.md` §F21.
+- **Türkei:** Land 40, Kontinent Europa, Orte ab 1.000 Einwohnern (1.092), Migration `20261020a_turkey` (nur lokal).
+- **Chips** Pool, Klimaanlage, Meerblick unten im Suchrahmen (filtern hart), Labels immer sichtbar (nicht in der Rangfolge/„Komfort“-Wertung, Vorbehalt vom 29.09.). KI-Skill `wish-parse` 1.3.0.
+- **Strand in Gehminuten** (bis zum Rand der Strandfläche) in Preisleiter und Detail.
+- Beleg: Walkthrough `komfortlabels` in `docs/demos/F21/walkthrough-P/` (Screenshot gelesen: „Strand 10 min“, „Klimaanlage“ als Label, durchgestrichen, wo es fehlt); `npm test` grün.
+- **Offen:** Ausstattungsnummern gegen die echte LiteAPI-Liste; Orte unter 1.000 Einwohnern (Ben entscheidet Vollimport gegen LiteAPI-Ortssuche); Katalog für Türkei nicht angelegt.
+- **Kleine Orte (Ben, 30.09.: „das Leichtere, kostenlos und schneller“):** Der Ortsauszug enthält jetzt auch Orte mit 500 bis 999 Einwohnern in ganz Europa (+30.354, GeoNames `cities500`, kostenlos, lokal, keine Anbieterabfrage). Beispiel Serra do Bouro (703 Einwohner) wird gefunden und durchsucht (`npm run demo -- f20`, 368 Angebote). Weiler unter 500 Einwohnern bleiben offen (Vollimport O3.1 oder Anbieter-Ortssuche, nur bei Bedarf).
+

@@ -42,3 +42,7 @@ Fjordnorwegen (Bergen, Stavanger, Ålesund, Voss) trägt Bergpanorama, Wandern u
 ## Konstanten und Code
 
 `QUALITY_*`, `SUGGEST_MAX_REGIONS_NEAR/FAR`, `REGION_QUALITY_SUPPORT_BONUS`, `FLIGHT_*` in `packages/domain/src/constants.ts`; Regel in `packages/domain/src/destination-quality.ts`, Kontinente und Flugzeit in `destinations.ts`, Sortierung in `suggestions.ts`; Ablauf in `packages/worker/src/services/suggestions.ts`. Die Werte sind Startwerte und mit echten Daten zu kalibrieren.
+
+## Reiseland (F20)
+
+Nennt der Nutzer ein Reiseland, entfällt diese Mindestpunkte-Regel; es zählt nur das Land (siehe `reiseland.md`).

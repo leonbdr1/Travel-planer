@@ -19,6 +19,8 @@ const travelFields = {
   continents: z.array(z.enum(CONTINENT_CODES)).max(6).default([]),
   /** Flight mode: optional limit of the flight time (air distance estimate). */
   max_flight_minutes: z.number().int().min(30).max(1200).nullable().default(null),
+  /** Destination countries ("Spanien", F20) as catalog country codes; empty means every country. */
+  countries: z.array(z.string().regex(/^[A-Z]{2}(-[A-Z]{2})?$/)).max(30).default([]),
 };
 
 export const originRefSchema = z.object({ geonameid: z.number().int().positive() });

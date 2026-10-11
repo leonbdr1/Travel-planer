@@ -11,7 +11,7 @@ export const regionsnameFlow: Flow = {
   async run({ page, baseUrl, step, note }) {
     await page.setViewportSize({ width: 1280, height: 900 });
     await step(
-      'Kultur ab München bis 7 h: Bozen statt „Eisacktal und Bozen“, Elsass bleibt Elsass',
+      'Kultur ab München bis 7 h: Füssen und St. Ulrich als Überschrift, Bodensee bleibt Bodensee',
       async () => {
         await page.goto(`${baseUrl}/suche`);
         await page.evaluate(() => sessionStorage.clear());
@@ -27,9 +27,9 @@ export const regionsnameFlow: Flow = {
         const subtitles = await page.getByTestId('region-subtitle').allInnerTexts();
         note(`Überschriften: ${titles.join(', ')}; Unterzeilen: ${subtitles.join(', ')}`);
       },
-      { expectText: ['Bozen', 'Region Eisacktal und Bozen', 'Elsass'], expectSelector: ['[data-testid="region-subtitle"]'] },
+      { expectText: ['Füssen', 'Region Allgäu', 'St. Ulrich in Gröden', 'Region Gröden und Seiser Alm', 'Bodensee'], expectSelector: ['[data-testid="region-subtitle"]'] },
     );
     await page.setViewportSize({ width: 390, height: 844 });
-    await step('Handy (390 px)', async () => page.getByTestId('region-subtitle').first().scrollIntoViewIfNeeded(), { expectText: ['Region Eisacktal und Bozen'], fullPage: false });
+    await step('Handy (390 px)', async () => page.getByTestId('region-subtitle').first().scrollIntoViewIfNeeded(), { expectText: ['Region Allgäu'], fullPage: false });
   },
 };

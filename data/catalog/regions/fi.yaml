@@ -1,0 +1,11 @@
+# Regionen in FI – KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa).
+- slug: lappland-finnland
+  name: Finnisch-Lappland
+  country: FI
+  description_de: Polarkreis mit Rovaniemi, Weihnachtsmann-Dorf, Polarlichtern und Skigebieten.
+  themes: [natur_ruhe, wintersport, wandern]
+- slug: helsinki
+  name: Helsinki und Südfinnland
+  country: FI
+  description_de: Hauptstadt am Meer mit Designvierteln, Inselfestung Suomenlinna und Saunakultur.
+  themes: [staedte_kultur, shopping, seen]

@@ -1,0 +1,40 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: nordspanien
+places:
+  - name: San Sebastián
+    themes:
+      strand: 2
+      wein_kulinarik: 3
+      staedte_kultur: 2
+    description_de: Stadt mit Muschelbucht La Concha, Pintxo-Bars und Sterneküche.
+    search_radius_km: 7
+    ai_assisted: true
+    verified: false
+    geonameid: 3110044
+  - name: Bilbao
+    themes:
+      staedte_kultur: 3
+      wein_kulinarik: 2
+      shopping: 2
+    description_de: Stadt mit Guggenheim-Museum, Altstadt und Flusspromenade.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 3128026
+  - name: Santander
+    themes:
+      strand: 2
+      staedte_kultur: 1
+    description_de: Hauptstadt Kantabriens mit Stadtstränden und Halbinsel Magdalena.
+    search_radius_km: 7
+    ai_assisted: true
+    verified: false
+    geonameid: 3109718
+  - name: Santiago de Compostela
+    themes:
+      staedte_kultur: 3
+    description_de: Pilgerziel mit Kathedrale und Altstadt, Ende des Jakobswegs.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3109642

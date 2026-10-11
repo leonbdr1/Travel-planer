@@ -25,6 +25,7 @@ export interface FeatureHotel {
 }
 
 const WALK_LABELS: Record<WalkKind, (min: number) => string> = {
+  strand: (min) => `${min} min zum Strand`,
   lift: (min) => `${min} min zum Lift`,
   bahn: (min) => `${min} min zum Bahnhof`,
   bus: (min) => `${min} min zur Bushaltestelle`,
@@ -82,7 +83,9 @@ function fromChip(code: ChipCode, label?: string): FacilityFeature {
 
 export const FACILITY_FEATURES: readonly FacilityFeature[] = [
   fromChip('sauna_wellness', 'Sauna oder Wellness'),
-  { code: 'schwimmbad', label: 'Schwimmbad', anyOf: [18] },
+  { code: 'schwimmbad', label: 'Schwimmbad', anyOf: [18, 24] },
+  fromChip('klimaanlage'),
+  fromChip('meerblick'),
   fromChip('parkplatz'),
   fromChip('kueche'),
   fromChip('hund_erlaubt'),

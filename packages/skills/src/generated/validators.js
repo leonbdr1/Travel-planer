@@ -1773,10 +1773,10 @@ return errors === 0;
 }
 
 export const wishParseInput = validate16;
-const schema17 = {"$id":"reiseplaner.wish-parse/1.2.0/input","type":"object","additionalProperties":false,"required":["text"],"properties":{"text":{"type":"string","minLength":1,"maxLength":300}}};
+const schema17 = {"$id":"reiseplaner.wish-parse/1.3.0/input","type":"object","additionalProperties":false,"required":["text"],"properties":{"text":{"type":"string","minLength":1,"maxLength":300}}};
 
 function validate16(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.wish-parse/1.2.0/input" */;
+/*# sourceURL="reiseplaner.wish-parse/1.3.0/input" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -1853,10 +1853,10 @@ return errors === 0;
 }
 
 export const wishParseOutput = validate17;
-const schema18 = {"$id":"reiseplaner.wish-parse/1.2.0/output","type":"object","additionalProperties":false,"required":["chips","themes","review_topics","unmatched"],"properties":{"chips":{"type":"array","uniqueItems":true,"maxItems":11,"items":{"type":"string","enum":["sauber","ruhig","fruehstueck","kostenlos_stornierbar","parkplatz","hund_erlaubt","sauna_wellness","wlan","kueche","barrierefrei","familienzimmer"]}},"themes":{"type":"array","uniqueItems":true,"maxItems":12,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}},"review_topics":{"type":"array","uniqueItems":true,"maxItems":7,"items":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]}},"unmatched":{"type":"array","maxItems":10,"items":{"type":"string","minLength":1,"maxLength":300}}}};
+const schema18 = {"$id":"reiseplaner.wish-parse/1.3.0/output","type":"object","additionalProperties":false,"required":["chips","themes","review_topics","unmatched"],"properties":{"chips":{"type":"array","uniqueItems":true,"maxItems":14,"items":{"type":"string","enum":["sauber","ruhig","fruehstueck","kostenlos_stornierbar","parkplatz","hund_erlaubt","sauna_wellness","wlan","kueche","barrierefrei","familienzimmer","pool","klimaanlage","meerblick"]}},"themes":{"type":"array","uniqueItems":true,"maxItems":12,"items":{"type":"string","enum":["wandern","bergpanorama","seen","natur_ruhe","radfahren","wellness","wintersport","staedte_kultur","wein_kulinarik","familie","shopping","strand"]}},"review_topics":{"type":"array","uniqueItems":true,"maxItems":7,"items":{"type":"string","enum":["sauberkeit","schimmel","ungeziefer","laerm","geruch","zustand","abweichung_beschreibung"]}},"unmatched":{"type":"array","maxItems":10,"items":{"type":"string","minLength":1,"maxLength":300}}}};
 
 function validate17(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
-/*# sourceURL="reiseplaner.wish-parse/1.2.0/output" */;
+/*# sourceURL="reiseplaner.wish-parse/1.3.0/output" */;
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -1915,8 +1915,8 @@ errors++;
 if(data.chips !== undefined){
 let data0 = data.chips;
 if(Array.isArray(data0)){
-if(data0.length > 11){
-const err5 = {instancePath:instancePath+"/chips",schemaPath:"#/properties/chips/maxItems",keyword:"maxItems",params:{limit: 11},message:"must NOT have more than 11 items"};
+if(data0.length > 14){
+const err5 = {instancePath:instancePath+"/chips",schemaPath:"#/properties/chips/maxItems",keyword:"maxItems",params:{limit: 14},message:"must NOT have more than 14 items"};
 if(vErrors === null){
 vErrors = [err5];
 }
@@ -1938,7 +1938,7 @@ vErrors.push(err6);
 }
 errors++;
 }
-if(!(((((((((((data1 === "sauber") || (data1 === "ruhig")) || (data1 === "fruehstueck")) || (data1 === "kostenlos_stornierbar")) || (data1 === "parkplatz")) || (data1 === "hund_erlaubt")) || (data1 === "sauna_wellness")) || (data1 === "wlan")) || (data1 === "kueche")) || (data1 === "barrierefrei")) || (data1 === "familienzimmer"))){
+if(!((((((((((((((data1 === "sauber") || (data1 === "ruhig")) || (data1 === "fruehstueck")) || (data1 === "kostenlos_stornierbar")) || (data1 === "parkplatz")) || (data1 === "hund_erlaubt")) || (data1 === "sauna_wellness")) || (data1 === "wlan")) || (data1 === "kueche")) || (data1 === "barrierefrei")) || (data1 === "familienzimmer")) || (data1 === "pool")) || (data1 === "klimaanlage")) || (data1 === "meerblick"))){
 const err7 = {instancePath:instancePath+"/chips/" + i0,schemaPath:"#/properties/chips/items/enum",keyword:"enum",params:{allowedValues: schema18.properties.chips.items.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err7];

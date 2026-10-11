@@ -1,0 +1,31 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: costa-dorada
+places:
+  - name: Salou
+    themes:
+      strand: 3
+      familie: 3
+    description_de: Badeort mit langem Sandstrand, Freizeitpark in der Nähe.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3110986
+  - name: Tarragona
+    themes:
+      staedte_kultur: 3
+      strand: 2
+    description_de: Stadt mit römischem Amphitheater und Altstadt am Balkon des Mittelmeers.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 3108288
+  - name: Cambrils
+    themes:
+      strand: 2
+      wein_kulinarik: 2
+      familie: 2
+    description_de: Fischerhafen mit Meeresfrüchte-Restaurants und Sandstrand.
+    search_radius_km: 5
+    ai_assisted: true
+    verified: false
+    geonameid: 3126888

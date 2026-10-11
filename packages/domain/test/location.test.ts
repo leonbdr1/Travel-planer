@@ -17,7 +17,7 @@ describe('locationFacts', () => {
 
   it('takes the nearest one per kind and drops what is beyond its walking limit', () => {
     const facts = locationFacts(house, [poi('bus', 600), poi('bus', 200), poi('lift', 2000), poi('supermarkt', 300)]);
-    expect(facts.walk).toEqual({ lift: null, bahn: null, bus: walkMinutes(200), supermarkt: walkMinutes(300) });
+    expect(facts.walk).toEqual({ lift: null, bahn: null, bus: walkMinutes(200), supermarkt: walkMinutes(300), strand: null });
     const limit = constants.LOCATION_MAX_WALK_MIN.bus;
     const justOver = ((limit + 1) * constants.WALK_METERS_PER_MIN) / constants.WALK_DETOUR_FACTOR;
     expect(locationFacts(house, [poi('bus', justOver)]).walk.bus).toBeNull();

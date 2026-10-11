@@ -638,3 +638,76 @@ fjordnorwegen:
 stockholm:
   Stockholm: [3, 3]
   Uppsala: [2, 1]
+malta:
+  Valletta: [3, 3]
+  Sliema: [3, 2]
+  Marsaskala: [1, 1]
+  Victoria: [2, 2]
+zypern-suedkueste:
+  Paphos: [3, 3]
+  Limassol: [2, 2]
+  Larnaka: [2, 2]
+  Ayia Napa: [3, 2]
+  Protaras: [2, 1]
+bulgarien-schwarzmeer:
+  Nessebar: [3, 3]
+  Sosopol: [2, 2]
+  Warna: [2, 2]
+  Burgas: [1, 1]
+  Balchik: [1, 2]
+montenegro-kueste:
+  Budva: [3, 2]
+  Kotor: [3, 3]
+  Tivat: [2, 1]
+  Herceg Novi: [2, 2]
+  Ulcinj: [2, 1]
+albanische-riviera:
+  Sarandë: [2, 2]
+  Himarë: [2, 1]
+  Vlorë: [1, 1]
+  Durrës: [1, 2]
+hohe-tatra:
+  Poprad: [2, 2]
+  Vysoké Tatry: [2, 3]
+siebenbuergen:
+  Brașov: [3, 3]
+  Sibiu: [2, 3]
+  Sighișoara: [2, 3]
+  Cluj-Napoca: [1, 1]
+island:
+  Reykjavík: [3, 3]
+  Selfoss: [2, 2]
+  Akureyri: [2, 2]
+lappland-finnland:
+  Rovaniemi: [3, 3]
+  Kittilä: [2, 2]
+helsinki:
+  Helsinki: [3, 3]
+  Turku: [2, 2]
+estland:
+  Tallinn: [3, 3]
+  Pärnu: [2, 1]
+  Tartu: [1, 1]
+lettland:
+  Riga: [3, 3]
+  Jūrmala: [2, 1]
+litauen:
+  Vilnius: [2, 3]
+  Kaunas: [1, 2]
+  Palanga: [2, 1]
+  Klaipėda: [1, 1]
+ibiza-menorca:
+  Ibiza: [3, 3]
+  Sant Antoni de Portmany: [3, 1]
+  Santa Eulària des Riu: [2, 1]
+  Maó: [2, 2]
+  Ciutadella: [2, 2]
+costa-dorada:
+  Salou: [3, 2]
+  Tarragona: [2, 3]
+  Cambrils: [2, 1]
+nordspanien:
+  San Sebastián: [3, 2]
+  Bilbao: [3, 3]
+  Santander: [2, 1]
+  Santiago de Compostela: [3, 3]

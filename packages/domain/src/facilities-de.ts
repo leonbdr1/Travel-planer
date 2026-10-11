@@ -139,6 +139,8 @@ const TABLE: Record<string, Entry> = {
   'smoking area': ['Raucherbereich', 'zimmer'],
   heating: ['Heizung', 'zimmer'],
   'air conditioning': ['Klimaanlage', 'zimmer'],
+  'sea view': ['Meerblick', 'zimmer'],
+  'ocean view': ['Meerblick', 'zimmer'],
   'family rooms': ['Familienzimmer', 'familie'],
   'soundproof rooms': ['Schallisolierte Zimmer', 'zimmer'],
   'allergy-free room': ['Allergikerzimmer', 'zimmer'],

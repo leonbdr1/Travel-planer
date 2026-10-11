@@ -1,0 +1,21 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: lettland
+places:
+  - name: Riga
+    themes:
+      staedte_kultur: 3
+      shopping: 1
+    description_de: Hansestadt mit Jugendstilvierteln, Zentralmarkt und Altstadt.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 456172
+  - name: Jūrmala
+    themes:
+      strand: 3
+      wellness: 2
+    description_de: Kurort mit langem Sandstrand, Holzvillen und Spa-Hotels.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 459201

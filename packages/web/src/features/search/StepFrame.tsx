@@ -135,7 +135,7 @@ export function StepFrame({
         <div className="grid gap-4 md:grid-cols-2">
           <div className={cx('space-y-3 rounded-lg p-4 ring-1 transition-colors', wayTone(suggest))} data-testid="way-suggest" data-active={suggest}>
             <WayHeading active={suggest} title={o.suggestTitle} text={o.suggestText} />
-            <OriginFields state={state} update={update} invalid={touched && nowhere} />
+            <OriginFields state={state} update={update} invalid={touched && nowhere} countries={meta.countries} />
           </div>
           <div className={cx('space-y-3 rounded-lg p-4 ring-1 transition-colors', wayTone(pickOwn))} data-testid="way-own" data-active={pickOwn}>
             <WayHeading active={pickOwn} title={o.pickTitle} text={o.pickText} />

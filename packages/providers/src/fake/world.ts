@@ -68,6 +68,9 @@ export const FAKE_FACILITIES: ReadonlyArray<{ id: number; name: string }> = [
   { id: 21, name: 'Hiking' },
   { id: 22, name: 'Tour desk' },
   { id: 23, name: 'Heating' },
+  { id: 24, name: 'Outdoor swimming pool' },
+  { id: 25, name: 'Air conditioning' },
+  { id: 26, name: 'Sea view' },
 ];
 
 const NAME_WORDS = [
@@ -216,6 +219,11 @@ export function generateHotel(latE2: number, lngE2: number, index: number): Fake
     return r() < base + boost;
   }).map((f) => f.id);
   facilityIds.push(23);
+  // Ids 24–26 (Aufgabe F20: pool, air conditioning, sea view) draw from their own stream, so the rest of the world stays as it was.
+  const extras = seeded('facility-extras', latE2, lngE2, index);
+  if (extras() < 0.14) facilityIds.push(24);
+  if (extras() < ((stars ?? 0) >= 4 ? 0.5 : 0.25)) facilityIds.push(25);
+  if (extras() < 0.1) facilityIds.push(26);
   if (facilityIds.includes(14)) facilityIds.push(21);
   if (facilityIds.includes(19)) facilityIds.push(22);
   const rooms = roomsFor(kind, r);

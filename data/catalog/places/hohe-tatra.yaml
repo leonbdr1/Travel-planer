@@ -1,0 +1,24 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: hohe-tatra
+places:
+  - name: Poprad
+    themes:
+      wandern: 2
+      bergpanorama: 2
+      staedte_kultur: 1
+    description_de: Talstadt mit Altstadt Spišská Sobota und Zugang zu den Tatra-Orten.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 723846
+  - name: Vysoké Tatry
+    themes:
+      wandern: 3
+      bergpanorama: 3
+      wintersport: 2
+      seen: 2
+    description_de: Ortsgruppe am Fuß der Tatra mit Seilbahnen, Hütten und Bergseen.
+    search_radius_km: 10
+    ai_assisted: true
+    verified: false
+    geonameid: 723119

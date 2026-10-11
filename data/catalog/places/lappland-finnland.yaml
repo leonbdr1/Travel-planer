@@ -1,0 +1,23 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: lappland-finnland
+places:
+  - name: Rovaniemi
+    themes:
+      natur_ruhe: 3
+      wintersport: 2
+      familie: 3
+    description_de: Stadt am Polarkreis mit Weihnachtsmanndorf, Husky-Touren und Polarlichtern.
+    search_radius_km: 12
+    ai_assisted: true
+    verified: false
+    geonameid: 638936
+  - name: Kittilä
+    themes:
+      wintersport: 3
+      natur_ruhe: 3
+      wandern: 2
+    description_de: Flughafenort neben dem Skigebiet Levi, im Sommer Wandern in Fjälllandschaft.
+    search_radius_km: 15
+    ai_assisted: true
+    verified: false
+    geonameid: 652590

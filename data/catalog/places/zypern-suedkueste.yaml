@@ -1,0 +1,50 @@
+# KI-Entwurf, redaktionelle Prüfung ausstehend (BG-11). Ergänzung F20 (ganz Europa). geonameid direkt aus dem Ortsauszug.
+region: zypern-suedkueste
+places:
+  - name: Paphos
+    themes:
+      strand: 2
+      staedte_kultur: 3
+      familie: 2
+    description_de: Hafenstadt mit antiken Mosaiken, Königsgräbern und Hotelstrand.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 146214
+  - name: Limassol
+    themes:
+      strand: 2
+      shopping: 2
+      staedte_kultur: 2
+    description_de: Größte Küstenstadt mit Promenade, Marina und Altstadt.
+    search_radius_km: 8
+    ai_assisted: true
+    verified: false
+    geonameid: 146384
+  - name: Larnaka
+    themes:
+      strand: 2
+      staedte_kultur: 2
+    description_de: Stadt mit Palmenpromenade, Salzsee und Flughafen der Ostküste.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 146400
+  - name: Ayia Napa
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Ferienort mit hellen Sandbuchten und Wassersport.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 146748
+  - name: Protaras
+    themes:
+      strand: 3
+      familie: 2
+    description_de: Ruhigerer Badeort mit flachen Sandstränden und Feigenbaumbucht.
+    search_radius_km: 6
+    ai_assisted: true
+    verified: false
+    geonameid: 18918
