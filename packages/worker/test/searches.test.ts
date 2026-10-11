@@ -41,12 +41,21 @@ async function placeIds(names: string[]): Promise<string[]> {
   }
 }
 
+// The window is relative to today (it must not lie in the past): it starts on the next Thursday, so
+// the Fridays are start+1, +8, +15, +22, +29 and a 31-day window holds five of them (as 01.10.–01.11.2026 did).
+const addDays = (iso: string, days: number) => new Date(Date.parse(`${iso}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
+const WINDOW_START = (() => {
+  const tomorrow = new Date(Date.now() + 86_400_000);
+  const toThursday = (4 - tomorrow.getUTCDay() + 7) % 7;
+  return addDays(tomorrow.toISOString().slice(0, 10), toThursday);
+})();
+
 async function body(places: string[], extra: Record<string, unknown> = {}) {
   return {
     origin: { geonameid: 2825297, label: 'Stuttgart', lat: 48.78232, lng: 9.17702 },
     max_drive_minutes: 180,
     themes: ['wandern'],
-    window: { start: '2026-10-01', end: '2026-11-01' },
+    window: { start: WINDOW_START, end: addDays(WINDOW_START, 31) },
     nights: 2,
     arrival_weekdays: [5],
     occupancy: { rooms: 1, adults: 2, children_ages: [] },
@@ -85,7 +94,7 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
     );
     expect(progress.search).toMatchObject({ status: 'done', combos_total: 10, combos_done: 10, combos_failed: 0 });
     expect(progress.places.map((p) => p.name)).toEqual(['Oberstdorf', 'Füssen']);
-    expect(progress.dates.map((d) => d.checkin)).toEqual(['2026-10-02', '2026-10-09', '2026-10-16', '2026-10-23', '2026-10-30']);
+    expect(progress.dates.map((d) => d.checkin)).toEqual([1, 8, 15, 22, 29].map((n) => addDays(WINDOW_START, n)));
     expect(progress.cells).toHaveLength(10);
     expect(progress.cells.every((c) => c.state === 'offer' || c.state === 'no_offer')).toBe(true);
     expect(progress.offers_count).toBeGreaterThan(0);
@@ -214,7 +223,7 @@ describe('POST /searches → SearchWorkflow → GET /searches/{id}', () => {
   it('validates limits: too many combinations and unknown places', async () => {
     const tooMany = await api('/searches', {
       method: 'POST',
-      body: JSON.stringify(await body(['Oberstdorf'], { window: { start: '2026-10-01', end: '2026-11-15' }, arrival_weekdays: [5, 6] })),
+      body: JSON.stringify(await body(['Oberstdorf'], { window: { start: WINDOW_START, end: addDays(WINDOW_START, 45) }, arrival_weekdays: [5, 6] })),
     });
     expect(tooMany.status).toBe(400);
     expect(await tooMany.json()).toMatchObject({ error: { code: 'too_many_dates', details: { count: 13 } } });

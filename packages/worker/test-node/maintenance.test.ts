@@ -17,7 +17,10 @@ const config: ProvidersConfig = {
   resend: {},
   anthropic: {},
 };
-const now = new Date('2026-09-27T03:30:00Z');
+// The look-to-book SQL reads the database clock, so the fixtures are relative to the real now.
+const now = new Date();
+const dayIso = (offsetDays: number) => new Date(now.getTime() + offsetDays * 86_400_000).toISOString().slice(0, 10);
+const CHECKOUT = dayIso(35);
 
 let test: TestDb;
 beforeEach(async () => {
@@ -29,7 +32,7 @@ afterEach(async () => test.close());
 const deps = (db: Db) => ({ db, mail: createProviders(config).mail, now: () => now });
 
 async function rateCalls(db: Db, calls: number) {
-  await db.query("INSERT INTO app.provider_usage (day, provider, endpoint, calls) VALUES ('2026-09-26', 'liteapi', 'hotels/rates', $1)", [calls]);
+  await db.query("INSERT INTO app.provider_usage (day, provider, endpoint, calls) VALUES ($1::date, 'liteapi', 'hotels/rates', $2)", [dayIso(-1), calls]);
 }
 
 let refCounter = 0;
@@ -52,7 +55,7 @@ const alerts = (db: Db) =>
 describe('look-to-book watch (architektur.md 6.4 step 10)', () => {
   it('throttles new searches at 5,000 : 1 and alerts the ops address', async () => {
     await rateCalls(test.db, 40_000);
-    for (let i = 0; i < 8; i += 1) await booking(test.db, { confirmedDaysAgo: 2, checkout: '2026-11-01' });
+    for (let i = 0; i < 8; i += 1) await booking(test.db, { confirmedDaysAgo: 2, checkout: CHECKOUT });
     const result = await runDaily(deps(test.db));
     expect(result.lookToBook).toEqual({ ratio: 5000, state: 'throttled', maxCombinations: 40 });
     expect(await effectiveMaxCombinations(test.db)).toBe(40);
@@ -62,13 +65,13 @@ describe('look-to-book watch (architektur.md 6.4 step 10)', () => {
 
   it('only alerts between the alert and the throttle level, and lifts the throttle when the ratio falls', async () => {
     await rateCalls(test.db, 40_000);
-    for (let i = 0; i < 8; i += 1) await booking(test.db, { confirmedDaysAgo: 2, checkout: '2026-11-01' });
+    for (let i = 0; i < 8; i += 1) await booking(test.db, { confirmedDaysAgo: 2, checkout: CHECKOUT });
     await runDaily(deps(test.db));
-    for (let i = 0; i < 4; i += 1) await booking(test.db, { confirmedDaysAgo: 1, checkout: '2026-11-01' });
+    for (let i = 0; i < 4; i += 1) await booking(test.db, { confirmedDaysAgo: 1, checkout: CHECKOUT });
     const alertOnly = await runDaily(deps(test.db));
     // Hysteresis: between alert and throttle level the throttle stays on.
     expect(alertOnly.lookToBook).toMatchObject({ state: 'alert', maxCombinations: 40 });
-    for (let i = 0; i < 30; i += 1) await booking(test.db, { confirmedDaysAgo: 1, checkout: '2026-11-01' });
+    for (let i = 0; i < 30; i += 1) await booking(test.db, { confirmedDaysAgo: 1, checkout: CHECKOUT });
     const recovered = await runDaily(deps(test.db));
     expect(recovered.lookToBook).toMatchObject({ state: 'ok', maxCombinations: productConfig.limits.search.max_combinations });
     expect((await alerts(test.db)).map((a) => a.subject)).toEqual([
@@ -104,15 +107,15 @@ describe('retention, invitations, budgets and cleanup', () => {
   });
 
   it('invites guests once from the day after checkout', async () => {
-    await booking(test.db, { confirmedDaysAgo: 10, checkout: '2026-09-26' });
-    await booking(test.db, { confirmedDaysAgo: 10, checkout: '2026-09-27' });
+    await booking(test.db, { confirmedDaysAgo: 10, checkout: dayIso(-1) });
+    await booking(test.db, { confirmedDaysAgo: 10, checkout: dayIso(0) });
     expect((await runDaily(deps(test.db))).invitesSent).toBe(1);
     expect((await runDaily(deps(test.db))).invitesSent).toBe(0);
     expect(await test.db.query("SELECT type, status FROM app.email_outbox WHERE type = 'review_invite'")).toEqual([{ type: 'review_invite', status: 'sent' }]);
   });
 
   it('warns when a daily budget reaches 80 %', async () => {
-    await test.db.query("INSERT INTO app.budget_ledger (day, scope, reserved, settled, cap) VALUES ('2026-09-27', 'llm_usd', 0, 4.2, 5)");
+    await test.db.query("INSERT INTO app.budget_ledger (day, scope, reserved, settled, cap) VALUES ($1::date, 'llm_usd', 0, 4.2, 5)", [dayIso(0)]);
     const result = await runDaily(deps(test.db));
     expect(result.budgetWarnings).toEqual(['llm_usd: 84 % von 5']);
     expect((await alerts(test.db)).map((a) => a.subject)).toContain('Tagesbudgets fast ausgeschöpft');
